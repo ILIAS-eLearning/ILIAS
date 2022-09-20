@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -18,64 +32,32 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilLearningModuleKioskModeView extends ilKioskModeView
 {
-    const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
+    public const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
+    protected ilPageObject $contentPageObject;
 
-    /** @var \ilObjLearningModule */
-    protected $lm;
+    protected ilObjLearningModule $lm;
+    protected ilLMPresentationService $lm_pres_service;
+    protected ?ilLMPresentationGUI $lm_pres = null;
+    protected ilObjUser $user;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ilGlobalTemplateInterface $mainTemplate;
+    protected ServerRequestInterface $httpRequest;
+    protected ilTabsGUI $tabs;
+    protected array $messages = [];
+    protected ?int $current_page_id = 0;
+    protected array $additional_content = [];
 
-    /**
-     * @var \ilLMPresentationService
-     */
-    protected $lm_pres_service;
-    /**
-     * @var \ilLMPresentationGUI
-     */
-    protected $lm_pres;
-
-    /** @var \ilObjUser */
-    protected $user;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var \ilCtrl */
-    protected $ctrl;
-
-    /** @var \ilTemplate */
-    protected $mainTemplate;
-
-    /** @var ServerRequestInterface */
-    protected $httpRequest;
-
-    /** @var \ilTabsGUI */
-    protected $tabs;
-
-    /** @var MessageBox */
-    protected $messages = [];
-
-    protected $current_page_id = 0;
-
-    /** @var UI/Component[] */
-    protected $additional_content = [];
-
-    /**
-     * @inheritDoc
-     */
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return \ilObjLearningModule::class;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function setObject(\ilObject $object)
+    protected function setObject(\ilObject $object): void
     {
         global $DIC;
 
+        /** @var ilObjLearningModule $object */
         $this->lm = $object;
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
@@ -86,15 +68,15 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $this->user = $DIC->user();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function updateGet(State $state, string $command, int $param = null) : State
-    {
+    public function updateGet(
+        State $state,
+        string $command,
+        int $parameter = null
+    ): State {
         switch ($command) {
             case "layout":
-                if ($param > 0) {
-                    $this->current_page_id = $param;
+                if ($parameter > 0) {
+                    $this->current_page_id = $parameter;
                     $state = $state->withValueFor("current_page", (string) $this->current_page_id);
                 }
                 break;
@@ -108,10 +90,8 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         return $state;
     }
 
-    /**
-     * Init learning module presentation service
-     */
-    protected function initLMService($current_page)
+    // Init learning module presentation service
+    protected function initLMService(?int $current_page): void
     {
         if (is_object($this->lm_pres)) {
             return;
@@ -129,27 +109,20 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         $this->lm_pres_service = $this->lm_pres->getService();
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return $this->access->checkAccess('read', '', $this->lm->getRefId());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildInitialState(State $state) : State
+    public function buildInitialState(State $empty_state): State
     {
-        return $state->withValueFor("current_page", "");
+        return $empty_state->withValueFor("current_page", "");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildControls(State $state, ControlBuilder $builder) : ControlBuilder
-    {
+    public function buildControls(
+        State $state,
+        ControlBuilder $builder
+    ): ControlBuilder {
         global $DIC;
 
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -174,8 +147,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
 
         $toc = $builder->tableOfContent($this->lm->getTitle(), 'layout', 0);
         $lm_toc_renderer = new ilLMSlateTocRendererGUI($this->lm_pres_service);
-        $lm_toc_renderer->renderLSToc($toc, $lm_toc_renderer, 0);
-
+        $lm_toc_renderer->renderLSToc($toc);
 
         // learning progress
         $builder = $this->maybeBuildLearningProgressToggleControl($builder);
@@ -203,11 +175,9 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     }
 
 
-    /**
-     * @param ControlBuilder $builder
-     */
-    protected function maybeBuildLearningProgressToggleControl(ControlBuilder $builder) : ControlBuilder
-    {
+    protected function maybeBuildLearningProgressToggleControl(
+        ControlBuilder $builder
+    ): ControlBuilder {
         $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
         if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = \ilLPMarks::_hasCompleted($this->user->getId(), $this->lm->getId());
@@ -226,11 +196,9 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         return $builder;
     }
 
-    /**
-     * @param string $command
-     */
-    protected function toggleLearningProgress(string $command)
-    {
+    protected function toggleLearningProgress(
+        string $command
+    ): void {
         if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
             $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
             if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
@@ -248,40 +216,25 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function updatePost(State $state, string $command, array $post) : State
-    {
+    public function updatePost(
+        State $state,
+        string $command,
+        array $post
+    ): State {
         return $state;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function render(
         State $state,
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
         $content = $this->uiRenderer->render($this->messages);
+        // @todo Check non-existence of third parameter (existed in ILIAS 7)
         $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
         $content .= $this->uiRenderer->render($this->additional_content);
         return $factory->legacy($content);
-    }
-
-    /**
-     * Renders the content style of a ContentPage object into main template
-     */
-    protected function renderContentStyle()
-    {
-        $this->mainTemplate->addCss(\ilObjStyleSheet::getSyntaxStylePath());
-        $this->mainTemplate->addCss(
-            \ilObjStyleSheet::getContentStylePath(
-                $this->contentPageObject->getStyleSheetId()
-            )
-        );
     }
 }

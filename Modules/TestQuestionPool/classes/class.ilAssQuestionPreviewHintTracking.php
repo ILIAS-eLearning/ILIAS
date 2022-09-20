@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -19,21 +20,21 @@ class ilAssQuestionPreviewHintTracking
      * @var ilAssQuestionPreviewSession
      */
     private $previewSession;
-    
+
     public function __construct(ilDBInterface $db, ilAssQuestionPreviewSession $previewSession)
     {
         $this->db = $db;
         $this->previewSession = $previewSession;
     }
-    
-    public function requestsExist()
+
+    public function requestsExist(): bool
     {
         return (
             $this->previewSession->getNumRequestedHints() > 0
         );
     }
-    
-    public function requestsPossible()
+
+    public function requestsPossible(): bool
     {
         $query = "
 			SELECT		COUNT(qht_hint_id) cnt_available
@@ -55,8 +56,8 @@ class ilAssQuestionPreviewHintTracking
 
         return false;
     }
-    
-    public function getNextRequestableHint()
+
+    public function getNextRequestableHint(): ilAssQuestionHint
     {
         $query = "
 			SELECT		qht_hint_id
@@ -85,22 +86,22 @@ class ilAssQuestionPreviewHintTracking
         );
     }
 
-    public function storeRequest(ilAssQuestionHint $questionHint)
+    public function storeRequest(ilAssQuestionHint $questionHint): void
     {
         $this->previewSession->addRequestedHint($questionHint->getId());
     }
-    
-    public function isRequested($hintId)
+
+    public function isRequested($hintId): bool
     {
         return $this->previewSession->isHintRequested($hintId);
     }
 
-    public function getNumExistingRequests()
+    public function getNumExistingRequests(): int
     {
         return $this->previewSession->getNumRequestedHints();
     }
 
-    public function getRequestedHintsList()
+    public function getRequestedHintsList(): ilAssQuestionHintList
     {
         $hintIds = $this->previewSession->getRequestedHints();
 
@@ -108,21 +109,21 @@ class ilAssQuestionPreviewHintTracking
 
         return $requestedHintsList;
     }
-    
-    public function getRequestStatisticData()
+
+    public function getRequestStatisticData(): ilAssQuestionHintRequestStatisticData
     {
         $count = 0;
         $points = 0;
-        
+
         foreach ($this->getRequestedHintsList() as $hint) {
             $count++;
             $points += $hint->getPoints();
         }
-        
+
         $requestsStatisticData = new ilAssQuestionHintRequestStatisticData();
         $requestsStatisticData->setRequestsCount($count);
         $requestsStatisticData->setRequestsPoints($points);
-        
+
         return $requestsStatisticData;
     }
 }

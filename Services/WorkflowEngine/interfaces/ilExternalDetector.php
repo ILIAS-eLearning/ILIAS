@@ -1,8 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilExternalDetector Interface is part of the petri net based workflow engine.
@@ -12,40 +26,24 @@ require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
  * @see class.ilTimerDetector.php
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 interface ilExternalDetector extends ilDetector
 {
     // Event listener table persistence scheme.
 
-    /**
-     * @param $a_id
-     *
-     * @return mixed
-     */
-    public function setDbId($a_id);
+    public function setDbId(?int $a_id): void;
 
     /**
      * @return mixed
      */
     public function getDbId();
 
-    /**
-     * @return mixed
-     */
-    public function hasDbId();
+    public function hasDbId(): bool;
 
-    /**
-     * @return mixed
-     */
-    public function writeDetectorToDb();
+    public function writeDetectorToDb(): void;
 
-    /**
-     * @return mixed
-     */
-    public function deleteDetectorFromDb();
+    public function deleteDetectorFromDb(): void;
 
     // Listening only at certain times scheme.
 
@@ -62,10 +60,9 @@ interface ilExternalDetector extends ilDetector
     /**
      * @param integer $listening_start
      * @param integer $listening_end
-     *
      * @return mixed
      */
-    public function setListeningTimeframe($listening_start, $listening_end);
+    public function setListeningTimeframe(int $listening_start, int $listening_end);
 
     // Event description scheme.
 

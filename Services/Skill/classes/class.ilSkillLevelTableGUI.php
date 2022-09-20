@@ -25,22 +25,20 @@
  */
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
-    protected int $skill_id;
+    protected int $skill_id = 0;
     protected ilBasicSkill $skill;
-    protected int $tref_id;
-    protected bool $in_use;
+    protected int $tref_id = 0;
+    protected bool $in_use = false;
+    protected bool $manage_perm = false;
 
     public function __construct(
         int $a_skill_id,
         $a_parent_obj,
         string $a_parent_cmd,
         int $a_tref_id = 0,
-        bool $a_in_use = false
+        bool $a_in_use = false,
+        bool $a_manage_perm = false
     ) {
         global $DIC;
 
@@ -49,13 +47,12 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
 
         $this->skill_id = $a_skill_id;
         $this->skill = new ilBasicSkill($a_skill_id);
         $this->tref_id = $a_tref_id;
         $this->in_use = $a_in_use;
+        $this->manage_perm = $a_manage_perm;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
@@ -66,15 +63,18 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
 
         if ($this->tref_id == 0 && !$this->in_use) {
-            $this->addColumn("", "", "1", true);
+            if ($this->manage_perm) {
+                $this->addColumn("", "", "1", true);
+            }
             $this->addColumn($this->lng->txt("skmg_nr"));
         }
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("description"));
-        //		$this->addColumn($this->lng->txt("skmg_trigger"));
-        //		$this->addColumn($this->lng->txt("skmg_certificate"))
-        $this->addColumn($this->lng->txt("resources"));
-        $this->addColumn($this->lng->txt("actions"));
+        $this->addColumn($this->lng->txt("skmg_suggested_resources"));
+        $this->addColumn($this->lng->txt("skmg_lp_triggers_level_resources"));
+        if ($this->manage_perm) {
+            $this->addColumn($this->lng->txt("actions"));
+        }
         $this->setDefaultOrderField("nr");
         $this->setDefaultOrderDirection("asc");
 
@@ -83,7 +83,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
         $this->setEnableTitle(true);
 
-        if ($this->tref_id == 0 && !$this->in_use && $a_parent_obj->checkPermissionBool("write")) {
+        if ($this->tref_id == 0 && !$this->in_use && $this->manage_perm) {
             $this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
             if (count($this->getData()) > 0) {
                 $this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
@@ -94,7 +94,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "nr") {
             return true;
@@ -102,44 +102,51 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         return false;
     }
 
-    public function getSkillLevelData() : array
+    public function getSkillLevelData(): array
     {
         $levels = $this->skill->getLevelData();
-    
+
         // add ressource data
         $res = [];
         $resources = new ilSkillResources($this->skill_id, $this->tref_id);
         foreach ($resources->getResources() as $level_id => $item) {
-            $res[$level_id] = array_keys($item);
+            $res[$level_id] = $item;
         }
-        
+
         foreach ($levels as $idx => $item) {
             if (isset($res[$item["id"]])) {
                 $levels[$idx]["ressources"] = $res[$item["id"]];
             }
         }
-        
+
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         if ($this->tref_id == 0 && !$this->in_use) {
-            $this->tpl->setCurrentBlock("cb");
-            $this->tpl->setVariable("CB_ID", $a_set["id"]);
-            $this->tpl->parseCurrentBlock();
+            if ($this->manage_perm) {
+                $this->tpl->setCurrentBlock("cb");
+                $this->tpl->setVariable("CB_ID", $a_set["id"]);
+                $this->tpl->parseCurrentBlock();
+            }
 
             $this->tpl->setCurrentBlock("nr");
             $this->tpl->setVariable("ORD_ID", $a_set["id"]);
             $this->tpl->setVariable("VAL_NR", ((int) $a_set["nr"]) * 10);
+            if (!$this->manage_perm) {
+                $this->tpl->touchBlock("disabled");
+            }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setCurrentBlock("cmd");
-        $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+        if ($this->manage_perm) {
+            $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+        }
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         if ($this->tref_id == 0) {
             $this->tpl->setVariable(
@@ -157,13 +164,27 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
         if (isset($a_set["ressources"]) && is_array($a_set["ressources"])) {
-            $this->tpl->setCurrentBlock("ressource_bl");
-            foreach ($a_set["ressources"] as $rref_id) {
+            foreach ($a_set["ressources"] as $rref_id => $ressource) {
                 $robj_id = ilObject::_lookupObjId($rref_id);
-                $this->tpl->setVariable("RSRC_IMG", ilUtil::img(ilObject::_getIcon($robj_id, "tiny")));
-                $this->tpl->setVariable("RSRC_TITLE", ilObject::_lookupTitle($robj_id));
-                $this->tpl->setVariable("RSRC_URL", ilLink::_getStaticLink($rref_id));
-                $this->tpl->parseCurrentBlock();
+                $robj_img = ilUtil::img(ilObject::_getIcon($robj_id, "tiny"));
+                $robj_title = ilObject::_lookupTitle($robj_id);
+                $robj_link = ilLink::_getStaticLink($rref_id);
+
+                if ($ressource["imparting"]) {
+                    $this->tpl->setCurrentBlock("ressource_sugg");
+                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_TITLE", $robj_title);
+                    $this->tpl->setVariable("RSRC_URL", $robj_link);
+                    $this->tpl->parseCurrentBlock();
+                }
+
+                if ($ressource["trigger"]) {
+                    $this->tpl->setCurrentBlock("ressource_trigg");
+                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_TITLE", $robj_title);
+                    $this->tpl->setVariable("RSRC_URL", $robj_link);
+                    $this->tpl->parseCurrentBlock();
+                }
             }
         }
     }

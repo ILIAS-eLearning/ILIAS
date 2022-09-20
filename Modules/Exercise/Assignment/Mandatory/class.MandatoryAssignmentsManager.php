@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Exercise\Assignment\Mandatory;
 
@@ -55,7 +69,7 @@ class MandatoryAssignmentsManager
      */
     public function getMandatoryAssignmentsOfUser(
         int $user_id
-    ) : array {
+    ): array {
         if ($this->rand_ass_manager->isActivated()) {
             return $this->rand_ass_manager->getMandatoryAssignmentsOfUser($user_id);
         }
@@ -66,7 +80,7 @@ class MandatoryAssignmentsManager
     }
 
     // Is assignment mandatory for a user?
-    public function isMandatoryForUser(int $ass_id, int $user_id) : bool
+    public function isMandatoryForUser(int $ass_id, int $user_id): bool
     {
         return (in_array($ass_id, $this->getMandatoryAssignmentsOfUser($user_id)));
     }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
@@ -27,25 +43,25 @@ abstract class Prompt extends Slate implements ISlate\Prompt
         parent::__construct($signal_generator, $name, $symbol);
     }
 
-    protected function getCounterFactory() : CounterFactory
+    protected function getCounterFactory(): CounterFactory
     {
         return $this->counter_factory;
     }
 
-    protected function updateCounter(Counter $counter) : ISlate\Prompt
+    protected function updateCounter(Counter $counter): ISlate\Prompt
     {
         $clone = clone $this;
         $clone->symbol = $clone->symbol->withCounter($counter);
         return $clone;
     }
 
-    public function withUpdatedStatusCounter(int $count) : ISlate\Prompt
+    public function withUpdatedStatusCounter(int $count): ISlate\Prompt
     {
         $counter = $this->getCounterFactory()->status($count);
         return $this->updateCounter($counter);
     }
 
-    public function withUpdatedNoveltyCounter(int $count) : ISlate\Prompt
+    public function withUpdatedNoveltyCounter(int $count): ISlate\Prompt
     {
         $counter = $this->getCounterFactory()->novelty($count);
         return $this->updateCounter($counter);

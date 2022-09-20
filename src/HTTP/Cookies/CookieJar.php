@@ -4,6 +4,19 @@ namespace ILIAS\HTTP\Cookies;
 
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface CookieJar
  *
@@ -23,7 +36,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface CookieJar
 {
-
     /**
      * Checks if a cookie with the given name is in the jar.
      *
@@ -31,7 +43,7 @@ interface CookieJar
      *
      * @return bool         True if the cookie exists otherwise false.
      */
-    public function has(string $name) : bool;
+    public function has(string $name): bool;
 
 
     /**
@@ -39,10 +51,8 @@ interface CookieJar
      * If no cookie could be found, null is returned.
      *
      * @param string $name Name of the cookie which should be returned.
-     *
-     * @return Cookie | null
      */
-    public function get(string $name) : ?Cookie;
+    public function get(string $name): ?Cookie;
 
 
     /**
@@ -50,7 +60,7 @@ interface CookieJar
      *
      * @return Cookie[]
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
 
     /**
@@ -60,7 +70,7 @@ interface CookieJar
      *
      * @return CookieJar           New cookie jar which holds the new cookie.
      */
-    public function with(Cookie $setCookie) : CookieJar;
+    public function with(Cookie $setCookie): CookieJar;
 
 
     /**
@@ -70,15 +80,13 @@ interface CookieJar
      *
      * @return CookieJar   New cookie jar.
      */
-    public function without(string $name) : CookieJar;
+    public function without(string $name): CookieJar;
 
 
     /**
      * Render CookieJar into a Response.
      *
-     * @param ResponseInterface $response
      *
-     * @return ResponseInterface
      */
-    public function renderIntoResponseHeader(ResponseInterface $response) : ResponseInterface;
+    public function renderIntoResponseHeader(ResponseInterface $response): ResponseInterface;
 }

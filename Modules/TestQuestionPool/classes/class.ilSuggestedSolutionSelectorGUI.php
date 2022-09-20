@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php";
@@ -17,7 +18,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     protected $addCommand;
     protected $intlink;
     protected $intlinktext;
-    
+
     /**
     * Constructor
     *
@@ -35,7 +36,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	array	$a_options	Options. Array ("value" => "option_text")
     */
-    public function setOptions($a_options)
+    public function setOptions($a_options): void
     {
         $this->options = $a_options;
     }
@@ -45,7 +46,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	array	Options. Array ("value" => "option_text")
     */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -55,7 +56,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	string	$a_value	Value
     */
-    public function setValue($a_value)
+    public function setValue($a_value): void
     {
         $this->value = $a_value;
     }
@@ -65,17 +66,17 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Value
     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
-    
+
     /**
     * Set internal link.
     *
     * @param	string	$a_value	Value
     */
-    public function setInternalLink($a_value)
+    public function setInternalLink($a_value): void
     {
         $this->intlink = $a_value;
     }
@@ -85,17 +86,17 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Internal link
     */
-    public function getInternalLink()
+    public function getInternalLink(): string
     {
         return $this->intlink;
     }
-    
+
     /**
     * Set internal link.text
     *
     * @param	string	$a_value	Internal link text
     */
-    public function setInternalLinkText($a_value)
+    public function setInternalLinkText($a_value): void
     {
         $this->intlinktext = $a_value;
     }
@@ -105,17 +106,17 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	Internal link text
     */
-    public function getInternalLinkText()
+    public function getInternalLinkText(): string
     {
         return $this->intlinktext;
     }
-    
+
     /**
     * Set add command.
     *
     * @param	string	$a_add_command	add command
     */
-    public function setAddCommand($a_add_command)
+    public function setAddCommand($a_add_command): void
     {
         $this->addCommand = $a_add_command;
     }
@@ -125,17 +126,17 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @return	string	add command
     */
-    public function getAddCommand()
+    public function getAddCommand(): string
     {
         return ($this->addCommand) ? $this->addCommand : "addInternalLink";
     }
-    
+
     /**
     * Set value by array
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values)
+    public function setValueByArray($a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
@@ -144,11 +145,11 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $_POST[$this->getPostVar()] =
             ilUtil::stripSlashes($_POST[$this->getPostVar()]);
         if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
@@ -159,18 +160,13 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert(&$a_tpl)
+    public function insert($a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
 
         $template = new ilTemplate("tpl.prop_suggestedsolutionselector.html", true, true, "Modules/TestQuestionPool");
-        
+
         foreach ($this->getOptions() as $option_value => $option_text) {
             $template->setCurrentBlock("prop_intlink_select_option");
             $template->setVariable("VAL_SELECT_OPTION", $option_value);

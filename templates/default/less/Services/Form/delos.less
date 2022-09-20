@@ -1,129 +1,22 @@
 /* Services/Form */
-
-/* forms */
-
-label, input[type=checkbox], input[type=radio], select {
-	cursor: pointer;
-}
-
-.form-control {
-	font-size: @il-standard-form-font-size;
-	color: @il-text-color;
-	border: 1px solid @il-main-border-dark-color;
-}
-
-.form-control[disabled],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-  background-color: @il-main-dark-bg;
-}
-
-.form-horizontal {
-	margin-bottom: 20px;
-	background: @il-standard-form-bg;
-}
-
-form.form-inline {
-	margin-bottom: 20px;
-}
-
-.form-horizontal .form-group {
-	margin: 10px 0;
-}
-
-.form-control, .form-control:focus {
-	.box-shadow(none);
-}
-
-.form-control:focus-visible {
-	.box-shadow(none);
-	outline: @il-focus-outline;
-}
-
-textarea.form-control {
-	max-width: 100%;
-}
-
-select.form-control {
-	width: auto;
-	max-width:100%;
-}
-
-.form-horizontal label {
-	color: @il-standard-form-label-color;
-	font-size: 100%;
-}
-
 .form-control-static {
 	//needed until bootstrap set min-heigth and padding...
 	//no effect without it!
 	display: block;
 }
 
-.form-horizontal {
-	.control-label {
-		//padding-top: 0;
-		//line-height: 24px;
-		padding-bottom: (@padding-base-vertical + 1);
-		min-height: (@line-height-computed + @font-size-base);
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			min-height: auto;
-			padding-bottom: 0;
-			margin-bottom: 0;
-		}
-		&.col-sm-3.il_textarea {
-			text-align: left;
-			width: 100%;
-		}
-	}
-	
-	.radio,
-	.checkbox,
-	.radio-inline,
-	.checkbox-inline {
-		padding-top: 0;
-		line-height: normal;
-	}
-	div.radio label.radio-inline {
-		line-height: @input-height-base;
-	}
-}
-
-.radio input[type="radio"],
-.radio-inline input[type="radio"],
-.checkbox input[type="checkbox"],
-.checkbox-inline input[type="checkbox"] {
-	position: static;
-	display: inline-block;
-	margin-left: -20px;
-	margin-top: 7px;
-	min-width: 13px;
-	vertical-align: top;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		min-width: 16px;
-	}
-}
-
-[dir="rtl"] .form-horizontal .control-label {
-    text-align: left;
-}
-
-label {
-	font-weight: normal;
-}
-
-td.form-inline > div.form-group {
-	display: block;
-	padding: 4px 0;
-}
-
-input[type="file"].form-control {
-	border: none;
-	height: auto;
-}
 
 .ilFormHeader {
-	padding: 15px 0 5px;
+	padding: @il-standard-form-header-padding;
+	&:not(:first-child){
+		margin: @il-standard-form-header-margin;
+		border-top: @il-standard-form-header-border;
+	}
+
+	.ilHeader{
+		vertical-align: middle;
+	}
+
 	.ilFormCmds {
 		margin: 0;
 		float: right;
@@ -144,12 +37,15 @@ input[type="file"].form-control {
 
 .ilSubForm {
 	background-color: @il-standard-form-dependant-group-bg;
-	padding: 3px 0;
-	margin-bottom: 10px;
+	padding: @il-padding-base-vertical 0;
+	margin-bottom: @il-margin-xlarge-vertical;
+	margin-left: @il-margin-xxlarge-horizontal;
+
 	.form-group {
+		background-color: @il-standard-form-dependant-group-bg;
 		margin: 0;
 		@media (max-width: @grid-float-breakpoint-max) {
-			margin: @padding-large-vertical 0;
+			margin: @il-margin-large-vertical 0;
 		}
 	}
 	.col-sm-9.il_textarea {
@@ -158,7 +54,7 @@ input[type="file"].form-control {
 }
 
 .ilFormFooter {
-	padding: 3px 0;
+	padding: @il-padding-small-vertical @il-padding-xlarge-horizontal @il-padding-small-vertical 0;
 }
 
 .ilFormFooter .ilFormCmds {
@@ -254,15 +150,15 @@ div.ilHFormHeader .ilFormCmds, div.ilHFormFooter .ilFormCmds {
 	width: 100%;
 }
 
+.wzdrow .form-control {
+	height: (@il-font-size-small * @il-line-height-base) + ((2+2*@il-padding-base-vertical) * @il-pixel-to-rem) * 1.35;
+}
+
+
 .ilHFormDropArea {
 	margin: 6px 0;
 	width: auto;
 }
-
-/* deprecated */
-div.ilFormInfo {
-}
-
 
 /* experimental: bootstrap'ed file upload */
 .btn-file {
@@ -294,8 +190,8 @@ div.ilFormInfo {
 }
 
 input:invalid {
-	background-color: #ffebeb;
-	border-color: #d08080;
+	background-color:  #ffebeb;
+	border-color: @il-danger-color;
 }
 
 .bootstrap-datetimepicker-widget {

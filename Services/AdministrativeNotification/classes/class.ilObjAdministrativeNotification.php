@@ -1,27 +1,38 @@
 <?php
 
 /**
- * Class ilObjAdministrativeNotification
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjAdministrativeNotification extends ilObject
 {
+    public const TYPE_ADN = "adn";
 
-    /**
-     * ilObjAdministrativeNotification constructor.
-     * @param int  $id
-     * @param bool $call_by_reference
-     */
-    public function __construct($id = 0, bool $call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
-        $this->type = "adn";
+        $this->type = self::TYPE_ADN;
         parent::__construct($id, $call_by_reference);
     }
 
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle() : string
+    public function getPresentationTitle(): string
     {
         return $this->lng->txt("obj_adn");
     }
@@ -29,7 +40,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription() : string
+    public function getLongDescription(): string
     {
         return $this->lng->txt("administrative_notification_description");
     }

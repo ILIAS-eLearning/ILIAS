@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 
@@ -19,15 +36,14 @@ class ilMail
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
-    /** @var string[]|null */
+    /** @var array<string, mixed>|null */
     protected ?array $mail_data = [];
-    protected ?int $mail_obj_ref_id = null;
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
     private ilAppEventHandler $eventHandler;
     private ilMailAddressTypeFactory $mailAddressTypeFactory;
     private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
-    protected ?string $contextId;
+    protected ?string $contextId = null;
     protected array $contextParameters = [];
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */
@@ -37,6 +53,7 @@ class ilMail
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
+    protected ilObjUser $actor;
 
     public function __construct(
         int $a_user_id,
@@ -51,7 +68,8 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        int $mailAdminNodeRefId = null
+        protected ?int $mail_obj_ref_id = null,
+        ilObjUser $actor = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -60,15 +78,15 @@ class ilMail
         $this->eventHandler = $eventHandler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
+        $this->actor = $actor ?? $DIC->user();
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
         $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
-        $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login) : int {
+        $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login): int {
             return (int) ilObjUser::_lookupId($login);
         };
         $this->user_id = $a_user_id;
-        $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
         }
@@ -78,7 +96,7 @@ class ilMail
         $this->setSaveInSentbox(false);
     }
 
-    public function withContextId(string $contextId) : self
+    public function withContextId(string $contextId): self
     {
         $clone = clone $this;
 
@@ -87,7 +105,7 @@ class ilMail
         return $clone;
     }
 
-    public function withContextParameters(array $parameters) : self
+    public function withContextParameters(array $parameters): self
     {
         $clone = clone $this;
 
@@ -96,12 +114,12 @@ class ilMail
         return $clone;
     }
 
-    protected function isSystemMail() : bool
+    protected function isSystemMail(): bool
     {
         return $this->user_id === ANONYMOUS_USER_ID;
     }
-    
-    public function existsRecipient(string $newRecipient, string $existingRecipients) : bool
+
+    public function existsRecipient(string $newRecipient, string $existingRecipients): bool
     {
         $newAddresses = new ilMailAddressListImpl($this->parseAddresses($newRecipient));
         $addresses = new ilMailAddressListImpl($this->parseAddresses($existingRecipients));
@@ -110,33 +128,31 @@ class ilMail
 
         $diffedAddresses = $list->value();
 
-        return count($diffedAddresses) === 0;
+        return $diffedAddresses === [];
     }
 
-    public function setSaveInSentbox(bool $saveInSentbox) : void
+    public function setSaveInSentbox(bool $saveInSentbox): void
     {
         $this->save_in_sentbox = $saveInSentbox;
     }
 
-    public function getSaveInSentbox() : bool
+    public function getSaveInSentbox(): bool
     {
         return $this->save_in_sentbox;
     }
 
-    protected function readMailObjectReferenceId() : void
+    protected function readMailObjectReferenceId(): void
     {
         $this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
     }
 
-    public function getMailObjectReferenceId() : int
+    public function getMailObjectReferenceId(): int
     {
         return $this->mail_obj_ref_id;
     }
 
-    public function formatNamesForOutput(string $recipients) : string
+    public function formatNamesForOutput(string $recipients): string
     {
-        global $DIC;
-
         $recipients = trim($recipients);
         if ($recipients === '') {
             return $this->lng->txt('not_available');
@@ -147,9 +163,9 @@ class ilMail
         $recipients = array_filter(array_map('trim', explode(',', $recipients)));
         foreach ($recipients as $recipient) {
             $usrId = ilObjUser::_lookupId($recipient);
-            if ($usrId > 0) {
+            if (is_int($usrId) && $usrId > 0) {
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
-                if ($pp === 'g' || ($pp === 'y' && !$DIC->user()->isAnonymous())) {
+                if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
                     $names[] = $user->getFullname() . ' [' . $recipient . ']';
                     continue;
@@ -162,7 +178,7 @@ class ilMail
         return implode(', ', $names);
     }
 
-    public function getPreviousMail(int $mailId) : ?array
+    public function getPreviousMail(int $mailId): ?array
     {
         $this->db->setLimit(1, 0);
 
@@ -183,7 +199,7 @@ class ilMail
         return $this->mail_data;
     }
 
-    public function getNextMail(int $mailId) : ?array
+    public function getNextMail(int $mailId): ?array
     {
         $this->db->setLimit(1, 0);
 
@@ -204,7 +220,7 @@ class ilMail
         return $this->mail_data;
     }
 
-    public function getMailsOfFolder(int $a_folder_id, array $filter = []) : array
+    public function getMailsOfFolder(int $a_folder_id, array $filter = []): array
     {
         $mails = [];
 
@@ -235,7 +251,7 @@ class ilMail
         return array_filter($mails);
     }
 
-    public function countMailsOfFolder(int $folderId) : int
+    public function countMailsOfFolder(int $folderId): int
     {
         $res = $this->db->queryF(
             "SELECT COUNT(*) FROM $this->table_mail WHERE user_id = %s AND folder_id = %s",
@@ -246,7 +262,7 @@ class ilMail
         return $this->db->numRows($res);
     }
 
-    public function deleteMailsOfFolder(int $folderId) : void
+    public function deleteMailsOfFolder(int $folderId): void
     {
         $mails = $this->getMailsOfFolder($folderId);
         foreach ($mails as $mail_data) {
@@ -254,7 +270,7 @@ class ilMail
         }
     }
 
-    public function getMail(int $mailId) : ?array
+    public function getMail(int $mailId): ?array
     {
         $res = $this->db->queryF(
             "SELECT * FROM $this->table_mail WHERE user_id = %s AND mail_id = %s",
@@ -270,16 +286,18 @@ class ilMail
     /**
      * @param int[] $mailIds
      */
-    public function markRead(array $mailIds) : void
+    public function markRead(array $mailIds): void
     {
         $values = [];
         $types = [];
 
         $query = "UPDATE $this->table_mail SET m_status = %s WHERE user_id = %s ";
-        array_push($types, 'text', 'integer');
-        array_push($values, 'read', $this->user_id);
+        $types[] = 'text';
+        $types[] = 'integer';
+        $values[] = 'read';
+        $values[] = $this->user_id;
 
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
         }
 
@@ -289,16 +307,18 @@ class ilMail
     /**
      * @param int[] $mailIds
      */
-    public function markUnread(array $mailIds) : void
+    public function markUnread(array $mailIds): void
     {
         $values = [];
         $types = [];
 
         $query = "UPDATE $this->table_mail SET m_status = %s WHERE user_id = %s ";
-        array_push($types, 'text', 'integer');
-        array_push($values, 'unread', $this->user_id);
+        $types[] = 'text';
+        $types[] = 'integer';
+        $values[] = 'unread';
+        $values[] = $this->user_id;
 
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
         }
 
@@ -307,17 +327,15 @@ class ilMail
 
     /**
      * @param int[] $mailIds
-     * @param int $folderId
-     * @return bool
      */
-    public function moveMailsToFolder(array $mailIds, int $folderId) : bool
+    public function moveMailsToFolder(array $mailIds, int $folderId): bool
     {
         $values = [];
         $types = [];
 
         $mailIds = array_filter(array_map('intval', $mailIds));
 
-        if (0 === count($mailIds)) {
+        if ([] === $mailIds) {
             return false;
         }
 
@@ -327,8 +345,12 @@ class ilMail
             "ON mail_obj_data.obj_id = %s AND mail_obj_data.user_id = %s " .
             "SET $this->table_mail.folder_id = mail_obj_data.obj_id " .
             "WHERE $this->table_mail.user_id = %s";
-        array_push($types, 'integer', 'integer', 'integer');
-        array_push($values, $folderId, $this->user_id, $this->user_id);
+        $types[] = 'integer';
+        $types[] = 'integer';
+        $types[] = 'integer';
+        $values[] = $folderId;
+        $values[] = $this->user_id;
+        $values[] = $this->user_id;
 
         $query .= ' AND ' . $this->db->in('mail_id', $mailIds, false, 'integer');
 
@@ -340,7 +362,7 @@ class ilMail
     /**
      * @param int[] $mailIds
      */
-    public function deleteMails(array $mailIds) : void
+    public function deleteMails(array $mailIds): void
     {
         $mailIds = array_filter(array_map('intval', $mailIds));
         foreach ($mailIds as $id) {
@@ -353,11 +375,7 @@ class ilMail
         }
     }
 
-    /**
-     * @param array|null $row
-     * @return array|null
-     */
-    protected function fetchMailData(?array $row) : ?array
+    protected function fetchMailData(?array $row): ?array
     {
         if (!is_array($row) || empty($row)) {
             return null;
@@ -399,32 +417,21 @@ class ilMail
         return $row;
     }
 
-    public function getNewDraftId(int $usrId, int $folderId) : int
+    public function getNewDraftId(int $folderId): int
     {
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
             'mail_id' => ['integer', $nextId],
-            'user_id' => ['integer', $usrId],
+            'user_id' => ['integer', $this->user_id],
             'folder_id' => ['integer', $folderId],
-            'sender_id' => ['integer', $usrId],
+            'sender_id' => ['integer', $this->user_id],
         ]);
 
         return $nextId;
     }
 
     /**
-     * @param int $a_folder_id
      * @param string[] $a_attachments
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
-     * @param int $a_draft_id
-     * @param bool $a_use_placeholders
-     * @param string|null $a_tpl_context_id
-     * @param array $a_tpl_context_params
-     * @return int
      */
     public function updateDraft(
         int $a_folder_id,
@@ -438,7 +445,7 @@ class ilMail
         bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         array $a_tpl_context_params = []
-    ) : int {
+    ): int {
         $this->db->update(
             $this->table_mail,
             [
@@ -477,7 +484,7 @@ class ilMail
         bool $usePlaceholders = false,
         ?string $templateContextId = null,
         array $templateContextParameters = []
-    ) : int {
+    ): int {
         $usrId = $usrId ?: $this->user_id;
 
         if ($usePlaceholders) {
@@ -504,16 +511,20 @@ class ilMail
             'tpl_ctx_params' => ['blob', json_encode($templateContextParameters, JSON_THROW_ON_ERROR)],
         ]);
 
-        $raiseEvent = $usrId !== $this->mailbox->getUsrId();
-        if (!$raiseEvent) {
-            $raiseEvent = $folderId !== $this->mailbox->getSentFolder();
+        $sender_equals_reveiver = $usrId === $this->mailbox->getUsrId();
+        $is_sent_folder_of_sender = false;
+        if ($sender_equals_reveiver) {
+            $current_folder_id = $this->getSubjectSentFolderId();
+            $is_sent_folder_of_sender = $folderId === $current_folder_id;
         }
 
-        if ($raiseEvent) {
+        $raise_event = !$sender_equals_reveiver || !$is_sent_folder_of_sender;
+
+        if ($raise_event) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
                 'id' => $nextId,
                 'subject' => $subject,
-                'body' => (string) $message,
+                'body' => $message,
                 'from_usr_id' => $senderUsrId,
                 'to_usr_id' => $usrId,
                 'rcp_to' => $to,
@@ -529,7 +540,7 @@ class ilMail
         string $message,
         int $usrId = 0,
         bool $replaceEmptyPlaceholders = true
-    ) : string {
+    ): string {
         try {
             if ($this->contextId) {
                 $context = ilMailTemplateContextService::getTemplateContextById($this->contextId);
@@ -541,7 +552,7 @@ class ilMail
 
             $processor = new ilMailTemplatePlaceholderResolver($context, $message);
             $message = $processor->resolve($user, $this->contextParameters, $replaceEmptyPlaceholders);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->logger->error(__METHOD__ . ' has been called with invalid context.');
         }
 
@@ -549,15 +560,7 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
-     * @return bool
      */
     protected function distributeMail(
         string $to,
@@ -568,7 +571,7 @@ class ilMail
         array $attachments,
         int $sentMailId,
         bool $usePlaceholders = false
-    ) : bool {
+    ): bool {
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -627,15 +630,8 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @param int[] $usrIds
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
      */
     protected function sendChanneledMails(
         string $to,
@@ -647,7 +643,7 @@ class ilMail
         array $attachments,
         int $sentMailId,
         bool $usePlaceholders = false
-    ) : void {
+    ): void {
         $usrIdToExternalEmailAddressesMap = [];
         $usrIdToMessageMap = [];
 
@@ -719,7 +715,7 @@ class ilMail
                 $user->getId()
             );
 
-            if (count($attachments) > 0) {
+            if ($attachments !== []) {
                 $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
             }
         }
@@ -735,10 +731,7 @@ class ilMail
     }
 
     /**
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param bool $usePlaceholders
      * @param array<int, string[]> $usrIdToExternalEmailAddressesMap
      * @param array<int, string> $usrIdToMessageMap
      */
@@ -749,7 +742,7 @@ class ilMail
         bool $usePlaceholders,
         array $usrIdToExternalEmailAddressesMap,
         array $usrIdToMessageMap
-    ) : void {
+    ): void {
         if (1 === count($usrIdToExternalEmailAddressesMap)) {
             if ($usePlaceholders) {
                 $message = array_values($usrIdToMessageMap)[0];
@@ -769,7 +762,7 @@ class ilMail
         } elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
             if ($usePlaceholders) {
                 foreach ($usrIdToExternalEmailAddressesMap as $usrId => $addresses) {
-                    if (0 === count($addresses)) {
+                    if ([] === $addresses) {
                         continue;
                     }
 
@@ -834,29 +827,25 @@ class ilMail
      * @param string[] $recipients
      * @return int[]
      */
-    protected function getUserIds(array $recipients) : array
+    protected function getUserIds(array $recipients): array
     {
-        $usrIds = [];
+        $parsed_usr_ids = [];
 
-        $joinedRecipients = implode(',', array_filter(array_map('trim', $recipients)));
+        $joined_recipients = implode(',', array_filter(array_map('trim', $recipients)));
 
-        $addresses = $this->parseAddresses($joinedRecipients);
+        $addresses = $this->parseAddresses($joined_recipients);
         foreach ($addresses as $address) {
-            $addressType = $this->mailAddressTypeFactory->getByPrefix($address);
-            $usrIds = array_merge($usrIds, $addressType->resolve());
+            $address_type = $this->mailAddressTypeFactory->getByPrefix($address);
+            $parsed_usr_ids[] = $address_type->resolve();
         }
 
-        return array_unique($usrIds);
+        return array_unique(array_merge(...$parsed_usr_ids));
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
      * @return ilMailError[]
      */
-    protected function checkMail(string $to, string $cc, string $bcc, string $subject) : array
+    protected function checkMail(string $to, string $cc, string $bcc, string $subject): array
     {
         $errors = [];
 
@@ -874,47 +863,35 @@ class ilMail
     }
 
     /**
-     * @param string $recipients
      * @return ilMailError[]
      * @throws ilMailException
      */
-    protected function checkRecipients(string $recipients) : array
+    protected function checkRecipients(string $recipients): array
     {
         $errors = [];
 
         try {
             $addresses = $this->parseAddresses($recipients);
             foreach ($addresses as $address) {
-                $addressType = $this->mailAddressTypeFactory->getByPrefix($address);
-                if (!$addressType->validate($this->user_id)) {
-                    $newErrors = $addressType->getErrors();
-                    $errors = array_merge($errors, $newErrors);
+                $address_type = $this->mailAddressTypeFactory->getByPrefix($address);
+                if (!$address_type->validate($this->user_id)) {
+                    $errors[] = $address_type->getErrors();
                 }
             }
-        } catch (ilException $e) {
+        } catch (Exception $e) {
             $colonPosition = strpos($e->getMessage(), ':');
             throw new ilMailException(
-                ($colonPosition === false) ?
-                    $e->getMessage() :
-                    substr($e->getMessage(), $colonPosition + 2)
+                ($colonPosition === false) ? $e->getMessage() : substr($e->getMessage(), $colonPosition + 2),
+                $e->getCode(),
+                $e
             );
         }
 
-        return $errors;
+        return array_merge(...$errors);
     }
 
     /**
-     * @param int $a_user_id
      * @param string[] $a_attachments
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
-     * @param bool $a_use_placeholders
-     * @param string|null $a_tpl_context_id
-     * @param array|null $a_tpl_ctx_params
-     * @return bool
      */
     public function savePostData(
         int $a_user_id,
@@ -927,7 +904,7 @@ class ilMail
         bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         ?array $a_tpl_ctx_params = []
-    ) : bool {
+    ): bool {
         $this->db->replace(
             $this->table_mail_saved,
             [
@@ -951,7 +928,7 @@ class ilMail
         return true;
     }
 
-    public function getSavedData() : ?array
+    public function getSavedData(): array
     {
         $res = $this->db->queryF(
             "SELECT * FROM $this->table_mail_saved WHERE user_id = %s",
@@ -960,19 +937,16 @@ class ilMail
         );
 
         $this->mail_data = $this->fetchMailData($this->db->fetchAssoc($res));
+        if (!is_array($this->mail_data)) {
+            $this->savePostData($this->user_id, [], '', '', '', '', '', false);
+        }
 
         return $this->mail_data;
     }
 
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
      * @param string[] $a_attachment
-     * @param bool $a_use_placeholders
      * @return ilMailError[]
      */
     public function enqueue(
@@ -983,7 +957,7 @@ class ilMail
         string $a_m_message,
         array $a_attachment,
         bool $a_use_placeholders = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $this->logger->debug(
@@ -999,12 +973,12 @@ class ilMail
         }
 
         $errors = $this->checkMail($a_rcp_to, $a_rcp_cc, $a_rcp_bcc, $a_m_subject);
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             return $errors;
         }
 
         $errors = $this->validateRecipients($a_rcp_to, $a_rcp_cc, $a_rcp_bcc);
-        if (count($errors) > 0) {
+        if ($errors !== []) {
             return $errors;
         }
 
@@ -1074,13 +1048,7 @@ class ilMail
     /**
      * This method is used to finally send internal messages and external emails
      * To use the mail system as a consumer, please use ilMail::enqueue
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
-     * @param bool $usePlaceholders
      * @return ilMailError[]
      * @see ilMail::enqueue()
      * @internal
@@ -1093,7 +1061,7 @@ class ilMail
         string $message,
         array $attachments,
         bool $usePlaceholders
-    ) : array {
+    ): array {
         $internalMessageId = $this->saveInSentbox(
             $attachments,
             $to,
@@ -1103,7 +1071,7 @@ class ilMail
             $message
         );
 
-        if (count($attachments) > 0) {
+        if ($attachments !== []) {
             $this->mfile->assignAttachmentsToDirectory($internalMessageId, $internalMessageId);
             $this->mfile->saveFiles($internalMessageId, $attachments);
         }
@@ -1162,12 +1130,9 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @return ilMailError[]
      */
-    public function validateRecipients(string $to, string $cc, string $bcc) : array
+    public function validateRecipients(string $to, string $cc, string $bcc): array
     {
         try {
             $errors = [];
@@ -1175,7 +1140,7 @@ class ilMail
             $errors = array_merge($errors, $this->checkRecipients($cc));
             $errors = array_merge($errors, $this->checkRecipients($bcc));
 
-            if (count($errors) > 0) {
+            if ($errors !== []) {
                 return array_merge([new ilMailError('mail_following_rcp_not_valid')], $errors);
             }
         } catch (ilMailException $e) {
@@ -1185,14 +1150,18 @@ class ilMail
         return [];
     }
 
+    private function getSubjectSentFolderId(): int
+    {
+        $send_folder_id = 0;
+        if (!$this->isSystemMail()) {
+            $send_folder_id = $this->mailbox->getSentFolder();
+        }
+
+        return $send_folder_id;
+    }
+
     /**
      * @param string[] $attachment
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
-     * @return int
      */
     protected function saveInSentbox(
         array $attachment,
@@ -1201,9 +1170,9 @@ class ilMail
         string $bcc,
         string $subject,
         string $message
-    ) : int {
+    ): int {
         return $this->sendInternalMail(
-            $this->mailbox->getSentFolder(),
+            $this->getSubjectSentFolderId(),
             $this->user_id,
             $attachment,
             $to,
@@ -1217,11 +1186,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @param string[] $attachments
      */
     private function sendMimeMail(
@@ -1231,7 +1195,7 @@ class ilMail
         string $subject,
         string $message,
         array $attachments
-    ) : void {
+    ): void {
         $mailer = new ilMimeMail();
         $mailer->From($this->senderFactory->getSenderByUsrId($this->user_id));
         $mailer->To($to);
@@ -1242,11 +1206,11 @@ class ilMail
         );
         $mailer->Body($message);
 
-        if ($cc) {
+        if ($cc !== '') {
             $mailer->Cc($cc);
         }
 
-        if ($bcc) {
+        if ($bcc !== '') {
             $mailer->Bcc($bcc);
         }
 
@@ -1265,7 +1229,7 @@ class ilMail
     /**
      * @param string[] $attachments
      */
-    public function saveAttachments(array $attachments) : void
+    public function saveAttachments(array $attachments): void
     {
         $this->db->update(
             $this->table_mail_saved,
@@ -1280,10 +1244,9 @@ class ilMail
 
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
-     * @param string $addresses
      * @return ilMailAddress[]
      */
-    protected function parseAddresses(string $addresses) : array
+    protected function parseAddresses(string $addresses): array
     {
         if ($addresses !== '') {
             $this->logger->debug(sprintf(
@@ -1298,7 +1261,7 @@ class ilMail
         if ($addresses !== '') {
             $this->logger->debug(sprintf(
                 "Parsed addresses: %s",
-                implode(',', array_map(static function (ilMailAddress $address) : string {
+                implode(',', array_map(static function (ilMailAddress $address): string {
                     return (string) $address;
                 }, $parsedAddresses))
             ));
@@ -1307,7 +1270,7 @@ class ilMail
         return $parsedAddresses;
     }
 
-    protected function getCountRecipient(string $recipients, bool $onlyExternalAddresses = true) : int
+    protected function getCountRecipient(string $recipients, bool $onlyExternalAddresses = true): int
     {
         $addresses = new ilMailAddressListImpl($this->parseAddresses($recipients));
         if ($onlyExternalAddresses) {
@@ -1326,7 +1289,7 @@ class ilMail
         string $ccRecipients,
         string $bccRecipients,
         bool $onlyExternalAddresses = true
-    ) : int {
+    ): int {
         return (
             $this->getCountRecipient($toRecipients, $onlyExternalAddresses) +
             $this->getCountRecipient($ccRecipients, $onlyExternalAddresses) +
@@ -1334,7 +1297,7 @@ class ilMail
         );
     }
 
-    protected function getEmailRecipients(string $recipients) : string
+    protected function getEmailRecipients(string $recipients): string
     {
         $addresses = new ilMailOnlyExternalAddressList(
             new ilMailAddressListImpl($this->parseAddresses($recipients)),
@@ -1342,14 +1305,14 @@ class ilMail
             $this->usrIdByLoginCallable
         );
 
-        $emailRecipients = array_map(static function (ilMailAddress $address) : string {
+        $emailRecipients = array_map(static function (ilMailAddress $address): string {
             return (string) $address;
         }, $addresses->value());
 
         return implode(',', $emailRecipients);
     }
 
-    public static function _getAutoGeneratedMessageString(ilLanguage $lang = null) : string
+    public static function _getAutoGeneratedMessageString(ilLanguage $lang = null): string
     {
         global $DIC;
 
@@ -1366,7 +1329,7 @@ class ilMail
         ) . "\n\n";
     }
 
-    public static function _getIliasMailerName() : string
+    public static function _getIliasMailerName(): string
     {
         /** @var ilMailMimeSenderFactory $senderFactory */
         $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
@@ -1388,7 +1351,7 @@ class ilMail
         return $this;
     }
 
-    public static function _getInstallationSignature() : string
+    public static function _getInstallationSignature(): string
     {
         global $DIC;
 
@@ -1401,16 +1364,16 @@ class ilMail
         }
 
         $signature = str_ireplace(
-            '[CLIENT_NAME]',
+            '[INSTALLATION_NAME]',
             $DIC['ilClientIniFile']->readVariable('client', 'name'),
             $signature
         );
         $signature = str_ireplace(
-            '[CLIENT_DESC]',
+            '[INSTALLATION_DESC]',
             $DIC['ilClientIniFile']->readVariable('client', 'description'),
             $signature
         );
-        $signature = str_ireplace('[CLIENT_URL]', $clientUrl, $signature);
+        $signature = str_ireplace('[ILIAS_URL]', $clientUrl, $signature);
 
         if (!preg_match('/^[\n\r]+/', $signature)) {
             $signature = "\n" . $signature;
@@ -1419,7 +1382,7 @@ class ilMail
         return $signature;
     }
 
-    public static function getSalutation(int $a_usr_id, ?ilLanguage $a_language = null) : string
+    public static function getSalutation(int $a_usr_id, ?ilLanguage $a_language = null): string
     {
         global $DIC;
 
@@ -1441,7 +1404,7 @@ class ilMail
             $name['lastname'] . ',';
     }
 
-    protected function getUserInstanceById(int $usrId) : ilObjUser
+    protected function getUserInstanceById(int $usrId): ilObjUser
     {
         if (!isset($this->userInstancesByIdMap[$usrId])) {
             $this->userInstancesByIdMap[$usrId] = new ilObjUser($usrId);
@@ -1453,12 +1416,12 @@ class ilMail
     /**
      * @param array<int, ilObjUser> $userInstanceByIdMap
      */
-    public function setUserInstanceById(array $userInstanceByIdMap) : void
+    public function setUserInstanceById(array $userInstanceByIdMap): void
     {
         $this->userInstancesByIdMap = $userInstanceByIdMap;
     }
 
-    protected function getMailOptionsByUserId(int $usrId) : ilMailOptions
+    protected function getMailOptionsByUserId(int $usrId): ilMailOptions
     {
         if (!isset($this->mailOptionsByUsrIdMap[$usrId])) {
             $this->mailOptionsByUsrIdMap[$usrId] = new ilMailOptions($usrId);
@@ -1470,12 +1433,12 @@ class ilMail
     /**
      * @param ilMailOptions[] $mailOptionsByUsrIdMap
      */
-    public function setMailOptionsByUserIdMap(array $mailOptionsByUsrIdMap) : void
+    public function setMailOptionsByUserIdMap(array $mailOptionsByUsrIdMap): void
     {
         $this->mailOptionsByUsrIdMap = $mailOptionsByUsrIdMap;
     }
 
-    public function formatLinebreakMessage(string $message) : string
+    public function formatLinebreakMessage(string $message): string
     {
         return $message;
     }

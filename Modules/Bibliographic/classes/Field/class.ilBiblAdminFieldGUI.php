@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBiblAdminFieldGUI
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -9,33 +25,32 @@ abstract class ilBiblAdminFieldGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
-    const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
-    const SUBTAB_RIS = 'subtab_ris';
-    const SUBTAB_BIBTEX = 'subtab_bibtex';
-    const FIELD_IDENTIFIER = 'field_id';
-    const DATA_TYPE = 'data_type';
-    const CMD_STANDARD = 'index';
-    const CMD_CANCEL = 'cancel';
-    const CMD_EDIT = 'edit';
-    const CMD_UPDATE = 'update';
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_RESET_FILTER = 'resetFilter';
-    const CMD_SAVE = 'save';
-    /**
-     * @var \ilBiblAdminFactoryFacadeInterface
-     */
-    protected $facade;
+    public const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
+    public const SUBTAB_RIS = 'subtab_ris';
+    public const SUBTAB_BIBTEX = 'subtab_bibtex';
+    public const FIELD_IDENTIFIER = 'field_id';
+    public const DATA_TYPE = 'data_type';
+    public const CMD_STANDARD = 'index';
+    public const CMD_CANCEL = 'cancel';
+    public const CMD_EDIT = 'edit';
+    public const CMD_UPDATE = 'update';
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const CMD_SAVE = 'save';
+    protected \ilBiblAdminFactoryFacadeInterface $facade;
+    private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilBiblAdminFieldGUI constructor.
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $nextClass = $this->ctrl()->getNextClass();
         $this->tabs()->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);
@@ -61,7 +76,7 @@ abstract class ilBiblAdminFieldGUI
         }
     }
 
-    protected function performCommand() : void
+    protected function performCommand(): void
     {
         $cmd = $this->ctrl()->getCmd(self::CMD_STANDARD);
         switch ($cmd) {
@@ -82,7 +97,7 @@ abstract class ilBiblAdminFieldGUI
         }
     }
 
-    protected function index() : void
+    protected function index(): void
     {
         $this->setSubTabs();
 
@@ -90,7 +105,7 @@ abstract class ilBiblAdminFieldGUI
         $this->tpl()->setContent($table->getHTML());
     }
 
-    protected function setSubTabs() : void
+    protected function setSubTabs(): void
     {
         $this->tabs()->addSubTab(
             self::SUBTAB_RIS,
@@ -126,9 +141,12 @@ abstract class ilBiblAdminFieldGUI
         }
     }
 
-    protected function save() : void
+    protected function save(): void
     {
-        foreach ($_POST['position'] as $set) {
+        // I currently did not find a way to use the wrapper here
+        $positions = $this->http()->request()->getParsedBody()['position'];
+
+        foreach ($positions as $set) {
             $field_id = (int) key($set);
             $position = (int) current($set);
 
@@ -137,18 +155,18 @@ abstract class ilBiblAdminFieldGUI
             $ilBiblField->store();
         }
 
-        ilUtil::sendSuccess($this->lng()->txt('changes_successfully_saved'));
+        $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt('changes_successfully_saved'));
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
-    protected function applyFilter() : void
+    protected function applyFilter(): void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->writeFilterToSession();
         $this->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
-    protected function resetFilter() : void
+    protected function resetFilter(): void
     {
         $ilBiblAdminFieldTableGUI = new ilBiblAdminFieldTableGUI($this, $this->facade);
         $ilBiblAdminFieldTableGUI->resetFilter();

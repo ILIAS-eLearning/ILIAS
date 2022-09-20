@@ -16,6 +16,7 @@ il.Search = {
 		if (il.Search.search_options) {
 			il.Overlay.add("search_options", {});
 			il.Overlay.addTrigger("search_options_tr", "click", "search_options", "search_options_tr", false, 'tl', 'bl');
+			il.Overlay.addTrigger("search_options_tr", "keypress", "search_options", "search_options_tr", false, 'tl', 'bl');
 			il.Overlay.hide(null, "search_options");
 			il.Search.syncOptions();
 		}
@@ -23,6 +24,7 @@ il.Search = {
 		if (il.Search.search_area_form) {
 			il.Overlay.add("search_area_form", {});
 			il.Overlay.addTrigger("search_area_form_tr", "click", "search_area_form", "search_area_form_tr", false, 'tl', 'bl');
+			il.Overlay.addTrigger("search_area_form_tr", "keypress", "search_area_form", "search_area_form_tr", false, 'tl', 'bl');
 			il.Overlay.hide(null, "search_area_form");
 			il.Search.syncOptions();
 			/*$('input[name=combination]').change(function () {
@@ -33,6 +35,7 @@ il.Search = {
 		if (il.Search.search_cdate_form) {
 			il.Overlay.add("search_cdate_form", {});
 			il.Overlay.addTrigger("search_cdate_form_tr", "click", "search_cdate_form", "search_cdate_form_tr", false, 'tl', 'bl');
+			il.Overlay.addTrigger("search_cdate_form_tr", "keypress", "search_cdate_form", "search_cdate_form_tr", false, 'tl', 'bl');
 			il.Overlay.hide(null, "search_cdate_form");
 			il.Search.syncOptions();
 			/*$('input[name=combination]').change(function () {

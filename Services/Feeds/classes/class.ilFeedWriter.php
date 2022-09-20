@@ -3,19 +3,21 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Feed writer class.
- *
  * how to make it "secure"
  * alternative 1:
  * - hash for all objects
@@ -23,12 +25,11 @@
  * - link includes ref id, user id, combined hash (kind of password)
  * - combined hash = hash(user hash + object hash)
  * - ilias checks whether ref id / user id / combined hash match
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedWriter
 {
-    private string $ch_desc;
+    private string $ch_desc = "";
     protected ilTree $tree;
     protected ilLanguage $lng;
     protected ilTemplate $tpl;
@@ -46,91 +47,89 @@ class ilFeedWriter
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
     }
-    
-    public function setEncoding(string $a_enc) : void
+
+    public function setEncoding(string $a_enc): void
     {
         $this->encoding = $a_enc;
     }
-    
-    public function getEncoding() : string
+
+    public function getEncoding(): string
     {
         return $this->encoding;
     }
 
-    public function setChannelAbout(string $a_ab) : void
+    public function setChannelAbout(string $a_ab): void
     {
         $this->ch_about = $a_ab;
     }
-    
-    public function getChannelAbout() : string
+
+    public function getChannelAbout(): string
     {
         return $this->ch_about;
     }
 
-    public function setChannelTitle(string $a_title) : void
+    public function setChannelTitle(string $a_title): void
     {
         $this->ch_title = $a_title;
     }
-    
-    public function getChannelTitle() : string
+
+    public function getChannelTitle(): string
     {
         return $this->ch_title;
     }
 
-    public function setChannelLink(string $a_link) : void
+    public function setChannelLink(string $a_link): void
     {
         $this->ch_link = $a_link;
     }
-    
-    public function getChannelLink() : string
+
+    public function getChannelLink(): string
     {
         return $this->ch_link;
     }
 
-    public function setChannelDescription(string $a_desc) : void
+    public function setChannelDescription(string $a_desc): void
     {
         $this->ch_desc = $a_desc;
     }
-    
-    public function getChannelDescription() : string
+
+    public function getChannelDescription(): string
     {
         return $this->ch_desc;
     }
 
-    public function addItem(ilFeedItem $a_item) : void
+    public function addItem(ilFeedItem $a_item): void
     {
         $this->items[] = $a_item;
     }
-    
-    public function getItems() : array
+
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function prepareStr(string $a_str) : string
+    public function prepareStr(string $a_str): string
     {
-        $a_str = str_replace("&", "&amp;", $a_str);
-        $a_str = str_replace("<", "&lt;", $a_str);
-        $a_str = str_replace(">", "&gt;", $a_str);
+        $a_str = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $a_str);
         return $a_str;
     }
 
-    public function getFeed() : string
+    public function getFeed(): string
     {
         $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
-        
+
         $this->tpl->setVariable("XML", "xml");
         $this->tpl->setVariable("CONTENT_ENCODING", $this->getEncoding());
         $this->tpl->setVariable("CHANNEL_ABOUT", $this->getChannelAbout());
         $this->tpl->setVariable("CHANNEL_TITLE", $this->getChannelTitle());
         $this->tpl->setVariable("CHANNEL_LINK", $this->getChannelLink());
         $this->tpl->setVariable("CHANNEL_DESCRIPTION", $this->getChannelDescription());
-        
+
         foreach ($this->items as $item) {
             $this->tpl->setCurrentBlock("rdf_seq");
             $this->tpl->setVariable("RESOURCE", $item->getAbout());
             $this->tpl->parseCurrentBlock();
-            
+
             // Date
             if ($item->getDate() != "") {
                 $this->tpl->setCurrentBlock("date");
@@ -147,7 +146,7 @@ class ilFeedWriter
                 );
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             // Enclosure
             if ($item->getEnclosureUrl() != "") {
                 $this->tpl->setCurrentBlock("enclosure");
@@ -156,7 +155,7 @@ class ilFeedWriter
                 $this->tpl->setVariable("ENC_TYPE", $item->getEnclosureType());
                 $this->tpl->parseCurrentBlock();
             }
-            
+
             $this->tpl->setCurrentBlock("item");
             $this->tpl->setVariable("ITEM_ABOUT", $item->getAbout());
             $this->tpl->setVariable("ITEM_TITLE", $item->getTitle());
@@ -164,18 +163,18 @@ class ilFeedWriter
             $this->tpl->setVariable("ITEM_LINK", $item->getLink());
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->parseCurrentBlock();
         return $this->tpl->get();
     }
-    
-    public function showFeed() : void
+
+    public function showFeed(): void
     {
         header("Content-Type: text/xml; charset=UTF-8;");
         echo $this->getFeed();
     }
 
-    public function getContextPath(int $a_ref_id) : string
+    public function getContextPath(int $a_ref_id): string
     {
         $tree = $this->tree;
         $lng = $this->lng;

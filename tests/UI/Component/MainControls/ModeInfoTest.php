@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\MainControls\ModeInfo;
@@ -18,13 +36,13 @@ class ModeInfoTest extends ILIAS_UI_TestBase
     private SignalGenerator $sig_gen;
 
 
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
         $this->sig_gen = new SignalGenerator();
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $mode_title = 'That\'s one small step for [a] man';
         $uri_string = 'http://one_giant_leap?for=mankind';
@@ -46,7 +64,7 @@ EOT;
         );
     }
 
-    public function testData() : void
+    public function testData(): void
     {
         $mode_title = 'That\'s one small step for [a] man';
         $uri_string = 'http://one_giant_leap?for=mankind';
@@ -61,9 +79,9 @@ EOT;
         );
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class() extends NoUIFactory {
+        $factory = new class () extends NoUIFactory {
             public SignalGenerator $sig_gen;
 
             public function __construct()
@@ -71,7 +89,7 @@ EOT;
                 $this->sig_gen = new SignalGenerator();
             }
 
-            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): ILIAS\UI\Component\Symbol\Factory
             {
                 return new Factory(
                     new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
@@ -80,7 +98,7 @@ EOT;
                 );
             }
 
-            public function mainControls() : \ILIAS\UI\Component\MainControls\Factory
+            public function mainControls(): \ILIAS\UI\Component\MainControls\Factory
             {
                 return new \ILIAS\UI\Implementation\Component\MainControls\Factory(
                     $this->sig_gen,

@@ -1,9 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Tree\Expandable;
 
-if (key_exists('async_ref', array($_GET)) && $_GET['async_ref']) {
-    $ref = (int) $_GET['async_ref'];
+global $DIC;
+$refinery = $DIC->refinery();
+$request_wrapper = $DIC->http()->wrapper()->query();
+
+if ($request_wrapper->has('async_ref') && $request_wrapper->retrieve('async_ref', $refinery->kindlyTo()->bool())) {
+    $ref = $request_wrapper->retrieve('async_ref', $refinery->kindlyTo()->int());
     expandable_async_repo($ref);
     exit();
 }
@@ -27,8 +33,8 @@ function expandable_async_repo($ref = null)
         }
     }
 
-    $recursion = new class implements \ILIAS\UI\Component\Tree\TreeRecursion {
-        public function getChildren($record, $environment = null) : array
+    $recursion = new class () implements \ILIAS\UI\Component\Tree\TreeRecursion {
+        public function getChildren($record, $environment = null): array
         {
             return [];
         }
@@ -37,7 +43,7 @@ function expandable_async_repo($ref = null)
             \ILIAS\UI\Component\Tree\Node\Factory $factory,
             $record,
             $environment = null
-        ) : \ILIAS\UI\Component\Tree\Node\Node {
+        ): \ILIAS\UI\Component\Tree\Node\Node {
             $ref_id = $record['ref_id'];
             $label = $record['title']
                 . ' (' . $record['type'] . ', ' . $ref_id . ')';
@@ -59,7 +65,7 @@ function expandable_async_repo($ref = null)
             return $node;
         }
 
-        protected function getAsyncURL($environment, string $ref_id) : string
+        protected function getAsyncURL($environment, string $ref_id): string
         {
             $url = $environment['url'];
             $base = substr($url, 0, strpos($url, '?') + 1);

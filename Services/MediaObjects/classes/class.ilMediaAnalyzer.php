@@ -1,15 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Analyzes media files. Wrapper for getid3 library.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaAnalyzer
 {
-    public $file;
+    protected array $file_info;
+    protected getID3 $getid3;
+    public string $file;
 
     public function __construct()
     {
@@ -17,49 +33,35 @@ class ilMediaAnalyzer
     }
 
     /**
-    * Set Full File Path.
-    *
-    * @param	string	$a_file	Full File Path
-    */
-    public function setFile($a_file)
+     * Set Full File Path.
+     */
+    public function setFile(string $a_file): void
     {
         $this->file = $a_file;
     }
 
-    /**
-    * Get Full File Path.
-    *
-    * @return	string	Full File Path
-    */
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }
-    
+
     /**
-    * Get PlaytimeString.
-    *
-    * @return	string	PlaytimeString
-    */
-    public function getPlaytimeString()
+     * Get PlaytimeString.
+     */
+    public function getPlaytimeString(): string
     {
         return $this->file_info["playtime_string"];
     }
 
-    /**
-    * Get PlaytimeSeconds.
-    *
-    * @return	double	PlaytimeSeconds
-    */
-    public function getPlaytimeSeconds()
+    public function getPlaytimeSeconds(): int
     {
-        return $this->file_info["playtime_seconds"];
+        return $this->file_info["playtime_seconds"] ?? 0;
     }
 
     /**
-    * Analyze current file.
-    */
-    public function analyzeFile()
+     * Analyze current file.
+     */
+    public function analyzeFile(): void
     {
         $this->file_info = $this->getid3->analyze($this->getFile());
     }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
@@ -23,7 +39,7 @@ class CrawlerAssertion
      * @param	mixed $array
      * @throws	CrawlerException
      */
-    public function isArray($array) : void
+    public function isArray($array): void
     {
         if (!is_array($array)) {
             throw $this->f->exception(CrawlerException::ARRAY_EXPECTED, $array);
@@ -34,7 +50,7 @@ class CrawlerAssertion
      * @param	mixed $string
      * @throws	CrawlerException
      */
-    public function isString($string, bool $allow_empty = true) : void
+    public function isString($string, bool $allow_empty = true): void
     {
         if (!is_string($string)) {
             if (is_array($string)) {
@@ -51,7 +67,7 @@ class CrawlerAssertion
      * @param	mixed	$index
      * @throws	CrawlerException
      */
-    public function isIndex($index, array $array) : void
+    public function isIndex($index, array $array): void
     {
         if (!array_key_exists($index, $array)) {
             throw $this->f->exception(CrawlerException::INVALID_INDEX, strval($index));
@@ -62,7 +78,7 @@ class CrawlerAssertion
      * @param	mixed	$index
      * @throws	CrawlerException
      */
-    public function isNotIndex($index, array $array) : void
+    public function isNotIndex($index, array $array): void
     {
         if (array_key_exists($index, $array)) {
             throw $this->f->exception(CrawlerException::DUPLICATE_ENTRY, strval($index));
@@ -73,7 +89,7 @@ class CrawlerAssertion
      * @param	mixed	$index
      * @throws	CrawlerException
      */
-    public function hasIndex(array $array, $index) : void
+    public function hasIndex(array $array, $index): void
     {
         if (!array_key_exists($index, $array)) {
             throw $this->f->exception(CrawlerException::MISSING_INDEX, strval($index));
@@ -84,7 +100,7 @@ class CrawlerAssertion
      * @param	mixed	$element
      * @throws	CrawlerException
      */
-    public function isTypeOf($element, string $class_name) : void
+    public function isTypeOf($element, string $class_name): void
     {
         if (!get_class($element) == $class_name) {
             throw $this->f->exception(

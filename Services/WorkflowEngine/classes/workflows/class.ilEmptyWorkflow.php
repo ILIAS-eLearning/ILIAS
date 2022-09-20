@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
+/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilEmptyWorkflow is part of the petri net based workflow engine.
@@ -17,6 +15,8 @@ require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.p
  */
 class ilEmptyWorkflow extends ilBaseWorkflow
 {
+    public string $workflow_context_id;
+
     /**
      * ilEmptyWorkflow constructor.
      */

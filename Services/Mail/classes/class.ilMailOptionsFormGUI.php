@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailOptionsFormGUI
@@ -7,35 +24,23 @@
 class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
     protected object $parentGui;
-    protected string $positiveCmd = '';
-    protected ilMailOptions $options;
 
-    /**
-     * @param ilMailOptions $options
-     * @param object $parentGui
-     * @param string $positiveCmd
-     */
-    public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
+    public function __construct(protected ilMailOptions $options, object $parentGui, protected string $positiveCmd)
     {
-        global $DIC;
-
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
-                'Parameter $parentGui must be ilCtrl enabled by implementing executeCommand(), %s given.',
-                is_object($parentGui) ? get_class($parentGui) : var_export($parentGui, true)
+                'Parameter $parentGui must be ilCtrlInterface enabled by implementing executeCommand(), %s given.',
+                $parentGui::class
             ));
         }
 
         parent::__construct();
-
-        $this->options = $options;
         $this->parentGui = $parentGui;
-        $this->positiveCmd = $positiveCmd;
 
         $this->init();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->setTitle($this->lng->txt('mail_settings'));
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
@@ -75,7 +80,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
 
-    public function save() : bool
+    public function save(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -113,7 +118,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    public function populate() : void
+    public function populate(): void
     {
         $data = [
             'linebreak' => $this->options->getLinebreak(),

@@ -1,5 +1,21 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Importer class for files
  *
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -8,13 +24,13 @@
  */
 class ilFileImporter extends ilXmlImporter
 {
+    protected ?ilObjFile $current_obj = null;
 
     /**
      * Import XML
      * @param
-     * @return void
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         // case i container
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -29,10 +45,6 @@ class ilFileImporter extends ilXmlImporter
         $parser = new ilFileXMLParser($newObj, $a_xml);
         $parser->setImportDirectory($this->getImportDirectory());
         $parser->startParsing();
-
-        if ($newObj instanceof ilObjFile) {
-            $newObj->setMaxVersion($newObj->getVersion());
-        }
 
         $newObj->createProperties();
 

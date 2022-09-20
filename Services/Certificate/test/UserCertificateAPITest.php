@@ -1,20 +1,37 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-use Certificate\API\Repository\UserDataRepository;
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Certificate\API\Repository\UserDataRepository;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
-    public function testUserDataCall() : void
+    public function testUserDataCall(): void
     {
         $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userData = new \Certificate\API\Data\UserCertificateDto(
+        $userData = new \ILIAS\Certificate\API\Data\UserCertificateDto(
             5,
             'Some Title',
             100,
@@ -25,16 +42,16 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
             'breakdanceMcFunkyPants',
             'iliyas@ilias.de',
             'breakdance@funky.de',
-            array(3000)
+            [3000]
         );
 
         $repository->method('getUserData')
-                   ->willReturn(array(5 => $userData));
+                   ->willReturn([5 => $userData]);
 
-        $api = new \Certificate\API\UserCertificateAPI($repository);
+        $api = new \ILIAS\Certificate\API\UserCertificateAPI($repository);
 
-        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(), array());
+        $result = $api->getUserCertificateData(new \ILIAS\Certificate\API\Filter\UserDataFilter(), []);
 
-        $this->assertEquals(array('5' => $userData), $result);
+        $this->assertSame(['5' => $userData], $result);
     }
 }

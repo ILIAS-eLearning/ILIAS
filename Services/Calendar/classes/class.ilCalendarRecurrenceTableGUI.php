@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class ilCalendarRecurrenceTableGUI
  */
@@ -7,20 +9,20 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
 {
     private const REC_TABLE_ID = 'recurrence_table';
 
-    /**
-     * @var ilCalendarEntry
-     */
-    private $entry;
+    private ilCalendarEntry $entry;
 
-    public function __construct(ilCalendarEntry $entry, $a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
-    {
+    public function __construct(
+        ilCalendarEntry $entry,
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        string $a_template_context = ""
+    ) {
         $this->setId(self::REC_TABLE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-
         $this->entry = $entry;
     }
 
-    public function init()
+    public function init(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->setFormName('appointments');
@@ -44,13 +46,13 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
     }
 
-    public function fillRow($row)
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('VAL_ID', $row['id']);
-        $this->tpl->setVariable('TITLE', $row['title']);
+        $this->tpl->setVariable('VAL_ID', $a_set['id']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
     }
 
-    public function parse()
+    public function parse(): void
     {
         $calculator = new ilCalendarRecurrenceCalculator(
             $this->entry,
@@ -67,9 +69,8 @@ class ilCalendarRecurrenceTableGUI extends ilTable2GUI
         $rows = [];
         foreach ($appointments as $recurrence_date) {
             $row = [];
-            $row['id'] = $recurrence_date->get(IL_CAL_UNIX);
+            $row['id'] = (int) $recurrence_date->get(IL_CAL_UNIX);
             $row['title'] = $this->entry->getTitle() . ' ( ' . ilDatePresentation::formatDate($recurrence_date) . ' ) ';
-
             $rows[] = $row;
         }
         $this->setData($rows);

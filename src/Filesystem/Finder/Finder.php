@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder;
@@ -15,7 +16,23 @@ use Iterator as PhpIterator;
 use IteratorAggregate;
 use LogicException;
 use RecursiveIteratorIterator;
+use ReturnTypeWillChange;
 use Traversable;
+use ILIAS\Filesystem\Finder\Iterator\SortableIterator;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class Finder
@@ -29,45 +46,34 @@ final class Finder implements IteratorAggregate, Countable
     private const IGNORE_VCS_FILES = 1;
     private const IGNORE_DOT_FILES = 2;
 
-    /** @var Filesystem */
-    private $filesystem;
+    private \ILIAS\Filesystem\Filesystem $filesystem;
     /** @var string[] */
-    private $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
+    private array $vcsPatterns = ['.svn', '_svn', 'CVS', '_darcs', '.arch-params', '.monotone', '.bzr', '.git', '.hg'];
     /** @var PhpIterator[] */
-    private $iterators = [];
+    private array $iterators = [];
     /** @var string[] */
-    protected $dirs = [];
+    protected array $dirs = [];
     /** @var string[] */
-    private $exclude = [];
-    /** @var int */
-    private $ignore = 0;
-    /** @var int */
-    private $mode = Iterator\FileTypeFilterIterator::ALL;
-    /** @var bool */
-    private $reverseSorting = false;
+    private array $exclude = [];
+    private int $ignore = 0;
+    private int $mode = Iterator\FileTypeFilterIterator::ALL;
+    private bool $reverseSorting = false;
     /** @var Comparator\DateComparator[] */
-    private $dates = [];
+    private array $dates = [];
     /** @var Comparator\NumberComparator[] */
-    private $sizes = [];
+    private array $sizes = [];
     /** @var Comparator\NumberComparator[] */
-    private $depths = [];
-    /** @var bool */
-    private $sort = false;
+    private array $depths = [];
+    /** @var int|Closure  */
+    private $sort = SortableIterator::SORT_BY_NONE;
 
-    /**
-     * Finder constructor.
-     * @param Filesystem $filesystem
-     */
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
         $this->ignore = self::IGNORE_VCS_FILES | self::IGNORE_DOT_FILES;
     }
 
-    /**
-     * @return Finder
-     */
-    public function files() : self
+    public function files(): self
     {
         $clone = clone $this;
         $clone->mode = Iterator\FileTypeFilterIterator::ONLY_FILES;
@@ -75,10 +81,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @return Finder
-     */
-    public function directories() : self
+    public function directories(): self
     {
         $clone = clone $this;
         $clone->mode = Iterator\FileTypeFilterIterator::ONLY_DIRECTORIES;
@@ -86,10 +89,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @return Finder
-     */
-    public function allTypes() : self
+    public function allTypes(): self
     {
         $clone = clone $this;
         $clone->mode = Iterator\FileTypeFilterIterator::ALL;
@@ -102,9 +102,9 @@ final class Finder implements IteratorAggregate, Countable
      * @return Finder
      * @throws InvalidArgumentException
      */
-    public function exclude(array $directories) : self
+    public function exclude(array $directories): self
     {
-        array_walk($directories, function ($directory) {
+        array_walk($directories, static function ($directory): void {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
                     throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -125,9 +125,9 @@ final class Finder implements IteratorAggregate, Countable
      * @return Finder
      * @throws InvalidArgumentException
      */
-    public function in(array $directories) : self
+    public function in(array $directories): self
     {
-        array_walk($directories, function ($directory) {
+        array_walk($directories, static function ($directory): void {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
                     throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -155,7 +155,7 @@ final class Finder implements IteratorAggregate, Countable
      * @see DepthRangeFilterIterator
      * @see NumberComparator
      */
-    public function depth($level) : self
+    public function depth($level): self
     {
         $clone = clone $this;
         $clone->depths[] = new Comparator\NumberComparator((string) $level);
@@ -179,7 +179,7 @@ final class Finder implements IteratorAggregate, Countable
      * @see DateComparator
      * @see \ILIAS\FileSystem\Filesystem::getTimestamp()
      */
-    public function date(string $date) : self
+    public function date(string $date): self
     {
         $clone = clone $this;
         $clone->dates[] = new Comparator\DateComparator($date);
@@ -201,7 +201,7 @@ final class Finder implements IteratorAggregate, Countable
      * @see NumberComparator
      * @see \ILIAS\FileSystem\Filesystem::getSize()
      */
-    public function size($sizes) : self
+    public function size($sizes): self
     {
         if (!is_array($sizes)) {
             $sizes = [$sizes];
@@ -216,10 +216,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @return Finder
-     */
-    public function reverseSorting() : self
+    public function reverseSorting(): self
     {
         $clone = clone $this;
         $clone->reverseSorting = true;
@@ -227,11 +224,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @param bool $ignoreVCS
-     * @return Finder
-     */
-    public function ignoreVCS(bool $ignoreVCS) : self
+    public function ignoreVCS(bool $ignoreVCS): self
     {
         $clone = clone $this;
         if ($ignoreVCS) {
@@ -248,9 +241,9 @@ final class Finder implements IteratorAggregate, Countable
      * @return Finder
      * @throws InvalidArgumentException
      */
-    public function addVCSPattern(array $pattern) : self
+    public function addVCSPattern(array $pattern): self
     {
-        array_walk($pattern, function ($p) {
+        array_walk($pattern, static function ($p): void {
             if (!is_string($p)) {
                 if (is_object($p)) {
                     throw new InvalidArgumentException(sprintf('Invalid pattern given: %s', get_class($p)));
@@ -277,7 +270,7 @@ final class Finder implements IteratorAggregate, Countable
      * @param Closure $closure
      * @return Finder
      */
-    public function sort(Closure $closure) : self
+    public function sort(Closure $closure): self
     {
         $clone = clone $this;
         $clone->sort = $closure;
@@ -285,11 +278,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @param bool $useNaturalSort
-     * @return Finder
-     */
-    public function sortByName(bool $useNaturalSort = false) : self
+    public function sortByName(bool $useNaturalSort = false): self
     {
         $clone = clone $this;
         $clone->sort = Iterator\SortableIterator::SORT_BY_NAME;
@@ -300,10 +289,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @return Finder
-     */
-    public function sortByType() : self
+    public function sortByType(): self
     {
         $clone = clone $this;
         $clone->sort = Iterator\SortableIterator::SORT_BY_TYPE;
@@ -311,10 +297,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @return Finder
-     */
-    public function sortByTime() : self
+    public function sortByTime(): self
     {
         $clone = clone $this;
         $clone->sort = Iterator\SortableIterator::SORT_BY_TIME;
@@ -329,7 +312,7 @@ final class Finder implements IteratorAggregate, Countable
      * @return Finder
      * @throws InvalidArgumentException when the given argument is not iterable
      */
-    public function append(iterable $iterator) : self
+    public function append(iterable $iterator): self
     {
         $clone = clone $this;
 
@@ -354,11 +337,7 @@ final class Finder implements IteratorAggregate, Countable
         return $clone;
     }
 
-    /**
-     * @param string $dir
-     * @return PhpIterator
-     */
-    private function searchInDirectory(string $dir) : PhpIterator
+    private function searchInDirectory(string $dir): PhpIterator
     {
         if (self::IGNORE_VCS_FILES === (self::IGNORE_VCS_FILES & $this->ignore)) {
             $this->exclude = array_merge($this->exclude, $this->vcsPatterns);
@@ -406,6 +385,7 @@ final class Finder implements IteratorAggregate, Countable
      * @return PhpIterator|Metadata[]
      * @throws LogicException
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         if (0 === count($this->dirs) && 0 === count($this->iterators)) {
@@ -431,7 +411,7 @@ final class Finder implements IteratorAggregate, Countable
     /**
      * @inheritdoc
      */
-    public function count()
+    public function count(): int
     {
         return iterator_count($this->getIterator());
     }

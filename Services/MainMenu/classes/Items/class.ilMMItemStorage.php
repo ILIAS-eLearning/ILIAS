@@ -1,8 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilMMItemStorage
  *
@@ -10,13 +26,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
  */
 class ilMMItemStorage extends CachedActiveRecord
 {
-
     /**
      * @param isItem $item
      *
      * @return ilMMItemStorage
      */
-    public static function register(isItem $item) : ilMMItemStorage
+    public static function register(isItem $item): ilMMItemStorage
     {
         if ($item instanceof Lost) {
             return new self();
@@ -28,7 +43,7 @@ class ilMMItemStorage extends CachedActiveRecord
             $mm_item->setPosition($item->getPosition());
             $mm_item->setIdentification($item->getProviderIdentification()->serialize());
             $mm_item->setActive(true);
-            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+            if ($item instanceof isChild) {
                 $mm_item->setParentIdentification($item->getParent()->serialize());
             }
             $mm_item->create();
@@ -40,7 +55,7 @@ class ilMMItemStorage extends CachedActiveRecord
 
 
 
-    public function create() : void
+    public function create(): void
     {
         if (self::find($this->getIdentification())) {
             $this->update();
@@ -53,54 +68,44 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @inheritDoc
      */
-    public function getCache() : ilGlobalCache
+    public function getCache(): ilGlobalCache
     {
         return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
 
 
     /**
-     * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
      */
-    protected $identification;
+    protected ?string $identification;
     /**
-     * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $active = true;
+    protected bool $active = true;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
-    protected $position = 0;
+    protected int $position = 0;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $parent_identification = '';
+    protected ?string $parent_identification = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $icon_id = '';
+    protected ?string $icon_id = '';
     /**
      * @var string
      */
@@ -110,7 +115,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getIdentification() : string
+    public function getIdentification(): string
     {
         return $this->identification;
     }
@@ -128,7 +133,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @return bool
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -146,7 +151,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @return int
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -164,7 +169,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getParentIdentification() : string
+    public function getParentIdentification(): string
     {
         return $this->parent_identification;
     }
@@ -182,9 +187,9 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @return string
      */
-    public function getIconId() : ?string
+    public function getIconId(): ?string
     {
-        return $this->icon_id;
+        return $this->icon_id === '' ? null : $this->icon_id;
     }
 
 
@@ -193,7 +198,7 @@ class ilMMItemStorage extends CachedActiveRecord
      *
      * @return ilMMItemStorage
      */
-    public function setIconId(string $icon_id) : ilMMItemStorage
+    public function setIconId(string $icon_id): ilMMItemStorage
     {
         $this->icon_id = $icon_id;
 

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomSettingsGUI
@@ -9,86 +26,88 @@
  */
 class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 {
-    public function saveGeneral() : void
+    public function saveGeneral(): void
     {
         $formFactory = new ilChatroomFormFactory();
-        $settingsForm = $formFactory->getSettingsForm();
-        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
+        $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
         if (!$settingsForm->checkInput()) {
             $settingsForm->setValuesByPost();
             $this->general($settingsForm);
         } else {
-            $this->gui->object->setTitle($settingsForm->getInput('title'));
-            $this->gui->object->setDescription($settingsForm->getInput('desc'));
+            $this->gui->getObject()->setTitle($settingsForm->getInput('title'));
+            $this->gui->getObject()->setDescription($settingsForm->getInput('desc'));
 
+            /** @var ilDateDurationInputGUI $period */
             $period = $settingsForm->getItemByPostVar('access_period');
             if ($period->getStart() && $period->getEnd()) {
-                $this->gui->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
-                $this->gui->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
-                $this->gui->object->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
-                $this->gui->object->setAccessVisibility((int) $settingsForm->getInput('access_visibility'));
+                $this->gui->getObject()->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
+                $this->gui->getObject()->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));
+                $this->gui->getObject()->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));
+                $this->gui->getObject()->setAccessVisibility((int) $settingsForm->getInput('access_visibility'));
             } else {
-                $this->gui->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+                $this->gui->getObject()->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
             }
 
-            $this->gui->object->update();
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->saveTileImage();
-            // @todo: Do not rely on raw post data
-            $settings = $this->http->request()->getParsedBody();
-            $room = ilChatRoom::byObjectId($this->gui->object->getId());
+            $this->gui->getObject()->update();
+            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->saveTileImage();
+
+            $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
+            $requestSettings = $room->getSettings();
             if (!$room) {
-                $room = new ilChatRoom();
-                $settings['object_id'] = $this->gui->object->getId();
+                $room = new ilChatroom();
+                $requestSettings['object_id'] = $this->gui->getObject()->getId();
             }
-            $room->saveSettings($settings);
 
-            ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
+            foreach ($requestSettings as $setting => &$value) {
+                if ($settingsForm->getItemByPostVar($setting) !== null) {
+                    $value = $settingsForm->getInput($setting);
+                }
+            }
+
+            $room->saveSettings($requestSettings);
+
+            $this->mainTpl->setOnScreenMessage('success', $this->ilLng->txt('saved_successfully'), true);
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
     }
 
-    public function general(ilPropertyFormGUI $settingsForm = null) : void
+    public function general(ilPropertyFormGUI $settingsForm = null): void
     {
-        if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->ref_id)) {
+        if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
-            ilUtil::sendInfo($this->ilLng->txt('server_disabled'), true);
+            $this->mainTpl->setOnScreenMessage('info', $this->ilLng->txt('server_disabled'), true);
         }
 
         $this->gui->switchToVisibleMode();
 
         $formFactory = new ilChatroomFormFactory();
 
-        $room = ilChatRoom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$settingsForm) {
-            $settingsForm = $formFactory->getSettingsForm();
+            $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
             $settings = [
-                'title' => $this->gui->object->getTitle(),
-                'desc' => $this->gui->object->getDescription(),
+                'title' => $this->gui->getObject()->getTitle(),
+                'desc' => $this->gui->getObject()->getDescription(),
                 'access_period' => [
-                    'start' => $this->gui->object->getAccessBegin() ? new ilDateTime(
-                        $this->gui->object->getAccessBegin(),
+                    'start' => $this->gui->getObject()->getAccessBegin() ? (new ilDateTime(
+                        $this->gui->getObject()->getAccessBegin(),
                         IL_CAL_UNIX
-                    ) : null,
-                    'end' => $this->gui->object->getAccessEnd() ? new ilDateTime(
-                        $this->gui->object->getAccessEnd(),
+                    ))->get(IL_CAL_DATETIME) : '',
+                    'end' => $this->gui->getObject()->getAccessEnd() ? (new ilDateTime(
+                        $this->gui->getObject()->getAccessEnd(),
                         IL_CAL_UNIX
-                    ) : null
+                    ))->get(IL_CAL_DATETIME) : ''
                 ],
-                'access_visibility' => $this->gui->object->getAccessVisibility()
+                'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
-
-            $presentationHeader = new ilFormSectionHeaderGUI();
-            $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
-            $settingsForm->addItem($presentationHeader);
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(
@@ -104,10 +123,10 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $settingsForm->addCommandButton('settings-saveGeneral', $this->ilLng->txt('save'));
         $settingsForm->setFormAction($this->ilCtrl->getFormAction($this->gui, 'settings-saveGeneral'));
 
-        $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
+        $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHTML());
     }
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->general();
     }

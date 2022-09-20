@@ -1,55 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\LearningModule\Menu;
 
-use ILIAS\UI\Implementation\Component\SignalGenerator;/**
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+
+/**
  * @author Alexander Killing <killing@leifos.de>
  */
-
 class ilLMMenuGUI
 {
-    /**
-     * @var \ilLMPresentationService
-     */
-    protected $service;
+    protected bool $offline;
+    protected \ilLMPresentationService $service;
+    protected \ilCtrl $ctrl;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilObjLearningModule $lm;
+    protected \ilLanguage $lng;
+    protected \ilAccessHandler $access;
+    protected \ilObjUser $user;
 
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * Constructor
-     */
-    public function __construct(\ilLMPresentationService $lm_pres_service)
-    {
+    public function __construct(
+        \ilLMPresentationService $lm_pres_service
+    ) {
         global $DIC;
 
         $this->ui = $DIC->ui();
@@ -62,11 +49,7 @@ class ilLMMenuGUI
         $this->user = $DIC->user();
     }
 
-    /**
-     * Get entries
-     * @return array
-     */
-    public function getEntries()
+    public function getEntries(): array
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -132,7 +115,7 @@ class ilLMMenuGUI
 
                 // add http:// prefix if not exist
                 if (!strstr($entry["link"], '://') && !strstr($entry["link"], 'mailto:')) {
-                    $entry["link"] = "http://" . $entry["link"];
+                    $entry["link"] = "https://" . $entry["link"];
                 }
 
                 if (!strstr($entry["link"], 'mailto:')) {

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,18 +13,13 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
@@ -34,7 +30,7 @@ class assAnswerMultipleResponseImageTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerMultipleResponseImage', $instance);
     }
 
-    public function test_setGetImage()
+    public function test_setGetImage(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';

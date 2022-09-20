@@ -28,15 +28,15 @@ import {listen, unlistenByKey} from '../events.js';
 
 /**
  * @typedef {Object} Result
- * @property {boolean} snapped
- * @property {import("../coordinate.js").Coordinate|null} vertex
- * @property {import("../pixel.js").Pixel|null} vertexPixel
+ * @property {boolean} snapped Snapped.
+ * @property {import("../coordinate.js").Coordinate|null} vertex Vertex.
+ * @property {import("../pixel.js").Pixel|null} vertexPixel VertexPixel.
  */
 
 /**
  * @typedef {Object} SegmentData
- * @property {import("../Feature.js").default} feature
- * @property {Array<import("../coordinate.js").Coordinate>} segment
+ * @property {import("../Feature.js").default} feature Feature.
+ * @property {Array<import("../coordinate.js").Coordinate>} segment Segment.
  */
 
 /**
@@ -95,12 +95,14 @@ const tempSegment = [];
  */
 class Snap extends PointerInteraction {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
 
-    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (options);
+    const pointerOptions = /** @type {import("./Pointer.js").Options} */ (
+      options
+    );
 
     if (!pointerOptions.handleDownEvent) {
       pointerOptions.handleDownEvent = TRUE;
@@ -200,7 +202,7 @@ class Snap extends PointerInteraction {
   /**
    * Add a feature to the collection of features that we may snap to.
    * @param {import("../Feature.js").default} feature Feature.
-   * @param {boolean=} opt_listen Whether to listen to the feature change or not
+   * @param {boolean} [opt_listen] Whether to listen to the feature change or not
    *     Defaults to `true`.
    * @api
    */
@@ -322,7 +324,7 @@ class Snap extends PointerInteraction {
   /**
    * Remove a feature from the collection of features that we may snap to.
    * @param {import("../Feature.js").default} feature Feature
-   * @param {boolean=} opt_unlisten Whether to unlisten to the feature change
+   * @param {boolean} [opt_unlisten] Whether to unlisten to the feature change
    *     or not. Defaults to `true`.
    * @api
    */
@@ -358,7 +360,9 @@ class Snap extends PointerInteraction {
   setMap(map) {
     const currentMap = this.getMap();
     const keys = this.featuresListenerKeys_;
-    const features = /** @type {Array<import("../Feature.js").default>} */ (this.getFeatures_());
+    const features = /** @type {Array<import("../Feature.js").default>} */ (
+      this.getFeatures_()
+    );
 
     if (currentMap) {
       keys.forEach(unlistenByKey);
@@ -548,9 +552,9 @@ class Snap extends PointerInteraction {
     let circleGeometry = geometry;
     const userProjection = getUserProjection();
     if (userProjection) {
-      circleGeometry = /** @type {import("../geom/Circle.js").default} */ (circleGeometry
-        .clone()
-        .transform(userProjection, projection));
+      circleGeometry = /** @type {import("../geom/Circle.js").default} */ (
+        circleGeometry.clone().transform(userProjection, projection)
+      );
     }
     const polygon = fromCircle(circleGeometry);
     if (userProjection) {

@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Portfolio\StandardGUIRequest;
 
 /**
  * Portfolio repository gui class
@@ -10,59 +26,20 @@
  */
 class ilPortfolioRepositoryGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected StandardGUIRequest $port_request;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilLocatorGUI $locator;
+    protected ilToolbarGUI $toolbar;
+    protected ilSetting $settings;
+    protected int $user_id;
+    protected ilPortfolioAccessHandler $access_handler;
+    protected \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    protected $user_id; // [int]
-    protected $access_handler; // [ilPortfolioAccessHandler]
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    
     public function __construct()
     {
         global $DIC;
@@ -84,20 +61,29 @@ class ilPortfolioRepositoryGUI
         $lng->loadLanguageModule("user");
 
         $this->access_handler = new ilPortfolioAccessHandler();
-                
+
+        $this->port_request = $DIC->portfolio()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
         $this->user_id = $ilUser->getId();
     }
-    
-    public function executeCommand()
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
 
+        if (!$this->access_handler->editPortfolios()) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("show");
-                        
+
         $tpl->setTitle($lng->txt("portfolio"));
         $tpl->setTitleIcon(
             ilUtil::getImagePath("icon_prtf.svg"),
@@ -107,13 +93,14 @@ class ilPortfolioRepositoryGUI
         switch ($next_class) {
             case "ilobjportfoliogui":
 
-                $gui = new ilObjPortfolioGUI((int) $_REQUEST["prt_id"]);
+                $gui = new ilObjPortfolioGUI($this->port_request->getPortfolioId());
 
-                if ($cmd != "preview") {
+                if ($cmd !== "preview") {
                     $this->setLocator();
 
-                    if ((int) $_GET["exc_back_ref_id"] > 0) {
-                        $ilTabs->setBack2Target($lng->txt("obj_exc"), ilLink::_getLink((int) $_GET["exc_back_ref_id"]));
+                    $exercise_back_ref_id = $this->port_request->getExcBackRefId();
+                    if ($exercise_back_ref_id > 0) {
+                        $ilTabs->setBack2Target($lng->txt("obj_exc"), ilLink::_getLink($exercise_back_ref_id));
                     } else {
                         $ilTabs->setBack2Target($lng->txt("prtf_tab_portfolios"), $ilCtrl->getLinkTarget($this, "show"));
                     }
@@ -128,70 +115,69 @@ class ilPortfolioRepositoryGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
-    
-    public function setTabs()
+
+    public function setTabs(): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenIdComponent("prtf");
-        
+
         $ilTabs->addTab(
             "mypf",
             $lng->txt("prtf_tab_portfolios"),
             $ilCtrl->getLinkTarget($this)
         );
-        
+
         $ilTabs->addTab(
             "otpf",
             $lng->txt("prtf_tab_other_users"),
             $ilCtrl->getLinkTarget($this, "showotherFilter")
         );
-        
+
         $ilTabs->activateTab("mypf");
     }
 
-    protected function setLocator()
+    protected function setLocator(): void
     {
         $ilLocator = $this->locator;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        
+
         $ilLocator->addItem(
             $lng->txt("portfolio"),
             $ilCtrl->getLinkTarget($this, "show")
         );
-        
+
         $tpl->setLocator();
     }
-    
-    protected function checkAccess($a_permission, $a_portfolio_id = null)
-    {
+
+    protected function checkAccess(
+        string $a_permission,
+        ?int $a_portfolio_id = null
+    ): bool {
         if ($a_portfolio_id) {
             return $this->access_handler->checkAccess($a_permission, "", $a_portfolio_id);
         }
         // currently only object-based permissions
         return true;
     }
-    
-    
+
+
     //
     // LIST INCL. ACTIONS
     //
-    
-    protected function show()
+
+    protected function show(): void
     {
         $tpl = $this->tpl;
-        $lng = $this->lng;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
-        
+
         $button = ilLinkButton::getInstance();
         $button->setCaption("prtf_add_portfolio");
         $button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
@@ -201,13 +187,7 @@ class ilPortfolioRepositoryGUI
         $tpl->setContent($portfolio_list);
     }
 
-    /**
-     * Get portfolio list
-     *
-     * @param
-     * @return string
-     */
-    protected function getPortfolioList()
+    protected function getPortfolioList(): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -291,12 +271,12 @@ class ilPortfolioRepositoryGUI
                 }
             }
             // ... delete
-            $ctrl->setParameter($this, "prtfs[]", $port["id"]);
+            $ctrl->setParameter($this, "prtf", $port["id"]);
             $action[] = $f->button()->shy(
                 $lng->txt("delete"),
                 $ctrl->getLinkTarget($this, "confirmPortfolioDeletion")
             );
-            $ctrl->setParameter($this, "prtfs[]", "");
+            $ctrl->setParameter($this, "prtf", "");
             $actions = $f->dropdown()->standard($action);
 
 
@@ -305,11 +285,13 @@ class ilPortfolioRepositoryGUI
             // ... online
             $props[$lng->txt("online")] = ($port["is_online"])
                 ? $lng->txt("yes")
-                : "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
+                : $lng->txt("no");
+            //: "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
             // ... shared
             $props[$lng->txt("wsp_status_shared")] = (in_array($port["id"], $shared_objects))
                 ? $lng->txt("yes")
-                : "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
+                : $lng->txt("no");
+            //: "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
             // ... default (my profile)
             if ($port["is_default"]) {
                 $props[$lng->txt("prtf_default_portfolio")] = $lng->txt("yes");
@@ -322,7 +304,8 @@ class ilPortfolioRepositoryGUI
                     $props[$exinfo["ass_title"]] =
                         str_replace("$1", $exinfo["submitted_date"], $lng->txt("prtf_submission_on"));
                 } else {
-                    $props[$exinfo["ass_title"]] = "<span class='il_ItemAlertProperty'>" . $lng->txt("prtf_no_submission") . "</span>";
+                    $props[$exinfo["ass_title"]] = $lng->txt("prtf_no_submission");
+                    //$props[$exinfo["ass_title"]] = "<span class='il_ItemAlertProperty'>" . $lng->txt("prtf_no_submission") . "</span>";
                 }
             }
 
@@ -342,81 +325,75 @@ class ilPortfolioRepositoryGUI
     }
 
 
-    /**
-     * Set online
-     */
-    protected function setOnline()
+    protected function setOnline(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $prt_id = (int) $_GET["prt_id"];
-        if (ilObjPortfolio::_lookupOwner($prt_id) == $this->user_id) {
+        $prt_id = $this->port_request->getPortfolioId();
+        if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(true);
             $portfolio->update();
-            ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
         }
         $ilCtrl->redirect($this, "show");
     }
 
-    /**
-     * Set offline
-     */
-    protected function setOffline()
+    protected function setOffline(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $prt_id = (int) $_GET["prt_id"];
-        if (ilObjPortfolio::_lookupOwner($prt_id) == $this->user_id) {
+        $prt_id = $this->port_request->getPortfolioId();
+        if (ilObjPortfolio::_lookupOwner($prt_id) === $this->user_id) {
             $portfolio = new ilObjPortfolio($prt_id, false);
             $portfolio->setOnline(false);
             $portfolio->update();
-            ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
             $ilCtrl->redirect($this, "show");
         }
         $ilCtrl->redirect($this, "show");
     }
 
 
-    protected function saveTitles()
+    protected function saveTitles(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        foreach ($_POST["title"] as $id => $title) {
-            if (trim($title)) {
-                if ($this->checkAccess("write", $id)) {
-                    $portfolio = new ilObjPortfolio($id, false);
-                    $portfolio->setTitle(ilUtil::stripSlashes($title));
 
-                    if (is_array($_POST["online"]) && in_array($id, $_POST["online"])) {
-                        $portfolio->setOnline(true);
-                    } else {
-                        $portfolio->setOnline(false);
-                    }
+        $titles = $this->port_request->getTitles();
+        $online = $this->port_request->getOnline();
+        foreach ($titles as $id => $title) {
+            if (trim($title) && $this->checkAccess("write", $id)) {
+                $portfolio = new ilObjPortfolio($id, false);
+                $portfolio->setTitle(ilUtil::stripSlashes($title));
 
-                    $portfolio->update();
+                if (in_array($id, $online)) {
+                    $portfolio->setOnline(true);
+                } else {
+                    $portfolio->setOnline(false);
                 }
+
+                $portfolio->update();
             }
         }
-        
-        ilUtil::sendSuccess($lng->txt("saved_successfully"), true);
+
+        $this->tpl->setOnScreenMessage('success', $lng->txt("saved_successfully"), true);
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function confirmPortfolioDeletion()
+
+    protected function confirmPortfolioDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        $prtfs = $_REQUEST["prtfs"];
+        $prtfs = $this->port_request->getPortfolioIds();
 
-        if (!is_array($prtfs) || count($prtfs) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+        if (count($prtfs) === 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "show");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -433,32 +410,31 @@ class ilPortfolioRepositoryGUI
         }
     }
 
-    protected function deletePortfolios()
+    protected function deletePortfolios(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (is_array($_POST["prtfs"])) {
-            foreach ($_POST["prtfs"] as $id) {
-                if ($this->checkAccess("write", $id)) {
-                    $portfolio = new ilObjPortfolio($id, false);
-                    if ($portfolio->getOwner() == $this->user_id) {
-                        $this->access_handler->removePermission($id);
-                        $portfolio->delete();
-                    }
+        $port_ids = $this->port_request->getPortfolioIds();
+        foreach ($port_ids as $id) {
+            if ($this->checkAccess("write", $id)) {
+                $portfolio = new ilObjPortfolio($id, false);
+                if ($portfolio->getOwner() === $this->user_id) {
+                    $this->access_handler->removePermission($id);
+                    $portfolio->delete();
                 }
             }
         }
-        ilUtil::sendSuccess($lng->txt("prtf_portfolio_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_portfolio_deleted"), true);
         $ilCtrl->redirect($this, "show");
     }
-    
-    
+
+
     //
     // DEFAULT PORTFOLIO (aka profile)
     //
-    
-    protected function unsetDefault()
+
+    protected function unsetDefault(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -468,33 +444,34 @@ class ilPortfolioRepositoryGUI
             // #12845
             $ilUser->setPref("public_profile", "n");
             $ilUser->writePrefs();
-            
+
             ilObjPortfolio::setUserDefault($this->user_id);
-            ilUtil::sendSuccess($lng->txt("prtf_unset_default_share_info"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("prtf_unset_default_share_info"), true);
         }
         $ilCtrl->redirect($this, "show");
     }
-    
+
     /**
      * Confirm sharing when setting default
      */
-    protected function setDefaultConfirmation()
+    protected function setDefaultConfirmation(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilSetting = $this->settings;
-        
-        $prtf_id = (int) $_REQUEST["prt_id"];
-        
+
+        $prtf_id = $this->port_request->getPortfolioId();
+
         if ($prtf_id && $this->checkAccess("write")) {
             // if already shared, no need to ask again
             if ($this->access_handler->hasRegisteredPermission($prtf_id) ||
                 $this->access_handler->hasGlobalPermission($prtf_id)) {
-                return $this->setDefault($prtf_id);
+                $this->setDefault($prtf_id);
+                return;
             }
-            
+
             $ilTabs->clearTargets();
             $ilTabs->setBackTarget(
                 $lng->txt("cancel"),
@@ -514,38 +491,38 @@ class ilPortfolioRepositoryGUI
             $cgui->setCancel($lng->txt("prtf_set_default_publish_global"), "setDefaultGlobal");
             $cgui->setConfirm($lng->txt("prtf_set_default_publish_registered"), "setDefaultRegistered");
             $tpl->setContent($cgui->getHTML());
-            
+
             return;
         }
-        
+
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefaultGlobal()
+
+    protected function setDefaultGlobal(): void
     {
         $ilCtrl = $this->ctrl;
-        
-        $prtf_id = (int) $_REQUEST["prt_id"];
+
+        $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
             $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_ALL);
             $this->setDefault($prtf_id);
         }
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefaultRegistered()
+
+    protected function setDefaultRegistered(): void
     {
         $ilCtrl = $this->ctrl;
-        
-        $prtf_id = (int) $_REQUEST["prt_id"];
+
+        $prtf_id = $this->port_request->getPortfolioId();
         if ($prtf_id && $this->checkAccess("write")) {
             $this->access_handler->addPermission($prtf_id, ilWorkspaceAccessGUI::PERMISSION_REGISTERED);
             $this->setDefault($prtf_id);
         }
         $ilCtrl->redirect($this, "show");
     }
-    
-    protected function setDefault($a_prtf_id)
+
+    protected function setDefault(int $a_prtf_id): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -563,47 +540,56 @@ class ilPortfolioRepositoryGUI
                 return;
             }
             ilObjPortfolio::setUserDefault($this->user_id, $a_prtf_id);
-            ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
         $ilCtrl->redirect($this, "show");
     }
 
-    
+    protected function getWorkspaceAccess(): ilPortfolioAccessHandler
+    {
+        /** @var ilWorkspaceAccessHandler $wsp_access */
+        $wsp_access = $this->access_handler;
+        return $wsp_access;
+    }
+
+
+
     //
     // SHARE
     //
-        
-    protected function showOtherFilter()
+
+    protected function showOtherFilter(): void
     {
         $this->showOther(false);
     }
-    
-    protected function showOther($a_load_data = true)
-    {
+
+    protected function showOther(
+        bool $a_load_data = true
+    ): void {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("otpf");
-        
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler, null, $a_load_data);
+
+        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess(), null, $a_load_data);
         $tpl->setContent($tbl->getHTML());
     }
-    
-    protected function applyShareFilter()
+
+    protected function applyShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);
+        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
-        
+
         $this->showOther();
     }
-    
-    protected function resetShareFilter()
+
+    protected function resetShareFilter(): void
     {
-        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);
+        $tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->getWorkspaceAccess());
         $tbl->resetOffset();
         $tbl->resetFilter();
-        
+
         $this->showOther();
     }
 }

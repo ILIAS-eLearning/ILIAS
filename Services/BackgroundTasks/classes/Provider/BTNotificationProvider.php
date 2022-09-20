@@ -1,4 +1,21 @@
-<?php namespace ILIAS\BackgroundTasks\Provider;
+<?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\BackgroundTasks\Provider;
 
 use ilBTPopOverGUI;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
@@ -12,23 +29,20 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  */
 class BTNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
-
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         $nr_buckets = count($this->dic->backgroundTasks()->persistence()->getBucketIdsOfUser($this->dic->user()->getId()));
-        if (!$nr_buckets) {
+        if ($nr_buckets === 0) {
             return [];
         }
 
         $this->dic->ui()->mainTemplate()->addJavaScript("./Services/BackgroundTasks/js/background_task_refresh.js");
         $this->dic->language()->loadLanguageModule('background_tasks');
 
-        $id = function (string $id) : IdentificationInterface {
-            return $this->if->identifier($id);
-        };
+        $id = fn (string $id): IdentificationInterface => $this->if->identifier($id);
 
         $factory = $this->globalScreen()->notifications()->factory();
 
@@ -47,7 +61,7 @@ class BTNotificationProvider extends AbstractNotificationProvider implements Not
     }
 
 
-    private function txt(string $id) : string
+    private function txt(string $id): string
     {
         return $this->dic->language()->txt($id);
     }

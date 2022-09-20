@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 // often used content types taken from "apache/conf/mime.types"
 
+/**
+ * @var string[] $mimetypes
+ */
 $mimetypes = array(
     'avi' => 'video/x-msvideo',
     'bmp' => 'image/bmp',

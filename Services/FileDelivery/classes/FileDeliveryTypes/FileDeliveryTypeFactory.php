@@ -1,14 +1,25 @@
 <?php
 
-namespace ILIAS\FileDelivery\FileDeliveryTypes;
+declare(strict_types=1);
 
-require_once './Services/FileDelivery/classes/HttpServiceAware.php';
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/HeaderBasedDeliveryHelper.php';
+namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\Services;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FileDeliveryTypeFactory
  *
@@ -20,15 +31,11 @@ use ILIAS\HTTP\Services;
  */
 final class FileDeliveryTypeFactory
 {
-
     /**
      * @var ilFileDeliveryType[]
      */
-    private static $instances = array();
-    /**
-     * @var Services $http
-     */
-    private $http;
+    private static array $instances = array();
+    private \ILIAS\HTTP\Services $http;
 
 
     /**
@@ -47,14 +54,12 @@ final class FileDeliveryTypeFactory
      *
      * Please check the DeliveryMethod interface for the possible options.
      *
-     * @param string $type
      *
-     * @return ilFileDeliveryType
      * @throws \ilException If the file delivery type is unknown.
      *
      * @see DeliveryMethod
      */
-    public function getInstance($type)
+    public function getInstance(string $type): \ILIAS\FileDelivery\ilFileDeliveryType
     {
         assert(is_string($type));
         if (isset(self::$instances[$type])) {
@@ -62,19 +67,15 @@ final class FileDeliveryTypeFactory
         }
         switch ($type) {
             case DeliveryMethod::PHP:
-                require_once('PHP.php');
                 self::$instances[$type] = new PHP($this->http);
                 break;
             case DeliveryMethod::XSENDFILE:
-                require_once('XSendfile.php');
                 self::$instances[$type] = new XSendfile($this->http);
                 break;
             case DeliveryMethod::XACCEL:
-                require_once('XAccel.php');
                 self::$instances[$type] = new XAccel($this->http);
                 break;
             case DeliveryMethod::PHP_CHUNKED:
-                require_once('PHPChunked.php');
                 self::$instances[$type] = new PHPChunked($this->http);
                 break;
             default:

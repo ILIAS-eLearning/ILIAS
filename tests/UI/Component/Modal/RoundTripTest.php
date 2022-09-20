@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . '/ModalBase.php');
 
@@ -9,13 +27,13 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class RoundTripTest extends ModalBase
 {
-    public function test_get_title() : void
+    public function test_get_title(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $this->assertEquals('myTitle', $roundtrip->getTitle());
     }
 
-    public function test_get_content() : void
+    public function test_get_content(): void
     {
         $content = $this->getDummyComponent();
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
@@ -25,7 +43,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($content, $roundtrip->getContent());
     }
 
-    public function test_get_action_buttons() : void
+    public function test_get_action_buttons(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -36,7 +54,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($action_buttons, $roundtrip->getActionButtons());
     }
 
-    public function test_with_action_buttons() : void
+    public function test_with_action_buttons(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -49,7 +67,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($action_buttons, $roundtrip2->getActionButtons());
     }
 
-    public function test_simple_rendering() : void
+    public function test_simple_rendering(): void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('Title', $this->getUIFactory()->legacy('Content'))
             ->withActionButtons([
@@ -61,7 +79,7 @@ class RoundTripTest extends ModalBase
         $this->assertHTMLEquals($expected, $actual);
     }
 
-    protected function getExpectedHTML() : string
+    protected function getExpectedHTML(): string
     {
         return <<<EOT
 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">

@@ -1,112 +1,82 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Formula Question Unit Category
- *
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @version	$Id: class.assFormulaQuestionUnitCategory.php 404 2009-04-27 04:56:49Z hschottm $
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @ingroup ModulesTestQuestionPool
  */
 class assFormulaQuestionUnitCategory
 {
-    /**
-     * @var int
-     */
-    private $id = 0;
+    private int $id = 0;
+    private string $category = '';
+    private int $question_fi = 0;
 
-    /**
-     * @var string
-     */
-    private $category = '';
-
-    /**
-     * @var int
-     */
-    private $question_fi = 0;
-    
-    /**
-     * @param int $id Category id
-     * @param string $category Category name
-      * @param int $question_fi Question id context
-    */
-    public function __construct()
+    public function initFormArray(array $data): void
     {
-    }
-
-    /**
-     * @param array $data
-     */
-    public function initFormArray(array $data)
-    {
-        $this->id = $data['category_id'];
+        $this->id = (int) $data['category_id'];
         $this->category = $data['category'];
-        $this->question_fi = $data['question_fi'];
+        $this->question_fi = (int) $data['question_fi'];
     }
 
-    /**
-     * @param $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param $category
-     */
-    public function setCategory($category)
+    public function setCategory(string $category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    /**
-     * @param int $question_fi
-     */
-    public function setQuestionFi($question_fi)
+    public function setQuestionFi(int $question_fi): void
     {
         $this->question_fi = $question_fi;
     }
 
-    /**
-     * @return int
-     */
-    public function getQuestionFi()
+    public function getQuestionFi(): int
     {
         return $this->question_fi;
     }
 
-    /**
-     * @return string
-     */
-    public function getDisplayString()
+    public function getDisplayString(): string
     {
-        /**
-         * @var $lng ilLanguage
-         */
         global $DIC;
-        $lng = $DIC['lng'];
+
+        $lng = $DIC->language();
 
         $category = $this->getCategory();
-        if (strcmp('-qpl_qst_formulaquestion_' . $category . '-', $lng->txt('qpl_qst_formulaquestion_' . $category)) != 0) {
+        if (strcmp('-qpl_qst_formulaquestion_' . $category . '-', $lng->txt('qpl_qst_formulaquestion_' . $category)) !== 0) {
             $category = $lng->txt('qpl_qst_formulaquestion_' . $category);
         }
+
         return $category;
     }
 }

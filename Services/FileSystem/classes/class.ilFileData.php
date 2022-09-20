@@ -1,38 +1,28 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
-* This class handles all operations on files in directory /ilias_data/
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
-require_once("./Services/FileSystem/classes/class.ilFile.php");
-
+ * @deprecated
+ */
 class ilFileData extends ilFile
 {
-
-    /**
-    * Constructor
-    * class bas constructor and read path of directory from ilias.ini
-    * setup an mail object
-    * @access	public
-    */
     public function __construct()
     {
-        parent::__construct();
-        $this->path = CLIENT_DATA_DIR;
+        $this->path = defined('CLIENT_DATA_DIR') ? CLIENT_DATA_DIR : '';
     }
 
-    /**
-    * check if path exists and is writable
-    * @param string path to check
-    * @access	public
-    * @return bool
-    */
-    public function checkPath($a_path)
+    public function checkPath(string $a_path): bool
     {
         if (is_writable($a_path)) {
             return true;
@@ -41,12 +31,7 @@ class ilFileData extends ilFile
         }
     }
 
-    /**
-    * get Path
-    * @access	public
-    * @return string path
-    */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }

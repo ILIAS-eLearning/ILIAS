@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceAppEventListenerTest
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
 {
-    public function testAcceptanceHistoryDeletionIsDelegatedWhenUserIsDeleted() : void
+    public function testAcceptanceHistoryDeletionIsDelegatedWhenUserIsDeleted(): void
     {
         $helper = $this->getMockBuilder(ilTermsOfServiceHelper::class)->disableOriginalConstructor()->getMock();
 
@@ -36,7 +53,7 @@ class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
             ->handle();
     }
 
-    public function testStaticEventListeningWorksAsExpected() : void
+    public function testStaticEventListeningWorksAsExpected(): void
     {
         $database = $this
             ->getMockBuilder(ilDBInterface::class)
@@ -74,9 +91,9 @@ class ilTestableTermsOfServiceAppEventListener extends ilTermsOfServiceAppEventL
 {
     public static ilTermsOfServiceHelper $mockHelper;
 
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        $listener = new static(self::$mockHelper);
+        $listener = new self(self::$mockHelper);
         $listener
             ->withComponent($a_component)
             ->withEvent($a_event)

@@ -27,8 +27,8 @@
 <!-- BEGIN prop -->
 <!-- BEGIN std_prop_start -->
 <div class="form-group" id="il_prop_cont_{LAB_ID}">
-	<label {FOR_ID} class="col-sm-3 control-label">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
-	<div class="col-sm-9">
+	<label {FOR_ID} class="col-lg-2 col-md-3 col-sm-4 control-label">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
+	<div class="col-lg-10 col-md-9 col-sm-8">
 <!-- END std_prop_start -->
 <!-- BEGIN sub_prop_start -->
 <div class="form-group" id="il_prop_cont_{LAB_ID}">
@@ -86,11 +86,6 @@
 <!-- END description -->
 <!-- BEGIN sub_form -->
 		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
-		<!-- BEGIN sub_form_hide --><script>
-			window.setTimeout(function() {
-				il.Form.hideSubForm('subform_{DSFID}');
-			}, 0);
-			</script><!-- END sub_form_hide -->
 <!-- END sub_form -->
 		</div>
 	</div> <!-- end of ilFormRow -->

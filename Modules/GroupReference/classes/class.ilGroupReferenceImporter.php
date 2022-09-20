@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
@@ -14,23 +15,13 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 */
 class ilGroupReferenceImporter extends ilContainerReferenceImporter
 {
-
-    /**
-     * Get reference type
-     * @return string
-     */
-    protected function getType() : string
+    protected function getType(): string
     {
         return 'grpr';
     }
 
-    /**
-     * @param string $a_xml
-     * @return ilContainerReferenceXmlParser
-     */
-    protected function initParser($a_xml) : ilContainerReferenceXmlParser
+    protected function initParser(string $a_xml): ilContainerReferenceXmlParser
     {
-        include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlParser.php';
         return new ilGroupReferenceXmlParser($a_xml);
     }
 }

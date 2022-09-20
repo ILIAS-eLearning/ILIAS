@@ -9,16 +9,16 @@ use PHPUnit\Framework\TestCase;
  */
 class WorkspaceSessionRepositoryTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getSessionRepo() : \ILIAS\PersonalWorkspace\WorkspaceSessionRepository
+    protected function getSessionRepo(): \ILIAS\PersonalWorkspace\WorkspaceSessionRepository
     {
         $repo = new \ILIAS\PersonalWorkspace\WorkspaceSessionRepository();
         $repo->clearClipboard();
@@ -28,7 +28,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test clipboard cmd
      */
-    public function testClipboardCmd()
+    public function testClipboardCmd(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardCmd("cut");
@@ -42,7 +42,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test source ids
      */
-    public function testSourceIds()
+    public function testSourceIds(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardSourceIds([4,6,7]);
@@ -56,7 +56,7 @@ class WorkspaceSessionRepositoryTest extends TestCase
     /**
      * Test source ids
      */
-    public function testShared()
+    public function testShared(): void
     {
         $repo = $this->getSessionRepo();
         $repo->setClipboardShared(true);
@@ -64,6 +64,30 @@ class WorkspaceSessionRepositoryTest extends TestCase
         $this->assertEquals(
             true,
             $repo->getClipboardShared()
+        );
+    }
+
+    public function testClear(): void
+    {
+        $repo = $this->getSessionRepo();
+        $repo->clearClipboard();
+
+        $this->assertEquals(
+            true,
+            $repo->isClipboardEmpty()
+        );
+    }
+
+    public function testNotEmpty(): void
+    {
+        $repo = $this->getSessionRepo();
+        $repo->clearClipboard();
+        $repo->setClipboardSourceIds([4,6,7]);
+        $repo->setClipboardCmd("cut");
+
+        $this->assertEquals(
+            false,
+            $repo->isClipboardEmpty()
         );
     }
 }

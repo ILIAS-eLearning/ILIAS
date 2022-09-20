@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjChatlistListGUI
@@ -12,13 +29,13 @@ class ilObjChatroomListGUI extends ilObjectListGUI
     private static int $publicRoomObjId;
     private static ?bool $chat_enabled = null;
 
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         parent::__construct($a_context);
         self::$publicRoomObjId = ilObjChatroom::_getPublicObjId();
     }
 
-    public function init()
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -32,27 +49,25 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         $this->commands = ilObjChatroomAccess::_getCommands();
     }
 
-    public function getProperties()
+    public function getProperties(): array
     {
-        global $DIC;
-
         $props = [];
 
-        $DIC->language()->loadLanguageModule('chatroom');
+        $this->lng->loadLanguageModule('chatroom');
 
-        $room = ilChatroom::byObjectId((int) $this->obj_id);
+        $room = ilChatroom::byObjectId($this->obj_id);
         if ($room) {
             $props[] = [
                 'alert' => false,
-                'property' => $DIC->language()->txt('chat_users_active'),
+                'property' => $this->lng->txt('chat_users_active'),
                 'value' => $room->countActiveUsers()
             ];
 
             if ($this->obj_id === self::$publicRoomObjId) {
                 $props[] = [
                     'alert' => false,
-                    'property' => $DIC->language()->txt('notice'),
-                    'value' => $DIC->language()->txt('public_room')
+                    'property' => $this->lng->txt('notice'),
+                    'value' => $this->lng->txt('public_room')
                 ];
             }
 
@@ -64,16 +79,16 @@ class ilObjChatroomListGUI extends ilObjectListGUI
             if (!self::$chat_enabled) {
                 $props[] = [
                     'alert' => true,
-                    'property' => $DIC->language()->txt('chtr_server_status'),
-                    'value' => $DIC->language()->txt('server_disabled')
+                    'property' => $this->lng->txt('chtr_server_status'),
+                    'value' => $this->lng->txt('server_disabled')
                 ];
             }
 
             if (!$room->getSetting('online_status')) {
                 $props[] = [
                     'alert' => true,
-                    'property' => $DIC->language()->txt('status'),
-                    'value' => $DIC->language()->txt('offline')
+                    'property' => $this->lng->txt('status'),
+                    'value' => $this->lng->txt('offline')
                 ];
             }
         }

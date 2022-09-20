@@ -1,8 +1,8 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
 
-include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilLPStatusFactory
@@ -13,35 +13,19 @@ include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
  */
 class ilLPStatusFactory
 {
-    /**
-     * @var ilLPStatusFactory
-     */
-    private static $instance;
+    private static self $instance;
+    private static array $class_by_obj_id = array();
 
-    /**
-     * @var ilLogger
-     */
-    private  $logger;
+    private ilLogger $logger;
 
-
-
-    private static $class_by_obj_id = array();
-
-    /**
-     * @return ilLPStatusFactory
-     */
-    private static function getFactoryInstance() : ilLPStatusFactory
+    private static function getFactoryInstance(): ilLPStatusFactory
     {
         if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
-
     }
 
-    /**
-     * ilLPStatusFactory constructor.
-     */
     private function __construct()
     {
         global $DIC;
@@ -49,49 +33,38 @@ class ilLPStatusFactory
         $this->logger = $DIC->logger()->trac();
     }
 
-    /**
-     * @return ilLogger
-     */
-    private function getLogger()
+    private function getLogger(): ilLogger
     {
         return $this->logger;
     }
 
-    /**
-     * @param      $a_obj_id
-     * @param null $a_mode
-     * @return mixed
-     * @throws ilInvalidLPStatusException
-     */
-    public static function _getClassById($a_obj_id, $a_mode = null)
-    {
+    public static function _getClassById(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ): string {
         if ($a_mode === null) {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
-            
+
             // please keep the cache in this if-block, otherwise default values
-            // will not trigger the include_once calls
             if (isset(self::$class_by_obj_id[$a_obj_id])) {
                 return self::$class_by_obj_id[$a_obj_id];
             }
         }
 
         $map = ilLPObjSettings::getClassMap();
-        
+
         if (array_key_exists($a_mode, $map)) {
             $class = $map[$a_mode];
-                        
+
             // undefined? try object lp directly
             if ($class === null) {
-                include_once 'Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode != ilLPObjSettings::LP_MODE_UNDEFINED) {
                     return self::_getClassById($a_obj_id, $mode);
                 }
             } else {
-                self::includeClass($class);
                 self::$class_by_obj_id[$a_obj_id] = $class;
                 return $class;
             }
@@ -102,27 +75,14 @@ class ilLPStatusFactory
         $factory->getLogger()->logStack(ilLogLevel::ERROR, $message);
         throw new ilInvalidLPStatusException($message);
     }
-    
-    protected static function includeClass($a_class)
-    {
-        $path = ($a_class == 'ilLPStatus')
-            ? 'Services/Tracking/classes/'
-            : 'Services/Tracking/classes/status/';
-        include_once $path . 'class.' . $a_class . '.php';
-    }
 
-    /**
-     * @param $a_obj_id
-     * @param $a_type
-     * @return string
-     * @throws ilInvalidLPStatusException
-     */
-    public static function _getClassByIdAndType($a_obj_id, $a_type)
-    {
+    public static function _getClassByIdAndType(
+        int $a_obj_id,
+        string $a_type
+    ): string {
         // id is ignored in the moment
         switch ($a_type) {
             case 'event':
-                self::includeClass('ilLPStatusEvent');
                 return 'ilLPStatusEvent';
 
             default:
@@ -133,35 +93,28 @@ class ilLPStatusFactory
         }
     }
 
-    /**
-     * @param      $a_obj_id
-     * @param null $a_mode
-     * @return mixed
-     * @throws ilInvalidLPStatusException
-     */
-    public static function _getInstance($a_obj_id, $a_mode = null)
-    {
+    public static function _getInstance(
+        int $a_obj_id,
+        ?int $a_mode = null
+    ): ilLPStatus {
         if ($a_mode === null) {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
             $olp = ilObjectLP::getInstance($a_obj_id);
             $a_mode = $olp->getCurrentMode();
         }
-        
+
         $map = ilLPObjSettings::getClassMap();
-        
+
         if (array_key_exists($a_mode, $map)) {
             $class = $map[$a_mode];
-                        
+
             // undefined? try object lp directly
             if ($class === null) {
-                include_once 'Services/Object/classes/class.ilObjectLP.php';
                 $olp = ilObjectLP::getInstance($a_obj_id);
                 $mode = $olp->getCurrentMode();
                 if ($mode != ilLPObjSettings::LP_MODE_UNDEFINED) {
                     return self::_getInstance($a_obj_id, $mode);
                 }
             } else {
-                self::includeClass($class);
                 return new $class($a_obj_id);
             }
         }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Implementation\Factory;
 use ILIAS\UI\Implementation\DefaultRenderer;
@@ -39,16 +55,16 @@ class ilDashboardLearningSequenceGUI
     /**
      * @return array Object-Ids where user is assigned
      */
-    protected function getAssignments() : array
+    protected function getAssignments(): array
     {
         if (is_null($this->assignments)) {
-            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), 'lso');
+            $this->assignments = ilParticipants::_getMembershipByType($this->user->getId(), ['lso']);
         }
 
         return $this->assignments;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (count($this->getAssignments()) == 0) {
             return '';
@@ -91,7 +107,7 @@ class ilDashboardLearningSequenceGUI
         return $this->renderer->render($std_list);
     }
 
-    protected function getLsoItem(ilObjLearningSequence $lso_obj) : Item\Standard
+    protected function getLsoItem(ilObjLearningSequence $lso_obj): Item\Standard
     {
         $ref_id = $lso_obj->getRefId();
         $title = $lso_obj->getTitle();
@@ -108,7 +124,7 @@ class ilDashboardLearningSequenceGUI
         ;
     }
 
-    protected function isRelevantLso(ilObjLearningSequence $obj) : bool
+    protected function isRelevantLso(ilObjLearningSequence $obj): bool
     {
         $relevant = false;
 
@@ -126,13 +142,13 @@ class ilDashboardLearningSequenceGUI
         return $relevant;
     }
 
-    protected function getLinkedTitle(int $ref_id, string $title) : Button\Shy
+    protected function getLinkedTitle(int $ref_id, string $title): Button\Shy
     {
         $link = ilLink::_getLink($ref_id, 'lso');
         return $this->factory->button()->shy($title, $link);
     }
 
-    protected function getOnlineStatus(int $ref_id) : string
+    protected function getOnlineStatus(int $ref_id): string
     {
         $status = ilObjLearningSequenceAccess::isOffline($ref_id);
 
@@ -143,7 +159,7 @@ class ilDashboardLearningSequenceGUI
         return 'Online';
     }
 
-    protected function getIcon(string $title) : Icon\Standard
+    protected function getIcon(string $title): Icon\Standard
     {
         if (is_null($this->icon)) {
             $this->icon = $this->factory->symbol()->icon()->standard(

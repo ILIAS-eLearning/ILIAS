@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
@@ -10,6 +27,7 @@ use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Tree\Tree;
+use LogicException;
 
 /**
  * Class TreeTool
@@ -18,24 +36,16 @@ use ILIAS\UI\Component\Tree\Tree;
 class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolItem
 {
     use SymbolDecoratorTrait;
-    /**
-     * @var
-     */
-    protected $symbol;
-    /**
-     * @var Tree
-     */
-    protected $tree;
-    /**
-     * @var string
-     */
-    protected $title;
+
+    protected ?Symbol $symbol = null;
+    protected Tree $tree;
+    protected string $title;
 
     /**
      * @param string $title
      * @return TreeTool
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -46,7 +56,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -54,12 +64,12 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
             ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
         $clone = clone($this);
@@ -71,7 +81,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @inheritDoc
      */
-    public function withTree(Tree $tree) : TreeTool
+    public function withTree(Tree $tree): self
     {
         $clone = clone($this);
         $clone->tree = $tree;
@@ -82,7 +92,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @return Tree
      */
-    public function getTree() : Tree
+    public function getTree(): Tree
     {
         return $this->tree;
     }
@@ -90,7 +100,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -98,7 +108,7 @@ class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolI
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return ($this->symbol instanceof Symbol);
     }

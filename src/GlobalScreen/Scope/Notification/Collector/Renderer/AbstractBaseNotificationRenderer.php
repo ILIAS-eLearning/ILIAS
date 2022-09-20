@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
@@ -13,10 +32,7 @@ abstract class AbstractBaseNotificationRenderer implements NotificationRenderer
 {
     use Hasher;
 
-    /**
-     * @var UIFactory
-     */
-    protected $ui_factory;
+    protected UIFactory $ui_factory;
 
     /**
      * AbstractBaseNotificationRenderer constructor.
@@ -31,10 +47,10 @@ abstract class AbstractBaseNotificationRenderer implements NotificationRenderer
      * @param isItem $item
      * @return string
      */
-    protected function buildCloseQuery(isItem $item) : string
+    protected function buildCloseQuery(isItem $item): string
     {
         return http_build_query([
-            ClientNotifications::MODE    => ClientNotifications::MODE_CLOSED,
+            ClientNotifications::MODE => ClientNotifications::MODE_CLOSED,
             ClientNotifications::ITEM_ID => $this->hash($item->getProviderIdentification()->serialize()),
         ]);
     }

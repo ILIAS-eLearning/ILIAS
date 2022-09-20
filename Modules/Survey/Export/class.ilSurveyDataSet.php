@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey Data set class
@@ -13,38 +26,26 @@
  * - svy_quest_skill: question to skill assignment
  * - svy_skill_threshold: skill threshold values
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveyDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     * @return array of version strings
-     */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("5.1.0");
     }
-    
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
-        return "http://www.ilias.de/xml/Modules/Survey/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Survey/" . $a_entity;
     }
-    
+
     /**
      * Get field types for entity
-     * @param string $a_entity  entity
-     * @param string $a_version version
-     * @return array
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
-        if ($a_entity == "svy_quest_skill") {
+        if ($a_entity === "svy_quest_skill") {
             switch ($a_version) {
                 case "5.1.0":
                     return array(
@@ -55,7 +56,7 @@ class ilSurveyDataSet extends ilDataSet
                     );
             }
         }
-        if ($a_entity == "svy_skill_threshold") {
+        if ($a_entity === "svy_skill_threshold") {
             switch ($a_version) {
                 case "5.1.0":
                     return array(
@@ -70,45 +71,33 @@ class ilSurveyDataSet extends ilDataSet
         return array();
     }
 
-    /**
-     * Read data
-     * @param string $a_entity  entity
-     * @param string $a_version version
-     * @param array  $a_ids     ids
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
         $this->data = array();
 
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-
-        if ($a_entity == "svy_quest_skill") {
+        if ($a_entity === "svy_quest_skill") {
             switch ($a_version) {
                 case "5.1.0":
                     $this->getDirectDataFromQuery("SELECT * " .
                             " FROM svy_quest_skill WHERE " .
                             $ilDB->in("survey_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
 
-        if ($a_entity == "svy_skill_threshold") {
+        if ($a_entity === "svy_skill_threshold") {
             switch ($a_version) {
                 case "5.1.0":
                     $this->getDirectDataFromQuery("SELECT * " .
                             " FROM svy_skill_threshold WHERE " .
                             $ilDB->in("survey_id", $a_ids, false, "integer"));
                     break;
-
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -117,7 +106,7 @@ class ilSurveyDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         /*switch ($a_entity)
@@ -129,15 +118,14 @@ class ilSurveyDataSet extends ilDataSet
 
         return [];
     }
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ): void {
         switch ($a_entity) {
             case "svy_quest_skill":
                 $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);

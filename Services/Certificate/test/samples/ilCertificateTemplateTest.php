@@ -1,12 +1,29 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
-    public function testCreateCertificateTemplate() : void
+    public function testCreateCertificateTemplate(): void
     {
         $time = time();
 
@@ -25,15 +42,15 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             555
         );
 
-        $this->assertEquals(100, $template->getObjId());
-        $this->assertEquals('crs', $template->getObjType());
-        $this->assertEquals('<xml>crs</xml>', $template->getCertificateContent());
-        $this->assertEquals(md5('<xml>crs</xml>'), $template->getCertificateHash());
-        $this->assertEquals('1', $template->getVersion());
-        $this->assertEquals('v5.4.0', $template->getIliasVersion());
-        $this->assertEquals($time, $template->getCreatedTimestamp());
-        $this->assertEquals(true, $template->isCurrentlyActive());
-        $this->assertEquals('/some/where/background.jpg', $template->getBackgroundImagePath());
-        $this->assertEquals(555, $template->getId());
+        $this->assertSame(100, $template->getObjId());
+        $this->assertSame('crs', $template->getObjType());
+        $this->assertSame('<xml>crs</xml>', $template->getCertificateContent());
+        $this->assertSame(md5('<xml>crs</xml>'), $template->getCertificateHash());
+        $this->assertSame(1, $template->getVersion());
+        $this->assertSame('v5.4.0', $template->getIliasVersion());
+        $this->assertSame($time, $template->getCreatedTimestamp());
+        $this->assertTrue($template->isCurrentlyActive());
+        $this->assertSame('/some/where/background.jpg', $template->getBackgroundImagePath());
+        $this->assertSame(555, $template->getId());
     }
 }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -19,12 +36,9 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
 
     /**
      * @param ilMailSearchCoursesGUI|ilMailSearchGroupsGUI $a_parent_obj $a_parent_obj
-     * @param string $type
-     * @param string $context
-     * @param array $contextObjects
      */
     public function __construct(
-        object $a_parent_obj,
+        $a_parent_obj,
         string $type = 'crs',
         string $context = 'mail',
         array $contextObjects = []
@@ -37,7 +51,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $tableId = $type . '_cml_' . implode('_', $contextObjects);
+        $tableId = ilStr::subStr($type . '_cml_' . md5(implode('_', $contextObjects)), 0, 30);
         $this->setId($tableId);
         parent::__construct($a_parent_obj, 'showMembers');
 
@@ -140,14 +154,14 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
         return $value;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($value) : string {
-            if (!is_array($value)) {
-                return $this->refinery->in()->series([
-                    $this->refinery->kindlyTo()->int(),
-                    $this->refinery->kindlyTo()->string()
-                ])->transform($value);
+        $trafo = $this->refinery->custom()->transformation(function ($value): string {
+            if (is_string($value)) {
+                return $this->refinery
+                    ->custom()
+                    ->transformation(fn (string $value): string => ilUtil::stripSlashes($value))
+                    ->transform($value);
             }
 
             return implode(
@@ -160,7 +174,7 @@ class ilMailSearchObjectMembershipsTableGUI extends ilTable2GUI
                 )->transform($value)
             );
         });
-        
+
         $current_selection_list = new ilAdvancedSelectionListGUI();
         $current_selection_list->setListTitle($this->lng->txt('actions'));
         $current_selection_list->setId('act_' . md5($a_set['members_id'] . '::' . $a_set['search_' . $this->mode['short']]));

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -112,7 +113,7 @@ class ilTestSkillLevelThreshold
         );
     }
 
-    public function dbRecordExists()
+    public function dbRecordExists(): bool
     {
         $query = "
 			SELECT COUNT(*) cnt
@@ -145,7 +146,7 @@ class ilTestSkillLevelThreshold
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -161,7 +162,7 @@ class ilTestSkillLevelThreshold
     /**
      * @return int
      */
-    public function getSkillBaseId()
+    public function getSkillBaseId(): int
     {
         return $this->skillBaseId;
     }
@@ -177,7 +178,7 @@ class ilTestSkillLevelThreshold
     /**
      * @return int
      */
-    public function getSkillTrefId()
+    public function getSkillTrefId(): int
     {
         return $this->skillTrefId;
     }
@@ -193,7 +194,7 @@ class ilTestSkillLevelThreshold
     /**
      * @return int
      */
-    public function getSkillLevelId()
+    public function getSkillLevelId(): int
     {
         return $this->skillLevelId;
     }
@@ -209,7 +210,7 @@ class ilTestSkillLevelThreshold
     /**
      * @return int
      */
-    public function getThreshold()
+    public function getThreshold(): int
     {
         return $this->threshold;
     }

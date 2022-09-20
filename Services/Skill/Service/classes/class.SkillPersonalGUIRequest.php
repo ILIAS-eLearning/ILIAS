@@ -38,72 +38,78 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         parent::__construct($http, $refinery, $passed_query_params, $passed_post_data);
     }
 
-    public function getObjId() : int
+    public function getNodeId(): int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
-    public function getProfileId() : int
+    public function getProfileId(): int
     {
         return $this->int("profile_id");
     }
 
-    public function getSkillId() : int
+    public function getSkillId(): int
     {
         return $this->int("skill_id");
     }
 
-    public function getSkillIds() : array
+    /**
+     * @return int[]
+     */
+    public function getSkillIds(): array
     {
         return $this->getIds();
     }
 
-    public function getBasicSkillId() : int
+    public function getBasicSkillId(): int
     {
         return $this->int("basic_skill_id");
     }
 
-    public function getTrefId() : int
+    public function getTrefId(): int
     {
         return $this->int("tref_id");
     }
 
-    public function getLevelId() : int
+    public function getLevelId(): int
     {
         return $this->int("level_id");
     }
 
-    public function getSelfEvaluationLevelId() : int
+    public function getSelfEvaluationLevelId(): int
     {
         return $this->int("se");
     }
 
-    public function getWorkspaceId() : int
+    public function getWorkspaceId(): int
     {
         return $this->int("wsp_id");
     }
 
-    public function getWorkspaceIds() : array
+    /**
+     * @return int[]
+     */
+    public function getWorkspaceIds(): array
     {
         return $this->intArray("wsp_id");
     }
 
-    public function getListMode() : string
+    public function getListMode(): string
     {
         return $this->str("list_mode");
     }
 
-    public function getTypeOfFormation() : int
+    public function getTypeOfFormation(): int
     {
         return $this->int("type_of_formation");
     }
 
-    public function getShowTargetLevel() : bool
+    public function getShowTargetLevel(): bool
     {
         return $this->bool("target_level");
     }
 
-    public function getShowMaterialsResources() : bool
+    public function getShowMaterialsResources(): bool
     {
         return $this->bool("mat_res");
     }

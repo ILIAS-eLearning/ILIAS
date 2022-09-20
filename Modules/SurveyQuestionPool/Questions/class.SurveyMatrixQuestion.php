@@ -1,154 +1,72 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * The SurveyMatrixQuestion class defines and encapsulates basic methods and attributes
  * for matrix question types.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class SurveyMatrixQuestion extends SurveyQuestion
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public SurveyCategories $columns;
+    public SurveyCategories $rows;
+    // First bipolar adjective for ordinal matrix questions
+    public string $bipolar_adjective1 = "";
+    // Second bipolar adjective for ordinal matrix questions
+    public string $bipolar_adjective2 = "";
+    // Enable state of separators for matrix columns
+    public bool $columnSeparators = false;
+    // Enable state of separators for matrix rows
+    public bool $rowSeparators = false;
+    // Enable state of a separator for the neutral column
+    public bool $neutralColumnSeparator = false;
+    public array $layout;
+    // Use placeholders for the column titles
+    public bool $columnPlaceholders = false;
+    public bool $legend = false;
+    public bool $singleLineRowCaption = false;
+    public bool $repeatColumnHeader = false;
 
     /**
-     * @var ilDB
+     * Matrix question subtype
+     * 0 = Single choice
+     * 1 = Multiple choice
+     * 2 = Text
+     * 3 = Integer
+     * 4 = Double
+     * 5 = Date
+     * 6 = Time
      */
-    protected $db;
+    public int $subtype;
 
-    /**
-    * Columns contained in this question
-    *
-    * @var array
-    */
-    public $columns;
-    
-    /**
-    * Rows contained in this question
-    *
-    * @var array
-    */
-    public $rows;
-
-    /**
-    * First bipolar adjective for ordinal matrix questions
-    *
-    * @var string
-    */
-    public $bipolar_adjective1;
-    
-    /**
-    * Second bipolar adjective for ordinal matrix questions
-    *
-    * @var string
-    */
-    public $bipolar_adjective2;
-    
-    /**
-    * Enable state of separators for matrix columns
-    * 1 if separators are enabled for matrix columns, 0 otherwise
-    *
-    * @var integer
-    */
-    public $columnSeparators;
-    
-    /**
-    * Enable state of separators for matrix rows
-    * 1 if separators are enabled for matrix rows, 0 otherwise
-    *
-    * @var integer
-    */
-    public $rowSeparators;
-
-    /**
-    * Enable state of a separator for the neutral column
-    * 1 if a separator is enabled for the neutral column, 0 otherwise
-    *
-    * @var integer
-    */
-    public $neutralColumnSeparator;
-    
-    /*
-     * Layout of the matrix question
-     *
-     * @var array
-     */
-    public $layout;
-    
-    /*
-     * Use placeholders for the column titles
-     *
-     * @var boolean
-     */
-    public $columnPlaceholders;
-    
-    /*
-     * Show a legend
-     *
-     * @var boolean
-     */
-    public $legend;
-    
-    public $singleLineRowCaption;
-    
-    public $repeatColumnHeader;
-    
-    public $columnHeaderPosition;
-    
-    /*
-     * Use random order for rows
-     *
-     * @var boolean
-     */
-    public $randomRows;
-    
-    public $columnOrder;
-    
-    public $columnImages;
-    
-    public $rowImages;
-    
-    public $openRows;
-    
-    
-    /**
-    * Matrix question subtype
-    *
-    * Matrix question subtype:
-    * 0 = Single choice
-    * 1 = Multiple choice
-    * 2 = Text
-    * 3 = Integer
-    * 4 = Double
-    * 5 = Date
-    * 6 = Time
-    *
-    * @var integer
-    */
-    public $subtype;
-
-    /**
-    * SurveyMatrixQuestion constructor
-    * The constructor takes possible arguments an creates an instance of the SurveyMatrixQuestion object.
-    *
-    * @param string $title A title string to describe the question
-    * @param string $description A description string to describe the question
-    * @param string $author A string containing the name of the questions author
-    * @param integer $owner A numerical ID to identify the owner/creator
-    * @access public
-    */
-    public function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1)
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $author = "",
+        string $questiontext = "",
+        int $owner = -1
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
         $this->db = $DIC->database();
         parent::__construct($title, $description, $author, $questiontext, $owner);
-        
+
         $this->subtype = 0;
         $this->columns = new SurveyCategories();
         $this->rows = new SurveyCategories();
@@ -158,239 +76,136 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $this->columnSeparators = 0;
         $this->neutralColumnSeparator = 1;
     }
-    
-    /**
-    * Returns the number of columns
-    *
-    * @return integer The number of contained columns
-    * @access public
-    * @see $columns
-    */
-    public function getColumnCount()
+
+    public function getColumnCount(): int
     {
         return $this->columns->getCategoryCount();
     }
-    
-    /**
-    * Removes a column from the list of columns
-    *
-    * @param integer $index The index of the column to be removed
-    * @access public
-    * @see $columns
-    */
-    public function removeColumn($index)
+
+    public function removeColumn(int $index): void
     {
         $this->columns->removeCategory($index);
     }
 
     /**
-    * Removes many columns from the list of columns
-    *
-    * @param array $array An array containing the index positions of the columns to be removed
-    * @access public
-    * @see $columns
-    */
-    public function removeColumns($array)
+     * @param int[] $array index positions
+     */
+    public function removeColumns(array $array): void
     {
         $this->columns->removeCategories($array);
     }
 
-    /**
-    * Removes a column from the list of columns
-    *
-    * @param string $name The name of the column to be removed
-    * @access public
-    * @see $columns
-    */
-    public function removeColumnWithName($name)
+    public function removeColumnWithName(string $name): void
     {
         $this->columns->removeCategoryWithName($name);
     }
-    
-    /**
-    * Return the columns
-    */
-    public function getColumns()
+
+    public function getColumns(): SurveyCategories
     {
         return $this->columns;
     }
-    
-    /**
-    * Returns the name of a column for a given index
-    *
-    * @param integer $index The index of the column
-    * @result array column
-    * @access public
-    * @see $columns
-    */
-    public function getColumn($index)
+
+    public function getColumn(int $index): ?ilSurveyCategory
     {
         return $this->columns->getCategory($index);
     }
-    
-    public function getColumnForScale($scale)
+
+    public function getColumnForScale(int $scale): ?ilSurveyCategory
     {
         return $this->columns->getCategoryForScale($scale);
     }
 
-    /**
-    * Returns the index of a column with a given name.
-    *
-    * @param string $name The name of the column
-    * @access public
-    * @see $columns
-    */
-    public function getColumnIndex($name)
+    public function getColumnIndex(string $name): int
     {
         return $this->columns->getCategoryIndex($name);
     }
-    
-    
-    /**
-    * Empties the columns list
-    *
-    * @access public
-    * @see $columns
-    */
-    public function flushColumns()
+
+    public function flushColumns(): void
     {
         $this->columns->flushCategories();
     }
-    
-    /**
-    * Returns the number of rows in the question
-    *
-    * @result integer The number of rows
-    * @access public
-    */
-    public function getRowCount()
+
+    public function getRowCount(): int
     {
         return $this->rows->getCategoryCount();
     }
 
-    /**
-    * Adds a row to the question
-    *
-    * @param string $a_text The text of the row
-    */
-    public function addRow($a_text, $a_other, $a_label)
-    {
-        $this->rows->addCategory($a_text, $a_other, 0, $a_label);
+    public function addRow(
+        string $a_text,
+        string $a_other,
+        string $a_label
+    ): void {
+        $this->rows->addCategory($a_text, (int) $a_other, 0, $a_label);
     }
-    
-    /**
-    * Adds a row at a given position
-    *
-    * @param string $a_text The text of the row
-    * @param integer $a_position The row position
-    */
-    public function addRowAtPosition($a_text, $a_other, $a_position)
-    {
+
+    public function addRowAtPosition(
+        string $a_text,
+        string $a_other,
+        int $a_position
+    ): void {
         $this->rows->addCategoryAtPosition($a_text, $a_position, $a_other);
     }
 
-    /**
-    * Empties the row list
-    *
-    * @access public
-    * @see $rows
-    */
-    public function flushRows()
+    public function flushRows(): void
     {
         $this->rows = new SurveyCategories();
     }
-    
-    /**
-    * Returns a specific row
-    *
-    * @param integer $a_index The index position of the row
-    * @access public
-    */
-    public function getRow($a_index)
+
+    public function getRow(int $a_index): ?ilSurveyCategory
     {
         return $this->rows->getCategory($a_index);
     }
 
-    public function moveRowUp($index)
+    public function moveRowUp(int $index): void
     {
         $this->rows->moveCategoryUp($index);
     }
-    
-    public function moveRowDown($index)
+
+    public function moveRowDown(int $index): void
     {
         $this->rows->moveCategoryDown($index);
     }
-    
+
     /**
-    * Removes rows from the question
-    *
-    * @param array $array An array containing the index positions of the rows to be removed
-    * @access public
-    * @see $rows
-    */
-    public function removeRows($array)
+     * @param int[] $array index positions
+     */
+    public function removeRows(array $array): void
     {
         $this->rows->removeCategories($array);
     }
 
-    /**
-    * Removes a row
-    *
-    * @param integer $index The index of the row to be removed
-    */
-    public function removeRow($index)
+    public function removeRow(int $index): void
     {
         $this->rows->removeCategory($index);
     }
 
     /**
-    * Returns one of the bipolar adjectives
-    *
-    * @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
-    * @result string The text of the bipolar adjective
-    * @access public
-    */
-    public function getBipolarAdjective($a_index)
+     * Returns one of the bipolar adjectives
+     * @param int $a_index bipolar adjective (0 first,  and 1 for the second)
+     */
+    public function getBipolarAdjective(int $a_index): string
     {
-        switch ($a_index) {
-            case 1:
-                return (strlen($this->bipolar_adjective2)) ? $this->bipolar_adjective2 : null;
-                break;
-            case 0:
-            default:
-                return (strlen($this->bipolar_adjective1)) ? $this->bipolar_adjective1 : null;
-                break;
+        if ($a_index === 1) {
+            return $this->bipolar_adjective2;
         }
-        return null;
+        return $this->bipolar_adjective1;
+    }
+
+    public function setBipolarAdjective(
+        int $a_index,
+        string $a_value
+    ): void {
+        if ($a_index === 1) {
+            $this->bipolar_adjective2 = $a_value;
+        } else {
+            $this->bipolar_adjective1 = $a_value;
+        }
     }
 
     /**
-    * Sets one of the bipolar adjectives
-    *
-    * @param integer $a_index The number of the bipolar adjective (0 for the first and 1 for the second adjective)
-    * @param string $a_value The text of the bipolar adjective
-    * @access public
-    */
-    public function setBipolarAdjective($a_index, $a_value)
-    {
-        switch ($a_index) {
-            case 1:
-                $this->bipolar_adjective2 = $a_value;
-                break;
-            case 0:
-            default:
-                $this->bipolar_adjective1 = $a_value;
-                break;
-        }
-    }
-    
-    /**
-    * Adds a phrase to the question
-    *
-    * @param integer $phrase_id The database id of the given phrase
-    * @access public
-    */
-    public function addPhrase($phrase_id)
+     * Adds a phrase to the question
+     */
+    public function addPhrase(int $phrase_id): void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
@@ -402,152 +217,122 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
         while ($row = $ilDB->fetchAssoc($result)) {
             $neutral = $row["neutral"];
-            if (($row["defaultvalue"] == 1) && ($row["owner_fi"] == 0)) {
+            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
                 $this->columns->addCategory($this->lng->txt($row["title"]), 0, $neutral);
             } else {
                 $this->columns->addCategory($row["title"], 0, $neutral);
             }
         }
     }
-    
+
     /**
-    * Returns the question data fields from the database
-    *
-    * @param integer $id The question ID from the database
-    * @return array Array containing the question fields and data from the database
-    * @access public
-    */
-    public function getQuestionDataArray($id)
+     * Returns the question data fields from the database
+     */
+    public function getQuestionDataArray(int $id): array
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
-        } else {
-            return array();
         }
+
+        return array();
     }
-    
-    /**
-    * Loads a SurveyMatrixQuestion object from the database
-    *
-    * @param integer $id The database id of the matrix question
-    * @access public
-    */
-    public function loadFromDb($id)
+
+    public function loadFromDb(int $question_id): void
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
             array('integer'),
-            array($id)
+            array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
-            $this->setSubtype($data["subtype"]);
-            $this->setRowSeparators($data["row_separators"]);
-            $this->setNeutralColumnSeparator($data["neutral_column_separator"]);
-            $this->setColumnSeparators($data["column_separators"]);
-            $this->setColumnPlaceholders($data["column_placeholders"]);
-            $this->setLegend($data["legend"]);
-            $this->setSingleLineRowCaption($data["singleline_row_caption"]);
-            $this->setRepeatColumnHeader($data["repeat_column_header"]);
-            $this->setColumnHeaderPosition($data["column_header_position"]);
-            $this->setRandomRows($data["random_rows"]);
-            $this->setColumnOrder($data["column_order"]);
-            $this->setColumnImages($data["column_images"]);
-            $this->setRowImages($data["row_images"]);
-            $this->setBipolarAdjective(0, $data["bipolar_adjective1"]);
-            $this->setBipolarAdjective(1, $data["bipolar_adjective2"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setSubtype((int) $data["subtype"]);
+            $this->setRowSeparators((bool) $data["row_separators"]);
+            $this->setNeutralColumnSeparator((bool) $data["neutral_column_separator"]);
+            $this->setColumnSeparators((bool) $data["column_separators"]);
+            $this->setColumnPlaceholders((bool) $data["column_placeholders"]);
+            $this->setLegend((bool) $data["legend"]);
+            $this->setSingleLineRowCaption((string) $data["singleline_row_caption"]);
+            $this->setRepeatColumnHeader((bool) $data["repeat_column_header"]);
+            $this->setBipolarAdjective(0, (string) $data["bipolar_adjective1"]);
+            $this->setBipolarAdjective(1, (string) $data["bipolar_adjective2"]);
             $this->setLayout($data["layout"]);
             $this->flushColumns();
 
             $result = $ilDB->queryF(
                 "SELECT svy_variable.*, svy_category.title, svy_category.neutral FROM svy_variable, svy_category WHERE svy_variable.question_fi = %s AND svy_variable.category_fi = svy_category.category_id ORDER BY sequence ASC",
                 array('integer'),
-                array($id)
+                array($question_id)
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->columns->addCategory($data["title"], $data["other"], $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+                    $this->columns->addCategory($data["title"], (int) $data["other"], (int) $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
-            
+
             $result = $ilDB->queryF(
                 "SELECT * FROM svy_qst_matrixrows WHERE question_fi = %s ORDER BY sequence",
                 array('integer'),
-                array($id)
+                array($question_id)
             );
             while ($row = $ilDB->fetchAssoc($result)) {
                 $this->addRow($row["title"], $row['other'], $row['label']);
             }
         }
-        parent::loadFromDb($id);
+        parent::loadFromDb($question_id);
     }
 
-    /**
-    * Returns 1 if the question is complete for use
-    *
-    * @result integer 1 if the question is complete for use, otherwise 0
-    * @access public
-    */
-    public function isComplete()
+    public function isComplete(): bool
     {
-        if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext()) &&
+        return (
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== '' &&
             $this->getColumnCount() &&
             $this->getRowCount()
-        ) {
-            return 1;
-        } else {
-            return 0;
-        }
+        );
     }
-    
-    /**
-    * Saves a SurveyMatrixQuestion object to a database
-    *
-    * @access public
-    */
-    public function saveToDb($original_id = null, $withanswers = true)
+
+    public function saveToDb(int $original_id = 0): int
     {
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
 
-        if ($affectedRows == 1) {
-            $affectedRows = $ilDB->manipulateF(
+        if ($affectedRows === 1) {
+            $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
             );
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (
 				question_fi, subtype, column_separators, row_separators, neutral_column_separator,column_placeholders,
-				legend, singleline_row_caption, repeat_column_header, column_header_position, random_rows,
-				column_order, column_images, row_images, bipolar_adjective1, bipolar_adjective2, layout, tstamp)
-				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				legend, singleline_row_caption, repeat_column_header,
+				bipolar_adjective1, bipolar_adjective2, layout, tstamp)
+				VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
                 array(
                     'integer', 'integer', 'text', 'text', 'text', 'integer', 'text', 'text', 'text',
-                    'text', 'text', 'text', 'text', 'text', 'text', 'text', 'text', 'integer'
+                    'text', 'text', 'text', 'integer'
                 ),
                 array(
                     $this->getId(),
@@ -559,11 +344,6 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     $this->getLegend(),
                     $this->getSingleLineRowCaption(),
                     $this->getRepeatColumnHeader(),
-                    $this->getColumnHeaderPosition(),
-                    $this->getRandomRows(),
-                    $this->getColumnOrder(),
-                    $this->getColumnImages(),
-                    $this->getRowImages(),
                     $this->getBipolarAdjective(0),
                     $this->getBipolarAdjective(1),
                     serialize($this->getLayout()),
@@ -577,32 +357,29 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->saveColumnsToDb();
             $this->saveRowsToDb();
         }
+        return $affectedRows;
     }
-        
-    public function saveBipolarAdjectives($adjective1, $adjective2)
-    {
+
+    public function saveBipolarAdjectives(
+        string $adjective1,
+        string $adjective2
+    ): void {
         $ilDB = $this->db;
-        
-        $affectedRows = $ilDB->manipulateF(
+
+        $ilDB->manipulateF(
             "UPDATE " . $this->getAdditionalTableName() . " SET bipolar_adjective1 = %s, bipolar_adjective2 = %s WHERE question_fi = %s",
             array('text', 'text', 'integer'),
-            array((strlen($adjective1)) ? $adjective1 : null, (strlen($adjective2)) ? $adjective2 : null, $this->getId())
+            array(($adjective1 !== '') ? $adjective1 : null, ($adjective2 !== '') ? $adjective2 : null, $this->getId())
         );
     }
 
-    /**
-    * Saves a column to the database
-    *
-    * @param string $columntext The text of the column
-    * @result integer The database ID of the column
-    * @access public
-    * @see $columns
-    */
-    public function saveColumnToDb($columntext, $neutral = 0)
-    {
+    public function saveColumnToDb(
+        string $columntext,
+        int $neutral = 0
+    ): int {
         $ilUser = $this->user;
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT title, category_id FROM svy_category WHERE title = %s AND neutral = %s AND owner_fi = %s",
             array('text', 'text', 'integer'),
@@ -610,16 +387,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
         $insert = false;
         $returnvalue = "";
+        $insert = true;
         if ($result->numRows()) {
-            $insert = true;
             while ($row = $ilDB->fetchAssoc($result)) {
-                if (strcmp($row["title"], $columntext) == 0) {
+                if (strcmp($row["title"] ?? '', $columntext) === 0) {
                     $returnvalue = $row["category_id"];
                     $insert = false;
                 }
             }
-        } else {
-            $insert = true;
         }
         if ($insert) {
             $next_id = $ilDB->nextId('svy_category');
@@ -633,16 +408,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
         return $returnvalue;
     }
 
-    public function saveColumnsToDb($original_id = "")
-    {
+    public function saveColumnsToDb(
+        int $original_id = 0
+    ): void {
         $ilDB = $this->db;
-        
+
         // save columns
         $question_id = $this->getId();
-        if (strlen($original_id)) {
+        if ($original_id > 0) {
             $question_id = $original_id;
         }
-        
+
         // delete existing column relations
         $affectedRows = $ilDB->manipulateF(
             "DELETE FROM svy_variable WHERE question_fi = %s",
@@ -663,13 +439,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $this->saveCompletionStatus($original_id);
     }
 
-    public function saveRowsToDb($original_id = "")
-    {
+    public function saveRowsToDb(
+        int $original_id = 0
+    ): void {
         $ilDB = $this->db;
-        
+
         // save rows
         $question_id = $this->getId();
-        if (strlen($original_id)) {
+        if ($original_id > 0) {
             $question_id = $original_id;
         }
 
@@ -698,11 +475,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
     * @return string The xml representation of the question
     * @access public
     */
-    public function toXML($a_include_header = true, $obligatory_state = "")
-    {
-        $a_xml_writer = new ilXmlWriter;
+    public function toXML(
+        bool $a_include_header = true,
+        bool $obligatory_state = false
+    ): string {
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
-        $this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
+        $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
         if (!$a_include_header) {
             $pos = strpos($xml, "?>");
@@ -710,25 +489,23 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $xml;
     }
-    
+
     /**
-    * Adds the question XML to a given XMLWriter object
-    *
-    * @param object $a_xml_writer The XMLWriter object
-    * @param boolean $a_include_header Determines wheather or not the XML should be used
-    * @access public
-    */
-    public function insertXML(&$a_xml_writer, $a_include_header = true)
-    {
+     * Adds the question XML to a given XMLWriter object
+     */
+    public function insertXML(
+        ilXmlWriter $a_xml_writer,
+        bool $a_include_header = true
+    ): void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "subtype" => $this->getSubtype(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
-        
+
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
         $a_xml_writer->xmlStartTag("questiontext");
@@ -752,9 +529,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $a_xml_writer->xmlEndTag("matrixrow");
         }
         $a_xml_writer->xmlEndTag("matrixrows");
-        
+
         $a_xml_writer->xmlStartTag("responses");
-        if (strlen($this->getBipolarAdjective(0)) && (strlen($this->getBipolarAdjective(1)))) {
+        if ($this->getBipolarAdjective(0) !== '' && ($this->getBipolarAdjective(1) !== '')) {
             $a_xml_writer->xmlStartTag("bipolar_adjectives");
             $attribs = array(
                 "label" => "0"
@@ -802,7 +579,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 );
                 $a_xml_writer->xmlStartTag("material", $attrs);
                 $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
+                if (strcmp($matches[1], "") !== 0) {
                     $intlink = $this->material["internal_link"];
                 }
                 $a_xml_writer->xmlElement("mattext", null, $intlink);
@@ -832,11 +609,11 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $a_xml_writer->xmlEndTag("metadatafield");
 
         $a_xml_writer->xmlEndTag("metadata");
-        
+
         $a_xml_writer->xmlEndTag("question");
     }
 
-    public function syncWithOriginal()
+    public function syncWithOriginal(): void
     {
         if ($this->getOriginalId()) {
             parent::syncWithOriginal();
@@ -845,43 +622,39 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
     }
 
-
     /**
-    * Adds standard numbers as columns
-    *
-    * @param integer $lower_limit The lower limit
-    * @param integer $upper_limit The upper limit
-    * @access public
-    */
-    public function addStandardNumbers($lower_limit, $upper_limit)
-    {
+     * Adds standard numbers as columns
+     */
+    public function addStandardNumbers(
+        int $lower_limit,
+        int $upper_limit
+    ): void {
         for ($i = $lower_limit; $i <= $upper_limit; $i++) {
             $this->columns->addCategory($i);
         }
     }
 
     /**
-    * Saves a set of columns to a default phrase
-    *
-    * @param array $phrases The database ids of the seleted phrases
-    * @param string $title The title of the default phrase
-    * @access public
-    */
-    public function savePhrase($title)
-    {
+     * Saves a set of columns to a default phrase
+     * (data currently comes from session)
+     */
+    public function savePhrase(
+        string $title
+    ): void {
         $ilUser = $this->user;
         $ilDB = $this->db;
 
         $next_id = $ilDB->nextId('svy_phrase');
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "INSERT INTO svy_phrase (phrase_id, title, defaultvalue, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s)",
             array('integer','text','text','integer','integer'),
             array($next_id, $title, 1, $ilUser->getId(), time())
         );
         $phrase_id = $next_id;
-            
+
         $counter = 1;
-        foreach ($_SESSION['save_phrase_data'] as $data) {
+        $phrase_data = $this->edit_manager->getPhraseData();
+        foreach ($phrase_data as $data) {
             $next_id = $ilDB->nextId('svy_category');
             $affectedRows = $ilDB->manipulateF(
                 "INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -898,59 +671,42 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $counter++;
         }
     }
-    
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
-    public function getQuestionType()
+
+    public function getQuestionType(): string
     {
         return "SurveyMatrixQuestion";
     }
 
     /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    * @access public
-    */
-    public function getAdditionalTableName()
+     * Returns the name of the additional question data table in the database
+     */
+    public function getAdditionalTableName(): string
     {
         return "svy_qst_matrix";
     }
-    
-    /**
-    * Creates the user data of the svy_answer table from the POST data
-    *
-    * @return array User data according to the svy_answer table
-    * @access public
-    */
-    public function &getWorkingDataFromUserInput($post_data)
+
+    public function getWorkingDataFromUserInput(array $post_data): array
     {
         $data = array();
         foreach ($post_data as $key => $value) {
             switch ($this->getSubtype()) {
+                case 1:
                 case 0:
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         if (is_array($value)) {
                             foreach ($value as $val) {
-                                array_push($data, array("value" => $val, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
+                                $data[] = array("value" => $val,
+                                                "rowvalue" => $matches[1],
+                                                "textanswer" => $post_data['matrix_other_' . $this->getId(
+                                                ) . '_' . $matches[1]] ?? ""
+                                );
                             }
                         } else {
-                            array_push($data, array("value" => $value, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
-                        }
-                    }
-                    break;
-                case 1:
-                    if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
-                        if (is_array($value)) {
-                            foreach ($value as $val) {
-                                array_push($data, array("value" => $val, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
-                            }
-                        } else {
-                            array_push($data, array("value" => $value, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
+                            $data[] = array("value" => $value,
+                                            "rowvalue" => $matches[1],
+                                            "textanswer" => $post_data['matrix_other_' . $this->getId(
+                                            ) . '_' . $matches[1]] ?? ""
+                            );
                         }
                     }
                     break;
@@ -958,19 +714,17 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $data;
     }
-    
+
     /**
-    * Checks the input of the active user for obligatory status
-    * and entered values
-    *
-    * @param array $post_data The contents of the $_POST array
-    * @param integer $survey_id The database ID of the active survey
-    * @return string Empty string if the input is ok, an error message otherwise
-    * @access public
-    */
-    public function checkUserInput($post_data, $survey_id)
-    {
-        if (!$this->getObligatory($survey_id)) {
+     * Checks the input of the active user for obligatory status
+     * and entered values
+     * @return string Empty string if the input is ok, an error message otherwise
+     */
+    public function checkUserInput(
+        array $post_data,
+        int $survey_id
+    ): string {
+        if (!$this->getObligatory()) {
             return "";
         }
         switch ($this->getSubtype()) {
@@ -984,7 +738,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                         $counter++;
                     }
                 }
-                if ($counter != $this->getRowCount()) {
+                if ($counter !== $this->getRowCount()) {
                     return $this->lng->txt("matrix_question_radio_button_not_checked");
                 }
                 break;
@@ -1001,7 +755,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                         }
                     }
                 }
-                if ($counter != $this->getRowCount()) {
+                if ($counter !== $this->getRowCount()) {
                     return $this->lng->txt("matrix_question_checkbox_not_checked");
                 }
                 break;
@@ -1009,10 +763,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
         return "";
     }
 
-    public function saveUserInput($post_data, $active_id, $a_return = false)
-    {
+    public function saveUserInput(
+        array $post_data,
+        int $active_id,
+        bool $a_return = false
+    ): ?array {
         $ilDB = $this->db;
-        
+
         $answer_data = array();
 
         // gather data
@@ -1031,7 +788,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     }
                 }
                 break;
-                
+
             case 1:
                 foreach ($post_data as $key => $value) {
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
@@ -1047,13 +804,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 }
                 break;
         }
-        
+
         if ($a_return) {
             return $answer_data;
         }
-            
+
         // #16387 - only if any input
-        if (sizeof($answer_data)) {
+        if (count($answer_data)) {
             // save data
             foreach ($answer_data as $item) {
                 $next_id = $ilDB->nextId('svy_answer');
@@ -1070,20 +827,19 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 $affectedRows = $ilDB->insert("svy_answer", $fields);
             }
         }
+        return null;
     }
 
     /**
-    * Deletes datasets from the additional question table in the database
-    *
-    * @param integer $question_id The question id which should be deleted in the additional question table
-    * @access public
-    */
-    public function deleteAdditionalTableData($question_id)
-    {
+     * Delete question data from additional table
+     */
+    public function deleteAdditionalTableData(
+        int $question_id
+    ): void {
         parent::deleteAdditionalTableData($question_id);
-        
+
         $ilDB = $this->db;
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM svy_qst_matrixrows WHERE question_fi = %s",
             array('integer'),
             array($question_id)
@@ -1092,22 +848,16 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
     /**
     * Returns the subtype of the matrix question
-    *
-    * @return integer The subtype of the matrix question
-    * @access public
     */
-    public function getSubtype()
+    public function getSubtype(): ?int
     {
         return $this->subtype;
     }
 
     /**
-    * Sets the subtype of the matrix question
-    *
-    * @return integer $a_subtype The subtype of the matrix question
-    * @access public
-    */
-    public function setSubtype($a_subtype = 0)
+     * Sets the subtype of the matrix question
+     */
+    public function setSubtype(int $a_subtype = 0): void
     {
         switch ($a_subtype) {
             case 1:
@@ -1124,106 +874,47 @@ class SurveyMatrixQuestion extends SurveyQuestion
                 break;
         }
     }
-    
+
     /**
-    * Enables/Disables separators for the matrix columns
-    *
-    * @param integer $enable 1 if the separators should be enabled, 0 otherwise
-    * @access public
-    */
-    public function setColumnSeparators($enable = 0)
+     * Enables/Disables separators for the matrix columns
+     */
+    public function setColumnSeparators(bool $enable = false): void
     {
-        switch ($enable) {
-            case 1:
-                $this->columnSeparators = 1;
-                break;
-            case 0:
-            default:
-                $this->columnSeparators = 0;
-                break;
-        }
+        $this->columnSeparators = $enable;
     }
-    
-    /**
-    * Gets the separators enable state for the matrix columns
-    *
-    * @return integer 1 if the separators are enabled, 0 otherwise
-    * @access public
-    */
-    public function getColumnSeparators()
+
+    public function getColumnSeparators(): bool
     {
-        return ($this->columnSeparators) ? 1 : 0;
-    }
-    
-    /**
-    * Enables/Disables separators for the matrix rows
-    *
-    * @param integer $enable 1 if the separators should be enabled, 0 otherwise
-    * @access public
-    */
-    public function setRowSeparators($enable = 0)
-    {
-        switch ($enable) {
-            case 1:
-                $this->rowSeparators = 1;
-                break;
-            case 0:
-            default:
-                $this->rowSeparators = 0;
-                break;
-        }
-    }
-    
-    /**
-    * Gets the separators enable state for the matrix rows
-    *
-    * @return integer 1 if the separators are enabled, 0 otherwise
-    * @access public
-    */
-    public function getRowSeparators()
-    {
-        return ($this->rowSeparators) ? 1 : 0;
+        return $this->columnSeparators;
     }
 
     /**
-    * Enables/Disables a separator for the neutral column
-    *
-    * @param integer $enable 1 if the separator should be enabled, 0 otherwise
-    * @access public
-    */
-    public function setNeutralColumnSeparator($enable = 0)
+     * Enables/Disables separators for the matrix rows
+     */
+    public function setRowSeparators(bool $enable = false): void
     {
-        switch ($enable) {
-            case 1:
-                $this->neutralColumnSeparator = 1;
-                break;
-            case 0:
-            default:
-                $this->neutralColumnSeparator = 0;
-                break;
-        }
+        $this->rowSeparators = $enable;
     }
-    
-    /**
-    * Gets the separator enable state for the neutral column
-    *
-    * @return integer 1 if the separator is enabled, 0 otherwise
-    * @access public
-    */
-    public function getNeutralColumnSeparator()
+
+    public function getRowSeparators(): bool
     {
-        return ($this->neutralColumnSeparator) ? 1 : 0;
+        return $this->rowSeparators;
+    }
+
+    public function setNeutralColumnSeparator(bool $enable = true): void
+    {
+        $this->neutralColumnSeparator = $enable;
+    }
+
+    public function getNeutralColumnSeparator(): bool
+    {
+        return $this->neutralColumnSeparator;
     }
 
     /**
-    * Import additional meta data from the question import file. Usually
-    * the meta data section is used to store question elements which are not
-    * part of the standard XML schema.
-    *
-    * @return array $a_meta Array containing the additional meta data
-    * @access public
-    */
-    public function importAdditionalMetadata($a_meta)
+     * Import additional meta data from the question import file.
+     */
+    public function importAdditionalMetadata(array $a_meta): void
     {
         foreach ($a_meta as $key => $value) {
             switch ($value["label"]) {
@@ -1244,12 +935,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
     }
 
     /**
-    * Import bipolar adjectives from the question import file
-    *
-    * @return array $a_data Array containing the adjectives
-    * @access public
-    */
-    public function importAdjectives($a_data)
+     * Import bipolar adjectives from the question import file
+     */
+    public function importAdjectives(array $a_data): void
     {
         $i = 0;
         foreach ($a_data as $adjective) {
@@ -1263,86 +951,79 @@ class SurveyMatrixQuestion extends SurveyQuestion
     }
 
     /**
-    * Import matrix rows from the question import file
-    *
-    * @return array $a_data Array containing the matrix rows
-    * @access public
-    */
-    public function importMatrix($a_data)
-    {
+     * Import matrix rows from the question import file
+     */
+    public function importMatrix(
+        array $a_data
+    ): void {
         foreach ($a_data as $row) {
             $this->addRow($row['title'], $row['other'], $row['label']);
         }
     }
-    
+
     /**
-    * Import response data from the question import file
-    *
-    * @return array $a_data Array containing the response data
-    * @access public
-    */
-    public function importResponses($a_data)
+     * Import response data from the question import file
+     */
+    public function importResponses(array $a_data): void
     {
         foreach ($a_data as $id => $data) {
             $column = "";
             foreach ($data["material"] as $material) {
                 $column .= $material["text"];
             }
-            $this->columns->addCategory($column, null, (strcmp($data["label"], "neutral") == 0) ? true : false);
+            $this->columns->addCategory($column, 0, strcmp($data["label"], "neutral") == 0);
         }
     }
 
     /**
-    * Returns if the question is usable for preconditions
-    *
-    * @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
-    * @access public
-    */
-    public function usableForPrecondition()
+     * Returns if the question is usable for preconditions
+     */
+    public function usableForPrecondition(): bool
     {
         return false;
     }
 
     /**
-    * Returns the output for a precondition value
-    *
-    * @param string $value The precondition value
-    * @return string The output of the precondition value
-    * @access public
-    */
-    public function getPreconditionValueOutput($value)
+     * Returns the output for a precondition value
+     */
+    public function getPreconditionValueOutput(string $value): string
     {
         return $value;
     }
 
     /**
-    * Creates a form property for the precondition value
-    *
-    * @return The ILIAS form element
-    * @access public
-    */
-    public function getPreconditionSelectValue($default, $title, $variable)
-    {
+     * Creates a form property for the precondition value
+     */
+    public function getPreconditionSelectValue(
+        string $default,
+        string $title,
+        string $variable
+    ): ?ilFormPropertyGUI {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();
         $step3->setOptions($options);
         $step3->setValue($default);
         return $step3;
     }
-    
+
     /**
      * Saves the layout of a matrix question
-     *
-     * @param double $percent_row The width in percent for the matrix rows
-     * @param double $percent_columns The width in percent for the matrix columns
-     * @param double $percent_bipolar_adjective1 The width in percent for the first bipolar adjective
-     * @param double $percent_bipolar_adjective2 The width in percent for the second bipolar adjective
-     * @return void
-     **/
-    public function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "", $percent_neutral = 0)
-    {
+     * @deprecated ?
+     * @param float     $percent_row width in percent for the matrix rows
+     * @param float     $percent_columns width in percent for the matrix columns
+     * @param float|int $percent_bipolar_adjective1 width in percent for the first bipolar adjective
+     * @param float|int $percent_bipolar_adjective2 width in percent for the second bipolar adjective
+     * @param float|int $percent_neutral
+     */
+    public function saveLayout(
+        float $percent_row,
+        float $percent_columns,
+        float $percent_bipolar_adjective1 = 0,
+        float $percent_bipolar_adjective2 = 0,
+        float $percent_neutral = 0
+    ): void {
         $ilDB = $this->db;
-        
+
         $layout = array(
             "percent_row" => $percent_row,
             "percent_columns" => $percent_columns,
@@ -1357,9 +1038,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
     }
 
-    public function getLayout()
+    public function getLayout(): array
     {
-        if (!is_array($this->layout) || count($this->layout) == 0) {
+        if (count($this->layout) === 0) {
             if ($this->hasBipolarAdjectives() && $this->hasNeutralColumn()) {
                 $this->layout = array(
                     "percent_row" => 30,
@@ -1396,36 +1077,31 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return $this->layout;
     }
-    
-    public function setLayout($layout)
+
+    /**
+     * @param array|string $layout
+     */
+    public function setLayout($layout): void
     {
         if (is_array($layout)) {
             $this->layout = $layout;
         } else {
-            $this->layout = unserialize($layout);
+            $this->layout = unserialize($layout, ['allowed_classes' => false]) ?: [];
         }
     }
-    
+
     /**
      * Returns TRUE if bipolar adjectives exist
-     *
-     * @return boolean TRUE if bipolar adjectives exist, FALSE otherwise
-     **/
-    public function hasBipolarAdjectives()
+     */
+    public function hasBipolarAdjectives(): bool
     {
-        if ((strlen($this->getBipolarAdjective(0))) && (strlen($this->getBipolarAdjective(1)))) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->getBipolarAdjective(0) !== '' && $this->getBipolarAdjective(1) !== '';
     }
-    
+
     /**
      * Returns TRUE if a neutral column exists
-     *
-     * @return boolean TRUE if a neutral column exists, FALSE otherwise
-     **/
-    public function hasNeutralColumn()
+     */
+    public function hasNeutralColumn(): bool
     {
         for ($i = 0; $i < $this->getColumnCount(); $i++) {
             $column = $this->getColumn($i);
@@ -1435,126 +1111,60 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
         return false;
     }
-    
+
     /**
-    * Set whether placeholders should be used for the column titles or not
-    *
-    * @param integer $a_value 1 for placeholders, 0 otherwise
-    */
-    public function setColumnPlaceholders($a_value = 0)
+     * Set whether placeholders should be used for the column titles or not
+     */
+    public function setColumnPlaceholders(bool $a_value = false): void
     {
-        $this->columnPlaceholders = ($a_value) ? 1 : 0;
+        $this->columnPlaceholders = $a_value;
     }
-    
-    /**
-    * Get whether placeholders should be used for the column titles or not
-    *
-    * @return integer 1 for placeholders, 0 otherwise
-    */
-    public function getColumnPlaceholders()
+
+    public function getColumnPlaceholders(): bool
     {
-        return ($this->columnPlaceholders) ? 1 : 0;
+        return $this->columnPlaceholders;
     }
 
     /**
-    * Set whether the legend should be shown or not
-    *
-    * @param integer $a_value Show legend
-    */
-    public function setLegend($a_value = 0)
+     * Set whether the legend should be shown or not
+     */
+    public function setLegend(bool $a_value = false): void
     {
-        $this->legend = ($a_value) ? 1 : 0;
-    }
-    
-    /**
-    * Get whether the legend should be shown or not
-    *
-    * @return integer Show legend
-    */
-    public function getLegend()
-    {
-        return ($this->legend) ? 1 : 0;
-    }
-    
-    public function setSingleLineRowCaption($a_value = 0)
-    {
-        $this->singleLineRowCaption = ($a_value) ? 1 : 0;
-    }
-    
-    public function getSingleLineRowCaption()
-    {
-        return ($this->singleLineRowCaption) ? 1 : 0;
-    }
-    
-    public function setRepeatColumnHeader($a_value = 0)
-    {
-        $this->repeatColumnHeader = ($a_value) ? 1 : 0;
-    }
-    
-    public function getRepeatColumnHeader()
-    {
-        return ($this->repeatColumnHeader) ? 1 : 0;
-    }
-    
-    public function setColumnHeaderPosition($a_value)
-    {
-        $this->columnHeaderPosition = $a_value;
-    }
-    
-    public function getColumnHeaderPosition()
-    {
-        return ($this->columnHeaderPosition) ? $this->columnHeaderPosition : 0;
-    }
-    
-    public function setRandomRows($a_value = 0)
-    {
-        $this->randomRows = ($a_value) ? 1 : 0;
-    }
-    
-    public function getRandomRows()
-    {
-        return ($this->randomRows) ? 1 : 0;
-    }
-    
-    public function setColumnOrder($a_value)
-    {
-        $this->columnOrder = $a_value;
-    }
-    
-    public function getColumnOrder()
-    {
-        return ($this->columnOrder) ? $this->columnOrder : 0;
-    }
-    
-    public function setColumnImages($a_value = 0)
-    {
-        $this->columnImages = ($a_value) ? 1 : 0;
-    }
-    
-    public function getColumnImages()
-    {
-        return ($this->columnImages) ? 1 : 0;
-    }
-    
-    public function setRowImages($a_value = 0)
-    {
-        $this->rowImages = ($a_value) ? 1 : 0;
-    }
-    
-    public function getRowImages()
-    {
-        return ($this->rowImages) ? 1 : 0;
+        $this->legend = $a_value;
     }
 
-    public function getRows()
+    public function getLegend(): bool
+    {
+        return $this->legend;
+    }
+
+    public function setSingleLineRowCaption(bool $a_value = false): void
+    {
+        $this->singleLineRowCaption = $a_value;
+    }
+
+    public function getSingleLineRowCaption(): bool
+    {
+        return $this->singleLineRowCaption;
+    }
+
+    public function setRepeatColumnHeader(bool $a_value = false): void
+    {
+        $this->repeatColumnHeader = $a_value;
+    }
+
+    public function getRepeatColumnHeader(): bool
+    {
+        return $this->repeatColumnHeader;
+    }
+
+
+    public function getRows(): SurveyCategories
     {
         return $this->rows;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function getMaxSumScore(int $survey_id) : int
+    public static function getMaxSumScore(int $survey_id): int
     {
         global $DIC;
 

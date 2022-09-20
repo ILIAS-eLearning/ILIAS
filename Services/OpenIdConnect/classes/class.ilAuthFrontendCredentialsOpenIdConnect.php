@@ -1,59 +1,55 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- * Class ilOpenIdConnectSettingsGUI
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- *
  */
-class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials
 {
-    const SESSION_TARGET = 'oidc_target';
+    private const SESSION_TARGET = 'oidc_target';
+    private const QUERY_PARAM_TARGET = 'target';
 
-    /**
-     * @var ilSetting
-     */
-    private $settings = null;
+    private ilOpenIdConnectSettings $settings;
+    private ?string $target = null;
 
-    /**
-     * @var string
-     */
-    private $target = null;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
-        parent::__construct();
+        global $DIC;
 
+        parent::__construct();
         $this->settings = ilOpenIdConnectSettings::getInstance();
+        $httpquery = $DIC->http()->wrapper()->query();
+        if ($httpquery->has(self::QUERY_PARAM_TARGET)) {
+            $this->target = $httpquery->retrieve(self::QUERY_PARAM_TARGET, $DIC->refinery()->to()->string());
+        }
     }
 
-
-    /**
-     * @return \ilSetting
-     */
-    protected function getSettings()
+    protected function getSettings(): ilOpenIdConnectSettings
     {
         return $this->settings;
     }
 
-    /**
-     * @return string
-     */
-    public function getRedirectionTarget()
+    public function getRedirectionTarget(): ?string
     {
         return $this->target;
     }
 
-    /**
-     * Init credentials from request
-     */
-    public function initFromRequest()
+    public function initFromRequest(): void
     {
         $this->setUsername('');
         $this->setPassword('');
@@ -61,19 +57,12 @@ class ilAuthFrontendCredentialsOpenIdConnect extends ilAuthFrontendCredentials i
         $this->parseRedirectionTarget();
     }
 
-    /**
-     *
-     */
-    protected function parseRedirectionTarget()
+    protected function parseRedirectionTarget(): void
     {
-        global $DIC;
-
-        $logger = $DIC->logger()->auth();
-        if (!empty($_GET['target'])) {
-            $this->target = $_GET['target'];
-            \ilSession::set(self::SESSION_TARGET, $this->target);
+        if ($this->target) {
+            ilSession::set(self::SESSION_TARGET, $this->target);
         } elseif (ilSession::get(self::SESSION_TARGET)) {
-            $this->target = \ilSession::get(self::SESSION_TARGET);
+            $this->target = ilSession::get(self::SESSION_TARGET);
         }
     }
 }

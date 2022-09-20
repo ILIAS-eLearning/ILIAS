@@ -25,34 +25,10 @@
 		<div class="ilClearFloat"></div>
 	</div>	
 	<!-- END banner_bl -->
-	
-	<div class="media il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
-		<!-- BEGIN head_action -->
-		<div class="ilHeadAction hidden-print" id="il_head_action">
-			<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner -->
-		</div>
-		<!-- END head_action -->
-		
-		<!-- BEGIN headerbl -->
-			<!-- BEGIN header_image -->
-			<img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_ALT}" title="{IMAGE_DESC}" />
-			<!-- END header_image -->
-				<h1 class="media-heading ilHeader"><a class="ilAccAnchor" id="il_mhead_t_focus" {HEADER_COLOR}{HEADER_URL}>{HEADER}</a></h1>
-		<!-- END headerbl -->
-		<div class="media-body">
-	<!-- BEGIN header_desc -->
-	<div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
-	<!-- BEGIN header_alert -->
-	<div class="ilHeaderAlert">
-		<!-- BEGIN header_alert_prop_name -->
-		{H_PROP} <!-- END header_alert_prop_name -->{H_VALUE}</div><!-- END header_alert -->
-		</div>
-	</div>
-	
-    <!-- BEGIN header_fileupload -->
-    {HEADER_FILEUPLOAD_SCRIPT}
-    <!-- END header_fileupload -->
-	
+
+			{IL_HEADER}
+			{IL_DROPZONE_HEADER}
+
 	<!-- BEGIN tree_icons -->
 	<div class="il_TreeIcons ilNoDisplay">
 		<!-- BEGIN top -->
@@ -67,7 +43,7 @@
 {TABS}
 <!-- BEGIN tabs_outer_start --><div class="ilTabsContentOuter"><div class="clearfix"></div><!-- END tabs_outer_start -->
 {SUB_TABS}
-<span class="ilAccHidden"><a id="after_sub_tabs"></a></span>
+<div class="il_after_tabs_spacing"><a id="after_sub_tabs" name="after_sub_tabs"></a></div>
 <!-- BEGIN tabs_inner_start --><!-- END tabs_inner_start -->
 <!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
 <!-- BEGIN page_form_start -->

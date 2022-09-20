@@ -1,10 +1,30 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
+use Closure;
 
 /**
  * Class AbstractBaseItem
@@ -13,42 +33,18 @@ use ILIAS\UI\Component\Legacy\Legacy;
 abstract class AbstractBaseItem implements isItem
 {
     use ComponentDecoratorTrait;
-    /**
-     * @var int
-     */
-    protected $position = 0;
-    /**
-     * @var Legacy
-     */
-    protected $non_available_reason;
-    /**
-     * @var
-     */
-    protected $available_callable = true;
-    /**
-     * @var callable
-     */
-    protected $active_callable;
-    /**
-     * @var IdentificationInterface
-     */
-    protected $provider_identification;
-    /**
-     * @var callable
-     */
-    protected $visiblility_callable;
-    /**
-     * @var bool
-     */
-    protected $is_always_available = false;
-    /**
-     * @var
-     */
-    protected $type_information;
-    /**
-     * @var bool
-     */
-    private $is_visible_static;
+
+    protected int $position = 0;
+
+    private bool $is_visible_static;
+
+    protected IdentificationInterface $provider_identification;
+    protected ?Closure $available_callable = null;
+    protected ?Closure $active_callable = null;
+    protected ?Closure $visiblility_callable = null;
+    protected bool $is_always_available = false;
+    protected ?TypeInformation $type_information = null;
+    protected ?Legacy $non_available_reason = null;
 
     /**
      * AbstractBaseItem constructor.
@@ -62,7 +58,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getProviderIdentification() : IdentificationInterface
+    public function getProviderIdentification(): IdentificationInterface
     {
         return $this->provider_identification;
     }
@@ -70,7 +66,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function withVisibilityCallable(callable $is_visible) : isItem
+    public function withVisibilityCallable(callable $is_visible): isItem
     {
         $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
@@ -81,7 +77,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function isVisible() : bool
+    public function isVisible(): bool
     {
         if (isset($this->is_visible_static)) {
             return $this->is_visible_static;
@@ -103,7 +99,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function withAvailableCallable(callable $is_available) : isItem
+    public function withAvailableCallable(callable $is_available): isItem
     {
         $clone = clone($this);
         $clone->available_callable = $is_available;
@@ -114,7 +110,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         if ($this->isAlwaysAvailable() === true) {
             return true;
@@ -131,7 +127,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function withNonAvailableReason(Legacy $element) : isItem
+    public function withNonAvailableReason(Legacy $element): isItem
     {
         $clone = clone $this;
         $clone->non_available_reason = $element;
@@ -142,7 +138,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getNonAvailableReason() : Legacy
+    public function getNonAvailableReason(): Legacy
     {
         global $DIC;
 
@@ -152,7 +148,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function isAlwaysAvailable() : bool
+    public function isAlwaysAvailable(): bool
     {
         return $this->is_always_available;
     }
@@ -160,7 +156,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function withAlwaysAvailable(bool $always_active) : isItem
+    public function withAlwaysAvailable(bool $always_active): isItem
     {
         $clone = clone($this);
         $clone->is_always_available = $always_active;
@@ -171,7 +167,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getPosition() : int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -179,7 +175,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function withPosition(int $position) : isItem
+    public function withPosition(int $position): isItem
     {
         $clone = clone($this);
         $clone->position = $position;
@@ -190,7 +186,7 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function setTypeInformation(TypeInformation $information) : isItem
+    public function setTypeInformation(TypeInformation $information): isItem
     {
         $this->type_information = $information;
 
@@ -200,19 +196,22 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getTypeInformation() : TypeInformation
+    public function getTypeInformation(): ?TypeInformation
     {
-        return $this->type_information instanceof TypeInformation ? $this->type_information : new TypeInformation(get_class($this), get_class($this));
+        return $this->type_information;
     }
 
-    public function isTop() : bool
+    public function isTop(): bool
     {
-        if ($this instanceof isChild) {
-            return $this->getParent() instanceof NullIdentification || (int) $this->getParent()->serialize() === false;
+        if ($this instanceof isInterchangeableItem) {
+            $changed = $this->hasChanged();
+            if ($this instanceof isChild) {
+                return $changed;
+            } elseif ($this instanceof isTopItem) {
+                return !$changed;
+            }
         }
-        if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            return $this->getParent()===null || $this->getParent() instanceof NullIdentification;
-        }
+
         return $this instanceof isTopItem;
     }
 }

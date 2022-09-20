@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCmiXapiPlaceholderValues
@@ -13,40 +29,22 @@
  */
 class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilDefaultPlaceholderValues
-     */
-    private $defaultPlaceholderValuesObject;
+    private \ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
 
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
+    private ?\ilCertificateObjectHelper $objectHelper;
 
-    /**
-     * @var ilCertificateUserObjectHelper
-     */
-    private $userObjectHelper;
+//    private \ilCertificateUserObjectHelper $userObjectHelper;
 
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
+    private ?\ilCertificateUtilHelper $utilHelper;
 
-    /**
-     * @var ilCertificateLPStatusHelper|null
-     */
-    private $lpStatusHelper;
+//    private ?\ilCertificateLPStatusHelper $lpStatusHelper;
 
     /**
      * @var ilCertificateDateHelper|ilDatePresentation|null
      */
-    private $dateHelper;
+//    private $dateHelper;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ?\ilLanguage $language;
 
     /**
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
@@ -86,12 +84,12 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $userObjectHelper) {
             $userObjectHelper = new ilCertificateUserObjectHelper();
         }
-        $this->userObjectHelper = $userObjectHelper;
+//        $this->userObjectHelper = $userObjectHelper;
 
         if (null === $lpStatusHelper) {
             $lpStatusHelper = new ilCertificateLPStatusHelper();
         }
-        $this->lpStatusHelper = $lpStatusHelper;
+//        $this->lpStatusHelper = $lpStatusHelper;
 
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
@@ -101,10 +99,13 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
         }
-        $this->dateHelper = $dateHelper;
+//        $this->dateHelper = $dateHelper;
     }
 
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    /**
+     * @return mixed[]
+     */
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
@@ -117,7 +118,10 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    /**
+     * @return mixed[]
+     */
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -132,7 +136,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    protected function getReachedScore(int $objectId, int $userId) : string
+    protected function getReachedScore(int $objectId, int $userId): string
     {
         try {
             $cmixResult = ilCmiXapiResult::getInstanceByObjIdAndUsrId(
@@ -143,8 +147,6 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
             $cmixResult = ilCmiXapiResult::getEmptyInstance();
         }
 
-        $reachedScore = sprintf('%0.2f %%', $cmixResult->getScore() * 100);
-
-        return $reachedScore;
+        return sprintf('%0.2f %%', $cmixResult->getScore() * 100);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,34 +13,29 @@ class assAnswerMatchingPairTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
 
         // Act
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
 
         // Assert
         $this->assertInstanceOf('assAnswerMatchingPair', $instance);
     }
 
-    public function test_setGetTerm()
+    public function test_setGetTerm(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
         $expected = 'Term';
 
         // Act
@@ -50,11 +46,11 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinition()
+    public function test_setGetDefinition(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
         $expected = 'Definition';
 
         // Act
@@ -65,31 +61,16 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPoints()
+    public function test_setGetPoints(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
-        $expected = 'Definition';
+        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
+        $expected = 3.0;
 
         // Act
         $instance->points = $expected;
         $actual = $instance->points;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_setGetHokum()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair();
-        $expected = null;
-
-        // Act
-        $instance->hokum = 'Hokum Value';
-        $actual = $instance->hokum;
 
         // Assert
         $this->assertEquals($expected, $actual);

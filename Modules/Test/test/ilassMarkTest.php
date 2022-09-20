@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
@@ -15,17 +16,13 @@ class ilassMarkTest extends TestCase
     protected $backupGlobals = false;
 
     /** @var  $ass_mark ASS_Mark */
-    protected $ass_mark;
+    protected ASS_Mark $ass_mark;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            require_once './Services/PHPUnit/classes/class.ilUnitUtil.php';
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
+
 
         // Arrange
         require_once './Modules/Test/classes/class.assMark.php';

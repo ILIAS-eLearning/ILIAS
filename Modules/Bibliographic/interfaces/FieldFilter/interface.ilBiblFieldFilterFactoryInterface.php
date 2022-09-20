@@ -1,46 +1,35 @@
 <?php
 
 /**
- * Interface ilBiblFieldFilterFactoryInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblFieldFilterFactoryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 interface ilBiblFieldFilterFactoryInterface
 {
+    public function findById(int $id): \ilBiblFieldFilter;
 
     /**
-     * @param int $id
-     *
-     * @return ilBiblFieldFilterInterface
-     */
-    public function findById($id);
-
-
-    /**
-     * @param int $obj_id
-     *
      * @return ilBiblFieldFilterInterface[]
      */
-    public function getAllForObjectId($obj_id);
+    public function getAllForObjectId(int $obj_id): array;
 
+    public function filterItemsForTable(int $obj_id, ilBiblTableQueryInfoInterface $info): array;
 
-    /**
-     * @param                                $obj_id
-     * @param \ilBiblTableQueryInfoInterface $info
-     *
-     * @return array
-     */
-    public function filterItemsForTable($obj_id, ilBiblTableQueryInfoInterface $info);
-
-
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @param int                   $object_id
-     *
-     * @return ilBiblFieldFilterInterface
-     * @throws \ilLogException if non existing
-     *
-     */
-    public function getByObjectIdAndField(ilBiblFieldInterface $field, $object_id);
+    public function getByObjectIdAndField(ilBiblFieldInterface $field, int $object_id): ilBiblFieldFilterInterface;
 }

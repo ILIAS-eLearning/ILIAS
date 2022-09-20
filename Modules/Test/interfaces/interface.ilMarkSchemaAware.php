@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,7 +12,7 @@ interface ilMarkSchemaAware
     /**
      * @return ASS_MarkSchema
      */
-    public function getMarkSchema();
+    public function getMarkSchema(): ASS_MarkSchema;
 
     /**
      * @return boolean|string True or an error string which can be used for display purposes
@@ -21,12 +22,12 @@ interface ilMarkSchemaAware
     /**
      * @return boolean
      */
-    public function canEditMarks();
+    public function canEditMarks(): bool;
 
     /**
      * @return int
      */
-    public function getMarkSchemaForeignId();
+    public function getMarkSchemaForeignId(): int;
 
     /**
      *

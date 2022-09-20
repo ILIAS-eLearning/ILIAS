@@ -1,12 +1,29 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
-    public function testA() : void
+    public function testA(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -15,15 +32,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $placeholderValuesObject->method('getPlaceholderValuesForPreview')
-            ->willReturn(array(
+            ->willReturn([
                 'USER_LOGIN' => 'SomeLogin',
                 'USER_FULLNAME' => 'SomeFullName',
                 'USER_FIRSTNAME' => 'SomeFirstName'
-            ));
-
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+            ]);
 
         $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
@@ -62,13 +75,13 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 
         $definitionsMock->method('getDefinitions')
             ->willReturn(
-                array(
-                    'f_1' => array(
+                [
+                    'f_1' => [
                         'certificate' => true,
                         'field_id' => 100,
                         'field_name' => 'Some Field Name',
-                    )
-                )
+                    ]
+                ]
             );
 
         $userDefinedFieldsHelper->method('createInstance')
@@ -91,13 +104,12 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $previewAction = new ilCertificateTemplatePreviewAction(
             $templateRepository,
             $placeholderValuesObject,
-            $logger,
+            'some/where/',
             $user,
             $utilHelper,
             $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
-            'some/where/',
             $pdfFileNameFactory
         );
 

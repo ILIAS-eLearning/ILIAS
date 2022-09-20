@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
@@ -10,7 +27,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
     protected ilContentPageDataSet $ds;
     private PageMetricsService $pageMetricsService;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -24,12 +41,12 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         );
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         parent::finalProcessing($a_mapping);
 
@@ -37,7 +54,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         foreach ($copaMap as $oldCopaId => $newCopaId) {
             $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
-            ilContentPagePage::_writeParentId(self::OBJ_TYPE, (int) $newCopaId, $newCopaId);
+            ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
 
             $translations = ilContentPagePage::lookupTranslations(self::OBJ_TYPE, $newCopaId);
             foreach ($translations as $language) {
@@ -58,7 +75,6 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
                 if (!$copa || !($copa instanceof ilObjContentPage)) {
                     continue;
                 }
-                $copa->writeStyleSheetId($newStyleId);
                 $copa->update();
             }
         }

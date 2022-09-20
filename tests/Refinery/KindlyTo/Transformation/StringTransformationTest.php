@@ -1,40 +1,53 @@
 <?php
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 use ILIAS\Refinery\KindlyTo\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
+use stdClass;
 
-/**
- * Test transformations in this Group
- */
 class StringTransformationTest extends TestCase
 {
-    private $transformation;
+    private StringTransformation $transformation;
 
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new StringTransformation();
     }
 
     /**
      * @dataProvider StringTestDataProvider
-     * @param $originVal
+     * @param mixed $originVal
      * @param string $expectedVal
      */
-    public function testStringTransformation($originVal, $expectedVal)
+    public function testStringTransformation($originVal, string $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsString($transformedValue);
         $this->assertEquals($expectedVal, $transformedValue);
     }
 
-    public function StringTestDataProvider()
+    public function StringTestDataProvider(): array
     {
-        $obj = new class extends \StdClass {
+        $obj = new class () extends stdClass {
             public function __toString()
             {
                 return 'an object';

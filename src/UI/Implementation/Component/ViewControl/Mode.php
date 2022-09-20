@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Jesús López <lopez@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
@@ -21,24 +37,24 @@ class Mode implements C\ViewControl\Mode
         $this->aria_label = $aria_label;
     }
 
-    public function withActive(string $label) : C\ViewControl\Mode
+    public function withActive(string $label): C\ViewControl\Mode
     {
         $clone = clone $this;
         $clone->active = $label;
         return $clone;
     }
 
-    public function getActive() : ?string
+    public function getActive(): ?string
     {
         return $this->active;
     }
 
-    public function getLabelledActions() : array
+    public function getLabelledActions(): array
     {
         return $this->labeled_actions;
     }
 
-    public function getAriaLabel() : string
+    public function getAriaLabel(): string
     {
         return $this->aria_label;
     }

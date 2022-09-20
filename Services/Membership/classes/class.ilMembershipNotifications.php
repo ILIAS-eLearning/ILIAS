@@ -1,469 +1,375 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Membership notification settings
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesMembership
  */
 class ilMembershipNotifications
 {
-    protected $ref_id; // [int]
-    protected $mode; // [int]
-    protected $custom; // [array]
-    protected $participants; // [ilParticipants]
-    
-    const VALUE_OFF = 0;
-    const VALUE_ON = 1;
-    const VALUE_BLOCKED = 2;
-    
-    const MODE_SELF = 1;
-    const MODE_ALL = 2;
-    const MODE_ALL_BLOCKED = 3;
-    const MODE_CUSTOM = 4;
-    
-    /**
-     * Constructor
-     *
-     * @param int $a_ref_id
-     * @return self
-     */
-    public function __construct($a_ref_id)
+    protected const VALUE_OFF = 0;
+    protected const VALUE_ON = 1;
+    protected const VALUE_BLOCKED = 2;
+    protected const MODE_SELF = 1;
+    protected const MODE_ALL = 2;
+    protected const MODE_ALL_BLOCKED = 3;
+    protected const MODE_CUSTOM = 4;
+
+    protected int $ref_id;
+    protected int $mode;
+    /** @var array<int, int>  */
+    protected array $custom;
+    protected ?ilParticipants $participants = null;
+    protected ilSetting $setting;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilObjUser $user;
+
+    public function __construct(int $a_ref_id)
     {
-        $this->ref_id = (int) $a_ref_id;
-        $this->custom = array();
+        global $DIC;
+
+        $this->db = $DIC->database();
+        $this->ref_id = $a_ref_id;
+        $this->custom = [];
+        $this->setting = $DIC->settings();
+        $this->tree = $DIC->repositoryTree();
+        $this->user = $DIC->user();
+
         $this->setMode(self::MODE_SELF);
-        
-        if ($this->ref_id) {
+        if ($this->ref_id !== 0) {
             $this->read();
         }
     }
-        
-    /**
-     * Is feature active?
-     *
-     * @return bool
-     */
-    public static function isActive()
+
+    public static function isActive(): bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-                    
-        return ($ilSetting->get("block_activated_news") &&
-            $ilSetting->get("crsgrp_ntf"));
+        if (!$ilSetting->get("block_activated_news") || !$ilSetting->get("crsgrp_ntf")) {
+            return false;
+        }
+        return true;
     }
-    
-    /**
-     * Read from DB
-     */
-    protected function read()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $set = $ilDB->query("SELECT nmode mode" .
+    public static function isActiveForRefId(int $ref_id): bool
+    {
+        if (!self::isActive()) {
+            return false;
+        }
+        // see #31471, #30687, and ilNewsItem::getNewsForRefId
+        $obj_id = ilObject::_lookupObjId($ref_id);
+        if (
+            !ilContainer::_lookupContainerSetting($obj_id, 'cont_use_news', "1") ||
+            (
+                !ilContainer::_lookupContainerSetting($obj_id, 'cont_show_news', "1") &&
+                !ilContainer::_lookupContainerSetting($obj_id, 'news_timeline')
+            )
+        ) {
+            return false;
+        }
+        return true;
+    }
+
+    protected function read(): void
+    {
+        $set = $this->db->query("SELECT nmode mode" .
             " FROM member_noti" .
-            " WHERE ref_id = " . $ilDB->quote($this->ref_id, "integer"));
-        if ($ilDB->numRows($set)) {
-            $row = $ilDB->fetchAssoc($set);
-            $this->setMode($row["mode"]);
-                
-            if ($row["mode"] == self::MODE_CUSTOM) {
-                $set = $ilDB->query("SELECT *" .
+            " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
+        if ($this->db->numRows($set)) {
+            $row = $this->db->fetchAssoc($set);
+            $this->setMode((int) $row["mode"]);
+
+            if ((int) $row["mode"] === self::MODE_CUSTOM) {
+                $set = $this->db->query("SELECT *" .
                     " FROM member_noti_user" .
-                    " WHERE ref_id = " . $ilDB->quote($this->ref_id, "integer"));
-                while ($row = $ilDB->fetchAssoc($set)) {
-                    $this->custom[$row["user_id"]] = $row["status"];
+                    " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
+                while ($row = $this->db->fetchAssoc($set)) {
+                    $this->custom[(int) $row["user_id"]] = (int) $row["status"];
                 }
             }
         }
     }
-    
-    
-    //
-    // MODE
-    //
-    
-    /**
-     * Get mode
-     *
-     * @return int
-     */
-    public function getMode()
+
+    public function getMode(): int
     {
         return $this->mode;
     }
-    
-    /**
-     * Set mode
-     *
-     * @param int $a_value
-     */
-    protected function setMode($a_value)
+
+    protected function setMode(int $a_value): void
     {
         if ($this->isValidMode($a_value)) {
             $this->mode = $a_value;
         }
     }
-    
-    /**
-     * Is given mode valid?
-     *
-     * @param int $a_value
-     * @return bool
-     */
-    protected function isValidMode($a_value)
+
+    protected function isValidMode(int $a_value): bool
     {
         $valid = array(
             self::MODE_SELF
-            ,self::MODE_ALL
-            ,self::MODE_ALL_BLOCKED
-            // ,self::MODE_CUSTOM currently used in forum
+            ,
+            self::MODE_ALL
+            ,
+            self::MODE_ALL_BLOCKED
         );
         return in_array($a_value, $valid);
     }
-    
-    /**
-     * Switch mode for object
-     *
-     * @param int $a_new_mode
-     * @return bool
-     */
-    public function switchMode($a_new_mode)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function switchMode(int $a_new_mode): void
+    {
         if (!$this->ref_id) {
             return;
         }
-                
-        if ($this->mode &&
-            $this->mode != $a_new_mode &&
-            $this->isValidMode($a_new_mode)) {
-            $ilDB->manipulate("DELETE FROM member_noti" .
-                " WHERE ref_id = " . $ilDB->quote($this->ref_id, "integer"));
+
+        if (
+            $this->mode &&
+            $this->mode !== $a_new_mode &&
+            $this->isValidMode($a_new_mode)
+        ) {
+            $this->db->manipulate("DELETE FROM member_noti" .
+                " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
 
             // no custom data
-            if ($a_new_mode != self::MODE_CUSTOM) {
-                $ilDB->manipulate("DELETE FROM member_noti_user" .
-                    " WHERE ref_id = " . $ilDB->quote($this->ref_id, "integer"));
+            if ($a_new_mode !== self::MODE_CUSTOM) {
+                $this->db->manipulate("DELETE FROM member_noti_user" .
+                    " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
             }
-            
+
             // mode self is default
-            if ($a_new_mode != self::MODE_SELF) {
-                $ilDB->insert("member_noti", array(
+            if ($a_new_mode !== self::MODE_SELF) {
+                $this->db->insert("member_noti", array(
                     "ref_id" => array("integer", $this->ref_id),
                     "nmode" => array("integer", $a_new_mode)
                 ));
             }
-            
+
             // remove all user settings (all active is preset, optional opt out)
-            if ($a_new_mode == self::MODE_ALL) {
-                $ilDB->manipulate("DELETE FROM usr_pref" .
-                    " WHERE " . $ilDB->like("keyword", "text", "grpcrs_ntf_" . $this->ref_id));
+            if ($a_new_mode === self::MODE_ALL) {
+                $this->db->manipulate("DELETE FROM usr_pref" .
+                    " WHERE " . $this->db->like("keyword", "text", "grpcrs_ntf_" . $this->ref_id));
             }
         }
-        
         $this->setMode($a_new_mode);
     }
-    
-    
-    //
-    // ACTIVE USERS
-    //
-    
-    /**
-     * Init participants for current object
-     *
-     * @return ilParticipants
-     */
-    protected function getParticipants()
-    {
-        global $DIC;
 
-        $tree = $DIC['tree'];
-        
+    protected function getParticipants(): ?\ilParticipants
+    {
         if ($this->participants === null) {
-            $this->participants = false;
-            
-            $grp_ref_id = $tree->checkForParentType($this->ref_id, "grp");
+            $grp_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
             if ($grp_ref_id) {
-                include_once "Modules/Group/classes/class.ilGroupParticipants.php";
                 $this->participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjId($grp_ref_id));
             }
 
             if (!$this->participants) {
-                $crs_ref_id = $tree->checkForParentType($this->ref_id, "crs");
+                $crs_ref_id = $this->tree->checkForParentType($this->ref_id, "crs");
                 if ($crs_ref_id) {
-                    include_once "Modules/Course/classes/class.ilCourseParticipants.php";
                     $this->participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_ref_id));
                 }
             }
         }
-        
         return $this->participants;
     }
-    
-    /**
-     * Get active notifications for current object
-     *
-     * @return array
-     */
-    public function getActiveUsers()
-    {
-        global $DIC;
 
-        $ilDB = $DIC->database();
-        
+    public function getActiveUsers(): array
+    {
         $users = $all = array();
-        
         $part_obj = $this->getParticipants();
         if ($part_obj) {
             $all = $part_obj->getParticipants();
         }
-        if (!sizeof($all)) {
-            return array();
+        if (!$all) {
+            return [];
         }
-        
+
         switch ($this->getMode()) {
             // users decide themselves
             case self::MODE_SELF:
-                $set = $ilDB->query("SELECT usr_id" .
+                $set = $this->db->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
-                    " AND value = " . $ilDB->quote(self::VALUE_ON, "text"));
-                while ($row = $ilDB->fetchAssoc($set)) {
-                    $users[] = $row["usr_id"];
+                    " WHERE keyword = " . $this->db->quote("grpcrs_ntf_" . $this->ref_id, "text") .
+                    " AND value = " . $this->db->quote(self::VALUE_ON, "text"));
+                while ($row = $this->db->fetchAssoc($set)) {
+                    $users[] = (int) $row["usr_id"];
                 }
                 break;
-            
-            // all members, mind opt-out
+
+                // all members, mind opt-out
             case self::MODE_ALL:
                 // users who did opt-out
                 $inactive = array();
-                $set = $ilDB->query("SELECT usr_id" .
+                $set = $this->db->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
-                    " AND value = " . $ilDB->quote(self::VALUE_OFF, "text"));
-                while ($row = $ilDB->fetchAssoc($set)) {
-                    $inactive[] = $row["usr_id"];
+                    " WHERE keyword = " . $this->db->quote("grpcrs_ntf_" . $this->ref_id, "text") .
+                    " AND value = " . $this->db->quote(self::VALUE_OFF, "text"));
+                while ($row = $this->db->fetchAssoc($set)) {
+                    $inactive[] = (int) $row["usr_id"];
                 }
                 $users = array_diff($all, $inactive);
                 break;
-            
-            // all members, no opt-out
+
+                // all members, no opt-out
             case self::MODE_ALL_BLOCKED:
                 $users = $all;
                 break;
-            
-            // custom settings
+
+                // custom settings
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
-                    if ($status != self::VALUE_OFF) {
+                    if ($status !== self::VALUE_OFF) {
                         $users[] = $user_id;
                     }
                 }
                 break;
         }
-        
-        // only valid participants
-        return  array_intersect($all, $users);
+        return array_intersect($all, $users);
     }
-    
-    
-    //
-    // USER STATUS
-    //
-    
-    /**
-     * Activate notification for user
-     *
-     * @param int $a_user_id
-     * @return bool
-     */
-    public function activateUser($a_user_id = null)
+
+    public function activateUser(int $a_user_id = null): bool
     {
         return $this->toggleUser(true, $a_user_id);
     }
-    
-    /**
-     * Deactivate notification for user
-     *
-     * @param int $a_user_id
-     * @return bool
-     */
-    public function deactivateUser($a_user_id = null)
+
+    public function deactivateUser(int $a_user_id = null): bool
     {
         return $this->toggleUser(false, $a_user_id);
     }
-    
-    /**
-     * Init user instance
-     *
-     * @param int $a_user_id
-     * @return ilUser
-     */
-    protected function getUser($a_user_id = null)
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        if ($a_user_id === null ||
-            $a_user_id == $ilUser->getId()) {
-            $user = $ilUser;
+    protected function getUser(int $a_user_id = null): ?ilObjUser
+    {
+        if (
+            $a_user_id === null ||
+            $a_user_id === $this->user->getId()
+        ) {
+            $user = $this->user;
         } else {
-            $user = new ilUser($a_user_id);
+            $user = new ilObjUser($a_user_id);
         }
-        
-        if ($user->getId() &&
-            $user->getId() != ANONYMOUS_USER_ID) {
+
+        if (
+            $user->getId() &&
+            $user->getId() !== ANONYMOUS_USER_ID
+        ) {
             return $user;
         }
+        return null;
     }
-    
-    /**
-     * Toggle user notification status
-     *
-     * @param bool $a_status
-     * @param int $a_user_id
-     * @return boolean
-     */
-    protected function toggleUser($a_status, $a_user_id = null)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    protected function toggleUser(bool $a_status, int $a_user_id = null): bool
+    {
         if (!self::isActive()) {
-            return;
+            return false;
         }
-    
+
         switch ($this->getMode()) {
             case self::MODE_ALL:
             case self::MODE_SELF:
                 // current user!
                 $user = $this->getUser();
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     // blocked value not supported in user pref!
-                    $user->setPref("grpcrs_ntf_" . $this->ref_id, (int) (bool) $a_status);
+                    if ($a_status === true) {
+                        $string_value = '1';
+                    } else {
+                        $string_value = '0';
+                    }
+
+                    $user->setPref("grpcrs_ntf_" . $this->ref_id, $string_value);
                     $user->writePrefs();
                     return true;
                 }
                 break;
-            
+
             case self::MODE_CUSTOM:
                 $user = $this->getUser($a_user_id);
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     $user_id = $user->getId();
-                    
-                    // did status change at all?
-                    if (!array_key_exists($user_id, $this->custom) ||
-                        $this->custom[$user_id != $a_status]) {
-                        $this->custom[$user_id] = $a_status;
 
-                        $ilDB->replace(
+                    // did status change at all?
+                    if (!array_key_exists($user_id, $this->custom) || $this->custom[$user_id] !== (int) $a_status) {
+                        $this->custom[$user_id] = (int) $a_status;
+
+                        $this->db->replace(
                             "member_noti_user",
                             array(
                                 "ref_id" => array("integer", $this->ref_id),
                                 "user_id" => array("integer", $user_id),
                             ),
                             array(
-                                "status" => array("integer", $a_status)
+                                "status" => array("integer", (int) $a_status)
                             )
                         );
                     }
                     return true;
                 }
                 break;
-                
+
             case self::MODE_ALL_BLOCKED:
                 // no individual settings
                 break;
         }
-                
         return false;
     }
-    
-    
-    //
-    // CURRENT USER
-    //
-    
-    /**
-     * Get user notification status
-     *
-     * @return boolean
-     */
-    public function isCurrentUserActive()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        return in_array($ilUser->getId(), $this->getActiveUsers());
+    public function isCurrentUserActive(): bool
+    {
+        return in_array($this->user->getId(), $this->getActiveUsers());
     }
-    
-    /**
-     * Can user change notification status?
-     *
-     * @return boolean
-     */
-    public function canCurrentUserEdit()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        $user_id = $ilUser->getId();
-        if ($user_id == ANONYMOUS_USER_ID) {
+    public function canCurrentUserEdit(): bool
+    {
+        $user_id = $this->user->getId();
+        if ($user_id === ANONYMOUS_USER_ID) {
             return false;
         }
-        
+
         switch ($this->getMode()) {
             case self::MODE_SELF:
             case self::MODE_ALL:
                 return true;
-                
+
             case self::MODE_ALL_BLOCKED:
                 return false;
-                
+
             case self::MODE_CUSTOM:
-                return !(array_key_exists($user_id, $this->custom) &&
-                    $this->custom[$user_id] == self::VALUE_BLOCKED);
+                return !(array_key_exists($user_id, $this->custom) && $this->custom[$user_id] === self::VALUE_BLOCKED);
         }
+        return false;
     }
-    
-    
-    //
-    // CRON
-    //
-    
+
     /**
      * Get active notifications for all objects
-     *
-     * @return array
      */
-    public static function getActiveUsersforAllObjects()
+    public static function getActiveUsersforAllObjects(): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $tree = $DIC['tree'];
+        $ilDB = $DIC->database();
+        $tree = $DIC->repositoryTree();
+        $log = $DIC->logger()->mmbr();
 
-        $log = ilLoggerFactory::getLogger("mmbr");
-
-
-        $res = array();
-                
+        $res = [];
         if (self::isActive()) {
-            $objects = array();
-            
+            $objects = [];
+
             // user-preference data (MODE_SELF)
             $log->debug("read usr_pref");
             $set = $ilDB->query("SELECT DISTINCT(keyword) keyword" .
@@ -474,7 +380,7 @@ class ilMembershipNotifications
                 $ref_id = substr($row["keyword"], 11);
                 $objects[(int) $ref_id] = (int) $ref_id;
             }
-            
+
             // all other modes
             $log->debug("read member_noti");
             $set = $ilDB->query("SELECT ref_id" .
@@ -482,7 +388,7 @@ class ilMembershipNotifications
             while ($row = $ilDB->fetchAssoc($set)) {
                 $objects[(int) $row["ref_id"]] = (int) $row["ref_id"];
             }
-            
+
             // this might be slow but it is to be used in CRON JOB ONLY!
             foreach (array_unique($objects) as $ref_id) {
                 // :TODO: enough checking?
@@ -490,39 +396,32 @@ class ilMembershipNotifications
                     $log->debug("get active users");
                     $noti = new self($ref_id);
                     $active = $noti->getActiveUsers();
-                    if (sizeof($active)) {
+                    if (count($active)) {
                         $res[$ref_id] = $active;
                     }
                 }
             }
         }
-        
         return $res;
     }
-    
-    
-    //
-    // (OBJECT SETTINGS) FORM
-    //
-    
+
     /**
      * Add notification settings to form
-     *
-     * @param int $a_ref_id
-     * @param ilPropertyFormGUI $a_form
-     * @param ilPropertyFormGUI $a_input
      */
-    public static function addToSettingsForm($a_ref_id, ilPropertyFormGUI $a_form = null, ilFormPropertyGUI $a_input = null)
-    {
+    public static function addToSettingsForm(
+        int $a_ref_id,
+        ?ilPropertyFormGUI $a_form = null,
+        ?ilFormPropertyGUI $a_input = null
+    ): void {
         global $DIC;
 
-        $lng = $DIC['lng'];
-    
+        $lng = $DIC->language();
+
         if (self::isActive() &&
             $a_ref_id) {
             $lng->loadLanguageModule("membership");
             $noti = new self($a_ref_id);
-            
+
             $force_noti = new ilRadioGroupInputGUI($lng->txt("mem_force_notification"), "force_noti");
             $force_noti->setRequired(true);
             if ($a_form) {
@@ -530,109 +429,111 @@ class ilMembershipNotifications
             } else {
                 $a_input->addSubItem($force_noti);
             }
-            
+
             if ($noti->isValidMode(self::MODE_SELF)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_self"), self::MODE_SELF);
+                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_self"), (string) self::MODE_SELF);
                 $force_noti->addOption($option);
             }
             if ($noti->isValidMode(self::MODE_ALL_BLOCKED)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"), self::MODE_ALL_BLOCKED);
+                $option = new ilRadioOption(
+                    $lng->txt("mem_force_notification_mode_blocked"),
+                    (string) self::MODE_ALL_BLOCKED
+                );
                 $force_noti->addOption($option);
-                
+
                 if ($noti->isValidMode(self::MODE_ALL)) {
-                    $changeable = new ilCheckboxInputGUI($lng->txt("mem_force_notification_mode_all_sub_blocked"), "force_noti_allblk");
+                    $changeable = new ilCheckboxInputGUI(
+                        $lng->txt("mem_force_notification_mode_all_sub_blocked"),
+                        "force_noti_allblk"
+                    );
                     $option->addSubItem($changeable);
                 }
             } elseif ($noti->isValidMode(self::MODE_ALL)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), self::MODE_ALL);
+                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_all"), (string) self::MODE_ALL);
                 $force_noti->addOption($option);
             }
-            /* not supported in GUI
-            if($noti->isValidMode(self::MODE_CUSTOM))
-            {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_custom"), self::MODE_CUSTOM);
-                $option->setInfo($lng->txt("mem_force_notification_mode_custom_info"));
-                $force_noti->addOption($option);
-            }
-            */
-            
+
             // set current mode
             $current_mode = $noti->getMode();
             $has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) &&
                 $noti->isValidMode(self::MODE_ALL));
             if (!$has_changeable_cb) {
-                $force_noti->setValue($current_mode);
+                $force_noti->setValue((string) $current_mode);
             } else {
                 switch ($current_mode) {
                     case self::MODE_SELF:
-                        $force_noti->setValue($current_mode);
+                        $force_noti->setValue((string) $current_mode);
+                        /** @noinspection PhpUndefinedVariableInspection */
                         $changeable->setChecked(true); // checked as "default" on selection of parent
                         break;
-                    
+
                     case self::MODE_ALL_BLOCKED:
-                        $force_noti->setValue($current_mode);
+                        $force_noti->setValue((string) $current_mode);
                         break;
-                    
+
                     case self::MODE_ALL:
-                        $force_noti->setValue(self::MODE_ALL_BLOCKED);
+                        $force_noti->setValue((string) self::MODE_ALL_BLOCKED);
+                        /** @noinspection PhpUndefinedVariableInspection */
                         $changeable->setChecked(true);
                         break;
                 }
             }
         }
     }
-    
-    /**
-     * Import notification settings from form
-     *
-     * @param int $a_ref_id
-     * @param ilPropertyFormGUI $a_form
-     */
-    public static function importFromForm($a_ref_id, ilPropertyFormGUI $a_form = null)
+
+    public static function importFromForm(int $a_ref_id, ?ilPropertyFormGUI $a_form = null): void
     {
-        if (self::isActive() &&
-            $a_ref_id) {
+        global $DIC;
+
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+
+        if ($a_ref_id && self::isActive()) {
             $noti = new self($a_ref_id);
-            $has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) &&
-                $noti->isValidMode(self::MODE_ALL));
+            $has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) && $noti->isValidMode(self::MODE_ALL));
             $changeable = null;
             if (!$a_form) {
-                $mode = (int) $_POST["force_noti"];
+                $mode = 0;
+                if ($http->wrapper()->post()->has('force_noti')) {
+                    $mode = $http->wrapper()->post()->retrieve(
+                        'force_noti',
+                        $refinery->kindlyTo()->int()
+                    );
+                }
+
                 if ($has_changeable_cb) {
-                    $changeable = (int) $_POST["force_noti_allblk"];
+                    $changeable = 0;
+                    if ($http->wrapper()->post()->has('force_noti_allblk')) {
+                        $changeable = $http->wrapper()->post()->retrieve(
+                            'force_noti_allblk',
+                            $refinery->kindlyTo()->int()
+                        );
+                    }
                 }
             } else {
-                $mode = $a_form->getInput("force_noti");
+                $mode = (int) $a_form->getInput("force_noti");
                 if ($has_changeable_cb) {
                     $changeable = $a_form->getInput("force_noti_allblk");
                 }
             }
             // checkbox (all) is subitem of all_blocked
-            if ($changeable &&
-                $mode == self::MODE_ALL_BLOCKED) {
+            if ($changeable && $mode === self::MODE_ALL_BLOCKED) {
                 $mode = self::MODE_ALL;
             }
             $noti->switchMode($mode);
         }
     }
 
-    /**
-     * Clone notification object settings
-     *
-     * @param $new_ref_id
-     */
-    public function cloneSettings($new_ref_id)
+    public function cloneSettings(int $new_ref_id): void
     {
-        global $ilDB;
-
-        $set = $ilDB->queryF(
+        $set = $this->db->queryF(
             "SELECT * FROM member_noti " .
             " WHERE ref_id = %s ",
             array("integer"),
             array($this->ref_id)
         );
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $ilDB->insert("member_noti", array(
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $this->db->insert("member_noti", array(
                 "ref_id" => array("integer", $new_ref_id),
                 "nmode" => array("integer", $rec["nmode"])
             ));

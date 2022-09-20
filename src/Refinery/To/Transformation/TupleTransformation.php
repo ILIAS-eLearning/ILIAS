@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\To\Transformation;
 
@@ -12,24 +28,18 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 class TupleTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    protected string $error = '';
-
-    /**
-     * @var Transformation[]
-     */
+    private string $error = '';
+    /** @var Transformation[] */
     private array $transformations;
 
     /**
-     * @param array $transformations
+     * @param Transformation[] $transformations
      */
     public function __construct(array $transformations)
     {
@@ -49,13 +59,13 @@ class TupleTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from): array
     {
         $this->check($from);
 
-        $result = array();
+        $result = [];
         foreach ($from as $key => $value) {
             $transformedValue = $this->transformations[$key]->transform($value);
             $result[] = $transformedValue;
@@ -65,13 +75,16 @@ class TupleTransformation implements Constraint
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function getError()
+    public function getError(): string
     {
         return $this->error;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function check($value)
     {
         if (!$this->accepts($value)) {
@@ -81,22 +94,25 @@ class TupleTransformation implements Constraint
         return null;
     }
 
-    public function accepts($value) : bool
+    /**
+     * @inheritDoc
+     */
+    public function accepts($value): bool
     {
         if (!$this->isLengthOfValueAndTransformationEqual($value)) {
             return false;
         }
 
-        return count(array_filter($value, function ($key) {
+        return count(array_filter($value, function ($key): bool {
             if (!array_key_exists($key, $this->transformations)) {
                 $this->error = sprintf('There is no entry "%s" defined in the transformation array', $key);
                 return true;
             }
             return false;
-        }, ARRAY_FILTER_USE_KEY)) == 0;
+        }, ARRAY_FILTER_USE_KEY)) === 0;
     }
 
-    private function isLengthOfValueAndTransformationEqual($values) : bool
+    private function isLengthOfValueAndTransformationEqual($values): bool
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);
@@ -113,7 +129,10 @@ class TupleTransformation implements Constraint
         return true;
     }
 
-    public function problemWith($value) : ?string
+    /**
+     * @inheritDoc
+     */
+    public function problemWith($value): ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

@@ -1,21 +1,38 @@
 <?php
 
-/* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Implementation\Component\Input\Field\Section;
+use ILIAS\UI\Implementation\Component\Input\Field\Numeric;
+use ILIAS\UI\Implementation\Component\Input\Field\Select;
 use PHPUnit\Framework\TestCase;
 
 class ilStudyProgrammeAssessmentSettingsTest extends TestCase
 {
-    const VALID_POINTS_1 = 22;
-    const VALID_POINTS_2 = 44;
-    const INVALID_POINTS = -11;
-    const VALID_STATUS_1 = 20;
-    const VALID_STATUS_2 = 30;
-    const INVALID_STATUS = -1;
+    private const VALID_POINTS_1 = 22;
+    private const VALID_POINTS_2 = 44;
+    private const INVALID_POINTS = -11;
+    private const VALID_STATUS_1 = 20;
+    private const VALID_STATUS_2 = 30;
+    private const INVALID_STATUS = -1;
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -23,37 +40,37 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_STATUS_1, $obj->getStatus());
     }
 
-    public function testFailCreateWithInvalidPoints() : void
+    public function testFailCreateWithInvalidPoints(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::VALID_STATUS_1);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
 
-    public function testFailCreateWithInvalidStatus() : void
+    public function testFailCreateWithInvalidStatus(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
 
-    public function testFailCreateWithInvalidPointAndInvalidStatus() : void
+    public function testFailCreateWithInvalidPointAndInvalidStatus(): void
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
 
-    public function testSuccessfulWithPoints() : void
+    public function testSuccessfulWithPoints(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -63,19 +80,19 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_POINTS_2, $new->getPoints());
     }
 
-    public function testFailWithPoints() : void
+    public function testFailWithPoints(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
         try {
             $obj->withPoints(self::INVALID_POINTS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
 
-    public function testSuccessfulWithStatus() : void
+    public function testSuccessfulWithStatus(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
@@ -85,25 +102,26 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         $this->assertEquals(self::VALID_STATUS_2, $new->getStatus());
     }
 
-    public function testFailWithStatus() : void
+    public function testFailWithStatus(): void
     {
         $obj = new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::VALID_STATUS_1);
 
         try {
             $obj->withStatus(self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();
         $refinery = new ILIAS\Refinery\Factory($df, $lng);
 
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new ILIAS\UI\Implementation\Component\SignalGenerator(),
             $df,
             $refinery,
@@ -143,19 +161,19 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Section',
+            Section::class,
             $field
         );
 
         $inputs = $field->getInputs();
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Numeric',
+            Numeric::class,
             $inputs['points']
         );
 
         $this->assertInstanceOf(
-            'ILIAS\UI\Implementation\Component\Input\Field\Select',
+            Select::class,
             $inputs['status']
         );
     }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumStatisticsTableGUI
@@ -28,11 +45,11 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 
         $columns = $this->getColumnDefinition();
-        foreach ($columns as $index => $column) {
+        foreach ($columns as $column) {
             $this->addColumn(
                 $column['txt'],
                 isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
-                ((string) ceil((100 / count($columns)))) . '%s'
+                (ceil((100 / count($columns)))) . '%'
             );
         }
 
@@ -51,9 +68,9 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array<int, array{field: string, txt: string, sortable: bool}>
+     * @return array<int, array{field: string, txt: string, sortable?: bool}>
      */
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -90,45 +107,56 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         return $columns;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         parent::fillRow($a_set);
+
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         if ($this->hasActiveLp) {
             $this->tpl->setCurrentBlock('val_lp');
             switch (true) {
                 case in_array($a_set['usr_id'], $this->completed, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
+                    );
                     break;
 
                 case in_array($a_set['usr_id'], $this->in_progress, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
+                    );
                     break;
 
                 case in_array($a_set['usr_id'], $this->failed, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_FAILED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
+                    );
                     break;
 
                 default:
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
+                    );
                     break;
             }
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
-        switch ($a_field) {
-            case 'ranking':
-                return true;
-
-            default:
-                return false;
-        }
+        return match ($a_field) {
+            'ranking' => true,
+            default => false,
+        };
     }
 }

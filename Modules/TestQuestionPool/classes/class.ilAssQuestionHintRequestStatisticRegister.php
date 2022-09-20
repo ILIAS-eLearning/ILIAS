@@ -18,28 +18,30 @@ class ilAssQuestionHintRequestStatisticRegister
      * @var array
      */
     protected $requestsByTestPassIndexAndQuestionId = array();
-    
+
     /**
      * @param integer $passIndex
      * @param integer $qId
      * @param ilAssQuestionHintRequestStatisticData $request
      */
-    public function addRequestByTestPassIndexAndQuestionId($passIndex, $qId, ilAssQuestionHintRequestStatisticData $request)
+    public function addRequestByTestPassIndexAndQuestionId($passIndex, $qId, ilAssQuestionHintRequestStatisticData $request): void
     {
         if (!isset($this->requestsByTestPassIndexAndQuestionId[$passIndex])) {
             $this->requestsByTestPassIndexAndQuestionId[$passIndex] = array();
         }
-        
+
         $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId] = $request;
     }
-    
+
     /**
      * @param integer $passIndex
      * @param integer $qId
-     * @return ilAssQuestionHintRequestStatisticData
      */
     public function getRequestByTestPassIndexAndQuestionId($passIndex, $qId)
     {
+        if (!isset($this->requestsByTestPassIndexAndQuestionId[$passIndex]) && !isset($this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId])) {
+            return null;
+        }
         return $this->requestsByTestPassIndexAndQuestionId[$passIndex][$qId];
     }
 }

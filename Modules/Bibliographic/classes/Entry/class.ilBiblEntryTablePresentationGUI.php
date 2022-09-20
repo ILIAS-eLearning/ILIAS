@@ -1,29 +1,34 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBiblEntryTablePresentationGUI
  * @author     Fabian Schmid <fs@studer-raimann.ch>
  * @version    1.0.0
  */
 class ilBiblEntryTablePresentationGUI
 {
-    
-    /**
-     * @var \ilBiblEntry
-     */
-    protected $entry;
-    /**
-     * @var string
-     */
-    protected $html = '';
-    /**
-     * @var ilBiblFactoryFacadeInterface
-     */
-    protected $facade;
-    
+    protected \ilBiblEntry $entry;
+    protected string $html = '';
+    protected \ilBiblFactoryFacadeInterface $facade;
+
     /**
      * ilBiblEntryTablePresentationGUI constructor.
-     * @param \ilBiblEntry $entry
      */
     public function __construct(ilBiblEntry $entry, ilBiblFactoryFacadeInterface $facade)
     {
@@ -31,12 +36,11 @@ class ilBiblEntryTablePresentationGUI
         $this->facade = $facade;
         $this->render();
     }
-    
+
     /**
-     * @return mixed|string
      * @deprecated Has to be refactored. Active records verwenden statt array
      */
-    protected function render()
+    protected function render(): void
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($this->getEntry()->getId());
         //Get the model which declares which attributes to show in the overview table and how to show them
@@ -101,35 +105,23 @@ class ilBiblEntryTablePresentationGUI
         }
         $this->setHtml($single_entry);
     }
-    
-    /**
-     * @return string
-     */
-    public function getHtml()
+
+    public function getHtml(): string
     {
         return $this->html;
     }
-    
-    /**
-     * @param string $html
-     */
-    public function setHtml($html)
+
+    public function setHtml(string $html): void
     {
         $this->html = $html;
     }
-    
-    /**
-     * @return ilBiblEntry
-     */
-    public function getEntry()
+
+    public function getEntry(): \ilBiblEntry
     {
         return $this->entry;
     }
-    
-    /**
-     * @param ilBiblEntry $entry
-     */
-    public function setEntry($entry)
+
+    public function setEntry(\ilBiblEntry $entry): void
     {
         $this->entry = $entry;
     }

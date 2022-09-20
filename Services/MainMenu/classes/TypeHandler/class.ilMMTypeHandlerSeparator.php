@@ -1,19 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * Class ilMMTypeHandlerSeparator
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler
+class ilMMTypeHandlerSeparator implements TypeHandler
 {
-
     /**
      * @inheritDoc
      */
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
         return Separator::class;
     }
@@ -22,7 +26,7 @@ class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Scope\MainMenu\Col
     /**
      * @inheritDoc
      */
-    public function enrichItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem
+    public function enrichItem(isItem $item): isItem
     {
         if ($item instanceof Separator && $item->getTitle() !== "") {
             $item = $item->withVisibleTitle(true);
@@ -35,7 +39,7 @@ class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Scope\MainMenu\Col
     /**
      * @inheritDoc
      */
-    public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         return array();
     }
@@ -44,7 +48,7 @@ class ilMMTypeHandlerSeparator implements \ILIAS\GlobalScreen\Scope\MainMenu\Col
     /**
      * @inheritDoc
      */
-    public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool
     {
         return true;
     }

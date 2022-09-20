@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data\UUID;
 
@@ -6,11 +8,10 @@ namespace ILIAS\Data\UUID;
  * Class UuidInterface
  * @package ILIAS\Data\UUID
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 interface Uuid
 {
-
     /**
      * Compares this UUID to the specified UUID.
      *
@@ -24,7 +25,7 @@ interface Uuid
      * @param Uuid $other UUID to which this UUID is compared
      * @return int -1, 0 or 1 as this UUID is less than, equal to, or greater than `$uuid`
      */
-    public function compareTo(Uuid $other) : int;
+    public function compareTo(Uuid $other): int;
 
     /**
      * Compares this object to the specified object.
@@ -36,15 +37,15 @@ interface Uuid
      * @param Uuid $other
      * @return bool True if `$other` is equal to this UUID
      */
-    public function equals(Uuid $other) : bool;
+    public function equals(Uuid $other): bool;
 
     /**
      * Converts this UUID into a string representation.
      */
-    public function toString() : string;
+    public function toString(): string;
 
     /**
      * Enforce that UUID implementation implement the __toString() magic method
      */
-    public function __toString() : string;
+    public function __toString(): string;
 }

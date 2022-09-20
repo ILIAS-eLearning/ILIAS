@@ -1,31 +1,41 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
 
 class ilUtilitiesSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
-    public function __construct(
-        Refinery\Factory $refinery
-    ) {
+    public function __construct(Refinery\Factory $refinery)
+    {
         $this->refinery = $refinery;
     }
 
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -33,10 +43,10 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilUtilitiesSetupConfig(
+            return new ilUtilitiesSetupConfig(
                 $data["path_to_convert"] ?? "/usr/bin/convert",
                 $data["path_to_zip"] ?? "/usr/bin/zip",
                 $data["path_to_unzip"] ?? "/usr/bin/unzip"
@@ -47,18 +57,20 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
-        return  new ilUtilitiesConfigStoredObjective($config);
+        /** @var ilUtilitiesSetupConfig $config */
+        return new ilUtilitiesConfigStoredObjective($config);
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         if ($config !== null) {
-            return  new ilUtilitiesConfigStoredObjective($config);
+            /** @var ilUtilitiesSetupConfig $config */
+            return new ilUtilitiesConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
     }
@@ -66,7 +78,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -74,7 +86,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilUtilitiesMetricsCollectedObjective($storage);
     }
@@ -82,7 +94,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

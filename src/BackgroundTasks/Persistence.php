@@ -1,5 +1,21 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Created by PhpStorm.
  * User: otruffer
  * Date: 05.05.17
@@ -10,89 +26,50 @@ namespace ILIAS\BackgroundTasks;
 
 interface Persistence
 {
-
     /**
      * @param Bucket $bucket The bucket you want to save.
      */
-    public function saveBucketAndItsTasks(Bucket $bucket);
-
+    public function saveBucketAndItsTasks(Bucket $bucket): void;
 
     /**
-     * @param int    $user_id
-     * @param string $order_by
-     * @param string $order_direction
-     *
      * @return \int[] Returns an array of bucket ids for the given user Id.
      */
-    public function getBucketIdsOfUser($user_id, $order_by = "id", $order_direction = "ASC");
-
+    public function getBucketIdsOfUser(int $user_id, string $order_by = "id", string $order_direction = "ASC"): array;
 
     /**
-     * @param $state int
-     *
      * @return int[] Returns a list of bucket ids for the given Observer State
      */
-    public function getBucketIdsByState($state);
+    public function getBucketIdsByState(int $state): array;
 
-
-    /**
-     * @param int $bucket_container_id
-     *
-     * @return Bucket
-     *
-     */
-    public function loadBucket($bucket_container_id);
-
+    public function loadBucket(int $bucket_container_id): Bucket;
 
     /**
-     * @param $bucket_container_id
-     *
      * @return Bucket[]
-     *
      */
-    public function loadBuckets($bucket_container_id);
-
+    public function loadBuckets(array $bucket_container_ids): array;
 
     /**
      * Deletes the Observer AND all its tasks and values.
-     *
-     * @param $bucket_id int
-     *
-     * @return void
      */
-    public function deleteBucketById($bucket_id);
-
+    public function deleteBucketById(int $bucket_id): void;
 
     /**
      * Delete the bucket and all its stuff.
-     *
-     * @param $bucket Bucket
-     *
-     * @return void
      */
-    public function deleteBucket($bucket);
-
+    public function deleteBucket(Bucket $bucket): void;
 
     /**
      * Updates only the bucket! Use this if e.g. the percentage or the current task changes.
-     *
-     * @param Bucket $bucket
      */
-    public function updateBucket(Bucket $bucket);
-
+    public function updateBucket(Bucket $bucket): void;
 
     /**
-     * @param Bucket $bucket
-     *
-     * @return int Returns the container id of an obvserver.
+     * @return int Returns the container id of an observer.
      */
-    public function getBucketContainerId(Bucket $bucket);
-
+    public function getBucketContainerId(Bucket $bucket): int;
 
     /**
-     * @param int $user_id
-     *
      * @return BucketMeta[]
      */
-    public function getBucketMetaOfUser($user_id);
+    public function getBucketMetaOfUser(int $user_id): array;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSelfAssessmentMigrator.php';
@@ -13,12 +14,12 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param $html string
      * @return string
      */
-    public function format($string)
+    public function format($string): string
     {
         $string = $this->handleLineBreaks($string);
 
         require_once 'Services/RTE/classes/class.ilRTE.php';
-        $string = (string) ilRTE::_replaceMediaObjectImageSrc($string, 1);
+        $string = ilRTE::_replaceMediaObjectImageSrc($string, 1);
 
         $string = str_replace("</li><br />", "</li>", $string);
         $string = str_replace("</li><br>", "</li>", $string);
@@ -37,7 +38,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
      * @param string $string
      * @return string
      */
-    protected function handleLineBreaks($string)
+    protected function handleLineBreaks($string): string
     {
         if (!ilUtil::isHTML($string)) {
             $string = nl2br($string);
@@ -45,12 +46,12 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
      */
-    protected function convertLatexSpanToTex($string)
+    protected function convertLatexSpanToTex($string): string
     {
         // we try to save all latex tags
         $try = true;
@@ -75,17 +76,17 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
      */
-    protected function stripHtmlExceptSelfAssessmentTags($string)
+    protected function stripHtmlExceptSelfAssessmentTags($string): string
     {
         $tags = self::getSelfAssessmentTags();
 
         $tstr = "";
-        
+
         foreach ($tags as $t) {
             $tstr .= "<" . $t . ">";
         }
@@ -94,50 +95,50 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
 
         return $string;
     }
-    
+
     /**
      * @param string $string
      * @return string
      */
-    public function migrateToLmContent($string)
+    public function migrateToLmContent($string): string
     {
         $string = $this->convertLatexSpanToTex($string);
         $string = $this->stripHtmlExceptSelfAssessmentTags($string);
         return $string;
     }
-    
+
     /**
      * @param assQuestion $question
      */
-    public static function prepareQuestionForLearningModule(assQuestion $question)
+    public static function prepareQuestionForLearningModule(assQuestion $question): void
     {
         $question->migrateContentForLearningModule(new self());
     }
-    
+
     /**
      * Get tags allowed in question tags in self assessment mode
      * @return array array of tags
      */
-    public static function getSelfAssessmentTags()
+    public static function getSelfAssessmentTags(): array
     {
         // set tags we allow in self assessment mode
         $st = ilUtil::getSecureTags();
-        
+
         // we allow these tags, since they are typically used in the Tiny Assessment editor
         // and should not be deleted, if questions are copied from pools to learning modules
         $not_supported = array("img", "p");
         $tags = array();
-        
+
         /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
         $tags[] = 'p';
         /// BH 01-03-2018: added P tag to allowed tags due to missing newline problems
-        
+
         foreach ($st as $s) {
             if (!in_array($s, $not_supported)) {
                 $tags[] = $s;
             }
         }
-        
+
         return $tags;
     }
 }

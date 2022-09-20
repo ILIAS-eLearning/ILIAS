@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Workspace content renderer
@@ -31,7 +34,7 @@ class ilWorkspaceContentGUI
     protected ilObjUser $user;
     protected ilObjectDefinition $obj_definition;
     protected ilCtrl $ctrl;
-    protected $folder_sorting;
+    protected ?ilWorkspaceFolderSorting $folder_sorting = null;
 
     public function __construct(
         object $object_gui,
@@ -59,7 +62,7 @@ class ilWorkspaceContentGUI
         $this->folder_sorting = new ilWorkspaceFolderSorting();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $html = "";
         $first = true;
@@ -82,12 +85,12 @@ class ilWorkspaceContentGUI
 
         // output sortation
         $tree = new ilWorkspaceTree($this->user->getId());
-        $parent_id = $tree->getParentId($this->object_gui->ref_id);
+        $parent_id = $tree->getParentId($this->object_gui->getRefId());
         $parent_effective = ($parent_id > 0)
             ? $this->user_folder_settings->getEffectiveSortation($parent_id)
             : 0;
-        $selected = $this->user_folder_settings->getSortation($this->object_gui->object->getId());
-        $sort_options = $this->folder_sorting->getOptionsByType($this->object_gui->object->getType(), $selected, $parent_effective);
+        $selected = $this->user_folder_settings->getSortation($this->object_gui->getObject()->getId());
+        $sort_options = $this->folder_sorting->getOptionsByType($this->object_gui->getObject()->getType(), $selected, $parent_effective);
         $sortation = $this->ui->factory()->viewControl()->sortation($sort_options)
             ->withTargetURL($this->ctrl->getLinkTarget($this->object_gui, "setSortation"), 'sortation')
             ->withLabel($this->lng->txt("wfld_sortation"));
@@ -110,7 +113,7 @@ class ilWorkspaceContentGUI
         return $this->ui->renderer()->render($panel);
     }
 
-    protected function getItems() : array
+    protected function getItems(): array
     {
         $user = $this->user;
 
@@ -128,12 +131,12 @@ class ilWorkspaceContentGUI
 
         $this->shared_objects = $this->access_handler->getObjectsIShare();
 
-        $nodes = $this->folder_sorting->sortNodes($nodes, $this->user_folder_settings->getEffectiveSortation($this->object_gui->ref_id));
+        $nodes = $this->folder_sorting->sortNodes($nodes, $this->user_folder_settings->getEffectiveSortation($this->object_gui->getRefId()));
 
         return $nodes;
     }
 
-    protected function getItemHTML(array $node) : string
+    protected function getItemHTML(array $node): string
     {
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;
@@ -184,8 +187,8 @@ class ilWorkspaceContentGUI
         $html = $item_list_gui->getListItemHTML(
             $node["wsp_id"],
             $node["obj_id"],
-            $node["title"],
-            $node["description"]
+            (string) $node["title"],
+            (string) $node["description"]
         );
 
         return $html;

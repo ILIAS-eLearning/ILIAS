@@ -1,29 +1,49 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitOtherRolesTableGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
 class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 {
-    public function __construct($parent_obj, $parent_cmd, $role_id, $template_context = "")
-    {
+    protected ilTabsGUI $tabs;
+    protected ilAccessHandler $ilAccess;
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+
+    public function __construct(
+        ilObjectGUI $parent_obj,
+        string $parent_cmd,
+        string $role_id,
+        string $template_context = ""
+    ) {
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        /**
-         * @var $ilCtrl ilCtrl
-         * @var $ilTabs ilTabsGUI
-         */
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->setPrefix("sr_other_role_" . $role_id);
         $this->setFormName('sr_other_role_' . $role_id);
@@ -41,27 +61,20 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->setTitle(ilObjRole::_lookupTitle($role_id));
         $this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
     }
-    //
-    //	public function getHTML(){
-    //		$this->parseData();
-    //		return parent::getHTML();
-    //	}
 
-    protected function setTableHeaders()
+    private function setTableHeaders(): void
     {
         $this->addColumn($this->lng->txt("firstname"), "first_name");
         $this->addColumn($this->lng->txt("lastname"), "last_name");
         $this->addColumn($this->lng->txt("action"));
     }
 
-
-    public function readData()
+    public function readData(): void
     {
         $this->parseData();
     }
 
-
-    public function parseData()
+    private function parseData(): void
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -71,66 +84,59 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-
-    protected function parseRows($user_ids)
+    /**
+     * @param int[] $user_ids
+     * @return array
+     */
+    private function parseRows(array $user_ids): array
     {
         $data = array();
         foreach ($user_ids as $user_id) {
             $set = array();
-            $this->setRowForUser($set, $user_id);
-            $data[] = $set;
+            $data[] = $this->getRowForUser($user_id);
         }
 
         return $data;
     }
 
-
-    /**
-     * @param $role_id integer
-     */
-    public function setRoleId($role_id)
+    public function setRoleId(int $role_id): void
     {
         $this->role_id = $role_id;
     }
 
-
-    /**
-     * @return integer
-     */
-    public function getRoleId()
+    public function getRoleId(): int
     {
         return $this->role_id;
     }
 
-
-    protected function setRowForUser(&$set, $user_id)
+    private function getRowForUser(int $user_id): array
     {
         $user = new ilObjUser($user_id);
+        $set = [];
         $set["first_name"] = $user->getFirstname();
         $set["last_name"] = $user->getLastname();
         $set["user_object"] = $user;
         $set["user_id"] = $user_id;
+        return $set;
     }
 
-
-    public function fillRow($set)
+    public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+        $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
 
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
-            $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
+        if ($this->ilAccess->checkAccess("write", "", $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->to()->int()))) {
+            $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $a_set["user_id"]);
             $this->ctrl->setParameterByClass("ilObjOrgUnitGUI", "role_id", $this->role_id);
 
             $selection = new ilAdvancedSelectionListGUI();
-            $selection->setListTitle($lng->txt("Actions"));
-            $selection->setId("selection_list_user_other_roles_" . $set["user_id"]);
-            $selection->addItem($this->lng->txt("remove"), "delete_from_role", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
+            $selection->setListTitle($this->lng->txt("Actions"));
+            $selection->setId("selection_list_user_other_roles_" . $a_set["user_id"]);
+            $selection->addItem(
+                $this->lng->txt("remove"),
+                "delete_from_role",
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole")
+            );
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }

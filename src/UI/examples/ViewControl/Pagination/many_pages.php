@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Pagination;
 
@@ -8,9 +10,14 @@ function many_pages()
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $url = $DIC->http()->request()->getRequestTarget();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     $parameter_name = 'page2';
-    $current_page = (int) (array_key_exists($parameter_name, array($_GET)) ? $_GET[$parameter_name] : 0);
+    $current_page = 0;
+    if ($request_wrapper->has($parameter_name)) {
+        $current_page = $request_wrapper->retrieve($parameter_name, $refinery->kindlyTo()->int());
+    }
 
     $pagination = $factory->viewControl()->pagination()
         ->withTargetURL($url, $parameter_name)

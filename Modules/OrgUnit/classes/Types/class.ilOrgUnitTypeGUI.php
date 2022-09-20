@@ -1,55 +1,36 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitTypeGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitTypeGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    public $tabs;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-    /**
-     * @var ilLog
-     */
-    protected $log;
-    /**
-     * @var ILIAS
-     */
-    protected $ilias;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilTabsGUI $tabs;
+    private ilAccessHandler $access;
+    private ilToolbarGUI $toolbar;
+    private \ilSetting $settings;
+    private ilLanguage $lng;
+    private ilObjOrgUnitGUI $parent_gui;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -57,25 +38,14 @@ class ilOrgUnitTypeGUI
     public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilLocator = $DIC['ilLocator'];
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        $ilLog = $DIC['ilLog'];
-        $ilias = $DIC['ilias'];
-        $ilTabs = $DIC['ilTabs'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->access = $ilAccess;
-        $this->locator = $ilLocator;
-        $this->toolbar = $ilToolbar;
-        $this->tabs = $ilTabs;
-        $this->log = $ilLog;
-        $this->lng = $lng;
-        $this->ilias = $ilias;
+
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->access =$DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->tabs =  $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->settings = $DIC->settings();
         $this->parent_gui = $parent_gui;
         $this->lng->loadLanguageModule('orgu');
         $this->ctrl->saveParameter($this, 'type_id');
@@ -83,8 +53,7 @@ class ilOrgUnitTypeGUI
         $this->checkAccess();
     }
 
-
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -133,27 +102,23 @@ class ilOrgUnitTypeGUI
         }
     }
 
-
-    /**
-     * Check if user can edit types
-     */
-    protected function checkAccess()
+    private function checkAccess(): void
     {
         if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui);
         }
     }
 
-
-    /**
-     * Add subtabs for editing type
-     */
-    protected function setSubTabsEdit($active_tab_id)
+    private function setSubTabsEdit(string $active_tab_id): void
     {
         $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
-        if ($this->ilias->getSetting('custom_icons')) {
-            $this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'), $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
+        if ($this->settings->get('custom_icons')) {
+            $this->tabs->addSubTab(
+                'custom_icons',
+                $this->lng->txt('icon_settings'),
+                $this->ctrl->getLinkTarget($this, 'editCustomIcons')
+            );
         }
         if (count(ilOrgUnitType::getAvailableAdvancedMDRecordIds())) {
             $this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
@@ -161,55 +126,47 @@ class ilOrgUnitTypeGUI
         $this->tabs->setSubTabActive($active_tab_id);
     }
 
-
     /**
      * Display form for editing custom icons
      */
-    protected function editCustomIcons()
+    private function editCustomIcons(): void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-
-    /**
-     * Save icon
-     */
-    protected function updateCustomIcons()
+    private function updateCustomIcons(): void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
 
-
-    protected function editAMD()
+    private function editAMD(): void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-
-    protected function updateAMD()
+    private function updateAMD(): void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     /**
      * Display all types in a table with actions to edit/delete
      */
-    protected function listTypes()
+    private function listTypes(): void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption('orgu_type_add');
@@ -220,70 +177,65 @@ class ilOrgUnitTypeGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-
     /**
      * Display form to create a new OrgUnit type
      */
-    protected function add()
+    private function add(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Display form to edit an existing OrgUnit type
      */
-    protected function edit()
+    private function edit(): void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         $form = new ilOrgUnitTypeFormGUI($this, $type);
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Create (save) type
      */
-    protected function create()
+    protected function create(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_created'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_created'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
-
 
     /**
      * Update (save) type
      */
-    protected function update()
+    private function update(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this);
         } else {
             $this->tpl->setContent($form->getHTML());
         }
     }
 
-
     /**
      * Delete a type
      */
-    protected function delete()
+    private function delete(): void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         try {
             $type->delete();
-            ilUtil::sendSuccess($this->lng->txt('orgu_type_msg_deleted'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('orgu_type_msg_deleted'), true);
             $this->ctrl->redirect($this);
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage(), true);
+            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->ctrl->redirect($this);
         }
     }

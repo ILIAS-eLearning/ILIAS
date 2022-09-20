@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Server;
 
@@ -39,7 +42,7 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = ""
-    ) : \ILIAS\UI\Component\Button\Standard {
+    ): \ILIAS\UI\Component\Button\Standard {
         $ui = $this->ui;
         $f = $ui->factory();
         $b = $f->button()->standard($content, "");
@@ -60,7 +63,7 @@ class UIWrapper
         return $b;
     }
 
-    public function getRenderedInfoBox(string $text) : string
+    public function getRenderedInfoBox(string $text): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -68,7 +71,7 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
-    public function getRenderedFailureBox() : string
+    public function getRenderedFailureBox(): string
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -84,13 +87,26 @@ class UIWrapper
         string $action,
         array $data = null,
         string $component = ""
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $b = $this->getButton($content, $type, $action, $data, $component);
         return $ui->renderer()->renderAsync($b);
     }
 
-    public function getRenderedButtonGroups(array $groups) : string
+    public function getRenderedModalFailureBox(): string
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->failure($this->lng->txt("copg_error_occured_modal"))
+               ->withButtons([$f->button()->standard($this->lng->txt("copg_reload_page"), "#")->withOnLoadCode(function ($id) {
+                   return
+                       "$(\"#$id\").click(function() { location.reload(); return false;});";
+               })]);
+
+        return $ui->renderer()->renderAsync($m) . "<p>" . $this->lng->txt("copg_details") . ":</p>";
+    }
+
+    public function getRenderedButtonGroups(array $groups): string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -111,7 +127,7 @@ class UIWrapper
         return $tpl->get();
     }
 
-    public function getRenderedFormFooter(array $buttons) : string
+    public function getRenderedFormFooter(array $buttons): string
     {
         $ui = $this->ui;
         $r = $ui->renderer();
@@ -131,7 +147,7 @@ class UIWrapper
     public function getRenderedForm(
         \ilPropertyFormGUI $form,
         array $buttons
-    ) : string {
+    ): string {
         $form->clearCommandButtons();
         $cnt = 0;
         foreach ($buttons as $button) {
@@ -153,13 +169,13 @@ class UIWrapper
 
     /**
      * Send whole page as response
-     * @param bool|array $updated
+     * @param bool|array|string $updated
      * @throws \ilDateTimeException
      */
     public function sendPage(
         \ilPageObjectGUI $page_gui,
         $updated
-    ) : Response {
+    ): Response {
         $error = null;
         $page_data = "";
         $last_change = null;
@@ -195,7 +211,7 @@ class UIWrapper
 
     public function getRenderedViewControl(
         array $actions
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $cnt = 0;
         $view_modes = [];
@@ -225,7 +241,7 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null
-    ) : \ILIAS\UI\Component\Button\Shy {
+    ): \ILIAS\UI\Component\Button\Shy {
         $ui = $this->ui;
         $f = $ui->factory();
         $l = $f->button()->shy($content, "");
@@ -252,13 +268,13 @@ class UIWrapper
         string $type,
         string $action,
         array $data = null
-    ) : string {
+    ): string {
         $ui = $this->ui;
         $l = $this->getLink($content, $component, $type, $action, $data);
         return $ui->renderer()->renderAsync($l);
     }
 
-    public function getRenderedIcon(string $type) : string
+    public function getRenderedIcon(string $type): string
     {
         $ui = $this->ui;
         $f = $ui->factory();

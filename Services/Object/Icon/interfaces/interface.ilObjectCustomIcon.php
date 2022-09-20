@@ -1,55 +1,72 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
 
 /**
- * Interface ilObjectCustomIcon
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\FileUpload\Exception\IllegalStateException;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+
 interface ilObjectCustomIcon
 {
     /**
      * @return string[]
      */
-    public function getSupportedFileExtensions() : array ;
+    public function getSupportedFileExtensions(): array;
 
     /**
-     * @param string $sourceFilePath
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function saveFromSourceFile(string $sourceFilePath);
+    public function saveFromSourceFile(string $sourceFilePath): void;
 
     /**
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IllegalStateException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function saveFromHttpRequest();
+    public function saveFromHttpRequest(): void;
 
-    /**
-     * @param int $targetObjId
-     */
-    public function copy(int $targetObjId);
+    public function copy(int $targetObjId): void;
 
     /**
      * Should be called if a consuming object is removed from system.
      * The implementer MUST delete all object specific custom icon data (folders, icons, persistent data)
      */
-    public function delete();
+    public function delete(): void;
 
     /**
      * Should be called if a consuming object just wants to delete the icon
      * The implementer MUST only delete the icon itself and corresponding persistent data (e.g. stored in a database)
      */
-    public function remove();
+    public function remove(): void;
+
+    public function exists(): bool;
+
+    public function getFullPath(): string;
 
     /**
-     * @return bool
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function exists() : bool ;
-
-    /**
-     * @return string
-     */
-    public function getFullPath() : string ;
+    public function createFromImportDir(string $source_dir): void;
 }

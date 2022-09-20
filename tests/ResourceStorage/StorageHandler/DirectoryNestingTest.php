@@ -8,6 +8,19 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class DirectoryNestingTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -29,13 +42,13 @@ class DirectoryNestingTest extends AbstractBaseTest
      */
     protected $file_system_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->file_system_mock = $this->createMock(Filesystem::class);
     }
 
-    private function withImplementation(StorageHandler $h, int $min, int $max) : void
+    private function withImplementation(StorageHandler $h, int $min, int $max): void
     {
         $id_generator = $h->getIdentificationGenerator();
 
@@ -56,17 +69,15 @@ class DirectoryNestingTest extends AbstractBaseTest
         }
     }
 
-    public function testMaxNestingV1() : void
+    public function testMaxNestingV1(): void
     {
         $storage_handler = new FileSystemStorageHandler($this->file_system_mock, 2);
         $this->withImplementation($storage_handler, self::NESTING_256, self::NESTING_281474976710656);
     }
 
-    public function testMaxNestingV2() : void
+    public function testMaxNestingV2(): void
     {
         $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system_mock, 2);
         $this->withImplementation($storage_handler, self::NESTING_4096 - 1, self::NESTING_4096);
     }
-
 }
-

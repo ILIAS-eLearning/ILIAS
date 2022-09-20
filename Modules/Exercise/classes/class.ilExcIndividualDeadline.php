@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Individual deadlines
@@ -33,31 +47,31 @@ class ilExcIndividualDeadline
         int $a_ass_id,
         int $a_participant_id,
         bool $a_is_team = false
-    ) : ilExcIndividualDeadline {
+    ): ilExcIndividualDeadline {
         return new self($a_ass_id, $a_participant_id, $a_is_team);
     }
 
-    public function setStartingTimestamp(int $a_val) : void
+    public function setStartingTimestamp(int $a_val): void
     {
         $this->starting_timestamp = $a_val;
     }
 
-    public function getStartingTimestamp() : int
+    public function getStartingTimestamp(): int
     {
         return $this->starting_timestamp;
     }
 
-    public function setIndividualDeadline(int $a_val) : void
+    public function setIndividualDeadline(int $a_val): void
     {
         $this->individual_deadline = $a_val;
     }
 
-    public function getIndividualDeadline() : int
+    public function getIndividualDeadline(): int
     {
         return $this->individual_deadline;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -73,7 +87,7 @@ class ilExcIndividualDeadline
         }
     }
 
-    public function save() : void
+    public function save(): void
     {
         $ilDB = $this->db;
 
@@ -91,7 +105,7 @@ class ilExcIndividualDeadline
         );
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
@@ -110,7 +124,7 @@ class ilExcIndividualDeadline
      * @param int $a_ass_id
      * @return array
      */
-    public static function getStartingTimestamps(int $a_ass_id) : array
+    public static function getStartingTimestamps(int $a_ass_id): array
     {
         global $DIC;
 

@@ -1,6 +1,22 @@
-<?php  declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\CLI;
 
@@ -30,14 +46,14 @@ class BuildArtifactsCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription("Build static artifacts from source");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -57,5 +73,7 @@ class BuildArtifactsCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
+
+        return 0;
     }
 }

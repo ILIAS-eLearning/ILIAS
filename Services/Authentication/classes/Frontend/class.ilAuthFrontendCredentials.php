@@ -1,70 +1,61 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.php';
+declare(strict_types=1);
 
 /**
- * Description of class class
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    private $logger = null;
-    
-    private $username = '';
-    private $password = '';
-    private $captcha = '';
-    private $auth_mode = '';
-    
+    private ilLogger $logger;
+
+    private string $username = '';
+    private string $password = '';
+    private string $auth_mode = '';
+
     public function __construct()
     {
-        $this->logger = ilLoggerFactory::getLogger('auth');
-    }
-    
-    /**
-     * Get logger
-     * @return \ilLogger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-    
-    /**
-     * Set Logger
-     * @param ilLogger $logger
-     */
-    public function setLogger(ilLogger $logger)
-    {
-        $this->logger = $logger;
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
     }
 
     /**
      * Set username
-     * @param string username
      */
-    public function setUsername($a_name)
+    public function setUsername(string $a_name): void
     {
-        $this->getLogger()->debug('Username: "' . $a_name . '"');
+        $this->logger->debug('Username: "' . $a_name . '"');
         $this->username = trim($a_name);
     }
 
     /**
      * Get username
      */
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
     /**
      * Set password
-     * @param string $a_password
      */
-    public function setPassword($a_password)
+    public function setPassword(string $a_password): void
     {
         $this->password = $a_password;
     }
@@ -72,43 +63,23 @@ class ilAuthFrontendCredentials implements ilAuthCredentials
     /**
      * Get password
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    
-    /**
-     * Set captcha code
-     * @param string
-     */
-    public function setCaptchaCode($a_code)
-    {
-        $this->captcha = $a_code;
-    }
-    
-    /**
-     * Get captcha code
-     */
-    public function getCaptchaCode()
-    {
-        return $this->captcha;
-    }
-    
-
     /**
      * Set auth mode
-     * @param type $a_auth_mode
      */
-    public function setAuthMode($a_auth_mode)
+    public function setAuthMode(string $a_auth_mode): void
     {
         $this->auth_mode = $a_auth_mode;
     }
-    
+
     /**
      * Get auth mode
      */
-    public function getAuthMode()
+    public function getAuthMode(): string
     {
         return $this->auth_mode;
     }

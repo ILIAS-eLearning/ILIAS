@@ -1,67 +1,52 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * This class represents a typical learning time property in a property form.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup	ServicesMetaData
+ * @author     Alex Killing <alex.killing@gmx.de>
+ * @version    $Id$
+ * @ingroup    ServicesMetaData
  */
 class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 {
-    protected $value;
-    protected $valid = true;
-    
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
-        global $DIC;
+    protected const POST_NAME_MONTH = 'mo';
+    protected const POST_NAME_DAY = 'd';
+    protected const POST_NAME_HOUR = 'h';
+    protected const POST_NAME_MINUTE = 'm';
+    protected const POST_NAME_SECOND = 's';
 
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule("meta");
-        
+    protected array $value;
+    protected bool $valid = true;
+    protected string $lom_duration = '';
+    protected bool $show_seconds = false;
+
+    public function __construct(string $a_title = "", string $a_postvar = "")
+    {
         parent::__construct($a_title, $a_postvar);
+
+        $this->lng->loadLanguageModule("meta");
         $this->setType("typical_learntime");
-        $this->setValue(array(0,0,0,0,0));
+        $this->setValue(array(0, 0, 0, 0, 0));
     }
 
-    /**
-     * Set Value.
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValue($a_value)
+    public function setValue(array $a_value): void
     {
         $this->value = $a_value;
     }
 
-    /**
-     * Set by LOM duration
-     *
-     * @param	string	$a_value	Value
-     */
-    public function setValueByLOMDuration($a_value)
+    public function setValueByLOMDuration(string $a_value): void
     {
         $this->lom_duration = $a_value;
         $this->valid = true;
-        
-        include_once 'Services/MetaData/classes/class.ilMDUtils.php';
+
         $tlt = ilMDUtils::_LOMDurationToArray($a_value);
-        
+
         if (!$tlt) {
-            $this->setValue(array(0,0,0,0,0));
-            if ($a_value != "") {
+            $this->setValue(array(0, 0, 0, 0, 0));
+            if ($a_value !== "") {
                 $this->valid = false;
             }
         } else {
@@ -69,96 +54,100 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         }
     }
 
+    public function setShowSeconds(bool $status): void
+    {
+        $this->show_seconds = $status;
+    }
+
+    public function getShowSeconds(): bool
+    {
+        return $this->show_seconds;
+    }
+
     /**
-     * Get Value.
-     *
-     * @return	string	Value
+     * @return int[]
      */
-    public function getValue()
+    public function getValue(): array
     {
         return $this->value;
     }
 
-    /**
-     * Set value by array
-     *
-     * @param	array	$a_values	value array
-     */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     * @return	boolean		Input ok, true/false
-     */
-    public function checkInput() : bool
+    protected function getInputFromPost(string $post_name): int
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        $_POST[$this->getPostVar()][0] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][0]);
-        $_POST[$this->getPostVar()][1] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][1]);
-        $_POST[$this->getPostVar()][2] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][2]);
-        $_POST[$this->getPostVar()][3] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][3]);
-        if (isset($_POST[$this->getPostVar()][4])) {
-            $_POST[$this->getPostVar()][4] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][4]);
+        if ($this->http->wrapper()->post()->has($this->getPostVar() . '[' . $post_name . ']')) {
+            return $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar() . '[' . $post_name . ']',
+                $this->refinery->kindlyTo()->int()
+            );
         }
-        
-        // check required
-        $v = $_POST[$this->getPostVar()];
-        if ($this->getRequired() && $v[0] == 0 && $v[1] == 0 &&
-            $v[2] == 0 && $v[3] == 0 && (int) $v[4] == 0) {
-            $this->setAlert($lng->txt("msg_input_is_required"));
+        return 0;
+    }
+
+    public function checkInput(): bool
+    {
+        $counter = 0;
+        $required_fullfilled = false;
+        foreach ([self::POST_NAME_MONTH, self::POST_NAME_DAY, self::POST_NAME_HOUR, self::POST_NAME_MINUTE, self::POST_NAME_SECOND] as $post_name) {
+            $value = $this->getInputFromPost($post_name);
+            if ($value > 0) {
+                $required_fullfilled = true;
+            }
+            $this->value[$counter++] = $this->getInputFromPost($post_name);
+        }
+        if ($this->getRequired() && !$required_fullfilled) {
+            $this->setAlert($this->lng->txt("msg_input_is_required"));
             return false;
         }
-
         return true;
     }
 
-    public function __buildMonthsSelect($sel_month)
+    public function __buildMonthsSelect(string $sel_month): string
     {
-        for ($i = 0;$i <= 24;$i++) {
+        $options = [];
+        for ($i = 0; $i <= 24; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_month, $this->getPostVar() . '[mo]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_month, $this->getPostVar() . '[mo]', $options, false, true);
     }
 
-
-    public function __buildDaysSelect($sel_day)
+    public function __buildDaysSelect(string $sel_day): string
     {
-        for ($i = 0;$i <= 31;$i++) {
+        $options = [];
+        for ($i = 0; $i <= 31; $i++) {
             $options[$i] = sprintf('%02d', $i);
         }
-        return ilUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($sel_day, $this->getPostVar() . '[d]', $options, false, true);
     }
 
-    /**
-     * Insert property html
-     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $ttpl = new ilTemplate("tpl.prop_typical_learning_time.html", true, true, "Services/MetaData");
         $val = $this->getValue();
-        
+
         $ttpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($val[0]));
-        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($val[1]));
-        
+        $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) ($val[0] ?? "")));
+        $ttpl->setVariable("SEL_DAYS", $this->__buildDaysSelect((string) ($val[1] ?? "")));
+
         $ttpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $ttpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
-        $ttpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
-            $this->getPostVar(),
-            $val[4] ? false : true,
-            $val[2],
-            $val[3],
-            $val[4],
-            false
-        ));
-        $ttpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
+        $ttpl->setVariable(
+            "SEL_TLT",
+            ilLegacyFormElementsUtil::makeTimeSelect(
+                $this->getPostVar(),
+                !($val[4] ?? 0),
+                (int) ($val[2] ?? 0),
+                (int) ($val[3] ?? 0),
+                (int) ($val[4] ?? 0),
+                false
+            )
+        );
+        $ttpl->setVariable("TLT_HINT", ($val[4] ?? false) ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$this->valid) {
             $ttpl->setCurrentBlock("tlt_not_valid");
@@ -167,7 +156,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
             $ttpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
             $ttpl->parseCurrentBlock();
         }
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $ttpl->get());
         $a_tpl->parseCurrentBlock();

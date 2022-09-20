@@ -32,9 +32,9 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$this->addNode($_v_EndEvent_1);
 			$_v_EndEvent_1->setName('$_v_EndEvent_1');
 		
-			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataObject_1","dataObject");
 		
-			$this->defineInstanceVar("DataObjectReference_1","dataObjectReference", true, "DataObject_1" );
+			$this->defineInstanceVar("DataObjectReference_1","dataObjectReference");
 		
 			$_v_Task_1_detector = new ilSimpleDetector($_v_Task_1);
 			$_v_Task_1_detector->setName('$_v_Task_1_detector');

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Tree;
 
@@ -15,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -47,9 +63,7 @@ class Renderer extends AbstractComponentRenderer
 
         $highlight_node_on_click = $component->getHighlightOnNodeClick();
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($highlight_node_on_click) {
-                return "il.UI.tree.init('$id', $highlight_node_on_click)";
-            }
+            fn ($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
         );
 
         $id = $this->bindJavaScript($component);
@@ -67,7 +81,7 @@ class Renderer extends AbstractComponentRenderer
         Tree\TreeRecursion $recursion,
         $record,
         $environment
-    ) : Tree\Node\Node {
+    ): Tree\Node\Node {
         $node = $recursion->build(
             $this->getUIFactory()->tree()->node(),
             $record,
@@ -86,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Tree/tree.js');
@@ -95,7 +109,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Tree\Expandable::class

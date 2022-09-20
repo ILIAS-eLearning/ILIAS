@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Access class for chatroom objects.
@@ -11,7 +28,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 {
     private static ?bool $chat_enabled = null;
 
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
@@ -20,36 +37,34 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto(string $target): bool
     {
-        if (is_string($a_target)) {
-            $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
 
-            if (count($t_arr) < 2 || $t_arr[0] !== 'chtr' || ((int) $t_arr[1]) <= 0) {
-                return false;
-            }
+        if (count($t_arr) < 2 || $t_arr[0] !== 'chtr' || ((int) $t_arr[1]) <= 0) {
+            return false;
+        }
 
-            if (
-                ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
-                ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)
-            ) {
-                return true;
-            }
+        if (
+            ilChatroom::checkUserPermissions('visible', (int) $t_arr[1], false) ||
+            ilChatroom::checkUserPermissions('read', (int) $t_arr[1], false)
+        ) {
+            return true;
         }
 
         return false;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-        if (!$a_user_id) {
-            $a_user_id = $GLOBALS['DIC']->user()->getId();
+        if (!$user_id) {
+            $user_id = $GLOBALS['DIC']->user()->getId();
         }
 
-        return self::checkRoomAccess((string) $a_permission, (int) $a_ref_id, (int) $a_obj_id, (int) $a_user_id);
+        return self::checkRoomAccess($permission, $ref_id, $obj_id, (int) $user_id);
     }
 
-    private static function checkRoomAccess(string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id) : bool
+    private static function checkRoomAccess(string $a_permission, int $a_ref_id, int $a_obj_id, int $a_user_id): bool
     {
         global $DIC;
 
@@ -58,7 +73,8 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$chat_enabled = (bool) $chatSetting->get('chat_enabled', '0');
         }
 
-        if ($DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+        $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+        if ($hasWriteAccess) {
             return true;
         }
 
@@ -67,30 +83,24 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
                 $visible = null;
 
                 $active = self::isActivated($a_ref_id, $a_obj_id, $visible);
-                $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
 
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                 }
 
-                if (!$hasWriteAccess && !$active && !$visible) {
+                if ($active === false && $visible === false) {
                     return false;
                 }
                 break;
 
             case 'read':
-                $hasWriteAccess = $DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
-                if ($hasWriteAccess) {
-                    return true;
-                }
-
                 $active = self::isActivated($a_ref_id, $a_obj_id);
                 if (!$active) {
                     $DIC->access()->addInfoItem(
-                        IL_NO_OBJECT_ACCESS,
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
                         $DIC->language()->txt('offline')
                     );
                     return false;
@@ -101,7 +111,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return self::$chat_enabled;
     }
 
-    public static function isActivated(int $refId, int $objId, bool &$a_visible_flag = null) : bool
+    public static function isActivated(int $refId, int $objId, bool &$a_visible_flag = null): bool
     {
         if (!self::lookupOnline($objId)) {
             $a_visible_flag = false;
@@ -122,7 +132,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return true;
     }
 
-    public static function lookupOnline(int $a_obj_id) : bool
+    public static function lookupOnline(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -135,7 +145,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return (bool) ($row['online_status'] ?? false);
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         if (preg_match("/chatroom\\/smilies\\//ui", $ilWACPath->getPath())) {
             return true;

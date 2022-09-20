@@ -1,83 +1,88 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\FileUpload\DTO\UploadResult;
 
-require_once("Modules/IndividualAssessment/interfaces/FileStorage/interface.IndividualAssessmentFileStorage.php");
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
-* Handles the fileupload and folder creation for files uploaded in grading form
-*
-* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
-*
-*/
-class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements IndividualAssessmentFileStorage
+ * Handles the file upload and folder creation for files uploaded in grading form
+ */
+class ilIndividualAssessmentFileStorage extends ilFileSystemAbstractionStorage implements IndividualAssessmentFileStorage
 {
-    public static function getInstance($a_container_id = 0)
+    public const PATH_POSTFIX = "iass";
+    public const PATH_PREFIX = "IASS";
+
+    protected ?int $user_id = null;
+
+    public static function getInstance(int $container_id = 0): ilIndividualAssessmentFileStorage
     {
-        return new self(self::STORAGE_WEB, true, $a_container_id);
+        return new self(self::STORAGE_WEB, true, $container_id);
     }
 
     /**
      * part of the folder structure in ILIAS webdir.
-     *
-     * @return string
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix(): string
     {
-        return 'iass';
+        return self::PATH_POSTFIX;
     }
 
     /**
      * part of the folder structure in ILIAS webdir.
-     *
-     * @return string
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
-        return 'IASS';
+        return self::PATH_PREFIX;
     }
 
     /**
-     * Is the webdir folder for this IA empty
-     *
-     * @return boolean
+     * Is the webdir folder for this IA empty?
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         $files = $this->readDir();
 
-        return (count($files) == 0) ? true : false;
+        return count($files) == 0;
     }
 
     /**
      * Set the user id for an extra folder of each participant in the IA
-     *
-     * @param int 	$user_id
      */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
 
     /**
      * creates the folder structure
-     *
-     * @return boolen
      */
-    public function create()
+    public function create(): void
     {
         if (!file_exists($this->getAbsolutePath())) {
-            ilUtil::makeDirParents($this->getAbsolutePath());
+            ilFileUtils::makeDirParents($this->getAbsolutePath());
         }
-        return true;
     }
 
     /**
      * Get the absolute path for files
-     *
-     * @return string
      */
-    public function getAbsolutePath()
+    public function getAbsolutePath(): string
     {
         $path = parent::getAbsolutePath();
 
@@ -93,7 +98,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
      *
      * @return string[]
      */
-    public function readDir()
+    public function readDir(): array
     {
         if (!is_dir($this->getAbsolutePath())) {
             $this->create();
@@ -113,20 +118,16 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 
     /**
      * Upload the file
-     *
-     * @param string[]
-     *
-     * @return bool
      */
-    public function uploadFile(UploadResult $result)
+    public function uploadFile(UploadResult $file): bool
     {
         $path = $this->getAbsolutePath();
 
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $result->getName());
+        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $file->getName());
         $new_file = $path . "/" . $clean_name;
 
-        ilUtil::moveUploadedFile(
-            $result->getPath(),
+        ilFileUtils::moveUploadedFile(
+            $file->getPath(),
             $clean_name, // This parameter does not do a thing
             $new_file
         );
@@ -137,7 +138,7 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
     /**
      * Delete the existing file
      */
-    public function deleteCurrentFile()
+    public function deleteCurrentFile(): void
     {
         $files = $this->readDir();
         $this->deleteFile($this->getAbsolutePath() . "/" . $files[0]);
@@ -145,10 +146,8 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 
     /**
      * Get the path of file
-     *
-     * @return string
      */
-    public function getFilePath()
+    public function getFilePath(): string
     {
         $files = $this->readDir();
         return $this->getAbsolutePath() . "/" . $files[0];
@@ -156,10 +155,8 @@ class ilIndividualAssessmentFileStorage extends ilFileSystemStorage implements I
 
     /**
      * Delete a file by name
-     *
-     * @param string 	$file_name
      */
-    public function deleteFileByName($file_name)
+    public function deleteFileByName(string $file_name): void
     {
         $this->deleteFile($this->getAbsolutePath() . "/" . $file_name);
     }

@@ -1,29 +1,42 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
-
-require_once('./libs/composer/vendor/autoload.php');
-
-use ILIAS\Tests\Refinery\TestCase;
-use ILIAS\Refinery\ConstraintViolationException;
-use ILIAS\Refinery;
-use ILIAS\Data;
+declare(strict_types=1);
 
 /**
- * Test ByTrying transformation
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Tests\Refinery\TestCase;
+use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Data\Factory as DataFactory;
+
 class ByTryingTransformationTest extends TestCase
 {
-    const ERROR = 'error_expected';
+    private const ERROR = 'error_expected';
 
-    public function setUp() : void
+    private Refinery $refinery;
+
+    protected function setUp(): void
     {
-        $df = new Data\Factory();
+        $df = new DataFactory();
         $lang = $this->getLanguage();
-        $this->refine = new \ILIAS\Refinery\Factory($df, $lang);
+        $this->refinery = new Refinery($df, $lang);
     }
 
-    public function NullOrNumericDataProvider()
+    public function NullOrNumericDataProvider(): array
     {
         return [
             'empty string' => ['', null],
@@ -42,12 +55,14 @@ class ByTryingTransformationTest extends TestCase
 
     /**
      * @dataProvider NullOrNumericDataProvider
+     * @param mixed $value
+     * @param mixed $expected
      */
-    public function testNullOrNumeric($value, $expected)
+    public function testNullOrNumeric($value, $expected): void
     {
-        $transformation = $this->refine->byTrying([
-            $this->refine->numeric()->isNumeric(),
-            $this->refine->kindlyTo()->null()
+        $transformation = $this->refinery->byTrying([
+            $this->refinery->numeric()->isNumeric(),
+            $this->refinery->kindlyTo()->null()
         ]);
 
         if ($expected === self::ERROR) {
@@ -58,7 +73,7 @@ class ByTryingTransformationTest extends TestCase
     }
 
 
-    public function NullOrNumericOrStringDataProvider()
+    public function NullOrNumericOrStringDataProvider(): array
     {
         return [
             'string' => ['str', 'str'],
@@ -72,13 +87,15 @@ class ByTryingTransformationTest extends TestCase
 
     /**
      * @dataProvider NullOrNumericOrStringDataProvider
+     * @param mixed $value
+     * @param mixed $expected
      */
-    public function testNullOrNumericOrString($value, $expected)
+    public function testNullOrNumericOrString($value, $expected): void
     {
-        $transformation = $this->refine->byTrying([
-            $this->refine->kindlyTo()->null(),
-            $this->refine->numeric()->isNumeric(),
-            $this->refine->to()->string()
+        $transformation = $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->numeric()->isNumeric(),
+            $this->refinery->to()->string()
         ]);
 
         if ($expected === self::ERROR) {
@@ -88,7 +105,7 @@ class ByTryingTransformationTest extends TestCase
         $this->assertEquals($expected, $transformed);
     }
 
-    public function StringOrNullDataProvider()
+    public function StringOrNullDataProvider(): array
     {
         return [
             'string' => ['str', 'str'],
@@ -101,12 +118,14 @@ class ByTryingTransformationTest extends TestCase
 
     /**
      * @dataProvider StringOrNullDataProvider
+     * @param mixed $value
+     * @param mixed $expected
      */
-    public function testStringOrNull($value, $expected)
+    public function testStringOrNull($value, $expected): void
     {
-        $transformation = $this->refine->byTrying([
-            $this->refine->to()->string(),
-            $this->refine->kindlyTo()->null()
+        $transformation = $this->refinery->byTrying([
+            $this->refinery->to()->string(),
+            $this->refinery->kindlyTo()->null()
         ]);
 
         if ($expected === self::ERROR) {

@@ -1,17 +1,30 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 {
-    public function testCreatePdfWillCreatedAndIsDownloadable() : void
+    public function testCreatePdfWillCreatedAndIsDownloadable(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate'])
@@ -28,7 +41,6 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pdfAction = new ilCertificatePdfAction(
-            $logger,
             $pdfGenerator,
             $ilUtilHelper,
             'translatedError',
@@ -37,15 +49,11 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
         $result = $pdfAction->createPDF(10, 200);
 
-        $this->assertEquals('Something', $result);
+        $this->assertSame('Something', $result);
     }
 
-    public function testPdfDownloadAction() : void
+    public function testPdfDownloadAction(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
@@ -72,7 +80,6 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $pdfAction = new ilCertificatePdfAction(
-            $logger,
             $pdfGenerator,
             $ilUtilHelper,
             'translatedError',
@@ -80,15 +87,11 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         );
         $result = $pdfAction->downloadPdf(10, 200);
 
-        $this->assertEquals('Something', $result);
+        $this->assertSame('Something', $result);
     }
 
-    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive() : void
+    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive(): void
     {
-        $logger = $this->getMockBuilder(ilLogger::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
@@ -121,10 +124,10 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
             ->expects($this->once())
             ->method('raiseError');
 
-        $pdfAction = new ilCertificatePdfAction($logger, $pdfGenerator, $ilUtilHelper, '', $errorHandler);
+        $pdfAction = new ilCertificatePdfAction($pdfGenerator, $ilUtilHelper, '', $errorHandler);
 
         $result = $pdfAction->downloadPdf(10, 200);
 
-        $this->assertEquals('', $result);
+        $this->assertSame('', $result);
     }
 }

@@ -1,93 +1,25 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilObjFileImplementationAbstract
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilObjFileImplementationAbstract implements ilObjFileImplementationInterface
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function createDirectory()
-    {
-        // noting to do
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function replaceFile($a_upload_file, $a_filename)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addFileVersion($a_upload_file, $a_filename)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function clearDataDirectory()
-    {
-        // noting to do here
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setFileType($a_type)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setFileSize($a_size)
-    {
-    }
-
-    public function getFileSize()
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setVersion($a_version)
-    {
-    }
-
-    public function getVersion()
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setMaxVersion($a_max_version)
-    {
-    }
-
-    public function getMaxVersion()
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function storeUnzipedFile($a_upload_file, $a_filename)
-    {
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSpecificVersion($version_id)
-    {
-    }
 }

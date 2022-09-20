@@ -32,7 +32,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     {
         $this->expression = $expression;
         $this->question_index = $question_index;
-        
+
         if ($this->getQuestionIndex() === null) {
             $msg = sprintf(
                 'The expression "%s" is not supported by the current question',
@@ -52,7 +52,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -60,7 +60,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression(): string
     {
         return $this->expression;
     }
@@ -69,7 +69,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null) {
             return sprintf(
@@ -77,7 +77,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
                 $this->getExpression()
             );
         }
-        
+
         return sprintf(
             $lng->txt("ass_lac_expression_not_supported_by_question"),
             $this->getQuestionIndex(),

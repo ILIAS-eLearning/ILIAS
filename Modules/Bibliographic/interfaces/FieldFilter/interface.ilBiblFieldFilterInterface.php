@@ -1,71 +1,50 @@
 <?php
 
 /**
- * Interface ilBiblFieldFilterInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblFieldFilterInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 interface ilBiblFieldFilterInterface
 {
-    const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
-    const FILTER_TYPE_SELECT_INPUT = 2;
-    const FILTER_TYPE_TEXT_INPUT = 1;
+    public const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
+    public const FILTER_TYPE_SELECT_INPUT = 2;
+    public const FILTER_TYPE_TEXT_INPUT = 1;
 
+    public function getId(): ?int;
 
-    /**
-     * @return int
-     */
-    public function getId();
+    public function setId(int $id): void;
 
+    public function getFieldId(): int;
 
-    /**
-     * @param int $id
-     */
-    public function setId($id);
+    public function setFieldId(int $field_id): void;
 
+    public function getObjectId(): int;
 
-    /**
-     * @return int
-     */
-    public function getFieldId();
+    public function setObjectId(int $object_id): void;
 
+    public function getFilterType(): int;
 
-    /**
-     * @param int $field_id
-     */
-    public function setFieldId($field_id);
-
-
-    /**
-     * @return int
-     */
-    public function getObjectId();
-
-
-    /**
-     * @param int $object_id
-     */
-    public function setObjectId($object_id);
-
-
-    /**
-     * @return int
-     */
-    public function getFilterType();
-
-
-    /**
-     * @param int $filter_type
-     */
-    public function setFilterType($filter_type);
-
+    public function setFilterType(int $filter_type): void;
 
     public function create();
 
-
     public function update();
-
 
     public function delete();
 }

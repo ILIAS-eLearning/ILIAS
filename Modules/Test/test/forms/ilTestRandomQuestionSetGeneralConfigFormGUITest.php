@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -16,7 +18,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
      */
     private $questionSetConfig_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $ctrl_mock = $this->createMock(ilCtrl::class);
@@ -41,12 +43,12 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetGeneralConfigFormGUI::class, $this->formGui);
     }
 
-    public function testEditModeEnabled() : void
+    public function testEditModeEnabled(): void
     {
         $expected = true;
 
@@ -55,7 +57,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->formGui->isEditModeEnabled());
     }
 
-    public function testSave() : void
+    public function testSave(): void
     {
         $this->formGui->build();
 
@@ -67,7 +69,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->formGui->save();
     }
 
-    public static function lngTxtCallback() : string
+    public static function lngTxtCallback(): string
     {
         $args = func_get_args();
         switch ($args[0]) {

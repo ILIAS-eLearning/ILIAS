@@ -11,7 +11,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
 {
-
     /**
      * A Singleton Instance of the OperationManufacturer
      *
@@ -27,7 +26,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacOperationManufacturer
      */
-    public static function _getInstance()
+    public static function _getInstance(): ?ilAssLacOperationManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacOperationManufacturer();
@@ -37,13 +36,11 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
 
     /**
      * Create a new specific Composite object which is representing the delivered Attribute
-     *
      * @param string $attribute
-     *
-     * @return ilAssLacAbstractComposite|ilAssLacAndOperation|ilAssLacEqualsOperation|ilAssLacGreaterOperation|ilAssLacGreaterOrEqualsOperation|ilAssLacLesserOperation|ilAssLacLesserOrEqualsOperation|ilAssLacNotEqualsOperation|ilAssLacOrOperation
+     * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedOperation
      */
-    public function manufacture($attribute)
+    public function manufacture(string $attribute): ilAssLacAbstractComposite
     {
         $operation = "";
         switch ($attribute) {
@@ -97,7 +94,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         //		return '/[&\|<>=]+/';
         return '/&|\||(?<!<|>)=|<(?!=|>)|>(?!=)|<=|>=|<>/';

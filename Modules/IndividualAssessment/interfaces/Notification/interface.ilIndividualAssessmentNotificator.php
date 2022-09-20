@@ -1,37 +1,32 @@
 <?php
+
+declare(strict_types=1);
+
+/* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /**
  * Basic method collection should be implemented by a notificator
  * used by Individual assessment.
- * @author Denis Klöpfer <denis.kloepfer@concepts-and-training.de>
  */
-require_once 'Services/User/classes/class.ilObjUser.php';
 interface ilIndividualAssessmentNotificator
 {
-
     /**
-     * Define the member, that should recieve the message.
-     *
-     * @param	ilIndividualAssessmentMember	$member
-     * @return	ilIndividualAssessmentNotificator	$this
+     * Define the member, that should receive the message.
      */
-    public function withReciever(ilIndividualAssessmentMember $member);
+    public function withReceiver(ilIndividualAssessmentMember $member): ilIndividualAssessmentNotificator;
 
     /**
      * Set message mode to failed.
-     *
-     * @return	ilIndividualAssessmentNotificator	$this
      */
-    public function withOccasionFailed();
+    public function withOccasionFailed(): ilIndividualAssessmentNotificator;
 
     /**
-     * Set message mode to completed.
-     *
-     * @return	ilIndividualAssessmentNotificator	$this
+     * Set message mode to complete.
      */
-    public function withOccasionCompleted();
+    public function withOccasionCompleted(): ilIndividualAssessmentNotificator;
 
     /**
      * Send message.
      */
-    public function send();
+    public function send(): void;
 }

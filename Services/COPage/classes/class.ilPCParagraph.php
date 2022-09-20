@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCParagraph
@@ -42,7 +45,35 @@ class ilPCParagraph extends ilPageContent
             "quot" => "Quotation",
             );
 
-    public function init() : void
+    /**
+    * converts a string of format var1 = "val1" var2 = "val2" ... into an array
+    *
+    * @param string $a_str string in format: var1 = "val1" var2 = "val2" ...
+    *
+    * @return    array        array of variable value pairs
+    * @static
+    *
+    */
+    public static function attribsToArray(string $a_str): array
+    {
+        $attribs = [];
+        while (is_int(strpos($a_str, "="))) {
+            $eq_pos = strpos($a_str, "=");
+            $qu1_pos = strpos($a_str, "\"");
+            $qu2_pos = strpos(substr($a_str, $qu1_pos + 1), "\"") + $qu1_pos + 1;
+            if (is_int($eq_pos) && is_int($qu1_pos) && is_int($qu2_pos)) {
+                $var = trim(substr($a_str, 0, $eq_pos));
+                $val = trim(substr($a_str, $qu1_pos + 1, ($qu2_pos - $qu1_pos) - 1));
+                $attribs[$var] = $val;
+                $a_str = substr($a_str, $qu2_pos + 1);
+            } else {
+                $a_str = "";
+            }
+        }
+        return $attribs;
+    }
+
+    public function init(): void
     {
         global $DIC;
 
@@ -54,7 +85,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get bb to xml tag map
      */
-    protected static function getBBMap() : array
+    protected static function getBBMap(): array
     {
         return self::$bb_tags;
     }
@@ -62,17 +93,17 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get tag to bb map
      */
-    protected static function getXMLTagMap() : array
+    protected static function getXMLTagMap(): array
     {
         return array_flip(self::$bb_tags);
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
 
         $childs = $a_node->child_nodes();
-        for ($i = 0; $i < count($childs); $i++) {
+        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
             if ($childs[$i]->node_name() == "Paragraph") {
                 $this->par_node = $childs[$i];		//... and this the Paragraph node
             }
@@ -82,7 +113,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Create new page content (incl. paragraph) node at node
      */
-    public function createAtNode(php4DOMElement $node) : void
+    public function createAtNode(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode();
         $this->par_node = $this->dom->create_element("Paragraph");
@@ -94,7 +125,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Create new page content (incl. paragraph) node at node
      */
-    public function createBeforeNode(php4DOMElement $node) : void
+    public function createBeforeNode(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode();
         $this->par_node = $this->dom->create_element("Paragraph");
@@ -107,7 +138,7 @@ class ilPCParagraph extends ilPageContent
      * Create paragraph node (incl. page content node)
      * after given node.
      */
-    public function createAfter(php4DOMElement $node) : void
+    public function createAfter(php4DOMElement $node): void
     {
         $this->node = $this->createPageContentNode(false);
         if ($succ_node = $node->next_sibling()) {
@@ -130,7 +161,7 @@ class ilPCParagraph extends ilPageContent
         string $a_hier_id,
         string $a_pc_id = "",
         bool $from_placeholder = false
-    ) : void {
+    ): void {
         //echo "-$a_pc_id-";
         //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
         $this->node = $this->dom->create_element("PageContent");
@@ -159,15 +190,12 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_auto_split = false
     ) {
-        if (!is_array($a_text)) {
-            $text = array(array("level" => 0, "text" => $a_text));
-        } else {
-            $text = $a_text;
-        }
+        $text = $a_text;
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
+        } else {
+            $text = [["level" => 0, "text" => $text]];
         }
-
         $error = $this->checkTextArray($text);
 
         $orig_characteristic = "";
@@ -183,7 +211,7 @@ class ilPCParagraph extends ilPageContent
 
             // delete children of paragraph node
             $children = $this->par_node->child_nodes();
-            for ($i = 0; $i < count($children); $i++) {
+            for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
                 $this->par_node->remove_child($children[$i]);
             }
 
@@ -195,7 +223,7 @@ class ilPCParagraph extends ilPageContent
                 $new_par_node = $res->nodeset[0];
                 $new_childs = $new_par_node->child_nodes();
 
-                for ($i = 0; $i < count($new_childs); $i++) {
+                for ($i = 0, $iMax = count($new_childs); $i < $iMax; $i++) {
                     $cloned_child = $new_childs[$i]->clone_node(true);
                     $this->par_node->append_child($cloned_child);
                 }
@@ -215,7 +243,7 @@ class ilPCParagraph extends ilPageContent
 
             $c_node = $this->node;
             // add other chunks afterwards
-            for ($i = 1; $i < count($text); $i++) {
+            for ($i = 1, $iMax = count($text); $i < $iMax; $i++) {
                 if ($ok) {
                     $next_par = new ilPCParagraph($this->getPage());
                     $next_par->createAfter($c_node);
@@ -248,7 +276,7 @@ class ilPCParagraph extends ilPageContent
             $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
             //echo htmlentities($text);
             $doc->loadXML($text);
-            $error = $doc->errors;
+            $error = $doc->getErrors();
             $estr = "";
             foreach ($error as $e) {
                 $e = str_replace(" in Entity", "", $e);
@@ -265,7 +293,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Check text array
      */
-    protected function checkTextArray(array $text) : ?array
+    protected function checkTextArray(array $text): ?array
     {
         $check = "";
         foreach ($text as $t) {
@@ -284,12 +312,12 @@ class ilPCParagraph extends ilPageContent
         return $error;
     }
 
-    protected function fixTextArray(array $text) : array
+    protected function fixTextArray(array $text): array
     {
         $dom = new DOMDocument();
         $dom->recover = true;
         // try to fix
-        for ($i = 0; $i < count($text); $i++) {
+        for ($i = 0, $iMax = count($text); $i < $iMax; $i++) {
             $dom->loadXML(
                 '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
                 LIBXML_NOWARNING | LIBXML_NOERROR
@@ -310,12 +338,12 @@ class ilPCParagraph extends ilPageContent
     /**
      * Get (xml) content of paragraph.
      */
-    public function getText(bool $a_short_mode = false) : string
+    public function getText(bool $a_short_mode = false): string
     {
         if (is_object($this->par_node)) {
             $content = "";
             $childs = $this->par_node->child_nodes();
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $content .= $this->dom->dump_node($childs[$i]);
             }
             return $content;
@@ -329,14 +357,14 @@ class ilPCParagraph extends ilPageContent
      */
     public function getParagraphSequenceContent(
         ilPageObject $a_pg_obj
-    ) : string {
+    ): string {
         $childs = $this->par_node->parent_node()->parent_node()->child_nodes();
         $seq = array();
         $cur_seq = array();
         $found = false;
         $pc_id = $this->readPCId();
         $hier_id = $this->readHierId();
-        for ($i = 0; $i < count($childs); $i++) {
+        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
             $pchilds = $childs[$i]->child_nodes();
             if ($pchilds[0]->node_name() == "Paragraph" &&
                 $pchilds[0]->get_attribute("Characteristic") != "Code") {
@@ -386,7 +414,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Set Characteristic of paragraph
      */
-    public function setCharacteristic(string $a_char) : void
+    public function setCharacteristic(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("Characteristic", $a_char);
@@ -397,7 +425,7 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getCharacteristic() : string
+    public function getCharacteristic(): string
     {
         if (is_object($this->par_node)) {
             return $this->par_node->get_attribute("Characteristic");
@@ -405,7 +433,7 @@ class ilPCParagraph extends ilPageContent
         return "";
     }
 
-    public function setSubCharacteristic(string $a_char) : void
+    public function setSubCharacteristic(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("SubCharacteristic", $a_char);
@@ -416,12 +444,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getAutoIndent() : string
+    public function getAutoIndent(): string
     {
         return (string) $this->par_node->get_attribute("AutoIndent");
     }
 
-    public function setAutoIndent(string $a_char) : void
+    public function setAutoIndent(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("AutoIndent", $a_char);
@@ -432,12 +460,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getSubCharacteristic() : string
+    public function getSubCharacteristic(): string
     {
         return $this->par_node->get_attribute("SubCharacteristic");
     }
 
-    public function setDownloadTitle(string $a_char) : void
+    public function setDownloadTitle(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->par_node->set_attribute("DownloadTitle", $a_char);
@@ -448,12 +476,12 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getDownloadTitle() : string
+    public function getDownloadTitle(): string
     {
         return $this->par_node->get_attribute("DownloadTitle");
     }
 
-    public function setShowLineNumbers(string $a_char) : void
+    public function setShowLineNumbers(string $a_char): void
     {
         $a_char = empty($a_char)
             ? "n"
@@ -462,17 +490,17 @@ class ilPCParagraph extends ilPageContent
         $this->par_node->set_attribute("ShowLineNumbers", $a_char);
     }
 
-    public function getShowLineNumbers() : string
+    public function getShowLineNumbers(): string
     {
         return $this->par_node->get_attribute("ShowLineNumbers");
     }
 
-    public function setLanguage(string $a_lang) : void
+    public function setLanguage(string $a_lang): void
     {
         $this->par_node->set_attribute("Language", $a_lang);
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->par_node->get_attribute("Language");
     }
@@ -481,7 +509,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_wysiwyg = false,
         bool $a_handle_lists = true
-    ) : string {
+    ): string {
         return $this->_input2xml($a_text, $this->getLanguage(), $a_wysiwyg, $a_handle_lists);
     }
 
@@ -489,21 +517,34 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         string $a_bb,
         string $a_tag
-    ) : string {
+    ): string {
         $a_text = preg_replace('/\[' . $a_bb . '\]/i', "<" . $a_tag . ">", $a_text);
         $a_text = preg_replace('/\[\/' . $a_bb . '\]/i', "</" . $a_tag . ">", $a_text);
         return $a_text;
     }
 
     /**
-     * converts user input to xml
+     * Converts user input to xml
+     * User input comes as bb code information, e.g.
+     * "Hello [str]world[/str]."
      */
     public static function _input2xml(
         string $a_text,
         string $a_lang,
         bool $a_wysiwyg = false,
         bool $a_handle_lists = true
-    ) : string {
+    ): string {
+        $log = null;
+        if (!defined('COPAGE_TEST')) {
+            $log = ilLoggerFactory::getLogger('copg');
+            $log->debug("_input2xml");
+            $log->debug("...start ");
+            $log->debug("...text: " . substr($a_text, 0, 1000));
+            $log->debug("...lang: " . $a_lang);
+            $log->debug("...wysiwyg: " . $a_wysiwyg);
+            $log->debug("...handle_lists: " . $a_handle_lists);
+        }
+
         if (!$a_wysiwyg) {
             $a_text = ilUtil::stripSlashes($a_text, false);
         }
@@ -525,18 +566,13 @@ class ilPCParagraph extends ilPageContent
         $a_text = str_replace("<", "&lt;", $a_text);
         $a_text = str_replace(">", "&gt;", $a_text);
 
-        // Reconvert PageTurn and BibItemIdentifier
-        $a_text = preg_replace('/&lt;([\s\/]*?PageTurn.*?)&gt;/i', "<$1>", $a_text);
-        $a_text = preg_replace('/&lt;([\s\/]*?BibItemIdentifier.*?)&gt;/i', "<$1>", $a_text);
-
-        //echo "<br>second:".htmlentities($a_text);
-
         // mask curly brackets
         /*
         echo htmlentities($a_text);
                 $a_text = str_replace("{", "&#123;", $a_text);
                 $a_text = str_replace("}", "&#125;", $a_text);
         echo htmlentities($a_text);*/
+
         // linefeed to br
         $a_text = str_replace(chr(13) . chr(10), "<br />", $a_text);
         $a_text = str_replace(chr(13), "<br />", $a_text);
@@ -567,20 +603,24 @@ class ilPCParagraph extends ilPageContent
         }
         // external links
         while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             if (isset($attribs["url"])) {
-                $a2 = ilUtil::attribsToArray($found[4]);
-                $tstr = "";
-                if (in_array($a2["target"], array("FAQ", "Glossary", "Media"))) {
-                    $tstr = ' TargetFrame="' . $a2["target"] . '"';
-                }
-                $a_text = str_replace("[" . $found[1] . "]", "<ExtLink Href=\"" . $attribs["url"] . "\"$tstr>", $a_text);
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/xln]",
+                    "ExtLink",
+                    $a_text,
+                    [
+                        "Href" => $attribs["url"]
+                    ]
+                );
             } else {
                 $a_text = str_replace("[" . $found[1] . "]", "[error: xln" . $found[1] . "]", $a_text);
             }
         }
 
         // ie/tinymce fix for links without "", see bug #8391
+        /* deprecated, should be removed soon, old IE not supported anymore
         while (preg_match('~\[(xln$ws(url$ws=$ws(([^]])*)))$ws\]~i', $a_text, $found)) {
             if ($found[3] != "") {
                 $a_text = str_replace("[" . $found[1] . "]", "<ExtLink Href=\"" . $found[3] . "\">", $a_text);
@@ -588,28 +628,131 @@ class ilPCParagraph extends ilPageContent
                 $a_text = str_replace("[" . $found[1] . "]", "[error: xln" . $found[1] . "]", $a_text);
             }
         }
-        $a_text = preg_replace('~\[\/xln\]~i', "</ExtLink>", $a_text);
+        $a_text = preg_replace('~\[\/xln\]~i', "</ExtLink>", $a_text);*/
 
         // anchor
         $ws = "[ \t\r\f\v\n]*";
         while (preg_match("~\[(anc$ws(name$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
-            $a_text = str_replace("[" . $found[1] . "]", "<Anchor Name=\"" . $attribs["name"] . "\">", $a_text);
+            $attribs = self::attribsToArray($found[2]);
+            $a_text = self::replaceBBTagByMatching(
+                "[" . $found[1] . "]",
+                "[/anc]",
+                "Anchor",
+                $a_text,
+                [
+                    "Name" => $attribs["name"]
+                ]
+            );
         }
-        $a_text = preg_replace("~\[\/anc\]~i", "</Anchor>", $a_text);
 
         // marked text
         while (preg_match("~\[(marked$ws(class$ws=$ws\"([^\"])*\")$ws)\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
+            $attribs = self::attribsToArray($found[2]);
             if (isset($attribs["class"])) {
-                $a_text = str_replace("[" . $found[1] . "]", "<Marked Class=\"" . $attribs["class"] . "\">", $a_text);
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/marked]",
+                    "Marked",
+                    $a_text,
+                    [
+                        "Class" => $attribs["class"]
+                    ]
+                );
             } else {
                 $a_text = str_replace("[" . $found[1] . "]", "[error:marked" . $found[1] . "]", $a_text);
             }
         }
-        $a_text = preg_replace('~\[\/marked\]~i', "</Marked>", $a_text);
+
+        if (!is_null($log)) {
+            $log->debug("...finish: " . substr($a_text, 0, 1000));
+        }
 
         return $a_text;
+    }
+
+    protected static function isValidTagContent(string $content): bool
+    {
+        $use_internal_errors = libxml_use_internal_errors(true);
+        $sxe = simplexml_load_string("<?xml version='1.0'?><dummy>" . $content . "</dummy>");
+        libxml_use_internal_errors($use_internal_errors);
+        return ($sxe !== false);
+    }
+
+    /**
+     * Transforms [iln...]...[\iln] to <IntLink...>...</IntLink>, if content is valid,
+     * otherwise it removes the bb tags
+     * @param string $start_tag e.g. [iln page="30"]
+     */
+    protected static function replaceBBTagByMatching(
+        string $start_tag,
+        string $end_tag,
+        string $xml_tag_name,
+        string $text,
+        array $attribs
+    ): string {
+        $attrib_str = "";
+        foreach ($attribs as $key => $value) {
+            if ($value != "") {
+                $attrib_str .= ' ' . $key . '="' . $value . '"';
+            }
+        }
+
+        $ok = false;
+
+        $pos1 = strpos($text, $start_tag);
+
+        $pos2 = null;
+        if ($end_tag != "") {
+            $pos2 = strpos($text, $end_tag, $pos1 + strlen($start_tag));
+            if (is_int($pos1) && is_int($pos2)) {
+                $between = substr($text, $pos1 + strlen($start_tag), $pos2 - ($pos1 + strlen($start_tag)));
+                $ok = self::isValidTagContent($between);
+            }
+        } else {    // no end tag
+            if (is_int($pos1)) {
+                $ok = true;
+            }
+        }
+        $short = ($end_tag == "")
+            ? "/"
+            : "";
+
+        $slash_chars = '/[]?';
+
+        if ($ok) {
+            // replace start tag
+            $text = preg_replace(
+                '/' . addcslashes($start_tag, $slash_chars) . '/i',
+                "<" . $xml_tag_name . $attrib_str . $short . ">",
+                $text,
+                1
+            );
+
+            // replace end tag
+            if ($end_tag != "") {
+                $text = preg_replace('~' . addcslashes($end_tag, $slash_chars) . '~i', "</" . $xml_tag_name . ">", $text, 1);
+            }
+        } else {
+            // remove start tag
+            if (is_int($pos1)) {
+                $text = preg_replace(
+                    '/' . addcslashes($start_tag, $slash_chars) . '/i',
+                    "",
+                    $text,
+                    1
+                );
+            }
+            // remove end tag
+            if (is_int($pos2)) {
+                $text = preg_replace(
+                    '~' . addcslashes($end_tag, $slash_chars) . '~i',
+                    "",
+                    $text,
+                    1
+                );
+            }
+        }
+        return $text;
     }
 
     /**
@@ -617,12 +760,11 @@ class ilPCParagraph extends ilPageContent
      */
     public static function intLinks2xml(
         string $a_text
-    ) : string {
+    ): string {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
         $obj_id = 0;
-
         $rtypes = $objDefinition->getAllRepositoryTypes();
 
         // internal links
@@ -638,96 +780,104 @@ class ilPCParagraph extends ilPageContent
         while (preg_match('~\[(iln' . $ws . '((inst' . $ws . '=' . $ws . '([\"0-9])*)?' . $ws .
             "((" . $ltypes . ")$ws=$ws([\"0-9])*)$ws" .
             "(target$ws=$ws(\"(New|FAQ|Media)\"))?$ws(anchor$ws=$ws(\"([^\"])*\"))?$ws))\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
+            $attribs = self::attribsToArray($found[2]);
+            $inst_str = $attribs["inst"] ?? "";
             // pages
             if (isset($attribs["page"])) {
-                $tframestr = "";
-                if (!empty($found[10])) {
-                    $tframestr = " TargetFrame=\"" . $found[10] . "\" ";
-                }
-                $ancstr = "";
-                if ($attribs["anchor"] != "") {
-                    $ancstr = ' Anchor="' . $attribs["anchor"] . '" ';
-                }
-                // see 26066 for addcslashes
-                $a_text = preg_replace(
-                    '/\[' . addcslashes($found[1], '/') . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_pg_" . $attribs['page'] . "\" Type=\"PageObject\"" . $tframestr . $ancstr . ">",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_pg_" . $attribs['page'],
+                        "Type" => "PageObject",
+                        "TargetFrame" => $found[10] ?? "",
+                        "Anchor" => $attribs["anchor"] ?? ""
+                    ]
                 );
             }
             // chapters
             elseif (isset($attribs["chap"])) {
-                if (!empty($found[10])) {
-                    $tframestr = " TargetFrame=\"" . $found[10] . "\" ";
-                } else {
-                    $tframestr = "";
-                }
-                $a_text = preg_replace(
-                    '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_st_" . $attribs['chap'] . "\" Type=\"StructureObject\"" . $tframestr . ">",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_st_" . $attribs['chap'],
+                        "Type" => "StructureObject",
+                        "TargetFrame" => $found[10] ?? ""
+                    ]
                 );
             }
             // glossary terms
             elseif (isset($attribs["term"])) {
-                switch ($found[10]) {
-                    case "New":
-                        $tframestr = " TargetFrame=\"New\" ";
-                        break;
-
-                    default:
-                        $tframestr = " TargetFrame=\"Glossary\" ";
-                        break;
-                }
-                $a_text = preg_replace(
-                    '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_git_" . $attribs['term'] . "\" Type=\"GlossaryItem\" $tframestr>",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_git_" . $attribs['term'],
+                        "Type" => "GlossaryItem",
+                        "TargetFrame" => (($found[10] ?? "") == "New")
+                            ? "New"
+                            : "Glossary"
+                    ]
                 );
             }
             // wiki pages
             elseif (isset($attribs["wpage"])) {
-                $tframestr = "";
-                $a_text = preg_replace(
-                    '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_wpage_" . $attribs['wpage'] . "\" Type=\"WikiPage\" $tframestr>",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_wpage_" . $attribs['wpage'],
+                        "Type" => "WikiPage"
+                    ]
                 );
             }
             // portfolio pages
             elseif (isset($attribs["ppage"])) {
-                $tframestr = "";
-                $a_text = preg_replace(
-                    '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_ppage_" . $attribs['ppage'] . "\" Type=\"PortfolioPage\" $tframestr>",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_ppage_" . $attribs['ppage'],
+                        "Type" => "PortfolioPage"
+                    ]
                 );
             }
             // media object
             elseif (isset($attribs["media"])) {
-                if (!empty($found[10])) {
-                    $tframestr = " TargetFrame=\"" . $found[10] . "\" ";
-                    $a_text = preg_replace(
-                        '/\[' . $found[1] . '\]/i',
-                        "<IntLink Target=\"il_" . $inst_str . "_mob_" . $attribs['media'] . "\" Type=\"MediaObject\"" . $tframestr . ">",
-                        $a_text
-                    );
-                } else {
-                    $a_text = preg_replace(
-                        '/\[' . $found[1] . '\]/i',
-                        "<IntLink Target=\"il_" . $inst_str . "_mob_" . $attribs['media'] . "\" Type=\"MediaObject\"/>",
-                        $a_text
-                    );
-                }
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_mob_" . $attribs['media'],
+                        "Type" => "MediaObject",
+                        "TargetFrame" => $found[10] ?? ""
+                    ]
+                );
             }
             // direct download file (no repository object)
             elseif (isset($attribs["dfile"])) {
-                $a_text = preg_replace(
-                    '/\[' . $found[1] . '\]/i',
-                    "<IntLink Target=\"il_" . $inst_str . "_dfile_" . $attribs['dfile'] . "\" Type=\"File\">",
-                    $a_text
+                $a_text = self::replaceBBTagByMatching(
+                    "[" . $found[1] . "]",
+                    "[/iln]",
+                    "IntLink",
+                    $a_text,
+                    [
+                        "Target" => "il_" . $inst_str . "_dfile_" . $attribs['dfile'],
+                        "Type" => "File"
+                    ]
                 );
             }
             // repository items (id is ref_id (will be used internally but will
@@ -744,16 +894,26 @@ class ilPCParagraph extends ilPageContent
 
                 if ($obj_id > 0) {
                     if ($inst_str == "") {
-                        $a_text = preg_replace(
-                            '/\[' . $found[1] . '\]/i',
-                            "<IntLink Target=\"il_" . $inst_str . "_obj_" . $obj_id . "\" Type=\"RepositoryItem\">",
-                            $a_text
+                        $a_text = self::replaceBBTagByMatching(
+                            "[" . $found[1] . "]",
+                            "[/iln]",
+                            "IntLink",
+                            $a_text,
+                            [
+                                "Target" => "il_" . $inst_str . "_obj_" . $obj_id,
+                                "Type" => "RepositoryItem"
+                            ]
                         );
                     } else {
-                        $a_text = preg_replace(
-                            '/\[' . $found[1] . '\]/i',
-                            "<IntLink Target=\"il_" . $inst_str . "_" . $found[6] . "_" . $obj_id . "\" Type=\"RepositoryItem\">",
-                            $a_text
+                        $a_text = self::replaceBBTagByMatching(
+                            "[" . $found[1] . "]",
+                            "[/iln]",
+                            "IntLink",
+                            $a_text,
+                            [
+                                "Target" => "il_" . $inst_str . "_" . $found[6] . "_" . $obj_id,
+                                "Type" => "RepositoryItem"
+                            ]
                         );
                     }
                 } else {
@@ -763,28 +923,37 @@ class ilPCParagraph extends ilPageContent
         }
 
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "media$ws=$ws([\"0-9])*)$ws)/\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
-            $a_text = preg_replace(
-                '~\[' . $found[1] . '/\]~i',
-                "<IntLink Target=\"il_" . $inst_str . "_mob_" . $attribs['media'] . "\" Type=\"MediaObject\"/>",
-                $a_text
+            $attribs = self::attribsToArray($found[2]);
+            $inst_str = $attribs["inst"] ?? "";
+            $a_text = self::replaceBBTagByMatching(
+                "[" . $found[1] . "/]",
+                "",
+                "IntLink",
+                $a_text,
+                [
+                    "Target" => "il_" . $inst_str . "_mob_" . $attribs['media'],
+                    "Type" => "MediaObject"
+                ]
             );
         }
 
         // user
         while (preg_match("~\[(iln$ws((inst$ws=$ws([\"0-9])*)?" . $ws . "user$ws=$ws(\"([^\"])*)\")$ws)/\]~i", $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[2]);
-            $inst_str = $attribs["inst"];
+            $attribs = self::attribsToArray($found[2]);
+            $inst_str = $attribs["inst"] ?? "";
             $user_id = ilObjUser::_lookupId($attribs['user']);
-            $a_text = preg_replace(
-                '~\[' . $found[1] . '/\]~i',
-                "<IntLink Target=\"il_" . $inst_str . "_user_" . $user_id . "\" Type=\"User\"/>",
-                $a_text
+            $a_text = self::replaceBBTagByMatching(
+                "[" . $found[1] . "/]",
+                "",
+                "IntLink",
+                $a_text,
+                [
+                    "Target" => "il_" . $inst_str . "_user_" . $user_id,
+                    "Type" => "User"
+                ]
             );
         }
 
-        $a_text = preg_replace('~\[\/iln\]~i', "</IntLink>", $a_text);
         return $a_text;
     }
 
@@ -796,7 +965,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function input2xmlReplaceLists(
         string $a_text
-    ) : string {
+    ): string {
         $rows = explode("<br />", $a_text . "<br />");
         //var_dump($a_text);
 
@@ -862,7 +1031,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function xml2outputReplaceLists(
         string $a_text
-    ) : string {
+    ): string {
         $list_start = false;
         $li = false;
 
@@ -871,18 +1040,18 @@ class ilPCParagraph extends ilPageContent
 
         $current_list = array();
         $text = "";
-        for ($i = 0; $i <= count($segments); $i++) {
+        for ($i = 0, $iMax = count($segments); $i < $iMax; $i++) {
             if ($segments[$i] == "<SimpleBulletList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
                 }
-                array_push($current_list, "*");
+                $current_list[] = "*";
                 $li = false;
             } elseif ($segments[$i] == "<SimpleNumberedList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
                 }
-                array_push($current_list, "#");
+                $current_list[] = "#";
                 $li = false;
             } elseif ($segments[$i] == "</SimpleBulletList>") {
                 array_pop($current_list);
@@ -923,10 +1092,10 @@ class ilPCParagraph extends ilPageContent
         }
 
         // remove trailing <br />, if text ends with list
-        if ($segments[count($segments) - 1] == "</SimpleBulletList>" ||
-            $segments[count($segments) - 1] == "</SimpleNumberedList>" &&
-            substr($text, strlen($text) - 6) == "<br />") {
-            $text = substr($text, 0, strlen($text) - 6);
+        if ((($segments[count($segments) - 1] ?? "") === "</SimpleBulletList>" ||
+            ($segments[count($segments) - 1] ?? "") === "</SimpleNumberedList>") &&
+            substr($text, strlen($text) - 6) === "<br />") {
+            $text = substr($text, 0, -6);
         }
 
         return $text;
@@ -938,7 +1107,7 @@ class ilPCParagraph extends ilPageContent
     public static function segmentString(
         string $a_haystack,
         array $a_needles
-    ) : array {
+    ): array {
         $segments = array();
         $found_needle = "";
 
@@ -980,7 +1149,7 @@ class ilPCParagraph extends ilPageContent
         bool $a_wysiwyg = false,
         bool $a_replace_lists = true,
         bool $unmask = true
-    ) : string {
+    ): string {
         // note: the order of the processing steps is crucial
         // and should be the same as in input2xml() in REVERSE order!
 
@@ -1003,11 +1172,11 @@ class ilPCParagraph extends ilPageContent
 
         // internal links
         while (preg_match('~<IntLink(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $target = explode("_", $attribs["Target"]);
             $target_id = $target[count($target) - 1];
             $inst_str = (!is_int(strpos($attribs["Target"], "__")))
-                ? $inst_str = "inst=\"" . $target[1] . "\" "
+                ? $inst_str = "inst=\"" . ($target[1] ?? '') . "\" "
                 : $inst_str = "";
             switch ($attribs["Type"]) {
                 case "PageObject":
@@ -1053,25 +1222,25 @@ class ilPCParagraph extends ilPageContent
                     }
                     break;
 
-                // Repository Item (using ref id)
+                    // Repository Item (using ref id)
                 case "RepositoryItem":
                     if ($inst_str == "") {
                         $target_type = ilObject::_lookupType($target_id, true);
                     } else {
-                        $rtype = $target[count($target) - 2];
+                        $rtype = ($target[count($target) - 2] ?? "");
                         $target_type = $rtype;
                     }
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "$target_type=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
                     break;
 
-                // Download File (not in repository, Object ID)
+                    // Download File (not in repository, Object ID)
                 case "File":
                     $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "dfile=\"" . $target_id . "\"" . $tframestr . "]", $a_text);
                     break;
 
-                // User
+                    // User
                 case "User":
-                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "user=\"" . ilObjUser::_lookupLogin($target_id) . "\"/]", $a_text);
+                    $a_text = preg_replace('~<IntLink' . $found[1] . '>~i', "[iln " . $inst_str . "user=\"" . ilObjUser::_lookupLogin((int) $target_id) . "\"/]", $a_text);
                     break;
 
                 default:
@@ -1083,10 +1252,10 @@ class ilPCParagraph extends ilPageContent
 
         // external links
         while (preg_match('~<ExtLink(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             //$found[1] = str_replace("?", "\?", $found[1]);
             $tstr = "";
-            if (in_array($attribs["TargetFrame"], array("FAQ", "Glossary", "Media"))) {
+            if (in_array(($attribs["TargetFrame"] ?? ""), array("FAQ", "Glossary", "Media"))) {
                 $tstr = ' target="' . $attribs["TargetFrame"] . '"';
             }
             $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . $attribs["Href"] . "\"$tstr]", $a_text);
@@ -1095,18 +1264,18 @@ class ilPCParagraph extends ilPageContent
 
         // anchor
         while (preg_match('~<Anchor(' . $any . '/)>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"][/anc]", $a_text);
         }
         while (preg_match('~<Anchor(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Anchor" . $found[1] . ">", "[anc name=\"" . $attribs["Name"] . "\"]", $a_text);
         }
         $a_text = str_replace("</Anchor>", "[/anc]", $a_text);
 
         // marked text
         while (preg_match('~<Marked(' . $any . ')>~i', $a_text, $found)) {
-            $attribs = ilUtil::attribsToArray($found[1]);
+            $attribs = self::attribsToArray($found[1]);
             $a_text = str_replace("<Marked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $a_text);
         }
         $a_text = str_replace("</Marked>", "[/marked]", $a_text);
@@ -1150,7 +1319,7 @@ class ilPCParagraph extends ilPageContent
      * ==header2== or ===header3=== and returns an array that contains
      * the single chunks.
      */
-    public function autoSplit(string $a_text) : array
+    public function autoSplit(string $a_text): array
     {
         $a_text = str_replace("=<SimpleBulletList>", "=<br /><SimpleBulletList>", $a_text);
         $a_text = str_replace("=<SimpleNumberedList>", "=<br /><SimpleNumberedList>", $a_text);
@@ -1264,7 +1433,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Remove preceding <br />
      */
-    public function handleNextBr(string $a_str) : string
+    public function handleNextBr(string $a_str): string
     {
         // do not remove, if next line starts with a "=", otherwise two
         // headlines in a row will not be recognized
@@ -1283,7 +1452,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Remove trailing <br />
      */
-    public function removeTrailingBr(string $a_str) : string
+    public function removeTrailingBr(string $a_str): string
     {
         if (substr($a_str, strlen($a_str) - 6) == "<br />") {
             $a_str = substr($a_str, 0, strlen($a_str) - 6);
@@ -1294,7 +1463,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Need to override getType from ilPageContent to distinguish between Pararagraph and Source
      */
-    public function getType() : string
+    public function getType(): string
     {
         return ($this->getCharacteristic() == "Code")
             ? "src"
@@ -1383,7 +1552,7 @@ class ilPCParagraph extends ilPageContent
     public function getLastSavedPCId(
         ilPageObject $a_pg_obj,
         bool $a_as_ajax_str = false
-    ) : string {
+    ): string {
         $sep = "";
 
         if ($a_as_ajax_str) {
@@ -1411,7 +1580,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function handleAjaxContent(
         string $a_content
-    ) : ?array {
+    ): ?array {
         $a_content = "<dummy>" . $a_content . "</dummy>";
 
         $doc = new DOMDocument();
@@ -1445,7 +1614,7 @@ class ilPCParagraph extends ilPageContent
                     $cnode = ilDOM2Util::changeName($element, "ilMarked", false);
                     $cnode->setAttribute("Class", substr($class_arr[0], 16));
                 }
-                for ($i = 1; $i < count($class_arr); $i++) {
+                for ($i = 1, $iMax = count($class_arr); $i < $iMax; $i++) {
                     $tag = substr($class_arr[$i], 16);
                     if (isset($tags[$tag])) {		// known tag like strong
                         $cnode = ilDOM2Util::addParent($cnode, "il" . substr($class_arr[$i], 16));
@@ -1526,7 +1695,7 @@ class ilPCParagraph extends ilPageContent
                 // external links
                 $any = "[^>]*";
                 while (preg_match('~<ilMarked(' . $any . ')>~i', $text, $found)) {
-                    $attribs = ilUtil::attribsToArray($found[1]);
+                    $attribs = self::attribsToArray($found[1]);
                     $text = str_replace("<ilMarked" . $found[1] . ">", "[marked class=\"" . $attribs["Class"] . "\"]", $text);
                 }
                 $text = str_replace("</ilMarked>", "[/marked]", $text);
@@ -1543,7 +1712,7 @@ class ilPCParagraph extends ilPageContent
     /**
      * Post input2xml handling of ajax content
      */
-    public static function handleAjaxContentPost(string $text) : string
+    public static function handleAjaxContentPost(string $text): string
     {
         $text = str_replace(
             array("&lt;ul&gt;", "&lt;/ul&gt;"),
@@ -1623,7 +1792,7 @@ class ilPCParagraph extends ilPageContent
 
     public function autoLinkGlossaries(
         array $a_glos
-    ) : void {
+    ): void {
         if (is_array($a_glos) && count($a_glos) > 0) {
             // check which terms occur in the text (we may
             // get some false positives due to the strip_tags, but
@@ -1636,7 +1805,7 @@ class ilPCParagraph extends ilPageContent
                     $ref_ids = ilObject::_getAllReferences($glo);
                     $glo_ref_id = current($ref_ids);
                     if ($glo_ref_id > 0) {
-                        $terms = ilGlossaryTerm::getTermList($glo_ref_id);
+                        $terms = ilGlossaryTerm::getTermList([$glo_ref_id]);
                         foreach ($terms as $t) {
                             if (is_int(stripos($text, $t["term"]))) {
                                 $found_terms[$t["id"]] = $t;
@@ -1659,14 +1828,14 @@ class ilPCParagraph extends ilPageContent
         php4DOMDocument $a_dom,
         array $a_terms,
         php4DOMElement $a_par_node = null
-    ) : void {
+    ): void {
         $par_node = null;
         // sort terms by their length (shortes first)
         // to prevent that nested tags are builded
         foreach ($a_terms as $k => $t) {
             $a_terms[$k]["termlength"] = strlen($t["term"]);
         }
-        $a_terms = ilUtil::sortArray($a_terms, "termlength", "asc", true);
+        $a_terms = ilArrayUtil::sortArray($a_terms, "termlength", "asc", true);
 
 
         if ($a_dom instanceof php4DOMDocument) {
@@ -1683,6 +1852,14 @@ class ilPCParagraph extends ilPageContent
         } else {
             $parnodes = $xpath->query(".//Paragraph[@Characteristic != 'Code']", $par_node->parentNode);
         }
+
+        $strrPos = function (string $a_haystack, string $a_needle, ?int $a_offset = null): int {
+            if (function_exists("mb_strpos")) {
+                return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
+            } else {
+                return strrpos($a_haystack, $a_needle, $a_offset);
+            }
+        };
 
         foreach ($parnodes as $parnode) {
             $textnodes = $xpath->query('.//text()', $parnode);
@@ -1701,12 +1878,11 @@ class ilPCParagraph extends ilPageContent
                         // if term found
                         while (is_int($pos)) {
                             // check if we are in a tex tag, see #22261
-                            $tex_bpos = ilStr::strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
+                            $tex_bpos = $strrPos(ilStr::subStr($node_val, 0, $pos), "[tex]");
                             $tex_epos = ilStr::strPos($node_val, "[/tex]", $tex_bpos);
                             if ($tex_bpos > 0 && $tex_epos > 0 && $tex_bpos < $pos && $tex_epos > $pos) {
                                 $pos += ilStr::strLen($t["term"]);
                             } else {
-
                                 // check if the string is not included in another word
                                 // note that []
                                 $valid_limiters = array("", " ", "&nbsp;", ".", ",", ":", ";", "!", "?", "\"", "'", "(", ")");
@@ -1738,7 +1914,7 @@ class ilPCParagraph extends ilPageContent
                 }
 
                 //				var_dump($p);
-//				var_dump($node->nodeValue);
+                //				var_dump($node->nodeValue);
             }
 
 
@@ -1791,7 +1967,7 @@ class ilPCParagraph extends ilPageContent
     public static function autoLinkGlossariesPage(
         ilPageObject $a_page,
         array $a_terms
-    ) {
+    ): void {
         $a_page->buildDom();
         $a_dom = $a_page->getDom();
 
@@ -1808,7 +1984,7 @@ class ilPCParagraph extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         // pc paragraph
         self::saveMetaKeywords($a_page, $a_domdoc);
         self::saveAnchors($a_page, $a_domdoc);
@@ -1819,7 +1995,7 @@ class ilPCParagraph extends ilPageContent
      */
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         // delete anchors
         self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
     }
@@ -1832,7 +2008,7 @@ class ilPCParagraph extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
     }
 
     /**
@@ -1841,7 +2017,7 @@ class ilPCParagraph extends ilPageContent
     public static function saveAnchors(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         self::_deleteAnchors($a_page->getParentType(), $a_page->getId(), $a_page->getLanguage());
 
         // get all anchors
@@ -1864,7 +2040,7 @@ class ilPCParagraph extends ilPageContent
         string $a_parent_type,
         int $a_page_id,
         string $a_page_lang
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1885,7 +2061,7 @@ class ilPCParagraph extends ilPageContent
         int $a_page_id,
         string $a_page_lang,
         string $a_anchor_name
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1906,7 +2082,7 @@ class ilPCParagraph extends ilPageContent
         string $a_parent_type,
         int $a_page_id,
         string $a_page_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1934,7 +2110,7 @@ class ilPCParagraph extends ilPageContent
     public static function saveMetaKeywords(
         ilPageObject $a_page,
         DOMDocument $a_domdoc
-    ) : void {
+    ): void {
         // not nice, should be set by context per method
         if ($a_page->getParentType() == "gdf" ||
             $a_page->getParentType() == "lm") {
@@ -1991,7 +2167,7 @@ class ilPCParagraph extends ilPageContent
         }
     }
 
-    public function getJavascriptFiles(string $a_mode) : array
+    public function getJavascriptFiles(string $a_mode): array
     {
         $adve_settings = new ilSetting("adve");
 
@@ -2002,7 +2178,7 @@ class ilPCParagraph extends ilPageContent
         return array();
     }
 
-    public function getOnloadCode(string $a_mode) : array
+    public function getOnloadCode(string $a_mode): array
     {
         $adve_settings = new ilSetting("adve");
 
@@ -2013,7 +2189,7 @@ class ilPCParagraph extends ilPageContent
         return array();
     }
 
-    public function getModel() : ?stdClass
+    public function getModel(): ?stdClass
     {
         $model = new \stdClass();
         $s_text = $this->getText();

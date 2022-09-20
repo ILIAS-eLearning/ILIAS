@@ -3,20 +3,23 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Description: <button> (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button) by Mozilla Contributors is licensed under CC-BY-SA 2.5.
  * @author  Michael Jansen <mjansen@databay.de>
- * @deprecated use KS Buttons instead
+ * @deprecated 10 Use KS Buttons instead
  */
 class ilButton extends ilButtonBase
 {
@@ -85,12 +88,12 @@ class ilButton extends ilButtonBase
     protected ?string $form_target = null;
     protected bool $form_novalidate = false;
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self(self::TYPE_BUTTON);
     }
 
-    public static function getValidFormTargets() : array
+    public static function getValidFormTargets(): array
     {
         return array(
             self::FORM_TARGET_BLANK,
@@ -100,7 +103,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public static function getValidFormMethods() : array
+    public static function getValidFormMethods(): array
     {
         return array(
             self::FORM_METHOD_POST,
@@ -108,7 +111,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public static function getValidFormEncTypes() : array
+    public static function getValidFormEncTypes(): array
     {
         return array(
             self::FORM_ENC_TYPE_APPLICATION,
@@ -117,7 +120,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public static function getValidButtonTypes() : array
+    public static function getValidButtonTypes(): array
     {
         return array(
             self::BUTTON_TYPE_SUBMIT,
@@ -126,7 +129,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public function isFormNovalidate() : bool
+    public function isFormNovalidate(): ?bool
     {
         return $this->form_novalidate;
     }
@@ -136,7 +139,7 @@ class ilButton extends ilButtonBase
      * If this attribute is specified, it overrides the novalidate attribute of the button's form owner.
      * @throws InvalidArgumentException
      */
-    public function setFormNovalidate(bool $form_novalidate) : self
+    public function setFormNovalidate(bool $form_novalidate): self
     {
         if (!is_bool($form_novalidate)) {
             throw new InvalidArgumentException(
@@ -148,7 +151,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormTarget() : string
+    public function getFormTarget(): ?string
     {
         return $this->form_target;
     }
@@ -160,7 +163,7 @@ class ilButton extends ilButtonBase
      * the button's form owner.
      * @throws InvalidArgumentException
      */
-    public function setFormTarget(string $form_target) : self
+    public function setFormTarget(string $form_target): self
     {
         if (!in_array($form_target, self::getValidFormTargets())) {
             throw new InvalidArgumentException(
@@ -175,7 +178,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormMethod() : string
+    public function getFormMethod(): ?string
     {
         return $this->form_method;
     }
@@ -184,7 +187,7 @@ class ilButton extends ilButtonBase
      * If the button is a submit button, this attribute specifies the HTTP method that the browser uses to submit the form.
      * @throws InvalidArgumentException
      */
-    public function setFormMethod(string $form_method) : self
+    public function setFormMethod(string $form_method): self
     {
         if (!in_array($form_method, self::getValidFormMethods())) {
             throw new InvalidArgumentException(
@@ -199,7 +202,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormEncType() : string
+    public function getFormEncType(): ?string
     {
         return $this->form_enc_type;
     }
@@ -208,7 +211,7 @@ class ilButton extends ilButtonBase
      * If this attribute is specified, it overrides the enctype attribute of the button's form owner.
      * @throws InvalidArgumentException
      */
-    public function setFormEncType(string $form_enc_type) : self
+    public function setFormEncType(string $form_enc_type): self
     {
         if (!in_array($form_enc_type, self::getValidFormEncTypes())) {
             throw new InvalidArgumentException(
@@ -223,7 +226,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormAction() : string
+    public function getFormAction(): ?string
     {
         return $this->form_action;
     }
@@ -233,7 +236,7 @@ class ilButton extends ilButtonBase
      * If specified, it overrides the action attribute of the button's form owner.
      * @throws InvalidArgumentException
      */
-    public function setFormAction(string $form_action) : self
+    public function setFormAction(string $form_action): self
     {
         if (!is_string($form_action)) {
             throw new InvalidArgumentException(
@@ -245,7 +248,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getForm() : string
+    public function getForm(): string
     {
         return $this->form;
     }
@@ -258,7 +261,7 @@ class ilButton extends ilButtonBase
      * not just as descendants of their <form> elements.
      * @throws InvalidArgumentException
      */
-    public function setForm(string $form) : self
+    public function setForm(string $form): self
     {
         if (!is_string($form)) {
             throw new InvalidArgumentException(
@@ -270,7 +273,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getValue() : string
+    public function getValue(): ?string
     {
         return $this->value;
     }
@@ -279,7 +282,7 @@ class ilButton extends ilButtonBase
      * The initial value of the button.
      * @throws InvalidArgumentException
      */
-    public function setValue(string $value) : self
+    public function setValue(string $value): self
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException(
@@ -291,7 +294,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getName() : string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -301,7 +304,7 @@ class ilButton extends ilButtonBase
      * @param bool   $is_command if true, a cmd[] is wrapped around the passed name
      * @throws InvalidArgumentException
      */
-    public function setName(string $name, bool $is_command = true) : self
+    public function setName(string $name, bool $is_command = true): self
     {
         if (!is_string($name)) {
             throw new InvalidArgumentException(
@@ -313,7 +316,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getButtonType() : string
+    public function getButtonType(): string
     {
         return $this->button_type;
     }
@@ -321,7 +324,7 @@ class ilButton extends ilButtonBase
     /**
      * @throws InvalidArgumentException
      */
-    public function setButtonType(string $button_type) : self
+    public function setButtonType(string $button_type): self
     {
         if (!in_array($button_type, self::getValidButtonTypes())) {
             throw new InvalidArgumentException(
@@ -336,19 +339,19 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $this->prepareRender();
 
-        $attr = array();
-        $attr['type'] = $this->getButtonType();
-        $attr['name'] = $this->getName();
-        $attr['value'] = $this->getValue();
-        $attr['form'] = $this->getForm();
-        $attr['formaction'] = $this->getFormAction();
-        $attr['formmethod'] = $this->getFormMethod();
-        $attr['formenctype'] = $this->getFormEncType();
-        $attr['formtarget'] = $this->getFormTarget();
+        $attr = [];
+        $attr['type'] = $this->getButtonType() ?? '';
+        $attr['name'] = $this->getName() ?? '';
+        $attr['value'] = $this->getValue() ?? '';
+        $attr['form'] = $this->getForm() ?? '';
+        $attr['formaction'] = $this->getFormAction() ?? '';
+        $attr['formmethod'] = $this->getFormMethod() ?? '';
+        $attr['formenctype'] = $this->getFormEncType() ?? '';
+        $attr['formtarget'] = $this->getFormTarget() ?? '';
         $attr['formnovalidate'] = $this->isFormNovalidate() ? var_export($this->isFormNovalidate(), 1) : null;
 
         if (self::FORM_TARGET_BLANK === $this->getFormTarget()) {

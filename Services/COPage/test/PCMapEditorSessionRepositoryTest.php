@@ -12,20 +12,20 @@ class PCMapEditorSessionRepositoryTest extends TestCase
     //protected $backupGlobals = false;
     protected \ILIAS\COPage\PC\MapEditorSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new \ILIAS\COPage\PC\MapEditorSessionRepository();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test mode
      */
-    public function testMode()
+    public function testMode(): void
     {
         $repo = $this->repo;
         $repo->setMode("testmode");
@@ -38,7 +38,7 @@ class PCMapEditorSessionRepositoryTest extends TestCase
     /**
      * Test area nr
      */
-    public function testAreaNr()
+    public function testAreaNr(): void
     {
         $repo = $this->repo;
         $repo->setAreaNr("3");

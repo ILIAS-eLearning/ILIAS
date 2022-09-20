@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTDateTime);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: relative dates?
@@ -16,7 +18,7 @@ class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return (int) $this->getADT()->getDate()->get(IL_CAL_UNIX);

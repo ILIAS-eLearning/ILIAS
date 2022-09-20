@@ -1,20 +1,33 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddySystemRelationCollectionTest
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 {
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
-    public function testElementsCanBeInitiallyAdded(array $elements) : void
+    public function testElementsCanBeInitiallyAdded(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
 
@@ -32,9 +45,8 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
-    public function testElementsCanBeAddedAndRemoved(array $elements) : void
+    public function testElementsCanBeAddedAndRemoved(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $this->assertTrue($collection->isEmpty());
@@ -84,34 +96,33 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param array $elements
      */
-    public function testIterator(array $elements) : void
+    public function testIterator(array $elements): void
     {
         $collection = new ilBuddySystemRelationCollection($elements);
         $iterations = 0;
         foreach ($collection->getIterator() as $key => $item) {
-            $this->assertSame($elements[$key], $item, "Item {$key} not match");
+            $this->assertSame($elements[$key], $item, "Item $key not match");
             $iterations++;
         }
         $this->assertCount($iterations, $elements, 'Number of iterations not match');
     }
 
-    public function testRemovingAnNonExistingElementRaisesAnException() : void
+    public function testRemovingAnNonExistingElementRaisesAnException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $collection = new ilBuddySystemRelationCollection();
         $collection->removeElement(5);
     }
 
-    public function testRemovingAnNonExistingElementByKeyRaisesAnException() : void
+    public function testRemovingAnNonExistingElementByKeyRaisesAnException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $collection = new ilBuddySystemRelationCollection();
         $collection->remove('phpunit');
     }
 
-    public function testElementsCanBeSliced() : void
+    public function testElementsCanBeSliced(): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $collection->add(1);
@@ -119,12 +130,12 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $collection->add(3);
         $collection->add(4);
 
-        $this->assertCount(2, $collection->filter(function ($elm) {
+        $this->assertCount(2, $collection->filter(function ($elm): bool {
             return $elm % 2 === 0;
         })->toArray());
     }
 
-    public function testElementsCanBeFiltered() : void
+    public function testElementsCanBeFiltered(): void
     {
         $collection = new ilBuddySystemRelationCollection();
         $collection->add(1);
@@ -135,7 +146,10 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
         $this->assertSame([3], $collection->slice(2, 1)->getValues());
     }
 
-    public function provideElements() : array
+    /**
+     * @return array{indexed: int[][], associative: array<int, array{A: string, B: string, C: string}>, mixed: array<int, array<int|string, int|string>>, relations: \ilBuddySystemRelation&\PHPUnit\Framework\MockObject\MockObject[][]}
+     */
+    public function provideElements(): array
     {
         $relation1 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation2 = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Grid;
 
@@ -41,7 +44,7 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -52,7 +55,7 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function insertCommand(array $body) : Server\Response
+    protected function insertCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -71,10 +74,10 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $grid->applyTemplate(
             $post_layout_template,
             (int) $body["number_of_cells"],
-            $body["s"],
-            $body["m"],
-            $body["l"],
-            $body["xl"]
+            (int) $body["s"],
+            (int) $body["m"],
+            (int) $body["l"],
+            (int) $body["xl"]
         );
         $updated = $page->update();
 

@@ -1,35 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Listing\Workflow\Step;
 
 /**
- *
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilProfileChecklistGUI
 {
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilProfileChecklistStatus $status;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilProfileChecklistStatus
-     */
-    protected $status;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -39,16 +36,11 @@ class ilProfileChecklistGUI
         $this->lng = $DIC->language();
     }
 
-    /**
-     * Render
-     *
-     * @param
-     * @return
-     */
-    public function render($active_step)
+    public function render(int $active_step): string
     {
         $ui = $this->ui;
         $lng = $this->lng;
+        $active_step_nr = 0;
         $workflow_factory = $ui->factory()->listing()->workflow();
         $status = $this->status;
 
@@ -75,15 +67,14 @@ class ilProfileChecklistGUI
 
     /**
      * Get ui checklist status. Maps the checklist status to the UI element status.
-     * @param int $check_list_status
-     * @return int
      */
-    protected function getUIChecklistStatus(int $check_list_status)
+    protected function getUIChecklistStatus(int $check_list_status): int
     {
         switch ($check_list_status) {
-            case ilProfileChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED; break;
-            case ilProfileChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS; break;
-            case ilProfileChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY; break;
+            case ilProfileChecklistStatus::STATUS_NOT_STARTED: return Step::NOT_STARTED;
+            case ilProfileChecklistStatus::STATUS_IN_PROGRESS: return Step::IN_PROGRESS;
+            case ilProfileChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY;
         }
+        return 0;
     }
 }

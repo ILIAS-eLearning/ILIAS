@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Helper methods for repository object plugins
@@ -21,63 +24,58 @@
 class ilRepositoryObjectPluginSlot
 {
     // Adds objects that can be created to the add new object list array
-    public static function addCreatableSubObjects(array $a_obj_array) : array
+    public static function addCreatableSubObjects(array $a_obj_array): array
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl) {
-            $pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
-            if ($pl_id != "") {
-                $a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
-            }
+        $component_repository = $DIC["component.repository"];
+        $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $pl_id = $plugin->getId();
+            $a_obj_array[$pl_id] = ["name" => $pl_id, "lng" => $pl_id, "plugin" => true];
         }
 
         return $a_obj_array;
     }
-    
+
     // Checks whether a repository type is a plugin or not
     public static function isTypePlugin(
         string $a_type,
         bool $a_active_status = true
-    ) : bool {
+    ): bool {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        
-        $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
-        if ($pname == "") {
+        $component_repository = $DIC["component.repository"];
+
+        if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
 
-        if ($ilPluginAdmin->exists(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-            if (!$a_active_status ||
-                $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-                return true;
-            }
+        if (!$a_active_status) {
+            return true;
         }
-        return false;
+
+        $plugin = $component_repository->getPluginById($a_type);
+        return $plugin->isActive();
     }
-    
+
     // Check whether a repository type is a plugin which has active learning progress
     public static function isTypePluginWithLP(
         string $a_type,
         bool $a_active_status = true
-    ) : bool {
+    ): bool {
         global $DIC;
+        $component_repository = $DIC["component.repository"];
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        
-        $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
-        if ($pname == "") {
+        if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
 
-        if ($ilPluginAdmin->exists(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-            if (!$a_active_status ||
-                $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-                if ($ilPluginAdmin->hasLearningProgress(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
+        $slot = $component_repository->getPluginSlotById("robj");
+        if ($slot->hasPluginName($a_type)) {
+            $plugin = $slot->getPluginByName($a_type);
+            if (!$a_active_status || $plugin->isActive()) {
+                if ($plugin->supportsLearningProgress()) {
                     return true;
                 }
             }

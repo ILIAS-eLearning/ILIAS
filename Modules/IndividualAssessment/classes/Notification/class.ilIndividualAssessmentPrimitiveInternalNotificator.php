@@ -1,17 +1,19 @@
 <?php
-require_once 'Services/Mail/classes/class.ilMailNotification.php';
-require_once 'Modules/IndividualAssessment/interfaces/Notification/interface.ilIndividualAssessmentNotificator.php';
+
+declare(strict_types=1);
+
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /**
- * Notificate user using internal mail system.
- * @inheritdoc
+ * Notifies user, using internal mail system.
  */
 class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotification implements ilIndividualAssessmentNotificator
 {
-    const OCCASION_FAILED = 0;
-    const OCCASION_COMPLETED = 1;
+    public const OCCASION_FAILED = 0;
+    public const OCCASION_COMPLETED = 1;
 
-    protected $occasion;
-    protected $reciever;
+    protected int $occasion;
+    protected ilIndividualAssessmentMember $receiver;
 
     public function __construct()
     {
@@ -22,10 +24,11 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function withReciever(ilIndividualAssessmentMember $member)
-    {
+    public function withReceiver(
+        ilIndividualAssessmentMember $member
+    ): ilIndividualAssessmentPrimitiveInternalNotificator {
         $clone = clone $this;
-        $clone->reciever = $member;
+        $clone->receiver = $member;
         $clone->ref_id = $member->assessment()->getRefId();
         return $clone;
     }
@@ -33,7 +36,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function withOccasionFailed()
+    public function withOccasionFailed(): ilIndividualAssessmentPrimitiveInternalNotificator
     {
         $clone = clone $this;
         $clone->occasion = self::OCCASION_FAILED;
@@ -43,7 +46,7 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function withOccasionCompleted()
+    public function withOccasionCompleted(): ilIndividualAssessmentPrimitiveInternalNotificator
     {
         $clone = clone $this;
         $clone->occasion = self::OCCASION_COMPLETED;
@@ -53,12 +56,15 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
     /**
      * @inheritdoc
      */
-    public function send()
+    public function send(): void
     {
-        if (!$this->reciever instanceof ilIndividualAssessmentMember || !in_array($this->occasion, array(self::OCCASION_COMPLETED,self::OCCASION_FAILED))) {
+        if (
+            !$this->receiver instanceof ilIndividualAssessmentMember ||
+            !in_array($this->occasion, array(self::OCCASION_COMPLETED, self::OCCASION_FAILED))
+        ) {
             throw new ilIndividualAssessmentException('can\'t notify');
         }
-        $this->initLanguage($this->reciever->id());
+        $this->initLanguage($this->receiver->id());
         $this->initMail();
         $subject = $this->occasion === self::OCCASION_COMPLETED
             ? $this->getLanguageText('iass_subj_notification_completed')
@@ -66,18 +72,18 @@ class ilIndividualAssessmentPrimitiveInternalNotificator extends ilMailNotificat
         $message = $this->occasion === self::OCCASION_COMPLETED
             ? $this->getLanguageText('iass_mess_notification_completed')
             : $this->getLanguageText('iass_mess_notification_failed');
-        $assessment_title = $this->reciever->assessment()->getTitle();
+        $assessment_title = $this->receiver->assessment()->getTitle();
         $this->setSubject(
             sprintf($subject, $assessment_title)
         );
-        $this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
+        $this->setBody(ilMail::getSalutation($this->receiver->id(), $this->getLanguage()));
         $this->appendBody("\n\n");
         $this->appendBody(sprintf($message, $assessment_title));
         $this->appendBody("\n\n");
-        $this->appendBody($this->reciever->record());
+        $this->appendBody($this->receiver->record());
         $this->appendBody("\n\n");
         $this->appendBody($this->createPermanentLink());
         $this->getMail()->appendInstallationSignature(true);
-        $this->sendMail(array($this->reciever->id()));
+        $this->sendMail(array($this->receiver->id()));
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup;
 
@@ -11,7 +27,7 @@ class ImplementationOfInterfaceFinderForTest extends ImplementationOfInterfaceFi
 {
     public array $class_names = [];
 
-    protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
+    protected function getAllClassNames(array $additional_ignore, string $matching_path = null): \Iterator
     {
         foreach ($this->class_names as $name) {
             yield $name;
@@ -22,18 +38,23 @@ class ImplementationOfInterfaceFinderForTest extends ImplementationOfInterfaceFi
 interface TestInterface1
 {
 }
+
 interface TestInterface2
 {
 }
+
 interface TestInterface3
 {
 }
+
 class TestClass1 implements TestInterface1
 {
 }
+
 class TestClass2 implements TestInterface2
 {
 }
+
 class TestClass3 implements TestInterface1, TestInterface2
 {
 }

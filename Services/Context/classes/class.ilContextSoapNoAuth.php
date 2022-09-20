@@ -1,97 +1,77 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Service context for soap without handling authentication
  */
 class ilContextSoapNoAuth implements ilContextTemplate
 {
-
-    /**
-     * @inheritdoc
-     */
-    public static function supportsRedirects()
+    public static function supportsRedirects(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasUser()
+    public static function hasUser(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function usesHTTP()
+    public static function usesHTTP(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasHTML()
+    public static function hasHTML(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function usesTemplate()
+    public static function usesTemplate(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function initClient()
+    public static function initClient(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function doAuthentication()
+    public static function doAuthentication(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function supportsPersistentSessions()
+    public static function supportsPersistentSessions(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function supportsPushMessages()
+    public static function supportsPushMessages(): bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function isSessionMainContext()
+    public static function isSessionMainContext(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function modifyHttpPath(string $httpPath): string
     {
         return $httpPath;
     }

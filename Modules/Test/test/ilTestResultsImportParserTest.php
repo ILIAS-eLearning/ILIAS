@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
 {
     private ilTestResultsImportParser $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -18,12 +20,12 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
         $this->testObj = new ilTestResultsImportParser("", $testObject);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestResultsImportParser::class, $this->testObj);
     }
 
-    public function testQuestionIdMapping() : void
+    public function testQuestionIdMapping(): void
     {
         $expected = [
             12 => 17,
@@ -33,7 +35,7 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->getQuestionIdMapping());
     }
 
-    public function testSrcPoolDefIdMapping() : void
+    public function testSrcPoolDefIdMapping(): void
     {
         $expected = [
             12 => 17,

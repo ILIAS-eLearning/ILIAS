@@ -15,85 +15,50 @@
  */
 class ilMyTestSolutionsGUI
 {
-    /**
-     * command constants
-     */
-    const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
-    
-    /**
-     * @var ilObjTest
-     */
-    protected $testObj;
-    
-    /**
-     * @var ilTestAccess
-     */
-    protected $testAccess;
-    
-    /**
-     * @var ilTestObjectiveOrientedContainer
-     */
-    protected $objectiveParent;
-    
-    /**
-     * @return ilObjTest
-     */
-    public function getTestObj()
+    public const EVALGUI_CMD_SHOW_PASS_OVERVIEW = 'outUserListOfAnswerPasses';
+
+    protected ?ilObjTest $testObj = null;
+    protected ?ilTestAccess $testAccess = null;
+    protected ?ilTestObjectiveOrientedContainer $objectiveParent = null;
+
+    public function getTestObj(): ?ilObjTest
     {
         return $this->testObj;
     }
-    
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+
+    public function setTestObj(ilObjTest $testObj): void
     {
         $this->testObj = $testObj;
     }
-    
-    /**
-     * @return ilTestAccess
-     */
-    public function getTestAccess()
+
+    public function getTestAccess(): ?ilTestAccess
     {
         return $this->testAccess;
     }
-    
-    /**
-     * @param ilTestAccess $testAccess
-     */
-    public function setTestAccess($testAccess)
+
+    public function setTestAccess(ilTestAccess $testAccess): void
     {
         $this->testAccess = $testAccess;
     }
-    
-    /**
-     * @return ilTestObjectiveOrientedContainer
-     */
-    public function getObjectiveParent()
+
+    public function getObjectiveParent(): ?ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
-    
-    /**
-     * @param ilTestObjectiveOrientedContainer $objectiveParent
-     */
-    public function setObjectiveParent($objectiveParent)
+
+    public function setObjectiveParent(ilTestObjectiveOrientedContainer $objectiveParent): void
     {
         $this->objectiveParent = $objectiveParent;
     }
 
-    /**
-     * Execute Command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         if (!$DIC->ctrl()->getCmd()) {
             $DIC->ctrl()->setCmd(self::EVALGUI_CMD_SHOW_PASS_OVERVIEW);
         }
-        
+
         switch ($DIC->ctrl()->getNextClass()) {
             case "iltestevaluationgui":
                 require_once 'Modules/Test/classes/class.ilTestEvaluationGUI.php';
@@ -102,7 +67,7 @@ class ilMyTestSolutionsGUI
                 $gui->setTestAccess($this->getTestAccess());
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
-            
+
             case 'ilassquestionpagegui':
                 require_once 'Modules/Test/classes/class.ilAssQuestionPageCommandForwarder.php';
                 $forwarder = new ilAssQuestionPageCommandForwarder();

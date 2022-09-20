@@ -1,33 +1,56 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Skill\Service\SkillTreeService;
 
 /**
  * TableGUI class for skill list in survey
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_survey)
-    {
+    protected ilSurveySkillThresholds $skill_thres;
+    protected SkillTreeService $skill_tree_service;
+    protected ilGlobalSkillTree $skill_tree;
+    protected ilObjSurvey $survey;
+    /** @var array<int, array<int, int>> */
+    protected array $thresholds;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->survey = $a_survey;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
 
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->skill_tree = $this->skill_tree_service->getGlobalSkillTree();
 
         $this->skill_thres = new ilSurveySkillThresholds($a_survey);
         $this->thresholds = $this->skill_thres->getThresholds();
@@ -40,18 +63,9 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.svy_skill_row.html", "Modules/Survey");
-
-        //$this->addMultiCommand("", $lng->txt(""));
-        //$this->addCommandButton("", $lng->txt(""));
     }
-    
-    /**
-     * Get skills
-     *
-     * @param
-     * @return
-     */
-    public function getSkills()
+
+    public function getSkills(): void
     {
         $sskill = new ilSurveySkill($this->survey);
         $opts = $sskill->getAllAssignedSkillsAsOptions();
@@ -69,15 +83,11 @@ class ilSurveySkillTableGUI extends ilTable2GUI
                 "scale_sum" => $scale_sum
                 );
         }
-        
+
         $this->setData($data);
     }
-    
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -104,7 +114,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->tpl->setVariable("MAX_SCALE_POINTS", $a_set["scale_sum"]);
         $this->tpl->setVariable("CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listSkillThresholds"));
         $this->tpl->setVariable("ACTION", $lng->txt("edit"));
-        
+
         $bs = new ilBasicSkill($a_set["base_skill"]);
         $ld = $bs->getLevelData();
         foreach ($ld as $l) {
@@ -112,7 +122,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             $this->tpl->setVariable("LEV", $l["title"]);
 
             $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]];
-            if ((int) $tr != 0) {
+            if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {
                 $this->tpl->setVariable("THRESHOLD", "");

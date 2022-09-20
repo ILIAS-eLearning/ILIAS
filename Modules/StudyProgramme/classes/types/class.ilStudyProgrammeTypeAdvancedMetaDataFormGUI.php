@@ -1,7 +1,22 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilStudyProgrammeTypeAdvancedMetaDataFormGUI
@@ -10,40 +25,29 @@ require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
  */
 class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 {
+    protected ilStudyProgrammeTypeRepository $type_repository;
+    protected ilStudyProgrammeTypeGUI $parent_gui;
 
-    /**
-     * @var ilStudyProgrammeTypeRepository
-     */
-    protected $type_repository;
-
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
-
-    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository)
-    {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+    public function __construct(
+        ilStudyProgrammeTypeGUI $parent_gui,
+        ilStudyProgrammeTypeRepository $type_repository,
+        ilCtrl $ctrl,
+        ilGlobalTemplateInterface $tpl,
+        ilLanguage $lng
+    ) {
         $this->parent_gui = $parent_gui;
         $this->type_repository = $type_repository;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->global_tpl = $tpl;
+        $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
 
-
     /**
      * Save object (create or update)
-     *
-     * @return bool
      */
-    public function saveObject(ilStudyProgrammeType $type)
+    public function saveObject(ilStudyProgrammeType $type): bool
     {
         $type = $this->fillObject($type);
         if (!$type) {
@@ -53,8 +57,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-
-    protected function initForm()
+    protected function initForm(): void
     {
         /** @var ilAdvancedMDRecord $record */
         $records = $this->type_repository->getAllAMDRecords();
@@ -72,11 +75,10 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('updateAMD', $this->lng->txt('save'));
     }
 
-
     /**
      * Add all fields to the form
      */
-    public function fillForm(ilStudyProgrammeType $type)
+    public function fillForm(ilStudyProgrammeType $type): void
     {
         $records_selected = $this->type_repository->getAssignedAMDRecordIdsByType($type->getId());
         $item = $this->getItemByPostVar('amd_records');
@@ -85,10 +87,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 
     /**
      * Check validity of form and pass values from form to object
-     *
-     * @return bool
      */
-    protected function fillObject(ilStudyProgrammeType $type)
+    protected function fillObject(ilStudyProgrammeType $type): ?ilStudyProgrammeType
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
@@ -107,7 +107,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
                 $type->deassignAdvancedMdRecord($record_id);
             }
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage("failure", $e->getMessage());
             return null;
         }
         return $type;

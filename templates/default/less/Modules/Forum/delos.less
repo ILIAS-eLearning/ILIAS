@@ -1,29 +1,29 @@
 /* Modules/Forum */
 
 a.postread, a.postread:visited {
-	font-weight: normal;
+	font-weight: @il-font-weight-base;
 }
 
 a.postunread, a.postunread:visited {
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 a.postnew, a.postnew:visited {
 	font-style: italic;
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 blockquote.ilForumQuote {
 	margin: 0 20px 10px;
 	padding: 5px;
-	border: 1px solid #b6b6b6;
-	font-size: 90%;
+	border: 1px solid @il-main-border-color;
+	font-size: @il-font-size-small;
 }
 
 div.ilForumQuoteHead {
-	font-weight: bold;
-	font-size: 90%;
-	margin: 0 0 10px;
+	font-weight: @il-font-weight-bold;
+	font-size: @il-font-size-small;
+	margin: 0 0 @il-margin-xxlarge-vertical;
 }
 
 /* Modules/Forum */
@@ -31,7 +31,7 @@ div.ilForumQuoteHead {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	background-color: @il-main-dark-bg;
+	background-color: @il-main-bg;
 }
 
 .ilFrmPostImage {
@@ -40,12 +40,12 @@ div.ilForumQuoteHead {
 	overflow: hidden;
 	img {
 		vertical-align: top;
-		margin: 5px 20px 5px 5px;
+		margin: @il-margin-xlarge-vertical @il-margin-xxxlarge-horizontal @il-margin-xlarge-vertical @il-margin-small-horizontal;
 		border: none;
 		max-width: 100%;
 		@media only screen and (min-width: @grid-float-breakpoint) {
 			margin: 0 !important;
-			padding: 5px 8px 5px 5px;
+			padding: @il-padding-large-vertical @il-padding-base-horizontal @il-padding-xlarge-vertical @il-padding-small-horizontal;
 		}
 	}
 }
@@ -58,11 +58,11 @@ div.ilForumQuoteHead {
 }
 
 .ilFrmPostTitle {
-	margin-top: 15px;
-	font-size: 120%;
+	margin-top: @il-margin-xxxlarge-vertical;
+	font-size: @il-font-size-large;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		margin-top: 5px;
-		font-size: 100%;
+		margin-top: @il-margin-large-vertical;
+		font-size: @il-font-size-base;
 	}
 }
 
@@ -71,10 +71,11 @@ div.ilFrmPostHeader span.small {
 }
 
 .ilFrmPostContentContainer {
-	margin: 0 0 10px;
+	margin: 0 0 @il-margin-base-vertical;
 	width: 80%;
 	float: left;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		padding-left: @il-padding-small-horizontal;
 		width: 100%;
 	}
 	img {
@@ -86,18 +87,36 @@ div.ilFrmPostHeader span.small {
 }
 
 .ilFrmTargetImage {
+	margin: 0 0 @il-margin-xxxlarge-vertical;
+	height: auto !important;
+
+	img {
+		height: 20px !important;
+	}
+
+	a {
+		display: inline-block;
+	}
+
 	.il-link.link-bulky .bulky-label {
 		display: none;
 	}
 }
 
 .ilFrmPostContent {
-	margin-top: 20px;
+	margin-top: @il-margin-xxxlarge-vertical;
 }
 
-.ilFrmPostRow {
-	padding: 3px;
-	border-top: 1px solid #f0f0f0;
+li.ilFrmPostRow {
+	padding: @il-padding-base-vertical 0 @il-padding-small-vertical @il-padding-xs-horizontal;
+	margin-bottom: @il-margin-xxxlarge-vertical;
+	border-left: @il-posting-left-border-width solid @il-main-border-color;
+
+	&.tblrowmarked{
+		background-color: @il-main-bg;
+		border-left: @il-posting-left-border-width solid @il-highlight-bg;
+	}
+
 	div.ilForm {
 		width: 100%;
 		max-width: 1000px;
@@ -132,20 +151,38 @@ div.ilFrmPostHeader span.small {
 		&.ilFrmPost-level-4 {
 			padding-left: 150px;
 		}
+		&.ilFrmPost-level-5 {
+			padding-left: 190px;
+		}
+		&.ilFrmPost-level-6 {
+			padding-left: 220px;
+		}
+		&.ilFrmPost-level-7 {
+			padding-left: 240px;
+		}
+		&.ilFrmPost-level-8 {
+			padding-left: 260px;
+		}
+		&.ilFrmPost-level-9 {
+			padding-left: 280px;
+		}
+		&.ilFrmPost-level-10 {
+			padding-left: 300px;
+		}
 	}
 }
 
-.ilFrmPostCensorshipAdvice {
+li.ilFrmPostCensorshipAdvice {
 	margin: 0;
 	padding: 0;
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 .ilFrmPostAttachmentsContainer {
-	margin: 20px 0 0;
-	font-weight: bold;
+	margin: @il-margin-xxxlarge-vertical 0 0;
+	font-weight: @il-font-weight-bold;
 	a {
-		font-weight: normal;
+		font-weight: @il-font-weight-base;
 	}
 	img {
 		vertical-align: middle;
@@ -154,21 +191,19 @@ div.ilFrmPostHeader span.small {
 
 .ilFrmPostCommands {
 	float: right;
-	margin: 0 0 3px;
+	margin: 0 0 @il-padding-small-vertical;
 }
 
-.ilModeratorPosting {
-	background-color: @il-posting-by-moderator-bg;
-	padding: 0 5px;
+li.ilModeratorPosting {
+	border-left: @il-posting-left-border-width solid @il-posting-by-moderator-bg;
 }
 
-.ilPostingNeedsActivation {
-	background-color: @il-posting-needs-moderation-bg;
-	padding: 0 5px;
+li.ilPostingNeedsActivation {
+	border-left: @il-posting-left-border-width solid @il-posting-needs-moderation-bg;
 }
 
 .ilFrmBottomToolbar {
-	margin-top: 20px;
+	margin-top: @il-margin-xxxlarge-vertical;
 }
 
 .ilForumTreeTitle {
@@ -176,7 +211,7 @@ div.ilFrmPostHeader span.small {
 }
 
 .ilForumTreeTitleUnread {
-	font-weight: bold;
+	font-weight: @il-font-weight-bold;
 }
 
 .ilForumTreeUnlinkedContent {
@@ -192,4 +227,8 @@ div.ilFrmPostHeader span.small {
 
 .frm-thread-scrollable-print {
 	overflow: auto;
+}
+
+.ilForumNotificationSettingsForm {
+	white-space: normal;
 }

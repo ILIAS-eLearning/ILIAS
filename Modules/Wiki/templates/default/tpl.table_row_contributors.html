@@ -1,7 +1,7 @@
 <tr class="{CSS_ROW} small">
   <td class="std" valign="top">
 	 <input type="hidden" name="user_id[]" value="{USER_ID}" />
-  <img border="0" src="{IMG_USER}" title="{TXT_NAME}" alt="{TXT_NAME}" style="vertical-align:text-bottom" />
+  {AVATAR}
   </td>
   <td class="std" valign="top">
   {TXT_NAME}<br />{TXT_LOGIN}
@@ -13,7 +13,7 @@
   </td>
   <td class="std form-inline">
 		<div class="form-group">
-			<label class="control-label"><img src="{IMG_STATUS}" alt="{ALT_STATUS}" /></label>
+			<label class="control-label">{ICON_STATUS}</label>
 			<select class="form-control" name="status[{USER_ID}]" >
 				<option value="{VAL_NOTGRADED}" {SEL_0}>{TXT_NOTGRADED}</option>
 				<option value="{VAL_PASSED}" {SEL_1}>{TXT_PASSED}</option>

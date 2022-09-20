@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Exercise to lp connector
@@ -10,33 +24,39 @@
  */
 class ilExerciseLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active) : array
+    /**
+     * @return int[]
+     */
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
         );
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;
     }
-    
-    public function getValidModes() : array
+
+    /**
+     * @return int[]
+     */
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_EXERCISE_RETURNED
         );
     }
-    
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : bool
+
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT obj_id" .
             " FROM exc_members" .
             " WHERE " . $ilDB->in("obj_id", $a_obj_ids, "", "integer") .
@@ -44,7 +64,7 @@ class ilExerciseLP extends ilObjectLP
         while ($row = $ilDB->fetchAssoc($set)) {
             $a_res[$row["obj_id"]] = true;
         }
-        
+
         return true;
     }
 }

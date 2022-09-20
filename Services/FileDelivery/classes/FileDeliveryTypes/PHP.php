@@ -1,12 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
 use ILIAS\HTTP\Services;
 
-require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class PHP
  *
@@ -18,15 +31,11 @@ require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
  */
 final class PHP implements ilFileDeliveryType
 {
-
     /**
      * @var resource
      */
     protected $file;
-    /**
-     * @var Services $httpService
-     */
-    protected $httpService;
+    protected \ILIAS\HTTP\Services $httpService;
 
 
     /**
@@ -43,7 +52,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritDoc
      */
-    public function doesFileExists($path_to_file)
+    public function doesFileExists(string $path_to_file): bool
     {
         return is_readable($path_to_file);
     }
@@ -52,17 +61,19 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function prepare($path_to_file)
+    public function prepare(string $path_to_file): bool
     {
         set_time_limit(0);
         $this->file = fopen($path_to_file, "rb");
+
+        return true;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function deliver($path_to_file, $file_marked_to_delete)
+    public function deliver(string $path_to_file, bool $file_marked_to_delete): void
     {
         $this->httpService->sendResponse();
         fpassthru($this->file);
@@ -74,7 +85,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsInlineDelivery()
+    public function supportsInlineDelivery(): bool
     {
         return true;
     }
@@ -83,7 +94,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsAttachmentDelivery()
+    public function supportsAttachmentDelivery(): bool
     {
         return true;
     }
@@ -92,7 +103,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function supportsStreaming()
+    public function supportsStreaming(): bool
     {
         return false;
     }
@@ -101,7 +112,7 @@ final class PHP implements ilFileDeliveryType
     /**
      * @inheritdoc
      */
-    public function handleFileDeletion($path_to_file)
+    public function handleFileDeletion(string $path_to_file): bool
     {
         return unlink($path_to_file);
     }

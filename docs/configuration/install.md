@@ -70,7 +70,7 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.0
+  * PHP 8.1
   * Apache 2.4.x with `mod_php`
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -91,9 +91,9 @@ Package names may vary depending on the Linux distribution.
 > ILIAS supports utf8-collations with 3 bytes per character, such as `utf8_general_ci`,
 > only.
 
-We RECOMMEND to use MySQL/MariaDB with the following settings:
+We RECOMMEND to use MariaDB with the following settings:
 
-  * InnoDB storage engine
+  * InnoDB storage engine (default)
   * Character Set: `utf8`
   * Collation: `utf8_general_ci`
   * `query_cache_size` > 16M
@@ -101,7 +101,7 @@ We RECOMMEND to use MySQL/MariaDB with the following settings:
   * `table_open_cache` > 400
   * `innodb_buffer_pool_size` > 2G (depending on DB size)
 
-On MySQL 5.8+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
+On MySQL 5.7+ and Galera the `Strict SQL Mode` must be disabled. See [MySQL Strict Mode](#mysql-strict-mode-56) for details.
 
 On MySQL/MariaDB `innodb_large_prefix` must be set to `OFF` if the `ROW_FORMAT`
 is set to `COMPACT`.
@@ -111,20 +111,20 @@ is set to `COMPACT`.
 
 The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows:
 
-| Package        | Version                     |
-|----------------|-----------------------------|
-| Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.0.38                     |
-| PHP            | 8.0                         |
-| Apache2        | 2.4.18                      |
-| zip            | 3.0                         |
-| unzip          | 6.00                        |
-| JDK            | OpenJDK 8                   |
-| Node.js        | 10.23.0                     |
-| wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.26                        |
-| Imagemagick    | 6.8.9-9 Q16                 |
-
+| Package        | Version          |
+|----------------|------------------|
+| Distribution   | Ubuntu 20.04 LTS |
+| MariaDB        | 10.0.38          |
+| PHP            | 8.1              |
+| Apache2        | 2.4.18           |
+| zip            | 3.0              |
+| unzip          | 6.00             |
+| JDK            | OpenJDK 8        |
+| Node.js        | 10.23.0          |
+| wkhtmltopdf    | 0.12.5           |
+| Ghostscript    | 9.26             |
+| Imagemagick    | 6.8.9-9 Q16      |
+| MathJax        | 2.7.9            |
 
 <a name="other-platforms"></a>
 ## Other Platforms or Configurations
@@ -208,8 +208,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install either PHP 7.4 to
-PHP 8.0 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
+Refer to the to documentation of your installation to install either PHP 8.0 to
+PHP 8.1 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -348,10 +348,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php7.4-curl
-* php7.4-xmlrpc
-* php7.4-soap
-* php7.4-ldap
+* php8.1-curl
+* php8.1-xmlrpc
+* php8.1-soap
+* php8.1-ldap
 * ffmpeg
 * mimetex
 
@@ -726,35 +726,40 @@ each ILIAS release.
 <a name="php"></a>
 ## PHP
 
-| ILIAS Version   | PHP Version                           |
-|-----------------|---------------------------------------|
-| 8.x             | 7.4.x, 8.0.x                          |
-| 7.x             | 7.3.x, 7.4.x                          |
-| 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.4.x           | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
-| 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
-| 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |
-| 4.4.x           | 5.3.x - 5.5.x                         |
-| 4.3.x           | 5.2.6 - 5.4.x                         |
-| 4.2.x           | 5.2.6 - 5.3.x                         |
-| 4.0.x - 4.1.x   | 5.1.4 - 5.3.x                         |
-| 3.8.x - 3.10.x  | 5.1.4 - 5.2.x                         |
+| ILIAS Version  | PHP Version                 |
+|----------------|-----------------------------|
+| 9.x            | 8.0.x, 8.1.x                |
+| 8.x            | 7.4.x, 8.0.x                |
+| 7.x            | 7.3.x, 7.4.x                |
+| 6.x            | 7.2.x, 7.3.x, 7.4.x         |
+| 5.4.x          | 7.2.x, 7.3.x, 7.4.x         |
+| 5.3.x          | 5.6.x, 7.0.x, 7.1.x         |
+| 5.2.x          | 5.5.x - 5.6.x, 7.0.x, 7.1.x |
+| 5.0.x - 5.1.x  | 5.3.x - 5.5.x               |
+| 4.4.x          | 5.3.x - 5.5.x               |
+| 4.3.x          | 5.2.6 - 5.4.x               |
+| 4.2.x          | 5.2.6 - 5.3.x               |
+| 4.0.x - 4.1.x  | 5.1.4 - 5.3.x               |
+| 3.8.x - 3.10.x | 5.1.4 - 5.2.x               |
 
 <a name="dbms"></a>
 ## DBMS
 
-| ILIAS Version   | MySQL Version                       | MariaDB Version         | Postgres (experimental)  |
-|-----------------|-------------------------------------|-------------------------|--------------------------|
-| 7.0 - 7.x       | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3        |                          |
-| 6.0 - 6.x       | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3  | 9.x                      |
-| 5.4.x - x.x.x   | 5.6.x, 5.7.x                        |                         |                          |
-| 5.3.x - 5.4.x   | 5.5.x, 5.6.x, 5.7.x                 |                         |                          |
-| 4.4.x - 5.2.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                         |                          |
-| 4.2.x - 4.3.x   | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                         |                          |
-| 4.0.x - 4.1.x   | 5.0.x, 5.1.32 - 5.1.x               |                         |                          |
-| 3.10.x          | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                         |                          |
-| 3.7.3 - 3.9.x   | 4.0.x - 5.0.x                       |                         |                          |
+We strongly recommend using MariaDB instead of MySQL due to performance, licensing and compatibility in the future.
+
+| ILIAS Version | MySQL Version                       | MariaDB Version        |
+|---------------|-------------------------------------|------------------------|
+| 9.0 - 9.x     | 8.0.x                               | 10.3, 10.4, 10.5, 10.6 |
+| 8.0 - 8.x     | 5.7.x, 8.0.x                        | 10.2, 10.3, 10.4       |
+| 7.0 - 7.x     | 5.7.x, 8.0.x                        | 10.1, 10.2, 10.3       |
+| 6.0 - 6.x     | 5.6.x, 5.7.x, 8.0.x                 | 10.0, 10.1, 10.2, 10.3 |
+| 5.4.x - x.x.x | 5.6.x, 5.7.x                        |                        |
+| 5.3.x - 5.4.x | 5.5.x, 5.6.x, 5.7.x                 |                        |
+| 4.4.x - 5.2.x | 5.0.x, 5.1.32 - 5.1.x, 5.5.x, 5.6.x |                        |
+| 4.2.x - 4.3.x | 5.0.x, 5.1.32 - 5.1.x, 5.5.x        |                        |
+| 4.0.x - 4.1.x | 5.0.x, 5.1.32 - 5.1.x               |                        |
+| 3.10.x        | 4.1.x, 5.0.x, 5.1.32 - 5.1.x        |                        |
+| 3.7.3 - 3.9.x | 4.0.x - 5.0.x                       |                        |
 
 <a name="imagemagick"></a>
 ## ImageMagick

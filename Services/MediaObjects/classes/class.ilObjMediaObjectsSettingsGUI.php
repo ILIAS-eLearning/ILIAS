@@ -1,40 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Media Objects/Pools Settings.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaObjectsSettingsGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjMediaObjectsSettingsGUI: ilAdministrationGUI
  */
 class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 {
+    protected ilPropertyFormGUI $form;
+    protected ilErrorHandling $error;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
         $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
@@ -50,20 +49,14 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('content');
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -71,27 +64,19 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSettings";
                 }
-
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -114,70 +99,64 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * Edit settings
-    */
-    public function editSettings($a_omit_init = false)
-    {
+    public function editSettings(
+        bool $a_omit_init = false
+    ): void {
         $tpl = $this->tpl;
-        
+
         if (!$a_omit_init) {
             $this->initMediaObjectsSettingsForm();
             $this->getSettingsValues();
         }
         $tpl->setContent($this->form->getHTML());
     }
-        
-    /**
-     * Save settings
-     */
-    public function saveSettings()
+
+    public function saveSettings(): void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $this->checkPermission("write");
-        
+
         $this->initMediaObjectsSettingsForm();
         if ($this->form->checkInput()) {
             // perform save
             $mset = new ilSetting("mobs");
-            $mset->set("mep_activate_pages", $_POST["activate_pages"]);
-            $mset->set("file_manager_always", $_POST["file_manager_always"]);
-            $mset->set("restricted_file_types", $_POST["restricted_file_types"]);
-            $mset->set("black_list_file_types", $_POST["black_list_file_types"]);
+            $mset->set("mep_activate_pages", $this->form->getInput("activate_pages"));
+            $mset->set("file_manager_always", $this->form->getInput("file_manager_always"));
+            $mset->set("restricted_file_types", $this->form->getInput("restricted_file_types"));
+            $mset->set("black_list_file_types", $this->form->getInput("black_list_file_types"));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
-        
+
         $this->form->setValuesByPost();
         $this->editSettings(true);
     }
-    
+
     /**
      * Init media objects settings form.
      */
-    public function initMediaObjectsSettingsForm()
+    public function initMediaObjectsSettingsForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
-    
+
+
         $this->form = new ilPropertyFormGUI();
-    
+
         // activate page in media pool
         $cb = new ilCheckboxInputGUI($lng->txt("mobs_activate_pages"), "activate_pages");
         $cb->setInfo($lng->txt("mobs_activate_pages_info"));
         $this->form->addItem($cb);
-    
+
         // activate page in media pool
         $cb = new ilCheckboxInputGUI($lng->txt("mobs_always_show_file_manager"), "file_manager_always");
         $cb->setInfo($lng->txt("mobs_always_show_file_manager_info"));
         $this->form->addItem($cb);
-        
+
         // allowed file types
         $ta = new ilTextAreaInputGUI($this->lng->txt("mobs_restrict_file_types"), "restricted_file_types");
         //$ta->setCols();
@@ -198,13 +177,10 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Get current values for form from
-     */
-    public function getSettingsValues()
+    public function getSettingsValues(): void
     {
         $values = array();
-    
+
         $mset = new ilSetting("mobs");
         $values["activate_pages"] = $mset->get("mep_activate_pages");
         $values["file_manager_always"] = $mset->get("file_manager_always");

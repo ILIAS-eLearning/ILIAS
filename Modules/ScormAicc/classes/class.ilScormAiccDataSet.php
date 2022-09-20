@@ -1,16 +1,34 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilScormAiccDataSet extends ilDataSet
 {
+    private string $db_table;
+    public array $properties;
+    private array $element_db_mapping;
+
     public function __construct()
     {
         $this->db_table = "sahs_lm";
         $this->properties = [
-            //"OfflineZipCreated" => "datetime",
             "Id" => ["db_col" => "id", "db_type" => "integer"],
-            //"EntryPage" => "integer",
             "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
             "APIFunctionsPrefix" => ["db_col" => "api_func_prefix", "db_type" => "text"],
             "AssignedGlossary" => ["db_col" => "glossary", "db_type" => "integer"],
@@ -57,72 +75,47 @@ class ilScormAiccDataSet extends ilDataSet
     }
 
     /**
-     * Read data
-     * @param
-     * @return void
+     * @return mixed[]
      */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $obj_id = $a_ids;
-        $columns = [];
-        foreach ($this->properties as $property) {
-            array_push($columns, $property["db_col"]);
-        }
-
-        $query = "SELECT " . implode(",", $columns) . " FROM " . $this->db_table;
-        $query .= " WHERE id=" . $ilDB->quote($obj_id, "integer");
-        $result = $ilDB->query($query);
-        $this->data = [];
-        if ($dataset = $ilDB->fetchAssoc($result)) {
-            $this->data = $dataset;
-        }
-
-        $query = "SELECT title,description FROM object_data";
-        $query .= " WHERE obj_id=" . $ilDB->quote($obj_id, "integer");
-        $result = $ilDB->query($query);
-        while ($dataset = $ilDB->fetchAssoc($result)) {
-            $this->data ["title"] = $dataset["title"];
-            $this->data ["description"] = $dataset["description"];
-        }
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ): array {
+        return [];
     }
-    
-    /**
-     * Write properties for imported object (actually updates !!)
-     * @param
-     * $data contains imported module properties from xml file
-     * @return
-     */
-    public function writeData($a_entity, $a_version, $a_id, $data)
+
+    public function writeData(string $a_entity, string $a_version, int $a_id, array $data): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilDB = $DIC->database();
+        $ilLog = ilLoggerFactory::getLogger('sahs');
         if (count($data) > 0) {
             $columns = [];
             foreach ($this->properties as $key => $value) {
-                if ($key == "Id" || $key == "title" || $key == "description") {
+                if ($key === "Id" || $key === "title" || $key === "description") {
                     continue;
                 }
                 //fix localization and mastery_score
-                if ($key == "MasteryScore" && $data[$key][0] == 0) {
+                if ($key === "MasteryScore" && isset($data[$key][0]) && $data[$key][0] == 0) {
                     continue;
                 }
-                if ($key == "Localization" && $data[$key][0] == "") {
+                if ($key === "Localization" && isset($data[$key][0]) && $data[$key][0] == "") {
                     continue;
                 }
                 //end fix
-                if (isset($data[$key])) {
+                if (isset($data[$key]) && is_array($data[$key])) {
                     if (count($data[$key]) > 0) {
                         $columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
                     }
                 }
             }
-            if (count($columns) > 0) {
-                $conditions ["id"] = ["integer", $a_id];
-                $ilDB->update($this->db_table, $columns, $conditions);
+            if (is_array($columns)) {
+                if (count($columns) > 0) {
+                    $conditions ["id"] = ["integer", $a_id];
+                    $ilDB->update($this->db_table, $columns, $conditions);
+                }
             }
 
             //setting title and description in table object_data
@@ -132,15 +125,17 @@ class ilScormAiccDataSet extends ilDataSet
                 "Description" => ["db_col" => "description", "db_type" => "text"]
             ];
             foreach ($od_properties as $key => $value) {
-                if (isset($data[$key])) {
+                if (isset($data[$key]) && is_array($data[$key])) {
                     if (count($data[$key]) > 0) {
                         $od_columns [$value["db_col"]] = [$value["db_type"], $data[$key][0]];
                     }
                 }
 
-                if (count($od_columns) > 0) {
-                    $od_conditions ["obj_id"] = ["integer", $a_id];
-                    $ilDB->update("object_data", $od_columns, $od_conditions);
+                if (isset($od_columns) && is_array($od_columns)) {
+                    if (count($od_columns) > 0) {
+                        $od_conditions ["obj_id"] = ["integer", $a_id];
+                        $ilDB->update("object_data", $od_columns, $od_conditions);
+                    }
                 }
             }
         } else {
@@ -148,52 +143,33 @@ class ilScormAiccDataSet extends ilDataSet
         }
     }
 
-    /* retrieve element name by database column name
-     */
-    public function getElementNameByDbColumn($db_col_name)
-    {
-        if ($db_col_name == "title") {
-            return "Title";
-        }
-        if ($db_col_name == "description") {
-            return "Description";
-        }
-        return $this->element_db_mapping[$db_col_name];
-    }
-
     /**
      * own getXmlRepresentation function to embed zipfile in xml
-     *
-     * @param $a_entity
-     * @param $a_schema_version
-     * @param $a_ids (obj_id)
-     * @param string $a_field
-     * @param bool $a_omit_header
-     * @param bool $a_omit_types
-     * @return string
      */
-    public function getExtendedXmlRepresentation($a_entity, $a_schema_version, $a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
-    {
+    public function getExtendedXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        array $a_ids,
+        string $a_field = "",
+        bool $a_omit_header = false,
+        bool $a_omit_types = false
+    ): string {
         $GLOBALS['DIC']["ilLog"]->write(json_encode($this->getTypes("sahs", "5.1.0"), JSON_PRETTY_PRINT));
 
         $this->dircnt = 1;
 
         $this->readData($a_entity, $a_schema_version, $a_ids, $a_field = "");
-        $id = $this->data["id"];
-
-        require_once("./Services/Export/classes/class.ilExport.php");
-        $exportDir = ilExport::_getExportDirectory($id);
-
-        // step 1: check target release and supported versions
-        // step 2: init writer
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
+        $id = (string) $a_ids[0];
+        $exportDir = ilExport::_getExportDirectory((int) $id, "xml", "sahs");
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();
         }
 
         $atts = array("InstallationId" => IL_INST_ID,
-            "InstallationUrl" => ILIAS_HTTP_PATH, "TopEntity" => $a_entity);
+                      "InstallationUrl" => ILIAS_HTTP_PATH,
+                      "TopEntity" => $a_entity
+        );
 
         $writer->appendXML("\n");
         $writer->xmlStartTag($this->getDSPrefixString() . 'DataSet', $atts);
@@ -204,14 +180,15 @@ class ilScormAiccDataSet extends ilDataSet
             $writer->appendXML("\n");
         }
 
-        $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+        $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
         $baseFileName = "sahs_" . $id;
         $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
-            mkdir($exportDir, 0755, true);
+            if (!mkdir($exportDir, 0755, true) && !is_dir($exportDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $exportDir));
+            }
         }
-
-        ilUtil::zip($lmDir, $scormBasePath, true);
+        ilFileUtils::zip($lmDir, $scormBasePath, true);
         $scormFilePath = $scormBasePath . ".zip";
 
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
@@ -222,17 +199,17 @@ class ilScormAiccDataSet extends ilDataSet
         $xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
 
         if (!file_exists($xmlFilePath)) {
-            $xmlFile = fopen($xmlFilePath, "w");
+            $xmlFile = fopen($xmlFilePath, "wb");//changed from w to wb
             fwrite($xmlFile, $xml);
             fclose($xmlFile);
         }
 
         //create metadata
-        $metaData = $this->buildMetaData($id);
+        $metaData = $this->buildMetaData((int) $id);
 
         $metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
         if (!file_exists($metaDataFilePath)) {
-            $metaDataFile = fopen($metaDataFilePath, "w");
+            $metaDataFile = fopen($metaDataFilePath, "wb");//changed from w to wb
             fwrite($metaDataFile, $metaData);
             fclose($metaDataFile);
         }
@@ -257,12 +234,12 @@ class ilScormAiccDataSet extends ilDataSet
 
         $manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
         if (!file_exists($manifestFilePath)) {
-            $manifestFile = fopen($manifestFilePath, "w");
+            $manifestFile = fopen($manifestFilePath, "wb");//changed from w to wb
             fwrite($manifestFile, $manifest);
             fclose($manifestFile);
         }
 
-        usleep(2000000);
+        usleep(2_000_000);
         $zArchive = new zipArchive();
         $fileName = $exportDir . "/" . $baseExportName . ".zip";
 
@@ -285,56 +262,88 @@ class ilScormAiccDataSet extends ilDataSet
         return $fileName;
     }
 
-    public function buildMetaData($id)
-    {
-        require_once("Services/MetaData/classes/class.ilMD2XML.php");
-        $md2xml = new ilMD2XML($id, $id, "sahs");
-        $md2xml->startExport();
-        $xml = $md2xml->getXML();
-        return $xml;
-    }
-
     /**
      * Get field types for entity
-     * @param string $a_entity  entity
+     * @param string $a_entity entity
      * @param string $a_version version number
      * @return array types array
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
-        if ($a_entity == "sahs") {
+        if ($a_entity === "sahs") {
             switch ($a_version) {
-            case "5.1.0":
-                $types = [];
-                foreach ($this->properties as $key => $value) {
-                    $types[$key] = $value["db_type"];
-                }
-                return $types;
-                break;
+                case "5.1.0":
+                    $types = [];
+                    foreach ($this->properties as $key => $value) {
+                        $types[$key] = $value["db_type"];
+                    }
+                    return $types;
             }
+        }
+        return [];
+    }
+
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $obj_id = (int) $a_ids;
+        $columns = [];
+        foreach ($this->properties as $property) {
+            $columns[] = $property["db_col"];
+        }
+
+        $query = "SELECT " . implode(",", $columns) . " FROM " . $this->db_table;
+        $query .= " WHERE id=" . $ilDB->quote($obj_id, "integer");
+        $result = $ilDB->query($query);
+        $this->data = [];
+        if ($dataset = $ilDB->fetchAssoc($result)) {
+            $this->data = $dataset;
+        }
+
+        $query = "SELECT title,description FROM object_data";
+        $query .= " WHERE obj_id=" . $ilDB->quote($obj_id, "integer");
+        $result = $ilDB->query($query);
+        while ($dataset = $ilDB->fetchAssoc($result)) {
+            $this->data ["title"] = $dataset["title"];
+            $this->data ["description"] = $dataset["description"];
         }
     }
 
     /**
-     * Get xml namespace
-     * @param
-     * @return string
+     * retrieve element name by database column name
      */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    public function getElementNameByDbColumn(string $db_col_name): string
+    {
+        if ($db_col_name === "title") {
+            return "Title";
+        }
+        if ($db_col_name === "description") {
+            return "Description";
+        }
+        return $this->element_db_mapping[$db_col_name];
+    }
+
+    public function buildMetaData(int $id): string
+    {
+        $md2xml = new ilMD2XML($id, $id, "sahs");
+        $md2xml->startExport();
+        return $md2xml->getXML();
+    }
+
+    /**
+     * Get xml namespace
+     */
+    public function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/ScormAicc/" . $a_entity;
     }
 
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-
-    public function getSupportedVersions() : array
+    /**
+     * @return string[]
+     */
+    public function getSupportedVersions(): array
     {
         return ["5.1.0"];
     }

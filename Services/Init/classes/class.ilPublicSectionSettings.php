@@ -4,9 +4,7 @@
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilPublicSectionSettings
 {
@@ -14,58 +12,58 @@ class ilPublicSectionSettings
      * @var ilPublicSectionSettings
      */
     protected static $instance = null;
-    
-    
+
+    private ilSetting $settings;
+
+    private bool $enabled = false;
+
     /**
-     * @var ilSetting
+     * @var string[]
      */
-    private $settings = null;
-    
-    private $enabled = false;
-    private $domains = array();
-    
+    private array $domains = array();
+
     /**
      * read settings
      */
     private function __construct()
     {
-        $this->settings = $GLOBALS['DIC']->settings();
+        global $DIC;
+
+        $this->settings = $DIC->settings();
         $this->read();
     }
-    
-    /**
-     * Get instance
-     * @return \ilPublicSectionSettings
-     */
-    public static function getInstance()
+
+    public static function getInstance(): ilPublicSectionSettings
     {
         if (!self::$instance) {
             self::$instance = new self();
         }
         return self::$instance;
     }
-    
-    public function setDomains(array $domains)
+
+    /**
+     * @param string[] $domains
+     */
+    public function setDomains(array $domains): void
     {
         $this->domains = $domains;
     }
-    
-    public function getDomains()
+
+    /**
+     *
+     * @return string[]
+     */
+    public function getDomains(): array
     {
-        return (array) $this->domains;
+        return $this->domains;
     }
-    
-    public function isEnabled()
+
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
-    
-    /**
-     * Check if public section
-     * @param type $a_domain
-     * @return boolean
-     */
-    public function isEnabledForDomain($a_domain)
+
+    public function isEnabledForDomain(string $a_domain): bool
     {
         if (!$this->enabled) {
             return false;
@@ -79,26 +77,25 @@ class ilPublicSectionSettings
         }
         return true;
     }
-    
-    public function setEnabled($stat)
+
+    public function setEnabled(bool $stat): void
     {
         $this->enabled = $stat;
     }
-    
-    public function save()
+
+    public function save(): void
     {
-        $this->settings->set('pub_section', $this->isEnabled());
+        $this->settings->set('pub_section', (string) $this->isEnabled());
         $this->settings->set('pub_section_domains', serialize($this->getDomains()));
     }
-    
+
     /**
      * read settings
      */
-    protected function read()
+    protected function read(): void
     {
-        $this->enabled = $this->settings->get('pub_section', $this->enabled);
-        
+        $this->enabled = (bool) $this->settings->get('pub_section', (string) $this->enabled);
         $domains = $this->settings->get('pub_section_domains', serialize($this->domains));
-        $this->domains = unserialize($domains);
+        $this->domains = (array) unserialize($domains);
     }
 }

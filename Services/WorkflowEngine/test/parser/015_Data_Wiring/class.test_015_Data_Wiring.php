@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
@@ -12,27 +13,27 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
 class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
 {
     #region Helper
-    public $base_path = './Services/WorkflowEngine/test/parser/';
-    public $suite_path = '015_Data_Wiring/';
+    public string $base_path = './Services/WorkflowEngine/test/parser/';
+    public string $suite_path = '015_Data_Wiring/';
 
-    public function getTestInputFilename($test_name)
+    public function getTestInputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '.bpmn2';
     }
 
-    public function getTestOutputFilename($test_name)
+    public function getTestOutputFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_output.php';
     }
 
-    public function getTestGoldsampleFilename($test_name)
+    public function getTestGoldsampleFilename($test_name): string
     {
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp(): void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -40,7 +41,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly()
+    public function test_WorkflowWithInputTaskWiredDataIOShouldOutputAccordingly(): void
     {
         $test_name = 'Data_Wiring_Input_Task';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -50,19 +51,19 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->setInstanceVarById('DataInput_1', 234);
         $process->startWorkflow();
-
+        $runtime_vars = [];
         foreach ($process->getNodes() as $node) {
-            if ($node->getName() == '$_v_Task_1') {
+            if ($node->getName() === '$_v_Task_1') {
                 $runtime_vars = $node->getRuntimeVars();
             }
         }
@@ -72,7 +73,7 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
     }
 
 
-    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly()
+    public function test_WorkflowWithInputObjectOutputWiredDataIOShouldOutputAccordingly(): void
     {
         $test_name = 'DataObject_Wiring_Input_Object_Output';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -82,14 +83,14 @@ class test_015_Data_Wiring extends ilWorkflowEngineBaseTest
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         require_once $this->getTestOutputFilename($test_name);
         /** @var ilBaseWorkflow $process */
-        $process = new $test_name;
+        $process = new $test_name();
         $process->setInstanceVarById('DataInput_1', 'YaddaYadda');
         $process->startWorkflow();
 

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../Base.php");
@@ -16,10 +34,13 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected string $path_to_base_factory = "src/UI/Factory.php";
     protected Container $dic;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         //This avoids various index not set warnings, which are only relevant in test context.
         $_SERVER["REQUEST_URI"] = "";
+        $_SERVER['SCRIPT_NAME'] = "";
+        $_SERVER['QUERY_STRING'] = "param=1";
+
         //This avoids Undefined index: ilfilehash for the moment
         $_POST["ilfilehash"] = "";
         $this->setUpMockDependencies();
@@ -30,7 +51,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
      * please add them here. However, please check carefully if those deps are really needed. Even if the examples,
      * we try to keep them minimal. Note the most deps are wired up here as mocks only.
      */
-    protected function setUpMockDependencies() : void
+    protected function setUpMockDependencies(): void
     {
         $this->dic = new Container();
         $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
@@ -40,12 +61,8 @@ class ExamplesTest extends ILIAS_UI_TestBase
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 
-        $this->dic["ilCtrl"] = $this->getMockBuilder(ilCtrl::class)->onlyMethods([
-            "getFormActionByClass",
-            "setParameterByClass",
-            "saveParameterByClass",
-            "initBaseClass",
-            "getLinkTargetByClass"
+        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->onlyMethods([
+            "getFormActionByClass","setParameterByClass","saveParameterByClass","getLinkTargetByClass"
         ])->getMock();
         $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
         $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
@@ -62,9 +79,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
             "type" => "crs"
         ]);
 
-        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
-        $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->dic["component.factory"] = $component_factory;
 
         (new InitHttpServices())->init($this->dic);
     }
@@ -72,7 +89,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testAllNonAbstractComponentsShowcaseExamples() : void
+    public function testAllNonAbstractComponentsShowcaseExamples(): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -83,7 +100,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
                     0,
                     count($entry->getExamples()),
                     "Non abstract Component " . $entry->getNamespace()
-                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace()
+                    . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace() . " at " . $entry->getExamplesPath()
                 );
             }
         }
@@ -92,7 +109,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider provideExampleFullFunctionNamesAndPath
      */
-    public function testAllExamplesRenderAString(string $example_function_name, string $example_path) : void
+    public function testAllExamplesRenderAString(string $example_function_name, string $example_path): void
     {
         global $DIC;
         $DIC = $this->dic;
@@ -108,13 +125,13 @@ class ExamplesTest extends ILIAS_UI_TestBase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    protected function getEntriesFromCrawler() : Crawler\Entry\ComponentEntries
+    protected function getEntriesFromCrawler(): Crawler\Entry\ComponentEntries
     {
         $crawler = new Crawler\FactoriesCrawler();
         return $crawler->crawlFactory($this->path_to_base_factory);
     }
 
-    public function provideExampleFullFunctionNamesAndPath() : array
+    public function provideExampleFullFunctionNamesAndPath(): array
     {
         $function_names = [];
         foreach ($this->getEntriesFromCrawler() as $entry) {
@@ -126,5 +143,33 @@ class ExamplesTest extends ILIAS_UI_TestBase
             }
         }
         return $function_names;
+    }
+
+    /**
+     * @dataProvider provideListOfFullscreenExamples
+     */
+    public function testFullscreenModeExamples(string $example_function_name, string $example_path): void
+    {
+        global $DIC;
+        $DIC = $this->dic;
+
+        include_once $example_path;
+        try {
+            $this->assertIsString($example_function_name($DIC), " Example $example_function_name does not render a string");
+        } catch (NotImplementedException $e) {
+            $this->assertTrue(true);
+        }
+    }
+
+    public function provideListOfFullscreenExamples(): array
+    {
+        return [
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterInFullscreenMode', "src/UI/examples/MainControls/Footer/footer.php"],
+            ['ILIAS\UI\examples\MainControls\Footer\renderFooterWithModalsInFullscreenMode', "src/UI/examples/MainControls/Footer/footer_with_modals.php"],
+            ['ILIAS\UI\examples\MainControls\MetaBar\renderMetaBarInFullscreenMode', "src/UI/examples/MainControls/MetaBar/base_metabar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleCondensed', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\getUIMainbarExampleFull', "src/UI/examples/Layout/Page/Standard/ui_mainbar.php"],
+            ['ILIAS\UI\examples\Layout\Page\Standard\renderFooterInFullscreenMode', "src/UI/examples/Layout/Page/Standard/ui.php"]
+        ];
     }
 }

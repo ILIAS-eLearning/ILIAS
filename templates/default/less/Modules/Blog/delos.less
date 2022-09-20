@@ -25,7 +25,7 @@ div.ilBlogListItemTitle h3 {
 div.ilBlogListItemSubTitle {
 	margin-top: 5px;
 	color: @il-text-light-color;
-	font-size: 80%;
+	font-size: @il-font-size-small;
 	text-align: right;
 }
 
@@ -46,7 +46,7 @@ div.ilBlogListItemMore {
 
 div.ilBlogListItemCommtensPerma {
 	text-align: right;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	margin-top: 15px;
 	min-height: 15px;
 }
@@ -56,7 +56,7 @@ td.ilBlogSideBlockContent {
 }
 
 td.ilBlogSideBlockCommand {
-	font-size: 75%;
+	font-size: @il-font-size-small;
 	color: @il-text-light-color;
 	border-bottom: 1px solid @il-main-border-color;
 	padding: 1px 3px;
@@ -78,13 +78,13 @@ div.ilBlogSideBlockNavigationSelection {
 }
 
 .ilBlogListItemDraft {
-	border: 2px dotted @brand-warning;
+	border: 2px dotted @il-warning-color;
 }
 
 .ilBlogDraftText {
-	color: @brand-warning;
+	color: @il-warning-color;
 	position: absolute;
-	font-size: @font-size-small;
+	font-size: @il-font-size-small;
 	margin-top: -19px;
 	padding: 2px 5px;
 	background-color: @il-main-bg;
@@ -109,4 +109,10 @@ div.ilBlogSideBlockNavigationSelection {
 .ilExportPage {
 	min-height: 468px;
 	padding-bottom: 20px;
+}
+
+@media only screen and (min-width: @screen-sm-min) {
+	.ilToolbar .form-control[data-blog-input='posting-title']:not(:placeholder-shown) {
+		width: 250px;
+	}
 }

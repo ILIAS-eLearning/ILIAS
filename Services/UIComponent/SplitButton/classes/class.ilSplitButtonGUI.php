@@ -3,19 +3,24 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilSplitButton
  * @author Michael Jansen <mjansen@databay.de>
+ *
+ * @deprecated 11
  */
 class ilSplitButtonGUI extends ilButtonBase
 {
@@ -23,24 +28,24 @@ class ilSplitButtonGUI extends ilButtonBase
     /**
      * @var ilSplitButtonMenuItem[]
      */
-    protected $menu_items = array();
+    protected array $menu_items = [];
 
     protected function __construct(int $a_type)
     {
         parent::__construct($a_type);
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new self(self::TYPE_SPLIT);
     }
 
-    public function addMenuItem(ilSplitButtonMenuItem $menu_item) : void
+    public function addMenuItem(ilSplitButtonMenuItem $menu_item): void
     {
         $this->menu_items[] = $menu_item;
     }
 
-    public function removeMenuItem(ilSplitButtonMenuItem $menu_item) : void
+    public function removeMenuItem(ilSplitButtonMenuItem $menu_item): void
     {
         $key = array_search($menu_item, $this->menu_items);
         if ($key !== false) {
@@ -48,7 +53,7 @@ class ilSplitButtonGUI extends ilButtonBase
         }
     }
 
-    public function hasMenuItems() : bool
+    public function hasMenuItems(): bool
     {
         return count($this->menu_items) > 0;
     }
@@ -56,7 +61,7 @@ class ilSplitButtonGUI extends ilButtonBase
     /**
      * @return ilSplitButtonMenuItem[]
      */
-    public function getMenuItems() : array
+    public function getMenuItems(): array
     {
         return $this->menu_items;
     }
@@ -65,9 +70,9 @@ class ilSplitButtonGUI extends ilButtonBase
      * @param ilSplitButtonMenuItem[] $menu_items
      * @throws ilSplitButtonException
      */
-    public function setMenuItems(array $menu_items) : void
+    public function setMenuItems(array $menu_items): void
     {
-        array_walk($menu_items, function ($item, $idx) {
+        array_walk($menu_items, static function ($item, $idx): void {
             if (!($item instanceof ilSplitButtonMenuItem)) {
                 throw new ilSplitButtonException(sprintf(
                     "Cannot set menu items, element at index '%s' is not of type 'ilSplitButtonItem'",
@@ -79,17 +84,17 @@ class ilSplitButtonGUI extends ilButtonBase
         $this->menu_items = $menu_items;
     }
 
-    public function getDefaultButton() : ilButtonBase
+    public function getDefaultButton(): ilButtonBase
     {
         return $this->default_button;
     }
 
-    public function hasDefaultButton() : bool
+    public function hasDefaultButton(): bool
     {
         return ($this->default_button instanceof ilButtonBase);
     }
 
-    public function setDefaultButton(ilButtonBase $default_button) : void
+    public function setDefaultButton(ilButtonBase $default_button): void
     {
         $this->default_button = $default_button;
     }
@@ -97,7 +102,7 @@ class ilSplitButtonGUI extends ilButtonBase
     /**
      * @throws ilSplitButtonException
      */
-    public function render() : string
+    public function render(): string
     {
         $tpl = new ilTemplate('tpl.split_button.html', true, true, 'Services/UIComponent/SplitButton');
 

@@ -1,7 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Description of class
@@ -11,14 +25,11 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
 {
-    private $obj_id = 0;
-    private $user_id = 0;
-    private $sco = null;
+    private int $obj_id;
+    private int $user_id = 0;
+    private ?ilSCORMItem $sco = null;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_obj_id, $a_parent_obj, $a_parent_cmd)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->obj_id = $a_obj_id;
 
@@ -26,30 +37,17 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    /**
-     * Set sco id
-     * @param int $a_sco_id
-     */
-    public function setScoId($a_sco_id)
+    public function setScoId(int $a_sco_id): void
     {
-        include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
         $this->sco = new ilSCORMItem($a_sco_id);
     }
 
-    /**
-     * Get sco
-     * @return ilSCORMItem $sco
-     */
-    public function getSco()
+    public function getSco(): ?ilSCORMItem
     {
         return $this->sco;
     }
@@ -57,38 +55,42 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
     /**
      * Parse table content
      */
-    public function parse()
+    public function parse(): void
     {
         $this->initTable();
 
-        $sco_data = $this->getParentObject()->object->getTrackingDataAggSco($this->getSco()->getId());
+        $sco = $this->getSco();
+        if ($sco !== null) {
+            $sco_data = $this->getParentObject()->object->getTrackingDataAggSco($sco->getId());
+            $data = array();
+            foreach ($sco_data as $row) {
+                $tmp = array();
+                $tmp['user_id'] = $row['user_id'];
+                $tmp['score'] = $row['score'];
+                $tmp['time'] = $row['time'];
+                $tmp['status'] = $row['status'];
+                $tmp['name'] = ilObjUser::_lookupFullname($row['user_id']);
 
-        $data = array();
-        foreach ($sco_data as $row) {
-            $tmp = array();
-            $tmp['user_id'] = $row['user_id'];
-            $tmp['score'] = $row['score'];
-            $tmp['time'] = $row['time'];
-            $tmp['status'] = $row['status'];
-            $tmp['name'] = ilObjUser::_lookupFullname($row['user_id']);
-
-            $data[] = $tmp;
+                $data[] = $tmp;
+            }
+            $this->setData($data);
         }
-        $this->setData($data);
     }
 
 
     /**
      * Fill row template
-     * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $ilCtrl->setParameter($this->getParentObject(), 'user_id', $a_set['user_id']);
-        $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $this->getSco()->getId());
+        $sco = $this->getSco();
+        if ($sco !== null) {
+            $ilCtrl->setParameter($this->getParentObject(), 'obj_id', $sco->getId());
+        }
         $this->tpl->setVariable('LINK_USER', $ilCtrl->getLinkTarget($this->getParentObject(), 'showTrackingItemPerUser'));
         $this->tpl->setVariable('VAL_USERNAME', $a_set['name']);
 
@@ -97,18 +99,18 @@ class ilSCORMTrackingItemsScoTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_SCORE', $a_set['score']);
     }
 
-    /**
-     * Init table
-     */
-    protected function initTable()
+    protected function initTable(): void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.scorm_track_item_sco.html', 'Modules/ScormAicc');
-        $this->setTitle($this->getSco()->getTitle());
+        $sco = $this->getSco();
+        if ($sco !== null) {
+            $this->setTitle($sco->getTitle());
+        }
 
         $this->addColumn($this->lng->txt('name'), 'name', '35%');
         $this->addColumn($this->lng->txt('cont_status'), 'status', '25%');

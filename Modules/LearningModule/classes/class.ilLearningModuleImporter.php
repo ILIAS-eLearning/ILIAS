@@ -1,27 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for files
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesLearningModule
  */
 class ilLearningModuleImporter extends ilXmlImporter
 {
-    protected $config;
+    protected array $qtis;
+    protected ilLearningModuleDataSet $ds;
+    protected ilImportConfig $config;
+    protected ilLogger $log;
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * Initialisation
-     */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilLearningModuleDataSet();
         $this->ds->setDSPrefix("ds");
@@ -45,14 +52,12 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
     }
 
-
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ): void {
         $this->log->debug("import XML Representation");
 
         // case i container
@@ -71,11 +76,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         // for single lms the processing in ilObjContentObjectGUI->importFileObject is used
         // (this should be streamlined, see glossary)
         if (file_exists($xml_file)) {
-            $newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(), '/')));
-            $mess = $newObj->importFromDirectory($this->getImportDirectory(), true, $a_mapping);
-            $this->log->debug("imported from directory ($mess)");
-            $a_mapping->addMapping("Modules/LearningModule", "lm", $a_id, $newObj->getId());
-            $a_mapping->addMapping("Services/Object", "obj", $a_id, $newObj->getId());
+            throw new ilLMOldExportFileException("This file seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
         } else {	// new import version (does mapping, too)
             $this->log->debug("create ilDataSetIportParser instance");
             $parser = new ilDataSetImportParser(
@@ -94,7 +95,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         if (is_file($qti_file)) {
             $qtiParser = new ilQTIParser(
                 $qti_file,
-                IL_MO_VERIFY_QTI,
+                ilQTIParser::IL_MO_VERIFY_QTI,
                 0,
                 ""
             );
@@ -102,7 +103,7 @@ class ilLearningModuleImporter extends ilXmlImporter
             $founditems = &$qtiParser->getFoundItems();
             $testObj = new ilObjTest(0, true);
             if (count($founditems) > 0) {
-                $qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, 0, "");
+                $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, 0, "");
                 $qtiParser->setTestObject($testObj);
                 $result = $qtiParser->startParsing();
                 $this->qtis = array_merge($this->qtis, $qtiParser->getImportMapping());
@@ -110,12 +111,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
     }
 
-    /**
-     * Final processing
-     *
-     * @param	array		mapping array
-     */
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $pg_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "pg");
 
@@ -172,6 +168,7 @@ class ilLearningModuleImporter extends ilXmlImporter
         }
 
         // assign style
+        /*
         $alls_map = $a_mapping->getMappingsOfEntity("Modules/LearningModule", "lm_style");
         foreach ($alls_map as $new_lm_id => $old_style_id) {
             $new_style_id = (int) $a_mapping->getMapping("Services/Style", "sty", $old_style_id);
@@ -179,7 +176,7 @@ class ilLearningModuleImporter extends ilXmlImporter
                 $lm = new ilObjLearningModule($new_lm_id, false);
                 $lm->writeStyleSheetId($new_style_id);
             }
-        }
+        }*/
 
         // menu item ref ids
         $ref_mapping = $a_mapping->getMappingsOfEntity('Services/Container', 'refs');

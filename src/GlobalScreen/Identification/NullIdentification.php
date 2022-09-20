@@ -1,29 +1,40 @@
-<?php namespace ILIAS\GlobalScreen\Identification;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Identification;
 
 /**
  * Class NullIdentification
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class NullIdentification implements IdentificationInterface
 {
-
-    /**
-     * @var IdentificationInterface
-     */
-    protected $wrapped_identification = null;
-
+    protected ?IdentificationInterface $wrapped_identification = null;
 
     /**
      * NullIdentification constructor.
-     *
      * @param IdentificationInterface $wrapped_identification
      */
     public function __construct(IdentificationInterface $wrapped_identification = null)
     {
         $this->wrapped_identification = $wrapped_identification;
     }
-
 
     /**
      * @inheritDoc
@@ -37,20 +48,18 @@ class NullIdentification implements IdentificationInterface
         return "";
     }
 
-
     /**
      * @inheritDoc
      */
     public function unserialize($serialized)
     {
-        return;
+        // noting to do
     }
-
 
     /**
      * @inheritDoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getClassName();
@@ -59,11 +68,10 @@ class NullIdentification implements IdentificationInterface
         return "Null";
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getInternalIdentifier() : string
+    public function getInternalIdentifier(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getInternalIdentifier();
@@ -72,11 +80,10 @@ class NullIdentification implements IdentificationInterface
         return "Null";
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         if ($this->wrapped_identification !== null) {
             return $this->wrapped_identification->getProviderNameForPresentation();

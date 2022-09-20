@@ -7,6 +7,19 @@ use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use Psr\Http\Message\StreamInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BlacklistMimeTypePreProcessor
  *
@@ -21,7 +34,10 @@ use Psr\Http\Message\StreamInterface;
  */
 final class WhitelistMimeTypePreProcessor implements PreProcessor
 {
-    private $whitelist;
+    /**
+     * @var string[] $whitelist
+     */
+    private array $whitelist;
 
 
     /**
@@ -36,10 +52,10 @@ final class WhitelistMimeTypePreProcessor implements PreProcessor
      */
     public function __construct(array $whitelist)
     {
-        if (count($whitelist) === 0) {
+        if ($whitelist === []) {
             throw new \InvalidArgumentException('Whitelist must not be empty.');
         }
-        
+
         $this->validateListEntries($whitelist);
 
 
@@ -51,7 +67,7 @@ final class WhitelistMimeTypePreProcessor implements PreProcessor
     /**
      * @inheritDoc
      */
-    public function process(FileStream $stream, Metadata $metadata)
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
         if ($this->isWhitelisted($metadata->getMimeType())) {
             return new ProcessingStatus(ProcessingStatus::OK, 'Entity comply with mime type whitelist.');
@@ -68,16 +84,15 @@ final class WhitelistMimeTypePreProcessor implements PreProcessor
      *
      * @return bool                 True if the mime type is whitelisted otherwise false.
      */
-    private function isWhitelisted($mimeType)
+    private function isWhitelisted(string $mimeType): bool
     {
         foreach ($this->whitelist as $entry) {
             $entryJunks = explode('/', $entry);
             $mimeTypeJunks = explode('/', $mimeType);
 
-            if (strcmp($entryJunks[0], $mimeTypeJunks[0]) === 0 || strcmp($entryJunks[0], '*') === 0) {
-                if (strcmp($entryJunks[1], $mimeTypeJunks[1]) === 0 || strcmp($entryJunks[1], '*') === 0) {
-                    return true;
-                }
+            if ((strcmp($entryJunks[0], $mimeTypeJunks[0]) === 0 || strcmp($entryJunks[0], '*') === 0)
+                && (strcmp($entryJunks[1], $mimeTypeJunks[1]) === 0 || strcmp($entryJunks[1], '*') === 0)) {
+                return true;
             }
         }
         return false;
@@ -90,11 +105,9 @@ final class WhitelistMimeTypePreProcessor implements PreProcessor
      *
      * @param string[] $list    The list which should be validated.
      *
-     * @return void
-     *
      * @throws \InvalidArgumentException Thrown if the list contains invalid list items.
      */
-    private function validateListEntries($list)
+    private function validateListEntries(array $list): void
     {
         if (in_array('*/*', $list, true)) {
             throw new \InvalidArgumentException('The mime type */* matches all mime types which renders the whole whitelist useless.');

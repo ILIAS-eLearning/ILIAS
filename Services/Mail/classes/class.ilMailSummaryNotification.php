@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -23,7 +40,7 @@ class ilMailSummaryNotification extends ilMailNotification
         parent::__construct($a_is_personal_workspace);
     }
 
-    public function send() : void
+    public function send(): void
     {
         $is_message_enabled = (bool) $this->settings->get("mail_notification_message", '0');
 
@@ -39,7 +56,7 @@ class ilMailSummaryNotification extends ilMailNotification
             ['integer', 'timestamp', 'text', 'integer'],
             [1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1]
         );
-        
+
         $users = [];
         $user_id = 0;
 
@@ -53,7 +70,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
-            $user_lang = $this->getLanguage() ?: $this->lng;
+            $user_lang = $this->getLanguage();
 
             $this->initMail();
 
@@ -76,7 +93,7 @@ class ilMailSummaryNotification extends ilMailNotification
                 ));
             }
             $this->appendBody("\n\n");
-            
+
             $counter = 1;
             foreach ($mail_data as $mail) {
                 $this->appendBody("----------------------------------------------------------------------------------------------");

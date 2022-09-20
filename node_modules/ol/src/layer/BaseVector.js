@@ -10,6 +10,7 @@ import {
 } from '../style/Style.js';
 
 /**
+ * @template {import("../source/Vector.js").default|import("../source/VectorTile.js").default} VectorSourceType
  * @typedef {Object} Options
  * @property {string} [className='ol-layer'] A CSS class name to set to the layer element.
  * @property {number} [opacity=1] Opacity (0, 1).
@@ -34,11 +35,11 @@ import {
  * @property {number} [renderBuffer=100] The buffer in pixels around the viewport extent used by the
  * renderer when getting features from the vector source for the rendering or hit-detection.
  * Recommended value: the size of the largest symbol, line width or label.
- * @property {import("../source/Vector.js").default} [source] Source.
+ * @property {VectorSourceType} [source] Source.
  * @property {import("../PluggableMap.js").default} [map] Sets the layer as overlay on a map. The map will not manage
  * this layer in its layers collection, and the layer will be rendered on top. This is useful for
  * temporary layers. The standard way to add a layer to a map and have it managed by the map is to
- * use {@link module:ol/Map#addLayer}.
+ * use {@link import("../PluggableMap.js").default#addLayer map.addLayer()}.
  * @property {boolean} [declutter=false] Declutter images and text. Decluttering is applied to all
  * image and text styles of all Vector and VectorTile layers that have set this to `true`. The priority
  * is defined by the z-index of the layer, the `zIndex` of the style and the render order of features.
@@ -53,6 +54,7 @@ import {
  * batches will be recreated when no animation is active.
  * @property {boolean} [updateWhileInteracting=false] When set to `true`, feature batches will
  * be recreated during interactions. See also `updateWhileAnimating`.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -76,7 +78,7 @@ const Property = {
  */
 class BaseVectorLayer extends Layer {
   /**
-   * @param {Options=} opt_options Options.
+   * @param {Options<VectorSourceType>} [opt_options] Options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -175,9 +177,9 @@ class BaseVectorLayer extends Layer {
    *     order.
    */
   getRenderOrder() {
-    return /** @type {import("../render.js").OrderFunction|null|undefined} */ (this.get(
-      Property.RENDER_ORDER
-    ));
+    return /** @type {import("../render.js").OrderFunction|null|undefined} */ (
+      this.get(Property.RENDER_ORDER)
+    );
   }
 
   /**
@@ -241,7 +243,7 @@ class BaseVectorLayer extends Layer {
    * so only features that have their own styles will be rendered in the layer. Call
    * `setStyle()` without arguments to reset to the default style. See
    * {@link module:ol/style} for information on the default style.
-   * @param {(import("../style/Style.js").StyleLike|null)=} opt_style Layer style.
+   * @param {import("../style/Style.js").StyleLike|null} [opt_style] Layer style.
    * @api
    */
   setStyle(opt_style) {

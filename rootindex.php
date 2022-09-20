@@ -1,4 +1,5 @@
 <?php
+
 // BEGIN WebDAV
 // This page is required to support Microsoft WebDAV clients with ILIAS.
 

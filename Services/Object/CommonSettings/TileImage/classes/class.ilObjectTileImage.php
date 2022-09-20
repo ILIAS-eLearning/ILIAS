@@ -1,43 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
- * Tile image object
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author killing@leifos.de
- * @ingroup ServicesObject
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+
 class ilObjectTileImage implements ilObjectTileImageInterface
 {
-    /**
-     * @var ilObjectService
-     */
-    protected $service;
+    protected ilObjectService $service;
+    protected int $obj_id;
+    protected Filesystem $web;
+    protected FileUpload $upload;
+    protected string $ext;
 
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    protected $web;
-
-    /**
-     * @var \ILIAS\FileUpload\FileUpload
-     */
-    protected $upload;
-
-    /**
-     * @var string file extension
-     */
-    protected $ext;
-
-    /**
-     * Constructor
-     */
     public function __construct(ilObjectService $service, int $obj_id)
     {
         $this->service = $service;
@@ -47,18 +43,12 @@ class ilObjectTileImage implements ilObjectTileImageInterface
         $this->ext = ilContainer::_lookupContainerSetting($obj_id, 'tile_image');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExtension() : string
+    public function getExtension(): string
     {
         return $this->ext;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function copy(int $target_obj_id)
+    public function copy(int $target_obj_id): void
     {
         if (!$this->exists()) {
             ilContainer::_deleteContainerSettings($target_obj_id, 'tile_image');
@@ -76,34 +66,27 @@ class ilObjectTileImage implements ilObjectTileImageInterface
             );
 
             ilContainer::_writeContainerSetting($target_obj_id, 'tile_image', $this->getExtension());
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             ilContainer::_deleteContainerSettings($target_obj_id, 'tile_image');
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete()
+    public function delete(): void
     {
         if ($this->web->hasDir($this->getRelativeDirectory())) {
             try {
                 $this->web->deleteDir($this->getRelativeDirectory());
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
             }
         }
 
         ilContainer::_deleteContainerSettings($this->obj_id, 'tile_image');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function saveFromHttpRequest(string $tmpname)
+    public function saveFromHttpRequest(string $tmp_name): void
     {
         $this->createDirectory();
 
-        // remove old file
         $file_name = $this->getRelativePath();
         if ($this->web->has($file_name)) {
             $this->web->delete($file_name);
@@ -114,36 +97,45 @@ class ilObjectTileImage implements ilObjectTileImageInterface
                 $this->upload->process();
             }
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var UploadResult $result */
             $results = $this->upload->getResults();
-            if (isset($results[$tmpname])) {
-                $result = $results[$tmpname];
+            if (isset($results[$tmp_name])) {
+                $result = $results[$tmp_name];
                 $this->ext = pathinfo($result->getName(), PATHINFO_EXTENSION);
                 $file_name = $this->getRelativePath();
-                if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                if ($result->isOK()) {
                     $this->upload->moveOneFileTo(
                         $result,
                         $this->getRelativeDirectory(),
-                        \ILIAS\FileUpload\Location::WEB,
+                        Location::WEB,
                         $this->getFileName(),
                         true
                     );
 
 
-                    $fullpath = CLIENT_WEB_DIR . "/" . $this->getRelativeDirectory() . "/" . $this->getFileName();
-                    list($width, $height, $type, $attr) = getimagesize($fullpath);
+                    $fullpath = CLIENT_WEB_DIR . '/' . $this->getRelativeDirectory() . '/' . $this->getFileName();
+                    [$width, $height, , ] = getimagesize($fullpath);
                     $min = min($width, $height);
-                    ilUtil::execConvert($fullpath . "[0] -geometry " . $min . "x" . $min . "^ -gravity center -extent " . $min . "x" . $min . " " . $fullpath);
+                    ilShellUtil::execConvert(
+                        $fullpath .
+                        "[0] -geometry " .
+                        $min .
+                        "x" .
+                        $min .
+                        "^ -gravity center -extent " .
+                        $min .
+                        "x" .
+                        $min .
+                        " " .
+                        $fullpath
+                    );
                 }
             }
         }
         $this->persistImageState($file_name);
     }
 
-    /**
-     * @param string $filename
-     */
-    protected function persistImageState($filename)
+    protected function persistImageState(string $filename): void
     {
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
@@ -155,93 +147,93 @@ class ilObjectTileImage implements ilObjectTileImageInterface
     }
 
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    protected function createDirectory()
+    protected function createDirectory(): void
     {
         $this->web->createDir($this->getRelativeDirectory());
-
-        /*
-
-        $rel_directory  = $this->getRelDirectory();
-
-        if (!$this->web->has(dirname($rel_directory))) {
-            $this->web->createDir(dirname($rel_directory));
-        }
-
-        if (!$this->web->has($rel_directory)) {
-            $this->web->createDir($rel_directory);
-        }*/
     }
 
-    /**
-     * @return string
-     */
-    public function getRelativeDirectory()
+    public function getRelativeDirectory(): string
     {
-        return implode(DIRECTORY_SEPARATOR, [
-            "obj_data",
-            "tile_image",
-            "tile_image_" . $this->obj_id
-        ]);
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                'obj_data',
+                'tile_image',
+                'tile_image_' . $this->obj_id
+            ]
+        );
     }
 
-    /**
-     * @return string
-     */
-    protected function getFileName()
+    protected function getFileName(): string
     {
         return 'tile_image.' . $this->getExtension();
     }
 
-    /**
-     * @return string
-     */
-    protected function getRelativePath()
+    protected function getRelativePath(): string
     {
-        return implode(DIRECTORY_SEPARATOR, [
-            $this->getRelativeDirectory(),
-            $this->getFileName()
-        ]);
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                $this->getRelativeDirectory(),
+                $this->getFileName()
+            ]
+        );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function exists() : bool
+    public function exists(): bool
     {
-        if (!\ilContainer::_lookupContainerSetting($this->obj_id, 'tile_image', 0)) {
+        if (!ilContainer::_lookupContainerSetting($this->obj_id, 'tile_image', '0')) {
             return false;
         }
+
         return $this->web->has($this->getRelativePath());
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getFullPath() : string
+    public function getFullPath(): string
     {
         // TODO: Currently there is no option to get the relative base directory of a filesystem
-        return implode(DIRECTORY_SEPARATOR, [
-            \ilUtil::getWebspaceDir(),
-            $this->getRelativePath()
-        ]);
+        return implode(
+            DIRECTORY_SEPARATOR,
+            [
+                ilFileUtils::getWebspaceDir(),
+                $this->getRelativePath()
+            ]
+        );
     }
 
-    /**
-     * @param $source_dir
-     * @param $ext
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
-    public function createFromImportDir($source_dir, $ext)
+    public function createFromImportDir(string $source_dir, string $ext): void
     {
-        $target_dir = implode(DIRECTORY_SEPARATOR, [
-            \ilUtil::getWebspaceDir(),
-            $this->getRelativeDirectory()
-        ]);
-        ilUtil::rCopy($source_dir, $target_dir);
+        $target_dir = implode(
+            DIRECTORY_SEPARATOR,
+            [
+                ilFileUtils::getWebspaceDir(),
+                $this->getRelativeDirectory()
+            ]
+        );
+        $sourceFS = LegacyPathHelper::deriveFilesystemFrom($source_dir);
+        $targetFS = LegacyPathHelper::deriveFilesystemFrom($target_dir);
+
+        $sourceDir = LegacyPathHelper::createRelativePath($source_dir);
+        $targetDir = LegacyPathHelper::createRelativePath($target_dir);
+
+
+        $sourceList = $sourceFS->listContents($sourceDir, true);
+
+        foreach ($sourceList as $item) {
+            if ($item->isDir()) {
+                continue;
+            }
+            try {
+                $itemPath = $targetDir . '/' . substr($item->getPath(), strlen($sourceDir));
+                $stream = $sourceFS->readStream($item->getPath());
+                $targetFS->writeStream($itemPath, $stream);
+            } catch (FileAlreadyExistsException $e) {
+                // Do nothing with that type of exception
+            }
+        }
+
         ilContainer::_writeContainerSetting($this->obj_id, 'tile_image', $ext);
     }
 }

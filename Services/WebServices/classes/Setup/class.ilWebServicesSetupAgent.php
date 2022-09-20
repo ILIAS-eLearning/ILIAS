@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,10 +12,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
     public function __construct(Refinery\Factory $refinery)
     {
@@ -23,7 +22,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -31,7 +30,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
     {
         throw new \LogicException("Not yet implemented.");
     }
@@ -39,7 +38,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilWebServicesSetupConfig(
@@ -55,7 +54,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new ilWebServicesConfigStoredObjective($config);
     }
@@ -63,18 +62,26 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        if (is_null($config)) {
-            return new Setup\Objective\NullObjective();
+        $wsrv_objective = new Setup\Objective\NullObjective();
+        if (!is_null($config)) {
+            $wsrv_objective = new ilWebServicesConfigStoredObjective($config);
         }
-        return new ilWebServicesConfigStoredObjective($config);
+        return new ILIAS\Setup\ObjectiveCollection(
+            'Updates of Services/WebServices',
+            false,
+            $wsrv_objective,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilECSUpdateSteps8()
+            )
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -82,7 +89,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -90,7 +97,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

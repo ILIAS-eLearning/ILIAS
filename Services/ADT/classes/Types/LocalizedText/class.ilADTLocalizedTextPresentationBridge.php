@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,12 +14,12 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
         parent::__construct($a_adt);
     }
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return $a_adt instanceof ilADTLocalizedText;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getTextForLanguage($this->lng->getLangKey())));
@@ -25,7 +27,7 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return strtolower($this->getADT()->getTextForLanguage($this->lng->getLangKey()));

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Link;
 
@@ -34,7 +50,7 @@ interface Factory
      * @param	string		$action
      * @return  \ILIAS\UI\Component\Link\Standard
      */
-    public function standard(string $label, string $action) : Standard;
+    public function standard(string $label, string $action): Standard;
 
     /**
      * ---
@@ -69,12 +85,15 @@ interface Factory
      *        On screens larger than small size, Bulky Links MUST contain a symbol plus text.
      *     2: >
      *        On small-sized screens, Bulky Links SHOULD contain only a symbol.
-     *
+     *   accessibility:
+     *     1: >
+     *        If a Bulky Link contains a Symbol, then the Label of the Icon MUST be set to "" or be omitted completely
+     *        to avoid redundant alt tags which would render the Bulky Link cumbersome to be processed by screenreaders.
      * ---
      * @param	\ILIAS\UI\Component\Symbol\Symbol	$symbol
      * @param	string	$label
      * @param	\ILIAS\Data\URI		$target
      * @return  \ILIAS\UI\Component\Link\Bulky
      */
-    public function bulky(Symbol $symbol, string $label, URI $target) : Bulky;
+    public function bulky(Symbol $symbol, string $label, URI $target): Bulky;
 }

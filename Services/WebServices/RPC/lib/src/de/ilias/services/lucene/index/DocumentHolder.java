@@ -22,7 +22,8 @@
 
 package de.ilias.services.lucene.index;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -37,7 +38,7 @@ import org.apache.lucene.document.TextField;
  */
 public class DocumentHolder {
 
-	protected static Logger logger = Logger.getLogger(DocumentHolder.class);
+	protected static Logger logger = LogManager.getLogger(DocumentHolder.class);
 	
 	private static ThreadLocal<DocumentHolder> thDocumentHolder = new ThreadLocal<DocumentHolder>() {
 

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,108 +27,100 @@
 * Represents an entry for the search command queue
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroupServicesSearch
 */
 class ilSearchCommandQueueElement
 {
-    const UPDATE = 'update';
-    const DELETE = 'delete';
-    const CREATE = 'create';
-    const RESET = 'reset';
+    public const UPDATE = 'update';
+    public const DELETE = 'delete';
+    public const CREATE = 'create';
+    public const RESET = 'reset';
 
-    private $obj_id;
-    private $obj_type;
-    private $command;
-    private $last_update;
-    private $finished;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
+    private int $obj_id;
+    private string $obj_type;
+    private string $command;
+    private ilDateTime $last_update;
+    private bool $finished;
+
     /**
      * set obj_id
      */
-    public function setObjId($a_id)
+    public function setObjId(int $a_id): void
     {
         $this->obj_id = $a_id;
     }
-    
+
     /**
      * get obj_id
      */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
-    
+
     /**
      * set obj_type
      */
-    public function setObjType($a_type)
+    public function setObjType(string $a_type): void
     {
         $this->obj_type = $a_type;
     }
-    
+
     /**
      * get obj_type
      */
-    public function getObjType()
+    public function getObjType(): string
     {
         return $this->obj_type;
     }
-    
+
     /**
      * set command
      */
-    public function setCommand($a_command)
+    public function setCommand(string $a_command): void
     {
         $this->command = $a_command;
     }
-    
+
     /**
      * get command
      */
-    public function getCommand()
+    public function getCommand(): string
     {
         return $this->command;
     }
-    
+
     /**
      * set last_update
      */
-    public function setLastUpdate(ilDateTime $date_time)
+    public function setLastUpdate(ilDateTime $date_time): void
     {
         $this->last_update = $date_time;
     }
-    
+
     /**
      * get last update
      */
-    public function getLastUpdate()
+    public function getLastUpdate(): ?ilDateTime
     {
         return is_object($this->last_update) ? $this->last_update : null;
     }
-    
+
     /**
      * set finsihed
      */
-    public function setFinished($a_finished)
+    public function setFinished(bool $a_finished): void
     {
         $this->finished = $a_finished;
     }
-    
+
     /**
      * get finished
      */
-    public function getFinished()
+    public function getFinished(): bool
     {
-        return (bool) $this->finished;
+        return $this->finished;
     }
 }

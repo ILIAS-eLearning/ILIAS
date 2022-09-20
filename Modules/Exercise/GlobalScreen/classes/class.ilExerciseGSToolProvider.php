@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -18,21 +32,21 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
     public const EXC_ASS_IDS = 'exc_ass_ids';
     public const EXC_ASS_BUTTONS = "exc_ass_buttons";
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->main();
     }
 
     public function getToolsForContextStack(
         CalledContexts $called_contexts
-    ) : array {
+    ): array {
         global $DIC;
 
         $lng = $DIC->language();
         $lng->loadLanguageModule("exc");
 
         $title = $lng->txt("exc_assignment");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title);
 
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
@@ -47,19 +61,19 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(
-                /**
-                 * @throws ilExcUnknownAssignmentTypeException
-                 * @throws ilDateTimeException
-                 */
-                function () use ($l, $additional_data) {
-                    $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
-                        ? $additional_data->get(self::EXC_ASS_BUTTONS)
-                        : [];
-                    return $l($this->getAssignmentInfo(
-                        $additional_data->get(self::EXC_ASS_IDS),
-                        $buttons
-                    ));
-                }
+                    /**
+                     * @throws ilExcUnknownAssignmentTypeException
+                     * @throws ilDateTimeException
+                     */
+                    function () use ($l, $additional_data) {
+                        $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
+                            ? $additional_data->get(self::EXC_ASS_BUTTONS)
+                            : [];
+                        return $l($this->getAssignmentInfo(
+                            $additional_data->get(self::EXC_ASS_IDS),
+                            $buttons
+                        ));
+                    }
                 );
         }
 
@@ -76,7 +90,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
     private function getAssignmentInfo(
         array $ass_ids,
         array $buttons
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -158,7 +172,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         ilTemplate $tpl,
         string $title,
         string $content
-    ) : void {
+    ): void {
         $tpl->setCurrentBlock("section");
         $tpl->setVariable("TITLE", $title);
         $tpl->setVariable("CONTENT", $content);

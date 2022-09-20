@@ -1,13 +1,26 @@
 <?php
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Table for Acces Permissons in Permission > Permission of User
- *
- * @author Fabian Wolf <wolf@leifos.com>
- *
- * @version $Id$
- *
+ * @author  Fabian Wolf <wolf@leifos.com>
  * @ingroup ServicesAccessControl
  */
 class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
@@ -15,12 +28,8 @@ class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setId('accessperm' . $this->parent_obj->user->getId());
@@ -31,14 +40,14 @@ class ilAccessPermissionsStatusTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.access_permissions_status_row.html", "Services/AccessControl");
 
         $this->addColumn("", "status", "5%");
-        $this->addColumn($lng->txt("operation"), "operation", "45%");
-        $this->addColumn($lng->txt("info_from_role"), "role_ownership");
+        $this->addColumn($this->lng->txt("operation"), "operation", "45%");
+        $this->addColumn($this->lng->txt("info_from_role"), "role_ownership");
     }
 
     /**
      * Fill a single data row.
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 

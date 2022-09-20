@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Amstutz Timon <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Deck;
 
@@ -27,6 +43,9 @@ class Deck implements D\Deck
     protected array $cards;
     protected int $size;
 
+    /**
+     * @param \ILIAS\UI\Component\Card\Card[] $cards
+     */
     public function __construct(array $cards, int $size)
     {
         $classes = [Card::class];
@@ -40,7 +59,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withCards(array $cards) : D\Deck
+    public function withCards(array $cards): D\Deck
     {
         $classes = [Card::class];
         $this->checkArgListElements("sections", $cards, $classes);
@@ -53,7 +72,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function getCards() : array
+    public function getCards(): array
     {
         return $this->cards;
     }
@@ -61,7 +80,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withExtraSmallCardsSize() : D\Deck
+    public function withExtraSmallCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_XS);
     }
@@ -69,14 +88,14 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withSmallCardsSize() : D\Deck
+    public function withSmallCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_S);
     }
     /**
      * @inheritdoc
      */
-    public function withNormalCardsSize() : D\Deck
+    public function withNormalCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_M);
     }
@@ -84,7 +103,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withLargeCardsSize() : D\Deck
+    public function withLargeCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_L);
     }
@@ -92,7 +111,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withExtraLargeCardsSize() : D\Deck
+    public function withExtraLargeCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_XL);
     }
@@ -100,12 +119,12 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function withFullSizedCardsSize() : D\Deck
+    public function withFullSizedCardsSize(): D\Deck
     {
         return $this->withCardsSize(self::SIZE_FULL);
     }
 
-    protected function withCardsSize(int $size) : D\Deck
+    protected function withCardsSize(int $size): D\Deck
     {
         $this->checkArgIsElement("size", $size, self::$sizes, "size type");
 
@@ -117,7 +136,7 @@ class Deck implements D\Deck
     /**
      * @inheritdoc
      */
-    public function getCardsSize() : int
+    public function getCardsSize(): int
     {
         return $this->size;
     }
@@ -126,7 +145,7 @@ class Deck implements D\Deck
      * @internal This function is only internal and returns the size of the cards for small displays.
      * Note that this size tells how much space the card is using. The number of cards displayed by normal screen size is 12/size.
      */
-    public function getCardsSizeSmallDisplays() : int
+    public function getCardsSizeSmallDisplays(): int
     {
         return $this->getCardsSizeForDisplaySize(self::SIZE_S);
     }
@@ -135,7 +154,7 @@ class Deck implements D\Deck
      * @internal This function is only internal and returns the size of the cards for small displays.
      * Note that this size tells how much space the card is using. The number of cards displayed by normal screen size is 12/size.
      */
-    public function getCardsSizeForDisplaySize(int $display_size) : int
+    public function getCardsSizeForDisplaySize(int $display_size): int
     {
         /**
          * Rationale

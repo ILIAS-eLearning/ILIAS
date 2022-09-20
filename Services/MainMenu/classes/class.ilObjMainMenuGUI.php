@@ -1,47 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class ilObjMainMenuGUI
- *
  * @ilCtrl_IsCalledBy ilObjMainMenuGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjMainMenuGUI: ilPermissionGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilObjMainMenuGUI extends ilObject2GUI
 {
+    private ilMMTabHandling $tab_handling;
+    protected ilRbacSystem $rbac_system;
+    protected ilTabsGUI $tabs;
+    public ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
+    public ilTree $tree;
 
-    /**
-     * @var ilMMTabHandling
-     */
-    private $tab_handling;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    const TAB_PERMISSIONS = 'perm_settings';
-    const TAB_MAIN = 'main';
-
+    public const TAB_PERMISSIONS = 'perm_settings';
+    public const TAB_MAIN = 'main';
 
     /**
      * ilObjMainMenuGUI constructor.
@@ -50,8 +28,11 @@ class ilObjMainMenuGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $ref_id = (int) $_GET['ref_id'];
-        parent::__construct($ref_id);
+        $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
+            : null;
+
+        parent::__construct($this->ref_id);
 
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
@@ -59,14 +40,13 @@ class ilObjMainMenuGUI extends ilObject2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->tpl = $DIC['tpl'];
         $this->tree = $DIC['tree'];
-        $this->rbacsystem = $DIC['rbacsystem'];
-        $this->tab_handling = new ilMMTabHandling($ref_id);
+        $this->rbac_system = $DIC['rbacsystem'];
+        $this->tab_handling = new ilMMTabHandling($this->ref_id);
 
         $this->assignObject();
     }
 
-
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
 
@@ -104,12 +84,11 @@ class ilObjMainMenuGUI extends ilObject2GUI
         }
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getType()
+    public function getType(): string
     {
-        return null;
+        return "";
     }
 }

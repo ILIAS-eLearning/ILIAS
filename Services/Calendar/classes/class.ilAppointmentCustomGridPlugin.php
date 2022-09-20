@@ -1,7 +1,10 @@
 <?php
+
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Component/classes/class.ilPlugin.php';
+use ILIAS\UI\Component\Item\Item as UiComponentItem;
 
 /**
  * Abstract parent class for all calendar custom grid plugin classes.
@@ -11,21 +14,10 @@ require_once 'Services/Component/classes/class.ilPlugin.php';
  */
 abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 {
-    /**
-     * @var ilCalendarEntry $appointment
-     */
-    protected $appointment;
+    protected ?ilCalendarEntry $appointment;
+    protected ?ilDateTime $start_date;
 
-    /**
-     * @var DateTime $start_date
-     */
-    protected $start_date;
-
-    /**
-     * @param ilCalendarEntry $a_appointment
-     * @param ilDateTime $a_start_date
-     */
-    public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date)
+    public function setAppointment(ilCalendarEntry $a_appointment, ilDateTime $a_start_date): void
     {
         $this->appointment = $a_appointment;
         $this->start_date = $a_start_date;
@@ -33,97 +25,42 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
 
     /**
      * Get the calendar entry (appointment['event'])
-     * @return ilCalendarEntry
      */
-    public function getAppointment()
+    public function getAppointment(): ?ilCalendarEntry
     {
         return $this->appointment;
     }
 
     /**
      * Get the specific start date of the calendar entry, not the appointment starting date.
-     * @return ilDateTime
      */
-    public function getStartDate()
+    public function getStartDate(): ?ilDateTime
     {
         return $this->start_date;
     }
 
     /**
-     * Get component type
-     * @return string
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    /**
-     * Get component Name
-     * @return string
-     */
-    final public function getComponentName()
-    {
-        return "Calendar";
-    }
-
-    /**
-     * Get slot name
-     * @return string
-     */
-    final public function getSlot()
-    {
-        return "AppointmentCustomGrid";
-    }
-
-    /**
-     * Get slot Id
-     * @return string
-     */
-    final public function getSlotId()
-    {
-        return "capg";
-    }
-
-    /**
-     * empty
-     */
-    final public function slotInit()
-    {
-        //nothing to do here.
-    }
-
-    //Day, Week and Month views.
-
-    /**
      * Replaces the complete content in a calendar Grid.
-     * @param $content string html content
-     * @return mixed
      */
-    abstract public function replaceContent($content);
+    abstract public function replaceContent(string $content): string;
 
     /**
      * Add extra content in the grid after the event title
-     * @return mixed
      */
-    abstract public function addExtraContent();
+    abstract public function addExtraContent(): string;
 
     /**
      * Add glyph before the appointment title.
-     * @return mixed
      */
-    abstract public function addGlyph();
+    abstract public function addGlyph(): string;
 
     /**
      * Edit the shy button title.
-     * @return mixed
      */
-    abstract public function editShyButtonTitle();
+    abstract public function editShyButtonTitle(): string;
 
-
-    //List view.
     /**
-     * @param $item
+     * Modify the agenda item
      */
-    abstract public function editAgendaItem(\ILIAS\UI\Component\Item\Item $item);
+    abstract public function editAgendaItem(UiComponentItem $item): UiComponentItem;
 }

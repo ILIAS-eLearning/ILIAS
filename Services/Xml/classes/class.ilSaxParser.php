@@ -1,246 +1,210 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
-* Base class for sax-based expat parsing
-* extended classes need to overwrite the method setHandlers and implement their own handler methods
-*
-*
-* @author Stefan Meyer <smeyer@databay>
-* @version $Id$
-*
-* @extends PEAR
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-
-class ilSaxParser
+/**
+ * Base class for sax-based expat parsing
+ * extended classes need to overwrite the method setHandlers and implement their own handler methods
+ *
+ * @deprecated We should move to native XML-Parsing
+ */
+abstract class ilSaxParser
 {
+    private const TYPE_FILE = 'file';
+    private const TYPE_STRING = 'string';
+
     /**
      * XML-Content type 'file' or 'string'
      * If you choose file set the filename in constructor
      * If you choose 'String' call the constructor with no argument and use setXMLContent()
-     * @var string
-     * @access private
      */
-    public $input_type = null;
+    private string $input_type;
 
     /**
      * XML-Content in case of content type 'string'
-
-     * @var string
-     * @access private
      */
-    public $xml_content = '';
+    private string $xml_content;
 
-    /**
-     * ilias object
-     * @var object ilias
-     * @access private
-     */
-    public $ilias;
+    protected ?ilLanguage $lng = null;
 
-    /**
-     * language object
-     * @var object language
-     * @access private
-     */
-    public $lng;
+    public string $xml_file;
 
-    /**
-     * xml filename
-     * @var filename
-     * @access private
-     */
-    public $xml_file;
+    public bool $throw_exception = false;
 
-    /**
-     * error handler which handles error messages (used if parsers are called from soap)
-     *
-     * @var boolean
-     */
-    public $throwException = false;
-    /**
-    * Constructor
-    * setup ILIAS global object
-    * @access	public
-    */
-    public function __construct($a_xml_file = '', $throwException = false)
-    {
-        global $ilias, $lng;
 
-        if ($a_xml_file) {
-            $this->xml_file = $a_xml_file;
-            $this->input_type = 'file';
+    public function __construct(
+        ?string $path_to_file = '',
+        ?bool $throw_exception = false
+    ) {
+        global $DIC;
+
+        if ($path_to_file !== null && $path_to_file !== '') {
+            $this->xml_file = $path_to_file;
+            $this->input_type = self::TYPE_FILE;
+        } else {
+            $this->input_type = self::TYPE_STRING;
+            $this->xml_content = '';
         }
 
-        $this->throwException = $throwException;
-        $this->ilias = &$ilias;
-        $this->lng = &$lng;
+        $this->throw_exception = $throw_exception ?? false;
+        $this->lng = $DIC->isDependencyAvailable('language')
+            ? $DIC->language()
+            : null;
     }
 
-    public function setXMLContent($a_xml_content)
+    public function setXMLContent(string $a_xml_content): void
     {
         $this->xml_content = $a_xml_content;
-        $this->input_type = 'string';
+        $this->input_type = self::TYPE_STRING;
     }
-    
-    public function getXMLContent()
+
+    public function getXMLContent(): string
     {
         return $this->xml_content;
     }
 
-    public function getInputType()
+    public function getInputType(): string
     {
         return $this->input_type;
     }
 
     /**
-    * stores xml data in array
-    *
-    * @access	private
-    * @throws ilSaxParserException or ILIAS Error
-    */
-    public function startParsing()
+     * stores xml data in array
+     * @throws ilSaxParserException
+     */
+    public function startParsing(): void
     {
         $xml_parser = $this->createParser();
         $this->setOptions($xml_parser);
         $this->setHandlers($xml_parser);
 
         switch ($this->getInputType()) {
-            case 'file':
+            case self::TYPE_FILE:
                 $fp = $this->openXMLFile();
                 $this->parse($xml_parser, $fp);
                 break;
 
-            case 'string':
+            case self::TYPE_STRING:
                 $this->parse($xml_parser);
                 break;
 
             default:
                 $this->handleError(
-                    "No input type given. Set filename in constructor or choose setXMLContent()",
-                    $this->ilias->error_obj->FATAL
+                    "No input type given. Set filename in constructor or choose setXMLContent()"
                 );
                 break;
         }
         $this->freeParser($xml_parser);
     }
+
     /**
-    * create parser
-    *
-    * @access	private
-    * @throws ilSaxParserException or ILIAS Error
-    */
+     * @return resource
+     * @throws ilSaxParserException or ILIAS Error
+     */
     public function createParser()
     {
         $xml_parser = xml_parser_create("UTF-8");
-
-        if ($xml_parser == false) {
-            $this->handleError("Cannot create an XML parser handle", $this->ilias->error_obj->FATAL);
+        if (!is_resource($xml_parser) && !is_object($xml_parser)) {
+            $this->handleError("Cannot create an XML parser handle");
         }
         return $xml_parser;
     }
-    /**
-    * set parser options
-    *
-    * @access	private
-    */
-    public function setOptions($a_xml_parser)
+
+
+    private function setOptions($a_xml_parser): void
     {
         xml_parser_set_option($a_xml_parser, XML_OPTION_CASE_FOLDING, false);
     }
+
     /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
-    public function setHandlers($a_xml_parser)
-    {
-        echo 'ilSaxParser::setHandlers() must be overwritten';
-    }
+     * @param XMLParser|resource $a_xml_parser
+     * @return void
+     */
+    abstract public function setHandlers($a_xml_parser): void;
+
     /**
-    * open xml file
-    *
-    * @access	private
-    * @throws ilSaxParserException or ILIAS Error
-    */
-    public function openXMLFile()
+     * @return resource
+     * @throws ilSaxParserException
+     */
+    protected function openXMLFile()
     {
         if (!($fp = fopen($this->xml_file, 'r'))) {
-            $this->handleError("Cannot open xml file \"" . $this->xml_file . "\"", $this->ilias->error_obj->FATAL);
+            $this->handleError("Cannot open xml file \"" . $this->xml_file . "\"");
         }
         return $fp;
     }
-    /**
-    * parse xml file
-    *
-    * @access	private
-    * @throws ilSaxParserException or ILIAS Error
-    */
-    public function parse($a_xml_parser, $a_fp = null)
-    {
-        switch ($this->getInputType()) {
-            case 'file':
 
+    /**
+     * @param resource $a_xml_parser
+     * @param resource|null $a_fp
+     * @throws ilSaxParserException
+     */
+    public function parse($a_xml_parser, $a_fp = null): void
+    {
+        $parse_status = true;
+        switch ($this->getInputType()) {
+            case self::TYPE_FILE:
                 while ($data = fread($a_fp, 4096)) {
-                    $parseOk = xml_parse($a_xml_parser, $data, feof($a_fp));
+                    $parse_status = xml_parse($a_xml_parser, $data, feof($a_fp));
                 }
                 break;
-                
-            case 'string':
-                $parseOk = xml_parse($a_xml_parser, $this->getXMLContent());
+
+            case self::TYPE_STRING:
+                $parse_status = xml_parse($a_xml_parser, $this->getXMLContent());
                 break;
         }
-        if (!$parseOk
-           && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE)) {
-            $errorCode = xml_get_error_code($a_xml_parser);
-            $line = xml_get_current_line_number($a_xml_parser);
-            $col = xml_get_current_column_number($a_xml_parser);
-            $this->handleError("XML Parse Error: " . xml_error_string($errorCode) . " at line " . $line . ", col " . $col . " (Code: " . $errorCode . ")", $this->ilias->error_obj->FATAL);
+        $error_code = xml_get_error_code($a_xml_parser);
+        if (!$parse_status && ($error_code !== XML_ERROR_NONE)) {
+            $error = sprintf(
+                "XML Parse Error: %s at line %s, col %s (Code: %s)",
+                xml_error_string($error_code),
+                xml_get_current_line_number($a_xml_parser),
+                xml_get_current_column_number($a_xml_parser),
+                $error_code
+            );
+
+            $this->handleError($error);
         }
-        return true;
     }
-    
+
     /**
-     * use given error handler to handle error message or internal ilias error message handle
-     *
-     * @param string $message
-     * @param string $code
-     * @throws ilSaxParserException or ILIAS Error
+     * @throws ilSaxParserException
      */
-    protected function handleError($message, $code)
+    protected function handleError(string $message): void
     {
-        if ($this->throwException) {
-            throw new ilSaxParserException($message, $code);
-        } else {
-            if (is_object($this->ilias)) {
-                $this->ilias->raiseError($message, $code);
-            } else {
-                die($message);
-            }
+        if ($this->throw_exception) {
+            throw new ilSaxParserException($message);
         }
-        return false;
     }
+
     /**
-    * free xml parser handle
-    *
-    * @access	private
-    */
-    public function freeParser($a_xml_parser)
+     * @param resource $a_xml_parser
+     * @throws ilSaxParserException
+     */
+    private function freeParser($a_xml_parser): void
     {
         if (!xml_parser_free($a_xml_parser)) {
-            $this->ilias->raiseError("Error freeing xml parser handle ", $this->ilias->error_obj->FATAL);
+            $this->handleError("Error freeing xml parser handle");
         }
     }
-    
-    /**
-     * set error handling
-     *
-     * @param  $error_handler
-     */
-    public function setThrowException($throwException)
+
+
+    protected function setThrowException(bool $throw_exception): void
     {
-        $this->throwException = $throwException;
+        $this->throw_exception = $throw_exception;
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Crawler\Entry;
 
@@ -29,19 +45,12 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         $this->rewind();
     }
 
-    public static function createFromArray(array $entries_array) : ComponentEntries
-    {
-        $entries = new self();
-        $entries->addEntriesFromArray($entries_array);
-        return $entries;
-    }
-
     /**
      * Add and entry, first is always root.
      *
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function addEntry(ComponentEntry $entry) : void
+    public function addEntry(ComponentEntry $entry): void
     {
         $this->assert()->isNotIndex($entry->getId(), $this->id_to_entry_map);
         if (count($this) == 0) {
@@ -53,7 +62,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function addEntries(ComponentEntries $entries) : void
+    public function addEntries(ComponentEntries $entries): void
     {
         foreach ($entries as $entry) {
             $this->addEntry($entry);
@@ -63,24 +72,24 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function addEntriesFromArray(array $entries) : void
+    public function addEntriesFromArray(array $entries): void
     {
         foreach ($entries as $entry_array) {
             $this->addEntry(new Crawler\Entry\ComponentEntry($entry_array));
         }
     }
 
-    public function setRootEntryId(string $root_entry_id) : void
+    public function setRootEntryId(string $root_entry_id): void
     {
         $this->root_entry_id = $root_entry_id;
     }
 
-    public function getRootEntryId() : string
+    public function getRootEntryId(): string
     {
         return $this->root_entry_id;
     }
 
-    public function getRootEntry() : ComponentEntry
+    public function getRootEntry(): ComponentEntry
     {
         return $this->getEntryById($this->getRootEntryId());
     }
@@ -88,7 +97,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * @throws	Crawler\Exception\CrawlerException
      */
-    public function getEntryById(string $id = "") : ComponentEntry
+    public function getEntryById(string $id = ""): ComponentEntry
     {
         if (array_key_exists($id, $this->id_to_entry_map)) {
             return $this->id_to_entry_map[$id];
@@ -99,7 +108,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * @return	string[]
      */
-    public function getParentsOfEntry(string $id) : array
+    public function getParentsOfEntry(string $id): array
     {
         $parent_id = $this->getEntryById($id)->getParent();
 
@@ -112,10 +121,15 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         }
     }
 
+    public function isParentOfEntry(string $parent_id, string $entry_id): bool
+    {
+        return in_array($parent_id, $this->getParentsOfEntry($entry_id));
+    }
+
     /**
      * @return	string[]
      */
-    public function getParentsOfEntryTitles(string $id) : array
+    public function getParentsOfEntryTitles(string $id): array
     {
         $titles = array();
         foreach ($this->getParentsOfEntry($id) as $parent_id) {
@@ -127,7 +141,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * @return	string[]
      */
-    public function getDescendantsOfEntry(string $id) : array
+    public function getDescendantsOfEntry(string $id): array
     {
         $children = $this->getEntryById($id)->getChildren();
         foreach ($this->getEntryById($id)->getChildren() as $child) {
@@ -137,9 +151,23 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     }
 
     /**
+     * @param string $id
+     * @return ComponentEntry[]
+     * @throws Crawler\Exception\CrawlerException
+     */
+    public function getChildrenOfEntry(string $id): array
+    {
+        $children = [];
+        foreach ($this->getEntryById($id)->getChildren() as $child_id) {
+            $children[] = $this->getEntryById($child_id);
+        }
+        return $children;
+    }
+
+    /**
      * @return	string[]
      */
-    public function getDescendantsOfEntryTitles(string $id) : array
+    public function getDescendantsOfEntryTitles(string $id): array
     {
         $titles = array();
         foreach ($this->getDescendantsOfEntry($id) as $parent_id) {
@@ -148,7 +176,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         return $titles;
     }
 
-    public function expose() : array
+    public function expose(): array
     {
         return get_object_vars($this);
     }
@@ -156,7 +184,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * Iterator implementations
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         return current($this->id_to_entry_map) !== false;
     }
@@ -177,12 +205,12 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         return current($this->id_to_entry_map);
     }
 
-    public function next() : void
+    public function next(): void
     {
         next($this->id_to_entry_map);
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         reset($this->id_to_entry_map);
     }
@@ -190,7 +218,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * Countable implementations
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->id_to_entry_map);
     }
@@ -198,7 +226,7 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
     /**
      * jsonSerialize implementation
      */
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         $serialized = [];
         foreach ($this->id_to_entry_map as $id => $item) {

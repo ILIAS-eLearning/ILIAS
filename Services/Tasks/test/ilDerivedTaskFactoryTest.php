@@ -1,12 +1,26 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once __DIR__ . '/bootstrap.php';
 
 /**
  * @author  <killing@leifos.de>
  */
-class ilDerivedTaskFactoryTest extends \ilTasksTestBase
+class ilDerivedTaskFactoryTest extends ilTasksTestBase
 {
     public function testConstructor()
     {
@@ -17,7 +31,7 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertTrue($factory instanceof ilDerivedTaskFactory);
     }
 
-    public function testTask()
+    public function testTask(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -33,7 +47,7 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertEquals(0, $task->getWspId());
     }
 
-    public function testCollector()
+    public function testCollector(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -44,13 +58,13 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertTrue($task instanceof ilDerivedTaskCollector);
     }
 
-    public function testAllProviders()
+    public function testAllProviders(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
         $factory = $service->derived()->factory();
 
-        $providers = $factory->getAllProviders(false, null);
+        $providers = $factory->getAllProviders();
         $this->assertTrue($providers[0] instanceof ilDerivedTaskProvider);
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
@@ -13,13 +15,29 @@ use ILIAS\UI\Component\ViewControl;
 
 require_once('IliasMocks.php');
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class LSControlBuilderTest extends TestCase
 {
     use IliasMocks;
 
     protected LSControlBuilder $control_builder;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $ui_factory = $this->mockUIFactory();
         $lang = $this->mockIlLanguage();
@@ -28,16 +46,18 @@ class LSControlBuilderTest extends TestCase
         $uri = $data_factory->uri('https://ilias.de/somepath');
         $url_builder = new LSUrlBuilder($uri);
         $settings = new LSGlobalSettings(12);
+        $uri = $data_factory->uri('http://ilias.de/some/other/path');
+        $lp_url_builder = new LSUrlBuilder($uri);
 
-        $this->control_builder = new LSControlBuilder($ui_factory, $url_builder, $lang, $settings);
+        $this->control_builder = new LSControlBuilder($ui_factory, $url_builder, $lang, $settings, $lp_url_builder);
     }
 
-    public function testConstruction()
+    public function testConstruction(): void
     {
         $this->assertInstanceOf(ControlBuilder::class, $this->control_builder);
     }
 
-    public function testInitialValues()
+    public function testInitialValues(): void
     {
         $this->assertNull($this->control_builder->getExitControl());
         $this->assertNull($this->control_builder->getNextControl());
@@ -47,14 +67,14 @@ class LSControlBuilderTest extends TestCase
         $this->assertNull($this->control_builder->getToc());
     }
 
-    public function testExit()
+    public function testExit(): void
     {
         $cb = $this->control_builder->exit('cmd');
         $this->assertInstanceOf(ControlBuilder::class, $cb);
         $this->assertInstanceOf(Button\Bulky::class, $cb->getExitControl());
     }
 
-    public function testUniqueExit()
+    public function testUniqueExit(): void
     {
         try {
             //must not be able to set a second exit-control
@@ -67,7 +87,7 @@ class LSControlBuilderTest extends TestCase
         }
     }
 
-    public function testNavigationControls()
+    public function testNavigationControls(): void
     {
         $cb = $this->control_builder
             ->previous('cmd', -1)
@@ -77,7 +97,7 @@ class LSControlBuilderTest extends TestCase
         $this->assertInstanceOf(Button\Standard::class, $cb->getNextControl());
     }
 
-    public function testUniquePrevious()
+    public function testUniquePrevious(): void
     {
         try {
             $this->control_builder
@@ -89,7 +109,7 @@ class LSControlBuilderTest extends TestCase
         }
     }
 
-    public function testUniqueNext()
+    public function testUniqueNext(): void
     {
         try {
             $this->control_builder
@@ -101,14 +121,14 @@ class LSControlBuilderTest extends TestCase
         }
     }
 
-    public function testToC()
+    public function testToC(): void
     {
         $toc = $this->control_builder->tableOfContent('cmd', 'rootnode');
         $this->assertInstanceOf(TOCBuilder::class, $toc);
         $this->assertEquals($toc, $this->control_builder->getToc());
     }
 
-    public function testUniqueToC()
+    public function testUniqueToC(): void
     {
         try {
             $this->control_builder->tableOfContent('cmd', 'rootnode')
@@ -120,14 +140,14 @@ class LSControlBuilderTest extends TestCase
         }
     }
 
-    public function testGeneric()
+    public function testGeneric(): void
     {
         $cb = $this->control_builder->generic('label', 'cmd', 1);
         $this->assertInstanceOf(ControlBuilder::class, $cb);
         $this->assertInstanceOf(Button\Standard::class, $cb->getControls()[0]);
     }
 
-    public function testMultipleGeneric()
+    public function testMultipleGeneric(): void
     {
         $cb = $this->control_builder
             ->generic('label', 'cmd', 1)
@@ -136,14 +156,14 @@ class LSControlBuilderTest extends TestCase
         $this->assertCount(3, $cb->getControls());
     }
 
-    public function testDone()
+    public function testDone(): void
     {
         $cb = $this->control_builder->done('cmd', 1);
         $this->assertInstanceOf(ControlBuilder::class, $cb);
         $this->assertInstanceOf(Button\Primary::class, $cb->getDoneControl());
     }
 
-    public function testUniqueDone()
+    public function testUniqueDone(): void
     {
         try {
             $this->control_builder
@@ -155,20 +175,20 @@ class LSControlBuilderTest extends TestCase
         }
     }
 
-    public function testMode()
+    public function testMode(): void
     {
         $cb = $this->control_builder->mode('cmd', ['m1', 'm2']);
         $this->assertInstanceOf(ControlBuilder::class, $cb);
         $this->assertInstanceOf(ViewControl\Mode::class, $cb->getModeControls()[0]);
     }
 
-    public function testLocator()
+    public function testLocator(): void
     {
         $cb = $this->control_builder->locator('cmd');
         $this->assertInstanceOf(LocatorBuilder::class, $cb);
     }
 
-    public function testUniqueLocator()
+    public function testUniqueLocator(): void
     {
         try {
             $this->control_builder->locator('cmd')

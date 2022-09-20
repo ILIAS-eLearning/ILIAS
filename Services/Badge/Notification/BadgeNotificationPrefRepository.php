@@ -1,25 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Badge\Notification;
 
 /**
  * Badge notification repository
  * (using user preferences
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class BadgeNotificationPrefRepository
 {
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
+    protected \ilObjUser $user;
 
-    /**
-     * Constructor
-     */
     public function __construct(\ilObjUser $user = null)
     {
         global $DIC;
@@ -32,17 +39,15 @@ class BadgeNotificationPrefRepository
     /**
      * Set last checked timestamp
      */
-    public function updateLastCheckedTimestamp()
+    public function updateLastCheckedTimestamp(): void
     {
-        $this->user->writePref("badge_last_checked", time());
+        $this->user->writePref("badge_last_checked", (string) time());
     }
-    
+
     /**
      * Get last checked timestamp
-     *
-     * @return int
      */
-    public function getLastCheckedTimestamp()
+    public function getLastCheckedTimestamp(): int
     {
         return (int) $this->user->getPref("badge_last_checked");
     }

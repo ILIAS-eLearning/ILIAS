@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
@@ -7,26 +24,21 @@
  */
 class ilMailSearchLuceneResultParser
 {
-    protected ilMailSearchResult $result;
-    protected string $xml;
-
-    public function __construct(ilMailSearchResult $result, string $xml)
+    public function __construct(protected ilMailSearchResult $result, protected string $xml)
     {
-        $this->result = $result;
-        $this->xml = $xml;
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->xml;
     }
 
-    public function getResult() : ilMailSearchResult
+    public function getResult(): ilMailSearchResult
     {
         return $this->result;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         if ($this->getXml() === '') {
             return;

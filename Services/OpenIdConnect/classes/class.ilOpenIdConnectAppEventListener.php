@@ -1,53 +1,44 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * event listener
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilOpenIdConnectAppEventListener
+class ilOpenIdConnectAppEventListener implements ilAppEventListener
 {
-    /**
-     * @var ilLogger|null
-     */
-    private $logger = null;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->logger = ilLoggerFactory::getInstance()->getLogger('auth');
-    }
-
-    /**
-     * @param int $user_id
-     */
-    protected function handleLogoutFor(int $user_id)
+    protected function handleLogoutFor(int $user_id): void
     {
         $provider = new ilAuthProviderOpenIdConnect(new ilAuthFrontendCredentials());
         $provider->handleLogout();
     }
-    
 
     /**
-    * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+     * @inheritDoc
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
-        ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-        if ($a_component == 'Services/Authentication') {
-            ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-            if ($a_event == 'beforeLogout') {
-                ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-                $listener = new self();
-                $listener->handleLogoutFor($a_parameter['user_id']);
-            }
+        global $DIC;
+        $DIC->logger()->auth()->debug($a_component . ' : ' . $a_event);
+        if (($a_component === 'Services/Authentication') && $a_event === 'beforeLogout') {
+            $listener = new self();
+            $listener->handleLogoutFor($a_parameter['user_id']);
         }
     }
 }

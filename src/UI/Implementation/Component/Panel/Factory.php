@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Panel;
 
@@ -22,7 +38,7 @@ class Factory implements P\Factory
     /**
      * @inheritdoc
      */
-    public function standard(string $title, $content) : P\Standard
+    public function standard(string $title, $content): P\Standard
     {
         return new Standard($title, $content);
     }
@@ -30,7 +46,7 @@ class Factory implements P\Factory
     /**
      * @inheritdoc
      */
-    public function sub(string $title, $content) : P\Sub
+    public function sub(string $title, $content): P\Sub
     {
         return new Sub($title, $content);
     }
@@ -38,7 +54,7 @@ class Factory implements P\Factory
     /**
      * @inheritdoc
      */
-    public function report(string $title, $sub_panels) : P\Report
+    public function report(string $title, $sub_panels): P\Report
     {
         return new Report($title, $sub_panels);
     }
@@ -46,7 +62,7 @@ class Factory implements P\Factory
     /**
      * @inheritdoc
      */
-    public function secondary() : P\Secondary\Factory
+    public function secondary(): P\Secondary\Factory
     {
         return new Secondary\Factory();
     }
@@ -54,7 +70,7 @@ class Factory implements P\Factory
     /**
      * @inheritdoc
      */
-    public function listing() : P\Listing\Factory
+    public function listing(): P\Listing\Factory
     {
         return $this->listing_factory;
     }

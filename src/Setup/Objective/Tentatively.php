@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\Objective;
 
@@ -19,7 +35,7 @@ class Tentatively implements Setup\Objective
         $this->other = $other;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getHash();
@@ -27,7 +43,7 @@ class Tentatively implements Setup\Objective
         return "tentatively " . $this->other->getHash();
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getLabel();
@@ -35,7 +51,7 @@ class Tentatively implements Setup\Objective
         return "Tentatively: " . $this->other->getLabel();
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return $this->other->isNotable();
     }
@@ -43,13 +59,13 @@ class Tentatively implements Setup\Objective
     /*
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         if ($this->other instanceof Tentatively) {
             return $this->other->getPreconditions($environment);
         }
         return array_map(
-            function ($p) {
+            function ($p): \ILIAS\Setup\Objective\Tentatively {
                 if ($p instanceof Tentatively) {
                     return $p;
                 }
@@ -62,7 +78,7 @@ class Tentatively implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         try {
             return $this->other->achieve($environment);
@@ -74,7 +90,7 @@ class Tentatively implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return $this->other->isApplicable($environment);
     }

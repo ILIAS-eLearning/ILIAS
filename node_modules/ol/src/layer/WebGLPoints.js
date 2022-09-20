@@ -7,8 +7,9 @@ import {assign} from '../obj.js';
 import {parseLiteralStyle} from '../webgl/ShaderBuilder.js';
 
 /**
+ * @template {import("../source/Vector.js").default} VectorSourceType
  * @typedef {Object} Options
- * @property {import('../style/LiteralStyle.js').LiteralStyle} style Literal style to apply to the layer features.
+ * @property {import('../style/literal.js').LiteralStyle} style Literal style to apply to the layer features.
  * @property {string} [className='ol-layer'] A CSS class name to set to the layer element.
  * @property {number} [opacity=1] Opacity (0, 1).
  * @property {boolean} [visible=true] Visibility.
@@ -26,9 +27,10 @@ import {parseLiteralStyle} from '../webgl/ShaderBuilder.js';
  * visible.
  * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
  * be visible.
- * @property {import("../source/Vector.js").default} [source] Source.
+ * @property {VectorSourceType} [source] Source.
  * @property {boolean} [disableHitDetection=false] Setting this to true will provide a slight performance boost, but will
  * prevent all hit detection on the layer.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
@@ -66,11 +68,13 @@ import {parseLiteralStyle} from '../webgl/ShaderBuilder.js';
  * property on the layer object; for example, setting `title: 'My Title'` in the
  * options means that `title` is observable, and has get/set accessors.
  *
+ * @template {import("../source/Vector.js").default} VectorSourceType
+ * @extends {Layer<VectorSourceType>}
  * @fires import("../render/Event.js").RenderEvent
  */
 class WebGLPointsLayer extends Layer {
   /**
-   * @param {Options} options Options.
+   * @param {Options<VectorSourceType>} options Options.
    */
   constructor(options) {
     const baseOptions = assign({}, options);
@@ -108,14 +112,6 @@ class WebGLPointsLayer extends Layer {
       uniforms: this.parseResult_.uniforms,
       attributes: this.parseResult_.attributes,
     });
-  }
-
-  /**
-   * Clean up.
-   */
-  disposeInternal() {
-    this.getRenderer().disposeInternal();
-    super.disposeInternal();
   }
 }
 

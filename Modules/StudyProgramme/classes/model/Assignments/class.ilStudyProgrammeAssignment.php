@@ -1,6 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Represents one assignment of the user to a program tree.
@@ -9,100 +25,71 @@
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilStudyProgrammeAssignment
 {
-    const NO_RESTARTED_ASSIGNMENT = -1;
+    public const NO_RESTARTED_ASSIGNMENT = -1;
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
 
-    const AUTO_ASSIGNED_BY_ROLE = -1;
-    const AUTO_ASSIGNED_BY_ORGU = -2;
-    const AUTO_ASSIGNED_BY_COURSE = -3;
-    const AUTO_ASSIGNED_BY_GROUP = -4;
+    public const AUTO_ASSIGNED_BY_ROLE = -1;
+    public const AUTO_ASSIGNED_BY_ORGU = -2;
+    public const AUTO_ASSIGNED_BY_COURSE = -3;
+    public const AUTO_ASSIGNED_BY_GROUP = -4;
 
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var int
-     */
-    protected $usr_id;
-
-    /**
-     * @var int
-     */
-    protected $root_prg_id;
-
-    /**
-     * @var DateTimeImmutable | null
-     */
-    protected $last_change;
-
-    /**
-     * @var int | null
-     */
-    protected $last_change_by;
-
-    /**
-     * @var DateTimeImmutable | null
-     */
-    protected $restart_date;
-
-    /**
-     * @var int | null
-     */
-    protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
-
+    protected int $id;
+    protected int $usr_id;
+    protected int $root_prg_id;
+    protected ?string $last_change = null;
+    protected ?int $last_change_by;
+    protected ?DateTimeImmutable $restart_date;
+    protected ?int $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
 
     public function __construct(int $id)
     {
         $this->id = $id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getRootId() : int
+    public function getRootId(): int
     {
         return $this->root_prg_id;
     }
 
-    public function withRootId(int $root_prg_id) : ilStudyProgrammeAssignment
+    public function withRootId(int $root_prg_id): ilStudyProgrammeAssignment
     {
         $clone = clone $this;
         $clone->root_prg_id = $root_prg_id;
         return $clone;
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function withUserId(int $usr_id) : ilStudyProgrammeAssignment
+    public function withUserId(int $usr_id): ilStudyProgrammeAssignment
     {
         $clone = clone $this;
         $clone->usr_id = $usr_id;
         return $clone;
     }
 
-    public function getLastChangeBy() : int
+    public function getLastChangeBy(): int
     {
         return $this->last_change_by;
     }
 
-    public function getLastChange() : ?DateTimeImmutable
+    public function getLastChange(): ?DateTimeImmutable
     {
         if ($this->last_change) {
             return DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
         }
-        return $this->last_change;
+        return null;
     }
 
     /**
@@ -111,7 +98,7 @@ class ilStudyProgrammeAssignment
     public function withLastChange(
         int $last_change_by,
         DateTimeImmutable $timestamp
-    ) : ilStudyProgrammeAssignment {
+    ): ilStudyProgrammeAssignment {
         $new_date = $timestamp->format(self::DATE_TIME_FORMAT);
         if ($this->getLastChange() && $this->getLastChange()->format(self::DATE_TIME_FORMAT) > $new_date) {
             throw new ilException(
@@ -127,12 +114,12 @@ class ilStudyProgrammeAssignment
         return $clone;
     }
 
-    public function getRestartDate() : ?DateTimeImmutable
+    public function getRestartDate(): ?DateTimeImmutable
     {
         return $this->restart_date;
     }
 
-    public function getRestartedAssignmentId() : int
+    public function getRestartedAssignmentId(): int
     {
         return $this->restarted_asssignment_id;
     }
@@ -140,7 +127,7 @@ class ilStudyProgrammeAssignment
     public function withRestarted(
         int $restarted_asssignment_id,
         DateTimeImmutable $restart_date = null
-    ) : ilStudyProgrammeAssignment {
+    ): ilStudyProgrammeAssignment {
         $clone = clone $this;
         $clone->restarted_asssignment_id = $restarted_asssignment_id;
         $clone->restart_date = $restart_date;

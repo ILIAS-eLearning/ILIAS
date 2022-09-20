@@ -1,6 +1,22 @@
-<?php  declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\Artifact;
 
@@ -16,13 +32,13 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * This is understood to be a path relative to the ILIAS root directory.
      */
-    abstract public function getArtifactPath() : string;
+    abstract public function getArtifactPath(): string;
 
     /**
      * Build the artifact based. If you want to use the environment
      * reimplement `buildIn` instead.
      */
-    abstract public function build() : Setup\Artifact;
+    abstract public function build(): Setup\Artifact;
 
     /**
      * Builds an artifact in some given Environment.
@@ -32,7 +48,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      * If you want to reimplement this, you most probably also want to reimplement
      * `getPreconditions` to prepare the environment properly.
      */
-    public function buildIn(Setup\Environment $env) : Setup\Artifact
+    public function buildIn(Setup\Environment $env): Setup\Artifact
     {
         return $this->build();
     }
@@ -42,7 +58,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [];
     }
@@ -52,7 +68,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", $this->getArtifactPath());
     }
@@ -62,7 +78,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return 'Build ' . $this->getArtifactPath();
     }
@@ -72,7 +88,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -82,7 +98,7 @@ abstract class BuildArtifactObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $artifact = $this->buildIn($environment);
 
@@ -97,12 +113,12 @@ abstract class BuildArtifactObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }
 
-    protected function makeDirectoryFor(string $path) : void
+    protected function makeDirectoryFor(string $path): void
     {
         $dir = pathinfo($path)["dirname"];
         if (!file_exists($dir)) {

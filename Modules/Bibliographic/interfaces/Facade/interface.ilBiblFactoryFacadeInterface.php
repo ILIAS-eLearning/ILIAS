@@ -1,87 +1,50 @@
 <?php
 
 /**
- * Interface ilBiblFactoryFacadeInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblFactoryFacadeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblFactoryFacadeInterface
 {
+    public function typeFactory(): \ilBiblTypeFactoryInterface;
 
-    /**
-     * @return \ilBiblTypeFactoryInterface
-     */
-    public function typeFactory();
+    public function overviewModelFactory(): \ilBiblOverviewModelFactoryInterface;
 
+    public function type(): \ilBiblTypeInterface;
 
-    /**
-     * @return \ilBiblOverviewModelFactoryInterface
-     */
-    public function overviewModelFactory();
+    public function libraryFactory(): \ilBiblLibraryFactoryInterface;
 
+    public function fieldFactory(): \ilBiblFieldFactoryInterface;
 
-    /**
-     * @return \ilBiblTypeInterface
-     */
-    public function type();
+    public function translationFactory(): \ilBiblTranslationFactoryInterface;
 
+    public function entryFactory(): \ilBiblEntryFactoryInterface;
 
-    /**
-     * @return \ilBiblLibraryFactoryInterface
-     */
-    public function libraryFactory();
+    public function fileReaderFactory(): \ilBiblFileReaderFactoryInterface;
 
+    public function filterFactory(): \ilBiblFieldFilterFactoryInterface;
 
-    /**
-     * @return \ilBiblFieldFactoryInterface
-     */
-    public function fieldFactory();
+    public function attributeFactory(): \ilBiblAttributeFactoryInterface;
 
+    public function iliasObjId(): int;
 
-    /**
-     * @return \ilBiblTranslationFactoryInterface
-     */
-    public function translationFactory();
+    public function iliasRefId(): int;
 
-
-    /**
-     * @return \ilBiblEntryFactoryInterface
-     */
-    public function entryFactory();
-
-
-    /**
-     * @return \ilBiblFileReaderFactoryInterface
-     */
-    public function fileReaderFactory();
-
-
-    /**
-     * @return \ilBiblFieldFilterFactoryInterface
-     */
-    public function filterFactory();
-
-
-    /**
-     * @return \ilBiblAttributeFactoryInterface
-     */
-    public function attributeFactory();
-
-
-    /**
-     * @return int
-     */
-    public function iliasObjId();
-
-
-    /**
-     * @return int
-     */
-    public function iliasRefId();
-
-
-    /**
-     * @return \ilBiblDataFactoryInterface
-     */
-    public function dataFactory();
+    public function dataFactory(): \ilBiblDataFactoryInterface;
 }

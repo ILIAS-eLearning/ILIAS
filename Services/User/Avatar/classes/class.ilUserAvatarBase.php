@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUserAvatarBase
@@ -8,28 +25,15 @@
  */
 abstract class ilUserAvatarBase implements ilUserAvatar
 {
-    /**
-     * @var string
-     */
-    protected $name = '';
+    protected string $name = '';
+    protected int $usrId = 0;
 
-    /**
-     * @var int
-     */
-    protected $usrId = 0;
-
-    /**
-     * @inheritdoc
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setUsrId($usrId)
+    public function setUsrId(int $usrId): void
     {
         $this->usrId = $usrId;
     }

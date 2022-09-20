@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\CLI;
 
@@ -15,8 +31,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class IOWrapper implements AdminInteraction
 {
-    const LABEL_WIDTH = 75;
-    const ELLIPSIS = "...";
+    public const LABEL_WIDTH = 75;
+    public const ELLIPSIS = "...";
 
     protected InputInterface $in;
     protected OutputInterface $out;
@@ -33,37 +49,35 @@ class IOWrapper implements AdminInteraction
     }
 
     // Implementation of AdminInteraction
-    public function startProgress(int $max) : void
+    public function startProgress(int $max): void
     {
         $this->style->progressStart($max);
     }
 
-    public function advanceProgress() : void
+    public function advanceProgress(): void
     {
         $this->style->progressAdvance();
     }
 
-    public function stopProgress() : void
+    public function stopProgress(): void
     {
         $this->style->progressFinish();
     }
 
-    public function inform(string $message) : void
+    public function inform(string $message): void
     {
         $this->outputInObjective();
         $this->style->note($message);
     }
 
-    public function confirmExplicit(string $message, string $type_text_to_confirm) : bool
+    public function confirmExplicit(string $message, string $type_text_to_confirm): bool
     {
         $this->outputInObjective();
         if (!$this->shouldSayYes()) {
             return $this->style->ask(
                 $message,
                 null,
-                function (string $input) use ($type_text_to_confirm) : bool {
-                    return $type_text_to_confirm === $input;
-                }
+                fn (string $input): bool => $type_text_to_confirm === $input
             );
         } else {
             $this->inform("Automatically confirmed:\n\n$message");
@@ -71,7 +85,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function confirmOrDeny(string $message) : bool
+    public function confirmOrDeny(string $message): bool
     {
         $this->outputInObjective();
         if (!$this->shouldSayYes()) {
@@ -84,7 +98,7 @@ class IOWrapper implements AdminInteraction
 
     // For CLI-Setup
 
-    public function printLicenseMessage() : void
+    public function printLicenseMessage(): void
     {
         if ($this->shouldSayYes() || ($this->in->hasOption("no-interaction") && $this->in->getOption("no-interaction"))) {
             return;
@@ -97,32 +111,32 @@ class IOWrapper implements AdminInteraction
         );
     }
 
-    protected function shouldSayYes() : bool
+    protected function shouldSayYes(): bool
     {
         return $this->in->getOption("yes") ?? false;
     }
 
-    public function title(string $title) : void
+    public function title(string $title): void
     {
         $this->style->title($title);
     }
 
-    public function success(string $text) : void
+    public function success(string $text): void
     {
         $this->style->success($text);
     }
 
-    public function error(string $text) : void
+    public function error(string $text): void
     {
         $this->style->error($text);
     }
 
-    public function text(string $text) : void
+    public function text(string $text): void
     {
         $this->style->text($text);
     }
 
-    public function startObjective(string $label, bool $is_notable)
+    public function startObjective(string $label, bool $is_notable): void
     {
         $this->last_objective_was_notable = $is_notable;
         $this->last_objective_label = $label;
@@ -132,7 +146,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function finishedLastObjective()
+    public function finishedLastObjective(): void
     {
         if ($this->output_in_objective) {
             $this->startObjective($this->last_objective_label, $this->last_objective_was_notable);
@@ -143,7 +157,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    public function failedLastObjective()
+    public function failedLastObjective(): void
     {
         // Always show label of failed objectives.
         if ($this->output_in_objective || !$this->last_objective_was_notable) {
@@ -155,7 +169,7 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    protected function outputInObjective() : void
+    protected function outputInObjective(): void
     {
         if (!$this->output_in_objective && $this->showLastObjectiveLabel()) {
             $this->output_in_objective = true;
@@ -163,10 +177,15 @@ class IOWrapper implements AdminInteraction
         }
     }
 
-    protected function showLastObjectiveLabel()
+    protected function showLastObjectiveLabel(): bool
     {
         return $this->last_objective_was_notable
             || $this->out->isVeryVerbose()
             || $this->out->isDebug();
+    }
+
+    public function isVerbose(): bool
+    {
+        return $this->out->isVerbose();
     }
 }

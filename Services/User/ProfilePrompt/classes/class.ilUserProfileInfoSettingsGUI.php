@@ -1,48 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User profile info settings UI class
- *
- * @author Alex Killing <killing@leifos.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilUserProfileInfoSettingsGUI:
- *
- * @ingroup ServicesUser
  */
 class ilUserProfileInfoSettingsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilUserProfilePromptService $user_prompt;
+    protected ilProfilePromptSettings $prompt_settings;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilUserProfilePromptService
-     */
-    protected $user_prompt;
-
-    /**
-     * @var ilProfilePromptSettings
-     */
-    protected $prompt_settings;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -54,11 +40,7 @@ class ilUserProfileInfoSettingsGUI
         $this->prompt_settings = $this->user_prompt->data()->getSettings();
     }
 
-
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -71,10 +53,7 @@ class ilUserProfileInfoSettingsGUI
         }
     }
 
-    /**
-     * Show settings
-     */
-    public function show()
+    public function show(): void
     {
         $tpl = $this->tpl;
 
@@ -82,11 +61,7 @@ class ilUserProfileInfoSettingsGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init  form.
-     * @return ilPropertyFormGUI
-     */
-    public function initForm()
+    public function initForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -94,14 +69,12 @@ class ilUserProfileInfoSettingsGUI
 
         $lng->loadLanguageModule("meta");
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // default info text
         $first = true;
         foreach ($lng->getInstalledLanguages() as $l) {
             // info text
-            include_once("Services/Form/classes/class.ilTextAreaInputGUI.php");
             $ti = new ilTextAreaInputGUI($lng->txt("meta_l_" . $l), "user_profile_info_text_" . $l);
             $ti->setRows(7);
             if ($first) {
@@ -166,7 +139,6 @@ class ilUserProfileInfoSettingsGUI
         $first = true;
         foreach ($lng->getInstalledLanguages() as $l) {
             // info text
-            include_once("Services/Form/classes/class.ilTextAreaInputGUI.php");
             $ti = new ilTextAreaInputGUI($lng->txt("meta_l_" . $l), "user_profile_prompt_text_" . $l);
             $ti->setRows(7);
             if ($first) {
@@ -185,10 +157,7 @@ class ilUserProfileInfoSettingsGUI
         return $form;
     }
 
-    /**
-     * Save
-     */
-    public function save()
+    public function save(): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -216,11 +185,11 @@ class ilUserProfileInfoSettingsGUI
                 $setting->set("user_profile_info_".$l, $form->getInput("user_profile_info_text_".$l));
             }*/
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 }

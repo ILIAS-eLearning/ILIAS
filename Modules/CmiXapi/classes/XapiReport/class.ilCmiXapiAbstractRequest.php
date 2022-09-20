@@ -1,7 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCmiXapiAbstractRequest
@@ -14,36 +29,101 @@
  */
 abstract class ilCmiXapiAbstractRequest
 {
-    /**
-     * @var string
-     */
-    private $basicAuth;
-    
+    private string $basicAuth;
+    public static bool $plugin = false;
+
     /**
      * ilCmiXapiAbstractRequest constructor.
-     * @param string $basicAuth
      */
     public function __construct(string $basicAuth)
     {
         $this->basicAuth = $basicAuth;
     }
-    
-    /**
-     * @param string $url
-     * @return string
-     */
-    protected function sendRequest($url)
+
+    protected function sendRequest(string $url): string
     {
         $client = new GuzzleHttp\Client();
+        $req_opts = array(
+            GuzzleHttp\RequestOptions::VERIFY => true,
+            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
+            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+        );
+        ilObjCmiXapi::log()->debug($url);
         $request = new GuzzleHttp\Psr7\Request('GET', $url, [
             'Authorization' => $this->basicAuth,
-            'X-Experience-API-Version' => '1.0.0'
+            'X-Experience-API-Version' => '1.0.3'
         ]);
         try {
-            $response = $client->sendAsync($request)->wait();
-            return (string) $response->getBody();
+            $body = '';
+            $promises = array();
+            $promises['default'] = $client->sendAsync($request, $req_opts);
+            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            self::checkResponse($responses['default'], $body);
+            return (string) $body;
         } catch (Exception $e) {
-            throw new Exception("LRS Connection Problems");
+            ilObjCmiXapi::log()->error($e->getMessage());
+            throw new Exception("LRS Connection Problems", $e->getCode(), $e);
         }
+    }
+
+    //todo body?
+    public static function checkResponse(array $response, &$body, array $allowedStatus = [200, 204]): bool
+    {
+        if ($response['state'] == 'fulfilled') {
+            $status = $response['value']->getStatusCode();
+            if (in_array($status, $allowedStatus)) {
+                $body = $response['value']->getBody();
+                return true;
+            } else {
+                ilObjCmiXapi::log()->error("LRS error: " . $response['value']->getBody());
+                return false;
+            }
+        } else {
+            try {
+                ilObjCmiXapi::log()->error("Connection error: " . $response['reason']->getMessage());
+            } catch (Exception $e) {
+                ilObjCmiXapi::log()->error('error:' . $e->getMessage());
+            }
+            return false;
+        }
+    }
+
+    //todo
+    public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986): string
+    {
+        if ($params === []) {
+            return '';
+        }
+
+        if ($encoding === false) {
+            $encoder = fn ($str) => $str;
+        } elseif ($encoding === PHP_QUERY_RFC3986) {
+            $encoder = 'rawurlencode';
+        } elseif ($encoding === PHP_QUERY_RFC1738) {
+            $encoder = 'urlencode';
+        } else {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+
+        $qs = '';
+        foreach ($params as $k => $v) {
+            $k = $encoder($k);
+            if (!is_array($v)) {
+                $qs .= $k;
+                if ($v !== null) {
+                    $qs .= '=' . $encoder($v);
+                }
+                $qs .= '&';
+            } else {
+                foreach ($v as $vv) {
+                    $qs .= $k;
+                    if ($vv !== null) {
+                        $qs .= '=' . $encoder($vv);
+                    }
+                    $qs .= '&';
+                }
+            }
+        }
+        return $qs ? (string) substr($qs, 0, -1) : '';
     }
 }

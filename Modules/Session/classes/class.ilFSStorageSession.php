@@ -1,85 +1,48 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-*
 */
-class ilFSStorageSession extends ilFileSystemStorage
+class ilFSStorageSession extends ilFileSystemAbstractionStorage
 {
-    private $log;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     *
-     */
-    public function __construct($a_event_id = 0)
+    public function __construct(int $a_event_id = 0)
     {
-        global $DIC;
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_event_id);
+    }
 
-        $log = $DIC['log'];
-        
-        $this->log = $log;
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $a_event_id);
-    }
-    
-    /**
-     * Create directory
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function createDirectory()
+    public function createDirectory(): bool
     {
-        return ilUtil::makeDirParents($this->getAbsolutePath());
+        return ilFileUtils::makeDirParents($this->getAbsolutePath());
     }
-    
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPostfix()
+
+    protected function getPathPostfix(): string
     {
         return 'sess';
     }
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPrefix()
+
+    protected function getPathPrefix(): string
     {
         return 'ilSession';
     }

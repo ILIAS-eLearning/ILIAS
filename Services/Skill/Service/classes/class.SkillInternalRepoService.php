@@ -19,28 +19,58 @@
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Skill\Profile;
+
 /**
  * Skill internal repo service
  * @author famula@leifos.de
  */
 class SkillInternalRepoService
 {
-    public function __construct()
+    protected SkillInternalFactoryService $factory;
+
+    public function __construct(SkillInternalFactoryService $factory)
     {
+        $this->factory = $factory;
     }
 
-    public function getLevelRepo() : \ilBasicSkillLevelRepository
+    public function getLevelRepo(): \ilSkillLevelRepository
     {
-        return new \ilBasicSkillLevelDBRepository();
+        return new \ilSkillLevelDBRepository($this->getTreeRepo());
     }
 
-    public function getUserLevelRepo() : \ilBasicSkillUserLevelRepository
+    public function getUserLevelRepo(): \ilSkillUserLevelRepository
     {
-        return new \ilBasicSkillUserLevelDBRepository();
+        return new \ilSkillUserLevelDBRepository();
     }
 
-    public function getTreeRepo() : \ilBasicSkillTreeRepository
+    public function getTreeRepo(): \ilSkillTreeRepository
     {
-        return new \ilBasicSkillTreeDBRepository();
+        return new \ilSkillTreeDBRepository($this->factory->tree());
+    }
+
+    public function getProfileRepo(): Profile\SkillProfileDBRepository
+    {
+        return new Profile\SkillProfileDBRepository();
+    }
+
+    public function getProfileLevelsRepo(): Profile\SkillProfileLevelsDBRepository
+    {
+        return new Profile\SkillProfileLevelsDBRepository();
+    }
+
+    public function getProfileUserRepo(): Profile\SkillProfileUserDBRepository
+    {
+        return new Profile\SkillProfileUserDBRepository();
+    }
+
+    public function getProfileRoleRepo(): Profile\SkillProfileRoleDBRepository
+    {
+        return new Profile\SkillProfileRoleDBRepository();
+    }
+
+    public function getProfileCompletionRepo(): Profile\SkillProfileCompletionDBRepository
+    {
+        return new Profile\SkillProfileCompletionDBRepository();
     }
 }

@@ -1,9 +1,29 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\AdministrativeNotificationRenderer;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\NotificationRenderer;
 use ILIAS\UI\Factory as UIFactory;
+use Closure;
 
 /**
  * Class AdministrativeNotification
@@ -16,43 +36,23 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     public const DENOTATION_IMPORTANT = 'important';
     public const DENOTATION_BREAKING = 'breaking';
 
-    /**
-     * @var bool
-     */
-    private $is_visible_static;
-    /**
-     * @var IdentificationInterface
-     */
-    protected $provider_identification;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $summary;
-    /**
-     * @var
-     */
-    protected $available_callable = true;
-    /**
-     * @var callable
-     */
-    protected $visiblility_callable;
-    /**
-     * @var bool
-     */
-    protected $is_always_available = false;
-    /**
-     * @var string
-     */
-    protected $denotation = self::DENOTATION_NEUTRAL;
+    private bool $is_visible_static;
+
+    protected IdentificationInterface $provider_identification;
+
+    protected string $title;
+
+    protected string $summary;
+
+    protected ?Closure  $available_callable = null;
+    protected ?Closure $visiblility_callable = null;
+    protected bool $is_always_available = false;
+    protected string $denotation = self::DENOTATION_NEUTRAL;
 
     /**
      * @inheritDoc
      */
-    public function getRenderer(UIFactory $factory) : NotificationRenderer
+    public function getRenderer(UIFactory $factory): NotificationRenderer
     {
         return new AdministrativeNotificationRenderer($factory);
     }
@@ -60,9 +60,9 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     /**
      * @inheritDoc
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
-        $clone        = clone $this;
+        $clone = clone $this;
         $clone->title = $title;
 
         return $clone;
@@ -71,7 +71,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -79,9 +79,9 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     /**
      * @inheritDoc
      */
-    public function withSummary(string $summary) : isItem
+    public function withSummary(string $summary): isItem
     {
-        $clone          = clone $this;
+        $clone = clone $this;
         $clone->summary = $summary;
 
         return $clone;
@@ -90,20 +90,20 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
     /**
      * @inheritDoc
      */
-    public function getSummary() : string
+    public function getSummary(): string
     {
         return $this->summary;
     }
 
-    public function withVisibilityCallable(callable $is_visible) : self
+    public function withVisibilityCallable(callable $is_visible): self
     {
-        $clone                       = clone($this);
+        $clone = clone($this);
         $clone->visiblility_callable = $is_visible;
 
         return $clone;
     }
 
-    public function isVisible() : bool
+    public function isVisible(): bool
     {
         if (isset($this->is_visible_static)) {
             return $this->is_visible_static;
@@ -122,7 +122,7 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
         return $this->is_visible_static = true;
     }
 
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         if (is_callable($this->available_callable)) {
             $callable = $this->available_callable;
@@ -133,41 +133,40 @@ class AdministrativeNotification extends AbstractBaseNotification implements isI
         return true;
     }
 
-    public function withAvailableCallable(callable $is_available) : self
+    public function withAvailableCallable(callable $is_available): self
     {
-        $clone                     = clone($this);
+        $clone = clone($this);
         $clone->available_callable = $is_available;
 
         return $clone;
     }
 
-    public function withNeutralDenotation() : self
+    public function withNeutralDenotation(): self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_NEUTRAL;
 
         return $clone;
     }
 
-    public function withImportantDenotation() : self
+    public function withImportantDenotation(): self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_IMPORTANT;
 
         return $clone;
     }
 
-    public function withBreakingDenotation() : self
+    public function withBreakingDenotation(): self
     {
-        $clone             = clone($this);
+        $clone = clone($this);
         $clone->denotation = self::DENOTATION_BREAKING;
 
         return $clone;
     }
 
-    public function getDenotation() : string
+    public function getDenotation(): string
     {
         return $this->denotation ?? self::DENOTATION_NEUTRAL;
     }
-
 }

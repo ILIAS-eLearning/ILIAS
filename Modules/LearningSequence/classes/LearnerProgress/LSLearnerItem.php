@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Add learning progress and availability information to the LSItem
@@ -33,32 +48,32 @@ class LSLearnerItem extends LSItem
         );
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->usr_id;
     }
 
-    public function getLearningProgressStatus() : int
+    public function getLearningProgressStatus(): int
     {
         return $this->learning_progress_status;
     }
 
-    public function getAvailability() : int
+    public function getAvailability(): int
     {
         return $this->availability_status;
     }
 
-    public function withPostCondition(ilLSPostCondition $post_condition) : LSItem
+    public function withPostCondition(ilLSPostCondition $post_condition): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }
 
-    public function withOrderNumber(int $order_number) : LSItem
+    public function withOrderNumber(int $order_number): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }
 
-    public function withOnline(bool $online) : LSItem
+    public function withOnline(bool $online): LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }

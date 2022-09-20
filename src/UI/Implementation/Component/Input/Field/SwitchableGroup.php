@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -40,7 +56,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -48,7 +64,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_string($value) && !is_int($value)) {
             return false;
@@ -56,7 +72,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         return array_key_exists($value, $this->inputs);
     }
 
-    public function withRequired($is_required) : Field\Input
+    public function withRequired($is_required): Field\Input
     {
         return Input::withRequired($is_required);
     }
@@ -64,7 +80,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value) : Field\Input
+    public function withValue($value): Field\Input
     {
         if (is_string($value) || is_int($value)) {
             return Input::withValue($value);
@@ -72,7 +88,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         if (!is_array($value) || count($value) !== 2) {
             throw new InvalidArgumentException(
                 "Expected one key and a group value or one key only as value."
-                ." got '" .print_r($value,true) ."' instead."
+                . " got '" . print_r($value, true) . "' instead."
             );
         }
         list($key, $group_value) = $value;
@@ -96,7 +112,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input) : Field\Input
+    public function withInput(InputData $input): Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -105,8 +121,8 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         $key = $input->getOr($this->getName(), "");
         $clone = clone $this;
 
-        if($key === "") {
-            if($this->isRequired()) {
+        if ($key === "") {
+            if ($this->isRequired()) {
                 $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_switchable_group_required"));
                 return $clone->withError("" . $clone->content->error());
             } else {
@@ -123,13 +139,12 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
-
             $contents = [];
             $group_inputs = $clone->inputs[$key]->getInputs();
 
-            foreach($group_inputs as $subkey => $group_input) {
+            foreach ($group_inputs as $subkey => $group_input) {
                 $content = $group_input->getContent();
-                 if ($content->isOK()) {
+                if ($content->isOK()) {
                     $contents[$subkey] = $content->value();
                 }
             }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 chdir(__DIR__);
 chdir('..');
@@ -10,9 +12,7 @@ if ($_SERVER['argc'] < 4) {
     exit(1);
 }
 
-$client = $_SERVER['argv'][3];
-$login = $_SERVER['argv'][1];
-$password = $_SERVER['argv'][2];
+[$script, $login, $password, $client] = $_SERVER['argv'];
 
 $cron = new ilCronStartUp(
     $client,
@@ -21,17 +21,24 @@ $cron = new ilCronStartUp(
 );
 
 try {
+    global $DIC;
+
     $cron->authenticate();
 
-    $cronManager = new ilStrictCliCronManager(
-        new ilCronManager($DIC->settings(), $DIC->logger()->root())
+    $strictCronManager = new ilStrictCliCronManager(
+        $DIC->cron()->manager()
     );
-    $cronManager->runActiveJobs();
+    $strictCronManager->runActiveJobs($DIC->user());
 
     $cron->logout();
 } catch (Exception $e) {
     $cron->logout();
 
     echo $e->getMessage() . "\n";
+
+    if (defined('DEVMODE') && DEVMODE) {
+        echo $e->getTraceAsString() . "\n";
+    }
+
     exit(1);
 }

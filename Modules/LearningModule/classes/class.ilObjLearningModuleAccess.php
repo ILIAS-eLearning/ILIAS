@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilObjLearningModuleAccess
- *
- *
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesIliasLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilConditionHandling, ilWACCheckingClass
 {
+    protected static ?array $lm_set = null;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -25,13 +31,10 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
         $this->access = $DIC->access();
     }
 
-
-    protected static $lm_set = null;
-
     /**
      * Get possible conditions operators
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators(): array
     {
         // currently only one mode "ilConditionHandler::OPERATOR_LP"
         // which is automatically added by condition handling, if lp is activated
@@ -39,27 +42,13 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    /**
-     * check condition
-     *
-     * @param type $a_svy_id
-     * @param type $a_operator
-     * @param type $a_value
-     * @param type $a_usr_id
-     *
-     * @return boolean
-     */
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         return true;
     }
 
 
-    /**
-     * @param $a_set
-     * @return mixed
-     */
-    public static function _lookupSetting($a_set)
+    public static function _lookupSetting(string $a_set): ?string
     {
         if (!is_array(self::$lm_set)) {
             $lm_set = new ilSetting("lm");
@@ -69,19 +58,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
         return self::$lm_set[$a_set] ?? null;
     }
 
-    /**
-     * get commands
-     *
-     * this method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = array
-     *    (
-     *        array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *    );
-     */
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
         if (self::_lookupSetting("lm_starting_point") == "first") {
             $commands = array(
@@ -101,12 +78,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
     }
 
 
-    /**
-     * @param ilWACPath $ilWACPath
-     *
-     * @return bool
-     */
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         $ilAccess = $this->access;
         /**

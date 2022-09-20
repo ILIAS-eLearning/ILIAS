@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup\Objective;
 
@@ -17,7 +33,7 @@ class TentativelyTest extends TestCase
     protected Setup\Objective $precondition;
     protected Objective\Tentatively $tentatively;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->objective = $this->newObjective();
         $this->precondition = $this->newObjective();
@@ -26,7 +42,7 @@ class TentativelyTest extends TestCase
         $this->double_tentatively = new Objective\Tentatively($this->tentatively);
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertEquals(
             "tentatively " . $this->objective->getHash(),
@@ -34,7 +50,7 @@ class TentativelyTest extends TestCase
         );
     }
 
-    public function testDoubleTentativelyGetHash() : void
+    public function testDoubleTentativelyGetHash(): void
     {
         $this->assertEquals(
             $this->tentatively->getHash(),
@@ -42,7 +58,7 @@ class TentativelyTest extends TestCase
         );
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $label = "some_label";
 
@@ -57,7 +73,7 @@ class TentativelyTest extends TestCase
         );
     }
 
-    public function testDoubleTentativelyGetLabel() : void
+    public function testDoubleTentativelyGetLabel(): void
     {
         $label = "some_label";
 
@@ -70,7 +86,7 @@ class TentativelyTest extends TestCase
             $this->double_tentatively->getLabel()
         );
     }
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $notable = true;
 
@@ -82,7 +98,7 @@ class TentativelyTest extends TestCase
         $this->assertEquals($notable, $this->double_tentatively->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $other = $this->newObjective();
 
@@ -100,7 +116,7 @@ class TentativelyTest extends TestCase
         );
     }
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -114,7 +130,7 @@ class TentativelyTest extends TestCase
         $this->assertSame($env, $res);
     }
 
-    public function testAchieveThrows() : void
+    public function testAchieveThrows(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -128,7 +144,7 @@ class TentativelyTest extends TestCase
         $this->assertSame($env, $res);
     }
 
-    public function testIsApplicable() : void
+    public function testIsApplicable(): void
     {
         $env = $this->createMock(Setup\Environment::class);
         $is_applicable = random_int(0, 1) == 1;

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -11,25 +28,21 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailOptionsGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilSetting $settings;
     private ilObjUser $user;
-    private ilFormatMail $umail;
-    private ilMailbox $mbox;
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;
 
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
-        ilCtrl $ctrl = null,
+        ilCtrlInterface $ctrl = null,
         ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,
         GlobalHttpState $http = null,
-        ilFormatMail $mail = null,
-        ilMailbox $malBox = null,
         Refinery $refinery = null
     ) {
         global $DIC;
@@ -40,14 +53,12 @@ class ilMailOptionsGUI
         $this->user = $user ?? $DIC->user();
         $this->http = $http ?? $DIC->http();
         $this->refinery = $refinery ?? $DIC->refinery();
-        $this->umail = $mail ?? new ilFormatMail($this->user->getId());
-        $this->mbox = $malBox ?? new ilMailbox($this->user->getId());
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->settings->get('show_mail_settings', '0')) {
             $referrer = '';
@@ -59,30 +70,22 @@ class ilMailOptionsGUI
             }
             if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
                 $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
-                return;
             }
             $this->ctrl->redirectByClass(ilMailGUI::class);
-            return;
         }
 
-        $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
-            default:
-                if (!($cmd = $this->ctrl->getCmd())) {
-                    $cmd = 'showOptions';
-                }
-
-                $this->$cmd();
-                break;
+        if (!($cmd = $this->ctrl->getCmd())) {
+            $cmd = 'showOptions';
         }
+        $this->$cmd();
     }
 
-    public function setForm(ilMailOptionsFormGUI $form) : void
+    public function setForm(ilMailOptionsFormGUI $form): void
     {
         $this->form = $form;
     }
 
-    protected function getForm() : ilMailOptionsFormGUI
+    protected function getForm(): ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(
             new ilMailOptions($this->user->getId()),
@@ -91,20 +94,20 @@ class ilMailOptionsGUI
         );
     }
 
-    protected function saveOptions() : void
+    protected function saveOptions(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
         $form = $this->getForm();
         if ($form->save()) {
-            ilUtil::sendSuccess($this->lng->txt('mail_options_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_options_saved'), true);
             $this->ctrl->redirect($this, 'showOptions');
         }
 
         $this->showOptions($form);
     }
 
-    protected function showOptions(ilMailOptionsFormGUI $form = null) : void
+    protected function showOptions(ilMailOptionsFormGUI $form = null): void
     {
         if (null === $form) {
             $form = $this->getForm();

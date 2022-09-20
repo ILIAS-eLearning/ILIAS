@@ -1,48 +1,42 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 /**
 * Search Auto Completion Application Class
-*
 */
 class ilSearchAutoComplete
 {
-    
-    /**
-     * Performs better than standard like search on huge installations
-     */
-    public static function getLuceneList($a_str)
+    public static function getLuceneList(string $a_str): string
     {
-        include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
         $qp = new ilLuceneQueryParser('title:' . $a_str . '*');
         $qp->parse();
-        
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
+
         $searcher = ilLuceneSearcher::getInstance($qp);
         $searcher->setType(ilLuceneSearcher::TYPE_STANDARD);
         $searcher->search();
-        
+
         $res = $searcher->getResult()->getCandidates();
-        
+
         $max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength() ?
             ilSearchSettings::getInstance()->getAutoCompleteLength() :
             10;
-        
-        
+
+
         $list = array();
         $num_entries = 0;
         foreach ($res as $res_obj_id) {
             if (self::checkObjectPermission($res_obj_id)) {
-                $list[] = ilObject::_lookupTitle($res_obj_id, true);
+                $list[] = ilObject::_lookupTitle($res_obj_id);
                 $num_entries++;
             }
             if ($num_entries >= $max_entries) {
                 break;
             }
         }
-        
+
         $i = 0;
         $result = array();
         foreach ($list as $entry) {
@@ -50,31 +44,27 @@ class ilSearchAutoComplete
             $result[$i]->value = '"' . $entry . '"';
             $i++;
         }
-        include_once './Services/JSON/classes/class.ilJsonUtil.php';
-        return ilJsonUtil::encode($result);
+
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
-    
-    
-    
-    /**
-    * Get completion list
-    */
-    public static function getList($a_str)
+
+
+
+    public static function getList(string $a_str): string
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
         if (ilSearchSettings::getInstance()->enabledLucene()) {
             return self::getLuceneList($a_str);
         }
-        
-        
+
+
         $a_str = str_replace('"', "", $a_str);
-        
+
         $settings = new ilSearchSettings();
-        
+
         $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
             'chat', 'webr','mcst','sess','pg','st','gdf','wiki', 'copa');
 
@@ -84,7 +74,7 @@ class ilSearchAutoComplete
         $max = ($settings->getAutoCompleteLength() > 0)
             ? $settings->getAutoCompleteLength()
             : 10;
-        
+
         $cnt = 0;
         $list = array();
         $checked = array();
@@ -101,7 +91,7 @@ class ilSearchAutoComplete
                 $checked[] = $rec["obj_id"];
             }
         }
-        
+
         $set = $ilDB->query("SELECT rbac_id,obj_id,obj_type, keyword FROM il_meta_keyword WHERE "
             . $ilDB->like('keyword', 'text', $a_str . "%") . " AND "
             . $ilDB->in('obj_type', $object_types, false, 'text') . " ORDER BY keyword");
@@ -126,19 +116,15 @@ class ilSearchAutoComplete
             $i++;
         }
 
-        include_once './Services/JSON/classes/class.ilJsonUtil.php';
-        return ilJsonUtil::encode($result);
+        return json_encode($result, JSON_THROW_ON_ERROR);
     }
-    
-    /**
-    * Checks read permission on obj id
-    */
-    public static function checkObjectPermission($a_obj_id)
+
+    public static function checkObjectPermission(int $a_obj_id): bool
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        
+        $ilAccess = $DIC->access();
+
         $refs = ilObject::_getAllReferences($a_obj_id);
         foreach ($refs as $ref) {
             if ($ilAccess->checkAccess("read", "", $ref)) {

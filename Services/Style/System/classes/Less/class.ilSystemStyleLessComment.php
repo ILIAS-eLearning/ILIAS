@@ -1,5 +1,23 @@
 <?php
-require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.php");
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * Capsules all data which is neither part of a variable or category structure in the less file. This is needed
  * to write the less file back to it's initial form
@@ -7,42 +25,28 @@ require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.p
  * //== NameOfCategory
  * //
  * //## Comment
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleLessComment extends ilSystemStyleLessItem
 {
-
     /**
      * Random content of the less file being neither part of a variable or category
-     *
-     * @var string
      */
-    protected $comment = "";
+    protected string $comment = '';
 
     /**
      * ilSystemStyleLessComment constructor.
-     * @param string $comment
      */
-    public function __construct($comment)
+    public function __construct(string $comment)
     {
         $this->setComment($comment);
     }
 
-    /**
-     * @return string
-     */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $comment
-     */
-    public function setComment($comment)
+    public function setComment(string $comment): void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace("\n", '', $comment);
@@ -51,10 +55,8 @@ class ilSystemStyleLessComment extends ilSystemStyleLessItem
     /**
      * This function will be needed to write the comment back to the less file and restore it's initial structure
      * in less.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getComment() . "\n";
     }

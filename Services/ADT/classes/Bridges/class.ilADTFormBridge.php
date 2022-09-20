@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,13 +13,16 @@ abstract class ilADTFormBridge
 {
     protected ilADT $adt;
     protected ilPropertyFormGUI $form;
-    protected mixed $parent;
-    protected string $id;
+    /**
+     * @var mixed
+     */
+    protected $parent;
+    protected ?string $id = null;
     protected string $title = '';
     protected string $info = '';
     protected $parent_element; // [string|array]
-    protected bool $required; // [bool]
-    protected bool $disabled; // [bool]
+    protected bool $required = false;
+    protected bool $disabled = false;
 
     protected ilLanguage $lng;
 
@@ -30,9 +35,9 @@ abstract class ilADTFormBridge
         $this->setADT($a_adt);
     }
 
-    abstract protected function isValidADT(ilADT $a_adt) : bool;
+    abstract protected function isValidADT(ilADT $a_adt): bool;
 
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->isValidADT($a_adt)) {
             throw new InvalidArgumentException('ADTFormBridge Type mismatch.');
@@ -40,17 +45,17 @@ abstract class ilADTFormBridge
         $this->adt = $a_adt;
     }
 
-    public function getADT() : ilADT
+    public function getADT(): ilADT
     {
         return $this->adt;
     }
 
-    public function setForm(ilPropertyFormGUI $a_form) : void
+    public function setForm(ilPropertyFormGUI $a_form): void
     {
         $this->form = $a_form;
     }
 
-    public function getForm() : ?ilPropertyFormGUI
+    public function getForm(): ?ilPropertyFormGUI
     {
         return $this->form;
     }
@@ -59,36 +64,32 @@ abstract class ilADTFormBridge
      * Set element id (aka form field)
      * @param string $a_value
      */
-    public function setElementId(string $a_value) : void
+    public function setElementId(string $a_value): void
     {
         $this->id = $a_value;
     }
 
-    /**
-     * Get element id
-     * @return string|null
-     */
-    public function getElementId() : ?string
+    public function getElementId(): ?string
     {
         return $this->id;
     }
 
-    public function setTitle(string $a_value) : void
+    public function setTitle(string $a_value): void
     {
         $this->title = trim($a_value);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setInfo(string $a_value) : void
+    public function setInfo(string $a_value): void
     {
         $this->info = trim($a_value);
     }
 
-    public function getInfo() : string
+    public function getInfo(): string
     {
         return $this->info;
     }
@@ -96,7 +97,7 @@ abstract class ilADTFormBridge
     /**
      * @param mixed $a_value
      */
-    public function setParentElement(mixed $a_value) : void
+    public function setParentElement($a_value): void
     {
         if (!is_array($a_value)) {
             $a_value = (string) $a_value;
@@ -108,27 +109,27 @@ abstract class ilADTFormBridge
      * Get parent element
      * @return mixed
      */
-    public function getParentElement() : mixed
+    public function getParentElement()
     {
         return $this->parent;
     }
 
-    public function setDisabled(bool $a_value) : void
+    public function setDisabled(bool $a_value): void
     {
         $this->disabled = $a_value;
     }
 
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return $this->disabled;
     }
 
-    public function setRequired(bool $a_value) : void
+    public function setRequired(bool $a_value): void
     {
         $this->required = $a_value;
     }
 
-    public function isRequired() : bool
+    public function isRequired(): bool
     {
         return $this->required;
     }
@@ -138,7 +139,7 @@ abstract class ilADTFormBridge
      * @param ilFormPropertyGUI $a_field
      * @param ilADTDefinition   $a_def
      */
-    protected function addBasicFieldProperties(ilFormPropertyGUI $a_field, ilADTDefinition $a_def) : void
+    protected function addBasicFieldProperties(ilFormPropertyGUI $a_field, ilADTDefinition $a_def): void
     {
         if ($this->isDisabled()) {
             $a_field->setDisabled(true);
@@ -152,7 +153,7 @@ abstract class ilADTFormBridge
         }
     }
 
-    protected function findParentElementInForm() : ?ilFormPropertyGUI
+    protected function findParentElementInForm(): ?ilFormPropertyGUI
     {
         $parent_def = $this->getParentElement();
         $parent_option = '';
@@ -181,7 +182,7 @@ abstract class ilADTFormBridge
         return null;
     }
 
-    protected function addToParentElement(ilFormPropertyGUI $a_field) : void
+    protected function addToParentElement(ilFormPropertyGUI $a_field): void
     {
         $field = $this->findParentElementInForm();
         if ($field instanceof ilSubEnabledFormPropertyGUI) {
@@ -194,13 +195,13 @@ abstract class ilADTFormBridge
     /**
      * Add ADT-specific fields to form
      */
-    abstract public function addToForm() : void;
+    abstract public function addToForm(): void;
 
     /**
      * Add ADT-specific JS-files to template
      * @param ilGlobalTemplate $a_tpl
      */
-    public function addJS(ilGlobalTemplate $a_tpl) : void
+    public function addJS(ilGlobalTemplateInterface $a_tpl): void
     {
     }
 
@@ -209,7 +210,7 @@ abstract class ilADTFormBridge
      * @param mixed|null $a_parent_option
      * @return bool
      */
-    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
+    protected function isActiveForSubItems($a_parent_option = null): bool
     {
         return !$this->getADT()->isNull();
     }
@@ -219,7 +220,7 @@ abstract class ilADTFormBridge
      * @param ilADTFormBridge $a_parent_adt
      * @return bool
      */
-    public function shouldBeImportedFromPost(ilADTFormBridge $a_parent_adt = null) : bool
+    public function shouldBeImportedFromPost(ilADTFormBridge $a_parent_adt = null): bool
     {
         if ($this->isDisabled()) {
             return false;
@@ -240,9 +241,9 @@ abstract class ilADTFormBridge
     /**
      * Import values from form request POST data
      */
-    abstract public function importFromPost() : void;
+    abstract public function importFromPost(): void;
 
-    public function validate() : bool
+    public function validate(): bool
     {
         // ilADTFormBridge->isRequired() != ilADT->allowNull()
         if ($this->isRequired() && $this->getADT()->isNull()) {
@@ -263,7 +264,7 @@ abstract class ilADTFormBridge
         return true;
     }
 
-    public function setExternalErrors(array $a_errors) : void
+    public function setExternalErrors(array $a_errors): void
     {
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setAlert(implode("<br />", $a_errors));

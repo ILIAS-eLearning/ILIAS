@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,19 +12,19 @@ class ilTestSessionDynamicQuestionSetTest extends ilTestBaseTestCase
 {
     private ilTestSessionDynamicQuestionSet $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestSessionDynamicQuestionSet();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSessionDynamicQuestionSet::class, $this->testObj);
     }
 
-    public function testGetQuestionSetFilterSelection() : void
+    public function testGetQuestionSetFilterSelection(): void
     {
         $this->assertInstanceOf(
             ilTestDynamicQuestionSetFilterSelection::class,
@@ -30,7 +32,7 @@ class ilTestSessionDynamicQuestionSetTest extends ilTestBaseTestCase
         );
     }
 
-    public function testCurrentQuestionId() : void
+    public function testCurrentQuestionId(): void
     {
         $this->testObj->setCurrentQuestionId(20);
         $this->assertEquals(20, $this->testObj->getCurrentQuestionId());

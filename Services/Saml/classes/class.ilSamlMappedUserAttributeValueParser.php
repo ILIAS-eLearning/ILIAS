@@ -1,25 +1,39 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSamlMappedUserAttributeValueParser
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlMappedUserAttributeValueParser
+final class ilSamlMappedUserAttributeValueParser
 {
     private const ATTR_REGEX = '/^(.*?)(\|(\d+))?$/';
 
-    protected ilExternalAuthUserAttributeMappingRule $rule;
-    /** @var array<string, mixed> */
-    protected array $userData = [];
-
-    public function __construct(ilExternalAuthUserAttributeMappingRule $rule, array $userData)
+    /**
+     * @param array<string, mixed> $userData
+     */
+    public function __construct(private ilExternalAuthUserAttributeMappingRule $rule, private array $userData)
     {
-        $this->rule = $rule;
-        $this->userData = $userData;
     }
 
-    protected function getValueIndex() : int
+    private function getValueIndex(): int
     {
         $index = 0;
 
@@ -30,10 +44,10 @@ class ilSamlMappedUserAttributeValueParser
             $index = (int) $matches[3];
         }
 
-        return $index >= 0 ? $index : 0;
+        return max($index, 0);
     }
 
-    public function getAttributeKey() : string
+    public function getAttributeKey(): string
     {
         $attribute = '';
 
@@ -47,7 +61,7 @@ class ilSamlMappedUserAttributeValueParser
         return $attribute;
     }
 
-    public function parse() : string
+    public function parse(): string
     {
         $attributeKey = $this->getAttributeKey();
 

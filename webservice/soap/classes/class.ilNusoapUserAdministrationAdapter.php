@@ -1,36 +1,28 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* adapter class for nusoap server
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @package ilias
-*/
+ * adapter class for nusoap server
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @package ilias
+ */
 require_once('./libs/composer/vendor/autoload.php');
+
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
 use ILIAS\OrgUnit\Webservices\SOAP\Base;
@@ -51,13 +43,9 @@ require_once('./Services/Init/classes/class.ilInitialisation.php');
 
 class ilNusoapUserAdministrationAdapter
 {
-    /*
-     * @var object Nusoap-Server
-     */
-    public $server = null;
+    public soap_server $server;
 
-
-    public function __construct($a_use_wsdl = true)
+    public function __construct(bool $a_use_wsdl = true)
     {
         define('SERVICE_NAME', 'ILIASSoapWebservice');
         define('SERVICE_NAMESPACE', 'urn:ilUserAdministration');
@@ -66,33 +54,28 @@ class ilNusoapUserAdministrationAdapter
         $this->server = new soap_server();
         $this->server->decode_utf8 = false;
         $this->server->class = "ilSoapFunctions";
-        
+
         if ($a_use_wsdl) {
-            $this->__enableWSDL();
+            $this->enableWSDL();
         }
 
-        $this->__registerMethods();
+        $this->registerMethods();
     }
 
-    public function start()
+    public function start(): void
     {
         $postdata = file_get_contents("php://input");
         $this->server->service($postdata);
         exit();
     }
 
-    // PRIVATE
-    public function __enableWSDL()
+    private function enableWSDL(): void
     {
         $this->server->configureWSDL(SERVICE_NAME, SERVICE_NAMESPACE);
-
-        return true;
     }
 
-
-    public function __registerMethods()
+    private function registerMethods(): void
     {
-
         // Add useful complex types. E.g. array("a","b") or array(1,2)
         $this->server->wsdl->addComplexType(
             'intArray',
@@ -101,7 +84,7 @@ class ilNusoapUserAdministrationAdapter
             '',
             'SOAP-ENC:Array',
             array(),
-            array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:int[]')),
+            array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'xsd:int[]')),
             'xsd:int'
         );
 
@@ -112,7 +95,7 @@ class ilNusoapUserAdministrationAdapter
             '',
             'SOAP-ENC:Array',
             array(),
-            array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:string[]')),
+            array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'xsd:string[]')),
             'xsd:string'
         );
 
@@ -123,7 +106,7 @@ class ilNusoapUserAdministrationAdapter
             '',
             'SOAP-ENC:Array',
             array(),
-            array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'xsd:double[]')),
+            array(array('ref' => 'SOAP-ENC:arrayType', 'wsdl:arrayType' => 'xsd:double[]')),
             'xsd:double'
         );
 
@@ -133,54 +116,15 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'login',
             array('client' => 'xsd:string',
-                                      'username' => 'xsd:string',
-                                      'password' => 'xsd:string'),
+                  'username' => 'xsd:string',
+                  'password' => 'xsd:string'
+            ),
             array('sid' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#login',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS login function'
-        );
-
-        // loginCAS()
-        $this->server->register(
-            'loginCAS',
-            array('client' => 'xsd:string',
-                                      'PT' => 'xsd:string',
-                                      'user' => 'xsd:string'),
-            array('sid' => 'xsd:string'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#loginCAS',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS login function via CAS'
-        );
-        // loginLDAP()
-        $this->server->register(
-            'loginLDAP',
-            array('client' => 'xsd:string',
-                                      'username' => 'xsd:string',
-                                      'password' => 'xsd:string'),
-            array('sid' => 'xsd:string'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#login',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS login function via LDAP'
-        );
-
-        // loginStudipUser()
-        $this->server->register(
-            'loginStudipUser',
-            array('sid' => 'xsd:string',
-                                    'user_id' => 'xsd:int'),
-            array('sid' => 'xsd:string'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#loginStudipUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS login function for Stud.IP-Connection. DEPRECATED: this method will be removed in ILIAS 5.3.'
         );
 
         // logout()
@@ -201,52 +145,52 @@ class ilNusoapUserAdministrationAdapter
             'struct',
             'all',
             '',
-            array('usr_id' => array('name' => 'usr_id','type' => 'xsd:int'),
-                                                  'login' => array('name' => 'login', 'type' => 'xsd:string'),
-                                                  'passwd' => array('name' => 'passwd', 'type' => 'xsd:string'),
-                                                  'firstname' => array('name' => 'firstname', 'type' => 'xsd:string'),
-                                                  'lastname' => array('name' => 'lastname', 'type' => 'xsd:string'),
-                                                  'title' => array('name' => 'title', 'type' => 'xsd:string'),
-                                                  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
-                                                  'email' => array('name' => 'email', 'type' => 'xsd:string'),
-                                                  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
-                                                  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
-                                                  'street' => array('name' => 'street', 'type' => 'xsd:string'),
-                                                  'city' => array('name' => 'city', 'type' => 'xsd:string'),
-                                                  'zipcode' => array('name' => 'zipcode', 'type' => 'xsd:string'),
-                                                  'country' => array('name' => 'country', 'type' => 'xsd:string'),
-                                                  'phone_office' => array('name' => 'phone_office', 'type' => 'xsd:string'),
-                                                  'last_login' => array('name' => 'last_login', 'type' => 'xsd:string'),
-                                                  'last_update' => array('name' => 'last_update', 'type' => 'xsd:string'),
-                                                  'create_date' => array('name' => 'create_date', 'type' => 'xsd:string'),
-                                                  'hobby' => array('name' => 'hobby', 'type' => 'xsd:string'),
-                                                  'department' => array('name' => 'department', 'type' => 'xsd:string'),
-                                                  'phone_home' => array('name' => 'phone_home', 'type' => 'xsd:string'),
-                                                  'phone_mobile' => array('name' => 'phone_mobile', 'type' => 'xsd:string'),
-                                                  'fax' => array('name' => 'fax', 'type' => 'xsd:string'),
-                                                  'time_limit_owner' => array('name' => 'time_limit_owner', 'type' => 'xsd:int'),
-                                                  'time_limit_unlimited' => array('name' => 'time_limit_unlimited', 'type' => 'xsd:int'),
-                                                  'time_limit_from' => array('name' => 'time_limit_from', 'type' => 'xsd:int'),
-                                                  'time_limit_until' => array('name' => 'time_limit_until', 'type' => 'xsd:int'),
-                                                  'time_limit_message' => array('name' => 'time_limit_message', 'type' => 'xsd:int'),
-                                                  'referral_comment' => array('name' => 'referral_comment', 'type' => 'xsd:string'),
-                                                  'matriculation' => array('name' => 'matriculation', 'type' => 'xsd:string'),
-                                                  'active' => array('name' => 'active', 'type' => 'xsd:int'),
-                                                  'accepted_agreement' => array('name' => 'accepted_agreement','type' => 'xsd:boolean'),
-                                                  'approve_date' => array('name' => 'approve_date', 'type' => 'xsd:string'),
-                                                  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
-                                                  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
-                                                  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string'),
-                                                  'import_id' => array('name' => 'import_id', 'type' => 'xsd:string')
-                                                  )
+            array('usr_id' => array('name' => 'usr_id', 'type' => 'xsd:int'),
+                  'login' => array('name' => 'login', 'type' => 'xsd:string'),
+                  'passwd' => array('name' => 'passwd', 'type' => 'xsd:string'),
+                  'firstname' => array('name' => 'firstname', 'type' => 'xsd:string'),
+                  'lastname' => array('name' => 'lastname', 'type' => 'xsd:string'),
+                  'title' => array('name' => 'title', 'type' => 'xsd:string'),
+                  'gender' => array('name' => 'gender', 'type' => 'xsd:string'),
+                  'email' => array('name' => 'email', 'type' => 'xsd:string'),
+                  'second_email' => array('name' => 'second_email', 'type' => 'xsd:string'),
+                  'institution' => array('name' => 'institution', 'type' => 'xsd:string'),
+                  'street' => array('name' => 'street', 'type' => 'xsd:string'),
+                  'city' => array('name' => 'city', 'type' => 'xsd:string'),
+                  'zipcode' => array('name' => 'zipcode', 'type' => 'xsd:string'),
+                  'country' => array('name' => 'country', 'type' => 'xsd:string'),
+                  'phone_office' => array('name' => 'phone_office', 'type' => 'xsd:string'),
+                  'last_login' => array('name' => 'last_login', 'type' => 'xsd:string'),
+                  'last_update' => array('name' => 'last_update', 'type' => 'xsd:string'),
+                  'create_date' => array('name' => 'create_date', 'type' => 'xsd:string'),
+                  'hobby' => array('name' => 'hobby', 'type' => 'xsd:string'),
+                  'department' => array('name' => 'department', 'type' => 'xsd:string'),
+                  'phone_home' => array('name' => 'phone_home', 'type' => 'xsd:string'),
+                  'phone_mobile' => array('name' => 'phone_mobile', 'type' => 'xsd:string'),
+                  'fax' => array('name' => 'fax', 'type' => 'xsd:string'),
+                  'time_limit_owner' => array('name' => 'time_limit_owner', 'type' => 'xsd:int'),
+                  'time_limit_unlimited' => array('name' => 'time_limit_unlimited', 'type' => 'xsd:int'),
+                  'time_limit_from' => array('name' => 'time_limit_from', 'type' => 'xsd:int'),
+                  'time_limit_until' => array('name' => 'time_limit_until', 'type' => 'xsd:int'),
+                  'time_limit_message' => array('name' => 'time_limit_message', 'type' => 'xsd:int'),
+                  'referral_comment' => array('name' => 'referral_comment', 'type' => 'xsd:string'),
+                  'matriculation' => array('name' => 'matriculation', 'type' => 'xsd:string'),
+                  'active' => array('name' => 'active', 'type' => 'xsd:int'),
+                  'accepted_agreement' => array('name' => 'accepted_agreement', 'type' => 'xsd:boolean'),
+                  'approve_date' => array('name' => 'approve_date', 'type' => 'xsd:string'),
+                  'user_skin' => array('name' => 'user_skin', 'type' => 'xsd:string'),
+                  'user_style' => array('name' => 'user_style', 'type' => 'xsd:string'),
+                  'user_language' => array('name' => 'user_language', 'type' => 'xsd:string'),
+                  'import_id' => array('name' => 'import_id', 'type' => 'xsd:string')
+            )
         );
-
 
         // lookupUser()
         $this->server->register(
             'lookupUser',
             array('sid' => 'xsd:string',
-                                      'user_name' => 'xsd:string'),
+                  'user_name' => 'xsd:string'
+            ),
             array('usr_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#lookupUser',
@@ -256,38 +200,13 @@ class ilNusoapUserAdministrationAdapter
         );
 
 
-        // getUser()
-        $this->server->register(
-            'getUser',
-            array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int'),
-            array('user_data' => 'tns:ilUserData'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#getUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS getUser(): get complete set of user data. DEPRECATED with release 5.2, will be deleted with 5.3. Use searchUsers() instead.'
-        );
-
-        // deleteUser()
-        $this->server->register(
-            'deleteUser',
-            array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int'),
-            array('success' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#deleteUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...). DEPRECATED: Use importUsers() for deletion of user data.'
-        );
-
         // addCourse()
         $this->server->register(
             'addCourse',
             array('sid' => 'xsd:string',
-                                      'target_id' => 'xsd:int',
-                                      'crs_xml' => 'xsd:string'),
+                  'target_id' => 'xsd:int',
+                  'crs_xml' => 'xsd:string'
+            ),
             array('course_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addCourse',
@@ -300,14 +219,15 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'deleteCourse',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int'),
+                  'course_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteCourse',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS deleteCourse(). Deletes a course. Delete courses are stored in "Trash" and can be undeleted in ' .
-                                ' the ILIAS administration. '
+            ' the ILIAS administration. '
         );
         // startBackgroundTaskWorker()
         $this->server->register(
@@ -325,9 +245,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'assignCourseMember',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int',
-                                      'type' => 'xsd:string'),
+                  'course_id' => 'xsd:int',
+                  'user_id' => 'xsd:int',
+                  'type' => 'xsd:string'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#assignCourseMember',
@@ -340,8 +261,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'excludeCourseMember',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'course_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#excludeCourseMember',
@@ -354,22 +276,24 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'isAssignedToCourse',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'course_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('role' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#isAssignedToCourse',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS isAssignedToCourse(). Checks whether an user is assigned to a given course. ' .
-                                'Returns 0 => not assigned, 1 => course admin, 2 => course member or 3 => course tutor'
+            'Returns 0 => not assigned, 1 => course admin, 2 => course member or 3 => course tutor'
         );
 
         // getCourseXML($sid,$course_id)
         $this->server->register(
             'getCourseXML',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int'),
+                  'course_id' => 'xsd:int'
+            ),
             array('xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getCourseXML',
@@ -382,22 +306,24 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'updateCourse',
             array('sid' => 'xsd:string',
-                                      'course_id' => 'xsd:int',
-                                      'xml' => 'xsd:string'),
+                  'course_id' => 'xsd:int',
+                  'xml' => 'xsd:string'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#updateCourse',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS updateCourse(). Update course settings, assigned members, tutors, administrators with a ' .
-                                'given xml description'
+            'given xml description'
         );
 
         // get obj_id by import id
         $this->server->register(
             'getObjIdByImportId',
             array('sid' => 'xsd:string',
-                                      'import_id' => 'xsd:string'),
+                  'import_id' => 'xsd:string'
+            ),
             array('obj_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getCourseIdByImportId',
@@ -406,12 +332,12 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS getObjIdByImportId(). Get the obj_id of an ILIAS obj by a given import id.'
         );
 
-
         // get ref ids by import id
         $this->server->register(
             'getRefIdsByImportId',
             array('sid' => 'xsd:string',
-                                      'import_id' => 'xsd:string'),
+                  'import_id' => 'xsd:string'
+            ),
             array('ref_ids' => 'tns:intArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getRefIdsByImportId',
@@ -424,7 +350,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getRefIdsByObjId',
             array('sid' => 'xsd:string',
-                                      'obj_id' => 'xsd:string'),
+                  'obj_id' => 'xsd:string'
+            ),
             array('ref_ids' => 'tns:intArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getRefIdsByObjId',
@@ -437,70 +364,75 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getObjectByReference',
             array('sid' => 'xsd:string',
-                                      'reference_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'reference_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('object_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getObjectByReference',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS getObjectByReference(). Get XML-description of an ILIAS object. If a user id is given, ' .
-                                'this methods also checks the permissions of that user on the object.'
+            'this methods also checks the permissions of that user on the object.'
         );
 
         $this->server->register(
             'getObjectsByTitle',
             array('sid' => 'xsd:string',
-                                      'title' => 'xsd:string',
-                                      'user_id' => 'xsd:int'),
+                  'title' => 'xsd:string',
+                  'user_id' => 'xsd:int'
+            ),
             array('object_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getObjectsByTitle',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS getObjectsByTitle(). Get XML-description of an ILIAS object with given title. ' .
-                                'If a user id is given this method also checks the permissions of that user on the object.'
+            'If a user id is given this method also checks the permissions of that user on the object.'
         );
 
         $this->server->register(
             'searchObjects',
             array('sid' => 'xsd:string',
-                                      'types' => 'tns:stringArray',
-                                      'key' => 'xsd:string',
-                                      'combination' => 'xsd:string',
-                                      'user_id' => 'xsd:int'),
+                  'types' => 'tns:stringArray',
+                  'key' => 'xsd:string',
+                  'combination' => 'xsd:string',
+                  'user_id' => 'xsd:int'
+            ),
             array('object_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#searchObjects',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS searchObjects(): Searches for objects. Key is within "title" or "description" ' .
-                                'Typical calls are searchObject($sid,array("lm","crs"),"\"this and that\"","and"); ' .
-                                ' If an optional user id is given, this methods also return the permissions for that user ' .
-                                'on the found objects'
+            'Typical calls are searchObject($sid,array("lm","crs"),"\"this and that\"","and"); ' .
+            ' If an optional user id is given, this methods also return the permissions for that user ' .
+            'on the found objects'
         );
 
         $this->server->register(
             'getTreeChilds',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int',
-                                      'types' => 'tns:stringArray',
-                                      'user_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int',
+                  'types' => 'tns:stringArray',
+                  'user_id' => 'xsd:int'
+            ),
             array('object_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getTreeChilds',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS getTreeChilds(): Get all child objects of a given object.' .
-                                'Choose array of types to filter the output. Choose empty type array to receive all object types'
+            'Choose array of types to filter the output. Choose empty type array to receive all object types'
         );
 
         $this->server->register(
             'getXMLTree',
             array('sid' => 'xsd:string',
-                          'ref_id' => 'xsd:int',
-                          'types' => 'tns:stringArray',
-                          'user_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int',
+                  'types' => 'tns:stringArray',
+                  'user_id' => 'xsd:int'
+            ),
             array('object_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getXMLTree',
@@ -509,26 +441,26 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS getXMLTree(): Returns a xml stream with the subtree objects.'
         );
 
-
-
         $this->server->register(
             'addObject',
             array('sid' => 'xsd:string',
-                                      'target_id' => 'xsd:int',
-                                      'object_xml' => 'xsd:string'),
+                  'target_id' => 'xsd:int',
+                  'object_xml' => 'xsd:string'
+            ),
             array('ref_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addObject',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS addObject. Create new object based on xml description under a given node ' .
-                                '("category,course,group or folder). Return created reference id of the new object.'
+            '("category,course,group or folder). Return created reference id of the new object.'
         );
 
         $this->server->register(
             'updateObjects',
             array('sid' => 'xsd:string',
-                                      'object_xml' => 'xsd:string'),
+                  'object_xml' => 'xsd:string'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#updateObjects',
@@ -540,8 +472,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'addReference',
             array('sid' => 'xsd:string',
-                                      'source_id' => 'xsd:int',
-                                      'target_id' => 'xsd:int'),
+                  'source_id' => 'xsd:int',
+                  'target_id' => 'xsd:int'
+            ),
             array('ref_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addReference',
@@ -553,7 +486,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'deleteObject',
             array('sid' => 'xsd:string',
-                                      'reference_id' => 'xsd:int'),
+                  'reference_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteObject',
@@ -562,26 +496,27 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS deleteObject. Stores object in trash. If multiple references exist, only the reference is deleted '
         );
 
-
         $this->server->register(
             'removeFromSystemByImportId',
             array('sid' => 'xsd:string',
-                                      'import_id' => 'xsd:string'),
+                  'import_id' => 'xsd:string'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#removeFromSystemByImportId',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS removeFromSystemByImportId(). Removes an object identified by its import id permanently from the ' .
-                                'system. All data will be deleted. There will be no possibility to restore it from the trash. Do not use ' .
-                                'this function for deleting roles or users. Use deleteUser() or deleteRole() instead.'
+            'system. All data will be deleted. There will be no possibility to restore it from the trash. Do not use ' .
+            'this function for deleting roles or users. Use deleteUser() or deleteRole() instead.'
         );
 
         $this->server->register(
             'addUserRoleEntry',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int',
-                                      'role_id' => 'xsd:int'),
+                  'user_id' => 'xsd:int',
+                  'role_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addUserRoleEntry',
@@ -593,8 +528,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'deleteUserRoleEntry',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int',
-                                      'role_id' => 'xsd:int'),
+                  'user_id' => 'xsd:int',
+                  'role_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteUserRoleEntry',
@@ -602,7 +538,6 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS deleteUserRoleEntry. Deassign user from role.'
         );
-
 
         // Add complex type for operations e.g array(array('name' => 'read','ops_id' => 2),...)
         $this->server->wsdl->addComplexType(
@@ -612,11 +547,15 @@ class ilNusoapUserAdministrationAdapter
             'all',
             '',
             array('ops_id' => array('name' => 'ops_id',
-                                                                    'type' => 'xsd:int'),
-                                                  'operation' => array('name' => 'operation',
-                                                                       'type' => 'xsd:string'),
-                                                  'description' => array('name' => 'description',
-                                                                         'type' => 'xsd:string'))
+                                    'type' => 'xsd:int'
+            ),
+                  'operation' => array('name' => 'operation',
+                                       'type' => 'xsd:string'
+                  ),
+                  'description' => array('name' => 'description',
+                                         'type' => 'xsd:string'
+                  )
+            )
         );
         // Now create an array of ilOperations
         $this->server->wsdl->addComplexType(
@@ -627,7 +566,9 @@ class ilNusoapUserAdministrationAdapter
             'SOAP-ENC:Array',
             array(),
             array(array('ref' => 'SOAP-ENC:arrayType',
-                                                        'wsdl:arrayType' => 'tns:ilOperation[]')),
+                        'wsdl:arrayType' => 'tns:ilOperation[]'
+                  )
+            ),
             'tns:ilOperation'
         );
         $this->server->register(
@@ -644,8 +585,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'revokePermissions',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int',
-                                      'role_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int',
+                  'role_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#revokePermissions',
@@ -662,29 +604,33 @@ class ilNusoapUserAdministrationAdapter
             'SOAP-ENC:Array',
             array(),
             array(array('ref' => 'SOAP-ENC:arrayType',
-                                                        'wsdl:arrayType' => 'xsd:int[]')),
+                        'wsdl:arrayType' => 'xsd:int[]'
+                  )
+            ),
             'xsd:int'
         );
 
         $this->server->register(
             'grantPermissions',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int',
-                                      'role_id' => 'xsd:int',
-                                      'operations' => 'tns:intArray'),
+                  'ref_id' => 'xsd:int',
+                  'role_id' => 'xsd:int',
+                  'operations' => 'tns:intArray'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#grantPermissions',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS grantPermissions(): Grant permissions for a specific role on an object. ' .
-                                '(Substitutes existing permission settings)'
+            '(Substitutes existing permission settings)'
         );
 
         $this->server->register(
             'getLocalRoles',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int'
+            ),
             array('role_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getLocalRoles',
@@ -696,7 +642,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getUserRoles',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int'),
+                  'user_id' => 'xsd:int'
+            ),
             array('role_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getLocalRoles',
@@ -708,21 +655,23 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'addRole',
             array('sid' => 'xsd:string',
-                                      'target_id' => 'xsd:int',
-                                      'obj_xml' => 'xsd:string'),
+                  'target_id' => 'xsd:int',
+                  'obj_xml' => 'xsd:string'
+            ),
             array('role_ids' => 'tns:intArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addRole',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS ' .
-                                'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.'
+            'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created.'
         );
 
         $this->server->register(
             'deleteRole',
             array('sid' => 'xsd:string',
-                                      'role_id' => 'xsd:int'),
+                  'role_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteRole',
@@ -734,51 +683,55 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'addRoleFromTemplate',
             array('sid' => 'xsd:string',
-                                      'target_id' => 'xsd:int',
-                                      'obj_xml' => 'xsd:string',
-                                      'role_template_id' => 'xsd:int'),
+                  'target_id' => 'xsd:int',
+                  'obj_xml' => 'xsd:string',
+                  'role_template_id' => 'xsd:int'
+            ),
             array('role_ids' => 'tns:intArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addRole',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS addRole(): Creates new role under given node. "target_id" is the reference id of an ILIAS ' .
-                                'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created. ' .
-                                'In addition to addRole the template permissions will be copied from the given role template'
+            'ILIAS object. E.g ref_id of crs,grp. If no role folder exists, a new role folder will be created. ' .
+            'In addition to addRole the template permissions will be copied from the given role template'
         );
 
         $this->server->register(
             'getObjectTreeOperations',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('operations' => 'tns:ilOperations'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getPermissionsForObject',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS getObjectTreeOperations(): Get all granted permissions for all references of ' .
-                                'an object for a specific user. Returns array of granted operations or empty array'
+            'an object for a specific user. Returns array of granted operations or empty array'
         );
 
         $this->server->register(
             'addGroup',
             array('sid' => 'xsd:string',
-                                      'target_id' => 'xsd:int',
-                                      'group_xml' => 'xsd:string'),
+                  'target_id' => 'xsd:int',
+                  'group_xml' => 'xsd:string'
+            ),
             array('ref_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#addGroup',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS addGroup(): Add grop according to valid group XML ' .
-                                '@See ilias_group_0_1.dtd'
+            '@See ilias_group_0_1.dtd'
         );
 
         $this->server->register(
             'groupExists',
             array('sid' => 'xsd:string',
-                                      'title' => 'xsd:string'),
+                  'title' => 'xsd:string'
+            ),
             array('exists' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#groupExists',
@@ -787,12 +740,12 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS addGroup(): Check if group with given name exists. '
         );
 
-
         // getGroup
         $this->server->register(
             'getGroup',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int'
+            ),
             array('group_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getGroup',
@@ -805,9 +758,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'assignGroupMember',
             array('sid' => 'xsd:string',
-                                      'group_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int',
-                                      'type' => 'xsd:string'),
+                  'group_id' => 'xsd:int',
+                  'user_id' => 'xsd:int',
+                  'type' => 'xsd:string'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#assignGroupMember',
@@ -820,8 +774,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'excludeGroupMember',
             array('sid' => 'xsd:string',
-                                      'group_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'group_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#excludeGroupMember',
@@ -834,93 +789,53 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'isAssignedToGroup',
             array('sid' => 'xsd:string',
-                                      'group_id' => 'xsd:int',
-                                      'user_id' => 'xsd:int'),
+                  'group_id' => 'xsd:int',
+                  'user_id' => 'xsd:int'
+            ),
             array('role' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#isAssignedToGroup',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS isAssignedToGroup(). Checks whether an user is assigned to a given group. ' .
-                                'Returns 0 => not assigned, 1 => group admin, 2 => group member'
+            'Returns 0 => not assigned, 1 => group admin, 2 => group member'
         );
 
-
-
-        // ILIAS util functions
-        $this->server->register(
-            'distributeMails',
-            array('sid' => 'xsd:string',
-                                      'mail_xml' => 'xsd:string'),
-            array('status' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#sendMail',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS distributeMails(): Distribute ILIAS mails according according to the mail setting of the recipients as ' .
-                                'ILIAS internal mail or as e-mail.'
-                                );
 
         // Clone functions
         $this->server->register(
             'ilClone',
-            array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
+            array('sid' => 'xsd:string', 'copy_identifier' => 'xsd:int'),
             array('new_ref_id' => 'xsd:int'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#ilClone',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS ilClone(): Only for internal usage.' .
-                                'Syntax, parameters may change in future releases. '
-        );
-
-        $this->server->register(
-            'handleECSTasks',
-            array('sid' => 'xsd:string','server_id' => 'xsd:int'),
-            array('success' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#handleECSTasks',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS handleECSTasks(): Only for internal usage.' .
-                                'Syntax, parameters may change in future releases. '
+            'Syntax, parameters may change in future releases. '
         );
 
         $this->server->register(
             'ilCloneDependencies',
-            array('sid' => 'xsd:string','copy_identifier' => 'xsd:int'),
+            array('sid' => 'xsd:string', 'copy_identifier' => 'xsd:int'),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#ilCloneDependencies',
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS ilCloneDependencies(): Only for internal usage.' .
-                                'Syntax, parameters may change in future releases. '
+            'Syntax, parameters may change in future releases. '
         );
 
-        $this->server->register(
-            'saveQuestionResult',
-            array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:int',
-                                      'test_id' => 'xsd:int',
-                                      'question_id' => 'xsd:int',
-                                      'pass' => 'xsd:int',
-                                      'solution' => 'tns:stringArray'),
-            array('status' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#saveQuestionResult',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS saveQuesionResult: Typically called from an external assessment question to save the user input. DEPRECATED since ILIAS 3.9'
-        );
 
         $this->server->register(
             'saveQuestion',
             array('sid' => 'xsd:string',
-                                      'active_id' => 'xsd:long',
-                                      'question_id' => 'xsd:long',
-                                      'pass' => 'xsd:int',
-                                      'solution' => 'tns:stringArray'),
+                  'active_id' => 'xsd:long',
+                  'question_id' => 'xsd:long',
+                  'pass' => 'xsd:int',
+                  'solution' => 'tns:stringArray'
+            ),
             array('status' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#saveQuestion',
@@ -930,26 +845,28 @@ class ilNusoapUserAdministrationAdapter
         );
 
         $this->server->register(
-        'saveQuestionSolution',
-        array('sid' => 'xsd:string',
-                                  'active_id' => 'xsd:long',
-                                  'question_id' => 'xsd:long',
-                                  'pass' => 'xsd:int',
-                                  'solution' => 'xsd:string'),
-        array('status' => 'xsd:string'),
-        SERVICE_NAMESPACE,
-        SERVICE_NAMESPACE . '#saveQuestionSolution',
-        SERVICE_STYLE,
-        SERVICE_USE,
-        'ILIAS saveQuestionSolution: Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test. The solution has to be an XML string which contains &lt;values&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;points&gt;POINTS&lt;/points&gt;...&lt;/values&gt; where the triplet (value,value,points) can repeat n times. The result string is either TRUE or it contains an error message.'
-    );
+            'saveQuestionSolution',
+            array('sid' => 'xsd:string',
+                  'active_id' => 'xsd:long',
+                  'question_id' => 'xsd:long',
+                  'pass' => 'xsd:int',
+                  'solution' => 'xsd:string'
+            ),
+            array('status' => 'xsd:string'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#saveQuestionSolution',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS saveQuestionSolution: Saves the result of a question in a given test pass for the active test user. The active user is identified by the active ID, which assigns a user to a test. The solution has to be an XML string which contains &lt;values&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;value&gt;VALUE&lt;/value&gt;&lt;points&gt;POINTS&lt;/points&gt;...&lt;/values&gt; where the triplet (value,value,points) can repeat n times. The result string is either TRUE or it contains an error message.'
+        );
 
         $this->server->register(
             'getQuestionSolution',
             array('sid' => 'xsd:string',
-                                      'active_id' => 'xsd:long',
-                                      'question_id' => 'xsd:int',
-                                      'pass' => 'xsd:int'),
+                  'active_id' => 'xsd:long',
+                  'question_id' => 'xsd:int',
+                  'pass' => 'xsd:int'
+            ),
             array('solution' => 'tns:stringArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getQuestionSolution',
@@ -959,62 +876,67 @@ class ilNusoapUserAdministrationAdapter
         );
 
         $this->server->register(
-                                'getTestUserData',
-                                array('sid' => 'xsd:string',
-                                                          'active_id' => 'xsd:long'),
-                                array('userdata' => 'tns:stringArray'),
-                                SERVICE_NAMESPACE,
-                                SERVICE_NAMESPACE . '#getTestUserData',
-                                SERVICE_STYLE,
-                                SERVICE_USE,
-                                'ILIAS getTestUserData: Typically called from external assessment questions to retrieve data of the active user. The returned string array values are fullname, title, firstname, lastname, login.'
-                            );
+            'getTestUserData',
+            array('sid' => 'xsd:string',
+                  'active_id' => 'xsd:long'
+            ),
+            array('userdata' => 'tns:stringArray'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#getTestUserData',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS getTestUserData: Typically called from external assessment questions to retrieve data of the active user. The returned string array values are fullname, title, firstname, lastname, login.'
+        );
 
         $this->server->register(
-                                'getPositionOfQuestion',
-                                array('sid' => 'xsd:string',
-                                                          'active_id' => 'xsd:long',
-                                                          'question_id' => 'xsd:int',
-                                                          'pass' => 'xsd:int'),
-                                array('position' => 'xsd:int'),
-                                SERVICE_NAMESPACE,
-                                SERVICE_NAMESPACE . '#getPositionOfQuestion',
-                                SERVICE_STYLE,
-                                SERVICE_USE,
-                                'ILIAS getPositionOfQuestion: Returns the position of a given question for a given user in a given test pass.'
-                            );
+            'getPositionOfQuestion',
+            array('sid' => 'xsd:string',
+                  'active_id' => 'xsd:long',
+                  'question_id' => 'xsd:int',
+                  'pass' => 'xsd:int'
+            ),
+            array('position' => 'xsd:int'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#getPositionOfQuestion',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS getPositionOfQuestion: Returns the position of a given question for a given user in a given test pass.'
+        );
 
         $this->server->register(
-                                'getPreviousReachedPoints',
-                                array('sid' => 'xsd:string',
-                                                          'active_id' => 'xsd:long',
-                                                          'question_id' => 'xsd:int',
-                                                          'pass' => 'xsd:int'),
-                                array('position' => 'tns:doubleArray'),
-                                SERVICE_NAMESPACE,
-                                SERVICE_NAMESPACE . '#getPreviousReachedPoints',
-                                SERVICE_STYLE,
-                                SERVICE_USE,
-                                'ILIAS getPreviousReachedPoints: Returns an array of reached points for the previous questions in a given test pass.'
-                            );
+            'getPreviousReachedPoints',
+            array('sid' => 'xsd:string',
+                  'active_id' => 'xsd:long',
+                  'question_id' => 'xsd:int',
+                  'pass' => 'xsd:int'
+            ),
+            array('position' => 'tns:doubleArray'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#getPreviousReachedPoints',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS getPreviousReachedPoints: Returns an array of reached points for the previous questions in a given test pass.'
+        );
 
         $this->server->register(
-                                'getNrOfQuestionsInPass',
-                                array('sid' => 'xsd:string',
-                                                          'active_id' => 'xsd:long',
-                                                          'pass' => 'xsd:int'),
-                                array('count' => 'xsd:int'),
-                                SERVICE_NAMESPACE,
-                                SERVICE_NAMESPACE . '#getNrOfQuestionsInPass',
-                                SERVICE_STYLE,
-                                SERVICE_USE,
-                                'ILIAS getNrOfQuestionsInPass: Returns the question count for a given test user in a given pass.'
-                            );
+            'getNrOfQuestionsInPass',
+            array('sid' => 'xsd:string',
+                  'active_id' => 'xsd:long',
+                  'pass' => 'xsd:int'
+            ),
+            array('count' => 'xsd:int'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#getNrOfQuestionsInPass',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS getNrOfQuestionsInPass: Returns the question count for a given test user in a given pass.'
+        );
 
         $this->server->register(
             'getStructureObjects',
             array('sid' => 'xsd:string',
-                                      'ref_id' => 'xsd:int'),
+                  'ref_id' => 'xsd:int'
+            ),
             array('xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getStructureObjects',
@@ -1027,10 +949,11 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'importUsers',
             array('sid' => 'xsd:string',
-                                      'folder_id' => 'xsd:int',
-                                      'usr_xml' => 'xsd:string',
-                                      'conflict_rule' => 'xsd:int',
-                                      'send_account_mail' => 'xsd:int'),
+                  'folder_id' => 'xsd:int',
+                  'usr_xml' => 'xsd:string',
+                  'conflict_rule' => 'xsd:int',
+                  'send_account_mail' => 'xsd:int'
+            ),
             array('protocol' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#importUsers',
@@ -1042,8 +965,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getRoles',
             array('sid' => 'xsd:string',
-                                      'role_type' => 'xsd:string',
-                                      'id' => 'xsd:string'),
+                  'role_type' => 'xsd:string',
+                  'id' => 'xsd:string'
+            ),
             array('role_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getRoles',
@@ -1055,9 +979,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getUsersForContainer',
             array('sid' => 'xsd:string',
-                                'ref_id' => 'xsd:int',
-                                     'attach_roles' => 'xsd:int',
-                                    'active' => 'xsd:int'),
+                  'ref_id' => 'xsd:int',
+                  'attach_roles' => 'xsd:int',
+                  'active' => 'xsd:int'
+            ),
             array('user_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getUsersForContainer',
@@ -1069,9 +994,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getUsersForRole',
             array('sid' => 'xsd:string',
-                                      'role_id' => 'xsd:int',
-                                      'attach_roles' => 'xsd:int',
-                                      'active' => 'xsd:int'),
+                  'role_id' => 'xsd:int',
+                  'attach_roles' => 'xsd:int',
+                  'active' => 'xsd:int'
+            ),
             array('user_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getUsersForRole',
@@ -1083,11 +1009,12 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'searchUser',
             array('sid' => 'xsd:string',
-                                      'key_fields' => 'tns:stringArray',
-                                      'query_operator' => 'xsd:string',
-                                      'key_values' => 'tns:stringArray',
-                                      'attach_roles' => 'xsd:int',
-                                      'active' => 'xsd:int'),
+                  'key_fields' => 'tns:stringArray',
+                  'query_operator' => 'xsd:string',
+                  'key_values' => 'tns:stringArray',
+                  'attach_roles' => 'xsd:int',
+                  'active' => 'xsd:int'
+            ),
             array('user_xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#searchUsers',
@@ -1107,17 +1034,6 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_STYLE,
             SERVICE_USE,
             'ILIAS hasNewMail(): Checks whether the current authenticated user has a new mail.'
-        );
-
-        $this->server->register(
-            'getNIC',
-            array('sid' => 'xsd:string'),
-            array('xmlresultset' => 'xsd:string'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#getNIC',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS getNIC(): DEPRECATED: use getClientInfoXML instead. was: return client information from current client as xml result set containing installation_id, installation_version, installation_url, installation_description, installation_language_default as columns'
         );
 
         $this->server->register(
@@ -1186,24 +1102,23 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS updateFile():update existing file, update file properties from xml (see ilias_file_3_8.dtd for details). obj_id in xml must match according obj id of refid.!'
         );
 
-
         $this->server->register(
-              'getUserXML',
-              array('sid' => 'xsd:string', 'user_ids' => 'tns:intArray', 'attach_roles' => 'xsd:int'),
-              array('xml' => 'xsd:string'),
-              SERVICE_NAMESPACE,
-              SERVICE_NAMESPACE . '#resolveUsers',
-              SERVICE_STYLE,
-              SERVICE_USE,
-              'ILIAS getUserXML(): get xml records for user ids, e.g. retrieved vom members of course xml. Returns user xml dtds. ids are numeric ids of user'
-          );
-
+            'getUserXML',
+            array('sid' => 'xsd:string', 'user_ids' => 'tns:intArray', 'attach_roles' => 'xsd:int'),
+            array('xml' => 'xsd:string'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#resolveUsers',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'ILIAS getUserXML(): get xml records for user ids, e.g. retrieved vom members of course xml. Returns user xml dtds. ids are numeric ids of user'
+        );
 
         // get objs ids by ref id
         $this->server->register(
             'getObjIdsByRefIds',
             array('sid' => 'xsd:string',
-                                      'ref_ids' => 'tns:intArray'),
+                  'ref_ids' => 'tns:intArray'
+            ),
             array('obj_ids' => 'tns:intArray'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getRefIdsByImportId',
@@ -1223,8 +1138,6 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS updateGroup(): update existing group using ref id and group xml (see DTD).'
         );
 
-
-        
         $this->server->register(
             'getIMSManifestXML',
             array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
@@ -1268,7 +1181,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS copyObject(): returns reference of copy, if copy is created directly, or the ref id of the target if copy is in progress.'
         );
-        
+
         $this->server->register(
             'moveObject',
             array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'target_id' => 'xsd:int'),
@@ -1279,8 +1192,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS moveObject(): returns true, if object with refid could be successfully moved to target id, other it raises an error.'
         );
-                                
-        
+
         $this->server->register(
             'getTestResults',
             array('sid' => 'xsd:string', 'ref_id' => 'xsd:int', 'sum_only' => 'xsd:boolean'),
@@ -1297,9 +1209,10 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'removeTestResults',
             array(
-                                    'sid' => 'xsd:string',
-                                    'ref_id' => 'xsd:int',
-                                    'user_ids' => 'tns:intArray'),
+                'sid' => 'xsd:string',
+                'ref_id' => 'xsd:int',
+                'user_ids' => 'tns:intArray'
+            ),
             array('success' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#removeTestResults',
@@ -1318,7 +1231,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS getTestResults(): returns XMLResultSet with columns ref_id, course xml. $parameters has to contain a column user_id and a column status. Status is a logical AND combined value of (MEMBER = 1, TUTOR = 2, ADMIN = 4, OWNER = 8) and determines which courses should be returned.'
         );
-                                
+
         $this->server->register(
             'getGroupsForUser',
             array('sid' => 'xsd:string', 'parameters' => 'xsd:string'),
@@ -1329,7 +1242,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS getTestResults(): returns XMLResultSet with columns ref_id, group xml. $parameters has to contain a column user_id and a column status. Status is a logical AND combined value of (MEMBER = 1, TUTOR = 2, OWNER = 4) and determines which groups should be returned.'
         );
-                                
+
         $this->server->register(
             'getPathForRefId',
             array('sid' => 'xsd:string', 'ref_id' => 'xsd:int'),
@@ -1340,10 +1253,14 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS getPathForRefId(): returns XMLResultSet with columns ref_id, type and title.'
         );
-                                
+
         $this->server->register(
             'searchRoles',
-            array('sid' => 'xsd:string', 'key' => 'xsd:string', 'combination' => 'xsd:string', 'role_type' => 'xsd:string'),
+            array('sid' => 'xsd:string',
+                  'key' => 'xsd:string',
+                  'combination' => 'xsd:string',
+                  'role_type' => 'xsd:string'
+            ),
             array('xml' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#searchRoles',
@@ -1351,7 +1268,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS searchRoles(): returns XML following role dtd with search results for given role type and search terms.'
         );
-                                
+
         $this->server->register(
             'getInstallationInfoXML',
             array(),
@@ -1362,7 +1279,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS getInstallationInfoXML(): returns XML following installation_info dtd'
         );
-        
+
         $this->server->register(
             'getClientInfoXML',
             array('clientid' => 'xsd:string'),
@@ -1377,8 +1294,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getSkillCompletionDateForTriggerRefId',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:string',
-                                      'ref_id' => 'xsd:string'),
+                  'user_id' => 'xsd:string',
+                  'ref_id' => 'xsd:string'
+            ),
             array('dates' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getSkillCompletionDateForTriggerRefId',
@@ -1390,8 +1308,9 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'checkSkillUserCertificateForTriggerRefId',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:string',
-                                      'ref_id' => 'xsd:string'),
+                  'user_id' => 'xsd:string',
+                  'ref_id' => 'xsd:string'
+            ),
             array('have_certificates' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#checkSkillUserCertificateForTriggerRefId',
@@ -1403,7 +1322,8 @@ class ilNusoapUserAdministrationAdapter
         $this->server->register(
             'getSkillTriggerOfAllCertificates',
             array('sid' => 'xsd:string',
-                                      'user_id' => 'xsd:string'),
+                  'user_id' => 'xsd:string'
+            ),
             array('certificate_triggers' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getSkillTriggerOfAllCertificates',
@@ -1422,11 +1342,12 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS getUserIdBySid(): returns an ILIAS usr_id for the given sid'
         );
-                                
+
         $this->server->register(
             'deleteExpiredDualOptInUserObjects',
             array('sid' => 'xsd:string',
-                                      'usr_id' => 'xsd:int'),
+                  'usr_id' => 'xsd:int'
+            ),
             array('status' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteExpiredDualOptInUserObjects',
@@ -1434,7 +1355,6 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS deleteExpiredDualOptInUserObjects(): Deletes expired user accounts caused by unconfirmed registration links in "dual opt in" registration method'
         );
-
 
         $this->server->register(
             'readWebLink',
@@ -1468,11 +1388,15 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'ILIAS updateWebLink():update existing weblink, update weblink properties from xml (see ilias_weblink_4_0.dtd for details).'
         );
-        
+
         // mcs-patch start
         $this->server->register(
             'getLearningProgressChanges',
-            array('sid' => 'xsd:string', 'timestamp' => 'xsd:string', 'include_ref_ids' => 'xsd:boolean', 'type_filter' => 'tns:stringArray'),
+            array('sid' => 'xsd:string',
+                  'timestamp' => 'xsd:string',
+                  'include_ref_ids' => 'xsd:boolean',
+                  'type_filter' => 'tns:stringArray'
+            ),
             array('lp_data' => 'xsd:string'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#getLearningProgressChanges',
@@ -1481,27 +1405,24 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS getLearningProgressChanges(): Get learning progress changes after a given timestamp.'
         );
         // mcs-patch end
-        
 
-        
         $this->server->register(
             'deleteProgress',
             array(
-                    'sid' => 'xsd:string',
-                    'ref_ids' => 'tns:intArray',
-                    'usr_ids' => 'tns:intArray',
-                    'type_filter' => 'tns:stringArray',
-                    'progress_filter' => 'tns:intArray'
-                ),
+                'sid' => 'xsd:string',
+                'ref_ids' => 'tns:intArray',
+                'usr_ids' => 'tns:intArray',
+                'type_filter' => 'tns:stringArray',
+                'progress_filter' => 'tns:intArray'
+            ),
             array('status' => 'xsd:boolean'),
             SERVICE_NAMESPACE,
             SERVICE_NAMESPACE . '#deleteProgress',
             SERVICE_STYLE,
             SERVICE_USE,
             'Delete user progress data of objects. '
-            );
-        
-        
+        );
+
         $this->server->register(
             'getProgressInfo',
             array(
@@ -1516,7 +1437,6 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'Get object learning progress information'
         );
-
 
         $this->server->register(
             'exportDataCollectionContent',
@@ -1534,7 +1454,7 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_USE,
             'Generate DataCollectionContent Export'
         );
-        
+
         $this->server->register(
             'processBackgroundTask',
             array(
@@ -1547,40 +1467,6 @@ class ilNusoapUserAdministrationAdapter
             SERVICE_STYLE,
             SERVICE_USE,
             'Process task in background'
-        );
-
-        $this->server->register(
-            'addDesktopItems',
-            [
-                'sid' => 'xsd:string',
-                'user_id' => 'xsd:int',
-                'reference_ids' => 'tns:intArray'
-            ],
-            [
-                'num_added' => 'xsd:int'
-            ],
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#addDesktopItems',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'Add desktop items for user'
-        );
-
-        $this->server->register(
-            'removeDesktopItems',
-            [
-                'sid' => 'xsd:string',
-                'user_id' => 'xsd:int',
-                'reference_ids' => 'tns:intArray'
-            ],
-            [
-                'num_added' => 'xsd:int'
-            ],
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#removeDesktopItems',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'Remove desktop items for user'
         );
 
         // OrgUnits Functions
@@ -1614,17 +1500,16 @@ class ilNusoapUserAdministrationAdapter
         }
 
         // If a client ID is submitted, there might be some SOAP plugins registering methods/types
+        // no initialized ILIAS => no request wrapper available.
         if (isset($_GET['client_id'])) {
             $this->handleSoapPlugins();
         }
-
-        return true;
     }
 
     /**
      * Register any methods and types of SOAP plugins to the SOAP server
      */
-    protected function handleSoapPlugins()
+    protected function handleSoapPlugins(): void
     {
         // Note: We need a context that does not handle authentication at this point, because this is
         // handled by an actual SOAP request which always contains the session ID and client
@@ -1634,8 +1519,8 @@ class ilNusoapUserAdministrationAdapter
 
         global $DIC;
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $soapHook = new ilSoapHook($ilPluginAdmin);
+        $component_factory = $DIC['component.factory'];
+        $soapHook = new ilSoapHook($component_factory);
         foreach ($soapHook->getWsdlTypes() as $type) {
             $this->server->wsdl->addComplexType(
                 $type->getName(),

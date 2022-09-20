@@ -1,9 +1,27 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -13,63 +31,29 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 {
-    protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    protected ilObjTermsOfService $tos;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilRbacSystem $rbacsystem;
-    protected ilErrorHandling $error;
-    protected ilObjUser $user;
-    protected ilLogger $log;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected ILIAS\HTTP\GlobalHttpState $httpState;
-    protected ilToolbarGUI $toolbar;
-    protected FileUpload $fileUpload;
-    protected Filesystems $fileSystems;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    protected ilHtmlPurifierInterface $documentPurifier;
-
     public function __construct(
-        ilObjTermsOfService $tos,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalTemplateInterface $tpl,
-        ilObjUser $user,
-        ilCtrl $ctrl,
-        ilLanguage $lng,
-        ilRbacSystem $rbacsystem,
-        ilErrorHandling $error,
-        ilLogger $log,
-        ilToolbarGUI $toolbar,
-        GlobalHttpState $httpState,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        Filesystems $fileSystems,
-        FileUpload $fileUpload,
-        ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
-        ilHtmlPurifierInterface $documentPurifier
+        protected ilObjTermsOfService $tos,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilGlobalTemplateInterface $tpl,
+        protected ilObjUser $user,
+        protected ilCtrlInterface $ctrl,
+        protected ilLanguage $lng,
+        protected ilRbacSystem $rbacsystem,
+        protected ilErrorHandling $error,
+        protected ilLogger $log,
+        protected ilToolbarGUI $toolbar,
+        protected GlobalHttpState $httpState,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected Filesystems $fileSystems,
+        protected FileUpload $fileUpload,
+        protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory,
+        protected ilHtmlPurifierInterface $documentPurifier,
+        protected Refinery $refinery
     ) {
-        $this->tos = $tos;
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->tpl = $tpl;
-        $this->ctrl = $ctrl;
-        $this->lng = $lng;
-        $this->rbacsystem = $rbacsystem;
-        $this->error = $error;
-        $this->user = $user;
-        $this->log = $log;
-        $this->toolbar = $toolbar;
-        $this->httpState = $httpState;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->fileSystems = $fileSystems;
-        $this->fileUpload = $fileUpload;
-        $this->tableDataProviderFactory = $tableDataProviderFactory;
-        $this->documentPurifier = $documentPurifier;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -77,13 +61,13 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if ($cmd === '' || !method_exists($this, $cmd)) {
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
             $cmd = 'showDocuments';
         }
         $this->$cmd();
     }
 
-    protected function confirmReset() : void
+    protected function confirmReset(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -98,7 +82,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($confirmation->getHTML());
     }
 
-    protected function reset() : void
+    protected function reset(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -107,12 +91,12 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tos->resetAll();
 
         $this->log->info('Terms of service reset by ' . $this->user->getId() . ' [' . $this->user->getLogin() . ']');
-        ilUtil::sendSuccess($this->lng->txt('tos_reset_successful'));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_reset_successful'));
 
         $this->showDocuments();
     }
 
-    protected function showDocuments() : void
+    protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $addDocumentBtn = ilLinkButton::getInstance();
@@ -139,9 +123,9 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($documentTableGui->getHTML());
     }
 
-    protected function getResetMessageBoxHtml() : string
+    protected function getResetMessageBoxHtml(): string
     {
-        if ($this->tos->getLastResetDate() && ((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
+        if (((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
             $status = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             $resetText = sprintf(
@@ -172,7 +156,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         );
     }
 
-    protected function getDocumentForm(ilTermsOfServiceDocument $document) : ilTermsOfServiceDocumentFormGUI
+    protected function getDocumentForm(ilTermsOfServiceDocument $document): ilTermsOfServiceDocumentFormGUI
     {
         if ($document->getId() > 0) {
             $this->ctrl->setParameter($this, 'tos_id', $document->getId());
@@ -186,7 +170,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand = 'saveEditDocumentForm';
         }
 
-        $form = new ilTermsOfServiceDocumentFormGUI(
+        return new ilTermsOfServiceDocumentFormGUI(
             $document,
             $this->documentPurifier,
             $this->user,
@@ -197,11 +181,9 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             'showDocuments',
             $this->rbacsystem->checkAccess('write', $this->tos->getRefId())
         );
-
-        return $form;
     }
 
-    protected function saveAddDocumentForm() : void
+    protected function saveAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -209,19 +191,19 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getDocumentForm(new ilTermsOfServiceDocument());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAddDocumentForm() : void
+    protected function showAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -231,7 +213,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showEditDocumentForm() : void
+    protected function showEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -243,7 +225,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveEditDocumentForm() : void
+    protected function saveEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -253,13 +235,13 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getDocumentForm($document);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -268,28 +250,35 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     /**
      * @return ilTermsOfServiceDocument[]
      */
-    protected function getDocumentsByServerRequest() : array
+    protected function getDocumentsByServerRequest(): array
     {
-        $documents = [];
+        $documentIds = [];
 
-        $documentIds = $this->httpState->request()->getParsedBody()['tos_id'] ?? [];
-        if (!is_array($documentIds) || 0 === count($documentIds)) {
-            $documentIds = $this->httpState->request()->getQueryParams()['tos_id'] ? [$this->httpState->request()->getQueryParams()['tos_id']] : [];
+        if ($this->httpState->wrapper()->post()->has('tos_id')) {
+            $documentIds = $this->httpState->wrapper()->post()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
         }
 
-        if (0 === count($documentIds)) {
-            return $documents;
+        if ($documentIds === [] && $this->httpState->wrapper()->query()->has('tos_id')) {
+            $documentIds = [$this->httpState->wrapper()->query()->retrieve(
+                'tos_id',
+                $this->refinery->kindlyTo()->int()
+            )];
         }
 
-        $documents = ilTermsOfServiceDocument::where(
+        if ($documentIds === []) {
+            return $documentIds;
+        }
+
+        return ilTermsOfServiceDocument::where(
             ['id' => array_filter(array_map('intval', $documentIds))],
             ['id' => 'IN']
         )->getArray();
-
-        return $documents;
     }
 
-    protected function getFirstDocumentFromList(array $documents) : ilTermsOfServiceDocument
+    protected function getFirstDocumentFromList(array $documents): ilTermsOfServiceDocument
     {
         if (1 !== count($documents)) {
             throw new UnexpectedValueException('Expected exactly one document in list');
@@ -301,19 +290,19 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         return $document;
     }
 
-    protected function deleteDocuments() : void
+    protected function deleteDocuments(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $documents = $this->getDocumentsByServerRequest();
-        if (0 === count($documents)) {
+        if ([] === $documents) {
             $this->showDocuments();
             return;
         }
 
-        $documents = array_map(static function (array $data) : ilTermsOfServiceDocument {
+        $documents = array_map(static function (array $data): ilTermsOfServiceDocument {
             $document = new ilTermsOfServiceDocument(0);
             $document = $document->buildFromArray($data);
 
@@ -339,7 +328,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
             foreach ($documents as $document) {
                 /** @var ilTermsOfServiceDocument $document */
-                $confirmation->addItem('tos_id[]', $document->getId(), implode(' | ', [
+                $confirmation->addItem('tos_id[]', (string) $document->getId(), implode(' | ', [
                     $document->getTitle()
                 ]));
             }
@@ -348,10 +337,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
     }
 
-    /**
-     * @param array $documents
-     */
-    protected function processDocumentDeletion(array $documents) : void
+    protected function processDocumentDeletion(array $documents): void
     {
         foreach ($documents as $document) {
             /** @var ilTermsOfServiceDocument $document */
@@ -359,17 +345,18 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         }
 
         if (0 === ilTermsOfServiceDocument::getCollection()->count()) {
-            $this->tos->saveStatus(false);
-            ilUtil::sendInfo($this->lng->txt('tos_disabled_no_docs_left'), true);
+            $this->tos->setStatus(false);
+            $this->tos->store();
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('tos_disabled_no_docs_left'), true);
         }
 
-        ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_p'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_deleted_documents_p'), true);
         if (1 === count($documents)) {
-            ilUtil::sendSuccess($this->lng->txt('tos_deleted_documents_s'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_deleted_documents_s'), true);
         }
     }
 
-    protected function deleteDocument() : void
+    protected function deleteDocument(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -382,14 +369,14 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->ctrl->redirect($this);
     }
 
-    protected function saveDocumentSorting() : void
+    protected function saveDocumentSorting(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $sorting = $this->httpState->request()->getParsedBody()['sorting'] ?? [];
-        if (!is_array($sorting) || 0 === count($sorting)) {
+        if (!is_array($sorting) || [] === $sorting) {
             $this->showDocuments();
             return;
         }
@@ -397,7 +384,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         asort($sorting, SORT_NUMERIC);
 
         $position = 0;
-        foreach ($sorting as $documentId => $ignoredSortValue) {
+        foreach (array_keys($sorting) as $documentId) {
             if (!is_numeric($documentId)) {
                 continue;
             }
@@ -406,19 +393,19 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
                 $document = new ilTermsOfServiceDocument((int) $documentId);
                 $document->setSorting(++$position);
                 $document->store();
-            } catch (ilException $e) {
+            } catch (ilException) {
                 // Empty catch block
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('tos_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_saved_sorting'), true);
         $this->ctrl->redirect($this);
     }
 
     protected function getCriterionForm(
         ilTermsOfServiceDocument $document,
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment
-    ) : ilTermsOfServiceCriterionFormGUI {
+    ): ilTermsOfServiceCriterionFormGUI {
         $this->ctrl->setParameter($this, 'tos_id', $document->getId());
 
         if ($criterionAssignment->getId() > 0) {
@@ -433,7 +420,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand = 'saveChangeCriterionForm';
         }
 
-        $form = new ilTermsOfServiceCriterionFormGUI(
+        return new ilTermsOfServiceCriterionFormGUI(
             $document,
             $criterionAssignment,
             $this->criterionTypeFactory,
@@ -442,11 +429,9 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $saveCommand,
             'showDocuments'
         );
-
-        return $form;
     }
 
-    protected function saveAttachCriterionForm() : void
+    protected function saveAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -456,16 +441,16 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $form = $this->getCriterionForm($document, new ilTermsOfServiceDocumentCriterionAssignment());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_attached'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_attached'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showAttachCriterionForm() : void
+    protected function showAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -477,7 +462,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function showChangeCriterionForm() : void
+    protected function showChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -495,7 +480,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];
@@ -504,7 +489,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveChangeCriterionForm() : void
+    protected function saveChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -522,23 +507,23 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];
 
         $form = $this->getCriterionForm($document, $criterionAssignment);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_changed'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_changed'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function detachCriterionAssignment() : void
+    public function detachCriterionAssignment(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->tos->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -556,7 +541,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $document->criteria(),
             static function (ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) use (
                 $criterionId
-            ) : bool {
+            ): bool {
                 return $criterionAssignment->getId() == $criterionId;
             }
         ))[0];
@@ -564,7 +549,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         $document->detachCriterion($criterionAssignment);
         $document->update();
 
-        ilUtil::sendSuccess($this->lng->txt('tos_doc_crit_detached'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('tos_doc_crit_detached'), true);
         $this->ctrl->redirect($this, 'showDocuments');
     }
 }

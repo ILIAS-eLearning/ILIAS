@@ -1,25 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Permission wrapper for wikis
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesWiki
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiPerm
 {
-    /**
-     * Check permission
-     *
-     * @param string $a_perm permission
-     * @param int $a_ref_id ref id
-     * @return bool true/false
-     */
-    public static function check($a_perm, $a_ref_id, $a_cmd = "")
-    {
+    public static function check(
+        string $a_perm,
+        int $a_ref_id,
+        string $a_cmd = ""
+    ): bool {
         global $DIC;
 
         $ilAccess = $DIC->access();

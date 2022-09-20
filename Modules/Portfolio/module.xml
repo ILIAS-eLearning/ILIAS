@@ -8,8 +8,9 @@
 	<objects>
 		<object id="prtf" class_name="Portfolio" dir="classes"
 			checkbox="0" inherit="0" translate="0" rbac="0" workspace="0" repository="0">
+			<sub_type id="pfpg" amet="1" />
 		</object>
-		<object id="prtt" class_name="PortfolioTemplate" dir="classes" default_pos="500" default_pres_pos="500"
+		<object id="prtt" class_name="PortfolioTemplate" dir="Template" default_pos="500" default_pres_pos="500"
 			checkbox="0" inherit="0" translate="0" allow_link="1" allow_copy="1" 
 			rbac="1" export="1" workspace="0" repository="1">
 			<parent id="cat">cat</parent>
@@ -17,27 +18,27 @@
 			<parent id="fold">fold</parent>
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
-			<parent id="root">root</parent>		
+			<parent id="root">root</parent>
+			<sub_type id="pfpg" amet="1" />
 		</object>
-		<object id="prfa" class_name="PortfolioAdministration" dir="classes"
+		<object id="prfa" class_name="PortfolioAdministration" dir="Administration"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
 	<copage>
-		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
-		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="classes"/>
-		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="138"/>
-		<pagecontent pc_type="mcrs" name="MyCourses" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="137"/>
+		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="Page"/>
+		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="Template"/>
+		<pagecontent pc_type="cach" name="ConsultationHours" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="138"/>
+		<pagecontent pc_type="mcrs" name="MyCourses" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="137"/>
+		<pagecontent pc_type="amdfrm" name="AMDForm" directory="Page" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="139"/>
 	</copage>
 
 	<web_access_checker>
 		<secure_path path="ilPortfolio" checking-class="ilPortfolioAccessHandler" in-sec-folder='1'/>
 	</web_access_checker>
-	<pdfpurposes>
-		<pdfpurpose name="ContentExport" preferred="WkhtmlToPdf" />
-	</pdfpurposes>
 	<events>
 		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/User" />
 	</events>
 </module>

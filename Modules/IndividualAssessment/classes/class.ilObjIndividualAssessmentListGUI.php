@@ -1,13 +1,12 @@
 <?php
 
-require_once("./Services/Object/classes/class.ilObjectListGUI.php");
+declare(strict_types=1);
+
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
 {
-
-    /**
-    * initialisation
-    */
-    public function init()
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -23,41 +22,35 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
         $this->enableSubstitutions($this->substitutions->isActive());
 
         // general commands array
-        include_once('./Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentAccess.php');
         $this->commands = ilObjIndividualAssessmentAccess::_getCommands();
     }
-
-
 
     /**
     * Get command target frame
     *
-    * @param	string		$a_cmd			command
+    * @param	string		$cmd			command
     *
     * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd): string
     {
-        switch ($a_cmd) {
-            default:
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-        }
-
-        return $frame;
+        return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'edit':
-                $return = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name,'ilIndividualassessmentsettingsgui'), "edit");
+                $return = $this->ctrl->getLinkTargetByClass(
+                    array($this->gui_class_name,'ilIndividualassessmentsettingsgui'),
+                    "edit"
+                );
                 break;
             case 'infoScreen':
                 $return = $this->ctrl->getLinkTargetByClass($this->gui_class_name, "view");
                 break;
             default:
-                $return = parent::getCommandLink($a_cmd);
+                $return = parent::getCommandLink($cmd);
         }
 
         return $return;
@@ -71,7 +64,7 @@ class ilObjIndividualAssessmentListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties(): array
     {
         return [];
     }

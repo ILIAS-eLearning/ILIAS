@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup;
 
@@ -33,8 +51,9 @@ class ImplementationOfInterfaceFinder
 
     public function __construct()
     {
-        $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR."src"));
-        $this->classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
+        $this->root = substr(__FILE__, 0, strpos(__FILE__, DIRECTORY_SEPARATOR . "src"));
+        $external_classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";
+        $this->classmap = $external_classmap ?: null;
     }
 
     /**
@@ -47,13 +66,12 @@ class ImplementationOfInterfaceFinder
      * @param   string $interface
      * @param   string[] $additional_ignore
      * @param   string|null $matching_path
-     * @return  \Iterator
      */
     public function getMatchingClassNames(
         string $interface,
         array $additional_ignore = [],
         string $matching_path = null
-    ) : \Iterator {
+    ): \Iterator {
         foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
                 $r = new \ReflectionClass($class_name);
@@ -69,7 +87,7 @@ class ImplementationOfInterfaceFinder
     /**
      * @param   string[] $additional_ignore
      */
-    protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
+    protected function getAllClassNames(array $additional_ignore, string $matching_path = null): \Iterator
     {
         $ignore = array_merge($this->ignore, $additional_ignore);
 
@@ -81,9 +99,7 @@ class ImplementationOfInterfaceFinder
             "|",
             array_map(
                 // fix path-separators to respect windows' backspaces.
-                function ($v) {
-                    return "(" . str_replace('/', '(/|\\\\)', $v) . ")";
-                },
+                fn ($v): string => "(" . str_replace('/', '(/|\\\\)', $v) . ")",
                 $ignore
             )
         );

@@ -45,3 +45,9 @@ or contribute a fix via [Pull Request](docs/development/contributing.md#pull-req
 - If a **user is deleted** the **content** authored by the user is **not deleted**.
   However **no account name, firstname or lastname will be presented** in the "last
   edited" information, the page history or as user links **anymore**.
+
+
+## Data being exported
+
+- XML exports of pages do *not* contain the historic information (older versions including creation user and timestamp).
+- Personal data is only exported, if the page content itself contains personal information.

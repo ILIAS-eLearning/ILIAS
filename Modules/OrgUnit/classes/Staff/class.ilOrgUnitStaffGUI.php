@@ -1,56 +1,41 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitStaffGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  * Date: 4/07/13
  * Time: 1:09 PM
- *
  * @ilCtrl_Calls      ilOrgUnitStaffGUI: ilRepositorySearchGUI
  */
 class ilOrgUnitStaffGUI
 {
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnitGUI
-     */
-    protected $parent_gui;
-    /**
-     * @var ilObjOrgUnit
-     */
-    protected $parent_obj;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
+    protected ilTabsGUI $tabs_gui;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected object $parent_gui;
+    protected object $parent_object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
+    protected ilRbacReview $rbacreview;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -58,29 +43,20 @@ class ilOrgUnitStaffGUI
     public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $rbacreview = $DIC['rbacreview'];
-
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl =  $DIC->ctrl();
         $this->parent_gui = $parent_gui;
         $this->parent_object = $parent_gui->object;
         $this->tabs_gui = $this->parent_gui->tabs_gui;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->rbacreview = $rbacreview;
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->rbacreview = $DIC->rbac()->review();
 
         $this->tabs_gui->setTabActive("orgu_staff");
         $this->setTabs();
     }
-
 
     /**
      * @return bool
@@ -88,7 +64,7 @@ class ilOrgUnitStaffGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -136,11 +112,13 @@ class ilOrgUnitStaffGUI
         return true;
     }
 
-
-    public function showStaff()
+    /**
+     * @throws ilCtrlException
+     */
+    public function showStaff(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaff($this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         if ($this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -150,11 +128,10 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
     }
 
-
-    public function showOtherRoles()
+    public function showOtherRoles(): void
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         if ($this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
@@ -163,19 +140,17 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getOtherRolesTableHTML());
     }
 
-
-    public function showStaffRec()
+    public function showStaffRec(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaffRec($this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $this->ctrl->setParameter($this, "recursive", true);
         $this->tpl->setContent($this->getStaffTableHTML(true, "showStaffRec"));
     }
 
-
-    protected function addStaffToolbar()
+    private function addStaffToolbar(): void
     {
         $types = array(
             "employee" => $this->lng->txt("employee"),
@@ -189,8 +164,7 @@ class ilOrgUnitStaffGUI
         ));
     }
 
-
-    protected function addOtherRolesToolbar()
+    private function addOtherRolesToolbar(): void
     {
         $arrLocalRoles = $this->rbacreview->getLocalRoles($this->parent_object->getRefId());
         $types = array();
@@ -208,11 +182,10 @@ class ilOrgUnitStaffGUI
         ));
     }
 
-
     public function addStaff()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
 
@@ -226,7 +199,7 @@ class ilOrgUnitStaffGUI
         }
 
         if (!count($user_ids)) {
-            ilUtil::sendFailure($this->lng->txt("user_not_found"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("user_not_found"), true);
             $this->ctrl->redirect($this, "showStaff");
         }
 
@@ -239,15 +212,14 @@ class ilOrgUnitStaffGUI
             throw new Exception("The post request didn't specify wether the user_ids should be assigned to the employee or the superior role.");
         }
 
-        ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function addOtherRoles()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
 
@@ -263,15 +235,13 @@ class ilOrgUnitStaffGUI
         foreach ($user_ids as $user_id) {
             $this->parent_object->assignUserToLocalRole($role_id, $user_id);
         }
-        ilUtil::sendSuccess($this->lng->txt("users_successfuly_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("users_successfuly_added"), true);
         $this->ctrl->redirect($this, "showOtherRoles");
     }
-
 
     /**
      * @param bool   $recursive
      * @param string $table_cmd
-     *
      * @return string the tables html.
      */
     public function getStaffTableHTML($recursive = false, $table_cmd = "showStaff")
@@ -288,7 +258,6 @@ class ilOrgUnitStaffGUI
 
         return $superior_table->getHTML() . $employee_table->getHTML();
     }
-
 
     public function getOtherRolesTableHTML()
     {
@@ -312,37 +281,34 @@ class ilOrgUnitStaffGUI
         return $html;
     }
 
-
     public function fromSuperiorToEmployee()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $this->parent_object->deassignUserFromSuperiorRole($_GET["obj_id"]);
         $this->parent_object->assignUsersToEmployeeRole(array($_GET["obj_id"]));
-        ilUtil::sendSuccess($this->lng->txt("user_changed_successful"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_changed_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function fromEmployeeToSuperior()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $this->parent_object->deassignUserFromEmployeeRole($_GET["obj_id"]);
         $this->parent_object->assignUsersToSuperiorRole(array($_GET["obj_id"]));
-        ilUtil::sendSuccess($this->lng->txt("user_changed_successful"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("user_changed_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function confirmRemoveUser($cmd)
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         switch ($cmd) {
@@ -381,11 +347,10 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-
     public function removeFromSuperiors()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $this->parent_object->deassignUserFromSuperiorRole($_POST["obj_id"]);
@@ -393,15 +358,14 @@ class ilOrgUnitStaffGUI
         if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getEmployeeRole())) {
             ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
         }
-        ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("deassign_user_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function removeFromEmployees()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $this->parent_object->deassignUserFromEmployeeRole($_POST["obj_id"]);
@@ -409,32 +373,42 @@ class ilOrgUnitStaffGUI
         if (!$this->rbacreview->isAssigned($_POST["obj_id"], $this->parent_object->getSuperiorRole())) {
             ilObjUser::_removeOrgUnit($_POST["obj_id"], $this->parent_object->getRefId());
         }
-        ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("deassign_user_successful"), true);
         $this->ctrl->redirect($this, "showStaff");
     }
-
 
     public function removeFromRole()
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");
         }
         $arrObjIdRolId = explode("-", $_POST["obj_id-role_id"]);
         $this->parent_object->deassignUserFromLocalRole($arrObjIdRolId[1], $arrObjIdRolId[0]);
-        ilUtil::sendSuccess($this->lng->txt("deassign_user_successful"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("deassign_user_successful"), true);
         $this->ctrl->redirect($this, "showOtherRoles");
     }
 
-
     public function setTabs()
     {
-        $this->tabs_gui->addSubTab("show_staff", sprintf($this->lng->txt("local_staff"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaff"));
+        $this->tabs_gui->addSubTab(
+            "show_staff",
+            sprintf($this->lng->txt("local_staff"), $this->parent_object->getTitle()),
+            $this->ctrl->getLinkTarget($this, "showStaff")
+        );
         if ($this->ilAccess->checkAccess("view_learning_progress_rec", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_staff_rec", sprintf($this->lng->txt("rec_staff"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showStaffRec"));
+            $this->tabs_gui->addSubTab(
+                "show_staff_rec",
+                sprintf($this->lng->txt("rec_staff"), $this->parent_object->getTitle()),
+                $this->ctrl->getLinkTarget($this, "showStaffRec")
+            );
         }
         if ($this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
-            $this->tabs_gui->addSubTab("show_other_roles", sprintf($this->lng->txt("local_other_roles"), $this->parent_object->getTitle()), $this->ctrl->getLinkTarget($this, "showOtherRoles"));
+            $this->tabs_gui->addSubTab(
+                "show_other_roles",
+                sprintf($this->lng->txt("local_other_roles"), $this->parent_object->getTitle()),
+                $this->ctrl->getLinkTarget($this, "showOtherRoles")
+            );
         }
     }
 }

@@ -1,34 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for title/description translations
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMultilingualismTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected int $nr;
+    protected string $master_lang;
+    protected string $base_cmd;
+    protected bool $incl_desc;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_incl_desc = true,
-        $a_base_cmd = "HeaderTitle",
-        $a_master_lang = ""
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        bool $a_incl_desc = true,
+        string $a_base_cmd = "HeaderTitle",
+        string $a_master_lang = ""
     ) {
         global $DIC;
 
@@ -43,7 +49,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
         $this->master_lang = $a_master_lang;
 
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn($this->lng->txt("language"), "", "");
         $this->addColumn($this->lng->txt("default"), "", "");
@@ -52,7 +58,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("description"), "", "");
         }
         //		$this->addColumn($this->lng->txt("actions"), "", "");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.obj_translation2_row.html", "Services/Object");
@@ -61,11 +67,8 @@ class ilMultilingualismTableGUI extends ilTable2GUI
 
         $this->nr = 0;
     }
-    
-    /**
-    * Prepare output
-    */
-    public function prepareOutput()
+
+    protected function prepareOutput(): void
     {
         $lng = $this->lng;
 
@@ -74,11 +77,8 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->addCommandButton("save" . $this->base_cmd . "s", $lng->txt("save"));
         }
     }
-    
-    /**
-    * Fill table row
-    */
-    protected function fillRow($a_set)
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
@@ -91,7 +91,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($this->master_lang == "") {
+        if ($this->master_lang === "") {
             $this->tpl->setCurrentBlock("rb");
             $this->tpl->setVariable("RB_NR", $this->nr);
             if ($a_set["default"]) {
@@ -104,18 +104,18 @@ class ilMultilingualismTableGUI extends ilTable2GUI
 
         if ($this->incl_desc) {
             $this->tpl->setCurrentBlock("desc_row");
-            $this->tpl->setVariable("VAL_DESC", ilUtil::prepareFormOutput($a_set["desc"]));
+            $this->tpl->setVariable("VAL_DESC", ilLegacyFormElementsUtil::prepareFormOutput($a_set["desc"]));
             $this->tpl->setVariable("DNR", $this->nr);
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("NR", $this->nr);
-        
+
         // lang selection
         $languages = ilMDLanguageItem::_getLanguages();
         $this->tpl->setVariable(
             "LANG_SELECT",
-            ilUtil::formSelect(
+            ilLegacyFormElementsUtil::formSelect(
                 $a_set["lang"],
                 "lang[" . $this->nr . "]",
                 $languages,
@@ -125,6 +125,6 @@ class ilMultilingualismTableGUI extends ilTable2GUI
         );
 
 
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set["title"]));
     }
 }

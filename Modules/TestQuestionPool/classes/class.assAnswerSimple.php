@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -11,20 +12,11 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  * @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author	Maximilian Becker <mbecker@databay.de>
  *
- * @version	$Id$
- *
  * @ingroup ModulesTestQuestionPool
  */
 class ASS_AnswerSimple
 {
-    /**
-     * Answer text
-     *
-     * The answer text string of the ASS_AnswerSimple object
-     *
-     * @var string
-     */
-    protected $answertext;
+    protected string $answertext;
 
     /**
      * Points for selected answer
@@ -62,8 +54,6 @@ class ASS_AnswerSimple
      * @param double  $points     The number of points given for the selected answer
      * @param integer $order      A nonnegative value representing a possible display or sort order
      * @param integer $id         The database id of the answer
-     *
-     * @return ASS_AnswerSimple
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $id = -1)
     {
@@ -82,7 +72,7 @@ class ASS_AnswerSimple
      *
      * @see $id
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -96,7 +86,7 @@ class ASS_AnswerSimple
      *
      * @see $answertext
      */
-    public function getAnswertext()
+    public function getAnswertext(): string
     {
         return $this->answertext;
     }
@@ -110,7 +100,7 @@ class ASS_AnswerSimple
      *
      * @see $points
      */
-    public function getPoints()
+    public function getPoints(): float
     {
         return $this->points;
     }
@@ -126,7 +116,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usages and see if this method can be set deprecated due to the simpleton-pattern it is on is_numeric.
      */
-    public function checkPoints($a_points)
+    public function checkPoints($a_points): bool
     {
         return is_numeric($a_points);
     }
@@ -140,7 +130,7 @@ class ASS_AnswerSimple
      *
      * @see $order
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return $this->order;
     }
@@ -156,7 +146,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usage and see if we can get rid of "magic ignorance" of the input value.
      */
-    public function setOrder($order = 0)
+    public function setOrder($order = 0): void
     {
         if ($order >= 0) {
             $this->order = $order;
@@ -170,7 +160,7 @@ class ASS_AnswerSimple
      *
      * @see $id
      */
-    public function setId($id = -1)
+    public function setId($id = -1): void
     {
         $this->id = $id;
     }
@@ -184,7 +174,7 @@ class ASS_AnswerSimple
      *
      * @see $answertext
      */
-    public function setAnswertext($answertext = "")
+    public function setAnswertext($answertext = ""): void
     {
         $this->answertext = $answertext;
     }
@@ -200,7 +190,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usages and see if we can get rid of "magic nullification" here.
      */
-    public function setPoints($points = 0.0)
+    public function setPoints($points = 0.0): void
     {
         $new_points = str_replace(",", ".", $points);
         if ($this->checkPoints($new_points)) {

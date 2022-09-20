@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
@@ -72,7 +88,7 @@ class ComponentEntryRulesTest extends TestCase
     protected Crawler\EntriesYamlParser $parser;
     protected ProperEntryFixture $proper_entry;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->parser = new Crawler\EntriesYamlParser();
         $this->proper_entry = new ProperEntryFixture();
@@ -82,7 +98,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testEmptyRules() : void
+    public function testEmptyRules(): void
     {
         $rule = new Entry\ComponentEntryRules();
         $this->assertEquals($this->empty_rules_array, $rule->getRules());
@@ -94,7 +110,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testHasRules() : void
+    public function testHasRules(): void
     {
         $rules = new Entry\ComponentEntryRules($this->empty_rules_array);
         $this->assertFalse($rules->hasRules());
@@ -105,7 +121,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidRules() : void
+    public function testInvalidRules(): void
     {
         $this->expectException(TypeError::class);
         new Entry\ComponentEntryRules(null);
@@ -117,7 +133,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories1() : void
+    public function testInvalidCategories1(): void
     {
         try {
             new Entry\ComponentEntryRules($this->invalid_categories1_array);
@@ -130,7 +146,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories2() : void
+    public function testInvalidCategories2(): void
     {
         try {
             new Entry\ComponentEntryRules($this->invalid_categories2_array);
@@ -143,7 +159,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryItem() : void
+    public function testInvalidCategoryItem(): void
     {
         try {
             new Entry\ComponentEntryRules($this->invalid_category_item_array);
@@ -156,7 +172,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryValue() : void
+    public function testInvalidCategoryValue(): void
     {
         try {
             new Entry\ComponentEntryRules($this->invalid_category_value_array);
@@ -169,7 +185,7 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectRules1() : void
+    public function testCorrectRules1(): void
     {
         $rules = new Entry\ComponentEntryRules($this->correct_rules1_array);
         $this->assertEquals($this->correct_rules1_array, $rules->getRules());
@@ -178,13 +194,13 @@ class ComponentEntryRulesTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectRules2() : void
+    public function testCorrectRules2(): void
     {
         $rules = new Entry\ComponentEntryRules($this->correct_rules2_array);
         $this->assertEquals($this->correct_rules2_array_return, $rules->getRules());
     }
 
-    public function testParseProperEntryToArray() : void
+    public function testParseProperEntryToArray(): void
     {
         $entry = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php")[0];
 

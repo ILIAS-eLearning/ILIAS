@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Table to select self assessment questions for copying into learning resources
@@ -36,9 +39,9 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setId("cont_qpl");
         $this->pool_ref_id = $a_pool_ref_id;
         $this->pool_obj_id = ilObject::_lookupObjId($a_pool_ref_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle(ilObject::_lookupTitle($this->pool_obj_id));
 
         $this->setFormName('sa_quest_browser');
@@ -53,34 +56,34 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->initFilter();
-        
+
         $this->getQuestions();
     }
 
-    public function getQuestions() : void
+    public function getQuestions(): void
     {
         global $DIC;
 
         $access = $this->access;
-        
+
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
         $all_ids = array();
         foreach ($all_types as $k => $v) {
             $all_ids[] = $v["question_type_id"];
         }
-        
+
         $questions = array();
         if ($access->checkAccess("read", "", $this->pool_ref_id)) {
             $questionList = new ilAssQuestionList(
                 $DIC->database(),
                 $DIC->language(),
-                $DIC["ilPluginAdmin"]
+                $DIC["component.repository"]
             );
             $questionList->setParentObjId($this->pool_obj_id);
             $questionList->load();
-            
+
             $data = $questionList->getQuestionDataArray();
 
             $questions = array();
@@ -94,7 +97,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         $this->setData($questions);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -113,7 +116,7 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         );
         $this->tpl->parseCurrentBlock();
         $ctrl->setParameter($this->parent_obj, "subCmd", "listPoolQuestions");
-        
+
         // properties
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable(

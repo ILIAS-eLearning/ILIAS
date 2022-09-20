@@ -1,19 +1,32 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-/** @defgroup ModulesForum Modules/Forum
- */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjForum
  * @author  Wolfgang Merkens <wmerkens@databay.de>
- * @version $Id$
  * @ingroup ModulesForum
  */
 class ilObjForum extends ilObject
 {
-    private const NEWS_NEW_CONSIDERATION_WEEKS = 8;
-    
+    public const NEWS_NEW_CONSIDERATION_WEEKS = 8;
+
     public ilForum $Forum;
     /** @var array<int, int>  */
     private static array $obj_id_to_forum_id_cache = [];
@@ -21,36 +34,33 @@ class ilObjForum extends ilObject
     private static array $ref_id_to_forum_id_cache = [];
     /** @var array<int, array{num_posts: int, num_unread_posts: int, num_new_posts: int}>  */
     private static array $forum_statistics_cache = [];
-    /** @var array<int, array>  */
+    /** @var array<int, array|null>  */
     private static array $forum_last_post_cache = [];
-    private ilSetting $settings;
     private \ILIAS\DI\RBACServices $rbac;
-    private ilObjUser $user;
     private ilLogger $logger;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
-        $this->settings = $DIC->settings();
-        $this->rbac = $DIC->rbac();
-        $this->db = $DIC->database();
-        $this->user = $DIC->user();
-        $this->logger = $DIC->logger()->root();
         $this->type = 'frm';
         parent::__construct($a_id, $a_call_by_reference);
 
+        $this->rbac = $DIC->rbac();
+        $this->logger = $DIC->logger()->root();
+
+        $settings = $DIC->settings();
         $weeks = self::NEWS_NEW_CONSIDERATION_WEEKS;
-        if ($this->settings->get('frm_store_new')) {
-            $weeks = (int) $this->settings->get('frm_store_new');
+        if ($settings->get('frm_store_new')) {
+            $weeks = (int) $settings->get('frm_store_new');
         }
         $new_deadline = time() - 60 * 60 * 24 * 7 * $weeks;
-        $this->settings->set('frm_new_deadline', (string) $new_deadline);
+        $settings->set('frm_new_deadline', (string) $new_deadline);
 
         $this->Forum = new ilForum();
     }
 
-    public function create() : int
+    public function create(): int
     {
         $id = parent::create();
 
@@ -64,21 +74,23 @@ class ilObjForum extends ilObject
 
         $this->createSettings();
 
+        $this->setOfflineStatus(true);
+        $this->update();
         $this->saveData();
 
         return $id;
     }
 
-    public function setPermissions($a_parent_ref) : void
+    public function setPermissions(int $parent_ref_id): void
     {
-        parent::setPermissions($a_parent_ref);
+        parent::setPermissions($parent_ref_id);
 
         $roles = [self::_lookupModeratorRole($this->getRefId())];
         $this->rbac->admin()->assignUser($roles[0], $this->getOwner());
         $this->updateModeratorRole($roles[0]);
     }
 
-    public function updateModeratorRole(int $role_id) : void
+    public function updateModeratorRole(int $role_id): void
     {
         $this->db->manipulate('UPDATE frm_data SET top_mods = ' . $this->db->quote(
             $role_id,
@@ -86,7 +98,7 @@ class ilObjForum extends ilObject
         ) . ' WHERE top_frm_fk = ' . $this->db->quote($this->getId(), 'integer'));
     }
 
-    public static function _lookupThreadSubject(int $a_thread_id) : string
+    public static function _lookupThreadSubject(int $a_thread_id): string
     {
         global $DIC;
 
@@ -100,7 +112,7 @@ class ilObjForum extends ilObject
         return '';
     }
 
-    public function getCountUnread(int $a_usr_id, int $a_thread_id = 0, bool $ignoreRoot = false) : int
+    public function getCountUnread(int $a_usr_id, int $a_thread_id = 0, bool $ignoreRoot = false): int
     {
         $a_frm_id = $this->getId();
         $topic_id = 0;
@@ -164,10 +176,10 @@ class ilObjForum extends ilObject
         }
         $unread = $num_posts - $count_read;
 
-        return $unread > 0 ? $unread : 0;
+        return max($unread, 0);
     }
 
-    public function markThreadRead(int $a_usr_id, int $a_thread_id) : bool
+    public function markThreadRead(int $a_usr_id, int $a_thread_id): bool
     {
         $res = $this->db->queryF('SELECT pos_pk FROM frm_posts WHERE pos_thr_fk = %s', ['integer'], [$a_thread_id]);
         while ($row = $this->db->fetchObject($res)) {
@@ -177,7 +189,7 @@ class ilObjForum extends ilObject
         return true;
     }
 
-    public function markAllThreadsRead(int $a_usr_id) : void
+    public function markAllThreadsRead(int $a_usr_id): void
     {
         $res = $this->db->queryF(
             'SELECT thr_pk FROM frm_data, frm_threads WHERE top_frm_fk = %s AND top_pk = thr_top_fk',
@@ -190,7 +202,7 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function markPostRead(int $a_usr_id, int $a_thread_id, int $a_post_id) : void
+    public function markPostRead(int $a_usr_id, int $a_thread_id, int $a_post_id): void
     {
         $res = $this->db->queryF(
             '
@@ -203,7 +215,7 @@ class ilObjForum extends ilObject
             [$a_usr_id, $this->getId(), $a_thread_id, $a_post_id]
         );
 
-        if (!$this->db->numRows($res)) {
+        if ($this->db->numRows($res) === 0) {
             $this->db->manipulateF(
                 '
                 INSERT INTO frm_user_read
@@ -219,7 +231,7 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function markPostUnread(int $a_user_id, int $a_post_id) : void
+    public function markPostUnread(int $a_user_id, int $a_post_id): void
     {
         $this->db->manipulateF(
             'DELETE FROM frm_user_read WHERE usr_id = %s AND post_id = %s',
@@ -228,9 +240,9 @@ class ilObjForum extends ilObject
         );
     }
 
-    public function isRead($a_usr_id, $a_post_id) : bool
+    public function isRead($a_usr_id, $a_post_id): bool
     {
-        $res = $this->db->query(
+        $res = $this->db->queryF(
             'SELECT * FROM frm_user_read WHERE usr_id = %s AND post_id = %s',
             ['integer', 'integer'],
             [$a_usr_id, $a_post_id]
@@ -239,7 +251,7 @@ class ilObjForum extends ilObject
         return (bool) $this->db->numRows($res);
     }
 
-    public function updateLastAccess(int $a_usr_id, int $a_thread_id) : void
+    public function updateLastAccess(int $a_usr_id, int $a_thread_id): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_thread_access WHERE usr_id = %s AND obj_id = %s AND thread_id = %s',
@@ -265,7 +277,7 @@ class ilObjForum extends ilObject
         }
     }
 
-    public static function _updateOldAccess(int $a_usr_id) : void
+    public static function _updateOldAccess(int $a_usr_id): void
     {
         global $DIC;
 
@@ -299,7 +311,7 @@ class ilObjForum extends ilObject
         $ilDB->manipulateF('DELETE FROM frm_thread_access WHERE access_last < %s', ['integer'], [$new_deadline]);
     }
 
-    public static function _deleteUser(int $a_usr_id) : void
+    public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -310,41 +322,40 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_notification WHERE user_id = %s', ['integer'], $data);
     }
 
-    public static function _deleteReadEntries(int $a_post_id) : void
+    public static function _deleteReadEntries(int $a_post_id): void
     {
         global $DIC;
 
         $DIC->database()->manipulateF('DELETE FROM frm_user_read WHERE post_id = %s', ['integer'], [$a_post_id]);
     }
 
-    public static function _deleteAccessEntries(int $a_thread_id) : void
+    public static function _deleteAccessEntries(int $a_thread_id): void
     {
         global $DIC;
 
         $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE thread_id = %s', ['integer'], [$a_thread_id]);
     }
 
-    public function update(int $a_update_user_id = 0) : bool
+    public function updateMoficationUserId(int $usr_id): void
     {
-        if ($a_update_user_id === 0) {
-            $a_update_user_id = $this->user->getId();
-        }
+        $this->db->manipulateF(
+            'UPDATE frm_data SET update_user = %s WHERE top_frm_fk = %s',
+            ['integer', 'integer'],
+            [$usr_id, $this->getId()],
+        );
+    }
 
+    public function update(): bool
+    {
         if (parent::update()) {
             $this->db->manipulateF(
-                '
-				UPDATE frm_data 
-				SET top_name = %s,
-					top_description = %s,
-					top_update = %s,
-					update_user = %s
-				WHERE top_frm_fk =%s',
+                'UPDATE frm_data SET top_name = %s, top_description = %s, top_update = %s, update_user = %s WHERE top_frm_fk = %s',
                 ['text', 'text', 'timestamp', 'integer', 'integer'],
                 [
                     $this->getTitle(),
                     $this->getDescription(),
                     date("Y-m-d H:i:s"),
-                    $a_update_user_id,
+                    $this->user->getId(),
                     $this->getId()
                 ]
             );
@@ -355,10 +366,10 @@ class ilObjForum extends ilObject
         return false;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjForum
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
-        /** @var $new_obj ilObjForum */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        /** @var ilObjForum $new_obj */
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneAutoGeneratedRoles($new_obj);
 
         ilForumProperties::getInstance($this->getId())->copy($new_obj->getId());
@@ -380,7 +391,7 @@ class ilObjForum extends ilObject
             'top_frm_fk' => ['integer', $new_obj->getId()]
         ]);
 
-        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cwo = ilCopyWizardOptions::_getInstance($copy_id);
         $options = $cwo->getOptions($this->getRefId());
 
         $options['threads'] = $this->Forum::getSortedThreadSubjects($this->getId());
@@ -392,7 +403,7 @@ class ilObjForum extends ilObject
         $new_frm->setForumRefId($new_obj->getRefId());
 
         $new_topic = $new_frm->getOneTopic();
-        foreach ($options['threads'] as $thread_id => $thread_subject) {
+        foreach (array_keys($options['threads']) as $thread_id) {
             $this->Forum->setMDB2WhereCondition('thr_pk = %s ', ['integer'], [$thread_id]);
 
             $old_thread = $this->Forum->getOneThread();
@@ -408,13 +419,19 @@ class ilObjForum extends ilObject
             $newThread->setUserAlias($old_thread->getUserAlias());
             $newThread->setCreateDate($old_thread->getCreateDate());
 
+            try {
+                $top_pos = $old_thread->getFirstVisiblePostNode();
+            } catch (OutOfBoundsException) {
+                $top_pos = new ilForumPost($old_post_id);
+            }
+
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForumPost::lookupPostMessage($old_post_id),
-                ilForumPost::lookupNotificationStatusByPostId($old_post_id),
+                $top_pos->getMessage(),
+                $top_pos->isNotificationEnabled(),
                 false,
                 true,
-                false
+                (bool) ($old_thread->getNumPosts() - 1)
             );
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
@@ -437,10 +454,34 @@ class ilObjForum extends ilObject
             }
         }
 
+        if (ilForumPage::_exists($this->getType(), $this->getId())) {
+            $translations = ilContentPagePage::lookupTranslations($this->getType(), $this->getId());
+            foreach ($translations as $language) {
+                $originalPageObject = new ilForumPage($this->getId(), 0, $language);
+                $copiedXML = $originalPageObject->copyXmlContent();
+
+                $duplicatePageObject = new ilForumPage();
+                $duplicatePageObject->setId($new_obj->getId());
+                $duplicatePageObject->setParentId($new_obj->getId());
+                $duplicatePageObject->setLanguage($language);
+                $duplicatePageObject->setXMLContent($copiedXML);
+                $duplicatePageObject->createFromXML();
+            }
+        }
+
+        $cwo = ilCopyWizardOptions::_getInstance($copy_id);
+        //copy online status if object is not the root copy object
+        if (!$cwo->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
+        }
+        $new_obj->update();
+
         return $new_obj;
     }
 
-    public function cloneAutoGeneratedRoles(self $new_obj) : void
+    public function cloneAutoGeneratedRoles(self $new_obj): void
     {
         $src_moderator_role_id = self::_lookupModeratorRole($this->getRefId());
         $new_moderator_role_id = self::_lookupModeratorRole($new_obj->getRefId());
@@ -475,10 +516,15 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if (!parent::delete()) {
             return false;
+        }
+
+        if (ilForumPage::_exists($this->getType(), $this->getId())) {
+            $originalPageObject = new ilForumPage($this->getId());
+            $originalPageObject->delete();
         }
 
         $tmp_file_obj = new ilFileDataForum($this->getId());
@@ -532,7 +578,7 @@ class ilObjForum extends ilObject
         return true;
     }
 
-    private function deleteDraftsByForumId(int $forum_id) : void
+    private function deleteDraftsByForumId(int $forum_id): void
     {
         $res = $this->db->queryF(
             'SELECT draft_id FROM frm_posts_drafts WHERE forum_id = %s',
@@ -545,7 +591,7 @@ class ilObjForum extends ilObject
             $draft_ids[] = (int) $row['draft_id'];
         }
 
-        if (count($draft_ids) > 0) {
+        if ($draft_ids !== []) {
             $historyObj = new ilForumDraftsHistory();
             $historyObj->deleteHistoryByDraftIds($draft_ids);
 
@@ -554,9 +600,9 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles(): void
     {
-        return ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             'il_frm_moderator_' . $this->getRefId(),
             "Moderator of forum obj_no." . $this->getId(),
             'il_frm_moderator',
@@ -564,7 +610,7 @@ class ilObjForum extends ilObject
         );
     }
 
-    public static function _lookupModeratorRole(int $a_ref_id) : int
+    public static function _lookupModeratorRole(int $a_ref_id): int
     {
         global $DIC;
 
@@ -580,7 +626,7 @@ class ilObjForum extends ilObject
         return 0;
     }
 
-    public function createSettings() : void
+    public function createSettings(): void
     {
         global $DIC;
 
@@ -595,11 +641,11 @@ class ilObjForum extends ilObject
         // news settings (public notifications yes/no)
         $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($ref_id);
         if ($default_visibility === 'public') {
-            ilBlockSetting::_write('news', 'public_notifications', 1, 0, $this->getId());
+            ilBlockSetting::_write('news', 'public_notifications', '1', 0, $this->getId());
         }
     }
 
-    public function saveData() : void
+    public function saveData(): void
     {
         $nextId = $this->db->nextId('frm_data');
 
@@ -658,7 +704,7 @@ class ilObjForum extends ilObject
         );
     }
 
-    public function setThreadSorting(int $a_thr_pk, int $a_sorting_value) : void
+    public function setThreadSorting(int $a_thr_pk, int $a_sorting_value): void
     {
         $this->db->update(
             'frm_threads',
@@ -667,7 +713,7 @@ class ilObjForum extends ilObject
         );
     }
 
-    public static function lookupForumIdByObjId(int $obj_id) : int
+    public static function lookupForumIdByObjId(int $obj_id): int
     {
         if (array_key_exists($obj_id, self::$obj_id_to_forum_id_cache)) {
             return self::$obj_id_to_forum_id_cache[$obj_id];
@@ -678,7 +724,7 @@ class ilObjForum extends ilObject
         return self::$obj_id_to_forum_id_cache[$obj_id];
     }
 
-    public static function lookupForumIdByRefId(int $ref_id) : int
+    public static function lookupForumIdByRefId(int $ref_id): int
     {
         if (array_key_exists($ref_id, self::$ref_id_to_forum_id_cache)) {
             return self::$ref_id_to_forum_id_cache[$ref_id];
@@ -692,7 +738,7 @@ class ilObjForum extends ilObject
     /**
      * @param int[] $obj_ids
      */
-    public static function preloadForumIdsByObjIds(array $obj_ids) : void
+    public static function preloadForumIdsByObjIds(array $obj_ids): void
     {
         global $DIC;
 
@@ -725,7 +771,7 @@ class ilObjForum extends ilObject
     /**
      * @param int[] $ref_ids
      */
-    public static function preloadForumIdsByRefIds(array $ref_ids) : void
+    public static function preloadForumIdsByRefIds(array $ref_ids): void
     {
         global $DIC;
 
@@ -756,10 +802,9 @@ class ilObjForum extends ilObject
     }
 
     /**
-     * @param int $ref_id
      * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
      */
-    public static function lookupStatisticsByRefId(int $ref_id) : array
+    public static function lookupStatisticsByRefId(int $ref_id): array
     {
         global $DIC;
 
@@ -779,7 +824,7 @@ class ilObjForum extends ilObject
         ];
 
         $forumId = self::lookupForumIdByRefId($ref_id);
-        if (!$forumId) {
+        if ($forumId === 0) {
             self::$forum_statistics_cache[$ref_id] = $statistics;
             return self::$forum_statistics_cache[$ref_id];
         }
@@ -900,7 +945,7 @@ class ilObjForum extends ilObject
         return self::$forum_statistics_cache[$ref_id];
     }
 
-    public static function lookupLastPostByRefId(int $ref_id) : array
+    public static function lookupLastPostByRefId(int $ref_id): ?array
     {
         global $DIC;
 
@@ -908,12 +953,12 @@ class ilObjForum extends ilObject
         $ilUser = $DIC->user();
         $ilDB = $DIC->database();
 
-        if (isset(self::$forum_last_post_cache[$ref_id])) {
+        if (array_key_exists($ref_id, self::$forum_last_post_cache)) {
             return self::$forum_last_post_cache[$ref_id];
         }
 
         $forumId = self::lookupForumIdByRefId($ref_id);
-        if (!$forumId) {
+        if ($forumId === 0) {
             self::$forum_last_post_cache[$ref_id] = [];
             return self::$forum_last_post_cache[$ref_id];
         }
@@ -943,6 +988,10 @@ class ilObjForum extends ilObject
         );
 
         $data = $ilDB->fetchAssoc($res);
+        if (!is_array($data) || empty($data)) {
+            self::$forum_last_post_cache[$ref_id] = null;
+            return self::$forum_last_post_cache[$ref_id];
+        }
 
         $casted_data = [];
         $casted_data['pos_pk'] = (int) $data['pos_pk'];
@@ -965,17 +1014,16 @@ class ilObjForum extends ilObject
         $casted_data['pos_cens_date'] = (string) $data['pos_cens_date'];
         $casted_data['pos_activation_date'] = (string) $data['pos_activation_date'];
 
-        self::$forum_last_post_cache[$ref_id] = is_array($casted_data) ? $casted_data : [];
+        self::$forum_last_post_cache[$ref_id] = $casted_data;
 
         return self::$forum_last_post_cache[$ref_id];
     }
 
     /**
-     * @param int $ref_id
      * @param int[] $thread_ids
      * @return int[]
      */
-    public static function getUserIdsOfLastPostsByRefIdAndThreadIds(int $ref_id, array $thread_ids) : array
+    public static function getUserIdsOfLastPostsByRefIdAndThreadIds(int $ref_id, array $thread_ids): array
     {
         global $DIC;
 
@@ -1018,10 +1066,10 @@ class ilObjForum extends ilObject
 
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($res)) {
-            if ((int) $row['pos_display_user_id']) {
+            if ((int) $row['pos_display_user_id'] !== 0) {
                 $usr_ids[] = (int) $row['pos_display_user_id'];
             }
-            if ((int) $row['update_user']) {
+            if ((int) $row['update_user'] !== 0) {
                 $usr_ids[] = (int) $row['update_user'];
             }
         }
@@ -1029,7 +1077,7 @@ class ilObjForum extends ilObject
         return array_unique($usr_ids);
     }
 
-    public static function mergeForumUserRead(int $merge_source_thread_id, int $merge_target_thread_id) : void
+    public static function mergeForumUserRead(int $merge_source_thread_id, int $merge_target_thread_id): void
     {
         global $DIC;
 
@@ -1039,8 +1087,8 @@ class ilObjForum extends ilObject
             ['thread_id' => ['integer', $merge_source_thread_id]]
         );
     }
-    
-    public function getNumStickyThreads() : int
+
+    public function getNumStickyThreads(): int
     {
         $res = $this->db->query(
             'SELECT COUNT(is_sticky) num_sticky FROM frm_threads
@@ -1053,5 +1101,26 @@ class ilObjForum extends ilObject
         }
 
         return 0;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPageObjIds(): array
+    {
+        $pageObjIds = [];
+
+        $sql = 'SELECT DISTINCT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s';
+        $res = $this->db->queryF(
+            $sql,
+            ['integer', 'text'],
+            [$this->getId(), $this->getType()]
+        );
+
+        while ($row = $this->db->fetchAssoc($res)) {
+            $pageObjIds[] = (int) $row['page_id'];
+        }
+
+        return $pageObjIds;
     }
 }

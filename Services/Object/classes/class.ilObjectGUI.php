@@ -1,8 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Factory;
 
 /**
  * Class ilObjectGUI
@@ -14,162 +33,71 @@ class ilObjectGUI
 {
     public const ADMIN_MODE_NONE = "";
     public const ADMIN_MODE_SETTINGS = "settings";
-    public const ADMIN_MODE_REPOSITORY = "respository";
+    public const ADMIN_MODE_REPOSITORY = "repository";
+    public const UPLOAD_TYPE_LOCAL = 1;
+    public const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
+    public const CFORM_NEW = 1;
+    public const CFORM_IMPORT = 2;
+    public const CFORM_CLONE = 3;
+    protected \ILIAS\Notes\Service $notes_service;
 
+    protected ServerRequestInterface $request;
+    protected ilLocatorGUI $locator;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilToolbarGUI $toolbar;
+    protected ilRbacAdmin $rbac_admin;
+    protected ilRbacSystem $rbac_system;
+    protected ilRbacReview $rbac_review;
+    protected ilObjectService $object_service;
+    protected ilObjectDefinition $obj_definition;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTree $tree;
+    protected ilCtrl $ctrl;
+    protected ilErrorHandling $error;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs_gui;
+    protected ILIAS $ilias;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected RequestWrapper $request_wrapper;
+    protected Factory $refinery;
+    protected ilFavouritesManager $favourites;
+    protected ilObjectCustomIconFactory $custom_icon_factory;
+    private ilObjectRequestRetriever $retriever;
 
-    protected const UPLOAD_TYPE_LOCAL = 1;
-    protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
+    protected ?ilObject $object = null;
     protected bool $creation_mode = false;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $ilErr;
-
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    const COPY_WIZARD_NEEDS_PAGE = 1;
-    
-
-    /**
-    * object Definition Object
-    * @var		object ilias
-    * @access	private
-    */
-    public $objDefinition;
-
-    /**
-    * template object
-    * @var		ilGlobalTemplateInterface
-    * @access	private
-    */
-    public $tpl;
-
-    /**
-    * tree object
-    * @var		object ilias
-    * @access	private
-    */
-    public $tree;
-
-    /**
-    * language object
-    * @var		object language (of ilObject)
-    * @access	private
-    */
-    public $lng;
-
-    /**
-    * output data
-    * @var		data array
-    * @access	private
-    */
-    public $data;
-
-    /**
-    * object
-    * @var          \ilObject
-    * @access       private
-    */
-    public $object;
-    public $ref_id;
-    public $obj_id;
-    public $maxcount;			// contains number of child objects
-    public $formaction;		// special formation (array "cmd" => "formaction")
-    public $return_location;	// special return location (array "cmd" => "location")
-    public $target_frame;	// special target frame (array "cmd" => "location")
-    protected $tmp_import_dir;	// directory used during import
-
-    public $tab_target_script;
-    public $actions;
-    public $sub_objects;
-    public $omit_locator = false;
-
-    /**
-     * @var string
-     */
-    protected $type = "";
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui = null;
-    
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjectService
-     */
-    protected $object_service;
-
-    const CFORM_NEW = 1;
-    const CFORM_IMPORT = 2;
-    const CFORM_CLONE = 3;
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $favourites;
-
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $admin_mode = self::ADMIN_MODE_NONE;
-
+    protected $data;
+    protected int $id;
+    protected bool $call_by_reference = false;
+    protected bool $prepare_output;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected int $maxcount;			// contains number of child objects
+    protected array $form_action = [];		// special formation (array "cmd" => "formaction")
+    protected array $return_location = [];	// special return location (array "cmd" => "location")
+    protected array $target_frame = [];	// special target frame (array "cmd" => "location")
+    protected string $tmp_import_dir;	// directory used during import
+    protected string $sub_objects = "";
+    protected bool $omit_locator = false;
+    protected string $type = "";
+    protected string $admin_mode = self::ADMIN_MODE_NONE;
     protected int $requested_ref_id = 0;
     protected int $requested_crtptrefid = 0;
     protected int $requested_crtcb = 0;
     protected string $requested_new_type = "";
+    protected string $link_params;
+    protected string $html = "";
 
     /**
-    * Constructor
-    * @access	public
-    * @param	array	??
-    * @param	integer	object id
-    * @param	boolean	call be reference
-    */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+     * @param mixed $data
+     * @param int $id
+     * @param bool $call_by_reference
+     * @param bool $prepare_output
+     * @throws ilCtrlException
+     */
+    public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         global $DIC;
 
@@ -178,101 +106,87 @@ class ilObjectGUI
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
-        $this->rbacreview = $DIC->rbac()->review();
         $this->toolbar = $DIC->toolbar();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbac_admin = $DIC->rbac()->admin();
+        $this->rbac_system = $DIC->rbac()->system();
+        $this->rbac_review = $DIC->rbac()->review();
         $this->object_service = $DIC->object();
-        $objDefinition = $DIC["objDefinition"];
-        $tpl = $DIC["tpl"];
-        $tree = $DIC->repositoryTree();
-        $ilCtrl = $DIC->ctrl();
-        $ilErr = $DIC["ilErr"];
-        $lng = $DIC->language();
-        $ilTabs = $DIC->tabs();
-
-        $this->favourites = new ilFavouritesManager();
-
+        $this->obj_definition = $DIC["objDefinition"];
+        $this->tpl = $DIC["tpl"];
+        $this->tree = $DIC->repositoryTree();
+        $this->ctrl = $DIC->ctrl();
+        $this->error = $DIC["ilErr"];
+        $this->lng = $DIC->language();
+        $this->tabs_gui = $DIC->tabs();
         $this->ilias = $DIC["ilias"];
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->favourites = new ilFavouritesManager();
+        $this->custom_icon_factory = $DIC['object.customicons.factory'];
 
-        /**
-         * @var ilTab
-         */
-        $this->tabs_gui = $ilTabs;
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
-        $this->objDefinition = $objDefinition;
-        $this->tpl = $tpl;
-        $this->html = "";
-        $this->ctrl = $ilCtrl;
+        $this->data = $data;
+        $this->id = $id;
+        $this->call_by_reference = $call_by_reference;
+        $this->prepare_output = $prepare_output;
 
         $params = array("ref_id");
-
-        if (!$a_call_by_reference) {
+        if (!$call_by_reference) {
             $params = array("ref_id","obj_id");
         }
-
         $this->ctrl->saveParameter($this, $params);
 
-        $this->lng = $lng;
-        $this->tree = $tree;
-        $this->formaction = array();
-        $this->return_location = array();
-        $this->target_frame = array();
-        $this->actions = "";
-        $this->sub_objects = "";
+        if ($this->request_wrapper->has("ref_id")) {
+            $this->requested_ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        }
 
-        $this->data = $a_data;
-        $this->id = $a_id;
-        $this->call_by_reference = $a_call_by_reference;
-        $this->prepare_output = $a_prepare_output;
-        $this->creation_mode = false;
+        $this->obj_id = $this->id;
+        $this->ref_id = $this->requested_ref_id;
 
-        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
-        $this->ref_id = (int) ($this->call_by_reference ? $this->id : ($_GET["ref_id"] ?? 0));
-        $this->obj_id = (int) ($this->call_by_reference ? ($_GET["obj_id"] ?? 0) : $this->id);
+        if ($call_by_reference) {
+            $this->ref_id = $this->id;
+            $this->obj_id = 0;
+            if ($this->request_wrapper->has("obj_id")) {
+                $this->obj_id = $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->int());
+            }
+        }
 
+        // TODO: refactor this with post_wrapper or request_wrapper
         // callback after creation
-        $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
-        $this->requested_crtcb = (int) ($_REQUEST["crtcb"] ?? 0);
-        $this->requested_new_type = $_REQUEST["new_type"] ?? "";
+        $this->requested_crtptrefid = $this->retriever->getMaybeInt('crtptrefid', 0);
+        $this->requested_crtcb = $this->retriever->getMaybeInt("crtcb", 0);
+        $this->requested_new_type = $this->retriever->getMaybeString("new_type", "");
 
 
         if ($this->id != 0) {
             $this->link_params = "ref_id=" . $this->ref_id;
         }
 
-        // get the object
         $this->assignObject();
-        
-        // set context
+
         if (is_object($this->object)) {
             if ($this->call_by_reference && $this->ref_id == $this->requested_ref_id) {
-                $this->ctrl->setContext(
+                $this->ctrl->setContextObject(
                     $this->object->getId(),
                     $this->object->getType()
                 );
             }
         }
 
-        //prepare output
-        if ($a_prepare_output) {
+        if ($prepare_output) {
             $this->prepareOutput();
         }
+
+        $this->notes_service = $DIC->notes();
     }
 
-    /**
-     * Set by administration
-     *
-     * @param string $mode
-     * @throws ilObjectException
-     */
-    public function setAdminMode(string $mode) : void
+    public function getRefId(): int
+    {
+        return $this->ref_id;
+    }
+
+    public function setAdminMode(string $mode): void
     {
         if (!in_array($mode, [
             self::ADMIN_MODE_NONE,
@@ -283,72 +197,61 @@ class ilObjectGUI
         }
         $this->admin_mode = $mode;
     }
-    
-    /**
-     * Get object service
-     *
-     * @return ilObjectService
-     */
-    protected function getObjectService()
+
+    public function getAdminMode(): string
+    {
+        return $this->admin_mode;
+    }
+
+    protected function getObjectService(): ilObjectService
     {
         return $this->object_service;
     }
-    
-    /**
-    * execute command
-    */
-    public function executeCommand()
+
+    public function getObject(): ?ilObject
     {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
-
-        switch ($next_class) {
-            default:
-                $this->prepareOutput();
-                if (!$cmd) {
-                    $cmd = "view";
-                }
-                $cmd .= "Object";
-                $this->$cmd();
-                    
-                break;
-        }
-
-        return true;
+        return $this->object;
     }
 
+    public function executeCommand(): void
+    {
+        $cmd = $this->ctrl->getCmd();
+
+        $this->prepareOutput();
+        if (!$cmd) {
+            $cmd = "view";
+        }
+        $cmd .= "Object";
+        $this->$cmd();
+    }
 
     /**
-    * determines wether objects are referenced or not (got ref ids or not)
+    * determines whether objects are referenced or not (got ref ids or not)
     */
-    public function withReferences()
+    public function withReferences(): bool
     {
         return $this->call_by_reference;
     }
-    
+
     /**
     * if true, a creation screen is displayed
-    * the current $_GET[ref_id] don't belong
+    * the current [ref_id] don't belong
     * to the current class!
-    * the mode is determined in ilrepositorygui
+    * The mode is determined in ilRepositoryGUI
     */
-    public function setCreationMode($a_mode = true)
+    public function setCreationMode(bool $mode = true): void
     {
-        $this->creation_mode = $a_mode;
+        $this->creation_mode = $mode;
     }
-    
-    /**
-    * get creation mode
-    */
-    public function getCreationMode()
+
+    public function getCreationMode(): bool
     {
         return $this->creation_mode;
     }
 
-    protected function assignObject()
+    protected function assignObject(): void
     {
         // TODO: it seems that we always have to pass only the ref_id
-        //echo "<br>ilObjectGUIassign:".get_class($this).":".$this->id.":<br>";
         if ($this->id != 0) {
             if ($this->call_by_reference) {
                 $this->object = ilObjectFactory::getInstanceByRefId($this->id);
@@ -358,77 +261,57 @@ class ilObjectGUI
         }
     }
 
-    /**
-    * prepare output
-    */
-    public function prepareOutput($a_show_subobjects = true)
+    public function prepareOutput(bool $show_sub_objects = true): bool
     {
-        $ilLocator = $this->locator;
-        $tpl = $this->tpl;
-        $ilUser = $this->user;
-
         $this->tpl->loadStandardTemplate();
         // administration prepare output
-        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+        $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
+        if (strtolower($base_class) == "iladministrationgui") {
             $this->addAdminLocatorItems();
-            $tpl->setLocator();
-
-            //			ilUtil::sendInfo();
-            ilUtil::infoPanel();
+            $this->tpl->setLocator();
 
             $this->setTitleAndDescription();
 
             if ($this->getCreationMode() != true) {
                 $this->setAdminTabs();
             }
-            
+
             return false;
         }
-        // set locator
         $this->setLocator();
-        // catch feedback message
-        //		ilUtil::sendInfo();
-        ilUtil::infoPanel();
 
-        // in creation mode (parent) object and gui object
-        // do not fit
-        if ($this->getCreationMode() == true) {
+        // in creation mode (parent) object and gui object do not fit
+        if ($this->getCreationMode() === true) {
             // repository vs. workspace
             if ($this->call_by_reference) {
                 // get gui class of parent and call their title and description method
                 $obj_type = ilObject::_lookupType($this->requested_ref_id, true);
-                $class_name = $this->objDefinition->getClassName($obj_type);
+                $class_name = $this->obj_definition->getClassName($obj_type);
                 $class = strtolower("ilObj" . $class_name . "GUI");
                 $class_path = $this->ctrl->lookupClassPath($class);
-                include_once($class_path);
                 $class_name = $this->ctrl->getClassForClasspath($class_path);
-                //echo "<br>instantiating parent for title and description";
-                $this->parent_gui_obj = new $class_name("", $this->requested_ref_id, true, false);
+
+//                $parent_gui_obj = new $class_name($this->requested_ref_id, true, false); // TODO: this fails in many cases since the parameters of the constructor are not known
                 // the next line prevents the header action menu being shown
-                $this->parent_gui_obj->setCreationMode(true);
-                $this->parent_gui_obj->setTitleAndDescription();
+//                $parent_gui_obj->setCreationMode(true);
+//                $parent_gui_obj->setTitleAndDescription();
             }
         } else {
-            // set title and description and title icon
             $this->setTitleAndDescription();
-    
+
             // set tabs
             $this->setTabs();
 
-
-            // fileupload support
-            if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
+            $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id);
+            if ($file_upload_dropzone->isUploadAllowed($this->object->getType())) {
                 $this->enableDragDropFileUpload();
             }
         }
-        
+
         return true;
     }
-    
-    /**
-    * called by prepare output
-    */
-    protected function setTitleAndDescription()
+
+    protected function setTitleAndDescription(): void
     {
         if (!is_object($this->object)) {
             if ($this->requested_crtptrefid > 0) {
@@ -440,97 +323,96 @@ class ilObjectGUI
         }
         $this->tpl->setTitle($this->object->getPresentationTitle());
         $this->tpl->setDescription($this->object->getLongDescription());
-            
-        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+
+        $base_class = $this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string());
+        if (strtolower($base_class) == "iladministrationgui") {
             // alt text would be same as heading -> empty alt text
-            $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
+            $this->tpl->setTitleIcon(ilObject::_getIcon(0, "big", $this->object->getType()));
         } else {
             $this->tpl->setTitleIcon(
-                ilObject::_getIcon("", "big", $this->object->getType()),
+                ilObject::_getIcon(0, "big", $this->object->getType()),
                 $this->lng->txt("obj_" . $this->object->getType())
             );
         }
-
-        $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
-        $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
-        $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        if (!$this->obj_definition->isAdministrationObject($this->object->getType())) {
+            $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+            $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
+            $this->tpl->setAlertProperties($lgui->getAlertProperties());
+        }
     }
-    
+
     /**
      * Add header action menu
-     *
-     * @param string $a_sub_type
-     * @param int $a_sub_id
-     * @return ilObjectListGUI
      */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
-        $ilAccess = $this->access;
-        
         if (!$this->creation_mode && $this->object) {
             $dispatcher = new ilCommonActionDispatcherGUI(
                 ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-                $ilAccess,
+                $this->access,
                 $this->object->getType(),
                 $this->ref_id,
                 $this->object->getId()
             );
-            
-            $dispatcher->setSubObject($a_sub_type, $a_sub_id);
-            
+
+            $dispatcher->setSubObject($sub_type, $sub_id);
+
             ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
-                $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+                "",
+                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
             );
-            
+
             $lg = $dispatcher->initHeaderAction();
-            
+
             if (is_object($lg)) {
                 // to enable add to desktop / remove from desktop
                 if ($this instanceof ilDesktopItemHandling) {
                     $lg->setContainerObject($this);
                 }
-                
                 // enable multi download
                 $lg->enableMultiDownload(true);
-                
+
                 // comments settings are always on (for the repository)
                 // should only be shown if active or permission to toggle
-                if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
-                    $ilAccess->checkAccess("edit_permissions", "", $this->ref_id) ||
-                    ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType())) {
+                if (
+                    $this->access->checkAccess("write", "", $this->ref_id) ||
+                    $this->access->checkAccess("edit_permissions", "", $this->ref_id) ||
+                    $this->notes_service->domain()->commentsActive($this->object->getId())
+                ) {
                     $lg->enableComments(true);
                 }
-                
+
                 $lg->enableNotes(true);
                 $lg->enableTags(true);
             }
-            
+
             return $lg;
         }
+        return null;
     }
-    
+
     /**
      * Insert header action into main template
-     *
-     * @param ilObjectListGUI $a_list_gui
      */
-    protected function insertHeaderAction($a_list_gui)
+    protected function insertHeaderAction(?ilObjectListGUI $list_gui = null): void
     {
-        if (!is_object($this->object) || ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions")) {
+        if (
+            !is_object($this->object) ||
+            ilContainer::_lookupContainerSetting($this->object->getId(), "hide_top_actions")
+        ) {
             return;
         }
 
-        if (is_object($a_list_gui)) {
-            $this->tpl->setHeaderActionMenu($a_list_gui->getHeaderAction());
+        if (is_object($list_gui)) {
+            $this->tpl->setHeaderActionMenu($list_gui->getHeaderAction());
         }
     }
-    
+
     /**
      * Add header action menu
      */
-    protected function addHeaderAction()
+    protected function addHeaderAction(): void
     {
         $this->insertHeaderAction($this->initHeaderAction());
     }
@@ -538,35 +420,28 @@ class ilObjectGUI
     /**
      * Ajax call: redraw action header only
      */
-    protected function redrawHeaderActionObject()
+    protected function redrawHeaderActionObject(): void
     {
-        $tpl = $this->tpl;
-        
         $lg = $this->initHeaderAction();
         echo $lg->getHeaderAction();
-        
+
         // we need to add onload code manually (rating, comments, etc.)
-        echo $tpl->getOnLoadCodeForAsynch();
-        
+        echo $this->tpl->getOnLoadCodeForAsynch();
         exit;
     }
-    
-
 
     /**
     * set admin tabs
-    * @access	public
     */
-    protected function setTabs()
+    protected function setTabs(): void
     {
         $this->getTabs();
     }
 
     /**
     * set admin tabs
-    * @access	public
     */
-    final protected function setAdminTabs()
+    final protected function setAdminTabs(): void
     {
         $this->getAdminTabs();
     }
@@ -574,10 +449,8 @@ class ilObjectGUI
     /**
     * administration tabs show only permissions and trash folder
     */
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
-        $tree = $this->tree;
-
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTarget(
                 "view",
@@ -586,71 +459,27 @@ class ilObjectGUI
                 get_class($this)
             );
         }
-        
+
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"),
                 "",
                 "ilpermissiongui"
             );
         }
     }
 
-
-    public function getHTML()
+    public function getHTML(): string
     {
         return $this->html;
     }
 
-
-    /**
-    * set possible actions for objects in list. if actions are set
-    * via this method, the values of objects.xml are ignored.
-    *
-    * @param	array		$a_actions		array with $command => $lang_var pairs
-    */
-    private function setActions($a_actions = "")
-    {
-        if (is_array($a_actions)) {
-            foreach ($a_actions as $name => $lng) {
-                $this->actions[$name] = array("name" => $name, "lng" => $lng);
-            }
-        } else {
-            $this->actions = "";
-        }
-    }
-
-    /**
-    * set possible subobjects for this object. if subobjects are set
-    * via this method, the values of objects.xml are ignored.
-    *
-    * @param	array		$a_actions		array with $command => $lang_var pairs
-    */
-    private function setSubObjects($a_sub_objects = "")
-    {
-        if (is_array($a_sub_objects)) {
-            foreach ($a_sub_objects as $name => $options) {
-                $this->sub_objects[$name] = array("name" => $name, "max" => $options["max"]);
-            }
-        } else {
-            $this->sub_objects = "";
-        }
-    }
-
-    /**
-    * set Locator
-    *
-    * @param	object	tree object
-    * @param	integer	reference id
-    * @param	scriptanme that is used for linking;
-    * @access	public
-    */
-    protected function setLocator()
+    protected function setLocator(): void
     {
         $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        
+
         if ($this->omit_locator) {
             return;
         }
@@ -658,61 +487,58 @@ class ilObjectGUI
         // repository vs. workspace
         if ($this->call_by_reference) {
             // todo: admin workaround
-            // in the future, objectgui classes should not be called in
+            // in the future, object gui classes should not be called in
             // admin section anymore (rbac/trash handling in own classes)
-            $ref_id = ($this->requested_ref_id > 0)
-                ? $this->requested_ref_id
-                : $this->object->getRefId();
+            $ref_id = $this->requested_ref_id;
+            if ($this->requested_ref_id === 0) {
+                $ref_id = $this->object->getRefId();
+            }
             $ilLocator->addRepositoryItems($ref_id);
         }
-        
+
         if (!$this->creation_mode) {
             $this->addLocatorItems();
         }
 
         $tpl->setLocator();
     }
-    
-    /**
-    * should be overwritten to add object specific items
-    * (repository items are preloaded)
-    */
-    protected function addLocatorItems()
-    {
-    }
-    
-    protected function omitLocator($a_omit = true)
-    {
-        $this->omit_locator = $a_omit;
-    }
 
     /**
     * should be overwritten to add object specific items
     * (repository items are preloaded)
-    *
-    * @param bool $a_do_not_add_object
     */
-    protected function addAdminLocatorItems($a_do_not_add_object = false)
+    protected function addLocatorItems(): void
     {
-        $ilLocator = $this->locator;
-        
-        if ($this->admin_mode == self::ADMIN_MODE_SETTINGS) {	// system settings
+    }
+
+    protected function omitLocator(bool $omit = true): void
+    {
+        $this->omit_locator = $omit;
+    }
+
+    /**
+     * should be overwritten to add object specific items
+     * (repository items are preloaded)
+     */
+    protected function addAdminLocatorItems(bool $do_not_add_object = false): void
+    {
+        if ($this->admin_mode == self::ADMIN_MODE_SETTINGS) {
             $this->ctrl->setParameterByClass(
                 "ilobjsystemfoldergui",
                 "ref_id",
                 SYSTEM_FOLDER_ID
             );
-            $ilLocator->addItem(
+            $this->locator->addItem(
                 $this->lng->txt("administration"),
-                $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), "")
+                $this->ctrl->getLinkTargetByClass(["iladministrationgui", "ilobjsystemfoldergui"], "")
             );
-            if ($this->object && ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object)) {
-                $ilLocator->addItem(
+            if ($this->object && ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$do_not_add_object)) {
+                $this->locator->addItem(
                     $this->object->getTitle(),
                     $this->ctrl->getLinkTarget($this, "view")
                 );
             }
-        } else {							// repository administration
+        } else {
             $this->ctrl->setParameterByClass(
                 "iladministrationgui",
                 "ref_id",
@@ -723,11 +549,8 @@ class ilObjectGUI
                 "admin_mode",
                 "settings"
             );
-            //$ilLocator->addItem($this->lng->txt("administration"),
-            //	$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-            //	ilFrameTargetInfo::_getFrame("MainContent"));
             $this->ctrl->clearParametersByClass("iladministrationgui");
-            $ilLocator->addAdministrationItems();
+            $this->locator->addAdministrationItems();
         }
     }
 
@@ -735,12 +558,16 @@ class ilObjectGUI
     * confirmed deletion of object -> objects are moved to trash or deleted
     * immediately, if trash is disabled
     */
-    public function confirmedDeleteObject()
+    public function confirmedDeleteObject(): void
     {
-        if (isset($_POST["mref_id"])) {
-            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));
+        if ($this->post_wrapper->has("mref_id")) {
+            $mref_id = $this->post_wrapper->retrieve(
+                "mref_id",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+            $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
         }
-        
+
         $ru = new ilRepositoryTrashGUI($this);
         $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post"));
         ilSession::clear("saved_post");
@@ -749,10 +576,8 @@ class ilObjectGUI
 
     /**
     * cancel deletion of object
-    *
-    * @access	public
     */
-    public function cancelDeleteObject()
+    public function cancelDeleteObject(): void
     {
         ilSession::clear("saved_post");
         $this->ctrl->returnToParent($this);
@@ -760,104 +585,89 @@ class ilObjectGUI
 
 
     /**
-    * cancel action and go back to previous page
-    * @access	public
-    *
-    */
-    public function cancelObject()
+     * cancel action and go back to previous page
+     */
+    public function cancelObject(): void
     {
         ilSession::clear("saved_post");
         $this->ctrl->returnToParent($this);
     }
 
     /**
-    * create new object form
-    *
-    * @access	public
-    */
-    public function createObject()
+     * create new object form
+     */
+    public function createObject(): void
     {
-        $tpl = $this->tpl;
-        $ilErr = $this->ilErr;
-
         $new_type = $this->requested_new_type;
 
-        
         // add new object to custom parent container
         $this->ctrl->saveParameter($this, "crtptrefid");
         // use forced callback after object creation
         $this->ctrl->saveParameter($this, "crtcb");
-        
+
         if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         } else {
             $this->lng->loadLanguageModule($new_type);
             $this->ctrl->setParameter($this, "new_type", $new_type);
-            
+
             $forms = $this->initCreationForms($new_type);
-            
+
             // copy form validation error: do not show other creation forms
-            $cpfl = $_GET["cpfl"] ?? false;
-            if ($cpfl && isset($forms[self::CFORM_CLONE])) {
+            if ($this->request_wrapper->has("cpfl") && isset($forms[self::CFORM_CLONE])) {
                 $forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
             }
-            $tpl->setContent($this->getCreationFormsHTML($forms));
+            $this->tpl->setContent($this->getCreationFormsHTML($forms));
         }
     }
 
     /**
-     * Init creation froms
-     *
-     * this will create the default creation forms: new, import, clone
-     *
-     * @param	string	$a_new_type
-     * @return	array
+     * Init creation forms.
+     * This will create the default creation forms: new, import, clone
+     * @return array<int, ilPropertyFormGUI>
      */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type): array
     {
-        $forms = array(
-            self::CFORM_NEW => $this->initCreateForm($a_new_type),
-            self::CFORM_IMPORT => $this->initImportForm($a_new_type),
-            self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
-            );
-        
+        $forms = [
+            self::CFORM_NEW => $this->initCreateForm($new_type),
+            self::CFORM_IMPORT => $this->initImportForm($new_type),
+            self::CFORM_CLONE => $this->fillCloneTemplate(null, $new_type)
+        ];
+
         return $forms;
     }
 
     /**
      * Get HTML for creation forms (accordion)
-     *
-     * @param array $a_forms
+     * @param array<int, ilPropertyFormGUI> $forms
      */
-    final protected function getCreationFormsHTML(array $a_forms)
+    protected function getCreationFormsHTML(array $forms): string
     {
-        $tpl = $this->tpl;
-        
         // #13168- sanity check
-        foreach ($a_forms as $id => $form) {
+        foreach ($forms as $id => $form) {
             if (!$form instanceof ilPropertyFormGUI) {
-                unset($a_forms[$id]);
+                unset($forms[$id]);
             }
         }
-        
+
         // no accordion if there is just one form
-        if (sizeof($a_forms) == 1) {
-            $form_type = key($a_forms);
-            $a_forms = array_shift($a_forms);
+        if (sizeof($forms) == 1) {
+            $form_type = key($forms);
+            $forms = array_shift($forms);
 
             // see bug #0016217
             if (method_exists($this, "getCreationFormTitle")) {
                 $form_title = $this->getCreationFormTitle($form_type);
                 if ($form_title != "") {
-                    $a_forms->setTitle($form_title);
+                    $forms->setTitle($form_title);
                 }
             }
-            return $a_forms->getHTML();
+            return $forms->getHTML();
         } else {
             $acc = new ilAccordionGUI();
             $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
             $cnt = 1;
-            foreach ($a_forms as $form_type => $cf) {
+            foreach ($forms as $form_type => $cf) {
                 $htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
 
                 // using custom form titles (used for repository plugins)
@@ -870,10 +680,9 @@ class ilObjectGUI
                 }
 
                 // move title from form to accordion
-                $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
-                    $form_title);
-                $cf->setTitle(null);
-                $cf->setTitleIcon(null);
+                $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " . $form_title);
+                $cf->setTitle('');
+                $cf->setTitleIcon('');
                 $cf->setTableWidth("100%");
 
                 $acc->addItem($htpl->get(), $cf->getHTML());
@@ -885,27 +694,19 @@ class ilObjectGUI
         }
     }
 
-    /**
-     * Init object creation form
-     *
-     * @param	string	$a_new_type
-     * @return	ilPropertyFormGUI
-     */
-    protected function initCreateForm($a_new_type)
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $form->setTitle($this->lng->txt($a_new_type . "_new"));
+        $form->setTitle($this->lng->txt($new_type . "_new"));
 
-        // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
         $form->addItem($ti);
 
-        // description
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
@@ -913,34 +714,29 @@ class ilObjectGUI
 
         $form = $this->initDidacticTemplate($form);
 
-        $form->addCommandButton("save", $this->lng->txt($a_new_type . "_add"));
+        $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         return $form;
     }
 
-    /**
-     * Show didactic template types
-     * @param ilPropertyFormGUI $form
-     * @return ilPropertyFormGUI $form
-     */
-    protected function initDidacticTemplate(ilPropertyFormGUI $form)
+    protected function initDidacticTemplate(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
-        $lng = $this->lng;
-        
-        $lng->loadLanguageModule('didactic');
+        $this->lng->loadLanguageModule('didactic');
         $existing_exclusive = false;
         $options = [];
-        $options['dtpl_0'] = array($this->lng->txt('didactic_default_type'),
+        $options['dtpl_0'] = [
+            $this->lng->txt('didactic_default_type'),
             sprintf(
                 $this->lng->txt('didactic_default_type_info'),
                 $this->lng->txt('objs_' . $this->type)
-            ));
-        
+            )
+        ];
+
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
-                if ($template->isEffective($this->requested_ref_id)) {
+                if ($template->isEffective((int) $this->requested_ref_id)) {
                     $options["dtpl_" . $template->getId()] = array(
                         $template->getPresentationTitle(),
                         $template->getPresentationDescription()
@@ -952,7 +748,7 @@ class ilObjectGUI
                 }
             }
         }
-        
+
         $this->addDidacticTemplateOptions($options);
 
         if (sizeof($options) > 1) {
@@ -967,8 +763,8 @@ class ilObjectGUI
                 $type->setValue($value);
 
                 if (!in_array($value, array_keys($options)) || ($existing_exclusive && $value == "dtpl_0")) {
-                    //add or rename actual value to not avaiable
-                    $options[$value] = array($this->lng->txt('not_available'));
+                    //add or rename actual value to not available
+                    $options[$value] = [$this->lng->txt('not_available')];
                 }
             } else {
                 if ($existing_exclusive) {
@@ -992,200 +788,156 @@ class ilObjectGUI
                 $type->addOption($option);
             }
         }
-                            
+
         return $form;
     }
-    
+
     /**
      * Add custom templates
-     *
-     * @param array $a_options
      */
-    protected function addDidacticTemplateOptions(array &$a_options)
+    protected function addDidacticTemplateOptions(array &$a_options): void
     {
     }
 
     /**
      * cancel create action and go back to repository parent
      */
-    public function cancelCreation()
+    public function cancelCreation(): void
     {
-        $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->redirectByClass("ilrepositorygui", "");
+        $this->ctrl->redirectByClass("ilrepositorygui", "");
     }
 
-    /**
-    * save object
-    *
-    * @access	public
-    */
-    public function saveObject()
+    public function saveObject(): void
     {
-        $objDefinition = $this->objDefinition;
-        $tpl = $this->tpl;
-        $ilErr = $this->ilErr;
-
-        $new_type = $this->requested_new_type;
-
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
+        if (!$this->checkPermissionBool("create", "", $this->requested_new_type)) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"), $this->error->MESSAGE);
         }
 
-        $this->lng->loadLanguageModule($new_type);
-        $this->ctrl->setParameter($this, "new_type", $new_type);
-        
-        $form = $this->initCreateForm($new_type);
+        $this->lng->loadLanguageModule($this->requested_new_type);
+        $this->ctrl->setParameter($this, "new_type", $this->requested_new_type);
+
+        $form = $this->initCreateForm($this->requested_new_type);
         if ($form->checkInput()) {
             $this->ctrl->setParameter($this, "new_type", "");
 
-            // create instance
-            $class_name = "ilObj" . $objDefinition->getClassName($new_type);
-            $location = $objDefinition->getLocation($new_type);
-            include_once($location . "/class." . $class_name . ".php");
+            $class_name = "ilObj" . $this->obj_definition->getClassName($this->requested_new_type);
             $newObj = new $class_name();
-            $newObj->setType($new_type);
+            $newObj->setType($this->requested_new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
             $newObj->create();
-            
+
             $this->putObjectInTree($newObj);
 
-            // apply didactic template?
             $dtpl = $this->getDidacticTemplateVar("dtpl");
             if ($dtpl) {
                 $newObj->applyDidacticTemplate($dtpl);
             }
-            
-            // auto rating
+
             $this->handleAutoRating($newObj);
             $this->afterSave($newObj);
         }
 
-        // display only this form to correct input
         $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * Get didactic template setting from creation screen
-     *
-     * @param string $a_type
-     * @return string
      */
-    public function getDidacticTemplateVar($a_type)
+    public function getDidacticTemplateVar(string $type): int
     {
-        $tpl = $_POST["didactic_type"] ?? null;
-        if ($tpl && substr($tpl, 0, strlen($a_type) + 1) == $a_type . "_") {
-            return (int) substr($tpl, strlen($a_type) + 1);
+        if (!$this->post_wrapper->has("didactic_type")) {
+            return 0;
         }
-        return 0;
+
+        $tpl = $this->post_wrapper->retrieve("didactic_type", $this->refinery->kindlyTo()->string());
+        if (substr($tpl, 0, strlen($type) + 1) != $type . "_") {
+            return 0;
+        }
+
+        return (int) substr($tpl, strlen($type) + 1);
     }
 
     /**
      * Add object to tree at given position
-     *
-     * @param ilObject $a_obj
-     * @param int $a_parent_node_id
      */
-    public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
     {
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-        $objDefinition = $this->objDefinition;
-
-        if (!$a_parent_node_id) {
-            $a_parent_node_id = $this->requested_ref_id;
+        if (!$parent_node_id) {
+            $parent_node_id = $this->requested_ref_id;
         }
-        
+
         // add new object to custom parent container
         if ($this->requested_crtptrefid > 0) {
-            $a_parent_node_id = $this->requested_crtptrefid;
+            $parent_node_id = $this->requested_crtptrefid;
         }
 
-        $a_obj->createReference();
-        $a_obj->putInTree($a_parent_node_id);
-        $a_obj->setPermissions($a_parent_node_id);
+        $obj->createReference();
+        $obj->putInTree($parent_node_id);
+        $obj->setPermissions($parent_node_id);
 
-        $this->obj_id = $a_obj->getId();
-        $this->ref_id = $a_obj->getRefId();
+        $this->obj_id = $obj->getId();
+        $this->ref_id = $obj->getRefId();
 
         // BEGIN ChangeEvent: Record save object.
-        ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
+        ilChangeEvent::_recordWriteEvent($this->obj_id, $this->user->getId(), 'create');
         // END ChangeEvent: Record save object.
 
         // rbac log
-        $rbac_log_roles = $rbacreview->getParentRoleIds($this->ref_id, false);
+        $rbac_log_roles = $this->rbac_review->getParentRoleIds($this->ref_id, false);
         $rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
-        
+
         // use forced callback after object creation
         if ($this->requested_crtcb > 0) {
             $callback_type = ilObject::_lookupType($this->requested_crtcb, true);
-            $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            $location = $objDefinition->getLocation($callback_type);
-            include_once($location . "/class." . $class_name . ".php");
-            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
+            $class_name = "ilObj" . $this->obj_definition->getClassName($callback_type) . "GUI";
+            if (strtolower($class_name) == "ilobjitemgroupgui") {
                 $callback_obj = new $class_name($this->requested_crtcb);
             } else {
                 // #10368
                 $callback_obj = new $class_name(null, $this->requested_crtcb, true, false);
             }
-            $callback_obj->afterSaveCallback($a_obj);
+            $callback_obj->afterSaveCallback($obj);
         }
     }
 
     /**
      * Post (successful) object creation hook
-     *
-     * @param ilObject $a_new_object
      */
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $new_object): void
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * edit object
-     *
-     * @access	public
-     */
-    public function editObject()
+    public function editObject(): void
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs_gui;
-        $ilErr = $this->ilErr;
-
         if (!$this->checkPermissionBool("write")) {
-            $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
         }
 
-        $ilTabs->activateTab("settings");
+        $this->tabs_gui->activateTab("settings");
 
         $form = $this->initEditForm();
         $values = $this->getEditFormValues();
         if ($values) {
             $form->setValuesByArray($values);
         }
-        
+
         $this->addExternalEditFormCustom($form);
-        
-        $tpl->setContent($form->getHTML());
+
+        $this->tpl->setContent($form->getHTML());
     }
 
-    public function addExternalEditFormCustom(ilPropertyFormGUI $a_form)
+    public function addExternalEditFormCustom(ilPropertyFormGUI $form): void
     {
         // has to be done AFTER setValuesByArray() ...
     }
-    
-    /**
-     * Init object edit form
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function initEditForm()
+
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
 
@@ -1195,14 +947,12 @@ class ilObjectGUI
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
 
-        // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
         $form->addItem($ti);
 
-        // description
         $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $ta->setCols(40);
         $ta->setRows(2);
@@ -1211,26 +961,18 @@ class ilObjectGUI
         $this->initEditCustomForm($form);
 
         $form->addCommandButton("update", $this->lng->txt("save"));
-        //$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 
         return $form;
     }
 
     /**
      * Add custom fields to update form
-     *
-     * @param	ilPropertyFormGUI	$a_form
      */
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
     {
     }
 
-    /**
-     * Get values for edit form
-     *
-     * @return array
-     */
-    protected function getEditFormValues()
+    protected function getEditFormValues(): array
     {
         $values["title"] = $this->object->getTitle();
         $values["desc"] = $this->object->getLongDescription();
@@ -1240,86 +982,66 @@ class ilObjectGUI
 
     /**
      * Add values to custom edit fields
-     *
-     * @param	array	$a_values
      */
-    protected function getEditFormCustomValues(array &$a_values)
+    protected function getEditFormCustomValues(array &$a_values): void
     {
     }
 
     /**
      * updates object entry in object_data
      */
-    public function updateObject()
+    public function updateObject(): void
     {
-        $ilTabs = $this->tabs_gui;
-        $tpl = $this->tpl;
-        $ilErr = $this->ilErr;
-        
         if (!$this->checkPermissionBool("write")) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+            $this->error->raiseError($this->lng->txt("permission_denied"), $this->error->MESSAGE);
         }
 
         $form = $this->initEditForm();
-        if ($form->checkInput() &&
-            $this->validateCustom($form)) {
+        if ($form->checkInput() && $this->validateCustom($form)) {
             $this->object->setTitle($form->getInput("title"));
             $this->object->setDescription($form->getInput("desc"));
             $this->updateCustom($form);
             $this->object->update();
-            
+
             $this->afterUpdate();
             return;
         }
 
         // display form again to correct errors
-        $ilTabs->activateTab("settings");
+        $this->tabs_gui->activateTab("settings");
         $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
-    
+
     /**
      * Validate custom values (if not possible with checkInput())
-     *
-     * @param ilPropertyFormGUI $a_form
-     * @return boolean
      */
-    protected function validateCustom(ilPropertyFormGUI $a_form)
+    protected function validateCustom(ilPropertyFormGUI $form): bool
     {
         return true;
     }
 
     /**
      * Insert custom update form values into object
-     *
-     * @param	ilPropertyFormGUI	$a_form
      */
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $form): void
     {
     }
 
     /**
      * Post (successful) object update hook
      */
-    protected function afterUpdate()
+    protected function afterUpdate(): void
     {
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-     * Init object import form
-     *
-     * @param	string	new type
-     * @return	ilPropertyFormGUI
-     */
-    protected function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
-        global $DIC;
-
         $import_directory_factory = new ilImportDirectoryFactory();
         $export_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
-        $upload_files = $export_directory->getFilesFor((int) $DIC->user()->getId(), (string) $a_new_type);
+        $upload_files = $export_directory->getFilesFor($this->user->getId(), $new_type);
         $has_upload_files = false;
         if (count($upload_files)) {
             $has_upload_files = true;
@@ -1328,7 +1050,7 @@ class ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
-        $form->setTitle($this->lng->txt($a_new_type . "_import"));
+        $form->setTitle($this->lng->txt($new_type . "_import"));
 
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
         $fi->setSuffixes(array("zip"));
@@ -1339,19 +1061,16 @@ class ilObjectGUI
                 $this->lng->txt('cont_choose_file_source'),
                 'upload_type'
             );
-            $option->setValue(self::UPLOAD_TYPE_LOCAL);
+            $option->setValue((string) self::UPLOAD_TYPE_LOCAL);
             $form->addItem($option);
 
-            $direct = new ilRadioOption(
-                $this->lng->txt('cont_choose_local'),
-                self::UPLOAD_TYPE_LOCAL
-            );
+            $direct = new ilRadioOption($this->lng->txt('cont_choose_local'), (string) self::UPLOAD_TYPE_LOCAL);
             $option->addOption($direct);
 
             $direct->addSubItem($fi);
             $upload = new ilRadioOption(
                 $this->lng->txt('cont_choose_upload_dir'),
-                self::UPLOAD_TYPE_UPLOAD_DIRECTORY
+                (string) self::UPLOAD_TYPE_UPLOAD_DIRECTORY
             );
             $option->addOption($upload);
             $files = new ilSelectInputGUI(
@@ -1370,42 +1089,33 @@ class ilObjectGUI
 
         $form->addCommandButton("importFile", $this->lng->txt("import"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-    
+
         return $form;
     }
 
-    /**
-     * Import
-     */
-    protected function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
-        global $DIC;
-
-        $user = $DIC->user();
-
-        $objDefinition = $this->objDefinition;
-        $tpl = $this->tpl;
-        $ilErr = $this->ilErr;
-
         if (!$parent_id) {
             $parent_id = $this->requested_ref_id;
         }
         $new_type = $this->requested_new_type;
-        $upload_type = $this->request->getParsedBody()['upload_type'] ?? self::UPLOAD_TYPE_LOCAL;
+        $upload_type = self::UPLOAD_TYPE_LOCAL;
+        if ($this->post_wrapper->has("upload_type")) {
+            $upload_type = $this->post_wrapper->retrieve("upload_type", $this->refinery->kindlyTo()->int());
+        }
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt("no_create_permission"));
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
         }
 
         $this->lng->loadLanguageModule($new_type);
         $this->ctrl->setParameter($this, "new_type", $new_type);
-        
+
         $form = $this->initImportForm($new_type);
         if ($form->checkInput()) {
             // :todo: make some check on manifest file
-
-            if ($objDefinition->isContainer($new_type)) {
+            if ($this->obj_definition->isContainer($new_type)) {
                 $imp = new ilImportContainer((int) $parent_id);
             } else {
                 $imp = new ilImport((int) $parent_id);
@@ -1423,7 +1133,7 @@ class ilObjectGUI
                     $hash = $this->request->getParsedBody()['uploadFile'] ?? '';
                     $upload_factory = new ilImportDirectoryFactory();
                     $export_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
-                    $file = $export_upload->getAbsolutePathForHash($user->getId(), $new_type, $hash);
+                    $file = $export_upload->getAbsolutePathForHash($this->user->getId(), $new_type, $hash);
 
                     $new_id = $imp->importObject(
                         null,
@@ -1436,13 +1146,16 @@ class ilObjectGUI
                 }
             } catch (ilException $e) {
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
-                if (!$a_catch_errors) {
+                if (!$catch_errors) {
                     throw $e;
                 }
                 // display message and form again
-                ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
+                $this->tpl->setOnScreenMessage(
+                    "failure",
+                    $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage()
+                );
                 $form->setValuesByPost();
-                $tpl->setContent($form->getHTML());
+                $this->tpl->setContent($form->getHTML());
                 return;
             }
 
@@ -1452,16 +1165,14 @@ class ilObjectGUI
                 $newObj = ilObjectFactory::getInstanceByObjId($new_id);
 
                 // put new object id into tree - already done in import for containers
-                if (!$objDefinition->isContainer($new_type)) {
+                if (!$this->obj_definition->isContainer($new_type)) {
                     $this->putObjectInTree($newObj);
                 }
-                
+
                 $this->afterImport($newObj);
-            }
-            // import failed
-            else {
-                if ($objDefinition->isContainer($new_type)) {
-                    ilUtil::sendFailure($this->lng->txt("container_import_zip_file_invalid"));
+            } else {
+                if ($this->obj_definition->isContainer($new_type)) {
+                    $this->tpl->setOnScreenMessage("failure", $this->lng->txt("container_import_zip_file_invalid"));
                 } else {
                     // not enough information here...
                     return;
@@ -1469,123 +1180,91 @@ class ilObjectGUI
             }
         }
 
-        // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     /**
      * Post (successful) object import hook
-     *
-     * @param ilObject $a_new_object
      */
-    protected function afterImport(ilObject $a_new_object)
+    protected function afterImport(ilObject $new_object): void
     {
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("object_added"), true);
         $this->ctrl->returnToParent($this);
     }
 
     /**
-    * get form action for command (command is method name without "Object", e.g. "perm")
-    * @param	string		$a_cmd			command
-    * @param	string		$a_formaction	default formaction (is returned, if no special
-    *										formaction was set)
-    * @access	public
-    * @return	string
-    */
-    public function getFormAction($a_cmd, $a_formaction = "")
+     * Get form action for command (command is method name without "Object", e.g. "perm").
+     */
+    public function getFormAction(string $cmd, string $default_form_action = ""): string
     {
-        if ($this->formaction[$a_cmd] != "") {
-            return $this->formaction[$a_cmd];
+        if ($this->form_action[$cmd] != "") {
+            return $this->form_action[$cmd];
+        }
+
+        return $default_form_action;
+    }
+
+    protected function setFormAction(string $cmd, string $form_action): void
+    {
+        $this->form_action[$cmd] = $form_action;
+    }
+
+    /**
+     * Get return location for command (command is method name without "Object", e.g. "perm")
+     */
+    protected function getReturnLocation(string $cmd, string $default_location = ""): string
+    {
+        if (($this->return_location[$cmd] ?? "") !== "") {
+            return $this->return_location[$cmd];
         } else {
-            return $a_formaction;
+            return $default_location;
         }
     }
 
     /**
-    * set specific form action for command
-    *
-    * @param	string		$a_cmd			command
-    * @param	string		$a_formaction	default formaction (is returned, if no special
-    *										formaction was set)
-    * @access	public
-    */
-    protected function setFormAction($a_cmd, $a_formaction)
+     * set specific return location for command
+     */
+    protected function setReturnLocation(string $cmd, string $location): void
     {
-        $this->formaction[$a_cmd] = $a_formaction;
+        $this->return_location[$cmd] = $location;
     }
 
     /**
-    * get return location for command (command is method name without "Object", e.g. "perm")
-    * @param	string		$a_cmd		command
-    * @param	string		$a_location	default return location (is returned, if no special
-    *									return location was set)
-    * @access	public
-    */
-    protected function getReturnLocation($a_cmd, $a_location = "")
+     * get target frame for command (command is method name without "Object", e.g. "perm")
+     */
+    protected function getTargetFrame(string $cmd, string $default_target_frame = ""): string
     {
-        if ($this->return_location[$a_cmd] != "") {
-            return $this->return_location[$a_cmd];
-        } else {
-            return $a_location;
+        if (isset($this->target_frame[$cmd]) && $this->target_frame[$cmd] != "") {
+            return $this->target_frame[$cmd];
         }
-    }
 
-    /**
-    * set specific return location for command
-    * @param	string		$a_cmd		command
-    * @param	string		$a_location	default return location (is returned, if no special
-    *									return location was set)
-    * @access	public
-    */
-    protected function setReturnLocation($a_cmd, $a_location)
-    {
-        //echo "-".$a_cmd."-".$a_location."-";
-        $this->return_location[$a_cmd] = $a_location;
-    }
-
-    /**
-    * get target frame for command (command is method name without "Object", e.g. "perm")
-    * @param	string		$a_cmd			command
-    * @param	string		$a_target_frame	default target frame (is returned, if no special
-    *										target frame was set)
-    * @access	public
-    */
-    protected function getTargetFrame($a_cmd, $a_target_frame = "")
-    {
-        if (isset($this->target_frame[$a_cmd]) && $this->target_frame[$a_cmd] != "") {
-            return $this->target_frame[$a_cmd];
-        } elseif (!empty($a_target_frame)) {
-            return "target=\"" . $a_target_frame . "\"";
-        } else {
-            return;
+        if (!empty($default_target_frame)) {
+            return "target=\"" . $default_target_frame . "\"";
         }
+
+        return "";
     }
 
     /**
-    * set specific target frame for command
-    * @param	string		$a_cmd			command
-    * @param	string		$a_target_frame	default target frame (is returned, if no special
-    *										target frame was set)
-    * @access	public
-    */
-    protected function setTargetFrame($a_cmd, $a_target_frame)
+     * Set specific target frame for command
+     */
+    protected function setTargetFrame(string $cmd, string $target_frame): void
     {
-        $this->target_frame[$a_cmd] = "target=\"" . $a_target_frame . "\"";
+        $this->target_frame[$cmd] = "target=\"" . $target_frame . "\"";
     }
 
-    // BEGIN Security: Hide objects which aren't accessible by the user.
-    public function isVisible($a_ref_id, $a_type)
+    public function isVisible(int $ref_id, string $type): bool
     {
-        $visible = $this->checkPermissionBool("visible,read", "", "", $a_ref_id);
-        
-        if ($visible && $a_type == 'crs') {
+        $visible = $this->checkPermissionBool("visible,read", "", "", $ref_id);
+
+        if ($visible && $type == 'crs') {
             $tree = $this->tree;
-            if ($crs_id = $tree->checkForParentType($a_ref_id, 'crs')) {
+            if ($crs_id = $tree->checkForParentType($ref_id, 'crs')) {
                 if (!$this->checkPermissionBool("write", "", "", $crs_id)) {
                     // Show only activated courses
                     $tmp_obj = ilObjectFactory::getInstanceByRefId($crs_id, false);
-    
+
                     if (!$tmp_obj->isActivated()) {
                         unset($tmp_obj);
                         $visible = false;
@@ -1593,96 +1272,97 @@ class ilObjectGUI
                 }
             }
         }
-        
+
         return $visible;
     }
-    // END Security: Hide objects which aren't accessible by the user.
 
     /**
      * viewObject container presentation for "administration -> repository, trash, permissions"
-     * @throws \ilObjectException
-    */
-    public function viewObject()
+     */
+    public function viewObject(): void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-        $user = $DIC->user();
-
         $this->checkPermission('visible') && $this->checkPermission('read');
 
         $this->tabs_gui->activateTab('view');
-        
+
         ilChangeEvent::_recordReadEvent(
             $this->object->getType(),
             $this->object->getRefId(),
             $this->object->getId(),
-            $user->getId()
+            $this->user->getId()
         );
 
         if (!$this->withReferences()) {
             $this->ctrl->setParameter($this, 'obj_id', $this->obj_id);
         }
+
         $itab = new ilAdminSubItemsTableGUI(
             $this,
             "view",
             $this->requested_ref_id,
             $this->checkPermissionBool('write')
         );
-        
-        $tpl->setContent($itab->getHTML());
+
+        $this->tpl->setContent($itab->getHTML());
     }
 
     /**
     * Display deletion confirmation screen.
     * Only for referenced objects. For user,role & rolt overwrite this function in the appropriate
     * Object folders classes (ilObjUserFolderGUI,ilObjRoleFolderGUI)
-    *
-    * @access	public
     */
-    public function deleteObject($a_error = false)
+    public function deleteObject(bool $error = false): void
     {
-        $ilCtrl = $this->ctrl;
-        
-        if ($_GET["item_ref_id"] != "") {
-            $_POST["id"] = array($_GET["item_ref_id"]);
+        $request_ids = [];
+        if ($this->post_wrapper->has("id")) {
+            $request_ids = $this->post_wrapper->retrieve(
+                "id",
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+
+        if (
+            $this->request_wrapper->has("item_ref_id") &&
+            $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->string()) != ""
+        ) {
+            $request_ids = [$this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())];
         }
 
         $ids = [];
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $idx => $id) {
-                $ids["id"][$idx] = (int) $id;
+        if (count($request_ids) > 0) {
+            foreach ($request_ids as $idx => $id) {
+                $ids["id"][$idx] = $id;
             }
         }
 
         // SAVE POST VALUES (get rid of this
-        ilSession::set("saved_post", $ids["id"]);
+        ilSession::set("saved_post", $ids["id"] ?? []);
 
         $ru = new ilRepositoryTrashGUI($this);
-        if (!$ru->showDeleteConfirmation($ids["id"], $a_error)) {
-            $ilCtrl->returnToParent($this);
+        if (!$ru->showDeleteConfirmation($ids["id"] ?? [], $error)) {
+            $this->ctrl->returnToParent($this);
         }
     }
 
     /**
-    * show possible subobjects (pulldown menu)
-    *
-    * @access	public
+    * show possible sub objects (pull down menu)
     */
-    protected function showPossibleSubObjects()
+    protected function showPossibleSubObjects(): void
     {
         if ($this->sub_objects == "") {
-            $d = $this->objDefinition->getCreatableSubObjects($this->object->getType(), ilObjectDefinition::MODE_REPOSITORY, $this->ref_id);
+            $sub_objects = $this->obj_definition->getCreatableSubObjects(
+                $this->object->getType(),
+                ilObjectDefinition::MODE_REPOSITORY,
+                $this->ref_id
+            );
         } else {
-            $d = $this->sub_objects;
+            $sub_objects = $this->sub_objects;
         }
 
-        $import = false;
-
-        if (count($d) > 0) {
-            foreach ($d as $row) {
+        $subobj = [];
+        if (count($sub_objects) > 0) {
+            foreach ($sub_objects as $row) {
                 $count = 0;
-
                 if ($row["max"] > 0) {
                     //how many elements are present?
                     for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
@@ -1698,10 +1378,8 @@ class ilObjectGUI
             }
         }
 
-        if (is_array($subobj)) {
-
-            //build form
-            $opts = ilUtil::formSelect(12, "new_type", $subobj);
+        if (count($subobj) > 0) {
+            $opts = ilLegacyFormElementsUtil::formSelect(12, "new_type", $subobj);
             $this->tpl->setCurrentBlock("add_object");
             $this->tpl->setVariable("SELECT_OBJTYPE", $opts);
             $this->tpl->setVariable("BTN_NAME", "create");
@@ -1711,79 +1389,10 @@ class ilObjectGUI
     }
 
     /**
-    * get a template blockfile
-    * format: tpl.<objtype>_<command>.html
-    *
-    * @param	string	command
-    * @param	string	object type definition
-    * @access	public
-    */
-    final protected function getTemplateFile($a_cmd, $a_type = "")
-    {
-        mk();
-        die("ilObjectGUI::getTemplateFile() is deprecated.");
-    }
-
-    /**
-    * get tabs
-    * abstract method.
     * @abstract	overwrite in derived GUI class of your object type
-    * @access	public
-    * @param	object	instance of ilTabsGUI
     */
-    protected function getTabs()
+    protected function getTabs(): void
     {
-        // please define your tabs here
-    }
-
-    // PROTECTED
-    protected function __showButton($a_cmd, $a_text, $a_target = '')
-    {
-        $ilToolbar = $this->toolbar;
-        
-        $ilToolbar->addButton($a_text, $this->ctrl->getLinkTarget($this, $a_cmd), $a_target);
-    }
-
-    protected function hitsperpageObject()
-    {
-        ilSession::set("tbl_limit", $_POST["hitsperpage"]);
-        $_GET["limit"] = $_POST["hitsperpage"];
-    }
-    
-
-    protected function &__initTableGUI()
-    {
-        return new ilTableGUI(0, false);
-    }
-    
-    /**
-     * standard implementation for tables
-     * use 'from' variable use different initial setting of table
-     *
-     */
-    protected function __setTableGUIBasicData(&$tbl, &$result_set, $a_from = "")
-    {
-        switch ($a_from) {
-            case "clipboardObject":
-                $offset = $_GET["offset"];
-                $order = $_GET["sort_by"];
-                $direction = $_GET["sort_order"];
-                $tbl->disable("footer");
-                break;
-
-            default:
-                $offset = $_GET["offset"];
-                $order = $_GET["sort_by"];
-                $direction = $_GET["sort_order"];
-                break;
-        }
-
-        $tbl->setOrderColumn($order);
-        $tbl->setOrderDirection($direction);
-        $tbl->setOffset($offset);
-        $tbl->setLimit($_GET["limit"]);
-        $tbl->setFooter("tblfooter", $this->lng->txt("previous"), $this->lng->txt("next"));
-        $tbl->setData($result_set);
     }
 
     /**
@@ -1791,116 +1400,66 @@ class ilObjectGUI
     * usually to a container and usually used at
     * the end of a save/import method where the object gui
     * type (of the new object) doesn't match with the type
-    * of the current $_GET["ref_id"] value
-    *
-    * @param	int		$a_ref_id		reference id
+    * of the current ["ref_id"] value of the request
     */
-    protected function redirectToRefId($a_ref_id, $a_cmd = "")
+    protected function redirectToRefId(int $ref_id, string $cmd = ""): void
     {
-        $obj_type = ilObject::_lookupType($a_ref_id, true);
-        $class_name = $this->objDefinition->getClassName($obj_type);
+        $obj_type = ilObject::_lookupType($ref_id, true);
+        $class_name = $this->obj_definition->getClassName($obj_type);
         $class = strtolower("ilObj" . $class_name . "GUI");
-        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $a_ref_id);
-        $this->ctrl->redirectByClass(array("ilrepositorygui", $class), $a_cmd);
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
+        $this->ctrl->redirectByClass(array("ilrepositorygui", $class), $cmd);
     }
-    
-    // Object Cloning
+
     /**
      * Fill object clone template
      * This method can be called from any object GUI class that wants to offer object cloning.
      *
-     * @access public
-     * @param string template variable name that will be filled
+     * @param ?string template variable name that will be filled
      * @param string type of new object
-     *
+     * @return ?ilPropertyFormGUI
      */
-    protected function fillCloneTemplate($a_tpl_varname, $a_type)
+    protected function fillCloneTemplate(?string $tpl_name, string $type): ?ilPropertyFormGUI
     {
         $cp = new ilObjectCopyGUI($this);
-        $cp->setType($a_type);
-        $cp->setTarget($_GET['ref_id']);
-        if ($a_tpl_varname) {
-            $cp->showSourceSearch($a_tpl_varname);
-        } else {
-            return $cp->showSourceSearch(null);
+        $cp->setType($type);
+        $target = $this->request_wrapper->has("ref_id")
+            ? $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
+            : 0;
+        $cp->setTarget($target);
+        if ($tpl_name) {
+            $cp->showSourceSearch($tpl_name);
         }
-    }
-    
-    /**
-     * Clone single (not container object)
-     * Method is overwritten in ilContainerGUI
-     *
-     * @access public
-     */
-    public function cloneAllObject()
-    {
-        $ilErr = $this->ilErr;
-        $ilUser = $this->user;
-        
-        $new_type = $_REQUEST['new_type'];
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'));
-        }
-        if (!(int) $_REQUEST['clone_source']) {
-            ilUtil::sendFailure($this->lng->txt('select_one'));
-            $this->createObject();
-            return false;
-        }
-        if (!$this->checkPermissionBool("write", "", $new_type, (int) $_REQUEST['clone_source'])) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'));
-        }
-        
-        // Save wizard options
-        $copy_id = ilCopyWizardOptions::_allocateCopyId();
-        $wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
-        $wizard_options->saveOwner($ilUser->getId());
-        $wizard_options->saveRoot((int) $_REQUEST['clone_source']);
-        
-        $options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
-        foreach ($options as $source_id => $option) {
-            $wizard_options->addEntry($source_id, $option);
-        }
-        $wizard_options->read();
-        
-        $orig = ilObjectFactory::getInstanceByRefId((int) $_REQUEST['clone_source']);
-        $new_obj = $orig->cloneObject((int) $_GET['ref_id'], $copy_id);
-        
-        // Delete wizard options
-        $wizard_options->deleteAll();
 
-        ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
-        ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
+        return $cp->showSourceSearch(null);
     }
-    
-    
+
     /**
     * Get center column
     */
-    protected function getCenterColumnHTML()
+    protected function getCenterColumnHTML(): string
     {
-        $ilCtrl = $this->ctrl;
-
         $obj_id = ilObject::_lookupObjId($this->object->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
-        if ($ilCtrl->getNextClass() != "ilcolumngui") {
+        if ($this->ctrl->getNextClass() != "ilcolumngui") {
             // normal command processing
             return $this->getContent();
         } else {
-            if (!$ilCtrl->isAsynch()) {
+            if (!$this->ctrl->isAsynch()) {
                 //if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
                 if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE) {
                     // right column wants center
                     if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT) {
                         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
                         $this->setColumnSettings($column_gui);
-                        $this->html = $ilCtrl->forwardCommand($column_gui);
+                        $this->html = $this->ctrl->forwardCommand($column_gui);
                     }
                     // left column wants center
                     if (ilColumnGUI::getCmdSide() == IL_COL_LEFT) {
                         $column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
                         $this->setColumnSettings($column_gui);
-                        $this->html = $ilCtrl->forwardCommand($column_gui);
+                        $this->html = $this->ctrl->forwardCommand($column_gui);
                     }
                 } else {
                     // normal command processing
@@ -1908,43 +1467,42 @@ class ilObjectGUI
                 }
             }
         }
+        return "";
     }
-    
+
     /**
     * Display right column
     */
-    protected function getRightColumnHTML()
+    protected function getRightColumnHTML(): string
     {
-        $ilCtrl = $this->ctrl;
-        
         $obj_id = ilObject::_lookupObjId($this->object->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
-        
+
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
             return "";
         }
-        
+
         $this->setColumnSettings($column_gui);
-        
-        if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+
+        $html = "";
+        if (
+            $this->ctrl->getNextClass() == "ilcolumngui" &&
             $column_gui->getCmdSide() == IL_COL_RIGHT &&
-            $column_gui->getScreenMode() == IL_SCREEN_SIDE) {
-            $html = $ilCtrl->forwardCommand($column_gui);
-        } else {
-            if (!$ilCtrl->isAsynch()) {
-                $html = $ilCtrl->getHTML($column_gui);
-            }
+            $column_gui->getScreenMode() == IL_SCREEN_SIDE
+        ) {
+            return $this->ctrl->forwardCommand($column_gui);
+        }
+
+        if (!$this->ctrl->isAsynch()) {
+            return $this->ctrl->getHTML($column_gui);
         }
 
         return $html;
     }
 
-    /**
-    * May be overwritten in subclasses.
-    */
-    public function setColumnSettings(ilColumnGUI $column_gui)
+    public function setColumnSettings(ilColumnGUI $column_gui): void
     {
         $column_gui->setRepositoryMode(true);
         $column_gui->setEnableEdit(false);
@@ -1953,79 +1511,45 @@ class ilObjectGUI
         }
     }
 
-    /**
-     * Check permission and redirect on error
-     *
-     * @param string $a_perm
-     * @param string $a_cmd
-     * @param string $a_type
-     * @param int $a_ref_id
-     * @throws ilObjectException
-     * @return bool
-     */
-    protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+    protected function checkPermission(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): void
     {
-        if (!$this->checkPermissionBool($a_perm, $a_cmd, $a_type, $a_ref_id)) {
+        if (!$this->checkPermissionBool($perm, $cmd, $type, $ref_id)) {
             if (!is_int(strpos($_SERVER["PHP_SELF"], "goto.php"))) {
-                // create: redirect to parent
-                if ($a_perm == "create") {
-                    if (!$a_ref_id) {
-                        $a_ref_id = $this->requested_ref_id;
-                    }
-                    $type = ilObject::_lookupType($a_ref_id, true);
-                } else {
-                    // does this make sense?
-                    if (!is_object($this->object)) {
-                        return;
-                    }
-                    if (!$a_ref_id) {
-                        $a_ref_id = $this->object->getRefId();
-                    }
-                    $type = $this->object->getType();
+                if ($perm != "create" && !is_object($this->object)) {
+                    return;
                 }
-
                 throw new ilObjectException($this->lng->txt("permission_denied"));
             }
         }
     }
 
-    /**
-     * Check permission
-     *
-     * @param string $a_perm
-     * @param string $a_cmd
-     * @param string $a_type
-     * @param int $a_ref_id
-     * @return bool
-     */
-    protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
+    protected function checkPermissionBool(string $perm, string $cmd = "", string $type = "", ?int $ref_id = null): bool
     {
-        $ilAccess = $this->access;
-
-        if ($a_perm == "create") {
-            if (!$a_ref_id) {
-                $a_ref_id = $this->requested_ref_id;
+        if ($perm == "create") {
+            if (!$ref_id) {
+                $ref_id = $this->requested_ref_id;
             }
-            return $ilAccess->checkAccess($a_perm . "_" . $a_type, $a_cmd, $a_ref_id);
-        } else {
-            // does this make sense?
-            if (!is_object($this->object)) {
-                return false;
-            }
-            if (!$a_ref_id) {
-                $a_ref_id = $this->object->getRefId();
-            }
-            return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id);
+            return $this->access->checkAccess($perm . "_" . $type, $cmd, $ref_id);
         }
+
+        if (!is_object($this->object)) {
+            return false;
+        }
+
+        if (!$ref_id) {
+            $ref_id = $this->object->getRefId();
+        }
+
+        return $this->access->checkAccess($perm, $cmd, $ref_id);
     }
-    
+
     /**
      * Goto repository root
      *
      * @param
      * @return
      */
-    public static function _gotoRepositoryRoot($a_raise_error = false)
+    public static function _gotoRepositoryRoot(bool $raise_error = false): void
     {
         global $DIC;
 
@@ -2033,78 +1557,67 @@ class ilObjectGUI
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
         $ctrl = $DIC->ctrl();
-        
+
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            //$_GET["cmd"] = "frameset";
             $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", ROOT_FOLDER_ID);
             $ctrl->redirectByClass("ilRepositoryGUI");
         }
 
-        if ($a_raise_error) {
+        if ($raise_error) {
             $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
         }
     }
-    
-    /**
-     * Goto repository root
-     *
-     * @param
-     * @return
-     */
-    public static function _gotoRepositoryNode($a_ref_id, $a_cmd = "")
+
+    public static function _gotoRepositoryNode(int $ref_id, string $cmd = ""): void
     {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
-        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $a_ref_id);
-        $ctrl->redirectByClass("ilRepositoryGUI", $a_cmd);
+        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $ref_id);
+        $ctrl->redirectByClass("ilRepositoryGUI", $cmd);
     }
-    
+
     /**
      * Enables the file upload into this object by dropping files.
      */
-    protected function enableDragDropFileUpload()
+    protected function enableDragDropFileUpload(): void
     {
-        ilFileUploadGUI::initFileUpload();
-        
-        $this->tpl->enableDragDropFileUpload($this->ref_id);
+        $this->tpl->setFileUploadRefId($this->ref_id);
     }
-    
+
     /**
      * Activate rating automatically if parent container setting
-     *
-     * @param ilObject $a_new_obj
      */
-    protected function handleAutoRating(ilObject $a_new_obj)
+    protected function handleAutoRating(ilObject $new_obj): void
     {
-        if (ilObject::hasAutoRating($a_new_obj->getType(), $a_new_obj->getRefId()) &&
-            method_exists($a_new_obj, "setRating")) {
-            $a_new_obj->setRating(true);
-            $a_new_obj->update();
+        if (
+            ilObject::hasAutoRating($new_obj->getType(), $new_obj->getRefId()) &&
+            method_exists($new_obj, "setRating")
+        ) {
+            $new_obj->setRating(true);
+            $new_obj->update();
         }
     }
 
     /**
      * show edit section of custom icons for container
-     *
      */
-    protected function showCustomIconsEditing($a_input_colspan = 1, ilPropertyFormGUI $a_form = null, $a_as_section = true)
-    {
+    protected function showCustomIconsEditing(
+        $input_colspan = 1,
+        ilPropertyFormGUI $form = null,
+        $as_section = true
+    ): void {
         if ($this->settings->get("custom_icons")) {
-            if ($a_form) {
-                global $DIC;
-                /** @var \ilObjectCustomIconFactory  $customIconFactory */
-                $customIconFactory = $DIC['object.customicons.factory'];
+            if ($form) {
+                $customIcon = $this->custom_icon_factory->getByObjId($this->object->getId(), $this->object->getType());
 
-                $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
-
-                if ($a_as_section) {
+                if ($as_section) {
                     $title = new ilFormSectionHeaderGUI();
                     $title->setTitle($this->lng->txt("icon_settings"));
                 } else {
                     $title = new ilCustomInputGUI($this->lng->txt("icon_settings"), "");
                 }
-                $a_form->addItem($title);
+                $form->addItem($title);
 
                 $caption = $this->lng->txt("cont_custom_icon");
                 $icon = new ilImageFileInputGUI($caption, "cont_icon");
@@ -2116,8 +1629,8 @@ class ilObjectGUI
                 } else {
                     $icon->setImage('');
                 }
-                if ($a_as_section) {
-                    $a_form->addItem($icon);
+                if ($as_section) {
+                    $form->addItem($icon);
                 } else {
                     $title->addSubItem($icon);
                 }
@@ -2127,41 +1640,31 @@ class ilObjectGUI
 
     /**
      * Redirect after creation, see https://docu.ilias.de/goto_docu_wiki_wpage_5035_1357.html
-     *
      * Should be overwritten and redirect to settings screen.
      */
-    public function redirectAfterCreation()
+    public function redirectAfterCreation(): void
     {
-        $ctrl = $this->ctrl;
         $link = ilLink::_getLink($this->object->getRefId());
-        $ctrl->redirectToURL($link);
+        $this->ctrl->redirectToURL($link);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function addToDeskObject() : void
+    public function addToDeskObject(): void
     {
-        $lng = $this->lng;
-        $ctrl = $this->ctrl;
-        $user = $this->user;
-        $this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
-        $lng->loadLanguageModule("rep");
-        ilUtil::sendSuccess($lng->txt("rep_added_to_favourites"), true);
-        $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
+        $this->favourites->add(
+            $this->user->getId(),
+            $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int())
+        );
+        $this->lng->loadLanguageModule("rep");
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_added_to_favourites"), true);
+        $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function removeFromDeskObject() : void
+    public function removeFromDeskObject(): void
     {
-        $lng = $this->lng;
-        $ctrl = $this->ctrl;
-        $user = $this->user;
-        $lng->loadLanguageModule("rep");
-        $this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
-        ilUtil::sendSuccess($lng->txt("rep_removed_from_favourites"), true);
-        $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
+        $this->lng->loadLanguageModule("rep");
+        $item_ref_id = $this->request_wrapper->retrieve("item_ref_id", $this->refinery->kindlyTo()->int());
+        $this->favourites->remove($this->user->getId(), $item_ref_id);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("rep_removed_from_favourites"), true);
+        $this->ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 }

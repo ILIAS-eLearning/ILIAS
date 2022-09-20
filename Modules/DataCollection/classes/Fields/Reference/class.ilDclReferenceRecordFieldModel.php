@@ -1,26 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  * @ingroup ModulesDataCollection
  */
 class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
-    /**
-     * @var int
-     */
-    protected $dcl_obj_id;
-
+    protected ?int $dcl_obj_id;
 
     /**
      * @param ilDclBaseRecordModel $record
@@ -32,7 +40,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
         $this->dcl_obj_id = $dclTable->getObjId();
     }
-
 
     /**
      * @return int|string
@@ -73,8 +80,10 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-
-    public function getValueFromExcel($excel, $row, $col)
+    /**
+     * @return int|int[]|string|string[]
+     */
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -98,17 +107,13 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $value;
     }
 
-
     /**
      * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
      * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
      * Will mess with it.
-     *
-     * @param $stringValues string
-     *
      * @return int[]
      */
-    protected function getReferencesFromString($stringValues)
+    protected function getReferencesFromString(string $stringValues): array
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
@@ -130,21 +135,13 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
                 $resolved = $i;
-                continue;
             }
         }
 
         return $slicedReferences;
     }
 
-
-    /**
-     * @param $field ilDclBaseFieldModel
-     * @param $value
-     *
-     * @return int
-     */
-    public function getReferenceFromValue($value)
+    public function getReferenceFromValue(int $value): int
     {
         $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
@@ -163,8 +160,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $record_id;
     }
 
-
-    public function afterClone()
+    public function afterClone(): void
     {
         $field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

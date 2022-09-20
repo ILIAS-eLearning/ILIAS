@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Survey to lp connector
@@ -9,48 +23,48 @@
  */
 class ilSurveyLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_SURVEY_FINISHED
         );
     }
-    
-    public function getDefaultMode()
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED; // :TODO:
     }
-    
-    public function getValidModes()
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_SURVEY_FINISHED
         );
     }
-    
-    public function isAnonymized()
+
+    public function isAnonymized(): bool
     {
-        return (bool) ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
+        return ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
     }
 
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // if active id
         $set = $ilDB->query("SELECT ss.obj_fi" .
             " FROM svy_finished sf" .
             " JOIN svy_svy ss ON (ss.survey_id = sf.survey_fi)" .
-            " WHERE " . $ilDB->in("ss.obj_fi", $a_obj_ids, "", "integer") .
-            " AND sf.user_fi = " . $ilDB->quote($a_usr_id, "integer"));
+            " WHERE " . $ilDB->in("ss.obj_fi", $obj_ids, "", "integer") .
+            " AND sf.user_fi = " . $ilDB->quote($usr_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $a_res[$row["obj_fi"]] = true;
+            $res[(int) $row["obj_fi"]] = true;
         }
-        
+
         return true;
     }
 }

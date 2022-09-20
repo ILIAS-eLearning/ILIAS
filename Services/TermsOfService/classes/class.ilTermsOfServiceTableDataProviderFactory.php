@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceTableDataProviderFactory
@@ -13,12 +30,10 @@ class ilTermsOfServiceTableDataProviderFactory
     protected ?ilDBInterface $db = null;
 
     /**
-     * @param string $context
-     * @return ilTermsOfServiceTableDataProvider
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws InvalidArgumentException
      */
-    public function getByContext(string $context) : ilTermsOfServiceTableDataProvider
+    public function getByContext(string $context): ilTermsOfServiceTableDataProvider
     {
         switch ($context) {
             case self::CONTEXT_ACCEPTANCE_HISTORY:
@@ -34,10 +49,9 @@ class ilTermsOfServiceTableDataProviderFactory
     }
 
     /**
-     * @param array $mandatoryMemberVariables
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    protected function validateConfiguration(array $mandatoryMemberVariables) : void
+    protected function validateConfiguration(array $mandatoryMemberVariables): void
     {
         foreach ($mandatoryMemberVariables as $member) {
             if (null === $this->{$member}) {
@@ -48,29 +62,24 @@ class ilTermsOfServiceTableDataProviderFactory
     }
 
     /**
-     * @param string $member
-     * @return ilTermsOfServiceException
      * @throws InvalidArgumentException
      */
-    protected function getExceptionByMember(string $member) : ilTermsOfServiceException
+    protected function getExceptionByMember(string $member): ilTermsOfServiceException
     {
-        switch ($member) {
-            case 'db':
-                return new ilTermsOfServiceMissingDatabaseAdapterException(
-                    'Incomplete factory configuration. Please inject a database adapter.'
-                );
-
-            default:
-                throw new InvalidArgumentException("Exception for member $member not supported");
-        }
+        return match ($member) {
+            'db' => new ilTermsOfServiceMissingDatabaseAdapterException(
+                'Incomplete factory configuration. Please inject a database adapter.'
+            ),
+            default => throw new InvalidArgumentException("Exception for member $member not supported"),
+        };
     }
 
-    public function setDatabaseAdapter(?ilDBInterface $db) : void
+    public function setDatabaseAdapter(?ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getDatabaseAdapter() : ?ilDBInterface
+    public function getDatabaseAdapter(): ?ilDBInterface
     {
         return $this->db;
     }

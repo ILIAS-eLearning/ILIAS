@@ -1,5 +1,22 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
@@ -13,14 +30,11 @@ use ILIAS\FileUpload\Handler\HandlerResult;
  */
 class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-
     /**
      * @inheritDoc
      */
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_UPLOAD);
     }
 
@@ -28,10 +42,8 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
 
@@ -39,18 +51,21 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
-        return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REMOVE);
+        return $this->ctrl->getLinkTargetByClass(
+            [ilUIPluginRouterGUI::class, self::class],
+            self::CMD_REMOVE,
+            null,
+            false
+        );
     }
 
 
     /**
      * @inheritDoc
      */
-    public function getFileIdentifierParameterName() : string
+    public function getFileIdentifierParameterName(): string
     {
         return 'my_file_id';
     }
@@ -59,7 +74,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    protected function getUploadResult() : HandlerResult
+    protected function getUploadResult(): HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $identifier = md5(random_bytes(65));
@@ -69,7 +84,7 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $message = 'File Deleted';
@@ -78,17 +93,29 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
-        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, "My funny Testfile $identifier.txt", 64);
+        return new BasicFileInfoResult(
+            $this->getFileIdentifierParameterName(),
+            $identifier,
+            "My funny Testfile $identifier.txt",
+            64,
+            ""
+        );
     }
 
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $infos = [];
         foreach ($file_ids as $file_id) {
-            $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, "Name $file_id.txt", rand(1000, 2000), "text/plain");
+            $infos[] = new BasicFileInfoResult(
+                $this->getFileIdentifierParameterName(),
+                $file_id,
+                "Name $file_id.txt",
+                rand(1000, 2000),
+                "text/plain"
+            );
         }
 
         return $infos;

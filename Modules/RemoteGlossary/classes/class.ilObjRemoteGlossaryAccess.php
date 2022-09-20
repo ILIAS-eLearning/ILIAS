@@ -1,27 +1,21 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("Services/Object/classes/class.ilObjectAccess.php");
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
 
 /**
 *
@@ -36,33 +30,24 @@ include_once("Services/Object/classes/class.ilObjectAccess.php");
 class ilObjRemoteGlossaryAccess extends ilObjectAccess
 {
     /**
-    * checks wether a user may invoke a command or not
+    * checks whether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-        global $ilUser, $lng, $rbacsystem, $ilAccess, $ilias;
+        global $ilUser, $lng, $rbacsystem, $ilAccess;
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case "visible":
-                include_once './Modules/RemoteGlossary/classes/class.ilObjRemoteGlossary.php';
-                $active = ilObjRemoteGlossary::_lookupOnline($a_obj_id);
-                $tutor = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $active = ilObjRemoteGlossary::_lookupOnline($obj_id);
+                $tutor = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
 
                 if (!$active) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 }
                 if (!$tutor and !$active) {
                     return false;
@@ -70,22 +55,21 @@ class ilObjRemoteGlossaryAccess extends ilObjectAccess
                 break;
 
             case 'read':
-                $tutor = $rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id);
+                $tutor = $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
                 if ($tutor) {
                     return true;
                 }
-                include_once 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossary.php';
-                $active = ilObjRemoteGlossary::_lookupOnline($a_obj_id);
+                $active = ilObjRemoteGlossary::_lookupOnline($obj_id);
 
                 if (!$active) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
                 }
                 break;
         }
         return true;
     }
-    
+
     /**
      * get commands
      *
@@ -98,14 +82,14 @@ class ilObjRemoteGlossaryAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "show", "lang_var" => "info",
                 "default" => true),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
         );
-        
+
         return $commands;
     }
 }

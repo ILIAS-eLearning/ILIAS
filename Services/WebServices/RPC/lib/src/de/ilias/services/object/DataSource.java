@@ -25,11 +25,13 @@ package de.ilias.services.object;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
 import de.ilias.services.lucene.index.DocumentHandlerException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -46,7 +48,7 @@ public abstract class DataSource implements DocumentHandler {
 	public static final String ACTION_APPEND = "append";
 	public static final String ACTION_CREATE = "create";
 	
-	protected static Logger logger = Logger.getLogger(DataSource.class);
+	protected static Logger logger = LogManager.getLogger(DataSource.class);
 
 	private int type;
 	private String action;

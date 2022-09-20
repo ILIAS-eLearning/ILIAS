@@ -1,51 +1,52 @@
 <?php
 
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-require_once("libs/composer/vendor/autoload.php");
-
-use ILIAS\Refinery;
-use ILIAS\Data;
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
 /**
- * TestCase for the parellel constraint
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\TestCase;
+
 class ParallelTest extends TestCase
 {
-    /**
-     * @var Data\Factory
-     */
-    private $df;
+    private DataFactory $df;
+    private ilLanguage $lng;
+    private Constraint $c;
+    private Refinery $refinery;
 
-    /**
-     * @var \ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    private $refinery;
-
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->df = new Data\Factory();
-        $this->lng = $this->createMock(\ilLanguage::class);
-        $this->refinery = new \ILIAS\Refinery\Factory($this->df, $this->lng);
+        $this->df = new DataFactory();
+        $this->lng = $this->createMock(ilLanguage::class);
+        $this->refinery = new Refinery($this->df, $this->lng);
 
         $group = $this->refinery->custom();
 
-        $this->less_than_3 = $group->constraint(
-            function ($value) {
+        $less_than_3 = $group->constraint(
+            static function ($value): bool {
                 return $value < 3;
             },
             "not_less_than_3"
         );
 
-        $this->less_than_5 = $group->constraint(
-            function ($value) {
+        $less_than_5 = $group->constraint(
+            static function ($value): bool {
                 return $value < 5;
             },
             "not_less_than_5"
@@ -53,37 +54,37 @@ class ParallelTest extends TestCase
 
         $this->c = $this->refinery
             ->logical()
-            ->parallel([$this->less_than_3, $this->less_than_5]);
+            ->parallel([$less_than_3, $less_than_5]);
     }
 
-    public function testAccepts()
+    public function testAccepts(): void
     {
         $this->assertTrue($this->c->accepts(2));
     }
 
-    public function testNotAccepts()
+    public function testNotAccepts(): void
     {
         $this->assertFalse($this->c->accepts(4));
     }
 
-    public function testCheckSucceed()
+    public function testCheckSucceed(): void
     {
         $this->c->check(2);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails()
+    public function testCheckFails(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         $this->c->check(6);
     }
 
-    public function testNoProblemWith()
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith(2));
     }
 
-    public function testProblemWith1()
+    public function testProblemWith1(): void
     {
         $this->lng
             ->expects($this->never())
@@ -92,7 +93,7 @@ class ParallelTest extends TestCase
         $this->assertEquals("not_less_than_3", $this->c->problemWith(4));
     }
 
-    public function testProblemWith2()
+    public function testProblemWith2(): void
     {
         $this->lng
             ->expects($this->never())
@@ -101,7 +102,7 @@ class ParallelTest extends TestCase
         $this->assertEquals("not_less_than_3 not_less_than_5", $this->c->problemWith(6));
     }
 
-    public function testRestrictOk()
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok(2);
 
@@ -109,7 +110,7 @@ class ParallelTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk()
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok(7);
 
@@ -117,7 +118,7 @@ class ParallelTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError()
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -125,9 +126,9 @@ class ParallelTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder()
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(function () {
+        $new_c = $this->c->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(7));

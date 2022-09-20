@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
@@ -18,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Chart\ProgressMeter\ProgressMeter $component
@@ -46,7 +62,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Render standard progressmeter
      */
-    protected function renderStandard(Component\Chart\ProgressMeter\Standard $component) : string
+    protected function renderStandard(Component\Chart\ProgressMeter\Standard $component): string
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
@@ -59,7 +75,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Render fixed size progressmeter
      */
-    protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component) : string
+    protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component): string
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
         $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
@@ -76,7 +92,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Render mini progressmeter
      */
-    protected function renderMini(Mini $component) : string
+    protected function renderMini(Mini $component): string
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
 
@@ -107,7 +123,7 @@ class Renderer extends AbstractComponentRenderer
         Component\Chart\ProgressMeter\ProgressMeter $component,
         Template $tpl,
         $hasComparison = false
-    ) : Template {
+    ): Template {
         $main_percentage = $component->getMainValueAsPercent();
 
         if ($hasComparison) {
@@ -166,7 +182,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Modify visible template variables
      */
-    protected function modifyVisibleValues(Template $tpl, Component\Component $component) : Template
+    protected function modifyVisibleValues(Template $tpl, Component\Component $component): Template
     {
         $tpl->setVariable("MAIN", $component->getMainValueAsPercent() . ' %');
         if ($component->getRequired() != $component->getMaximum()) {
@@ -195,7 +211,7 @@ class Renderer extends AbstractComponentRenderer
      * careful: marker position is no fixed positioning but
      *          a rotation value for marker box.
      */
-    protected function getMarkerPos(int $percentage) : float
+    protected function getMarkerPos(int $percentage): float
     {
         return round((230 / 100 * ($percentage * 1)) - 115, 2, PHP_ROUND_HALF_UP);
     }
@@ -205,7 +221,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @param int|float $val
      */
-    protected function getIsValueSet($val) : bool
+    protected function getIsValueSet($val): bool
     {
         return (isset($val) && $val > 0);
     }
@@ -219,7 +235,7 @@ class Renderer extends AbstractComponentRenderer
      * @param int|float $a_val
      * @param int|float $b_val
      */
-    protected function getIsReached($a_val, $b_val) : bool
+    protected function getIsReached($a_val, $b_val): bool
     {
         return ($a_val >= $b_val);
     }
@@ -227,7 +243,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [Component\Chart\ProgressMeter\ProgressMeter::class];
     }

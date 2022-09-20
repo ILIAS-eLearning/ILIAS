@@ -19,27 +19,27 @@ class ilTestDashboardGUI
      * @var ilObjTest
      */
     protected $testObj;
-    
+
     /**
      * @var ilTestQuestionSetConfig
      */
     protected $questionSetConfig;
-    
+
     /**
      * @var ilTestAccess
      */
     protected $testAccess;
-    
+
     /**
      * @var ilTestTabsManager
      */
     protected $testTabs;
-    
+
     /**
      * @var ilTestObjectiveOrientedContainer
      */
     protected $objectiveParent;
-    
+
     /**
      * ilTestDashboardGUI constructor.
      * @param ilObjTest $testObj
@@ -49,15 +49,15 @@ class ilTestDashboardGUI
         $this->testObj = $testObj;
         $this->questionSetConfig = $questionSetConfig;
     }
-    
+
     /**
      * @return ilObjTest
      */
-    public function getTestObj()
+    public function getTestObj(): ilObjTest
     {
         return $this->testObj;
     }
-    
+
     /**
      * @param ilObjTest $testObj
      */
@@ -65,15 +65,15 @@ class ilTestDashboardGUI
     {
         $this->testObj = $testObj;
     }
-    
+
     /**
      * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig(): ilTestQuestionSetConfig
     {
         return $this->questionSetConfig;
     }
-    
+
     /**
      * @param ilTestQuestionSetConfig $questionSetConfig
      */
@@ -81,15 +81,15 @@ class ilTestDashboardGUI
     {
         $this->questionSetConfig = $questionSetConfig;
     }
-    
+
     /**
      * @return ilTestAccess
      */
-    public function getTestAccess()
+    public function getTestAccess(): ilTestAccess
     {
         return $this->testAccess;
     }
-    
+
     /**
      * @param ilTestAccess $testAccess
      */
@@ -97,15 +97,15 @@ class ilTestDashboardGUI
     {
         $this->testAccess = $testAccess;
     }
-    
+
     /**
      * @return ilTestTabsManager
      */
-    public function getTestTabs()
+    public function getTestTabs(): ilTestTabsManager
     {
         return $this->testTabs;
     }
-    
+
     /**
      * @param ilTestTabsManager $testTabs
      */
@@ -113,15 +113,15 @@ class ilTestDashboardGUI
     {
         $this->testTabs = $testTabs;
     }
-    
+
     /**
      * @return ilTestObjectiveOrientedContainer
      */
-    public function getObjectiveParent() : ilTestObjectiveOrientedContainer
+    public function getObjectiveParent(): ilTestObjectiveOrientedContainer
     {
         return $this->objectiveParent;
     }
-    
+
     /**
      * @param ilTestObjectiveOrientedContainer $objectiveParent
      */
@@ -129,37 +129,37 @@ class ilTestDashboardGUI
     {
         $this->objectiveParent = $objectiveParent;
     }
-    
+
     /**
      * Execute Command
      */
     public function executeCommand()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         if (!$this->getTestAccess()->checkManageParticipantsAccess()) {
             ilObjTestGUI::accessViolationRedirect();
         }
-        
+
         $this->getTestTabs()->activateTab(ilTestTabsManager::TAB_ID_EXAM_DASHBOARD);
         $this->getTestTabs()->getDashboardSubTabs();
-        
+
         switch ($DIC->ctrl()->getNextClass()) {
             case 'iltestparticipantsgui':
-                
+
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_FIXED_PARTICIPANTS);
-                
+
                 require_once 'Modules/Test/classes/class.ilTestParticipantsGUI.php';
                 $gui = new ilTestParticipantsGUI($this->getTestObj(), $this->getQuestionSetConfig());
                 $gui->setTestAccess($this->getTestAccess());
                 $gui->setObjectiveParent($this->getObjectiveParent());
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
-                
+
             case 'iltestparticipantstimeextensiongui':
-                
+
                 $this->getTestTabs()->activateSubTab(ilTestTabsManager::SUBTAB_ID_TIME_EXTENSION);
-                
+
                 require_once 'Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php';
                 $gui = new ilTestParticipantsTimeExtensionGUI($this->getTestObj());
                 $DIC->ctrl()->forwardCommand($gui);

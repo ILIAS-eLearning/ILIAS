@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup;
 
@@ -15,7 +31,7 @@ class AgentCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testHasConfig() : void
+    public function testHasConfig(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -42,7 +58,7 @@ class AgentCollectionTest extends TestCase
         $this->assertFalse($col5->hasConfig());
     }
 
-    public function testGetArrayToConfigTransformation() : void
+    public function testGetArrayToConfigTransformation(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -94,7 +110,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testArrayToConfigTransformationAllowsUnsetFields() : void
+    public function testArrayToConfigTransformationAllowsUnsetFields(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -146,7 +162,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testGetInstallObjective() : void
+    public function testGetInstallObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -187,7 +203,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
         $storage = $this->createMock(Setup\Metrics\Storage::class);
@@ -221,7 +237,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetCollectMetricsObjective() : void
+    public function testGetCollectMetricsObjective(): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -253,7 +269,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetAgent() : void
+    public function testGetAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -274,7 +290,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($c->getAgent("c5"));
     }
 
-    public function testWithRemovedAgent() : void
+    public function testWithRemovedAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -304,7 +320,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testWithAdditionalAgent() : void
+    public function testWithAdditionalAgent(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -334,35 +350,166 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testGetNamedObjective() : void
+    public function testGetNamedObjectivesSorting(): void
+    {
+        $refinery = $this->createMock(Refinery::class);
+        $config = new Setup\ConfigCollection([]);
+
+        $aAgent = $this->newAgent();
+        $bAgent = $this->newAgent();
+        $cAgent = $this->newAgent();
+        $dAgent = $this->newAgent();
+
+        $aReturn = [
+            "a-2" => $this->newObjectiveConstructor(),
+            "a-1" => $this->newObjectiveConstructor()
+        ];
+
+        $bReturn = [
+            "b-1" => $this->newObjectiveConstructor(),
+            "b-3" => $this->newObjectiveConstructor(),
+            "b-2" => $this->newObjectiveConstructor(),
+        ];
+
+        $cReturn = [
+            "c-2" => $this->newObjectiveConstructor(),
+            "c-1" => $this->newObjectiveConstructor()
+        ];
+
+        $dReturn = [
+            "d-2" => $this->newObjectiveConstructor(),
+            "d-3" => $this->newObjectiveConstructor(),
+            "d-1" => $this->newObjectiveConstructor()
+        ];
+
+        $aAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($aReturn);
+
+        $bAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($bReturn);
+
+        $cAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($cReturn);
+
+        $dAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($dReturn);
+
+        $testAgentCollection = new Setup\AgentCollection(
+            $refinery,
+            ["aAgent" => $aAgent, "cAgent" => $cAgent, "bAgent" => $bAgent, "dAgent" => $dAgent]
+        );
+
+        $expected = [
+            "aAgent.a-1" => $aReturn["a-1"],
+            "aAgent.a-2" => $aReturn["a-2"],
+            "bAgent.b-1" => $bReturn["b-1"],
+            "bAgent.b-2" => $bReturn["b-2"],
+            "bAgent.b-3" => $bReturn["b-3"],
+            "cAgent.c-1" => $cReturn["c-1"],
+            "cAgent.c-2" => $cReturn["c-2"],
+            "dAgent.d-1" => $dReturn["d-1"],
+            "dAgent.d-2" => $dReturn["d-2"],
+            "dAgent.d-3" => $dReturn["d-3"],
+        ];
+
+        $this->assertSame($expected, $testAgentCollection->getNamedObjectives($config));
+    }
+
+    public function testGetNamedObjectives(): void
+    {
+        $refinery = $this->createMock(Refinery::class);
+        $config = new Setup\ConfigCollection([]);
+
+        $aAgent = $this->newAgent();
+        $bAgent = $this->newAgent();
+
+        $aReturn = [
+            "a-1" => $this->newObjectiveConstructor(),
+            "a-2" => $this->newObjectiveConstructor()
+        ];
+
+        $bReturn = [
+            "b-1" => $this->newObjectiveConstructor(),
+            "b-2" => $this->newObjectiveConstructor(),
+        ];
+
+        $aAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($aReturn);
+        $bAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($bReturn);
+
+        $testAgentCollection = new Setup\AgentCollection(
+            $refinery,
+            ["aAgent" => $aAgent, "bAgent" => $bAgent]
+        );
+
+        $result = $testAgentCollection->getNamedObjectives($config);
+
+        $this->assertSame($aReturn["a-1"], $result["aAgent.a-1"]);
+        $this->assertSame($aReturn["a-2"], $result["aAgent.a-2"]);
+        $this->assertSame($bReturn["b-1"], $result["bAgent.b-1"]);
+        $this->assertSame($bReturn["b-2"], $result["bAgent.b-2"]);
+    }
+
+    public function testGetNamedObjectivePassesCorrectConfig()
+    {
+        $refinery = $this->createMock(Refinery::class);
+        $agent = $this->newAgent();
+
+        $seen_config = null;
+        $agent
+            ->method("getNamedObjectives")
+            ->will($this->returnCallback(function ($config) use (&$seen_config) {
+                $seen_config = $config;
+                return [];
+            }));
+
+        $collection = new Setup\AgentCollection(
+            $refinery,
+            ["agent" => $agent]
+        );
+
+        $agent_config = $this->createMock(Setup\Config::class);
+        $config = new Setup\ConfigCollection(
+            ["agent" => $agent_config]
+        );
+
+        $result = $collection->getNamedObjectives($config);
+
+        $this->assertSame($agent_config, $seen_config);
+    }
+
+    public function testGetAgents(): void
     {
         $refinery = $this->createMock(Refinery::class);
 
-        $o = $this->newObjective();
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();
-        $conf2 = $this->newConfig();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
 
-        $conf = new Setup\ConfigCollection(
-            ["sub" => new Setup\ConfigCollection(
-                [ "c2" => $conf2 ]
-            )]
-        );
-
-        $c = new Setup\AgentCollection(
+        $agentCollection = new Setup\AgentCollection(
             $refinery,
-            [ "sub" => new Setup\AgentCollection(
-                $refinery,
-                ["c1" => $c1, "c2" => $c2]
-            )]
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3, "c4" => $c4]
         );
 
-        $c2->expects($this->once())
-            ->method("getNamedObjective")
-            ->with("the_objective", $conf2)
-            ->willReturn($o);
-
-        $res = $c->getNamedObjective("sub.c2.the_objective", $conf);
-        $this->assertSame($o, $res);
+        $this->assertEquals([
+            "c1" => $c1,
+            "c2" => $c2,
+            "c3" => $c3,
+            "c4" => $c4
+        ], $agentCollection->getAgents());
     }
 }

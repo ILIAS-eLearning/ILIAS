@@ -62,7 +62,7 @@ const MULTIGEOMETRY_TO_MEMBER_NODENAME = {
  */
 class GML3 extends GMLBase {
   /**
-   * @param {import("./GMLBase.js").Options=} opt_options Optional configuration object.
+   * @param {import("./GMLBase.js").Options} [opt_options] Optional configuration object.
    */
   constructor(opt_options) {
     const options =
@@ -466,8 +466,8 @@ class GML3 extends GMLBase {
 
   /**
    * @param {Array<number>} point Point geometry.
-   * @param {string=} opt_srsName Optional srsName
-   * @param {boolean=} opt_hasZ whether the geometry has a Z coordinate (is 3D) or not.
+   * @param {string} [opt_srsName] Optional srsName
+   * @param {boolean} [opt_hasZ] whether the geometry has a Z coordinate (is 3D) or not.
    * @return {string} The coords string.
    * @private
    */
@@ -573,7 +573,7 @@ class GML3 extends GMLBase {
   /**
    * @param {*} value Value.
    * @param {Array<*>} objectStack Object stack.
-   * @param {string=} opt_nodeName Node name.
+   * @param {string} [opt_nodeName] Node name.
    * @return {Node} Node.
    * @private
    */
@@ -797,9 +797,9 @@ class GML3 extends GMLBase {
    * @param {Array<*>} objectStack Node stack.
    */
   writeGeometryElement(node, geometry, objectStack) {
-    const context = /** @type {import("./Feature.js").WriteOptions} */ (objectStack[
-      objectStack.length - 1
-    ]);
+    const context = /** @type {import("./Feature.js").WriteOptions} */ (
+      objectStack[objectStack.length - 1]
+    );
     const item = assign({}, context);
     item['node'] = node;
     let value;
@@ -866,9 +866,8 @@ class GML3 extends GMLBase {
             }
           } else {
             if (!(key in context.serializers[featureNS])) {
-              context.serializers[featureNS][key] = makeChildAppender(
-                writeStringTextNode
-              );
+              context.serializers[featureNS][key] =
+                makeChildAppender(writeStringTextNode);
             }
           }
         }
@@ -920,7 +919,7 @@ class GML3 extends GMLBase {
    * @const
    * @param {*} value Value.
    * @param {Array<*>} objectStack Object stack.
-   * @param {string=} opt_nodeName Node name.
+   * @param {string} [opt_nodeName] Node name.
    * @return {Node|undefined} Node.
    * @private
    */
@@ -936,7 +935,7 @@ class GML3 extends GMLBase {
    * @const
    * @param {*} value Value.
    * @param {Array<*>} objectStack Object stack.
-   * @param {string=} opt_nodeName Node name.
+   * @param {string} [opt_nodeName] Node name.
    * @return {Element|undefined} Node.
    * @private
    */
@@ -948,7 +947,9 @@ class GML3 extends GMLBase {
     const multiCurve = context['multiCurve'];
     let nodeName;
     if (!Array.isArray(value)) {
-      nodeName = /** @type {import("../geom/Geometry.js").default} */ (value).getType();
+      nodeName = /** @type {import("../geom/Geometry.js").default} */ (
+        value
+      ).getType();
       if (nodeName === 'MultiPolygon' && multiSurface === true) {
         nodeName = 'MultiSurface';
       } else if (nodeName === 'Polygon' && surface === true) {
@@ -968,7 +969,7 @@ class GML3 extends GMLBase {
    * Encode a geometry in GML 3.1.1 Simple Features.
    *
    * @param {import("../geom/Geometry.js").default} geometry Geometry.
-   * @param {import("./Feature.js").WriteOptions=} opt_options Options.
+   * @param {import("./Feature.js").WriteOptions} [opt_options] Options.
    * @return {Node} Node.
    * @api
    */
@@ -995,7 +996,7 @@ class GML3 extends GMLBase {
    * Encode an array of features in the GML 3.1.1 format as an XML node.
    *
    * @param {Array<import("../Feature.js").default>} features Features.
-   * @param {import("./Feature.js").WriteOptions=} opt_options Options.
+   * @param {import("./Feature.js").WriteOptions} [opt_options] Options.
    * @return {Element} Node.
    * @api
    */
@@ -1169,7 +1170,7 @@ GML3.prototype.SEGMENTS_PARSERS = {
  *
  * @function
  * @param {Array<import("../Feature.js").default>} features Features.
- * @param {import("./Feature.js").WriteOptions=} opt_options Options.
+ * @param {import("./Feature.js").WriteOptions} [opt_options] Options.
  * @return {string} Result.
  * @api
  */

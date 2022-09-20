@@ -1,32 +1,49 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Analyzes external media locations and extracts important information
  * into parameter field.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExternalMediaAnalyzer
 {
     /**
-    * Identify YouTube links
-    */
-    public static function isYouTube($a_location)
-    {
+     * Identify YouTube links
+     */
+    public static function isYouTube(
+        string $a_location
+    ): bool {
         if (strpos($a_location, "youtube.com") > 0 ||
                 strpos($a_location, "youtu.be") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
-    * Extract YouTube Parameter
-    */
-    public static function extractYouTubeParameters($a_location)
-    {
+     * Extract YouTube Parameter
+     * @return array<string,string>
+     */
+    public static function extractYouTubeParameters(
+        string $a_location
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "v=");
         $pos2 = strpos($a_location, "&", $pos1);
@@ -43,10 +60,11 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Identify Flickr links
-    */
-    public static function isFlickr($a_location)
-    {
+     * Identify Flickr links
+     */
+    public static function isFlickr(
+        string $a_location
+    ): bool {
         if (strpos($a_location, "flickr.com") > 0) {
             return true;
         }
@@ -54,10 +72,12 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Extract Flickr Parameter
-    */
-    public static function extractFlickrParameters($a_location)
-    {
+     * Extract Flickr Parameter
+     * @return array<string,string>
+     */
+    public static function extractFlickrParameters(
+        string $a_location
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "flickr.com/photos/");
         $pos2 = strpos($a_location, "/", $pos1 + 18);
@@ -67,7 +87,7 @@ class ilExternalMediaAnalyzer
                 : $a_location;
             $par["user_id"] = substr($a_location, $pos1 + 18, $len - ($pos1 + 18));
         }
-        
+
         // tags
         $pos1 = strpos($a_location, "/tags/");
         $pos2 = strpos($a_location, "/", $pos1 + 6);
@@ -92,21 +112,24 @@ class ilExternalMediaAnalyzer
     }
 
     /**
-    * Identify GoogleVideo links
-    */
-    public static function isGoogleVideo($a_location)
-    {
+     * Identify GoogleVideo links
+     */
+    public static function isGoogleVideo(
+        string $a_location
+    ): bool {
         if (strpos($a_location, "video.google") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
-    * Extract GoogleVideo Parameter
-    */
-    public static function extractGoogleVideoParameters($a_location)
-    {
+     * Extract GoogleVideo Parameter
+     * @return array<string,string>
+     */
+    public static function extractGoogleVideoParameters(
+        string $a_location
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "docid=");
         $pos2 = strpos($a_location, "&", $pos1 + 6);
@@ -123,8 +146,9 @@ class ilExternalMediaAnalyzer
     /**
      * Identify Vimeo links
      */
-    public static function isVimeo($a_location)
-    {
+    public static function isVimeo(
+        string $a_location
+    ): bool {
         if (strpos($a_location, "vimeo.com") > 0) {
             return true;
         }
@@ -133,9 +157,11 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Vimeo Parameter
+     * @return array<string,string>
      */
-    public static function extractVimeoParameters($a_location)
-    {
+    public static function extractVimeoParameters(
+        string $a_location
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "vimeo.com/");
         $pos2 = strpos($a_location, "&", $pos1 + 10);
@@ -149,22 +175,67 @@ class ilExternalMediaAnalyzer
         return $par;
     }
 
-    /**
-    * Identify Google Document links
-    */
-    public static function isGoogleDocument($a_location)
+    public static function getVimeoMetadata(string $vid): array
     {
+        $json_url = 'https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/' . $vid;
+
+        $curl = curl_init($json_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
+
+        $return = curl_exec($curl);
+        curl_close($curl);
+
+        $r = json_decode($return, true);
+
+        if ($return === false || is_null($r)) {
+            throw new ilExternalMediaApiException("Could not connect to vimeo API at $json_url.");
+        }
+        return $r;
+    }
+
+    public static function getYoutubeMetadata(string $vid): array
+    {
+        $json_url = 'https://www.youtube.com/oembed?url=http%3A//youtube.com/watch%3Fv%3D' . $vid . '&format=json';
+
+        $curl = curl_init($json_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
+
+        $return = curl_exec($curl);
+        curl_close($curl);
+
+        $r = json_decode($return, true);
+
+        if ($return === false || is_null($r)) {
+            throw new ilExternalMediaApiException("Could not connect to vimeo API at $json_url.");
+        }
+        return $r;
+    }
+
+    /**
+     * Identify Google Document links
+     */
+    public static function isGoogleDocument(
+        string $a_location
+    ): bool {
         if (strpos($a_location, "docs.google") > 0) {
             return true;
         }
         return false;
     }
-    
+
     /**
-    * Extract GoogleDocument Parameter
-    */
-    public static function extractGoogleDocumentParameters($a_location)
-    {
+     * Extract GoogleDocument Parameter
+     * @return array<string,string>
+     */
+    public static function extractGoogleDocumentParameters(
+        string $a_location
+    ): array {
         $par = array();
         $pos1 = strpos($a_location, "id=");
         $pos2 = strpos($a_location, "&", $pos1 + 3);
@@ -191,18 +262,17 @@ class ilExternalMediaAnalyzer
 
         return $par;
     }
-    
+
     /**
-    * Extract URL information to parameter array
-    */
-    public static function extractUrlParameters($a_location, $a_parameter)
-    {
-        if (!is_array($a_parameter)) {
-            $a_parameter = array();
-        }
-        
+     * Extract URL information to parameter array
+     * @return array<string,string>
+     */
+    public static function extractUrlParameters(
+        string $a_location,
+        array $a_parameter
+    ): array {
         $ext_par = array();
-        
+
         // YouTube
         if (ilExternalMediaAnalyzer::isYouTube($a_location)) {
             $ext_par = ilExternalMediaAnalyzer::extractYouTubeParameters($a_location);

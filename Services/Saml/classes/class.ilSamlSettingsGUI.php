@@ -1,21 +1,66 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Data\Factory;
 
 /**
  * Class ilSamlSettingsGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlSettingsGUI
+final class ilSamlSettingsGUI
 {
     private const VIEW_MODE_GLOBAL = 1;
     private const VIEW_MODE_SINGLE = 2;
 
     public const DEFAULT_CMD = 'listIdps';
 
+    private const PERMISSION_WRITE = 'write';
+
+    private const REQUEST_PARAM_SAML_IDP_ID = 'saml_idp_id';
+
+    private const MESSAGE_TYPE_FAILURE = 'failure';
+    private const MESSAGE_TYPE_SUCCESS = 'success';
+
+    private const LNG_SAVED_SUCCESSFULLY = 'saved_successfully';
+    private const LNG_AUTH_SAML_USER_MAPPING = 'auth_saml_user_mapping';
+    private const LNG_LOGIN_FORM = 'login_form';
+    private const LNG_CANCEL = 'cancel';
+
+    private const CMD_SAVE_NEW_IDP = 'saveNewIdp';
+    private const CMD_SAVE_SETTINGS = 'saveSettings';
+    private const CMD_SHOW_IDP_SETTINGS = 'showIdpSettings';
+    private const CMT_SAVE_IDP_SETTINGS = 'saveIdpSettings';
+    private const CMD_SAVE = 'save';
+    private const CMD_SAVE_USER_ATTRIBUTE_MAPPING = 'saveUserAttributeMapping';
+
+    private const PROP_UPDATE_SUFFIX = '_update';
+
+    private const METADATA_STORAGE_KEY = 'metadata';
+
     /**
      * @var string[]
      */
-    protected static $globalCommands = [
+    private const GLOBAL_COMMANDS = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         'showSettings',
@@ -27,7 +72,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalEntityCommands = [
+    private const GLOBAL_ENTITY_COMMANDS = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -37,7 +82,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $ignoredUserFields = [
+    private const IGNORED_USER_FIELDS = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',
@@ -57,21 +102,22 @@ class ilSamlSettingsGUI
         'chat_broadcast_typing',
     ];
 
-    protected int $ref_id;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
-    protected ilErrorHandling $error_handler;
-    protected ilTabsGUI $tabs;
-    protected ilToolbarGUI $toolbar;
-    protected ilHelpGUI $help;
-    protected ?ilExternalAuthUserAttributeMapping $mapping = null;
-    protected ?ilSamlIdp $idp = null;
-    protected ?ilSamlAuth $samlAuth = null;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $tpl;
+    private ilAccessHandler $access;
+    private RBACServices $rbac;
+    private ilErrorHandling $error_handler;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private GlobalHttpState $httpState;
+    private Refinery $refinery;
+    private ilHelpGUI $help;
+    private ?ilExternalAuthUserAttributeMapping $mapping = null;
+    private ?ilSamlIdp $idp = null;
+    private ?ilSamlAuth $samlAuth = null;
 
-    public function __construct(int $ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
 
@@ -84,45 +130,64 @@ class ilSamlSettingsGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC['ilToolbar'];
         $this->help = $DIC['ilHelp'];
+        $this->httpState = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('auth');
-        $this->ref_id = $ref_id;
     }
 
-    protected function ensureAccess(string $operation) : void
+    private function ensureAccess(string $operation): void
     {
-        if (!$this->rbac->system()->checkAccess($operation, $this->getRefId())) {
+        if (!$this->rbac->system()->checkAccess($operation, $this->ref_id)) {
             $this->error_handler->raiseError($this->lng->txt('msg_no_perm_read'), $this->error_handler->WARNING);
         }
     }
 
-    protected function ensureWriteAccess() : void
+    private function ensureWriteAccess(): void
     {
-        $this->ensureAccess('write');
+        $this->ensureAccess(self::PERMISSION_WRITE);
     }
 
-    protected function ensureReadAccess() : void
+    private function ensureReadAccess(): void
     {
         $this->ensureAccess('read');
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    protected function initIdp() : void
+    private function getIdpIdOrZero(): int
+    {
+        $idpId = 0;
+        if ($this->httpState->wrapper()->query()->has(self::REQUEST_PARAM_SAML_IDP_ID)) {
+            $idpId = (int) $this->httpState->wrapper()->query()->retrieve(
+                self::REQUEST_PARAM_SAML_IDP_ID,
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->httpState->wrapper()->post()->has(self::REQUEST_PARAM_SAML_IDP_ID)) {
+            $idpId = (int) $this->httpState->wrapper()->post()->retrieve(
+                self::REQUEST_PARAM_SAML_IDP_ID,
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        return $idpId;
+    }
+
+    private function initIdp(): void
     {
         try {
-            $this->idp = ilSamlIdp::getInstanceByIdpId((int) ($_REQUEST['saml_idp_id'] ?? 0));
-        } catch (Exception $e) {
-            ilUtil::sendFailure($this->lng->txt('auth_saml_unknow_idp'), true);
-            $this->ctrl->setParameter($this, 'saml_idp_id', null);
+            $this->idp = ilSamlIdp::getInstanceByIdpId($this->getIdpIdOrZero());
+        } catch (Exception) {
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $this->lng->txt('auth_saml_unknow_idp'), true);
+            $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, null);
             $this->ctrl->redirect($this, self::DEFAULT_CMD);
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ensureReadAccess();
 
@@ -131,98 +196,94 @@ class ilSamlSettingsGUI
             $this->samlAuth = $factory->auth();
         } catch (Throwable $e) {
             if ('Database error: could not find driver' === $e->getMessage()) {
-                ilUtil::sendFailure($this->lng->txt('auth_saml_err_sqlite_driver'));
+                $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $this->lng->txt('auth_saml_err_sqlite_driver'));
             } else {
-                ilUtil::sendFailure($e->getMessage());
+                $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_FAILURE, $e->getMessage());
             }
         }
 
         $this->help->setScreenIdComponent('auth');
-
-        switch ($this->ctrl->getNextClass()) {
-            default:
-                $cmd = $this->ctrl->getCmd();
-                if ($cmd === '' || !method_exists($this, $cmd)) {
-                    $cmd = self::DEFAULT_CMD;
-                }
-
-                if (isset($_REQUEST['saml_idp_id'])) {
-                    $this->ctrl->saveParameter($this, 'saml_idp_id');
-                }
-
-                if (!in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands), true)) {
-                    if (!isset($_REQUEST['saml_idp_id'])) {
-                        $this->ctrl->redirect($this, self::DEFAULT_CMD);
-                    }
-
-                    $this->initIdp();
-                    $this->initUserAttributeMapping();
-                }
-
-                if (
-                    in_array(strtolower($cmd), array_map('strtolower', self::$globalCommands), true) ||
-                    in_array(strtolower($cmd), array_map('strtolower', self::$globalEntityCommands), true)
-                ) {
-                    $this->setSubTabs(self::VIEW_MODE_GLOBAL);
-                } else {
-                    $this->setSubTabs(self::VIEW_MODE_SINGLE);
-                }
-
-                $this->$cmd();
-                break;
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
+            $cmd = self::DEFAULT_CMD;
         }
+        $ipdId = $this->getIdpIdOrZero();
+        if ($ipdId > 0) {
+            $this->ctrl->saveParameter($this, self::REQUEST_PARAM_SAML_IDP_ID);
+        }
+        if (!in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true)) {
+            if (0 === $ipdId) {
+                $this->ctrl->redirect($this, self::DEFAULT_CMD);
+            }
+
+            $this->initIdp();
+            $this->initUserAttributeMapping();
+        }
+        if (
+            in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_COMMANDS), true) ||
+            in_array(strtolower($cmd), array_map('strtolower', self::GLOBAL_ENTITY_COMMANDS), true)
+        ) {
+            $this->setSubTabs(self::VIEW_MODE_GLOBAL);
+        } else {
+            $this->setSubTabs(self::VIEW_MODE_SINGLE);
+        }
+        $this->$cmd();
     }
 
-    protected function listIdps() : void
+    private function listIdps(): void
     {
-        if ($this->samlAuth && $this->rbac->system()->checkAccess('write', $this->ref_id)) {
+        if ($this->samlAuth && $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)) {
             $addIdpButton = ilLinkButton::getInstance();
             $addIdpButton->setCaption('auth_saml_add_idp_btn');
             $addIdpButton->setUrl($this->ctrl->getLinkTarget($this, 'showNewIdpForm'));
             $this->toolbar->addStickyItem($addIdpButton);
         }
 
-        $table = new ilSamlIdpTableGUI($this, self::DEFAULT_CMD);
+        $table = new ilSamlIdpTableGUI(
+            $this,
+            self::DEFAULT_CMD,
+            $this->rbac->system()->checkAccess(self::PERMISSION_WRITE, $this->ref_id)
+        );
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function deactivateIdp() : void
+    private function deactivateIdp(): void
     {
         $this->ensureWriteAccess();
 
         $this->idp->setActive(false);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
         $this->listIdps();
     }
 
-    protected function activateIdp() : void
+    private function activateIdp(): void
     {
         $this->ensureWriteAccess();
 
         $this->idp->setActive(true);
         $this->idp->persist();
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
         $this->listIdps();
     }
 
-    protected function setSubTabs(int $a_view_mode) : void
+    private function setSubTabs(int $a_view_mode): void
     {
         switch ($a_view_mode) {
             case self::VIEW_MODE_GLOBAL:
                 $this->tabs->addSubTabTarget(
                     'auth_saml_idps',
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
-                    array_merge(self::$globalEntityCommands, [self::DEFAULT_CMD, 'showNewIdpForm', 'saveNewIdp']),
+                    array_merge(self::GLOBAL_ENTITY_COMMANDS, [self::DEFAULT_CMD, 'showNewIdpForm', self::CMD_SAVE_NEW_IDP]),
                     self::class
                 );
 
                 $this->tabs->addSubTabTarget(
                     'settings',
                     $this->ctrl->getLinkTarget($this, 'showSettings'),
-                    ['showSettings', 'saveSettings'],
+                    ['showSettings', self::CMD_SAVE_SETTINGS],
                     self::class
                 );
                 break;
@@ -236,35 +297,35 @@ class ilSamlSettingsGUI
 
                 $this->tabs->addSubTabTarget(
                     'auth_saml_idp_settings',
-                    $this->ctrl->getLinkTarget($this, 'showIdpSettings'),
-                    ['showIdpSettings', 'saveIdpSettings'],
+                    $this->ctrl->getLinkTarget($this, self::CMD_SHOW_IDP_SETTINGS),
+                    [self::CMD_SHOW_IDP_SETTINGS, self::CMT_SAVE_IDP_SETTINGS],
                     self::class
                 );
 
                 $this->tabs->addSubTabTarget(
-                    'auth_saml_user_mapping',
+                    self::LNG_AUTH_SAML_USER_MAPPING,
                     $this->ctrl->getLinkTarget($this, 'showUserAttributeMappingForm'),
-                    ['showUserAttributeMappingForm', 'saveUserAttributeMapping'],
+                    ['showUserAttributeMappingForm', self::CMD_SAVE_USER_ATTRIBUTE_MAPPING],
                     self::class
                 );
                 break;
         }
     }
 
-    private function initUserAttributeMapping() : void
+    private function initUserAttributeMapping(): void
     {
         $this->mapping = new ilExternalAuthUserAttributeMapping('saml', $this->idp->getIdpId());
     }
 
-    protected function getUserAttributeMappingForm() : ilPropertyFormGUI
+    private function getUserAttributeMappingForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveUserAttributeMapping'));
-        $form->setTitle($this->lng->txt('auth_saml_user_mapping'));
+        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_USER_ATTRIBUTE_MAPPING));
+        $form->setTitle($this->lng->txt(self::LNG_AUTH_SAML_USER_MAPPING));
 
         $usr_profile = new ilUserProfile();
-        foreach ($usr_profile->getStandardFields() as $id => $definition) {
-            if (in_array($id, self::$ignoredUserFields, true)) {
+        foreach (array_keys($usr_profile->getStandardFields()) as $id) {
+            if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
                 continue;
             }
 
@@ -275,32 +336,32 @@ class ilSamlSettingsGUI
             $this->addAttributeRuleFieldToForm($form, $definition['field_name'], 'udf_' . $definition['field_id']);
         }
 
-        if (!$this->access->checkAccess('write', '', $this->getRefId())) {
+        if (!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton('saveUserAttributeMapping', $this->lng->txt('save'));
+            $form->addCommandButton(self::CMD_SAVE_USER_ATTRIBUTE_MAPPING, $this->lng->txt(self::CMD_SAVE));
         }
 
         return $form;
     }
 
-    protected function addAttributeRuleFieldToForm(
+    private function addAttributeRuleFieldToForm(
         ilPropertyFormGUI $form,
         string $field_label,
         string $field_name
-    ) : void {
+    ): void {
         $field = new ilTextInputGUI($field_label, $field_name);
         $form->addItem($field);
 
-        $update_automatically = new ilCheckboxInputGUI('', $field_name . '_update');
+        $update_automatically = new ilCheckboxInputGUI('', $field_name . self::PROP_UPDATE_SUFFIX);
         $update_automatically->setOptionTitle($this->lng->txt('auth_saml_update_field_info'));
         $update_automatically->setValue('1');
         $form->addItem($update_automatically);
     }
 
-    protected function saveUserAttributeMapping() : void
+    private function saveUserAttributeMapping(): void
     {
         $this->ensureWriteAccess();
 
@@ -309,15 +370,15 @@ class ilSamlSettingsGUI
             $this->mapping->delete();
 
             $usr_profile = new ilUserProfile();
-            foreach ($usr_profile->getStandardFields() as $id => $definition) {
-                if (in_array($id, self::$ignoredUserFields, true)) {
+            foreach (array_keys($usr_profile->getStandardFields()) as $id) {
+                if (in_array($id, self::IGNORED_USER_FIELDS, true)) {
                     continue;
                 }
 
                 $rule = $this->mapping->getEmptyRule();
                 $rule->setAttribute($id);
                 $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
-                $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . '_update'));
+                $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . self::PROP_UPDATE_SUFFIX));
                 $this->mapping[$rule->getAttribute()] = $rule;
             }
 
@@ -325,13 +386,13 @@ class ilSamlSettingsGUI
                 $rule = $this->mapping->getEmptyRule();
                 $rule->setAttribute('udf_' . $definition['field_id']);
                 $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
-                $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . '_update'));
+                $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . self::PROP_UPDATE_SUFFIX));
                 $this->mapping[$rule->getAttribute()] = $rule;
             }
 
             $this->mapping->save();
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
         }
 
         $form->setValuesByPost();
@@ -339,16 +400,16 @@ class ilSamlSettingsGUI
         $this->showUserAttributeMappingForm($form);
     }
 
-    protected function showUserAttributeMappingForm(ilPropertyFormGUI $form = null) : void
+    private function showUserAttributeMappingForm(ilPropertyFormGUI $form = null): void
     {
-        $this->tabs->setSubTabActive('auth_saml_user_mapping');
+        $this->tabs->setSubTabActive(self::LNG_AUTH_SAML_USER_MAPPING);
 
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getUserAttributeMappingForm();
             $data = array();
             foreach ($this->mapping as $rule) {
                 $data[$rule->getAttribute()] = $rule->getExternalAttribute();
-                $data[$rule->getAttribute() . '_update'] = $rule->isAutomaticallyUpdated();
+                $data[$rule->getAttribute() . self::PROP_UPDATE_SUFFIX] = $rule->isAutomaticallyUpdated();
             }
             $form->setValuesByArray($data);
         }
@@ -356,53 +417,56 @@ class ilSamlSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getSettingsForm() : ilPropertyFormGUI
+    private function getSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
+        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_SETTINGS));
         $form->setTitle($this->lng->txt('auth_saml_configure'));
 
-        $show_login_form = new ilCheckboxInputGUI($this->lng->txt('auth_saml_login_form'), 'login_form');
+        $show_login_form = new ilCheckboxInputGUI($this->lng->txt('auth_saml_login_form'), self::LNG_LOGIN_FORM);
         $show_login_form->setInfo($this->lng->txt('auth_saml_login_form_info'));
         $show_login_form->setValue('1');
         $form->addItem($show_login_form);
 
-        if (!$this->access->checkAccess('write', '', $this->getRefId())) {
+        if (!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton('saveSettings', $this->lng->txt('save'));
+            $form->addCommandButton(self::CMD_SAVE_SETTINGS, $this->lng->txt(self::CMD_SAVE));
         }
 
         return $form;
     }
 
-    private function prepareRoleSelection() : array
+    /**
+     * @return array<int, string>
+     */
+    private function prepareRoleSelection(): array
     {
-        $global_roles = ilUtil::_sortIds(
+        $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
-        );
+        ));
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[$role_id] = ilObject::_lookupTitle($role_id);
         }
 
         return $select;
     }
 
-    protected function saveSettings() : void
+    private function saveSettings(): void
     {
         $this->ensureWriteAccess();
 
         $form = $this->getSettingsForm();
         if ($form->checkInput()) {
-            ilSamlSettings::getInstance()->setLoginFormStatus((bool) $form->getInput('login_form'));
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            ilSamlSettings::getInstance()->setLoginFormStatus((bool) $form->getInput(self::LNG_LOGIN_FORM));
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
         }
 
         $form->setValuesByPost();
@@ -410,22 +474,22 @@ class ilSamlSettingsGUI
         $this->showSettings($form);
     }
 
-    protected function showSettings(ilPropertyFormGUI $form = null) : void
+    private function showSettings(ilPropertyFormGUI $form = null): void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
             $form = $this->getSettingsForm();
             $form->setValuesByArray([
-                'login_form' => ilSamlSettings::getInstance()->isDisplayedOnLoginPage(),
+                self::LNG_LOGIN_FORM => ilSamlSettings::getInstance()->isDisplayedOnLoginPage(),
             ]);
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function getIdpSettingsForm() : ilPropertyFormGUI
+    private function getIdpSettingsForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveIdpSettings'));
+        $form->setFormAction($this->ctrl->getFormAction($this, self::CMT_SAVE_IDP_SETTINGS));
         $form->setTitle(sprintf($this->lng->txt('auth_saml_configure_idp'), $this->idp->getEntityId()));
 
         $idp = new ilTextInputGUI($this->lng->txt('auth_saml_idp'), 'entity_id');
@@ -464,19 +528,19 @@ class ilSamlSettingsGUI
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
-        if (!$this->access->checkAccess('write', '', $this->getRefId())) {
+        if (!$this->access->checkAccess(self::PERMISSION_WRITE, '', $this->ref_id)) {
             foreach ($form->getItems() as $item) {
                 $item->setDisabled(true);
             }
         } else {
-            $form->addCommandButton('saveIdpSettings', $this->lng->txt('save'));
+            $form->addCommandButton(self::CMT_SAVE_IDP_SETTINGS, $this->lng->txt(self::CMD_SAVE));
         }
-        $form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt('cancel'));
+        $form->addCommandButton(self::DEFAULT_CMD, $this->lng->txt(self::LNG_CANCEL));
 
         return $form;
     }
 
-    protected function showIdpSettings(ilPropertyFormGUI $form = null) : void
+    private function showIdpSettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs->setSubTabActive('auth_saml_idp_settings');
 
@@ -494,7 +558,7 @@ class ilSamlSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function saveIdpSettings() : void
+    private function saveIdpSettings(): void
     {
         $this->ensureWriteAccess();
 
@@ -502,29 +566,29 @@ class ilSamlSettingsGUI
         if ($form->checkInput()) {
             $this->idp->bindForm($form);
             $this->idp->persist();
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY));
 
-            $this->storeMetadata($this->idp, $form->getInput('metadata'));
+            $this->storeMetadata($this->idp, $form->getInput(self::METADATA_STORAGE_KEY));
         }
 
         $this->showIdpSettings($form);
     }
 
-    protected function getIdpForm() : ilPropertyFormGUI
+    private function getIdpForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveNewIdp'));
+        $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE_NEW_IDP));
         $form->setTitle($this->lng->txt('auth_saml_add_idp_btn'));
 
         $this->addMetadataElement($form);
 
-        $form->addCommandButton('saveNewIdp', $this->lng->txt('save'));
-        $form->addCommandButton('listIdps', $this->lng->txt('cancel'));
+        $form->addCommandButton(self::CMD_SAVE_NEW_IDP, $this->lng->txt(self::CMD_SAVE));
+        $form->addCommandButton('listIdps', $this->lng->txt(self::LNG_CANCEL));
 
         return $form;
     }
 
-    protected function saveNewIdp() : void
+    private function saveNewIdp(): void
     {
         $this->ensureWriteAccess();
 
@@ -534,17 +598,17 @@ class ilSamlSettingsGUI
             $idp->bindForm($form);
             $idp->persist();
 
-            $this->storeMetadata($idp, $form->getInput('metadata'));
+            $this->storeMetadata($idp, $form->getInput(self::METADATA_STORAGE_KEY));
 
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-            $this->ctrl->setParameter($this, 'saml_idp_id', $idp->getIdpId());
-            $this->ctrl->redirect($this, 'showIdpSettings');
+            $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt(self::LNG_SAVED_SUCCESSFULLY), true);
+            $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, $idp->getIdpId());
+            $this->ctrl->redirect($this, self::CMD_SHOW_IDP_SETTINGS);
         }
 
         $this->showNewIdpForm($form);
     }
 
-    protected function showNewIdpForm(ilPropertyFormGUI $form = null) : void
+    private function showNewIdpForm(ilPropertyFormGUI $form = null): void
     {
         $this->ensureWriteAccess();
 
@@ -559,12 +623,15 @@ class ilSamlSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function addMetadataElement(ilPropertyFormGUI $form) : void
+    private function addMetadataElement(ilPropertyFormGUI $form): void
     {
         $metadata = new ilSamlIdpMetadataInputGUI(
             $this->lng->txt('auth_saml_add_idp_md_label'),
-            'metadata',
-            new ilSamlIdpXmlMetadataParser()
+            self::METADATA_STORAGE_KEY,
+            new ilSamlIdpXmlMetadataParser(
+                new Factory(),
+                new ilSamlIdpXmlMetadataErrorFormatter()
+            )
         );
         $metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
         $metadata->setRows(20);
@@ -578,34 +645,34 @@ class ilSamlSettingsGUI
         $form->addItem($metadata);
     }
 
-    protected function populateWithMetadata(ilSamlIdp $idp, array &$data) : void
+    private function populateWithMetadata(ilSamlIdp $idp, array &$data): void
     {
         $idpDisco = $this->samlAuth->getIdpDiscovery();
 
-        $data['metadata'] = $idpDisco->fetchIdpMetadata($idp->getIdpId());
+        $data[self::METADATA_STORAGE_KEY] = $idpDisco->fetchIdpMetadata($idp->getIdpId());
     }
 
-    protected function storeMetadata(ilSamlIdp $idp, string $metadata) : void
+    private function storeMetadata(ilSamlIdp $idp, string $metadata): void
     {
         $idpDisco = $this->samlAuth->getIdpDiscovery();
         $idpDisco->storeIdpMetadata($idp->getIdpId(), $metadata);
     }
 
-    protected function confirmDeleteIdp() : void
+    private function confirmDeleteIdp(): void
     {
         $this->ensureWriteAccess();
 
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteIdp'));
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
-        $confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
+        $confirmation->setCancel($this->lng->txt(self::LNG_CANCEL), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
-        $confirmation->addItem('saml_idp_ids', $this->idp->getIdpId(), $this->idp->getEntityId());
+        $confirmation->addItem('saml_idp_ids', (string) $this->idp->getIdpId(), $this->idp->getEntityId());
 
         $this->tpl->setContent($confirmation->getHTML());
     }
 
-    protected function deleteIdp() : void
+    private function deleteIdp(): void
     {
         $this->ensureWriteAccess();
 
@@ -614,9 +681,9 @@ class ilSamlSettingsGUI
 
         $this->idp->delete();
 
-        ilUtil::sendSuccess($this->lng->txt('auth_saml_deleted_idp'), true);
+        $this->tpl->setOnScreenMessage(self::MESSAGE_TYPE_SUCCESS, $this->lng->txt('auth_saml_deleted_idp'), true);
 
-        $this->ctrl->setParameter($this, 'saml_idp_id', null);
+        $this->ctrl->setParameter($this, self::REQUEST_PARAM_SAML_IDP_ID, null);
         $this->ctrl->redirect($this, self::DEFAULT_CMD);
     }
 }

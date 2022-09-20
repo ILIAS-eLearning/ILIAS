@@ -1,50 +1,45 @@
 <?php
 
+declare(strict_types=0);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
-
 /**
-* LP collection of SCOs
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id: class.ilLPCollections.php 40326 2013-03-05 11:39:24Z jluetzen $
-*
-* @ingroup ServicesTracking
-*/
+ * LP collection of SCOs
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesTracking
+ */
 class ilLPCollectionOfSCOs extends ilLPCollection
 {
-    protected static $possible_items = array();
-    
-    // see ilSCORMCertificateAdapter
-    public function getPossibleItems()
+    protected static array $possible_items = array();
+
+    public function getPossibleItems(): array
     {
         if (!isset(self::$possible_items[$this->obj_id])) {
-            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
-
             $items = array();
 
             switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
                 case 'hacp':
                 case 'aicc':
-                    include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
-                    foreach (ilObjAICCLearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjAICCLearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item['obj_id']]['title'] = $item['title'];
                     }
                     break;
 
                 case 'scorm':
-                    include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
-                    include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
-                    foreach (ilObjSCORMLearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjSCORMLearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item->getId()]['title'] = $item->getTitle();
                     }
                     break;
 
                 case 'scorm2004':
-                    include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
-                    foreach (ilObjSCORM2004LearningModule::_getTrackingItems($this->obj_id) as $item) {
+                    foreach (ilObjSCORM2004LearningModule::_getTrackingItems(
+                        $this->obj_id
+                    ) as $item) {
                         $items[$item['id']]['title'] = $item['title'];
                     }
                     break;
@@ -52,19 +47,14 @@ class ilLPCollectionOfSCOs extends ilLPCollection
 
             self::$possible_items[$this->obj_id] = $items;
         }
-        
+
         return self::$possible_items[$this->obj_id];
     }
 
-    
-    //
-    // TABLE GUI
-    //
-    
-    public function getTableGUIData($a_parent_ref_id)
+    public function getTableGUIData(int $a_parent_ref_id): array
     {
         $data = array();
-        
+
         foreach ($this->getPossibleItems() as $sco_id => $item) {
             $tmp = array();
             $tmp['id'] = $sco_id;
@@ -75,49 +65,52 @@ class ilLPCollectionOfSCOs extends ilLPCollection
 
             $data[] = $tmp;
         }
-    
+
         return $data;
     }
-    
-                
+
+
     //
     // HELPER
     //
-        
+
     // see ilSCORMCertificateAdapter
-    public function getScoresForUserAndCP_Node_Id($item_id, $user_id)
-    {
-        include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+    public function getScoresForUserAndCP_Node_Id(
+        int $item_id,
+        int $user_id
+    ): array {
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'hacp':
             case 'aicc':
-                include_once './Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php';
-                return ilObjAICCLearningModule::_getScoresForUser($item_id, $user_id);
+                return ilObjAICCLearningModule::_getScoresForUser(
+                    $item_id,
+                    $user_id
+                );
 
             case 'scorm':
-                include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
-                //include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
-                return ilObjSCORMLearningModule::_getScoresForUser($item_id, $user_id);
+                return ilObjSCORMLearningModule::_getScoresForUser(
+                    $item_id,
+                    $user_id
+                );
 
             case 'scorm2004':
-                include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
-                return ilObjSCORM2004LearningModule::_getScores2004ForUser($item_id, $user_id);
+                return ilObjSCORM2004LearningModule::_getScores2004ForUser(
+                    $item_id,
+                    $user_id
+                );
         }
-        
+
         return array("raw" => null, "max" => null, "scaled" => null);
     }
 
     /**
      * Scorm items are not copied, they are newly created by reading the manifest.
      * Therefore, they do not have a mapping. So we need to map them via the import_id/identifierref
-     *
-     * @param $a_target_id
-     * @param $a_copy_id
+     * @param int $a_target_id
+     * @param int $a_copy_id
      */
-    public function cloneCollection($a_target_id, $a_copy_id)
+    public function cloneCollection(int $a_target_id, int $a_copy_id): void
     {
-        global $DIC;
-
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         $new_collection = new static($target_obj_id, $this->mode);
         $possible_items = $new_collection->getPossibleItems();
@@ -128,24 +121,27 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                 }
             }
         }
-
-        $DIC->logger()->root()->write(__METHOD__ . ': cloned learning progress collection.');
     }
 
-
-    /**
-     * @param $item_a_id
-     * @param $item_b_id
-     *
-     * @return bool
-     */
-    protected function itemsAreEqual($item_a_id, $item_b_id)
+    protected function itemsAreEqual(int $item_a_id, int $item_b_id): bool
     {
         global $DIC;
         switch (ilObjSAHSLearningModule::_lookupSubType($this->obj_id)) {
             case 'scorm':
-                $res_a = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_a_id, 'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database()->quote($item_b_id, 'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query(
+                    'SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database(
+                    )->quote(
+                        $item_a_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
+                $res_b = $DIC->database()->query(
+                    'SELECT import_id, identifierref FROM sc_item WHERE obj_id = ' . $DIC->database(
+                    )->quote(
+                        $item_b_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
                 return (
                     $res_a
                     && $res_b
@@ -153,8 +149,20 @@ class ilLPCollectionOfSCOs extends ilLPCollection
                     && ($res_a['identifierref'] == $res_b['identifierref'])
                 );
             case 'scorm2004':
-                $res_a = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_a_id, 'integer'))->fetchAssoc();
-                $res_b = $DIC->database()->query('SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database()->quote($item_b_id, 'integer'))->fetchAssoc();
+                $res_a = $DIC->database()->query(
+                    'SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database(
+                    )->quote(
+                        $item_a_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
+                $res_b = $DIC->database()->query(
+                    'SELECT id, resourceid FROM cp_item WHERE cp_node_id = ' . $DIC->database(
+                    )->quote(
+                        $item_b_id,
+                        'integer'
+                    )
+                )->fetchAssoc();
                 return (
                     $res_a
                     && $res_b

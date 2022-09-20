@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -15,5 +17,5 @@ interface URLBuilder
     /**
      * Get an URL for the provided command and params.
      */
-    public function getURL(string $command, int $param = null) : Data\URI;
+    public function getURL(string $command, int $param = null): Data\URI;
 }

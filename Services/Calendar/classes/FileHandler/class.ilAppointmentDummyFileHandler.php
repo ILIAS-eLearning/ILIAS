@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-include_once("./Services/Calendar/interfaces/interface.ilAppointmentFileHandler.php");
-include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php");
+/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Dummy appointment file handler
- *
- * @author Alex Killing <killing@leifos.de>
+ * @author  Alex Killing <killing@leifos.de>
  * @ingroup ServicesCalendar
  */
 class ilAppointmentDummyFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
@@ -16,7 +14,7 @@ class ilAppointmentDummyFileHandler extends ilAppointmentBaseFileHandler impleme
     /**
      * @inheritDoc
      */
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return [];
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Abstract parent class for all page component plugin importer classes.
@@ -45,20 +48,16 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
     public static function setPCProperties(
         string $a_id,
         array $a_properties
-    ) : void {
+    ): void {
         self::$pc_properties[$a_id] = $a_properties;
     }
 
     /**
      * Get the properties of a plugged page content
      */
-    public static function getPCProperties(string $a_id) : ?array
+    public static function getPCProperties(string $a_id): ?array
     {
-        if (isset(self::$pc_properties[$a_id])) {
-            return self::$pc_properties[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_properties[$a_id] ?? null;
     }
 
     /**
@@ -68,20 +67,16 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
     public static function setPCVersion(
         string $a_id,
         string $a_version
-    ) : void {
+    ): void {
         self::$pc_version[$a_id] = $a_version;
     }
 
     /**
      * Get the version of a plugged page content
      */
-    public static function getPCVersion(string $a_id) : ?string
+    public static function getPCVersion(string $a_id): ?string
     {
-        if (isset(self::$pc_version[$a_id])) {
-            return self::$pc_version[$a_id];
-        } else {
-            return null;
-        }
+        return self::$pc_version[$a_id] ?? null;
     }
 
 
@@ -91,7 +86,7 @@ abstract class ilPageComponentPluginImporter extends ilXmlImporter
      * The mapped ID shold be used both for getPCProperties() and setPCProperties()
      * when being called in their importXmlRepresentation()
      */
-    public static function getPCMapping(string $a_id, ilImportMapping $a_mapping) : string
+    public static function getPCMapping(string $a_id, ilImportMapping $a_mapping): string
     {
         $parts = explode(':', $a_id);
         $old_page_id = $parts[0] . ':' . $parts[1];

@@ -1,78 +1,85 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Component/classes/class.ilClaimingPermissionHelper.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * UDF permission helper
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesUser
  */
 class ilUDFPermissionHelper extends ilClaimingPermissionHelper
 {
-    const CONTEXT_UDF = 1;
-    const CONTEXT_FIELD = 2;
-    
-    
-    const ACTION_UDF_CREATE_FIELD = 1;
-    
-    const ACTION_FIELD_EDIT = 1;
-    const ACTION_FIELD_DELETE = 2;
-    const ACTION_FIELD_EDIT_PROPERTY = 3;
-    const ACTION_FIELD_EDIT_ACCESS = 4;
-    
-    
-    const SUBACTION_FIELD_TITLE = 1;
-    const SUBACTION_FIELD_PROPERTIES = 2;
-    
-    const SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL = 1;
-    const SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION = 2;
-    const SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL = 3;
-    const SUBACTION_FIELD_ACCESS_VISIBLE_COURSES = 4;
-    const SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS = 5;
-    const SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL = 6;
-    const SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL = 7;
-    const SUBACTION_FIELD_ACCESS_REQUIRED = 8;
-    const SUBACTION_FIELD_ACCESS_EXPORT = 9;
-    const SUBACTION_FIELD_ACCESS_SEARCHABLE = 10;
-    const SUBACTION_FIELD_ACCESS_CERTIFICATE = 11;
-        
-    
+    public const CONTEXT_UDF = 1;
+    public const CONTEXT_FIELD = 2;
+
+    public const ACTION_UDF_CREATE_FIELD = 1;
+
+    public const ACTION_FIELD_EDIT = 1;
+    public const ACTION_FIELD_DELETE = 2;
+    public const ACTION_FIELD_EDIT_PROPERTY = 3;
+    public const ACTION_FIELD_EDIT_ACCESS = 4;
+
+    public const SUBACTION_FIELD_TITLE = 1;
+    public const SUBACTION_FIELD_PROPERTIES = 2;
+
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL = 1;
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION = 2;
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL = 3;
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_COURSES = 4;
+    public const SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS = 5;
+    public const SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL = 6;
+    public const SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL = 7;
+    public const SUBACTION_FIELD_ACCESS_REQUIRED = 8;
+    public const SUBACTION_FIELD_ACCESS_EXPORT = 9;
+    public const SUBACTION_FIELD_ACCESS_SEARCHABLE = 10;
+    public const SUBACTION_FIELD_ACCESS_CERTIFICATE = 11;
+
+
     // caching
-        
-    protected function readContextIds($a_context_type)
+
+    protected function readContextIds(int $a_context_type): array // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         switch ($a_context_type) {
             case self::CONTEXT_UDF:
-                return array($_REQUEST["ref_id"]);
-                    
+                return array($this->getRefId());
+
             case self::CONTEXT_FIELD:
                 $set = $ilDB->query("SELECT field_id id" .
                     " FROM udf_definition");
                 break;
-                                
+
             default:
                 return array();
         }
-        
+
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["id"];
         }
         return $res;
     }
-    
-    
+
+
     // permissions
-    
-    protected function buildPermissionMap()
+
+    protected function buildPermissionMap(): array // Missing array type.
     {
         return array(
             self::CONTEXT_UDF => array(
@@ -109,27 +116,14 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
             )
         );
     }
-    
-    
+
+
     // plugins
-    
-    protected function getActivePlugins()
+
+    protected function getActivePlugins(): array // Missing array type.
     {
         global $DIC;
-
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $res = array();
-        
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "User", "udfc") as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "User",
-                "udfc",
-                $plugin_name
-            );
-        }
-        
-        return $res;
+        $component_factory = $DIC["component.factory"];
+        return iterator_to_array($component_factory->getActivePluginsInSlot("udfc"));
     }
 }

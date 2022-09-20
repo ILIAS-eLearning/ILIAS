@@ -38,4 +38,7 @@
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="Layout/classes"/>
 	</copage>
 	<logging />
+	<crons>
+		<cron id="copg_history_cleanup" class="ilCleanCOPageHistoryCronjob" path="Services/COPage/Cron" />
+	</crons>
 </service>

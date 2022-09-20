@@ -11,9 +11,9 @@ il.IntLink =
 
 	save_pars: {
 		//"target_type": "",
-		"link_par_ref_id": "",
-		"link_par_obj_id": "",
-		"link_par_fold_id": "",
+		"link_par_ref_id": 0,
+		"link_par_obj_id": 0,
+		"link_par_fold_id": 0,
 		"link_type": ""
 	},
 
@@ -64,7 +64,6 @@ il.IntLink =
 
 	init: function(cfg)
 	{
-		//console.log("init with cfgurl:" + cfg.url);
 		//console.trace();
 		// new: get link dynamically
 		if(cfg.url == "")

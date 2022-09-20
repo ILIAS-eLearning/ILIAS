@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumModerators
@@ -8,33 +25,31 @@
  */
 class ilForumModerators
 {
-    private int $ref_id;
     private \ILIAS\DI\RBACServices $rbac;
 
-    public function __construct(int $a_ref_id)
+    public function __construct(private int $ref_id)
     {
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->ref_id = $a_ref_id;
     }
 
-    public function setRefId(int $ref_id) : void
+    public function setRefId(int $ref_id): void
     {
         $this->ref_id = $ref_id;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function addModeratorRole(int $a_usr_id) : bool
+    public function addModeratorRole(int $a_usr_id): bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $a_rol_id = (int) $role['obj_id'];
                 break;
             }
@@ -48,12 +63,12 @@ class ilForumModerators
         return false;
     }
 
-    public function detachModeratorRole(int $a_usr_id) : bool
+    public function detachModeratorRole(int $a_usr_id): bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $a_rol_id = (int) $role['obj_id'];
                 break;
             }
@@ -70,13 +85,13 @@ class ilForumModerators
     /**
      * @return int[]
      */
-    public function getCurrentModerators() : array
+    public function getCurrentModerators(): array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
+            if (str_contains($role['title'], 'il_frm_moderator')) {
+                $assigned_users = $this->rbac->review()->assignedUsers((int) $role['rol_id']);
                 break;
             }
         }
@@ -87,12 +102,12 @@ class ilForumModerators
     /**
      * @return int[]
      */
-    public function getUsers() : array
+    public function getUsers(): array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
-            if (strpos($role['title'], 'il_frm_moderator') !== false) {
+            if (str_contains($role['title'], 'il_frm_moderator')) {
                 $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
                 break;
             }

@@ -1,54 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for lm download files
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMDownloadTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilObjLearningModule $lm;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjLearningModule $a_lm)
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjLearningModule $a_lm
+    ) {
         $this->lm = $a_lm;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->lm->getPublicExportFiles());
         $this->setTitle($this->lng->txt("download"));
-        
+
         $this->addColumn($this->lng->txt("cont_format"));
         $this->addColumn($this->lng->txt("cont_file"));
         $this->addColumn($this->lng->txt("size"));
@@ -56,24 +43,17 @@ class ilLMDownloadTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
         $this->disable("footer");
         $this->setMaxCount(9999);
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.download_file_row.html", "Modules/LearningModule");
     }
 
-    /**
-     * Get download files
-     */
-    public function getDownloadFiles()
+    public function getDownloadFiles(): void
     {
         $this->setData($this->lm->getPublicExportFiles());
     }
 
-
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TXT_FILENAME", $a_set["file"]);
 

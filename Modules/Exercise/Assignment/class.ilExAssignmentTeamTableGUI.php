@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * List all team members of an assignment
@@ -37,22 +51,22 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 
         $access = $this->access;
         $user = $DIC->user();
-        $this->edit_permission = (bool) $access->checkAccessOfUser($user->getId(), "edit", "", $a_parent_ref_id);
+        $this->edit_permission = $access->checkAccessOfUser($user->getId(), "edit", "", $a_parent_ref_id);
 
         $this->mode = $a_mode;
         $this->team = $a_team;
         $this->read_only = $a_read_only;
         $this->parent_ref_id = $a_parent_ref_id;
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         if (!$this->read_only) {
             $this->addColumn("", "", 1);
         }
         $this->addColumn($this->lng->txt("name"), "name");
-        
+
         $this->setDefaultOrderField("name");
-                        
+
         $this->setRowTemplate("tpl.exc_team_member_row.html", "Modules/Exercise");
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
@@ -65,11 +79,11 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
                 $this->addMultiCommand("confirmRemoveTeamMember", $this->lng->txt("remove"));
             }
         }
-        
+
         $this->getItems();
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         if ($this->mode == self::MODE_ADD) {
             $assigned = $this->team->getMembersOfAllTeams();
@@ -77,7 +91,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
             $assigned = array();
             $this->member_ids = $this->team->getMembers();
         }
-    
+
         $data = array();
         foreach ($this->member_ids as $id) {
             if (!in_array($id, $assigned)) {
@@ -85,19 +99,19 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
                     "name" => ilUserUtil::getNamePresentation($id, false, false, "", $this->edit_permission));
             }
         }
-        
+
         $this->setData($data);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilAccess = $this->access;
-        
+
         if (!$this->read_only) {
             $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         }
         $this->tpl->setVariable("TXT_NAME", $a_set["name"]);
-        
+
         // #18327
         if (!$ilAccess->checkAccessOfUser($a_set["id"], "read", "", $this->parent_ref_id) &&
             is_array($info = $ilAccess->getInfo())) {

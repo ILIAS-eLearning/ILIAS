@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage;
 
@@ -39,12 +42,13 @@ class ResourcesCollector
         // workaround (note that pcquestion currently checks for page config, if self assessment is enabled
         if (is_null($pg)) {
             $pg = new \ilLMPage();
+            $pg->setXMLContent("<PageObject></PageObject>");
         }
         $this->output_mode = $output_mode;
         $this->init($pg);
     }
 
-    protected function init(\ilPageObject $pg) : void
+    protected function init(\ilPageObject $pg): void
     {
         // basic files must be copied of offline version as well
         // (for all other modes they are included automatically)
@@ -87,17 +91,17 @@ class ResourcesCollector
         }
     }
 
-    public function getJavascriptFiles() : array
+    public function getJavascriptFiles(): array
     {
         return $this->js_files;
     }
 
-    public function getCssFiles() : array
+    public function getCssFiles(): array
     {
         return $this->css_files;
     }
 
-    public function getOnloadCode() : array
+    public function getOnloadCode(): array
     {
         return $this->onload_code;
     }

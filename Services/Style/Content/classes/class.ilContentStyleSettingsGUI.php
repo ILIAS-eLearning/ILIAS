@@ -1,63 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Style\Content\StandardGUIRequest;
 
 /**
  * Settings UI class for system styles
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContentStyleSettingsGUI: ilObjStyleSheetGUI
  */
 class ilContentStyleSettingsGUI
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilContentStyleSettings $cs_settings;
+    protected ilObjStyleSettingsGUI $parent_gui;
+    protected int $obj_id;
+    protected StandardGUIRequest $request;
+    protected ilSetting $settings;
+    protected ilTree $tree;
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $rbacsystem;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ILIAS\DI\Container $DIC;
+    protected int $ref_id;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ILIAS\DI\Container
-     */
-    protected $DIC;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(ilObjStyleSettingsGUI $a_parent_gui)
     {
         global $DIC;
@@ -66,22 +49,24 @@ class ilContentStyleSettingsGUI
         $this->settings = $DIC->settings();
 
         $this->parent_gui = $a_parent_gui;
-        $this->dic = $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-        $this->ref_id = (int) $_GET["ref_id"];
-        $this->obj_id = (int) $_GET["obj_id"];		// note that reference ID is the id of the style settings node and object ID may be a style sheet object ID
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->request = $DIC->contentStyle()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
+
+        $this->ref_id = $this->request->getRefId();
+        $this->obj_id = $this->request->getObjId();		// note that reference ID is the id of the style settings node and object ID may be a style sheet object ID
 
         $this->cs_settings = new ilContentStyleSettings();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("edit");
@@ -89,7 +74,7 @@ class ilContentStyleSettingsGUI
         switch ($next_class) {
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "edit");
-                $style_gui = new ilObjStyleSheetGUI("", $this->obj_id, false, false);
+                $style_gui = new ilObjStyleSheetGUI("", $this->obj_id, false);
                 $this->ctrl->forwardCommand($style_gui);
                 break;
 
@@ -106,12 +91,9 @@ class ilContentStyleSettingsGUI
 
     /**
      * Check permission
-     *
-     * @param string $a_perm permission(s)
-     * @return bool
      * @throws ilObjectException
      */
-    public function checkPermission($a_perm, $a_throw_exc = true)
+    public function checkPermission(string $a_perm, bool $a_throw_exc = true): bool
     {
         if (!$this->rbacsystem->checkAccess($a_perm, $this->ref_id)) {
             if ($a_throw_exc) {
@@ -122,10 +104,7 @@ class ilContentStyleSettingsGUI
         return true;
     }
 
-    /**
-     * Create new style
-     */
-    public function createStyle()
+    public function createStyle(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -134,18 +113,22 @@ class ilContentStyleSettingsGUI
     }
 
     /**
-     * Show styles
+     * List styles
      */
-    public function edit()
+    public function edit(): void
     {
         $this->checkPermission("visible,read");
+
+        // @todo: check these, they are checked later, but never (ILIAS 6) set
+        $fixed_style = 0;
+        $default_style = 0;
 
         // this may not be cool, if styles are organised as (independent) Service
         $from_styles = $to_styles = $data = array();
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
-            $style["active"] = ilObjStyleSheet::_lookupActive($style["id"]);
-            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs($style["id"]);
+            $style["active"] = ilObjStyleSheet::_lookupActive((int) $style["id"]);
+            $style["lm_nr"] = ilObjContentObject::_getNrOfAssignedLMs((int) $style["id"]);
             $data[$style["title"] . ":" . $style["id"]]
                 = $style;
             if ($style["lm_nr"] > 0) {
@@ -194,23 +177,26 @@ class ilContentStyleSettingsGUI
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         }
 
-        $table = new ilContentStylesTableGUI($this, "edit", $data, $this->cs_settings);
+        $table = new ilContentStylesTableGUI($this, "edit", $data);
         $this->tpl->setContent($table->getHTML());
     }
 
     /**
      * move learning modules from one style to another
      */
-    public function moveLMStyles()
+    public function moveLMStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
-        if ($_POST["from_style"] == -1) {
+        if ($this->request->getFromStyleId() == -1) {
             $this->confirmDeleteIndividualStyles();
             return;
         }
 
-        ilObjContentObject::_moveLMStyles($_POST["from_style"], $_POST["to_style"]);
+        ilObjContentObject::_moveLMStyles(
+            $this->request->getFromStyleId(),
+            $this->request->getToStyleId()
+        );
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -218,47 +204,43 @@ class ilContentStyleSettingsGUI
     /**
      * move all learning modules with individual styles to new style
      */
-    public function moveIndividualStyles()
+    public function moveIndividualStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
-        ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
+        ilObjContentObject::_moveLMStyles(-1, $this->request->getToStyleId());
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-     *
-     */
-    public function confirmDeleteIndividualStyles()
+    public function confirmDeleteIndividualStyles(): void
     {
         $this->checkPermission("sty_write_content");
 
 
-        $this->ctrl->setParameter($this, "to_style", $_POST["to_style"]);
+        $this->ctrl->setParameter($this, "to_style", $this->request->getToStyleId());
 
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("sty_confirm_del_ind_styles") . ": " .
             sprintf(
                 $this->lng->txt("sty_confirm_del_ind_styles_desc"),
-                ilObject::_lookupTitle($_POST["to_style"])
+                ilObject::_lookupTitle($this->request->getToStyleId())
             ));
         $cgui->setCancel($this->lng->txt("cancel"), "edit");
         $cgui->setConfirm($this->lng->txt("ok"), "moveIndividualStyles");
         $this->tpl->setContent($cgui->getHTML());
     }
 
-
-
     /**
      * display deletion confirmation screen
      */
-    public function deleteStyle()
+    public function deleteStyle(): void
     {
         $this->checkPermission("sty_write_content");
 
-        if (!isset($_POST["id"])) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
         }
 
@@ -269,9 +251,8 @@ class ilContentStyleSettingsGUI
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
 
-        foreach ($_POST["id"] as $id) {
-            $caption = ilUtil::getImageTagByType("sty", $this->tpl->tplPath) .
-                " " . ilObject::_lookupTitle($id);
+        foreach ($ids as $id) {
+            $caption = ilObject::_lookupTitle($id);
 
             $cgui->addItem("id[]", $id, $caption);
         }
@@ -283,11 +264,12 @@ class ilContentStyleSettingsGUI
     /**
      * delete selected style objects
      */
-    public function confirmedDelete()
+    public function confirmedDelete(): void
     {
         $this->checkPermission("sty_write_content");
 
-        foreach ($_POST["id"] as $id) {
+        $ids = $this->request->getIds();
+        foreach ($ids as $id) {
             $set = new ilContentStyleSettings();
             $set->removeStyle($id);
             $set->update();
@@ -303,76 +285,68 @@ class ilContentStyleSettingsGUI
     /**
      * Toggle global default style
      */
-    public function toggleGlobalDefault()
+    public function toggleGlobalDefault(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
 
         $this->checkPermission("sty_write_content");
 
-        if ($_GET["id"] > 0) {
+        if ($this->request->getId() > 0) {
             $ilSetting->delete("fixed_content_style_id");
             $def_style = $ilSetting->get("default_content_style_id");
 
-            if ($def_style != $_GET["id"]) {
-                $ilSetting->set("default_content_style_id", (int) $_GET["id"]);
+            if ($def_style != $this->request->getId()) {
+                $ilSetting->set("default_content_style_id", (string) $this->request->getId());
             } else {
                 $ilSetting->delete("default_content_style_id");
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
     /**
      * Toggle global fixed style
      */
-    public function toggleGlobalFixed()
+    public function toggleGlobalFixed(): void
     {
         $ilSetting = $this->settings;
         $lng = $this->lng;
 
         $this->checkPermission("sty_write_content");
 
-        if ($_GET["id"] > 0) {
+        if ($this->request->getId() > 0) {
             $ilSetting->delete("default_content_style_id");
             $fixed_style = $ilSetting->get("fixed_content_style_id");
-            if ($fixed_style == (int) $_GET["id"]) {
+            if ($fixed_style == $this->request->getId()) {
                 $ilSetting->delete("fixed_content_style_id");
             } else {
-                $ilSetting->set("fixed_content_style_id", (int) $_GET["id"]);
+                $ilSetting->set("fixed_content_style_id", (string) $this->request->getId());
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
-
-    /**
-     * Save active styles
-     */
-    public function saveActiveStyles()
+    public function saveActiveStyles(): void
     {
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
-            if ($_POST["std_" . $style["id"]] == 1) {
-                ilObjStyleSheet::_writeActive((int) $style["id"], 1);
+            if ($this->request->getSelectedStandard($style["id"]) == 1) {
+                ilObjStyleSheet::_writeActive((int) $style["id"], true);
             } else {
-                ilObjStyleSheet::_writeActive((int) $style["id"], 0);
+                ilObjStyleSheet::_writeActive((int) $style["id"], false);
             }
         }
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 
     /**
      * show possible action (form buttons)
-     *
-     * @param	boolean
-     * @access	public
      */
-    public function showActions($with_subobjects = false)
+    public function showActions(bool $with_subobjects = false): void
     {
-
         // delete
         $this->tpl->setCurrentBlock("tbl_action_btn");
         $this->tpl->setVariable("BTN_NAME", "deleteStyle");
@@ -403,30 +377,18 @@ class ilContentStyleSettingsGUI
         $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("sty_save_active_styles"));
         $this->tpl->parseCurrentBlock();
 
-        if ($with_subobjects === true) {
-            $this->showPossibleSubObjects();
-        }
-
         $this->tpl->setCurrentBlock("tbl_action_row");
         $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
         $this->tpl->parseCurrentBlock();
     }
 
-    /**
-     * cancel deletion of object
-     *
-     * @access	public
-     */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-     * Set scope
-     */
-    public function setScope()
+    public function setScope(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -447,22 +409,21 @@ class ilContentStyleSettingsGUI
         }
     }
 
-    /**
-     * Save scope for style
-     */
-    public function saveScope()
+    public function saveScope(): void
     {
         $tree = $this->tree;
 
         $this->checkPermission("sty_write_content");
 
-        if ($_GET["cat"] == $tree->readRootId()) {
-            $_GET["cat"] = "";
+        $cat_id = $this->request->getCatId();
+        if ($cat_id == $tree->readRootId()) {
+            $cat_id = 0;
         }
-        ilObjStyleSheet::_writeScope($_GET["id"], $_GET["cat"]);
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        ilObjStyleSheet::_writeScope($this->request->getId(), $cat_id);
 
-        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", "", false, false));
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+
+        ilUtil::redirect($this->ctrl->getLinkTarget($this, "edit", ""));
     }
 }

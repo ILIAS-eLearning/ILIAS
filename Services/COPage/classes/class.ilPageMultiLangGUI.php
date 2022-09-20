@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Page multilinguality GUI class.
@@ -22,7 +25,7 @@
 class ilPageMultiLangGUI
 {
     protected ilObjectTranslation $ot;
-    protected $ctrl;
+    protected \ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected bool $single_page_mode = false;
 
@@ -47,16 +50,16 @@ class ilPageMultiLangGUI
         // object translation
         $this->ot = ilObjectTranslation::getInstance($a_parent_id);
     }
-    
+
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass();
-        
+
         switch ($next_class) {
             default:
                 $cmd = $ilCtrl->getCmd("settings");
@@ -72,15 +75,15 @@ class ilPageMultiLangGUI
 
     public function getMultiLangInfo(
         string $a_page_lang = "-"
-    ) : string {
+    ): string {
         $lng = $this->lng;
-        
+
         if ($a_page_lang == "") {
             $a_page_lang = "-";
         }
-        
+
         $lng->loadLanguageModule("meta");
-        
+
         $tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "Services/COPage");
         $tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_master_lang"));
         $tpl->setVariable("VAL_ML", $lng->txt("meta_l_" . $this->ot->getMasterLanguage()));

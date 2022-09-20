@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class determines assignment member state information
@@ -21,18 +35,17 @@ class ilExcAssMemberStateRepository
             ? $DIC->database()
             : $db;
     }
-    
+
     /**
      * Get all assignments for a user where the user may hand in submissions
      *
      * @param int[] $exc_ids	exercises the user is "member" in
-     * @param int $user_id
      * @return int[]
      */
     public function getSubmitableAssignmentIdsOfUser(
         array $exc_ids,
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
         $set = $db->queryF(
             'SELECT ass.id FROM exc_assignment ass LEFT JOIN exc_idl idl
@@ -62,7 +75,7 @@ class ilExcAssMemberStateRepository
      * @param int[] $exc_ids exercises the user is "tutor" of
      * @return int[]
      */
-    public function getAssignmentIdsWithGradingNeeded(array $exc_ids) : array
+    public function getAssignmentIdsWithGradingNeeded(array $exc_ids): array
     {
         $db = $this->db;
 
@@ -87,13 +100,12 @@ class ilExcAssMemberStateRepository
      * Get all assignments for a user where the user may hand in submissions
      *
      * @param int[] $exc_ids	exercises the user is "member" in
-     * @param int $user_id
      * @return int[]
      */
     public function getAssignmentIdsWithPeerFeedbackNeeded(
         array $exc_ids,
         int $user_id
-    ) : array {
+    ): array {
         $db = $this->db;
 
         // peer groups exist

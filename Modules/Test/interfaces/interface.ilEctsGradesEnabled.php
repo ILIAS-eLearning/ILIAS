@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,50 +9,29 @@
  */
 interface ilEctsGradesEnabled
 {
-    /**
-     * @param array $grades
-     */
-    public function setECTSGrades(array $grades);
+    public function setECTSGrades(array $grades): void;
 
-    /**
-     * @return array
-     */
-    public function getECTSGrades();
+    public function getECTSGrades(): array;
 
     /**
      * @param float|null $ects_fx
      */
-    public function setECTSFX($ects_fx);
+    public function setECTSFX($ects_fx): void;
 
-    /**
-     * @return float|null
-     */
-    public function getECTSFX();
+    public function getECTSFX(): ?float;
 
     /**
      * @param int|bool $status
      */
-    public function setECTSOutput($status);
+    public function setECTSOutput($status): void;
 
-    /**
-     * @return int|bool
-     */
-    public function getECTSOutput();
+    public function getECTSOutput(): int;
 
-    /**
-     *
-     */
-    public function saveECTSStatus();
+    public function saveECTSStatus(): void;
 
-    /**
-     * @return boolean
-     */
-    public function canEditEctsGrades();
+    public function canEditEctsGrades(): bool;
 
-    /**
-     * @return boolean
-     */
-    public function canShowEctsGrades();
+    public function canShowEctsGrades(): bool;
 
     /**
      * Returns the ECTS grade for a number of reached points
@@ -60,7 +40,7 @@ interface ilEctsGradesEnabled
      * @param double $max_points     The maximum number of points for the test
      * @return string The ECTS grade short description
      */
-    public function getECTSGrade($passed_array, $reached_points, $max_points);
+    public function getECTSGrade($passed_array, $reached_points, $max_points): string;
 
     /**
      * Returns the ECTS grade for a number of reached points
@@ -68,5 +48,5 @@ interface ilEctsGradesEnabled
      * @param double $max_points     The maximum number of points for the test
      * @return string The ECTS grade short description
      */
-    public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx);
+    public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx): string;
 }

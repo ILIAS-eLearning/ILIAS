@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a (nested) list of checkboxes (could be extended for radio items, too)
@@ -24,7 +29,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
     protected array $checked = [];
     protected array $list_nodes = [];
     protected ilNestedList $list;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -54,36 +59,36 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
             "img_src" => $a_img_src, "img_alt" => $a_img_alt, "post_var" => $a_post_var);
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         //		$this->setChecked($a_values[$this->getPostVar()]);
-//		foreach($this->getSubItems() as $item)
-//		{
-//			$item->setValueByArray($a_values);
-//		}
+        //		foreach($this->getSubItems() as $item)
+        //		{
+        //			$item->setValueByArray($a_values);
+        //		}
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $this->strArray($this->getPostVar());
     }
 
-    public function render() : string
+    public function render(): string
     {
         foreach ($this->list_nodes as $id => $n) {
             if ($n["post_var"] == "") {
@@ -92,24 +97,32 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
                 $post_var = $n["post_var"];
             }
             $value = $id;
-            $item_html = ilUtil::formCheckbox(
+            $item_html = ilLegacyFormElementsUtil::formCheckbox(
                 $n["checked"],
                 $post_var,
-                $value,
+                (string) $value,
                 $n["disabled"]
             );
             if ($n["img_src"] != "") {
-                $item_html .= ilUtil::img($n["img_src"], $n["img_alt"]) . " ";
+                $item_html .= ilUtil::img(
+                    $n["img_src"],
+                    $n["img_alt"],
+                    "",
+                    "",
+                    0,
+                    "",
+                    "ilIcon"
+                ) . " ";
             }
             $item_html .= $n["text"];
 
-            $this->list->addListNode($item_html, $id, $n["parent"]);
+            $this->list->addListNode($item_html, (string) $id, $n["parent"]);
         }
 
         return $this->list->getHTML();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 

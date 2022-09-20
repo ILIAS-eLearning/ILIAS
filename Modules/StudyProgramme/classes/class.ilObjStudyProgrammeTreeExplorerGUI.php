@@ -1,10 +1,23 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-require_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-require_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php");
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Class ilStudyProgrammeTreeGUI
  * ilObjStudyProgrammeTreeExplorerGUI generates the tree output for StudyProgrammes
@@ -15,91 +28,66 @@ require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettings
  */
 class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 {
-    protected $js_study_programme_path = "./Modules/StudyProgramme/templates/js/ilStudyProgramme.js";
-    protected $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
+    protected ilAccessHandler $access;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var array
-     */
-    //protected $stay_with_command = array( "", "render", "view", "infoScreen", "performPaste", "cut", "tree_view");
-
-    /**
-     * @var int
-     */
-    protected $tree_root_id;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected int $tree_root_id;
 
     /**
      * @var string css-id of the bootstrap modal dialog
      */
-    protected $modal_id;
+    protected string $modal_id;
 
     /**
      * @var array js configuration for the tree
      */
-    protected $js_conf;
+    protected array $js_conf;
 
     /**
      * default classes of the tree [key=>class_name]
-     * @var array
      */
-    protected $class_configuration = array(
-        'node' => array(
+    protected array $class_configuration = [
+        'node' => [
             'node_title' => 'title',
             'node_point' => 'points',
             'node_current' => 'ilHighlighted current_node',
             'node_buttons' => 'tree_button'
-        ),
+        ],
         'lp_object' => 'lp-object',
-    );
+    ];
 
-    protected $node_template;
+    protected string $js_study_programme_path = "./Modules/StudyProgramme/templates/js/ilStudyProgramme.js";
+    protected string $css_study_programme_path = "./Modules/StudyProgramme/templates/css/ilStudyProgrammeTree.css";
 
     /**
-     * @param $a_expl_id
-     * @param $a_parent_obj
-     * @param $a_parent_cmd
-     * @param $a_tree
+     * @param $parent_obj string|object|array
      */
-    public function __construct($a_tree_root_id, $modal_id, $a_expl_id, $a_parent_obj, $a_parent_cmd)
+    public function __construct(int $tree_root_id, string $modal_id, string $expl_id, $parent_obj, string $parent_cmd)
     {
+        parent::__construct($expl_id, $parent_obj, $parent_cmd);
+
         global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->access = $DIC['ilAccess'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->toolbar = $DIC['ilToolbar'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
 
-        parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
-
-        $this->tree_root_id = $a_tree_root_id;
-
-        $this->access = $ilAccess;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $ilToolbar;
-        $this->ctrl = $ilCtrl;
+        $this->tree_root_id = $tree_root_id;
         $this->modal_id = $modal_id;
+
         $this->js_conf = array();
 
-        $lng->loadLanguageModule("prg");
+        $this->lng->loadLanguageModule("prg");
 
         $this->setAjax(true);
 
-        if ($this->checkAccess('write', $a_tree_root_id)) {
+        if ($this->checkAccess('write', $tree_root_id)) {
             $this->setEnableDnd(true);
         }
     }
@@ -110,20 +98,19 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      * @param ilObjStudyProgramme|ilObject $a_node
      * @return string
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-
-        $current_ref_id = (isset($_GET["ref_id"]))? $_GET["ref_id"] : -1;
+        $current_ref_id = -1;
+        if ($this->request_wrapper->has("ref_id")) {
+            $current_ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
+        }
 
         $is_current_node = ($a_node->getRefId() == $current_ref_id);
         $is_study_programme = ($a_node instanceof ilObjStudyProgramme);
         $is_root_node = ($is_study_programme && $a_node->getRoot() == null);
 
         // show delete only on not current elements and not root
-        $is_delete_enabled = ($is_study_programme && ($is_current_node || $is_root_node))? false : $this->checkAccess("delete", $current_ref_id);
+        $is_delete_enabled = ($is_study_programme && ($is_current_node || $is_root_node)) ? false : $this->checkAccess("delete", $current_ref_id);
 
         $is_creation_enabled = ($this->checkAccess("create", $current_ref_id));
 
@@ -164,20 +151,16 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
     /**
      * Returns array with all css classes of the title node element
-     *
-     * @param array $node_config
-     *
-     * @return array
      */
-    protected function getNodeTitleClasses($node_config)
+    protected function getNodeTitleClasses(array $node_config): array
     {
         $node_title_classes = array($this->class_configuration['node']['node_title']);
         if ($node_config['is_study_programme']) {
             if ($node_config['is_current_node']) {
-                array_push($node_title_classes, $this->class_configuration['node']['node_current']);
+                $node_title_classes[] = $this->class_configuration['node']['node_current'];
             }
         } else {
-            array_push($node_title_classes, $this->class_configuration['lp_object']);
+            $node_title_classes[] = $this->class_configuration['lp_object'];
         }
 
         return $node_title_classes;
@@ -191,23 +174,41 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array $node_config configuration of current node
      * @param ilTemplate $tpl current node template
      */
-    protected function parseStudyProgrammeNodeButtons($node, $node_config, $tpl)
-    {
+    protected function parseStudyProgrammeNodeButtons(
+        ilObjStudyProgramme $node,
+        array $node_config,
+        ilTemplate $tpl
+    ): void {
         $tpl->setCurrentBlock('enable-tree-buttons');
 
         // show info button only when it not the current node
-        $info_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeSettingsGUI', 'view', array('ref_id' => $node->getRefId(), 'currentNode' => $node_config['is_current_node']), ilGlyphGUI::get(ilGlyphGUI::INFO));
+        $info_button = $this->getNodeButtonActionLink(
+            'ilObjStudyProgrammeSettingsGUI',
+            'view',
+            array('ref_id' => $node->getRefId(), 'currentNode' => $node_config['is_current_node']),
+            ilGlyphGUI::get(ilGlyphGUI::INFO)
+        );
         $tpl->setVariable('NODE_INFO_BUTTON', $info_button);
 
         // only show add button when create permission is set
         if ($node_config['is_creation_enabled']) {
-            $create_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'create', array('ref_id' => $node->getRefId()), ilGlyphGUI::get(ilGlyphGUI::ADD));
+            $create_button = $this->getNodeButtonActionLink(
+                'ilObjStudyProgrammeTreeGUI',
+                'create',
+                array('ref_id' => $node->getRefId()),
+                ilGlyphGUI::get(ilGlyphGUI::ADD)
+            );
             $tpl->setVariable('NODE_CREATE_BUTTON', $create_button);
         }
 
         // only show delete button when its not the current node, not the root-node and delete permissions are set
         if ($node_config['is_delete_enabled']) {
-            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $delete_button = $this->getNodeButtonActionLink(
+                'ilObjStudyProgrammeTreeGUI',
+                'delete',
+                array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']),
+                ilGlyphGUI::get(ilGlyphGUI::REMOVE)
+            );
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
 
@@ -221,13 +222,18 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      * @param array $node_config configuration of current node
      * @param ilTemplate $tpl current node template
      */
-    protected function parseLeafNodeButtons($node, $node_config, $tpl)
+    protected function parseLeafNodeButtons(ilObject $node, array $node_config, ilTemplate $tpl): void
     {
         $tpl->setCurrentBlock('enable-tree-buttons');
 
         // only show delete button when its not the current node
         if ($node_config['is_delete_enabled']) {
-            $delete_button = $this->getNodeButtonActionLink('ilObjStudyProgrammeTreeGUI', 'delete', array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']), ilGlyphGUI::get(ilGlyphGUI::REMOVE));
+            $delete_button = $this->getNodeButtonActionLink(
+                'ilObjStudyProgrammeTreeGUI',
+                'delete',
+                array('ref_id' => $node->getRefId(), 'item_ref_id' => $node_config['current_ref_id']),
+                ilGlyphGUI::get(ilGlyphGUI::REMOVE)
+            );
             $tpl->setVariable('NODE_DELETE_BUTTON', $delete_button);
         }
 
@@ -236,45 +242,35 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
     /**
      * Factory method for a new instance of a node template
-     *
-     * @return ilTemplate
      */
-    protected function getNodeTemplateInstance()
+    protected function getNodeTemplateInstance(): ilTemplate
     {
         return new ilTemplate("tpl.tree_node_content.html", true, true, "Modules/StudyProgramme");
     }
 
     /**
      * Returns formatted point value
-     *
-     * @param $points
-     *
-     * @return string
      */
-    protected function formatPointValue($points)
+    protected function formatPointValue(int $points): string
     {
         return '(' . $points . " " . $this->lng->txt('prg_points') . ')';
     }
-    
+
     /**
      * Generate link-element
-     *
-     * @param      $target_class
-     * @param      $cmd
-     * @param      $params  url-params send to the
-     * @param      $content
-     * @param bool $async
-     *
-     * @return string
      */
-    protected function getNodeButtonActionLink($target_class, $cmd, $params, $content, $async = true)
-    {
+    protected function getNodeButtonActionLink(
+        string $target_class,
+        string $cmd,
+        array $params,
+        string $content,
+        bool $async = true
+    ): string {
         foreach ($params as $param_name => $param_value) {
             $this->ctrl->setParameterByClass($target_class, $param_name, $param_value);
         }
 
         $tpl = $this->getNodeTemplateInstance();
-        //$tpl->free();
         $tpl->setCurrentBlock('tree-button-block');
 
         $classes = array($this->class_configuration['node']['node_buttons']);
@@ -290,37 +286,24 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
         $tpl->setVariable('LINK_CONTENT', $content);
 
-        //$tpl->parseCurrentBlock('tree-button-block');
-
         return $tpl->get();
     }
 
     /**
      * Return root node of tree
-     *
-     * @return mixed
      */
-    public function getRootNode()
+    public function getRootNode(): ilObjStudyProgramme
     {
         $node = ilObjStudyProgramme::getInstanceByRefId($this->tree_root_id);
-        if ($node->getRoot() != null) {
-            return $node->getRoot();
-        }
         return $node;
     }
 
-    /**
-     * Get node icon
-     * Return custom icon of OrgUnit type if existing
-     * @param array $a_node
-     * @return string
-     */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($node): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
 
-        $obj_id = ilObject::_lookupObjId($a_node->getRefId());
+        $obj_id = ilObject::_lookupObjId($node->getRefId());
         if ($ilias->getSetting('custom_icons')) {
             //TODO: implement custom icon functionality
         }
@@ -328,45 +311,29 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return ilObject::_getIcon($obj_id, "tiny");
     }
 
-
-    /**
-     * Returns node link target
-     * @param mixed $a_node
-     * @return string
-     */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($node): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        if ($ilCtrl->getCmd() == "performPaste") {
-            $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $a_node->getRefId());
+        if ($ilCtrl->getCmd() === "performPaste") {
+            $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $node->getRefId());
         }
 
-        $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "ref_id", $a_node->getRefId());
+        $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "ref_id", $node->getRefId());
 
         return '#';
     }
 
-    /**
-     * Get childs of node
-     * @param                  $a_parent_node_id
-     * @return array childs
-     *@internal param int $a_parent_id parent id
-     * @global ilAccess
-     */
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
-
-        $parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId($a_parent_node_id);
+        $parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId((int) $a_parent_node_id);
 
         $children_with_permission = array();
 
         // its currently only possible to have children on StudyProgrammes
         if ($parent_obj instanceof ilObjStudyProgramme) {
-            $children = ($parent_obj->hasChildren())? $parent_obj->getChildren() : $parent_obj->getLPChildren();
+            $children = ($parent_obj->hasChildren()) ? $parent_obj->getChildren() : $parent_obj->getLPChildren();
 
             if (is_array($children)) {
                 foreach ($children as $node) {
@@ -380,26 +347,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return $children_with_permission;
     }
 
-    /**
-     * Is node clickable?
-     * @param mixed           $a_node node object/array
-     * @return boolean node clickable true/false
-     *@global ilAccessHandler $ilAccess
-     */
-    public function isNodeClickable($a_node) : bool
-    {
-        return true;
-    }
-
-
-    /**
-     * Get id of a node
-     *
-     * @param mixed $a_node node array or object
-     *
-     * @return string id of node
-     */
-    public function getNodeId($a_node)
+    public function getNodeId($a_node): ?int
     {
         if (!is_null($a_node)) {
             return $a_node->getRefId();
@@ -407,19 +355,17 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return null;
     }
 
-    /**
-     * List item start
-     *
-     * @param
-     * @return
-     */
-    public function listItemStart(ilTemplate $tpl, $a_node) : void
+    public function listItemStart(ilTemplate $tpl, $a_node): void
     {
         $tpl->setCurrentBlock("list_item_start");
 
-        if ($this->getAjax() && $this->nodeHasVisibleChilds($a_node) || ($a_node instanceof ilStudyProgramme && $a_node->getParent() === null)) {
+        if (
+            ($this->getAjax() && $this->nodeHasVisibleChilds($a_node)) ||
+            ($a_node instanceof ilObjStudyProgramme && $a_node->getParent() === null)
+        ) {
             $tpl->touchBlock("li_closed");
         }
+
         $tpl->setVariable(
             "DOM_NODE_ID",
             $this->getDomNodeIdForNodeId($this->getNodeId($a_node))
@@ -432,15 +378,18 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Returns the output of the complete tree
      * There are added some additional javascripts before output the parent::getHTML()
-     *
-     * @return string
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->tpl->addJavascript($this->js_study_programme_path);
         $this->tpl->addCss($this->css_study_programme_path);
 
-        $this->tpl->addOnLoadCode('$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode($this->js_conf) . ');');
+        $this->tpl->addOnLoadCode(
+            '$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode(
+                $this->js_conf,
+                JSON_THROW_ON_ERROR
+            ) . ');'
+        );
 
         return parent::getHTML();
     }
@@ -450,9 +399,9 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      * Closes certain node in the tree session
      * The open nodes of a tree are stored in a session. This function closes a certain node by its id.
      *
-     * @param int $node_id
+     * @param mixed $node_id
      */
-    public function closeCertainNode($node_id)
+    public function closeCertainNode($node_id): void
     {
         if (in_array($node_id, $this->open_nodes)) {
             $k = array_search($node_id, $this->open_nodes);
@@ -465,9 +414,9 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      * Open certain node in the tree session
      * The open nodes of a tree are stored in a session. This function opens a certain node by its id.
      *
-     * @param int $node_id
+     * @param mixed $node_id
      */
-    public function openCertainNode($node_id)
+    public function openCertainNode($node_id): void
     {
         $id = $this->getNodeIdForDomNodeId($node_id);
         if (!in_array($id, $this->open_nodes)) {
@@ -479,29 +428,16 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
     /**
      * Checks permission of current tree or certain child of it
-     *
-     * @param string $permission
-     * @param null $ref_id
-     *
-     * @return bool
      */
-    protected function checkAccess($permission, $ref_id)
+    protected function checkAccess(string $permission, int $ref_id): bool
     {
-        $checker = $this->access->checkAccess($permission, '', $ref_id);
-
-        return $checker;
+        return $this->access->checkAccess($permission, '', $ref_id);
     }
-
 
     /**
      * Checks permission of a object and throws an exception if they are not granted
-     *
-     * @param string $permission
-     * @param null $ref_id
-     *
-     * @throws ilException
      */
-    protected function checkAccessOrFail($permission, $ref_id)
+    protected function checkAccessOrFail(string $permission, int $ref_id): void
     {
         if (!$this->checkAccess($permission, $ref_id)) {
             throw new ilException("You have no permission for " . $permission . " Object with ref_id " . $ref_id . "!");
@@ -510,20 +446,16 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
 
     /**
      * Adds configuration to the study-programme-tree jquery plugin
-     *
-     * @param array $js_conf
      */
-    public function addJsConf($key, $value)
+    public function addJsConf(string $key, string $value): void
     {
         $this->js_conf[$key] = $value;
     }
 
     /**
      * Returns setting of the study-programme-tree
-     *
-     * @param array $js_conf
      */
-    public function getJsConf($key)
+    public function getJsConf(string $key): string
     {
         return $this->js_conf[$key];
     }

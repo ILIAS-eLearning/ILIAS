@@ -1,8 +1,26 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * BlockGUI class for Personal Desktop Mail block
@@ -39,17 +57,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setPresentation(self::PRES_SEC_LIST);
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
 
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         global $DIC;
         $cmd = "";
@@ -63,14 +81,14 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return IL_SCREEN_SIDE;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd('getHTML');
 
         return $this->$cmd();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $umail = new ilMail($this->user->getId());
         if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
@@ -83,7 +101,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
-    protected function getMails() : void
+    protected function getMails(): void
     {
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
@@ -97,12 +115,12 @@ class ilPDMailBlockGUI extends ilBlockGUI
         );
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->getMails();
         $this->setData($this->mails);
 
-        if (count($this->mails) > 0) {
+        if ($this->mails !== []) {
             $this->setRowTemplate("tpl.pd_mail_row.html", "Services/Mail");
             parent::fillDataSection();
         } else {
@@ -111,16 +129,16 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
-        
+
         $this->tpl->touchBlock('usr_image_space');
         if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
             $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
-        } elseif (!$user) {
+        } elseif (!$user instanceof ilObjUser) {
             $this->tpl->setVariable(
                 'PUBLIC_NAME_LONG',
                 $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
@@ -150,12 +168,12 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameters($this);
     }
 
-    protected function getOverview() : string
+    protected function getOverview(): string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
     }
 
-    protected function showMail() : string
+    protected function showMail(): string
     {
         $mail_gui = new ilPDMailGUI();
 
@@ -196,7 +214,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return $content_block->getHTML();
     }
 
-    public function deleteMail() : void
+    public function deleteMail(): void
     {
         $this->lng->loadLanguageModule('mail');
 
@@ -220,14 +238,14 @@ class ilPDMailBlockGUI extends ilBlockGUI
             [$mailId],
             $mbox->getTrashFolder()
         )) {
-            ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_moved_to_trash'), true);
         } else {
-            ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('mail_move_error'), true);
         }
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
-    protected function preloadData(array $data) : void
+    protected function preloadData(array $data): void
     {
         $usr_ids = [];
 
@@ -244,9 +262,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
-    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data): ?Item
     {
         $f = $this->ui->factory();
 
@@ -256,7 +274,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $public_name_long = $user->getPublicName();
             $img_sender = $user->getPersonalPicturePath('xxsmall');
             $alt_sender = htmlspecialchars($user->getPublicName());
-        } elseif (!$user) {
+        } elseif (!$user instanceof ilObjUser) {
             $public_name_long = $data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
             $img_sender = "";
             $alt_sender = "";

@@ -1,13 +1,25 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilMailSearchObjectsTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
     protected object $parentObject;
@@ -16,10 +28,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
     /**
      * @param ilMailSearchCoursesGUI|ilMailSearchGroupsGUI $a_parent_obj
-     * @param string $type
-     * @param string $context
      */
-    public function __construct(object $a_parent_obj, string $type = 'crs', string $context = 'mail')
+    public function __construct($a_parent_obj, string $type = 'crs', string $context = 'mail')
     {
         global $DIC;
 
@@ -27,8 +37,6 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('buddysystem');
@@ -66,24 +74,28 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
 
+        $http = $DIC['http'];
+        $refinery = $DIC->refinery();
+
+
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) !== ''
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string()) !== ''
         ) {
             $this->ctrl->setParameter(
                 $a_parent_obj,
                 'ref',
-                $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string())
+                $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string())
             );
         }
 
-        if ($this->http->wrapper()->post()->has($mode['checkbox'])) {
-            $ids = $this->http->wrapper()->post()->retrieve(
+        if ($http->wrapper()->post()->has($mode['checkbox'])) {
+            $ids = $http->wrapper()->post()->retrieve(
                 $mode['checkbox'],
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->in()->series([
-                        $this->refinery->kindlyTo()->int(),
-                        $this->refinery->kindlyTo()->string()
+                $refinery->kindlyTo()->listOf(
+                    $refinery->in()->series([
+                        $refinery->kindlyTo()->int(),
+                        $refinery->kindlyTo()->string()
                     ])
                 )
             );
@@ -99,18 +111,18 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->ctrl->clearParameters($a_parent_obj);
-        
+
         $this->setSelectAllCheckbox($mode["checkbox"] . '[]');
         $this->setRowTemplate('tpl.mail_search_objects_row.html', 'Services/Contact');
-        
+
         $this->setShowRowsSelector(true);
 
         $this->addColumn('', '', '1px', true);
-        $this->addColumn($mode["lng_mail"], 'CRS_NAME', '30%');
-        $this->addColumn($this->lng->txt('path'), 'CRS_PATH', '30%');
-        $this->addColumn($this->lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
+        $this->addColumn($mode["lng_mail"], 'OBJECT_NAME', '30%');
+        $this->addColumn($this->lng->txt('path'), 'OBJECT_PATH', '30%');
+        $this->addColumn($this->lng->txt('obj_count_members'), 'OBJECT_NO_MEMBERS', '20%');
         $this->addColumn($this->lng->txt('actions'), '', '19%');
-        
+
         if ($context === "mail") {
             if ($this->mailing_allowed) {
                 $this->addMultiCommand('mail', $this->lng->txt('mail_members'));
@@ -122,14 +134,14 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->addMultiCommand('showMembers', $this->lng->txt('mail_list_members'));
 
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->to()->string()) === 'mail'
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->to()->string()) === 'mail'
         ) {
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
     }
-    
-    protected function fillRow($a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['hidden_members']) {
             $this->tpl->setCurrentBlock('caption_asterisk');
@@ -142,8 +154,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('SHORT', $this->mode["short"]);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
-        return $a_field === 'CRS_NO_MEMBERS';
+        return $a_field === 'OBJECT_NO_MEMBERS';
     }
 }

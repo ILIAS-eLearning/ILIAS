@@ -1,10 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
-require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolFactory.php';
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-        
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * @author        Björn Heyser <bheyser@databay.de>
  * @version        $Id$
@@ -13,57 +24,42 @@ require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
  */
 class ilTestRandomQuestionSetPoolDeriver
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-    
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
-    
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
-    
+    protected ilDBInterface $db;
+    protected ilComponentRepository $component_repository;
+    protected ilObjTest $testOBJ;
+    protected ilQuestionPoolFactory $poolFactory;
+
     /**
      * @var integer
      */
     protected $targetContainerRef;
-    
+
     /**
      * @var integer
      */
     protected $ownerId;
-    
-    /**
-     * @var ilQuestionPoolFactory
-     */
-    protected $poolFactory;
-    
+
     /**
      * @var ilTestRandomQuestionSetSourcePoolDefinitionList
      */
     protected $sourcePoolDefinitionList;
-    
-    public function __construct(ilDBInterface $ilDB, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ)
+
+    public function __construct(ilDBInterface $ilDB, ilComponentRepository $component_repository, ilObjTest $testOBJ)
     {
         $this->db = $ilDB;
-        $this->pluginAdmin = $pluginAdmin;
+        $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
         $this->poolFactory = new ilQuestionPoolFactory();
     }
-        
+
     /**
      * @return int
      */
-    public function getTargetContainerRef()
+    public function getTargetContainerRef(): int
     {
         return $this->targetContainerRef;
     }
-    
+
     /**
      * @param int $targetContainerRef
      */
@@ -71,15 +67,15 @@ class ilTestRandomQuestionSetPoolDeriver
     {
         $this->targetContainerRef = $targetContainerRef;
     }
-    
+
     /**
      * @return int
      */
-    public function getOwnerId()
+    public function getOwnerId(): int
     {
         return $this->ownerId;
     }
-    
+
     /**
      * @param int $ownerId
      */
@@ -87,15 +83,15 @@ class ilTestRandomQuestionSetPoolDeriver
     {
         $this->ownerId = $ownerId;
     }
-    
+
     /**
      * @return ilTestRandomQuestionSetSourcePoolDefinitionList
      */
-    public function getSourcePoolDefinitionList()
+    public function getSourcePoolDefinitionList(): ilTestRandomQuestionSetSourcePoolDefinitionList
     {
         return $this->sourcePoolDefinitionList;
     }
-    
+
     /**
      * @param ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList
      */
@@ -103,57 +99,57 @@ class ilTestRandomQuestionSetPoolDeriver
     {
         $this->sourcePoolDefinitionList = $sourcePoolDefinitionList;
     }
-    
-    protected function getQuestionsForPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+
+    protected function getQuestionsForPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool): array
     {
         $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList(
             $this->db,
-            $this->pluginAdmin
+            $this->component_repository
         );
-        
+
         $questionList->setTestObjId($this->testOBJ->getId());
         $questionList->setTestId($this->testOBJ->getTestId());
         $questionList->setPoolId($nonAvailablePool->getId());
-        
+
         $questionList->loadQuestions();
-        
+
         $questions = array();
-        
-        foreach ($questionList as $questionId) {
+        $list = $questionList->getQuestions();
+        foreach ($list as $questionId) {
             $questions[] = assQuestion::_instantiateQuestion($questionId);
         }
-        
+
         return $questions;
     }
-    
-    protected function createNewPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+
+    protected function createNewPool(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool): ilObjQuestionPool
     {
         $pool = $this->poolFactory->createNewInstance($this->getTargetContainerRef());
-        
+
         if (strlen($nonAvailablePool->getTitle())) {
             $pool->setTitle($nonAvailablePool->getTitle());
             $pool->update();
         }
-        
+
         return $pool;
     }
-    
-    protected function copyQuestionsToPool(ilObjQuestionPool $pool, $questions)
+
+    protected function copyQuestionsToPool(ilObjQuestionPool $pool, $questions): array
     {
         $poolQidByTestQidMap = array();
-        
+
         foreach ($questions as $questionOBJ) {
             /* @var assQuestion $questionOBJ */
 
             $testQuestionId = $questionOBJ->getId();
             $poolQuestionId = $questionOBJ->duplicate(false, '', '', $this->getOwnerId(), $pool->getId());
-            
+
             $poolQidByTestQidMap[$testQuestionId] = $poolQuestionId;
         }
-        
+
         return $poolQidByTestQidMap;
     }
-    
+
     protected function updateTestQuestionStage($poolQidByTestQidMap)
     {
         foreach ($poolQidByTestQidMap as $testQid => $poolQid) {
@@ -161,13 +157,13 @@ class ilTestRandomQuestionSetPoolDeriver
             assQuestion::saveOriginalId($testQid, $poolQid);
         }
     }
-    
-    protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds)
+
+    protected function filterForQuestionRelatedTaxonomies($taxonomyIds, $relatedQuestionIds): array
     {
         require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-        
+
         $filteredTaxIds = array();
-        
+
         foreach ($taxonomyIds as $taxonomyId) {
             $taxNodeAssignment = new ilTaxNodeAssignment(
                 $this->testOBJ->getType(),
@@ -175,21 +171,21 @@ class ilTestRandomQuestionSetPoolDeriver
                 'quest',
                 $taxonomyId
             );
-            
+
             foreach ($relatedQuestionIds as $questionId) {
                 $assignedTaxNodes = $taxNodeAssignment->getAssignmentsOfItem($questionId);
-                
+
                 if (count($assignedTaxNodes)) {
                     $filteredTaxIds[] = $taxonomyId;
                     break;
                 }
             }
         }
-        
+
         return $filteredTaxIds;
     }
-    
-    protected function duplicateTaxonomies($poolQidByTestQidMap, ilObjQuestionPool $pool)
+
+    protected function duplicateTaxonomies($poolQidByTestQidMap, ilObjQuestionPool $pool): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
         $taxDuplicator = new ilQuestionPoolTaxonomiesDuplicator();
@@ -198,67 +194,67 @@ class ilTestRandomQuestionSetPoolDeriver
         $taxDuplicator->setTargetObjId($pool->getId());
         $taxDuplicator->setTargetObjType($pool->getType());
         $taxDuplicator->setQuestionIdMapping($poolQidByTestQidMap);
-        
+
         $taxDuplicator->duplicate($this->filterForQuestionRelatedTaxonomies(
             $taxDuplicator->getAllTaxonomiesForSourceObject(),
             array_keys($poolQidByTestQidMap)
         ));
-        
+
         return $taxDuplicator->getDuplicatedTaxonomiesKeysMap();
     }
-    
-    protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter)
+
+    protected function buildOriginalTaxonomyFilterForDerivedPool(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $mappedTaxonomyFilter): array
     {
         $originalTaxonomyFilter = array();
-        
+
         foreach ($mappedTaxonomyFilter as $testTaxonomyId => $testTaxNodes) {
             $poolTaxonomyId = $taxKeysMap->getMappedTaxonomyId($testTaxonomyId);
             $originalTaxonomyFilter[$poolTaxonomyId] = array();
-            
+
             foreach ($testTaxNodes as $testTaxNode) {
                 $poolTaxNode = $taxKeysMap->getMappedTaxNodeId($testTaxNode);
                 $originalTaxonomyFilter[$poolTaxonomyId][] = $poolTaxNode;
             }
         }
-        
+
         return $originalTaxonomyFilter;
     }
-    
+
     protected function updateRelatedSourcePoolDefinitions(ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxKeysMap, $derivedPoolId, $nonAvailablePoolId)
     {
         foreach ($this->getSourcePoolDefinitionList() as $definition) {
             if ($definition->getPoolId() != $nonAvailablePoolId) {
                 continue;
             }
-            
+
             $definition->setPoolId($derivedPoolId);
-            
+
             $definition->setOriginalTaxonomyFilter($this->buildOriginalTaxonomyFilterForDerivedPool(
                 $taxKeysMap,
                 $definition->getMappedTaxonomyFilter()
             ));
-            
+
             $definition->saveToDb();
         }
     }
-    
+
     /**
      * @param ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool
      * @return ilObjQuestionPool
      */
-    public function derive(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool)
+    public function derive(ilTestRandomQuestionSetNonAvailablePool $nonAvailablePool): ilObjQuestionPool
     {
         $pool = $this->createNewPool($nonAvailablePool);
         $questions = $this->getQuestionsForPool($nonAvailablePool);
-        
+
         $poolQidByTestQidMap = $this->copyQuestionsToPool($pool, $questions);
-        
+
         $this->updateTestQuestionStage($poolQidByTestQidMap);
-        
+
         $duplicatedTaxKeysMap = $this->duplicateTaxonomies($poolQidByTestQidMap, $pool);
-        
+
         $this->updateRelatedSourcePoolDefinitions($duplicatedTaxKeysMap, $pool->getId(), $nonAvailablePool->getId());
-        
+
         return $pool;
     }
 }

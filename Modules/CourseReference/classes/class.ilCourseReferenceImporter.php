@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
@@ -16,21 +17,13 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 */
 class ilCourseReferenceImporter extends ilContainerReferenceImporter
 {
-        
-    /**
-     * Get reference type
-     */
-    protected function getType() : string
+    protected function getType(): string
     {
         return 'crsr';
     }
-    
-    /**
-     * Init xml parser
-     */
-    protected function initParser($a_xml) : ilContainerReferenceXmlParser
+
+    protected function initParser(string $a_xml): ilContainerReferenceXmlParser
     {
-        include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlParser.php';
         return new ilCourseReferenceXmlParser($a_xml);
     }
 }

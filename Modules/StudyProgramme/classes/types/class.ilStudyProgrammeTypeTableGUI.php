@@ -1,68 +1,57 @@
 <?php
-require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Filesystem;
 
 class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
 {
+    protected int $obj_ref_id;
+    protected ilStudyProgrammeTypeRepository $type_repo;
+    protected ilTabsGUI $tabs;
+    protected ilAccessHandler $access;
+    protected Filesystem $web_dir;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected array $columns = ['title', 'description', 'default_language', 'icon'];
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var Filesystem
-     */
-    protected $webdir;
-
-    /**
-     * @var array
-     */
-    protected $columns = array(
-        'title', 'description', 'default_language', 'icon',
-    );
-
-
-    /**
-     * @param        $parent_obj
-     * @param string $parent_cmd
-     * @param int    $obj_ref_id
-     */
     public function __construct(
-        $parent_obj,
-        $parent_cmd,
-        $obj_ref_id,
-        ilStudyProgrammeTypeRepository $type_repo
+        ilStudyProgrammeTypeGUI $parent_obj,
+        string $parent_cmd,
+        int $obj_ref_id,
+        ilStudyProgrammeTypeRepository $type_repo,
+        ilCtrl $ctrl,
+        ilTabsGUI $tabs,
+        ilAccess $access,
+        ilLanguage $lng,
+        Filesystem $web_dir
     ) {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        $this->webdir = $DIC->filesystem()->web();
-        $this->access = $DIC['ilAccess'];
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->lng = $lng;
-        $this->setPrefix('prg_types_table');
-        $this->setId('prg_types_table');
         $this->obj_ref_id = $obj_ref_id;
         $this->type_repo = $type_repo;
+        $this->ctrl = $ctrl;
+        $this->tabs = $tabs;
+        $this->access = $access;
+        $this->lng = $lng;
+        $this->web_dir = $web_dir;
+
+        $this->setPrefix('prg_types_table');
+        $this->setId('prg_types_table');
+
         parent::__construct($parent_obj, $parent_cmd);
 
         $this->setRowTemplate('tpl.types_row.html', 'Modules/StudyProgramme');
@@ -78,36 +67,43 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
 
     /**
      * Pass data to row template
-     *
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    protected function fillRow(array $a_set): void
     {
         $icon = "";
-        $type = $this->type_repo->getType((int) $set['id']);
+        $type = $this->type_repo->getType((int) $a_set['id']);
 
-        if ($this->webdir->has($type->getIconPath(true))) {
-            $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
+        if ($this->web_dir->has($type->getIconPath(true))) {
+            $icon = ilFileUtils::getWebspaceDir() . '/' . $type->getIconPath(true);
         }
 
-        $this->tpl->setVariable('TITLE', $set['title']);
-        $this->tpl->setVariable('DESCRIPTION', $set['description']);
-        $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
+        $this->tpl->setVariable('DEFAULT_LANG', $a_set['default_language']);
 
-        if ($set["icon"]) {
+        if ($a_set["icon"]) {
             $this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable('ICON', $icon);
-            $this->tpl->setVariable('ICON_ALT', $set["icon"]);
+            $this->tpl->setVariable('ICON_ALT', $a_set["icon"]);
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->access->checkAccess("write", "", $this->obj_ref_id)) {
-            $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $set['id']);
+            $this->ctrl->setParameterByClass("ilstudyprogrammetypegui", "type_id", $a_set['id']);
             $selection = new ilAdvancedSelectionListGUI();
             $selection->setListTitle($this->lng->txt('actions'));
-            $selection->setId('action_prg_type' . $set['id']);
-            $selection->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'edit'));
-            $selection->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'delete'));
+            $selection->setId('action_prg_type' . $a_set['id']);
+            $selection->addItem(
+                $this->lng->txt('edit'),
+                'edit',
+                $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'edit')
+            );
+            $selection->addItem(
+                $this->lng->txt('delete'),
+                'delete',
+                $this->ctrl->getLinkTargetByClass('ilstudyprogrammetypegui', 'delete')
+            );
             $this->tpl->setVariable('ACTIONS', $selection->getHTML());
         }
     }
@@ -115,7 +111,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
     /**
      * Add columns
      */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         foreach ($this->columns as $column) {
             $this->addColumn($this->lng->txt($column), $column);
@@ -125,7 +121,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
     /**
      * Build and set data for table.
      */
-    protected function buildData()
+    protected function buildData(): void
     {
         $types = $this->type_repo->getAllTypes();
         $data = array();

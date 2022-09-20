@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Page History Table GUI Class
@@ -39,7 +42,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
         $this->setId("ilCOPgHistoryTable");
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt("content_page_history"));
-        
+
         $this->addColumn("", "", "1");
         $this->addColumn("", "", "1");
         $this->addColumn($lng->txt("date"), "", "33%");
@@ -52,13 +55,12 @@ class ilPageHistoryTableGUI extends ilTable2GUI
         $this->addMultiCommand("compareVersion", $lng->txt("cont_page_compare"));
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
     }
-    
+
     /**
     * Should this field be sorted numeric?
-    *
     * @return    bool        numeric ordering; default is false
     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "sortkey") {
             return true;
@@ -70,7 +72,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -88,7 +90,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
             $ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
         }
-        
+
         if (!$this->rselect) {
             $this->tpl->setVariable("RSELECT", 'checked="checked"');
             $this->rselect = true;
@@ -97,7 +99,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
             $this->lselect = true;
         }
 
-        
+
         $this->tpl->setVariable("NR", $a_set["nr"]);
         $this->tpl->setVariable(
             "TXT_HDATE",
@@ -111,13 +113,13 @@ class ilPageHistoryTableGUI extends ilTable2GUI
             $ilCtrl->getLinkTarget($this->getParentObject(), "preview")
         );
         $ilCtrl->setParameter($this->getParentObject(), "history_mode", "");
-            
+
         if (ilObject::_exists($a_set["user"])) {
             // user name
             $name_pres = ilUserUtil::getNamePresentation($a_set["user"], true, true, $ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd()));
             $this->tpl->setVariable("TXT_USER", $name_pres);
         }
-            
+
         $ilCtrl->setParameter($this->getParentObject(), "old_nr", "");
     }
 }

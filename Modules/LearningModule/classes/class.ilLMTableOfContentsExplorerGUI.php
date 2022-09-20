@@ -1,27 +1,33 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * LM presentation (separate toc screen) explorer GUI class
- *
- * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMTableOfContentsExplorerGUI extends ilLMTOCExplorerGUI
 {
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent cmd
-     * @param ilLMPresentationGUI $a_lm_pres learning module presentation gui object
-     * @param string $a_lang language
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilLMPresentationGUI $a_lm_pres, $a_lang = "-")
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilLMPresentationService $a_lm_pres,
+        string $a_lang = "-"
+    ) {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_lm_pres, $a_lang);
         $chaps = ilLMObject::_getAllLMObjectsOfLM($this->lm->getId(), $a_type = "st");
         foreach ($chaps as $c) {

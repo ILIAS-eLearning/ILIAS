@@ -1,20 +1,32 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSamlIdpTableGUI
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilSamlIdpTableGUI extends ilTable2GUI
+final class ilSamlIdpTableGUI extends ilTable2GUI
 {
-    /** @var ILIAS\DI\Container */
-    protected $dic;
-
-    public function __construct(object $parent_gui, string $parent_cmd)
+    public function __construct(ilSamlSettingsGUI $parent_gui, string $parent_cmd, private bool $hasWriteAccess)
     {
         global $DIC;
-
-        $this->dic = $DIC;
 
         $f = $DIC->ui()->factory();
         $renderer = $DIC->ui()->renderer();
@@ -45,7 +57,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    private function getItems() : void
+    private function getItems(): void
     {
         $idp_data = [];
 
@@ -56,10 +68,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
         $this->setData($idp_data);
     }
 
-    /**
-     * @param array $a_set
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         if ($a_set['is_active']) {
             $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
@@ -71,7 +80,7 @@ class ilSamlIdpTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('NAME', $a_set['entity_id']);
 
-        if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+        if ($this->hasWriteAccess) {
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');

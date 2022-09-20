@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
@@ -6,21 +22,18 @@ use ilOrgUnitSimpleImport;
 
 /**
  * Class ImportOrgUnitTree
- *
  * @author Martin Studer ms@studer-raimann.ch
  */
 class ImportOrgUnitTree extends Base
 {
-    const ORG_UNIT_TREE = 'OrgUnitTree';
-
+    public const ORG_UNIT_TREE = 'OrgUnitTree';
 
     /**
      * @param array $params
-     *
      * @return void
      * @throws \ilSoapPluginException
      */
-    protected function run(array $params) : void
+    protected function run(array $params): bool
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('orgu');
@@ -54,40 +67,26 @@ class ImportOrgUnitTree extends Base
 
             throw new \ilSoapPluginException(implode(" / ", $arr_msg));
         }
+
+        return true;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return "importOrgUnitsSimpleXML";
     }
 
-
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    protected function getAdditionalInputParams(): array
     {
         return array(self::ORG_UNIT_TREE => Base::TYPE_STRING);
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getOutputParams()
+    public function getOutputParams(): array
     {
         return [];
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return "Imports ILIAS Organisational Units (SimpleXML)";
     }

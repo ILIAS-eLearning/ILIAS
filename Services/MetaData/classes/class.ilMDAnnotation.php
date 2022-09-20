@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,138 +23,126 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class (element annotation)
-*
-* @package ilias-core
-* @version $Id$
-*/
-include_once 'class.ilMDBase.php';
-
+ * Meta Data class (element annotation)
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDAnnotation extends ilMDBase
 {
+    private string $entity = '';
+    private string $date = '';
+    private string $description = '';
+    private ?ilMDLanguageItem $description_language = null;
+
     // SET/GET
-    public function setEntity($a_entity)
+    public function setEntity(string $a_entity): void
     {
         $this->entity = $a_entity;
     }
-    public function getEntity()
+
+    public function getEntity(): string
     {
         return $this->entity;
     }
-    public function setDate($a_date)
+
+    public function setDate(string $a_date): void
     {
         $this->date = $a_date;
     }
-    public function getDate()
+
+    public function getDate(): string
     {
         return $this->date;
     }
-    public function setDescription($a_desc)
+
+    public function setDescription(string $a_desc): void
     {
         $this->description = $a_desc;
     }
-    public function getDescription()
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    public function setDescriptionLanguage($lng_obj)
+
+    public function setDescriptionLanguage(ilMDLanguageItem $lng_obj): void
     {
-        if (is_object($lng_obj)) {
-            $this->description_language = $lng_obj;
-        }
+        $this->description_language = $lng_obj;
     }
-    public function getDescriptionLanguage()
+
+    public function getDescriptionLanguage(): ilMDLanguageItem
     {
         return $this->description_language;
     }
-    public function getDescriptionLanguageCode()
+
+    public function getDescriptionLanguageCode(): string
     {
         if (is_object($this->description_language)) {
             return $this->description_language->getLanguageCode();
         }
-        return false;
+        return '';
     }
 
-    public function save()
+    public function save(): int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $fields = $this->__getFields();
-        $fields['meta_annotation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_annotation'));
-        
+        $fields['meta_annotation_id'] = array('integer', $next_id = $this->db->nextId('il_meta_annotation'));
+
         if ($this->db->insert('il_meta_annotation', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();
         }
-        return false;
+        return 0;
     }
 
-    public function update()
+    public function update(): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_annotation',
-                $this->__getFields(),
-                array("meta_annotation_id" => array('integer',$this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_annotation',
+            $this->__getFields(),
+            array("meta_annotation_id" => array('integer', $this->getMetaId()))
+        );
     }
 
-    public function delete()
+    public function delete(): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_annotation " .
-                "WHERE meta_annotation_id = " . $ilDB->quote($this->getMetaId(), 'integer');
-            $res = $ilDB->manipulate($query);
-            
+                "WHERE meta_annotation_id = " . $this->db->quote($this->getMetaId(), 'integer');
+            $res = $this->db->manipulate($query);
+
             return true;
         }
         return false;
     }
-            
 
-    public function __getFields()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    public function __getFields(): array
     {
-        return array('rbac_id' => array('integer',$this->getRBACId()),
-                     'obj_id' => array('integer',$this->getObjId()),
-                     'obj_type' => array('text',$this->getObjType()),
-                     'entity' => array('clob',$this->getEntity()),
-                     'a_date' => array('clob',$this->getDate()),
-                     'description' => array('clob',$this->getDescription()),
-                     'description_language' => array('text',$this->getDescriptionLanguageCode()));
+        return array(
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'entity' => array('clob', $this->getEntity()),
+            'a_date' => array('clob', $this->getDate()),
+            'description' => array('clob', $this->getDescription()),
+            'description_language' => array('text', $this->getDescriptionLanguageCode())
+        );
     }
 
-    public function read()
+    public function read(): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_annotation " .
-                "WHERE meta_annotation_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_annotation_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $this->setRBACId($row->rbac_id);
-                $this->setObjId($row->obj_id);
+                $this->setRBACId((int) $row->rbac_id);
+                $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setEntity($row->entity);
                 $this->setDate($row->a_date);
@@ -163,30 +153,27 @@ class ilMDAnnotation extends ilMDBase
         return true;
     }
 
-    /*
-     * XML Export of all meta data
-     * @param object (xml writer) see class.ilMD2XML.php
-     *
-     */
-    public function toXML($writer)
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Annotation');
         $writer->xmlElement('Entity', null, $this->getEntity());
         $writer->xmlElement('Date', null, $this->getDate());
         $writer->xmlElement(
             'Description',
-            array('Language' => $this->getDescriptionLanguageCode()
-                                                ? $this->getDescriptionLanguageCode()
-                                                : 'en'),
+            array(
+                'Language' => $this->getDescriptionLanguageCode() ?: 'en'
+            ),
             $this->getDescription()
         );
         $writer->xmlEndTag('Annotation');
     }
 
-                
-
     // STATIC
-    public static function _getIds($a_rbac_id, $a_obj_id)
+
+    /**
+     * @return int[]
+     */
+    public static function _getIds(int $a_rbac_id, int $a_obj_id): array
     {
         global $DIC;
 
@@ -196,11 +183,11 @@ class ilMDAnnotation extends ilMDBase
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
-
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ids[] = $row->meta_annotation_id;
+            $ids[] = (int) $row->meta_annotation_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

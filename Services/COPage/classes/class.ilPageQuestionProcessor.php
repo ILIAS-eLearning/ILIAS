@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Page question processor
@@ -29,7 +32,7 @@ class ilPageQuestionProcessor
         string $a_type,
         int $a_id,
         string $a_answer
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -38,7 +41,7 @@ class ilPageQuestionProcessor
         $ilLog->write($a_type);
         $ilLog->write($a_id);
         $ilLog->write($a_answer);
-        $answer = ilJsonUtil::decode($a_answer);
+        $answer = json_decode($a_answer, false, 512, JSON_THROW_ON_ERROR);
         $passed = $answer->passed;
         $choice = $answer->choice;
         $points = self::calculatePoints($a_type, $a_id, $choice);
@@ -78,7 +81,7 @@ class ilPageQuestionProcessor
 
     public static function getQuestionStatistics(
         int $a_q_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -103,7 +106,7 @@ class ilPageQuestionProcessor
             );
             $rec = $ilDB->fetchAssoc($set);
             $first = $rec["usr_cnt"];
-            
+
             $set = $ilDB->query(
                 "SELECT count(user_id) usr_cnt FROM page_qst_answer WHERE " .
                 " qst_id = " . $ilDB->quote($a_q_id, "integer") . " AND " .
@@ -137,7 +140,7 @@ class ilPageQuestionProcessor
         string $a_type,
         int $a_id,
         array $a_choice
-    ) : int {
+    ): int {
         $points = 0;
 
         switch ($a_type) {
@@ -186,7 +189,7 @@ class ilPageQuestionProcessor
                                 }
                             }
                             $points += $gappoints;
-//$ilLog->write("ct: ".$gappoints);
+                            //$ilLog->write("ct: ".$gappoints);
                             break;
 
                         case CLOZE_NUMERIC:
@@ -205,7 +208,7 @@ class ilPageQuestionProcessor
                                 }
                             }
                             $points += $gappoints;
-//$ilLog->write("cn: ".$gappoints);
+                            //$ilLog->write("cn: ".$gappoints);
                             break;
 
                         case CLOZE_SELECT:
@@ -235,9 +238,9 @@ class ilPageQuestionProcessor
                 break;
 
             case "assOrderingQuestion":
-                
+
                 // TODO-LSD: change calculation strategy according to lsd cleanup changes
-                
+
                 $q = new assOrderingQuestion();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -265,7 +268,6 @@ class ilPageQuestionProcessor
                     }
                 }
                 break;
-
         }
 
         if ($points < 0) {
@@ -275,10 +277,13 @@ class ilPageQuestionProcessor
         return (int) $points;
     }
 
+    /**
+     * @param int|array $a_q_id
+     */
     public static function getAnswerStatus(
-        int $a_q_id,
+        $a_q_id,
         int $a_user_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -317,7 +322,7 @@ class ilPageQuestionProcessor
     public static function resetTries(
         int $a_q_id,
         int $a_user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -339,7 +344,7 @@ class ilPageQuestionProcessor
     public static function unlock(
         int $a_q_id,
         int $a_user_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();

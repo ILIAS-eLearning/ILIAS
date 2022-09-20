@@ -4,6 +4,19 @@ namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class BasicHandlerResult
  *
@@ -11,31 +24,14 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  */
 class BasicHandlerResult implements HandlerResult
 {
-
-    /**
-     * @var string
-     */
-    private $file_identification_key;
-    /**
-     * @var int
-     */
-    private $status;
-    /**
-     * @var string
-     */
-    private $file_identifier;
-    /**
-     * @var string
-     */
-    private $message;
+    private string $file_identification_key;
+    private int $status;
+    private string $file_identifier;
+    private string $message;
 
 
     /**
      * BasicHandlerResult constructor.
-     *
-     * @param int    $status
-     * @param string $file_identifier
-     * @param string $message
      */
     public function __construct(string $file_identification_key, int $status, string $file_identifier, string $message)
     {
@@ -49,7 +45,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -58,7 +54,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getFileIdentifier() : string
+    public function getFileIdentifier(): string
     {
         return $this->file_identifier;
     }
@@ -67,7 +63,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    final public function jsonSerialize()
+    final public function jsonSerialize(): array
     {
         $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
 
@@ -82,7 +78,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }

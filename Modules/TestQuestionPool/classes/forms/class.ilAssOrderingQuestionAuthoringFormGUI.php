@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthoringFormGUI.php';
@@ -10,119 +11,68 @@ require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssQuestionAuthorin
  */
 class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGUI
 {
-    const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
-    
+    public const COMMAND_BUTTON_PREFIX = 'assOrderingQuestionBtn_';
+
     protected $availableCommandButtonIds = null;
-    
+
     public function __construct()
     {
-        $this->setAvailableCommandButtonIds(array(
-            $this->buildCommandButtonId(OQ_TERMS),
-            $this->buildCommandButtonId(OQ_PICTURES),
-            $this->buildCommandButtonId(OQ_NESTED_TERMS),
-            $this->buildCommandButtonId(OQ_NESTED_PICTURES)
-        ));
-        
+        $this->setAvailableCommandButtonIds(
+            [
+                $this->buildCommandButtonId(assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS),
+                $this->buildCommandButtonId(assOrderingQuestionGUI::CMD_SWITCH_TO_PICTURESS)
+            ]
+        );
         parent::__construct();
     }
-    
-    protected function setAvailableCommandButtonIds($availableCommandButtonIds)
+
+    protected function setAvailableCommandButtonIds($availableCommandButtonIds): void
     {
         $this->availableCommandButtonIds = $availableCommandButtonIds;
     }
-    
+
     protected function getAvailableCommandButtonIds()
     {
         return $this->availableCommandButtonIds;
     }
-    
-    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ)
+
+    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ): void
     {
-        switch ($questionOBJ->getOrderingType()) {
-            case OQ_TERMS:
-                
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_use_order_pictures"),
-                    $this->buildCommandButtonId(OQ_PICTURES)
-                );
-                $this->addCommandButton(
-                    "orderNestedTerms",
-                    $this->lng->txt("oq_btn_nest_terms"),
-                    $this->buildCommandButtonId(OQ_NESTED_TERMS)
-                );
-                break;
-            
-            case OQ_PICTURES:
-                
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_use_order_terms"),
-                    $this->buildCommandButtonId(OQ_TERMS)
-                );
-                $this->addCommandButton(
-                    "orderNestedPictures",
-                    $this->lng->txt("oq_btn_nest_pictures"),
-                    $this->buildCommandButtonId(OQ_NESTED_PICTURES)
-                );
-                break;
-            
-            case OQ_NESTED_TERMS:
-                
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_use_order_pictures"),
-                    $this->buildCommandButtonId(OQ_PICTURES)
-                );
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_define_terms"),
-                    $this->buildCommandButtonId(OQ_TERMS)
-                );
-                break;
-            
-            case OQ_NESTED_PICTURES:
-                
-                $this->addCommandButton(
-                    "changeToText",
-                    $this->lng->txt("oq_btn_use_order_terms"),
-                    'assOrderingQuestionBtn_' . OQ_TERMS
-                );
-                $this->addCommandButton(
-                    "changeToPictures",
-                    $this->lng->txt("oq_btn_define_pictures"),
-                    'assOrderingQuestionBtn_' . OQ_PICTURES
-                );
-                break;
+        if ($questionOBJ->isImageOrderingType()) {
+            $cmd = assOrderingQuestionGUI::CMD_SWITCH_TO_TERMS;
+            $label = $this->lng->txt("oq_btn_use_order_terms");
+        } else {
+            $cmd = assOrderingQuestionGUI::CMD_SWITCH_TO_PICTURESS;
+            $label = $this->lng->txt("oq_btn_use_order_pictures");
         }
+
+        $id = $this->buildCommandButtonId($cmd);
+        $this->addCommandButton($cmd, $label, $id);
     }
-    
-    /**
-     * @return ilIdentifiedMultiValuesInputGUI
-     */
+
     public function getOrderingElementInputField()
     {
         return $this->getItemByPostVar(
             assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR
         );
     }
-    
-    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ)
+
+    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ): void
     {
         $this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
     }
-    
-    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ)
+
+    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ): void
     {
         $this->renewOrderingElementInput($questionOBJ);
         $this->renewOrderingCommandButtons($questionOBJ);
     }
-    
+
     /**
      * @param assOrderingQuestion $questionOBJ
      * @throws ilTestQuestionPoolException
      */
-    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ)
+    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ): void
     {
         $replacingInput = $questionOBJ->buildOrderingElementInputGui();
         $questionOBJ->initOrderingElementAuthoringProperties($replacingInput);
@@ -130,13 +80,13 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         $replacingInput->setElementList($dodgingInput->getElementList($questionOBJ->getId()));
         $this->replaceFormItemByPostVar($replacingInput);
     }
-    
-    protected function buildCommandButtonId($orderingType)
+
+    protected function buildCommandButtonId($id): string
     {
-        return self::COMMAND_BUTTON_PREFIX . $orderingType;
+        return self::COMMAND_BUTTON_PREFIX . $id;
     }
-    
-    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ)
+
+    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ): void
     {
         $this->clearCommandButtons();
         $this->addSpecificOrderingQuestionCommandButtons($questionOBJ);

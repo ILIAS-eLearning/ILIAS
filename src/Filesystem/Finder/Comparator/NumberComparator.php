@@ -1,9 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
 use InvalidArgumentException;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class NumberComparator
@@ -12,11 +27,6 @@ use InvalidArgumentException;
  */
 class NumberComparator extends BaseComparator
 {
-    /**
-     * NumberComparator constructor.
-     * @param string $test
-     * @throws InvalidArgumentException
-     */
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
@@ -39,7 +49,7 @@ class NumberComparator extends BaseComparator
                     break;
 
                 case 'm':
-                    $target *= 1000000;
+                    $target *= 1_000_000;
                     break;
 
                 case 'mi':
@@ -47,7 +57,7 @@ class NumberComparator extends BaseComparator
                     break;
 
                 case 'g':
-                    $target *= 1000000000;
+                    $target *= 1_000_000_000;
                     break;
 
                 case 'gi':

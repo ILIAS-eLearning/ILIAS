@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Administration\AdminGUIRequest;
 
@@ -24,6 +29,7 @@ use ILIAS\Administration\AdminGUIRequest;
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
     protected AdminGUIRequest $admin_request;
+    public ilRbacSystem $rbacsystem;
 
     public function __construct(
         $a_data,
@@ -43,22 +49,22 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
             $DIC->refinery()
         );
     }
-    
-    public function saveObject()
+
+    public function saveObject(): void
     {
         parent::saveObject();
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         exit();
     }
 
-    public function removeFromSystemObject() : void
+    public function removeFromSystemObject(): void
     {
         $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($this->admin_request->getSelectedIds(), true);
         $this->ctrl->redirect($this, "view");
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -80,12 +86,12 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         }
     }
 
-    protected function showPossibleSubObjects()
+    protected function showPossibleSubObjects(): void
     {
         $this->sub_objects = "";
     }
-    
-    public function getActions() : array
+
+    public function getActions(): array
     {
         // standard actions for container
         return array(

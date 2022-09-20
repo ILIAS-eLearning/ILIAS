@@ -1,13 +1,31 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilADTIntegerFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTInteger);
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -24,8 +42,7 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         $max = $def->getMax();
         if ($max !== null) {
             $number->setMaxValue($max);
-
-            $length = strlen($max);
+            $length = strlen(strval($max));
             $number->setSize($length);
             $number->setMaxLength($length);
         }
@@ -34,18 +51,15 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         if ($suffix !== null) {
             $number->setSuffix($suffix);
         }
-
-        $number->setValue($this->getADT()->getNumber());
-
+        $number->setValue((string) $this->getADT()->getNumber());
         $this->addToParentElement($number);
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
-        $this->getADT()->setNumber($this->getForm()->getInput($this->getElementId()));
-
+        $this->getADT()->setNumber((int) $this->getForm()->getInput($this->getElementId()));
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
-        $field->setValue($this->getADT()->getNumber());
+        $field->setValue((string) $this->getADT()->getNumber());
     }
 }

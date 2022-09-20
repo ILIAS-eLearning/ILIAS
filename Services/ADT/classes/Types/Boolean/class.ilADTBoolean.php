@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTBoolean extends ilADT
 {
@@ -6,12 +8,12 @@ class ilADTBoolean extends ilADT
 
     // definition
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return ($a_def instanceof ilADTBooleanDefinition);
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->value = null;
@@ -19,19 +21,19 @@ class ilADTBoolean extends ilADT
 
     // properties
 
-    public function setStatus(bool $a_value = null) : void
+    public function setStatus(bool $a_value = null): void
     {
         $this->value = $a_value;
     }
 
-    public function getStatus() : ?bool
+    public function getStatus(): ?bool
     {
         return $this->value;
     }
 
     // comparison
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getStatus() === $a_adt->getStatus());
@@ -39,31 +41,31 @@ class ilADTBoolean extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
 
     // null
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return $this->getStatus() === null;
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         return true;
     }
 
     // check
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return (string) $this->getStatus();
@@ -73,7 +75,7 @@ class ilADTBoolean extends ilADT
 
     // stdClass
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -83,7 +85,7 @@ class ilADTBoolean extends ilADT
         return null;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setStatus((bool) $a_std->value);

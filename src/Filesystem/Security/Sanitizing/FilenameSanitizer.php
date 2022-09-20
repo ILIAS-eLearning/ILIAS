@@ -2,6 +2,19 @@
 
 namespace ILIAS\Filesystem\Security\Sanitizing;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface FilenameSanitizer
  *
@@ -17,11 +30,10 @@ namespace ILIAS\Filesystem\Security\Sanitizing;
  */
 interface FilenameSanitizer
 {
-
     /**
      * This file suffix will be used to sanitize not whitelisted file names.
      */
-    const CLEAN_FILE_SUFFIX = 'sec';
+    public const CLEAN_FILE_SUFFIX = 'sec';
 
     /**
      * Checks if the filename is prefixed with a valid whitelisted ending.
@@ -33,7 +45,7 @@ interface FilenameSanitizer
      * @version 1.0
      * @since 5.3.4
      */
-    public function isClean(string $filename) : bool;
+    public function isClean(string $filename): bool;
 
 
     /**
@@ -44,5 +56,5 @@ interface FilenameSanitizer
      *
      * @return string The filename with a valid ending.
      */
-    public function sanitize(string $filename) : string;
+    public function sanitize(string $filename): string;
 }

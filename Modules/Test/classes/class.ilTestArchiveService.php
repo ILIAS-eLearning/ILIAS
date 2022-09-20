@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
@@ -17,26 +18,26 @@ class ilTestArchiveService
      * @var ilObjTest
      */
     protected $testOBJ;
-    
+
     /**
      * @var ilTestParticipantData
      */
     protected $participantData;
-    
+
     public function __construct(ilObjTest $testOBJ)
     {
         $this->testOBJ = $testOBJ;
         $this->participantData = null;
     }
-    
+
     /**
      * @return ilTestParticipantData
      */
-    public function getParticipantData()
+    public function getParticipantData(): ?ilTestParticipantData
     {
         return $this->participantData;
     }
-    
+
     /**
      * @param ilTestParticipantData $participantData
      */
@@ -44,7 +45,7 @@ class ilTestArchiveService
     {
         $this->participantData = $participantData;
     }
-    
+
     public function archivePassesByActives($passesByActives)
     {
         foreach ($passesByActives as $activeId => $passes) {
@@ -53,12 +54,12 @@ class ilTestArchiveService
             }
         }
     }
-    
+
     public function archiveActivesPass($activeId, $pass)
     {
         $content = $this->renderOverviewContent($activeId, $pass);
         $filename = $this->buildOverviewFilename($activeId, $pass);
-        
+
         ilTestPDFGenerator::generatePDF($content, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename, PDF_USER_RESULT);
 
         $archiver = new ilTestArchiver($this->testOBJ->getId());
@@ -73,14 +74,14 @@ class ilTestArchiveService
      * @param $pass
      * @return string
      */
-    private function renderOverviewContent($activeId, $pass)
+    private function renderOverviewContent($activeId, $pass): string
     {
         $results = $this->testOBJ->getTestResult(
             $activeId,
             $pass,
             false
         );
-        
+
         $gui = new ilTestServiceGUI($this->testOBJ);
 
         require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
@@ -105,9 +106,9 @@ class ilTestArchiveService
      * @param $pass
      * @return string
      */
-    private function buildOverviewFilename($activeId, $pass)
+    private function buildOverviewFilename($activeId, $pass): string
     {
-        $tmpFileName = ilUtil::ilTempnam();
+        $tmpFileName = ilFileUtils::ilTempnam();
         return dirname($tmpFileName) . '/scores-' . $this->testOBJ->getId() . '-' . $activeId . '-' . $pass . '.pdf';
     }
 }

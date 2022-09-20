@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class gives all kind of DB information using the database manager
@@ -15,23 +31,13 @@
  */
 class ilDBAnalyzer
 {
+    protected ilDBManager $manager;
 
-    /**
-     * @var \ilDBManager
-     */
-    protected $manager;
-    /**
-     * @var \ilDBReverse
-     */
-    protected $reverse;
-    /**
-     * @var \ilDBInterface
-     */
-    protected $il_db;
-    /**
-     * @var array
-     */
-    protected $allowed_attributes;
+    protected ilDBReverse $reverse;
+
+    protected ilDBInterface$il_db;
+
+    protected array $allowed_attributes;
 
 
     /**
@@ -58,17 +64,16 @@ class ilDBAnalyzer
     /**
      * Get field information of a table.
      *
-     * @param    string        table name
-     * @return    array        field information array
+     * @return array field information array
      */
-    public function getFieldInformation($a_table, $a_remove_not_allowed_attributes = false): array
+    public function getFieldInformation(string $a_table, bool $a_remove_not_allowed_attributes = false): array
     {
         $fields = $this->manager->listTableFields($a_table);
         $inf = array();
         foreach ($fields as $field) {
             $rdef = $this->reverse->getTableFieldDefinition($a_table, $field);
             // is this possible?
-            if (isset($rdef["mdb2type"]) && isset($rdef["type"]) && $rdef["type"] != $rdef["mdb2type"]) {
+            if (isset($rdef["mdb2type"], $rdef["type"]) && $rdef["type"] !== $rdef["mdb2type"]) {
                 throw new ilDatabaseException("ilDBAnalyzer::getFielInformation: Found type != mdb2type: $a_table, $field");
             }
 
@@ -78,7 +83,7 @@ class ilDBAnalyzer
             reset($rdef);
             $alt_types = "";
             foreach (array_keys($rdef) as $k) {
-                if ($k != $best_alt) {
+                if ($k !== $best_alt) {
                     $alt_types .= ($rdef[$k]["type"] ?? "") . ($rdef[$k]["length"] ?? "") . " ";
                 }
             }
@@ -97,7 +102,7 @@ class ilDBAnalyzer
 
             if ($a_remove_not_allowed_attributes) {
                 foreach (array_keys($inf[$field]) as $k) {
-                    if ($k != "type" && !in_array($k, $this->allowed_attributes[$inf[$field]["type"]])) {
+                    if ($k !== "type" && !in_array($k, $this->allowed_attributes[$inf[$field]["type"]])) {
                         unset($inf[$field][$k]);
                     }
                 }
@@ -109,10 +114,9 @@ class ilDBAnalyzer
 
 
     /**
-     * @param $a_def
      * @return int|string
      */
-    public function getBestDefinitionAlternative($a_def)
+    public function getBestDefinitionAlternative(array $a_def)
     {
         // determine which type to choose
         $car = array(
@@ -145,10 +149,9 @@ class ilDBAnalyzer
      * Gets the auto increment field of a table.
      * This should be used on ILIAS 3.10.x "MySQL" tables only.
      *
-     * @param    string        table name
-     * @return mixed|bool name of autoincrement field
+     * @return string|bool name of autoincrement field
      */
-    public function getAutoIncrementField($a_table)
+    public function getAutoIncrementField(string $a_table)
     {
         $fields = $this->manager->listTableFields($a_table);
 
@@ -166,10 +169,9 @@ class ilDBAnalyzer
     /**
      * Get primary key of a table
      *
-     * @param    string        table name
-     * @return    array        primary key information array
+     * @return array primary key information array
      */
-    public function getPrimaryKeyInformation($a_table): array
+    public function getPrimaryKeyInformation(string $a_table): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -197,10 +199,9 @@ class ilDBAnalyzer
      * Primary key is NOT included!
      * Fulltext indices are included and marked.
      *
-     * @param    string        table name
-     * @return    array        indices information array
+     * @return array indices information array
      */
-    public function getIndicesInformation($a_table, $a_abstract_table = false): array
+    public function getIndicesInformation(string $a_table, bool $a_abstract_table = false): array
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -227,10 +228,10 @@ class ilDBAnalyzer
                 $i["name"] = $c;
                 $i["fulltext"] = false;
 
-                if ($mysql_info[$i["name"]]["Index_type"] == "FULLTEXT"
-                    || $mysql_info[$i["name"] . "_idx"]["Index_type"] == "FULLTEXT"
-                    || $mysql_info[$i["name"]]["index_type"] == "FULLTEXT"
-                    || $mysql_info[$i["name"] . "_idx"]["index_type"] == "FULLTEXT"
+                if ($mysql_info[$i["name"]]["Index_type"] === "FULLTEXT"
+                    || $mysql_info[$i["name"] . "_idx"]["Index_type"] === "FULLTEXT"
+                    || $mysql_info[$i["name"]]["index_type"] === "FULLTEXT"
+                    || $mysql_info[$i["name"] . "_idx"]["index_type"] === "FULLTEXT"
                 ) {
                     $i["fulltext"] = true;
                 }
@@ -253,10 +254,9 @@ class ilDBAnalyzer
      * Primary key is NOT included!
      * Fulltext indices are included and marked.
      *
-     * @param    string        table name
-     * @return    array        indices information array
+     * @return array indices information array
      */
-    public function getConstraintsInformation($a_table, $a_abstract_table = false): array
+    public function getConstraintsInformation(string $a_table, bool $a_abstract_table = false): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -264,7 +264,7 @@ class ilDBAnalyzer
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
             $i = array();
-            if ($info["unique"]) {
+            if ($info["unique"] ?? null) {
                 $i["name"] = $c;
                 $i["type"] = "unique";
                 foreach ($info["fields"] as $k => $f) {
@@ -284,13 +284,12 @@ class ilDBAnalyzer
     /**
      * Check whether sequence is defined for current table (only works on "abstraced" tables)
      *
-     * @param    string        table name
      * @return float|int|bool false, if no sequence is defined, start number otherwise
      *
      * @throws \ilDatabaseException
      * @deprecated Please do not use since this method will lead to a ilDatabaseException. Will be removed later
      */
-    public function hasSequence($a_table)
+    public function hasSequence(string $a_table)
     {
         $seq = $this->manager->listSequences();
         if (is_array($seq) && in_array($a_table, $seq)) {
@@ -303,7 +302,7 @@ class ilDBAnalyzer
                                               . $a_table . ".");
             }
 
-            $set = $this->il_db->query("SELECT MAX(" . $this->il_db->quoteIdentifier($seq_field) . ") ma FROM " . $this->il_db->quoteIdentifier($a_table) . "");
+            $set = $this->il_db->query("SELECT MAX(" . $this->il_db->quoteIdentifier($seq_field) . ") ma FROM " . $this->il_db->quoteIdentifier($a_table));
             $rec = $this->il_db->fetchAssoc($set);
 
             return $rec["ma"] + 1;

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,20 +29,17 @@
 * Abstract class for test search.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
-
 class ilTestSearch extends ilAbstractSearch
 {
-    public function &__searchTestIntroduction()
+    public function __searchTestIntroduction(): ilSearchResult
     {
         $this->setFields(array('introduction'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -54,11 +53,12 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchTestTitle()
+
+    public function __searchTestTitle(): ilSearchResult
     {
         $this->setFields(array('title','description'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -72,11 +72,11 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchSurveyIntroduction()
+    public function __searchSurveyIntroduction(): ilSearchResult
     {
         $this->setFields(array('introduction'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -90,11 +90,11 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchSurveyTitle()
+    public function __searchSurveyTitle(): ilSearchResult
     {
         $this->setFields(array('title','description'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -110,13 +110,12 @@ class ilTestSearch extends ilAbstractSearch
     }
 
 
-    public function performSearch()
+    public function performSearch(): ilSearchResult
     {
         $this->__searchTestTitle();
         $this->__searchTestIntroduction();
         $this->__searchSurveyTitle();
         $this->__searchSurveyIntroduction();
-
         return $this->search_result;
     }
 }

@@ -1,26 +1,40 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-    private ilCertificateTemplateRepository $templateRepository;
     private ilSetting $setting;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateLPStatusHelper $statusHelper;
     private ilCertificateObjUserTrackingHelper $trackingHelper;
 
     public function __construct(
-        ilCertificateTemplateRepository $templateRepository,
+        private ilCertificateTemplateRepository $templateRepository,
         ?ilSetting $setting = null,
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateLPStatusHelper $statusHelper = null,
         ?ilCertificateObjUserTrackingHelper $trackingHelper = null
     ) {
-        $this->templateRepository = $templateRepository;
-
         if (null === $setting) {
             $setting = new ilSetting('crs');
         }
@@ -42,12 +56,9 @@ class ilCertificateCourseLearningProgressEvaluation
     }
 
     /**
-     * @param int $refId
-     * @param int $userId
      * @return ilCertificateTemplate[]
-     * @throws JsonException
      */
-    public function evaluate(int $refId, int $userId) : array
+    public function evaluate(int $refId, int $userId): array
     {
         $courseTemplates = $this->templateRepository
             ->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
@@ -58,7 +69,7 @@ class ilCertificateCourseLearningProgressEvaluation
         foreach ($courseTemplates as $courseTemplate) {
             $courseObjectId = $courseTemplate->getObjId();
 
-            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, null);
+            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId);
             if ($subItems === null) {
                 continue;
             }
@@ -76,16 +87,16 @@ class ilCertificateCourseLearningProgressEvaluation
                 $completed = true;
 
                 // check if all subitems are completed now
-                foreach ($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
+                foreach ($subitem_obj_ids as $subitem_id) {
                     $status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
 
-                    if ($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                    if ($status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                         $completed = false;
                         break;
                     }
                 }
 
-                if (true === $completed) {
+                if ($completed) {
                     $templatesOfCompletedCourses[] = $courseTemplate;
                 }
             }

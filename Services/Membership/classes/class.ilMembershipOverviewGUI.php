@@ -1,35 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Membership overview
- *
  * @ilCtrl_Calls ilMembershipOverviewGUI: ilPDMembershipBlockGUI
- *
- * @author killing@leifos.de
+ * @author       killing@leifos.de
  */
-class ilMembershipOverviewGUI
+class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -39,40 +39,31 @@ class ilMembershipOverviewGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
-
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
-
+        $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
         switch ($next_class) {
             case "ilpdmembershipblockgui":
                 $ctrl->setReturn($this, "show");
                 $block = new ilPDMembershipBlockGUI(true);
                 $ret = $this->ctrl->forwardCommand($block);
                 if ($ret != "") {
-                    //$this->displayHeader();
                     $this->main_tpl->setContent($ret);
-                    //$this->tpl->printToStdout();
                 }
                 break;
 
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }
         $this->main_tpl->printToStdout();
     }
 
-    /**
-     * Show
-     */
-    protected function show()
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;

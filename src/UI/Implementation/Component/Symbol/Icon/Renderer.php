@@ -1,23 +1,39 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
     public const DEFAULT_ICON_NAME = 'default';
     public const ICON_NAME_PATTERN = 'icon_%s.svg';
-    public const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
 
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Symbol\Icon\Icon $component
@@ -25,16 +41,21 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.icon.html", true, true);
 
+        $id = $this->bindJavaScript($component);
+
+        if ($id !== null) {
+            $tpl->setCurrentBlock("with_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+        }
+
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("SIZE", $component->getSize());
 
-        $tpl->setVariable("ALT", $component->getLabel());
+        $tpl = $this->renderLabel($component, $tpl);
 
         if ($component instanceof Component\Symbol\Icon\Standard) {
             $imagepath = $this->getStandardIconPath($component);
-            if ($component->isOutlined()) {
-                $tpl->touchBlock('outlined');
-            }
         } else {
             $imagepath = $component->getIconPath();
         }
@@ -63,16 +84,19 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon) : string
+    protected function renderLabel(Component\Component $component, Template $tpl): Template
+    {
+        $tpl->setVariable('LABEL', $component->getLabel());
+        return $tpl;
+    }
+
+    protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon): string
     {
         $name = $icon->getName();
         if (!in_array($name, $icon->getAllStandardHandles())) {
             $name = self::DEFAULT_ICON_NAME;
         }
         $pattern = self::ICON_NAME_PATTERN;
-        if ($icon->isOutlined()) {
-            $pattern = self::ICON_NAME_PATTERN_OUTLINED;
-        }
 
         $icon_name = sprintf($pattern, $name);
         return $this->getImagePathResolver()->resolveImagePath($icon_name);
@@ -81,7 +105,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Symbol\Icon\Icon::class);
     }

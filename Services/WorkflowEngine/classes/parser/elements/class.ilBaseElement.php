@@ -1,48 +1,48 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBaseElement
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 abstract class ilBaseElement
 {
     /** @var array $bpmn2_array */
-    protected $bpmn2_array;
+    protected array $bpmn2_array;
 
-    /**
-     * @return mixed
-     */
-    public function getBpmn2Array()
+    public function getBpmn2Array(): ?array
     {
         return $this->bpmn2_array;
     }
 
-    /**
-     * @param mixed $bpmn2_array
-     */
-    public function setBpmn2Array($bpmn2_array)
+    public function setBpmn2Array(?array $bpmn2_array): void
     {
         $this->bpmn2_array = $bpmn2_array;
     }
 
-    /**
-     * @param array              $element
-     * @param ilWorkflowScaffold $class_object
-     * @param string             $element_varname
-     *
-     * @return string
-     */
-    public function handleDataAssociations($element, $class_object, $element_varname)
+    public function handleDataAssociations(array $element, ilWorkflowScaffold $class_object, string $element_varname): string
     {
         $code = '';
         if (isset($element['children']) && count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'dataInputAssociation') {
+                if ($child['name'] === 'dataInputAssociation') {
                     $class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php');
                     $reference_name = $child['children'][0]['content'];
                     $code .= '
@@ -53,7 +53,7 @@ abstract class ilBaseElement
 		';
                 }
 
-                if ($child['name'] == 'dataOutputAssociation') {
+                if ($child['name'] === 'dataOutputAssociation') {
                     $class_object->registerRequire('./Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php');
                     $reference_name = $child['children'][0]['content'];
                     // So we need a data emitter to the given
@@ -75,15 +75,15 @@ abstract class ilBaseElement
      *
      * @return array
      */
-    public function getDataInputAssociationIdentifiers($element)
+    public function getDataInputAssociationIdentifiers(array $element): array
     {
-        $retval = array();
+        $retval = [];
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['namespace'] == 'bpmn2' && $child['name'] == 'dataInputAssociation') {
+                if ($child['namespace'] === 'bpmn2' && $child['name'] === 'dataInputAssociation') {
                     foreach ($child['children'] as $reference) {
-                        if ($reference['namespace'] == 'bpmn2' && $reference['name'] == 'sourceRef') {
+                        if ($reference['namespace'] === 'bpmn2' && $reference['name'] === 'sourceRef') {
                             $retval[] = $reference['content'];
                         }
                     }
@@ -99,15 +99,15 @@ abstract class ilBaseElement
      *
      * @return array
      */
-    public function getDataOutputAssociationIdentifiers($element)
+    public function getDataOutputAssociationIdentifiers(array $element): array
     {
-        $retval = array();
+        $retval = [];
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['namespace'] == 'bpmn2' && $child['name'] == 'dataOutputAssociation') {
+                if ($child['namespace'] === 'bpmn2' && $child['name'] === 'dataOutputAssociation') {
                     foreach ($child['children'] as $reference) {
-                        if ($reference['namespace'] == 'bpmn2' && $reference['name'] == 'targetRef') {
+                        if ($reference['namespace'] === 'bpmn2' && $reference['name'] === 'targetRef') {
                             $retval[] = $reference['content'];
                         }
                     }

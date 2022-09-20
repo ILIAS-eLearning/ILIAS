@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
@@ -51,12 +54,12 @@ class ilDownloadWorkspaceFolderBackgroundTask
         $this->lng = $DIC->language();
     }
 
-    public function setBucketTitle(string $a_title) : void
+    public function setBucketTitle(string $a_title): void
     {
         $this->bucket_title = $a_title;
     }
 
-    public function getBucketTitle() : string
+    public function getBucketTitle(): string
     {
         //TODO: fix ilUtil zip stuff
         // Error If name starts "-"
@@ -68,7 +71,7 @@ class ilDownloadWorkspaceFolderBackgroundTask
         return $this->bucket_title;
     }
 
-    public function run() : bool
+    public function run(): bool
     {
         // This is our Bucket
         $this->logger->info('Started download workspace files background task');
@@ -78,7 +81,7 @@ class ilDownloadWorkspaceFolderBackgroundTask
 
         // Copy Definition
         $definition = new ilWorkspaceCopyDefinition();
-        $normalized_name = ilUtil::getASCIIFilename($this->getBucketTitle());
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectWspIds($this->object_wsp_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);

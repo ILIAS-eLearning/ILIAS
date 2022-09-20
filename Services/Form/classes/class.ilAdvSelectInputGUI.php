@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents an advanced selection list property in a property form.
@@ -24,7 +29,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
     protected array $options = array();
     protected string $value = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -40,35 +45,35 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         string $a_value,
         string $a_text,
         string $a_html = ""
-    ) : void {
+    ): void {
         $this->options[$a_value] = array("value" => $a_value,
             "txt" => $a_text, "html" => $a_html);
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
@@ -76,21 +81,18 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         return $this->str($this->getPostVar());
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
             $this->getPostVar(),
             "",
             false,
-            "",
-            "",
-            "",
             "",
             "",
             "",
@@ -116,7 +118,7 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
                 $selection->setListTitle($option["txt"]);
             }
         }
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $selection->getHTML());
         $a_tpl->parseCurrentBlock();

@@ -1,27 +1,38 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User export file table
  * Should be replaced in the future by standard export file handling
- *
  * @author Stefan Meyer <meyer@leifos.com>
-
- * @ingroup ServicesUser
- *
  */
 class ilUserExportFileTableGUI extends \ilTable2GUI
 {
     private const USER_EXPORT_TABLE_ID = 'usr_export_table';
     private const USER_EXPORT_FORM_NAME = 'usr_export_form';
 
-    /**
-     * @var null | \ilLogger
-     */
-    private $logger = null;
+    private ?ilLogger $logger = null;
 
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        $a_template_context = ""
+    ) {
         global $DIC;
 
         $this->setId(self::USER_EXPORT_TABLE_ID);
@@ -30,10 +41,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->logger = $DIC->logger()->user();
     }
 
-    /**
-     * Init table
-     */
-    public function init()
+    public function init(): void
     {
         $this->lng->loadLanguageModule('usr');
         $this->setFormName(self::USER_EXPORT_FORM_NAME);
@@ -64,11 +72,7 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->enable('num_info');
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'size_sort':
@@ -79,24 +83,21 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array<string,mixed> $a_set
      */
-    protected function fillRow($row)
+    protected function fillRow(array $a_set): void // Missing array type.
     {
-        $this->tpl->setVariable('CHECKBOX_ID', $row['file']);
-        $this->tpl->setVariable('TXT_FILENAME', $row['file']);
-        $this->tpl->setVariable('TXT_SIZE', $row['size']);
-        $this->tpl->setVariable('TXT_DATE', $row['date']);
+        $this->tpl->setVariable('CHECKBOX_ID', $a_set['file']);
+        $this->tpl->setVariable('TXT_FILENAME', $a_set['file']);
+        $this->tpl->setVariable('TXT_SIZE', $a_set['size']);
+        $this->tpl->setVariable('TXT_DATE', $a_set['date']);
     }
 
-    /**
-     *
-     */
-    public function parse(array $export_files)
+    public function parse(array $export_files): void // Missing array type.
     {
         $files = [];
         $counter = 0;
-        foreach ($export_files as $num => $file_info) {
+        foreach ($export_files as $file_info) {
             $this->logger->dump($file_info, \ilLogLevel::NOTICE);
 
             $file_info_parts = explode('_', $file_info['filename']);

@@ -1,12 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * @author Jesús López <lopez@leifos.com>
@@ -25,20 +41,20 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public const FIRST_DEFAULT_REVIEW_COLUMN = 5;
 
     protected ilLogger $logger;
-    protected string $target_directory;
-    protected string $submissions_directory;
+    protected string $target_directory = "";
+    protected string $submissions_directory = "";
     protected ilExAssignment $assignment;
-    protected int $user_id;
-    protected int $exercise_id;
-    protected int $exercise_ref_id;
-    protected string $temp_dir;
+    protected int $user_id = 0;
+    protected int $exercise_id = 0;
+    protected int $exercise_ref_id = 0;
+    protected ?string $temp_dir = null;
     protected ilLanguage $lng;
-    protected string $sanitized_title; //sanitized file name/sheet title
+    protected string $sanitized_title = ""; //sanitized file name/sheet title
     protected ilExcel $excel;
-    protected array $criteria_items;
-    protected array $title_columns;
-    protected array $ass_types_with_files; //TODO will be deprecated when use the new assignment type interface
-    protected int $participant_id;
+    protected array $criteria_items = [];
+    protected array $title_columns = [];
+    protected array $ass_types_with_files = []; //TODO will be deprecated when use the new assignment type interface
+    protected int $participant_id = 0;
 
     /**
      * Constructor
@@ -55,10 +71,14 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ilExAssignment::TYPE_BLOG,
             ilExAssignment::TYPE_PORTFOLIO
         );
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 
-    public function getInputTypes() : array
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
+     */
+    public function getInputTypes(): array
     {
         return
             [
@@ -70,21 +90,18 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
     /**
      * run the job
-     * @param array    $input
-     * @param Observer $observer
-     * @return StringValue
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDatabaseException
@@ -94,7 +111,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public function run(
         array $input,
         Observer $observer
-    ) : StringValue {
+    ): Value {
         $this->exercise_id = $input[0]->getValue();
         $this->exercise_ref_id = $input[1]->getValue();
         $assignment_id = $input[2]->getValue();
@@ -125,15 +142,13 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     /**
      * Copy a file in the Feedback_files directory
      * TODO use the new filesystem.
-     * @param string $a_directory
-     * @param string $a_file
      */
-    public function copyFileToSubDirectory(string $a_directory, string $a_file) : void
+    public function copyFileToSubDirectory(string $a_directory, string $a_file): void
     {
         $dir = $this->target_directory . "/" . $a_directory;
 
         if (!is_dir($dir)) {
-            ilUtil::createDirectory($dir);
+            ilFileUtils::makeDirParents($dir);
         }
 
         copy($a_file, $dir . "/" . basename($a_file));
@@ -144,7 +159,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $fs->storage()->copy($a_file, $this->temp_dir."/".basename($a_file));*/
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }
@@ -153,7 +168,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * Set the Excel column titles.
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    protected function addColumnTitles() : void
+    protected function addColumnTitles(): void
     {
         $col = 0;
         foreach ($this->title_columns as $title) {
@@ -166,16 +181,16 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * @todo refactor to new file system access
      * Create unique temp directory
      */
-    protected function createUniqueTempDirectory() : void
+    protected function createUniqueTempDirectory(): void
     {
-        $this->temp_dir = ilUtil::ilTempnam();
-        ilUtil::makeDirParents($this->temp_dir);
+        $this->temp_dir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDirParents($this->temp_dir);
     }
 
     /**
      * Create the directory with the assignment title.
      */
-    protected function createTargetDirectory() : void
+    protected function createTargetDirectory(): void
     {
         $path = $this->temp_dir . DIRECTORY_SEPARATOR;
         if ($this->participant_id > 0) {
@@ -183,18 +198,17 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             $path .= $user_dir . DIRECTORY_SEPARATOR;
         }
         $this->target_directory = $path . $this->sanitized_title;
-
-        ilUtil::makeDirParents($this->target_directory);
+        ilFileUtils::makeDirParents($this->target_directory);
     }
 
     /**
      * Create the directory with the assignment title.
      */
-    protected function createSubmissionsDirectory() : void
+    protected function createSubmissionsDirectory(): void
     {
         $this->logger->dump("lang key => " . $this->lng->getLangKey());
         $this->submissions_directory = $this->target_directory . DIRECTORY_SEPARATOR . $this->lng->txt("exc_ass_submission_zip");
-        ilUtil::createDirectory($this->submissions_directory);
+        ilFileUtils::createDirectory($this->submissions_directory);
     }
 
     /**
@@ -205,7 +219,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * @throws ilExerciseException
      * @throws ilObjectNotFoundException
      */
-    public function collectSubmissionFiles() : void
+    public function collectSubmissionFiles(): void
     {
         $members = array();
 
@@ -237,11 +251,10 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 unset($tmp_obj);
             }
         }
-
         ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members, $this->submissions_directory);
     }
 
-    protected function isExcelNeeded(int $a_ass_type, bool $a_has_fbk) : bool
+    protected function isExcelNeeded(int $a_ass_type, bool $a_has_fbk): bool
     {
         if ($a_ass_type == ilExAssignment::TYPE_TEXT) {
             return true;
@@ -253,10 +266,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
     /**
      * Add criteria data to the excel.
-     * @param int $feedback_giver
-     * @param int $participant_id
-     * @param int $row
-     * @param int $col
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     protected function addCriteriaToExcel(
@@ -264,7 +273,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         int $participant_id,
         int $row,
         int $col
-    ) : void {
+    ): void {
         $submission = new ilExSubmission($this->assignment, $participant_id);
 
         //Possible TODO: This getPeerReviewValues doesn't return always the same array structure then the client classes have
@@ -340,13 +349,14 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 
                     $extra_crit_column = 0;
                     foreach ($files as $file) {
-                        if ($extra_crit_column) {
+                        if ($extra_crit_column !== 0) {
                             $this->title_columns[] = $crit_title . "_" . $extra_crit_column;
                         }
                         $extra_crit_column++;
-                        $this->copyFileToSubDirectory(self::FBK_DIRECTORY, $file);
-                        $this->excel->setCell($row, $col, "./" . self::FBK_DIRECTORY . DIRECTORY_SEPARATOR . basename($file));
-                        $this->excel->addLink($row, $col, './' . self::FBK_DIRECTORY . DIRECTORY_SEPARATOR . basename($file));
+                        $dir = $this->getFeedbackDirectory($participant_id, $feedback_giver);
+                        $this->copyFileToSubDirectory($dir, $file);
+                        $this->excel->setCell($row, $col, "./" . $dir . DIRECTORY_SEPARATOR . basename($file));
+                        $this->excel->addLink($row, $col, './' . $dir . DIRECTORY_SEPARATOR . basename($file));
                         $this->excel->setColors($this->excel->getCoordByColumnAndRow($col, $row), self::BG_COLOR, self::LINK_COLOR);
                     }
                     break;
@@ -355,10 +365,21 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     }
 
     /**
+     * see also bug https://mantis.ilias.de/view.php?id=30999
+     */
+    protected function getFeedbackDirectory(int $participant_id, int $feedback_giver): string
+    {
+        $dir = self::FBK_DIRECTORY . DIRECTORY_SEPARATOR .
+            "to_" . ilExSubmission::getDirectoryNameFromUserData($participant_id) . DIRECTORY_SEPARATOR .
+            "from_" . ilExSubmission::getDirectoryNameFromUserData($feedback_giver);
+        return $dir;
+    }
+
+    /**
      * Get the number of max amount of files submitted by a single user in the assignment.
      * Used to add columns to the excel.
      */
-    public function getExtraColumnsForSubmissionFiles(int $a_obj_id, int $a_ass_id) : int
+    public function getExtraColumnsForSubmissionFiles(int $a_obj_id, int $a_ass_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -383,7 +404,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         int $a_row,
         int $a_col,
         array $a_submission_file
-    ) : void {
+    ): void {
         $user_id = $a_submission_file['user_id'];
         $targetdir = ilExSubmission::getDirectoryNameFromUserData($user_id);
 
@@ -422,7 +443,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * @throws ilExerciseException
      * @throws ilObjectNotFoundException
      */
-    protected function collectAssignmentData(int $assignment_id) : void
+    protected function collectAssignmentData(int $assignment_id): void
     {
         $ass_has_feedback = false;
         $ass_has_criteria = false;
@@ -432,7 +453,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $assignment_type = $this->assignment->getType();
 
         //Sanitized title for excel file and target directory.
-        $this->sanitized_title = ilUtil::getASCIIFilename($this->assignment->getTitle());
+        $this->sanitized_title = ilFileUtils::getASCIIFilename($this->assignment->getTitle());
 
         // directories
         if (!isset($this->temp_dir)) {
@@ -518,7 +539,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 $submission = new ilExSubmission($this->assignment, $participant_id);
                 $submission_files = $submission->getFiles();
 
-                if ($submission_files) {
+                if ($submission_files !== []) {
                     $participant_name = ilObjUser::_lookupName($participant_id);
                     $this->excel->setCell($row, self::PARTICIPANT_LASTNAME_COLUMN, $participant_name['lastname']);
                     $this->excel->setCell($row, self::PARTICIPANT_FIRSTNAME_COLUMN, $participant_name['firstname']);
@@ -551,7 +572,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                             $col = $first_excel_column_for_review;
                         }
                         $reviews = [];
-                        if ($peer_review) {
+                        if ($peer_review !== null) {
                             $reviews = $peer_review->getPeerReviewsByPeerId($participant_id);
                         }
 
@@ -571,7 +592,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                                     }
                                     ++$row;
                                 }
-                                
+
                                 $feedback_giver = $review['giver_id']; // user who made the review.
 
                                 $feedback_giver_name = ilObjUser::_lookupName($feedback_giver);
@@ -604,7 +625,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
      * get ONLY the members ids for this assignment
      * @return int[]
      */
-    public function getAssignmentMembersIds() : array
+    public function getAssignmentMembersIds(): array
     {
         global $DIC;
 

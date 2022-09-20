@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -13,24 +29,24 @@ class ilLSLPStub extends ilLSLP
 
 class ilLSLPTest extends TestCase
 {
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLSLPStub();
 
         $this->assertInstanceOf(ilLSLP::class, $obj);
     }
 
-    public function testGetDefaultModes() : void
+    public function testGetDefaultModes(): void
     {
         $obj = new ilLSLPStub();
-        $result = $obj->getDefaultModes('foo');
+        $result = $obj->getDefaultModes(true);
 
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
         $this->assertEquals(ilLPObjSettings::LP_MODE_DEACTIVATED, array_pop($result));
     }
 
-    public function testGetDefaultMode() : void
+    public function testGetDefaultMode(): void
     {
         $obj = new ilLSLPStub();
         $result = $obj->getDefaultMode();
@@ -38,7 +54,7 @@ class ilLSLPTest extends TestCase
         $this->assertEquals(ilLPObjSettings::LP_MODE_DEACTIVATED, $result);
     }
 
-    public function testGetValidModes() : void
+    public function testGetValidModes(): void
     {
         $obj = new ilLSLPStub();
         $result = $obj->getValidModes();

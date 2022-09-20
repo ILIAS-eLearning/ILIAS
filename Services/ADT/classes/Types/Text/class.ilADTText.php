@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTText extends ilADT
 {
@@ -6,12 +8,12 @@ class ilADTText extends ilADT
 
     // definition
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTTextDefinition;
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->value = null;
@@ -19,7 +21,7 @@ class ilADTText extends ilADT
 
     // properties
 
-    public function setText(?string $a_value = null) : void
+    public function setText(?string $a_value = null): void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -27,23 +29,23 @@ class ilADTText extends ilADT
         $this->value = $a_value;
     }
 
-    public function getText() : ?string
+    public function getText(): ?string
     {
         return $this->value;
     }
 
-    public function getLength() : int
+    public function getLength(): int
     {
         if (function_exists("mb_strlen")) {
-            return mb_strlen($this->getText(), "UTF-8");
+            return mb_strlen((string) $this->getText(), "UTF-8");
         } else {
-            return strlen($this->getText());
+            return strlen((string) $this->getText());
         }
     }
 
     // comparison
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return !strcmp($this->getText(), $a_adt->getText());
@@ -51,26 +53,26 @@ class ilADTText extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
 
     // null
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->getLength();
     }
 
     // validation
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
@@ -83,7 +85,7 @@ class ilADTText extends ilADT
         return $valid;
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return md5($this->getText());
@@ -91,7 +93,7 @@ class ilADTText extends ilADT
         return null;
     }
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -101,7 +103,7 @@ class ilADTText extends ilADT
         return null;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setText($a_std->value);

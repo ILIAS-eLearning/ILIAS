@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\MetaBar;
 
@@ -29,12 +31,14 @@ namespace ILIAS\UI\examples\MainControls\MetaBar;
 
  * @return string
  */
-function extended_example_for_developers()
+function extended_example_for_developers(): string
 {
     //Set up the gears as always
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     //Create some bare UI Components Notification Item to be used all over the place
     $icon = $f->symbol()->icon()->standard("chtr", "chtr");
@@ -53,7 +57,7 @@ function extended_example_for_developers()
     //Endpoint for adding one single aggreate item
     $async_add_aggregate = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=true';
 
-    if (isset($_GET['close_item']) && $_GET['close_item'] === "true") {
+    if ($request_wrapper->has('close_item') && $request_wrapper->retrieve('close_item', $refinery->kindlyTo()->string()) === "true") {
         //Note that we passe back JS logic here for further processing here
         $js = $f->legacy("")->withOnLoadCode(function ($id) use ($async_replace_content_load_url) {
             return "
@@ -65,9 +69,9 @@ function extended_example_for_developers()
         exit;
     }
 
-    if (isset($_GET['async_load_replace']) && $_GET['async_load_replace'] === "true") {
-        $remaining = $_GET["remaining"];
-        $added = $_GET["added"];
+    if ($request_wrapper->has('async_load_replace') && $request_wrapper->retrieve('async_load_replace', $refinery->kindlyTo()->string()) === "true") {
+        $remaining = $request_wrapper->retrieve("remaining", $refinery->kindlyTo()->int());
+        $added = $request_wrapper->retrieve("added", $refinery->kindlyTo()->int());
 
         //We create the amount of aggregates send to us by get and put an according
         //description into the newly create Notification Item
@@ -82,17 +86,16 @@ function extended_example_for_developers()
         exit;
     }
 
-    if (isset($_GET['async_load_replace_content']) && $_GET['async_load_replace_content'] === "true") {
-        $remaining = $_GET["remaining"];
-        $added = $_GET["added"];
+    if ($request_wrapper->has('async_load_replace_content') && $request_wrapper->retrieve('async_load_replace_content', $refinery->kindlyTo()->string()) === "true") {
+        $remaining = $request_wrapper->retrieve("remaining", $refinery->kindlyTo()->int());
+        $added = $request_wrapper->retrieve("added", $refinery->kindlyTo()->int());
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added);
         echo $renderer->renderAsync([$replacement]);
         exit;
     }
 
-    if (isset($_GET['async_add_aggregate']) && $_GET['async_add_aggregate'] === "true") {
-        $remaining = $_GET["remaining"];
-        $added = $_GET["added"];
+    if ($request_wrapper->has('async_add_aggregate') && $request_wrapper->retrieve('async_add_aggregate', $refinery->kindlyTo()->string()) === "true") {
+        $added = $request_wrapper->retrieve("added", $refinery->kindlyTo()->int());
 
         $new_aggregate = $closable_item->withDescription("The item has been added, Nr: " . $added);
 

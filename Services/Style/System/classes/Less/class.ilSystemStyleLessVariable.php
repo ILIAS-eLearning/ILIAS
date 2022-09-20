@@ -1,64 +1,62 @@
 <?php
-require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.php");
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /***
  * Capsules data of a less variable in the variables to less file. A less variable has the following structure:
- *
  * //** Comment to describe the variable
  * @variable:   value;
- *
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleLessVariable extends ilSystemStyleLessItem
 {
-
     /**
      * Name of the variable
-     *
-     * @var string
      */
-    protected $name = "";
+    protected string $name = '';
 
     /**
      * Value of the variable as set in the less file
-     *
-     * @var string
      */
-    protected $value = "";
+    protected string $value = '';
 
     /**
      * Comment to the variable as in the less file
-     *
-     * @var string
      */
-    protected $comment = "";
+    protected string $comment = '';
 
     /**
      * Less Category which encloses this variable
-     * @var string
      */
-    protected $category_name = "";
+    protected string $category_name = '';
 
     /**
      * Set references to other variables that are used by this exact variable
-     *
-     * @var array
      */
-    protected $references = array();
+    protected array $references = [];
 
-    /**
-     * ilSystemStyleLessVariable constructor.
-     * @param $name
-     * @param $value
-     * @param $comment
-     * @param $category_name
-     * @param $references
-     */
-    public function __construct($name, $value, $comment, $category_name, $references)
-    {
+    public function __construct(
+        string $name,
+        string $value,
+        string $comment,
+        string $category_name,
+        array $references = []
+    ) {
         $this->setName($name);
         $this->setValue($value);
         $this->setCategoryName($category_name);
@@ -66,39 +64,26 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->setReferences($references);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue($value)
+    public function setValue(string $value): void
     {
-        if ($this->getName() == "icon-font-path") {
+        if ($this->getName() == 'il-icon-font-path') {
             if ($value[0] != "\"") {
                 $value = "\"" . $value;
-                ;
             }
             if (substr($value, -1, 1) != "\"") {
                 $value .= "\"";
@@ -113,69 +98,48 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         $this->value = str_replace("\n", '', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $comment
-     */
-    public function setComment($comment)
+    public function setComment(string $comment): void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace("\n", '', $comment);
     }
 
-    /**
-     * @return string
-     */
-    public function getCategoryName()
+    public function getCategoryName(): string
     {
         return $this->category_name;
     }
 
-    /**
-     * @param string $category_name
-     */
-    public function setCategoryName($category_name)
+    public function setCategoryName(string $category_name): void
     {
         $this->category_name = $category_name;
     }
 
-    /**
-     * @return array
-     */
-    public function getReferences()
+    public function getReferences(): array
     {
         return $this->references;
     }
 
-    /**
-     * @param array $references
-     */
-    public function setReferences($references)
+    public function setReferences(array $references): void
     {
         $this->references = $references;
     }
 
-
     /**
      * This function will be needed to write the variable back to the less file and restore it's initial structure
      * in less.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        $content = "";
+        $content = '';
         if ($this->getComment()) {
-            $content .= "//** " . $this->getComment() . "\n";
+            $content .= '//** ' . $this->getComment() . "\n";
         }
-        $content .= "@" . $this->getName() . ":\t\t" . $this->getValue() . ";\n";
+        $content .= '@' . $this->getName() . ":\t\t" . $this->getValue() . ";\n";
         return $content;
     }
 }

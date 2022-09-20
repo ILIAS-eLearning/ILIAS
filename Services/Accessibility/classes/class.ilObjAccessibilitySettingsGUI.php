@@ -1,54 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Accessibility Settings.
- *
  * @author Alexander Killing <killing@leifos.de>
- *
  * @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
  * @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
  */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected ilPropertyFormGUI $form;
+    protected \ILIAS\DI\Container $dic;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->dic = $DIC;
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->tabs = $DIC->tabs();
         $this->tpl = $DIC["tpl"];
@@ -62,17 +51,9 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $rbacsystem = $this->rbacsystem;
-        $ilErr = $this->error;
-        $ilAccess = $this->access;
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -80,7 +61,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->prepareOutput();
 
         if (!$rbacsystem->checkAccess('read', $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
@@ -96,8 +77,10 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $tableDataProviderFactory = new ilAccessibilityTableDataProviderFactory();
                 $tableDataProviderFactory->setDatabaseAdapter($this->dic->database());
 
+                /** @var ilObjAccessibilitySettings $settings */
+                $settings = $this->object;
                 $documentGui = new ilAccessibilityDocumentGUI(
-                    $this->object,
+                    $settings,
                     $this->dic['acc.criteria.type.factory'],
                     $this->dic->ui()->mainTemplate(),
                     $this->dic->user(),
@@ -127,13 +110,9 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getSettingsForm()
+    protected function getSettingsForm(): ilPropertyFormGUI
     {
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
@@ -150,10 +129,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
         $this->form->addItem($ti);
 
-        $se = new ilFormSectionHeaderGUI();
-        $se ->setTitle($this->lng->txt('obj_accs_captcha'));
-        $this->form->addItem($se);
-
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
             $this->form,
@@ -169,16 +144,15 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
     /**
      * Save accessibility settings form
      */
-    public function saveAccessibilitySettings()
+    public function saveAccessibilitySettings(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
-        $ilErr = $this->error;
 
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+            throw new ilPermissionException($this->lng->txt('permission_denied'));
         }
 
         $this->getSettingsForm();
@@ -186,51 +160,35 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
             // Accessibility Control Concept status
             ilObjAccessibilitySettings::saveControlConceptStatus((bool) $this->form->getInput('acc_ctrl_cpt_status'));
             // Accessibility support contacts
-            ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
+            ilAccessibilitySupportContacts::setList(
+                $this->form->getInput("accessibility_support_contacts")
+            );
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editAccessibilitySettings");
         } else {
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
+            $tpl->setContent($this->form->getHTML());
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null)
+    protected function editAccessibilitySettings(ilPropertyFormGUI $form = null): void
     {
         $this->tabs_gui->setTabActive('acc_settings');
         if (!$form) {
             $this->form = $this->getSettingsForm();
         }
-        
+
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
         $ilTabs = $this->tabs;
 
         if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
             $ilTabs->addTab('acc_settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editAccessibilitySettings'));
-        }
-
-        if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
-            $ilTabs->addTarget(
-                "acc_access_keys",
-                $this->ctrl->getLinkTarget($this, "editAccessKeys"),
-                array("editAccessKeys", "view")
-            );
         }
 
         if ($rbacsystem->checkAccess("read", $this->object->getRefId())) {
@@ -249,35 +207,5 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
                 'ilpermissiongui'
             );
         }
-    }
-
-    /**
-    * Edit access keys
-    */
-    public function editAccessKeys()
-    {
-        $tpl = $this->tpl;
-
-        $this->tabs_gui->setTabActive('acc_access_keys');
-        
-        $table = new ilAccessKeyTableGUI($this, "editAccessKeys");
-        
-        $tpl->setContent($table->getHTML());
-    }
-    
-    /**
-    * Save access keys
-    */
-    public function saveAccessKeys()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        }
-        $ilCtrl->redirect($this, "editAccessKeys");
     }
 }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailTemplate
@@ -28,7 +45,10 @@ class ilMailTemplate
         }
     }
 
-    public function toArray() : array
+    /**
+     * @return array{tpl_id: int, title: string, context: string, lang: string, m_subject: string, m_message: string, is_default: bool}
+     */
+    public function toArray(): array
     {
         return [
             'tpl_id' => $this->getTplId(),
@@ -41,72 +61,72 @@ class ilMailTemplate
         ];
     }
 
-    public function getTplId() : int
+    public function getTplId(): int
     {
         return $this->templateId;
     }
 
-    public function setTplId(int $templateId) : void
+    public function setTplId(int $templateId): void
     {
         $this->templateId = $templateId;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title) : void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    public function getContext() : string
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function setContext(string $context) : void
+    public function setContext(string $context): void
     {
         $this->context = $context;
     }
-    
-    public function getLang() : string
+
+    public function getLang(): string
     {
         return $this->lang;
     }
 
-    public function setLang(string $lang) : void
+    public function setLang(string $lang): void
     {
         $this->lang = $lang;
     }
 
-    public function getSubject() : string
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    public function setSubject(string $subject) : void
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $message) : void
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
 
-    public function isDefault() : bool
+    public function isDefault(): bool
     {
         return $this->isDefault;
     }
 
-    public function setAsDefault(bool $isDefault) : void
+    public function setAsDefault(bool $isDefault): void
     {
         $this->isDefault = $isDefault;
     }

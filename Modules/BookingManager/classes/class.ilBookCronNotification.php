@@ -1,32 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Cron for booking manager notification
- *
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilBookCronNotification extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilLogger $book_log;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilLogger
-     */
-    protected $book_log;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -39,48 +38,48 @@ class ilBookCronNotification extends ilCronJob
         $this->book_log = ilLoggerFactory::getLogger("book");
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "book_notification";
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification");
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("book");
         return $lng->txt("book_notification_info");
     }
-    
-    public function getDefaultScheduleType() : int
+
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue() : ?int
+
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
-    
-    public function hasFlexibleSchedule() : bool
+
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
-    
-    public function run() : ilCronJobResult
+
+    public function run(): ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
@@ -89,26 +88,16 @@ class ilBookCronNotification extends ilCronJob
         if ($count > 0) {
             $status = ilCronJobResult::STATUS_OK;
         }
-        
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
-        
+
         return $result;
     }
 
-    /**
-     * Send notifications
-     *
-     * @param
-     * @return int
-     */
-    protected function sendNotifications()
+    protected function sendNotifications(): int
     {
         $log = $this->book_log;
-
-        // get all booking pools with notification setting
-
-
 
         $log->debug("start");
 
@@ -121,7 +110,7 @@ class ilBookCronNotification extends ilCronJob
         foreach (ilObjBookingPool::getPoolsWithReminders() as $p) {
             // determine reservations from max(next day $last_to_ts) up to "rmd_day" days + 1
             // per pool id
-            $next_day_ts = mktime(0, 0, 0, date('n'), date('j') + 1);
+            $next_day_ts = mktime(0, 0, 0, date('n'), (int) date('j') + 1);
             $log->debug("next day ts: " . $next_day_ts);
             $last_reminder_to_ts = $p["last_remind_ts"];
             // for debug purposes
@@ -129,7 +118,7 @@ class ilBookCronNotification extends ilCronJob
             $log->debug("last_reminder ts: " . $last_reminder_to_ts);
             $from_ts = max($next_day_ts, $last_reminder_to_ts);
             $log->debug("from ts: " . $from_ts);
-            $to_ts = mktime(0, 0, 0, date('n'), date('j') + $p["reminder_day"] + 1);
+            $to_ts = mktime(0, 0, 0, date('n'), (int) date('j') + $p["reminder_day"] + 1);
             $res = [];
 
             // overwrite from to current time, see #26216, this ensures
@@ -166,7 +155,6 @@ class ilBookCronNotification extends ilCronJob
 
             // group by user, type, pool
             foreach ($res as $r) {
-
                 // users
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
@@ -197,13 +185,9 @@ class ilBookCronNotification extends ilCronJob
         return count($notifications);
     }
 
-    /**
-     * Send mails
-     *
-     * @param
-     */
-    protected function sendMails($notifications)
-    {
+    protected function sendMails(
+        array $notifications
+    ): void {
         foreach ($notifications as $uid => $n) {
             $ntf = new ilSystemNotification();
             $lng = $ntf->getUserLanguage($uid);
@@ -246,14 +230,12 @@ class ilBookCronNotification extends ilCronJob
     }
 
 
-    /**
-     * check access on obj id
-     *
-     * @param
-     * @return
-     */
-    protected function checkAccess($perm, $uid, $obj_id)
-    {
+    // check access on obj id
+    protected function checkAccess(
+        string $perm,
+        int $uid,
+        int $obj_id
+    ): bool {
         $access = $this->access;
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
             if ($access->checkAccessOfUser($uid, $perm, "", $ref_id)) {
@@ -261,36 +243,5 @@ class ilBookCronNotification extends ilCronJob
             }
         }
         return false;
-    }
-
-
-    /**
-     * Send user notifications
-     */
-    protected function sendUserNotifications($res)
-    {
-        /*
-         * Your reservations for tomorrow
-         *
-         * Pool Title
-         * Pool Link
-         * - Object (cnt), From - To
-         * - ...
-         *
-         * Reservations for tomorrow
-         *
-         * Pool Title
-         * Pool Link
-         * - Object (cnt), From - To
-         * - ...
-         *
-         */
-    }
-
-    /**
-     * Send admin notifications
-     */
-    protected function sendAdminNotifications($res)
-    {
     }
 }

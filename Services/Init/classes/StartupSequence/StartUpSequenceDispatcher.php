@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Init\StartupSequence;
@@ -15,25 +17,21 @@ use SplQueue;
 /**
  * Class StartupSequenceDispatcher
  * @package ILIAS\Init\StartupSequence
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class StartUpSequenceDispatcher
 {
-    /** @var Container */
-    private $dic;
+    private Container $dic;
     /** @var SplQueue|\ILIAS\Init\StartupSequence\StartUpSequenceStep[] */
     private $sequence = [];
 
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
         $this->dic = $dic;
         $this->initSequence();
     }
 
-    protected function initSequence() : void
+    protected function initSequence(): void
     {
         $this->sequence = new SplQueue();
         $this->sequence->push(new ilTermsOfServiceWithdrawalStartUpStep(
@@ -53,7 +51,7 @@ class StartUpSequenceDispatcher
         ));
     }
 
-    protected function storeRequest() : void
+    protected function storeRequest(): void
     {
         if (!ilSession::get('orig_request_target')) {
             //#16324 don't use the complete REQUEST_URI
@@ -64,9 +62,9 @@ class StartUpSequenceDispatcher
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function dispatch() : bool
+    public function dispatch(): bool
     {
         $this->dic->logger()->init()->debug('Started request interception checks ...');
 
@@ -90,11 +88,10 @@ class StartUpSequenceDispatcher
             return false;
         }
 
-
         $this->sequence->rewind();
         while (!$this->sequence->isEmpty()) {
             $step = $this->sequence->shift();
-            
+
             if ($step->isInFulfillment()) {
                 $this->dic->logger()->init()->debug('Step is in fulfillment:' . get_class($step));
                 return false;

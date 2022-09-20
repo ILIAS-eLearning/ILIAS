@@ -1,9 +1,26 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
 use ILIAS\GlobalScreen\Client\Client;
 use ILIAS\GlobalScreen\Client\ClientSettings;
-use ILIAS\GlobalScreen\Client\ItemState;
-use ILIAS\GlobalScreen\Client\ModeToggle;
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
@@ -26,27 +43,19 @@ use LogicException;
 
 /**
  * Class MainLayoutCollector
- *
  * @internal
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MainLayoutCollector extends AbstractBaseCollector
 {
-
-    /**
-     * @var ModificationHandler
-     */
-    private $modification_handler;
+    private ModificationHandler $modification_handler;
     /**
      * @var ModificationProvider[]
      */
-    private $providers = [];
-
+    private array $providers;
 
     /**
      * MainLayoutCollector constructor.
-     *
      * @param array $providers
      */
     public function __construct(array $providers)
@@ -55,8 +64,7 @@ class MainLayoutCollector extends AbstractBaseCollector
         $this->modification_handler = new ModificationHandler();
     }
 
-
-    public function collectStructure() : void
+    public function collectStructure(): void
     {
         // Client
         $settings = new ClientSettings();
@@ -70,6 +78,7 @@ class MainLayoutCollector extends AbstractBaseCollector
 
         $final_content_modification = new NullModification();
         $final_logo_modification = new NullModification();
+        $final_responsive_logo_modification = new NullModification();
         $final_breadcrumbs_modification = new NullModification();
         $final_main_bar_modification = new NullModification();
         $final_meta_bar_modification = new NullModification();
@@ -91,15 +100,34 @@ class MainLayoutCollector extends AbstractBaseCollector
             // LOGO
             $logo_modification = $provider->getLogoModification($called_contexts);
             $this->replaceModification($final_logo_modification, $logo_modification, LogoModification::class);
+            // RESPONSIVE LOGO
+            $responsive_logo_modification = $provider->getResponsiveLogoModification($called_contexts);
+            $this->replaceModification(
+                $final_responsive_logo_modification,
+                $responsive_logo_modification,
+                LogoModification::class
+            );
             // BREADCRUMBS
             $breadcrumbs_modification = $provider->getBreadCrumbsModification($called_contexts);
-            $this->replaceModification($final_breadcrumbs_modification, $breadcrumbs_modification, BreadCrumbsModification::class);
+            $this->replaceModification(
+                $final_breadcrumbs_modification,
+                $breadcrumbs_modification,
+                BreadCrumbsModification::class
+            );
             // MAINBAR
             $main_bar_modification = $provider->getMainBarModification($called_contexts);
-            $this->replaceModification($final_main_bar_modification, $main_bar_modification, MainBarModification::class);
+            $this->replaceModification(
+                $final_main_bar_modification,
+                $main_bar_modification,
+                MainBarModification::class
+            );
             // METABAR
             $meta_bar_modification = $provider->getMetaBarModification($called_contexts);
-            $this->replaceModification($final_meta_bar_modification, $meta_bar_modification, MetaBarModification::class);
+            $this->replaceModification(
+                $final_meta_bar_modification,
+                $meta_bar_modification,
+                MetaBarModification::class
+            );
             // FOOTER
             $footer_modification = $provider->getFooterModification($called_contexts);
             $this->replaceModification($final_footer_modification, $footer_modification, FooterModification::class);
@@ -114,7 +142,11 @@ class MainLayoutCollector extends AbstractBaseCollector
             $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
 
             $view_title_modification = $provider->getViewTitleModification($called_contexts);
-            $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
+            $this->replaceModification(
+                $final_view_title_modification,
+                $view_title_modification,
+                ViewTitleModification::class
+            );
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -122,6 +154,9 @@ class MainLayoutCollector extends AbstractBaseCollector
         }
         if ($final_logo_modification->hasValidModification()) {
             $this->modification_handler->modifyLogoWithClosure($final_logo_modification->getModification());
+        }
+        if ($final_responsive_logo_modification->hasValidModification()) {
+            $this->modification_handler->modifyResponsiveLogoWithClosure($final_responsive_logo_modification->getModification());
         }
         if ($final_breadcrumbs_modification->hasValidModification()) {
             $this->modification_handler->modifyBreadCrumbsWithClosure($final_breadcrumbs_modification->getModification());
@@ -149,53 +184,48 @@ class MainLayoutCollector extends AbstractBaseCollector
         }
     }
 
-
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $skip_async = false): void
     {
         // TODO: Implement filterItemsByVisibilty() method.
     }
 
-
-    public function prepareItemsForUIRepresentation() : void
+    public function prepareItemsForUIRepresentation(): void
     {
         // TODO: Implement prepareItemsForUIRepresentation() method.
     }
 
-    public function cleanupItemsForUIRepresentation() : void
+    public function cleanupItemsForUIRepresentation(): void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
 
-    public function sortItemsForUIRepresentation() : void
+    public function sortItemsForUIRepresentation(): void
     {
         // TODO: Implement sortItemsForUIRepresentation() method.
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation(): void
     {
         // TODO: Implement getItemsForUIRepresentation() method.
     }
 
-
     /**
      * @inheritDoc
      */
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return true;
     }
-
 
     /**
      * @param LayoutModification      $current_modification
      * @param LayoutModification|null $candicate
      * @param string                  $type
      */
-    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type)
+    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type): void
     {
         if (is_a($candicate, $type) && $candicate->hasValidModification()) {
             if ($candicate->getPriority() === $current_modification->getPriority()) {
@@ -206,22 +236,20 @@ class MainLayoutCollector extends AbstractBaseCollector
         }
     }
 
-
     /**
      * @return Page
      */
-    public function getFinalPage() : Page
+    public function getFinalPage(): Page
     {
         $this->collectOnce();
 
         return $this->modification_handler->getPageWithPagePartProviders();
     }
 
-
     /**
      * @return CalledContexts
      */
-    private function getContextStack() : CalledContexts
+    private function getContextStack(): CalledContexts
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
@@ -229,11 +257,10 @@ class MainLayoutCollector extends AbstractBaseCollector
         return $called_contexts;
     }
 
-
     /**
      * @return MetaContent
      */
-    private function getMetaContent() : MetaContent
+    private function getMetaContent(): MetaContent
     {
         global $DIC;
 

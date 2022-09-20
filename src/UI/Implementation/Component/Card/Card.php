@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Amstutz Timon <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Card;
 
@@ -20,7 +36,10 @@ class Card implements C\Card
     use JavaScriptBindable;
     use Triggerer;
 
-    protected string $title;
+    /**
+     * @var \ILIAS\UI\Implementation\Component\Button\Shy|string
+     */
+    protected $title;
     protected Component $header_section;
 
     /**
@@ -52,7 +71,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withTitle($title) : C\Card
+    public function withTitle($title): C\Card
     {
         if (!$title instanceof Shy) {
             $this->checkStringArg("title", $title);
@@ -75,7 +94,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withImage(Image $image) : C\Card
+    public function withImage(Image $image): C\Card
     {
         $clone = clone $this;
         $clone->image = $image;
@@ -85,7 +104,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function getImage() : ?Image
+    public function getImage(): ?Image
     {
         return $this->image;
     }
@@ -93,7 +112,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withSections(array $sections) : C\Card
+    public function withSections(array $sections): C\Card
     {
         $classes = [Component::class];
         $this->checkArgListElements("sections", $sections, $classes);
@@ -106,7 +125,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function getSections() : array
+    public function getSections(): array
     {
         return $this->content_sections;
     }
@@ -114,7 +133,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withTitleAction($action) : C\Card
+    public function withTitleAction($action): C\Card
     {
         $this->checkStringOrSignalArg("title_action", $action);
 
@@ -146,7 +165,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withHighlight(bool $status) : Card
+    public function withHighlight(bool $status): Card
     {
         $clone = clone $this;
         $clone->highlight = $status;
@@ -157,7 +176,7 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return $this->highlight;
     }
@@ -165,14 +184,14 @@ class Card implements C\Card
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : Clickable
+    public function withOnClick(Signal $signal): Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : Clickable
+    public function appendOnClick(Signal $signal): Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

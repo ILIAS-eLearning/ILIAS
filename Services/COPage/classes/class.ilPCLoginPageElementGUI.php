@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilLoginPageElementGUI
@@ -25,7 +28,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -42,7 +45,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -57,19 +60,19 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $this->edit(true);
     }
 
-    public function edit(bool $a_insert = false) : void
+    public function edit(bool $a_insert = false): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
         $this->displayValidationError();
-        
+
         // edit form
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -78,7 +81,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_login_page"));
         }
-        
+
         // type selection
         $type_prop = new ilRadioGroupInputGUI($this->lng->txt("cont_type"), "type");
 
@@ -107,7 +110,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
         $align_prop->setValue($this->content_obj->getAlignment());
         $form->addItem($align_prop);
 
-        
+
         // save/cancel buttons
         if ($a_insert) {
             $form->addCommandButton("create_login_page_element", $lng->txt("save"));
@@ -124,7 +127,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
     /**
      * Create new Login Page Element
      */
-    public function create() : void
+    public function create(): void
     {
         $this->content_obj = new ilPCLoginPageElement($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -146,7 +149,7 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
     /**
      * Update Login page element
      */
-    public function update() : void
+    public function update(): void
     {
         $this->content_obj->setLoginPageElementType(
             $this->request->getString("type")

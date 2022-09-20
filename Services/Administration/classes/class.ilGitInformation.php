@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilGitInformation
@@ -19,9 +24,12 @@
  */
 class ilGitInformation implements ilVersionControlInformation
 {
+    /**
+     * @var string[]|null
+     */
     private static ?array $revision_information = null;
 
-    private static function detect() : void
+    private static function detect(): void
     {
         global $DIC;
 
@@ -34,11 +42,11 @@ class ilGitInformation implements ilVersionControlInformation
         $info = array();
 
         if (!ilUtil::isWindows()) {
-            $origin = ilUtil::execQuoted('git config --get remote.origin.url');
-            $branch = ilUtil::execQuoted('git rev-parse --abbrev-ref HEAD');
-            $version_mini_hash = ilUtil::execQuoted('git rev-parse --short HEAD');
-            $version_number = ilUtil::execQuoted('git rev-list --count HEAD');
-            $line = ilUtil::execQuoted('git log -1');
+            $origin = ilShellUtil::execQuoted('git config --get remote.origin.url');
+            $branch = ilShellUtil::execQuoted('git rev-parse --abbrev-ref HEAD');
+            $version_mini_hash = ilShellUtil::execQuoted('git rev-parse --short HEAD');
+            $version_number = ilShellUtil::execQuoted('git rev-list --count HEAD');
+            $line = ilShellUtil::execQuoted('git log -1');
 
             if ($origin[0]) {
                 $origin = $origin[0];
@@ -74,7 +82,7 @@ class ilGitInformation implements ilVersionControlInformation
         if ($branch) {
             $info[] = $branch;
         }
-        
+
         if ($version_number) {
             $info[] = sprintf($lng->txt('git_revision'), $version_number);
         }
@@ -90,7 +98,7 @@ class ilGitInformation implements ilVersionControlInformation
         self::$revision_information = $info;
     }
 
-    public function getInformationAsHtml() : string
+    public function getInformationAsHtml(): string
     {
         self::detect();
 

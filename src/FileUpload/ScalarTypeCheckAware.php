@@ -2,6 +2,19 @@
 
 namespace ILIAS\FileUpload;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Trait ScalarTypeCheckAware
  *
@@ -18,7 +31,6 @@ namespace ILIAS\FileUpload;
  */
 trait ScalarTypeCheckAware
 {
-
     /**
      * Type check for string variables.
      *
@@ -28,7 +40,7 @@ trait ScalarTypeCheckAware
      * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
      * @since 5.3
      */
-    private function stringTypeCheck($variable, $name)
+    private function stringTypeCheck(string $variable, string $name): void
     {
         if (!is_string($variable)) {
             $varType = gettype($variable);
@@ -40,13 +52,13 @@ trait ScalarTypeCheckAware
     /**
      * Type check for int variables.
      *
-     * @param string $variable The variable which should be tested.
+     * @param int    $variable The variable which should be tested.
      * @param string $name     The name of the variable which is tested.
      *
      * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
      * @since 5.3
      */
-    private function intTypeCheck($variable, $name)
+    private function intTypeCheck(int $variable, string $name): void
     {
         if (!is_int($variable)) {
             $varType = gettype($variable);

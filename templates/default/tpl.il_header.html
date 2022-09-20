@@ -1,0 +1,48 @@
+<!-- BEGIN banner_bl -->
+<div class="ilFrameFixedWidthHeader">
+  <div class="ilHeaderBanner" style="height:{BANNER_HEIGHT}px">
+    <img class="ilHeaderImg" src="{BANNER_URL}">
+  </div>
+  <div class="ilClearFloat"></div>
+</div>
+<!-- END banner_bl -->
+<!-- BEGIN il_header_inner -->
+<div class="media il_HeaderInner">
+  <!-- BEGIN head_action -->
+  <div class="ilHeadAction hidden-print" id="il_head_action">
+    <!-- BEGIN head_action_inner -->
+    {HEAD_ACTION}
+    <!-- END head_action_inner -->
+  </div>
+  <!-- END head_action -->
+
+  <!-- BEGIN headerbl -->
+  <!-- BEGIN header_image -->
+  <img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_ALT}" title="{IMAGE_DESC}" />
+  <!-- END header_image -->
+  <h1 class="media-heading ilHeader <!-- BEGIN hidden_title --> ilNoDisplay <!-- END hidden_title -->">
+    <div class="ilAccAnchor" id="il_mhead_t_focus">
+    {HEADER}
+    </div>
+  </h1>
+  <!-- END headerbl -->
+
+  <div class="media-body">
+    <!-- BEGIN header_desc -->
+    <div class="ilHeaderDesc">{H_DESCRIPTION}</div>
+    <!-- END header_desc -->
+
+    <!-- BEGIN header_alert -->
+    <div class="ilHeaderAlert">
+      <!-- BEGIN header_alert_prop_name -->
+      {H_PROP}
+      <!-- END header_alert_prop_name -->
+
+      {H_VALUE}
+    </div>
+    <!-- END header_alert -->
+  </div>
+</div>
+<!-- END il_header_inner -->
+
+{FILE_UPLOAD_DROPZONE}

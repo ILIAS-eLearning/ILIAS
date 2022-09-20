@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -20,21 +21,13 @@ interface ilGuiAnswerScoringAdjustable
 {
     /**
      * Adds the answer specific form parts to a question property form gui.
-     *
-     * @param ilPropertyFormGUI $form
-     *
-     * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form);
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI;
 
     /**
      * Extracts the answer specific values from $_POST and applies them to the data object.
-     *
-     * @param bool $always If true, a check for form validity is omitted.
-     *
-     * @return void
      */
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form);
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void;
 
     /**
      * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.
@@ -45,5 +38,5 @@ interface ilGuiAnswerScoringAdjustable
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars();
+    public function getAfterParticipationSuppressionAnswerPostVars(): array;
 }

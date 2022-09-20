@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -22,77 +39,77 @@ class ilForumPostsTree
         $this->db = $DIC->database();
     }
 
-    public function setDepth(int $depth) : void
+    public function setDepth(int $depth): void
     {
         $this->depth = $depth;
     }
 
-    public function getDepth() : int
+    public function getDepth(): int
     {
         return $this->depth;
     }
 
-    public function setLft(int $lft) : void
+    public function setLft(int $lft): void
     {
         $this->lft = $lft;
     }
 
-    public function getLft() : int
+    public function getLft(): int
     {
         return $this->lft;
     }
 
-    public function setParentPos(int $parent_pos) : void
+    public function setParentPos(int $parent_pos): void
     {
         $this->parent_pos = $parent_pos;
     }
 
-    public function getParentPos() : int
+    public function getParentPos(): int
     {
         return $this->parent_pos;
     }
 
-    public function setPosFk(int $pos_fk) : void
+    public function setPosFk(int $pos_fk): void
     {
         $this->pos_fk = $pos_fk;
     }
 
-    public function getPosFk() : int
+    public function getPosFk(): int
     {
         return $this->pos_fk;
     }
 
-    public function setRgt(int $rgt) : void
+    public function setRgt(int $rgt): void
     {
         $this->rgt = $rgt;
     }
 
-    public function getRgt() : int
+    public function getRgt(): int
     {
         return $this->rgt;
     }
 
-    public function setSourceThreadId(int $source_thread_id) : void
+    public function setSourceThreadId(int $source_thread_id): void
     {
         $this->source_thread_id = $source_thread_id;
     }
 
-    public function getSourceThreadId() : int
+    public function getSourceThreadId(): int
     {
         return $this->source_thread_id;
     }
 
-    public function setTargetThreadId(int $target_thread_id) : void
+    public function setTargetThreadId(int $target_thread_id): void
     {
         $this->target_thread_id = $target_thread_id;
     }
 
-    public function getTargetThreadId() : int
+    public function getTargetThreadId(): int
     {
         return $this->target_thread_id;
     }
 
-    public function merge() : void
+    public function merge(): void
     {
         $this->db->update(
             'frm_posts_tree',
@@ -110,7 +127,7 @@ class ilForumPostsTree
         );
     }
 
-    public static function updateTargetRootRgt(int $root_node_id, int $rgt) : void
+    public static function updateTargetRootRgt(int $root_node_id, int $rgt): void
     {
         global $DIC;
 

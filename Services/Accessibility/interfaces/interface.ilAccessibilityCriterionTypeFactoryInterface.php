@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilAccessibilityCriterionTypeFactoryInterface
@@ -9,12 +24,12 @@ interface ilAccessibilityCriterionTypeFactoryInterface
     /**
      * @return ilAccessibilityCriterionType[]
      */
-    public function getTypesByIdentMap() : array;
+    public function getTypesByIdentMap(): array;
 
     /**
      * @return bool
      */
-    public function hasOnlyOneCriterion() : bool;
+    public function hasOnlyOneCriterion(): bool;
 
     /**
      * @param string $typeIdent
@@ -22,5 +37,5 @@ interface ilAccessibilityCriterionTypeFactoryInterface
      * @return ilAccessibilityCriterionType
      * @throws ilAccessibilityCriterionTypeNotFoundException
      */
-    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType;
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false): ilAccessibilityCriterionType;
 }

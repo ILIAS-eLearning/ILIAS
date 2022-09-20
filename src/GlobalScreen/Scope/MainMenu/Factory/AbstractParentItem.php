@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 /**
  * Class AbstractParentItem
@@ -6,16 +25,15 @@
  */
 abstract class AbstractParentItem extends AbstractBaseItem implements isParent
 {
-
     /**
      * @var isItem[]
      */
-    protected $children = [];
+    protected array $children = [];
 
     /**
      * @inheritDoc
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -23,7 +41,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
     /**
      * @inheritDoc
      */
-    public function withChildren(array $children) : isParent
+    public function withChildren(array $children): isParent
     {
         $clone = clone($this);
         $clone->children = $children;
@@ -34,7 +52,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
     /**
      * @inheritDoc
      */
-    public function appendChild(isChild $child) : isParent
+    public function appendChild(isItem $child): isParent
     {
         $this->children[] = $child;
 
@@ -44,7 +62,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
     /**
      * @inheritDoc
      */
-    public function hasChildren() : bool
+    public function hasChildren(): bool
     {
         return (count($this->children) > 0);
     }
@@ -52,9 +70,9 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
     /**
      * @inheritDoc
      */
-    public function removeChild(isChild $child_to_remove) : isParent
+    public function removeChild(isItem $child_to_remove): isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove) : bool {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child_to_remove): bool {
             return $item !== $child_to_remove;
         });
 

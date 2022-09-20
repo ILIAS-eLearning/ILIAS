@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class for category export
@@ -37,24 +42,24 @@ class ilCategoryXmlWriter extends ilXmlWriter
         $this->category = $cat;
     }
 
-    public function setMode(int $a_mode) : void
+    public function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function getCategory() : ilObjCategory
+    public function getCategory(): ilObjCategory
     {
         return $this->category;
     }
 
-    public function export(bool $a_with_header = true) : void
+    public function export(bool $a_with_header = true): void
     {
-        if ($this->getMode() == self::MODE_EXPORT) {
+        if ($this->getMode() === self::MODE_EXPORT) {
             if ($a_with_header) {
                 $this->buildHeader();
             }
@@ -66,13 +71,13 @@ class ilCategoryXmlWriter extends ilXmlWriter
         }
     }
 
-    public function getXml() : string
+    public function getXml(): string
     {
         return $this->xmlDumpMem(false);
     }
 
     // Build xml header
-    protected function buildHeader() : bool
+    protected function buildHeader(): bool
     {
         $ilSetting = $this->settings;
 
@@ -84,32 +89,33 @@ class ilCategoryXmlWriter extends ilXmlWriter
     }
 
     // Build category start tag
-    protected function buildCategory() : void
+    protected function buildCategory(): void
     {
         $this->xmlStartTag('Category');
     }
-    
+
     // category end tag
-    protected function buildFooter() : void
+    protected function buildFooter(): void
     {
         $this->xmlEndTag('Category');
     }
-    
+
     // Add Translations
-    protected function buildTranslations() : void
+    protected function buildTranslations(): void
     {
         $this->xmlStartTag('Translations');
-        
+
         $translations = $this->getCategory()->getObjectTranslation()->getLanguages();
         foreach ($translations as $translation) {
             $this->xmlStartTag(
                 'Translation',
-                array(
-                'default' => (int) $translation['lang_default'],
-                'language' => $translation['lang_code'])
+                [
+                    'default' => (int) $translation->isDefault(),
+                    'language' => $translation->getLanguageCode()
+                ]
             );
-            $this->xmlElement('Title', array(), $translation['title']);
-            $this->xmlElement('Description', array(), $translation['description']);
+            $this->xmlElement('Title', [], $translation->getTitle());
+            $this->xmlElement('Description', [], $translation->getDescription());
             $this->xmlEndTag('Translation');
         }
         $this->xmlEndTag('Translations');

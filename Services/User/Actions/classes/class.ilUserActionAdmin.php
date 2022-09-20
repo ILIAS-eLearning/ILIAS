@@ -1,30 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User action administration
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionAdmin
 {
-    protected static $loaded = false;
-    protected static $data = array();
+    protected static bool $loaded = false;
+    protected static array $data = array();
 
-    /**
-     * Activate action
-     *
-     * @param string $a_context_comp
-     * @param string $a_context_id
-     * @param string $a_action_comp
-     * @param string $a_action_type
-     * @param bool $a_active active true/false
-     */
-    public static function activateAction($a_context_comp, $a_context_id, $a_action_comp, $a_action_type, $a_active)
-    {
+    public static function activateAction(
+        string $a_context_comp,
+        string $a_context_id,
+        string $a_action_comp,
+        string $a_action_type,
+        bool $a_active
+    ): void {
         global $DIC;
 
         $db = $DIC->database();
@@ -43,17 +50,12 @@ class ilUserActionAdmin
         self::$loaded = false;
     }
 
-    /**
-     * Is activated?
-     *
-     * @param string $a_context_comp
-     * @param string $a_context_id
-     * @param string $a_action_comp
-     * @param string $a_action_type
-     * @return bool active true/false
-     */
-    public static function lookupActive($a_context_comp, $a_context_id, $a_action_comp, $a_action_type)
-    {
+    public static function lookupActive(
+        string $a_context_comp,
+        string $a_context_id,
+        string $a_action_comp,
+        string $a_action_type
+    ): bool {
         if (!self::$loaded) {
             self::loadData();
         }
@@ -68,13 +70,7 @@ class ilUserActionAdmin
         return (bool) self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type];
     }
 
-    /**
-     * Load data
-     *
-     * @param
-     * @return
-     */
-    protected static function loadData()
+    protected static function loadData(): void
     {
         global $DIC;
 

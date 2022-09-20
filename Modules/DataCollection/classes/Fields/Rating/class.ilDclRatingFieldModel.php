@@ -1,24 +1,32 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclRatingFieldModel
- *
  * @author  Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilDclRatingFieldModel extends ilDclBaseFieldModel
 {
-
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     *
-     * @param string  $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     *
-     * @return null|ilDclRecordQueryObject
-     */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
-    {
+    public function getRecordQuerySortObject(
+        string $direction = "asc",
+        bool $sort_by_status = false
+    ): ilDclRecordQueryObject {
         // FSX Bugfix 0015735: The average is multiplied with 10000 and added to the amount of votes
         $join_str = "LEFT JOIN (SELECT (ROUND(AVG(rating), 1) * 10000 + COUNT(rating)) as rating, obj_id FROM il_rating GROUP BY obj_id) AS average ON average.obj_id = record.id";
         $select_str = " average.rating AS field_{$this->getId()},";
@@ -31,16 +39,10 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     *
-     * @param string $filter_value
-     *
-     * @return null|ilDclRecordQueryObject
-     */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 

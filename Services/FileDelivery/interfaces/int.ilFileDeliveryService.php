@@ -1,7 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ILIAS\FileDelivery;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface ilFileDeliveryService
  *
@@ -9,42 +24,25 @@ namespace ILIAS\FileDelivery;
  */
 interface ilFileDeliveryService
 {
+    public static function deliverFileAttached(
+        string $path_to_file,
+        ?string $download_file_name = null,
+        ?string $mime_type = null,
+        bool $delete_file = false
+    ): void;
 
-    /**
-     * @param        $path_to_file
-     * @param string $download_file_name
-     * @param string $mime_type
-     * @param bool   $delete_file
-     *
-     * @return void
-     */
-    public static function deliverFileAttached($path_to_file, $download_file_name = '', $mime_type = '', $delete_file = false);
+    public static function streamVideoInline(
+        string $path_to_file,
+        ?string $download_file_name = null
+    ): void;
 
-
-    /**
-     * @param        $path_to_file
-     * @param string $download_file_name
-     *
-     * @return void
-     */
-    public static function streamVideoInline($path_to_file, $download_file_name = '');
-
-
-    /**
-     * @param        $path_to_file
-     * @param string $download_file_name
-     *
-     * @return void
-     */
-    public static function deliverFileInline($path_to_file, $download_file_name = '');
-
+    public static function deliverFileInline(
+        string $path_to_file,
+        ?string $download_file_name = null
+    ): void;
 
     /**
      * Converts a UTF-8 filename to ASCII
-     *
-     * @param string $original_filename UFT8-Filename
-     *
-     * @return string ASCII-Filename
      */
-    public static function returnASCIIFileName($original_filename);
+    public static function returnASCIIFileName(string $original_filename): string;
 }

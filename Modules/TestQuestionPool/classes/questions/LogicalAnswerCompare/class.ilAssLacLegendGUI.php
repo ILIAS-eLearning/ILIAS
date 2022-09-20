@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -52,17 +53,14 @@ class ilAssLacLegendGUI
     }
 
     /**
-     * @return iQuestionCondition|null
+     * @return assQuestion|null
      */
-    public function getQuestionOBJ() : ? iQuestionCondition
+    public function getQuestionOBJ(): ?iQuestionCondition
     {
         return $this->questionOBJ;
     }
 
-    /**
-     * @param iQuestionCondition $questionOBJ
-     */
-    public function setQuestionOBJ(iQuestionCondition $questionOBJ) : void
+    public function setQuestionOBJ(assQuestion $questionOBJ): void
     {
         $this->questionOBJ = $questionOBJ;
     }
@@ -70,7 +68,7 @@ class ilAssLacLegendGUI
     /**
      * @return \ILIAS\UI\Component\Modal\Modal
      */
-    public function get() : \ILIAS\UI\Component\Modal\Modal
+    public function get(): \ILIAS\UI\Component\Modal\Modal
     {
         $this->pageTemplate->addCss('Modules/TestQuestionPool/templates/default/lac_legend.css');
 
@@ -92,7 +90,7 @@ class ilAssLacLegendGUI
      * @return ilTemplate
      * @throws ilTemplateException
      */
-    protected function getTemplate() : ilTemplate
+    protected function getTemplate(): ilTemplate
     {
         return new ilTemplate(
             'tpl.qpl_logical_answer_compare_legend.html',
@@ -105,7 +103,7 @@ class ilAssLacLegendGUI
     /**
      * @param ilTemplate $tpl
      */
-    private function renderCommonLegendPart(ilTemplate $tpl) : void
+    private function renderCommonLegendPart(ilTemplate $tpl): void
     {
         $tpl->setVariable(
             'COMMON_ELEMENTS_HEADER',
@@ -123,13 +121,13 @@ class ilAssLacLegendGUI
     /**
      * @param ilTemplate $tpl
      */
-    private function renderQuestSpecificLegendPart(ilTemplate $tpl) : void
+    private function renderQuestSpecificLegendPart(ilTemplate $tpl): void
     {
         $tpl->setVariable(
             'QUEST_SPECIFIC_ELEMENTS_HEADER',
             $this->lng->txt('qpl_lac_legend_header_quest_specific')
         );
-        
+
         foreach ($this->getQuestionTypeSpecificExpressions() as $expression => $description) {
             $tpl->setCurrentBlock('quest_specific_elements');
             $tpl->setVariable('QSE_ELEMENT', $expression);
@@ -143,7 +141,7 @@ class ilAssLacLegendGUI
     /**
      * @param ilTemplate $tpl
      */
-    private function renderQuestSpecificExamples(ilTemplate $tpl) : void
+    private function renderQuestSpecificExamples(ilTemplate $tpl): void
     {
         $tpl->setVariable(
             'QUEST_SPECIFIC_EXAMPLES_HEADER',
@@ -153,7 +151,7 @@ class ilAssLacLegendGUI
         $questionTypes = [
             'assQuestion', $this->getQuestionOBJ()->getQuestionType()
         ];
-        
+
         foreach ($questionTypes as $questionType) {
             $examples = $this->getExpressionTypeExamplesByQuestionType($questionType);
             $this->renderExamples($tpl, $examples, $questionType);
@@ -165,7 +163,7 @@ class ilAssLacLegendGUI
      * @param string $exampleCode
      * @return string[]
      */
-    private function buildLangVarsByExampleCode(string $questionType, string $exampleCode) : array
+    private function buildLangVarsByExampleCode(string $questionType, string $exampleCode): array
     {
         $langVar = 'lacex_' . $questionType . '_' . $exampleCode;
 
@@ -177,7 +175,7 @@ class ilAssLacLegendGUI
      * @param string $langVarE
      * @param string $langVarD
      */
-    private function renderExample(ilTemplate $tpl, string $langVarE, string $langVarD) : void
+    private function renderExample(ilTemplate $tpl, string $langVarE, string $langVarD): void
     {
         $tpl->setCurrentBlock('quest_specific_examples');
         $tpl->setVariable('QSEX_ELEMENT', $this->lng->txt($langVarE));
@@ -188,7 +186,7 @@ class ilAssLacLegendGUI
     /**
      * @return array<string, string>
      */
-    private function getQuestionTypeSpecificExpressions() : array
+    private function getQuestionTypeSpecificExpressions(): array
     {
         $availableExpressionTypes = $this->getAvailableExpressionTypes();
 
@@ -204,7 +202,7 @@ class ilAssLacLegendGUI
     /**
      * @return array<string, string>
      */
-    private function getCommonElements()
+    private function getCommonElements(): array
     {
         return [
             '&' => $this->lng->txt('qpl_lac_desc_logical_and'),
@@ -221,7 +219,7 @@ class ilAssLacLegendGUI
     /**
      * @return array<string, string>
      */
-    private function getAvailableExpressionTypes() : array
+    private function getAvailableExpressionTypes(): array
     {
         return [
             iQuestionCondition::PercentageResultExpression => 'qpl_lac_desc_compare_with_quest_res',
@@ -239,12 +237,12 @@ class ilAssLacLegendGUI
      * @param string$questionType
      * @return string[]
      */
-    private function getExpressionTypeExamplesByQuestionType(string $questionType) : array
+    private function getExpressionTypeExamplesByQuestionType(string $questionType): array
     {
         if (!isset($this->examplesByQuestionType[$questionType])) {
             return [];
         }
-        
+
         return $this->examplesByQuestionType[$questionType];
     }
 
@@ -253,7 +251,7 @@ class ilAssLacLegendGUI
      * @param string[] $examples
      * @param string $questionType
      */
-    private function renderExamples(ilTemplate $tpl, array $examples, string $questionType) : void
+    private function renderExamples(ilTemplate $tpl, array $examples, string $questionType): void
     {
         foreach ($examples as $exampleCode) {
             list($langVarE, $langVarD) = $this->buildLangVarsByExampleCode($questionType, $exampleCode);

@@ -4,6 +4,19 @@ namespace ILIAS\Filesystem;
 
 use ILIAS\Filesystem\Exception\IllegalStateException;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class Filesystems
  *
@@ -15,7 +28,6 @@ use ILIAS\Filesystem\Exception\IllegalStateException;
  */
 interface Filesystems
 {
-
     /**
      * Fetches the web filesystem.
      * The web filesystem points to the data directory within the ILIAS web root.
@@ -25,7 +37,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function web() : Filesystem;
+    public function web(): Filesystem;
 
 
     /**
@@ -37,7 +49,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function storage() : Filesystem;
+    public function storage(): Filesystem;
 
 
     /**
@@ -48,7 +60,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function temp() : Filesystem;
+    public function temp(): Filesystem;
 
 
     /**
@@ -59,7 +71,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function customizing() : Filesystem;
+    public function customizing(): Filesystem;
     /**
      * Fetches the libs filesystem which is located at the root of the libs directory of ILIAS. This is read only
      *
@@ -68,7 +80,7 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function libs() : Filesystem;
+    public function libs(): Filesystem;
 
     /**
      * Fetches the node_modules filesystem which is located at the root of the libs directory of ILIAS. This is read only
@@ -76,5 +88,5 @@ interface Filesystems
      * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
      * @since 5.3
      */
-    public function nodeModules() : Filesystem;
+    public function nodeModules(): Filesystem;
 }

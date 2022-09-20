@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -24,5 +26,5 @@ interface LocatorBuilder
      *
      * The parameter will be appended to the command when updating state.
      */
-    public function item(string $label, int $parameter) : LocatorBuilder;
+    public function item(string $label, int $parameter): LocatorBuilder;
 }

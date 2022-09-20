@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestEvaluationGUITest
@@ -10,7 +26,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
 {
     private ilTestEvaluationGUI $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,19 +36,19 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilias();
         $this->addGlobal_tree();
         $this->addGlobal_ilDB();
-        $this->addGlobal_ilPluginAdmin();
+        $this->addGlobal_ilComponentRepository();
         $this->addGlobal_ilTabs();
         $this->addGlobal_ilObjDataCache();
 
         $this->testObj = new ilTestEvaluationGUI($this->createMock(ilObjTest::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestEvaluationGUI::class, $this->testObj);
     }
 
-    public function testTestAccess() : void
+    public function testTestAccess(): void
     {
         $testAccess_mock = $this->createMock(ilTestAccess::class);
 
@@ -41,7 +57,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals($testAccess_mock, $this->testObj->getTestAccess());
     }
 
-    public function testGetHeaderNames() : void
+    public function testGetHeaderNames(): void
     {
         $objTest_mock = $this->createMock(ilObjTest::class);
         $objTest_mock
@@ -81,7 +97,7 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals($expectedResult, $this->testObj->getHeaderNames());
     }
 
-    public function testGetHeaderVars() : void
+    public function testGetHeaderVars(): void
     {
         $expectedResult1 = [
             "name",
@@ -108,13 +124,13 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $objTest_mock
             ->expects($this->any())
             ->method("getAnonymity")
-            ->willReturn(true);
+            ->willReturn(1);
         $this->testObj->object = $objTest_mock;
 
         $this->assertEquals($expectedResult2, $this->testObj->getHeaderVars());
     }
 
-    public function testGetEvaluationQuestionId() : void
+    public function testGetEvaluationQuestionId(): void
     {
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, 0));
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, -210));

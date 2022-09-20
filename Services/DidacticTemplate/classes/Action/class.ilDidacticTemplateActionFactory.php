@@ -1,22 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-
 
 /**
  * Factory for didactic template actions
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilDidacticTemplateActionFactory
 {
-    /**
-     * Get action class by type
-     * @param string $a_action_type
-     * @return ilDidacticTemplateAction
-     */
-    public static function factoryByType($a_action_type) : ilDidacticTemplateAction
+    public static function factoryByType(int $a_action_type): ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
@@ -29,18 +22,11 @@ class ilDidacticTemplateActionFactory
                 return new ilDidacticTemplateBlockRoleAction();
 
             default:
-                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
+                throw new InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
-    
 
-    /**
-     * Get instance by id and type
-     * @param int $a_action_id
-     * @param int $a_actions_type
-     * @return ilDidacticTemplateAction
-     */
-    public static function factoryByTypeAndId(int $a_action_id, int $a_action_type) : ilDidacticTemplateAction
+    public static function factoryByTypeAndId(int $a_action_id, int $a_action_type): ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
@@ -53,17 +39,16 @@ class ilDidacticTemplateActionFactory
                 return new ilDidacticTemplateBlockRoleAction($a_action_id);
 
             default:
-                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
+                throw new InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
-
 
     /**
      * Get actions of one template
      * @param int $a_tpl_id
-     * @return array
+     * @return ilDidacticTemplateAction[]
      */
-    public static function getActionsByTemplateId(int $a_tpl_id) : array
+    public static function getActionsByTemplateId(int $a_tpl_id): array
     {
         global $DIC;
 
@@ -75,7 +60,7 @@ class ilDidacticTemplateActionFactory
 
         $actions = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $actions[] = self::factoryByTypeAndId($row->id, $row->type_id);
+            $actions[] = self::factoryByTypeAndId((int) $row->id, (int) $row->type_id);
         }
         return $actions;
     }

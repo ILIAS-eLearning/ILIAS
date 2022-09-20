@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -19,7 +20,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ilObjQuestionPoolListGUI extends ilObjectListGUI
 {
     protected $command_link_params = array();
-    
+
     /**
     * constructor
     *
@@ -32,7 +33,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -52,15 +53,11 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
     /**
     * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
     */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd): string
     {
         $frame = '';
-        switch ($a_cmd) {
+        switch ($cmd) {
             case "":
             case "questions":
                 include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
@@ -83,7 +80,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties()
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -102,22 +99,18 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 
     /**
     * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        $a_cmd = explode('::', $a_cmd);
+        $cmd = explode('::', $cmd);
 
-        if (count($a_cmd) == 2) {
-            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjQuestionPoolGUI', $a_cmd[0]), $a_cmd[1]);
+        if (count($cmd) == 2) {
+            $cmd_link = $ilCtrl->getLinkTargetByClass(array('ilRepositoryGUI', 'ilObjQuestionPoolGUI', $cmd[0]), $cmd[1]);
         } else {
-            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjQuestionPoolGUI', $a_cmd[0]);
+            $cmd_link = $ilCtrl->getLinkTargetByClass('ilObjQuestionPoolGUI', $cmd[0]);
         }
 
         $params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);

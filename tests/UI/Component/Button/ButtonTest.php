@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -14,9 +30,9 @@ use ILIAS\UI\Implementation\Component\Button\Factory;
  */
 class ButtonTest extends ILIAS_UI_TestBase
 {
-    const NOT_APPLICABLE = true;
+    public const NOT_APPLICABLE = true;
 
-    public function getButtonFactory() : Factory
+    public function getButtonFactory(): Factory
     {
         return new Factory();
     }
@@ -28,7 +44,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         "tag" => "btn btn-tag btn-tag-relevance-veryhigh"
     ];
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getButtonFactory();
 
@@ -54,7 +70,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_label_or_glyph_only(string $factory_method) : void
+    public function test_button_label_or_glyph_only(string $factory_method): void
     {
         $this->expectException(TypeError::class);
         $f = $this->getButtonFactory();
@@ -64,7 +80,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_string_action_only(string $factory_method) : void
+    public function test_button_string_action_only(string $factory_method): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getButtonFactory();
@@ -74,7 +90,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_label(string $factory_method) : void
+    public function test_button_label(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -85,7 +101,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_with_label(string $factory_method) : void
+    public function test_button_with_label(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -99,7 +115,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_action(string $factory_method) : void
+    public function test_button_action(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -110,7 +126,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_activated_on_default(string $factory_method) : void
+    public function test_button_activated_on_default(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -121,7 +137,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_deactivation(string $factory_method) : void
+    public function test_button_deactivation(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de")
@@ -134,7 +150,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * test loading animation
      */
-    public function test_button_with_loading_animation() : void
+    public function test_button_with_loading_animation(): void
     {
         $f = $this->getButtonFactory();
         foreach (["standard", "primary"] as $method) {
@@ -151,7 +167,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_label(string $factory_method) : void
+    public function test_render_button_label(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
@@ -170,7 +186,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_disabled(string $factory_method) : void
+    public function test_render_button_disabled(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
@@ -187,7 +203,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_close_button() : void
+    public function test_render_close_button(): void
     {
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
@@ -201,17 +217,31 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
+    public function test_render_minimize_button(): void
+    {
+        $f = $this->getButtonFactory();
+        $r = $this->getDefaultRenderer();
+        $b = $f->minimize();
+
+        $html = $this->normalizeHTML($r->render($b));
+
+        $expected = "<button type=\"button\" class=\"minimize\" aria-label=\"minimize\">" .
+            "	<span aria-hidden=\"true\">−</span>" .
+            "</button>";
+        $this->assertEquals($expected, $html);
+    }
+
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_with_on_load_code(string $factory_method) : void
+    public function test_render_button_with_on_load_code(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
         $ids = array();
         $b = $f->$factory_method("label", $ln)
-               ->withOnLoadCode(function ($id) use (&$ids) {
+               ->withOnLoadCode(function ($id) use (&$ids): string {
                    $ids[] = $id;
                    return "";
                });
@@ -228,13 +258,13 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_____render_close_button_with_on_load_code() : void
+    public function test_____render_close_button_with_on_load_code(): void
     {
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
         $ids = array();
         $b = $f->close()
-               ->withOnLoadCode(function ($id) use (&$ids) {
+               ->withOnLoadCode(function ($id) use (&$ids): string {
                    $ids[] = $id;
                    return "";
                });
@@ -250,7 +280,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_btn_tag_relevance() : void
+    public function test_btn_tag_relevance(): void
     {
         $f = $this->getButtonFactory();
         $b = $f->tag('tag', '#');
@@ -262,7 +292,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $b->withRelevance('notsoimportant');
     }
 
-    public function test_render_btn_tag_relevance() : void
+    public function test_render_btn_tag_relevance(): void
     {
         $expectations = array(
             '<button class="btn btn-tag btn-tag-relevance-verylow" data-action="#" id="id_1">tag</button>',
@@ -291,11 +321,11 @@ class ButtonTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function test_render_btn_tag_colors() : void
+    public function test_render_btn_tag_colors(): void
     {
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
-        $df = new \ILIAS\Data\Factory;
+        $df = new \ILIAS\Data\Factory();
 
         $bgcol = $df->color('#00ff00');
 
@@ -312,11 +342,11 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_btn_tag_classes() : void
+    public function test_render_btn_tag_classes(): void
     {
         $f = $this->getButtonFactory();
         $r = $this->getDefaultRenderer();
-        $df = new \ILIAS\Data\Factory;
+        $df = new \ILIAS\Data\Factory();
 
         $classes = array('cl1', 'cl2');
         $b = $f->tag('tag', '#')
@@ -331,7 +361,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_with_aria_label(string $factory_method) : void
+    public function test_button_with_aria_label(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de")->withAriaLabel("ariatext");
@@ -341,7 +371,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_with_engageable(string $factory_method) : void
+    public function test_button_with_engageable(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -357,7 +387,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_button_with_engaged(string $factory_method) : void
+    public function test_button_with_engaged(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $b = $f->$factory_method("label", "http://www.ilias.de");
@@ -374,7 +404,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_with_aria_label(string $factory_method) : void
+    public function test_render_button_with_aria_label(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
@@ -393,7 +423,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_with_aria_pressed(string $factory_method) : void
+    public function test_render_button_with_aria_pressed(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
@@ -417,7 +447,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_withOnClick_removes_action(string $factory_method) : void
+    public function test_withOnClick_removes_action(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $signal = $this->createMock(C\Signal::class);
@@ -432,7 +462,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_appendOnClick_appends_to_action(string $factory_method) : void
+    public function test_appendOnClick_appends_to_action(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $signal1 = $this->createMock(C\Signal::class);
@@ -447,7 +477,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_render_button_with_signal(string $factory_method) : void
+    public function test_render_button_with_signal(string $factory_method): void
     {
         $ln = "http://www.ilias.de";
         $f = $this->getButtonFactory();
@@ -471,7 +501,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * test rendering with on click animation
      */
-    public function test_render_button_with_on_click_animation() : void
+    public function test_render_button_with_on_click_animation(): void
     {
         foreach (["primary", "standard"] as $method) {
             $ln = "http://www.ilias.de";
@@ -497,7 +527,7 @@ class ButtonTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider button_type_provider
      */
-    public function test_factory_accepts_signal_as_action(string $factory_method) : void
+    public function test_factory_accepts_signal_as_action(string $factory_method): void
     {
         $f = $this->getButtonFactory();
         $signal = $this->createMock(C\Signal::class);
@@ -507,7 +537,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals([$signal], $button->getAction());
     }
 
-    public function button_type_provider() : array
+    public function button_type_provider(): array
     {
         return [
             ['standard'],

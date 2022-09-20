@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceDocumentCriteriaEvaluationTest
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEvaluationBaseTest
 {
-    public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll() : void
+    public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll(): void
     {
         $user = $this->getUserMock();
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
@@ -27,7 +44,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch() : void
+    public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch(): void
     {
         $user = $this->getUserMock();
         $log = $this->getLogMock();
@@ -88,7 +105,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch() : void
+    public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch(): void
     {
         $user = $this->getUserMock();
         $log = $this->getLogMock();
@@ -147,5 +164,16 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $evaluator = new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation($criterionTypeFactory, $user, $log);
 
         $this->assertFalse($evaluator->evaluate($doc));
+    }
+
+    public function testMutatingTheContextUserResultsInANewInstance(): void
+    {
+        $evaluator = new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
+            $this->getCriterionTypeFactoryMock(),
+            $this->getUserMock(),
+            $this->getLogMock()
+        );
+
+        $this->assertNotSame($evaluator, $evaluator->withContextUser($this->getUserMock()));
     }
 }

@@ -26,7 +26,8 @@ import java.util.HashMap;
 
 import javax.xml.transform.Transformer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * A caching transformer factory
@@ -36,7 +37,7 @@ import org.apache.log4j.Logger;
  */
 public class TransformerFactory {
 
-	protected static Logger logger = Logger.getLogger(Transformer.class);
+	protected static Logger logger = LogManager.getLogger(Transformer.class);
 	
 	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
 	

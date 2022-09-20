@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Symbol\Icon;
 
@@ -156,15 +172,9 @@ interface Standard extends Icon
     public const PETMP = 'petmp';   //Page Editor Template
     public const PEUSR = 'peusr';   //Page Editor User
     public const LSO = 'lso';       //Learning Sequence
+    public const LSOS = 'lsos';     //Learning Sequence Admin
     public const ADN = 'adn';       //Administrative Notification
-
-    /**
-     * Is this an outlined Icon?
-     */
-    public function isOutlined() : bool;
-
-    /**
-     * Get an icon like this, but marked as outlined.
-     */
-    public function withIsOutlined(bool $is_outlined) : Standard;
+    public const NOTA = 'nota';     //Notification Command
+    public const CON = 'con';	    //Conversaion
+    public const GCON = 'gcon';	    //Group Conversaion
 }

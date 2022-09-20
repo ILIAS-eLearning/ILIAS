@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ForumDto
 {
@@ -18,139 +34,139 @@ class ForumDto
     private int $update_user;
     private int $top_usr_id;
 
-    public function getTopPk() : int
+    public function getTopPk(): int
     {
         return $this->top_pk;
     }
 
-    public function setTopPk(int $top_pk) : void
+    public function setTopPk(int $top_pk): void
     {
         $this->top_pk = $top_pk;
     }
 
-    public function getTopFrmFk() : int
+    public function getTopFrmFk(): int
     {
         return $this->top_frm_fk;
     }
 
-    public function setTopFrmFk(int $top_frm_fk) : void
+    public function setTopFrmFk(int $top_frm_fk): void
     {
         $this->top_frm_fk = $top_frm_fk;
     }
 
-    public function getTopName() : string
+    public function getTopName(): string
     {
         return $this->top_name;
     }
 
-    public function setTopName(string $top_name) : void
+    public function setTopName(string $top_name): void
     {
         $this->top_name = trim($top_name);
     }
 
-    public function getTopDescription() : string
+    public function getTopDescription(): string
     {
         return $this->top_description;
     }
 
-    public function setTopDescription(string $top_description) : void
+    public function setTopDescription(string $top_description): void
     {
         $this->top_description = nl2br($top_description);
     }
 
-    public function getTopNumPosts() : int
+    public function getTopNumPosts(): int
     {
         return $this->top_num_posts;
     }
 
-    public function setTopNumPosts(int $top_num_posts) : void
+    public function setTopNumPosts(int $top_num_posts): void
     {
         $this->top_num_posts = $top_num_posts;
     }
 
-    public function getTopNumThreads() : int
+    public function getTopNumThreads(): int
     {
         return $this->top_num_threads;
     }
 
-    public function setTopNumThreads(int $top_num_threads) : void
+    public function setTopNumThreads(int $top_num_threads): void
     {
         $this->top_num_threads = $top_num_threads;
     }
 
-    public function getTopLastPost() : ?string
+    public function getTopLastPost(): ?string
     {
         return $this->top_last_post;
     }
 
-    public function setTopLastPost(?string $top_last_post) : void
+    public function setTopLastPost(?string $top_last_post): void
     {
         $this->top_last_post = $top_last_post;
     }
 
-    public function getTopMods() : int
+    public function getTopMods(): int
     {
         return $this->top_mods;
     }
 
-    public function setTopMods(int $top_mods) : void
+    public function setTopMods(int $top_mods): void
     {
         $this->top_mods = $top_mods;
     }
 
-    public function getTopDate() : ?string
+    public function getTopDate(): ?string
     {
         return $this->top_date;
     }
 
-    public function setTopDate(?string $top_date) : void
+    public function setTopDate(?string $top_date): void
     {
         $this->top_date = $top_date;
     }
 
-    public function getVisits() : int
+    public function getVisits(): int
     {
         return $this->visits;
     }
 
-    public function setVisits(int $visits) : void
+    public function setVisits(int $visits): void
     {
         $this->visits = $visits;
     }
 
-    public function getTopUpdate() : ?string
+    public function getTopUpdate(): ?string
     {
         return $this->top_update;
     }
 
-    public function setTopUpdate(?string $top_update) : void
+    public function setTopUpdate(?string $top_update): void
     {
         $this->top_update = $top_update;
     }
 
-    public function getUpdateUser() : int
+    public function getUpdateUser(): int
     {
         return $this->update_user;
     }
 
-    public function setUpdateUser(int $update_user) : void
+    public function setUpdateUser(int $update_user): void
     {
         $this->update_user = $update_user;
     }
 
-    public function getTopUsrId() : int
+    public function getTopUsrId(): int
     {
         return $this->top_usr_id;
     }
 
-    public function setTopUsrId(int $top_usr_id) : void
+    public function setTopUsrId(int $top_usr_id): void
     {
         $this->top_usr_id = $top_usr_id;
     }
 
-    public static function getInstanceFromArray(array $record) : self
+    public static function getInstanceFromArray(array $record): self
     {
-        $instance = new self;
+        $instance = new self();
 
         $instance->setTopPk((int) $record['top_pk']);
         $instance->setTopFrmFk((int) $record['top_frm_fk']);
@@ -169,8 +185,8 @@ class ForumDto
         return $instance;
     }
 
-    public static function getEmptyInstance() : self
+    public static function getEmptyInstance(): self
     {
-        return new self;
+        return new self();
     }
 }

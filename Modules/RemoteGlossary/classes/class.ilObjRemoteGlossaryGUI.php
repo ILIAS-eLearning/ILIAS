@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php');
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote glossary GUI
@@ -22,32 +35,31 @@ class ilObjRemoteGlossaryGUI extends ilRemoteObjectBaseGUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->lng->loadLanguageModule('rglo');
-        // $this->lng->loadLanguageModule('glo');
     }
-    
-    public function getType()
+
+    public function getType(): string
     {
         return 'rglo';
     }
-    
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('ecs_availability'), $this->availabilityToString());
     }
-    
+
     protected function availabilityToString()
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteGlossary::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteGlossary::ACTIVATION_ONLINE:
                 return $this->lng->txt('online');
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('ecs_availability'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());

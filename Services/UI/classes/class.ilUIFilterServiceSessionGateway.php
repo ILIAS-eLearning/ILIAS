@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Session data handling for filter ui service
@@ -10,135 +25,90 @@
  */
 class ilUIFilterServiceSessionGateway
 {
-    public const TYPE_VALUE = "value";                // value of an input
+    public const TYPE_VALUE = "value";              // value of an input
     public const TYPE_RENDERED = "rendered";        // is input rendered or not?
-    public const TYPE_ACTIVATED = "activated";        // is filter activated?
+    public const TYPE_ACTIVATED = "activated";      // is filter activated?
     public const TYPE_EXPANDED = "expanded";        // is filter expanded?
 
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Write session value for an input field
-     *
-     * @param string $filter_id
-     * @param string $input_id
-     * @param $value
      */
-    public function writeValue(string $filter_id, string $input_id, $value)
+    public function writeValue(string $filter_id, string $input_id, $value): void
     {
+        $session = ilSession::get("ui");
         $value = serialize($value);
-        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id] = $value;
+        $session["filter"][$filter_id][self::TYPE_VALUE][$input_id] = $value;
+        ilSession::set("ui", $session);
     }
 
-    /**
-     * Get value
-     *
-     * @param string $filter_id
-     * @param string $input_id
-     * @return mixed|null
-     */
     public function getValue(string $filter_id, string $input_id)
     {
-        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id])) {
-            return unserialize($_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id]);
+        $session = ilSession::get("ui");
+        if (isset($session["filter"][$filter_id][self::TYPE_VALUE][$input_id])) {
+            return unserialize($session["filter"][$filter_id][self::TYPE_VALUE][$input_id]);
         }
+
         return null;
     }
 
-
-    /**
-     * Write rendered information
-     *
-     * @param string $filter_id
-     * @param string $input_id
-     * @param $value
-     */
-    public function writeRendered(string $filter_id, string $input_id, bool $value)
+    public function writeRendered(string $filter_id, string $input_id, bool $value): void
     {
-        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id] = $value;
+        $session = ilSession::get("ui");
+        $session["filter"][$filter_id][self::TYPE_RENDERED][$input_id] = $value;
+        ilSession::set("ui", $session);
     }
 
-    /**
-     * Is rendered status active?
-     *
-     * @param string $filter_id
-     * @param string $input_id
-     * @param bool $default
-     * @return bool
-     */
-    public function isRendered(string $filter_id, string $input_id, bool $default) : bool
+    public function isRendered(string $filter_id, string $input_id, bool $default): bool
     {
-        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id])) {
-            return $_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id];
+        $session = ilSession::get("ui");
+        if (isset($session["filter"][$filter_id][self::TYPE_RENDERED][$input_id])) {
+            return (bool) $session["filter"][$filter_id][self::TYPE_RENDERED][$input_id];
         }
+
         return $default;
     }
-
 
     /**
      * Resets filter to its default state
-     * @param string $filter_id
      */
-    public function reset(string $filter_id)
+    public function reset(string $filter_id): void
     {
-        unset($_SESSION["ui"]["filter"][$filter_id]);
+        $session = ilSession::get("ui");
+        $session["filter"][$filter_id] = null;
+        ilSession::set("ui", $session);
     }
 
-
-    /**
-     * Write activation info of filter
-     *
-     * @param string $filter_id
-     * @param bool $value
-     */
-    public function writeActivated(string $filter_id, bool $value)
+    public function writeActivated(string $filter_id, bool $value): void
     {
-        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED] = $value;
+        $session = ilSession::get("ui");
+        $session["filter"][$filter_id][self::TYPE_ACTIVATED] = $value;
+        ilSession::set("ui", $session);
     }
 
-    /**
-     * Write expand info of filter
-     *
-     * @param string $filter_id
-     * @param bool $value
-     */
-    public function writeExpanded(string $filter_id, bool $value)
+    public function writeExpanded(string $filter_id, bool $value): void
     {
-        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED] = $value;
+        $session = ilSession::get("ui");
+        $session["filter"][$filter_id][self::TYPE_EXPANDED] = $value;
+        ilSession::set("ui", $session);
     }
 
-    /**
-     * Is activated?
-     *
-     * @param string $filter_id
-     * @param bool $default
-     * @return bool
-     */
-    public function isActivated(string $filter_id, bool $default) : bool
+    public function isActivated(string $filter_id, bool $default): bool
     {
-        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED])) {
-            return (bool) $_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED];
+        $session = ilSession::get("ui");
+        if (isset($session["filter"][$filter_id][self::TYPE_ACTIVATED])) {
+            return (bool) $session["filter"][$filter_id][self::TYPE_ACTIVATED];
         }
+
         return $default;
     }
 
-    /**
-     * Is expanded?
-     *
-     * @param string $filter_id
-     * @param bool $default
-     * @return bool
-     */
-    public function isExpanded(string $filter_id, bool $default) : bool
+    public function isExpanded(string $filter_id, bool $default): bool
     {
-        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED])) {
-            return (bool) $_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED];
+        $session = ilSession::get("ui");
+        if (isset($session["filter"][$filter_id][self::TYPE_EXPANDED])) {
+            return (bool) $session["filter"][$filter_id][self::TYPE_EXPANDED];
         }
+
         return $default;
     }
 }

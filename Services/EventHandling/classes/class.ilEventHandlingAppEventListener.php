@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -23,7 +25,7 @@ class ilEventHandlingAppEventListener implements ilAppEventListener
     /**
      * @throws ilEventHandlingTestException
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         if ($a_component == "MyTestComponent" &&
             $a_event == "MyEvent" &&

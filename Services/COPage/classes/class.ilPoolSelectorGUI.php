@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Select media pool for adding objects into pages
@@ -59,10 +62,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameterByClass($this->selection_gui, "subCmd", $this->selection_subcmd);
         $link = parent::getNodeHref($a_node);
         $ilCtrl->setParameterByClass($this->selection_gui, "subCmd", "");
@@ -74,7 +77,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
      * @param array $a_node node data
      * @return bool visible true/false
      */
-    public function isNodeVisible($a_node) : bool
+    public function isNodeVisible($a_node): bool
     {
         if (parent::isNodeVisible($a_node)) {
             //hide empty container
@@ -87,7 +90,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
                 return true;
             }
         }
-        
+
         return false;
     }
 }

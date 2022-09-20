@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup;
 
@@ -10,7 +26,7 @@ use PHPUnit\Framework\TestCase;
 
 class ObjectiveIteratorTest extends TestCase
 {
-    public function testBasicAlgorithm() : void
+    public function testBasicAlgorithm(): void
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
@@ -33,7 +49,7 @@ class ObjectiveIteratorTest extends TestCase
         $this->assertFalse($iterator->valid());
     }
 
-    public function testRewind() : void
+    public function testRewind(): void
     {
         $hash = "my hash";
         $objective = $this->newObjective($hash);
@@ -55,7 +71,7 @@ class ObjectiveIteratorTest extends TestCase
         $this->assertSame($hash, $iterator->key());
     }
 
-    public function testAllObjectives() : void
+    public function testAllObjectives(): void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -96,7 +112,7 @@ class ObjectiveIteratorTest extends TestCase
         $this->assertEquals($expected, iterator_to_array($iterator));
     }
 
-    public function testAllObjectivesOnlyReturnsObjectiveOnce() : void
+    public function testAllObjectivesOnlyReturnsObjectiveOnce(): void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -122,7 +138,7 @@ class ObjectiveIteratorTest extends TestCase
         $this->assertEquals($expected, iterator_to_array($iterator));
     }
 
-    public function testAllObjectivesDetectsCycle() : void
+    public function testAllObjectivesDetectsCycle(): void
     {
         $environment = $this->createMock(Setup\Environment::class);
 
@@ -145,7 +161,7 @@ class ObjectiveIteratorTest extends TestCase
         iterator_to_array($iterator);
     }
 
-    public function testSetEnvironment() : void
+    public function testSetEnvironment(): void
     {
         $env1 = new Setup\ArrayEnvironment([]);
         $env2 = new Setup\ArrayEnvironment([]);
@@ -171,7 +187,7 @@ class ObjectiveIteratorTest extends TestCase
         $iterator->next();
     }
 
-    public function testMarkFailed() : void
+    public function testMarkFailed(): void
     {
         $this->expectException(Setup\UnachievableException::class);
 
@@ -206,7 +222,7 @@ class ObjectiveIteratorTest extends TestCase
         $iterator->next();
     }
 
-    protected function newObjective($hash = null) : MockObject
+    protected function newObjective($hash = null): MockObject
     {
         static $no = 0;
 
@@ -221,5 +237,74 @@ class ObjectiveIteratorTest extends TestCase
             ->willReturn($hash ?? "" . $no);
 
         return $objective;
+    }
+
+    public function testFailedPreconditionWithOtherOnStack(): void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+        $objective_3 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([]);
+        $objective_3
+            ->method("getPreconditions")
+            ->willReturn([$objective_1, $objective_2]);
+
+        $iterator = new class ($env, $objective_3, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
+        $iterator->next();
+    }
+
+    public function testFailedPreconditionLastOnStack(): void
+    {
+        $this->expectException(Setup\UnachievableException::class);
+
+        $env = new Setup\ArrayEnvironment([]);
+
+        $objective_fail = $this->newObjective();
+        $objective_1 = $this->newObjective();
+        $objective_2 = $this->newObjective();
+
+        $objective_1
+            ->method("getPreconditions")
+            ->willReturn([$objective_fail]);
+        $objective_2
+            ->method("getPreconditions")
+            ->willReturn([$objective_1]);
+
+        $iterator = new class ($env, $objective_2, $objective_fail) extends Setup\ObjectiveIterator {
+            public function __construct(
+                Setup\Environment $environment,
+                Setup\Objective $objective,
+                MockObject $objective_fail
+            ) {
+                parent::__construct($environment, $objective);
+                $this->failed[$objective_fail->getHash()] = true;
+            }
+        };
+
+        $this->assertEquals($objective_fail, $iterator->current());
+        $iterator->next();
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This is the GUI for the ADT-based example object
@@ -6,13 +8,12 @@
  */
 class ilADTTestGUI extends ilADTBasedObjectGUI
 {
-    protected function initObject() : ilADTBasedObject
+    protected function initObject(): ilADTBasedObject
     {
-
         return new ilADTTest(1);
     }
 
-    protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form) : void
+    protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form): void
     {
         $a_adt_form->getForm()->setTitle($this->lng->txt("test_form_title"));
         $a_adt_form->setTitle($this->lng->txt("test_form_section_title"));

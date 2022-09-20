@@ -1,23 +1,39 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\DI;
 
 class ilDatabaseUpdatedObjective implements Setup\Objective
 {
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "The database is updated.";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -25,7 +41,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     /**
      * @return \ilDatabaseInitializedObjective[]|\ILIAS\Setup\Objective\ClientIdReadObjective[]|\ilIniFilesPopulatedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new Setup\Objective\ClientIdReadObjective(),
@@ -34,7 +50,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
@@ -52,7 +68,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
-        $GLOBALS["DIC"]["ilLog"] = new class($io) {
+        $GLOBALS["DIC"]["ilLog"] = new class ($io) {
             public function __construct($io)
             {
                 $this->io = $io;
@@ -75,17 +91,17 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class () {
             public function getRootLogger(): object
             {
-                return new class() {
+                return new class () {
                     public function write(): void
                     {
                     }
                 };
             }
         };
-        $GLOBALS["ilCtrlStructureReader"] = new class() {
+        $GLOBALS["ilCtrlStructureReader"] = new class () {
             public function getStructure(): void
             {
             }
@@ -106,13 +122,13 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             define("ILIAS_LOG_ENABLED", false);
         }
         if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
+            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
         }
         if (!defined("ROLE_FOLDER_ID")) {
-            define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
+            define("ROLE_FOLDER_ID", (int) $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
         }
         if (!defined("SYSTEM_FOLDER_ID")) {
-            define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+            define("SYSTEM_FOLDER_ID", (int) $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
         }
 
         $db_update = new ilDBUpdate($db);
@@ -121,13 +137,15 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $db_update->applyHotfix();
         $db_update->applyCustomUpdates();
 
+        $GLOBALS["DIC"] = $DIC;
+
         return $environment;
     }
 
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

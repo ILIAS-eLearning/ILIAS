@@ -1,16 +1,32 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveConstructor;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
-    use Setup\Agent\HasNoNamedObjective;
-
     protected \ILIAS\Refinery\Factory $refinery;
+
 
     public function __construct(
         Refinery\Factory $refinery
@@ -21,7 +37,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -29,7 +45,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
             $settings = new \ilGlobalCacheSettings();
@@ -48,6 +64,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
             } else {
                 $settings->setActive(true);
                 switch ($data["service"]) {
+                    case "xcache": // xcache has been removed in ILIAS 8, we switch to static cache then
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
@@ -69,8 +86,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                 if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
-                    foreach ($data["components"] as $cmp) {
-                        $settings->addActivatedComponent($cmp);
+                    foreach ($data["components"] as $cmp => $active) {
+                        if ($active) {
+                            $settings->addActivatedComponent($cmp);
+                        }
                     }
                 }
             }
@@ -79,13 +98,13 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
         });
     }
 
-    protected function getMemcachedServer(array $node) : ilMemcacheServer
+    protected function getMemcachedServer(array $node): ilMemcacheServer
     {
         $m = new ilMemcacheServer();
         $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
         $m->setHost($node["host"]);
-        $m->setPort($node["port"]);
-        $m->setWeight($node["weight"]);
+        $m->setPort((int) $node["port"]);
+        $m->setWeight((int) $node["weight"]);
 
         return $m;
     }
@@ -93,17 +112,20 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
+        if (!$config instanceof ilGlobalCacheSettings) {
+            throw new Setup\UnachievableException('wrong config type, expected ilGlobalCacheSettings');
+        }
         return new ilGlobalCacheConfigStoredObjective($config);
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        if ($config !== null) {
+        if ($config instanceof ilGlobalCacheSettings) {
             return new ilGlobalCacheConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
@@ -112,7 +134,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -120,7 +142,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilGlobalCacheMetricsCollectedObjective($storage);
     }
@@ -128,8 +150,20 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
+    }
+
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        return [
+            'flushAll' => new ObjectiveConstructor(
+                'flushes all GlobalCaches.',
+                function () {
+                    return new ilGlobalCacheAllFlushedObjective();
+                }
+            )
+        ];
     }
 }

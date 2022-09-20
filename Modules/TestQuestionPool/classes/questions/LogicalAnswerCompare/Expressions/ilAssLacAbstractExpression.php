@@ -12,13 +12,11 @@ include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  */
 abstract class ilAssLacAbstractExpression extends ilAssLacAbstractComposite implements ilAssLacExpressionInterface
 {
-
-
     /**
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    protected function getPattern()
+    protected function getPattern(): string
     {
         return '/-?[0-9\.]+/';
     }
@@ -28,7 +26,7 @@ abstract class ilAssLacAbstractExpression extends ilAssLacAbstractComposite impl
      *
      * @param string $value
      */
-    public function parseValue($value)
+    public function parseValue($value): void
     {
         $result = array();
         preg_match_all($this->getPattern(), $value, $result);

@@ -1,35 +1,19 @@
 <?php
-include_once './Services/Calendar/interfaces/interface.ilCalendarAppointmentPresentation.php';
-include_once './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php';
+
+declare(strict_types=1);
 
 /**
  * ilAppointmentPresentationPublicGUI class presents modal information for public appointments.
- *
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
- *
+ * @author            Jesús López Reyes <lopez@leifos.com>
+ * @version           $Id$
  * @ilCtrl_IsCalledBy ilAppointmentPresentationPublicGUI: ilCalendarAppointmentPresentationGUI
- *
- * @ingroup ServicesCalendar
+ * @ingroup           ServicesCalendar
  */
 class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    protected $seed;
-
-    /**
-     * Get seed date
-     */
-    public function getSeed()
+    public function collectPropertiesAndActions(): void
     {
-        return $this->seed;
-    }
-
-    public function collectPropertiesAndActions()
-    {
-        global $DIC;
-
         $a_app = $this->appointment;
-
         $cat_info = $this->getCatInfo();
 
         // event title
@@ -43,17 +27,13 @@ class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI im
             $this->addCalendarInfo($cat_info);
         }
 
-
         $this->addInfoSection($this->lng->txt("cal_app_info"));
 
         // event location
         $this->addEventLocation($a_app);
 
         //user notifications
-        include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
-
         $notification = new ilCalendarUserNotification($a_app['event']->getEntryId());
-
         $recipients = $notification->getRecipients();
         if (count($recipients) > 0) {
             $str_notification = "";

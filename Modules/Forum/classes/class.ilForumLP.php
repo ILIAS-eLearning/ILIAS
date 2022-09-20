@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumLP
@@ -6,7 +24,7 @@
  */
 class ilForumLP extends ilObjectLP
 {
-    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement) : void
+    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement): void
     {
         global $DIC;
 
@@ -21,13 +39,14 @@ class ilForumLP extends ilObjectLP
             $num_postings->setSize(4);
             $num_postings->setRequired(true);
             if (is_int(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings())) {
-                $num_postings->setValue(ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings());
+                $requiredNumberOfPostings = ilForumProperties::getInstance($this->obj_id)->getLpReqNumPostings();
+                $num_postings->setValue((string) $requiredNumberOfPostings);
             }
             $modeElement->addSubItem($num_postings);
         }
     }
 
-    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged) : void
+    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged): void
     {
         $frm_properties = ilForumProperties::getInstance($this->obj_id);
 
@@ -47,9 +66,9 @@ class ilForumLP extends ilObjectLP
         }
     }
 
-    public static function getDefaultModes($a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active): array
     {
-        if (true === $a_lp_active) {
+        if ($lp_active) {
             return [
                 ilLPObjSettings::LP_MODE_DEACTIVATED,
                 ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION,
@@ -61,12 +80,12 @@ class ilForumLP extends ilObjectLP
         ];
     }
 
-    public function getDefaultMode() : int
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes() : array
+    public function getValidModes(): array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,

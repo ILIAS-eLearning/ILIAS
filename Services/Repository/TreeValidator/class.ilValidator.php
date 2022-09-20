@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * ILIAS Data Validator & Recovery Tool
@@ -45,10 +48,12 @@ class ilValidator
      * inconsistencies as well.
      * Werner, 2007-04-16
      */
-    public array $object_types_exclude = array("adm","root","mail","usrf","objf","lngf",
-        "trac","taxf","auth","rolf","assf","svyf","extt","adve","fold");
+    public array $object_types_exclude = [
+        "adm", "root", "mail", "usrf", "objf", "lngf",
+        "trac", "taxf", "auth", "rolf", "assf", "svyf", "extt", "adve", "fold"
+    ];
 
-    public array $mode = array(
+    public array $mode = [
                         "scan" => true,		// gather information about corrupted entries
                         "dump_tree" => false,		// dump tree
                         "clean" => false,		// remove all unusable entries & renumber tree
@@ -56,7 +61,7 @@ class ilValidator
                         "purge" => false,		// delete all objects with invalid parent from system
                         "restore_trash" => false,		// restore all objects in trash to RecoveryFolder
                         "purge_trash" => false		// delete all objects in trash from system
-                    );
+    ];
 
     public array $invalid_references = [];
     public array $invalid_childs = [];
@@ -70,11 +75,11 @@ class ilValidator
      * restore operations
      */
     public array $invalid_rolefolders = [];
-    
+
     /**
      * contains correct registrated objects but data are corrupted (experimental)
      */
-    public array $invalid_objects = array();
+    public array $invalid_objects = [];
     public bool $logging = false;    // true enables scan log
     public ?ilLog $scan_log = null;
     public string $scan_log_file = "scanlog.log";
@@ -94,7 +99,7 @@ class ilValidator
         $this->user = $DIC->user();
         $objDefinition = $DIC["objDefinition"];
         $ilDB = $DIC->database();
-        
+
         $this->db = &$ilDB;
         $this->rbac_object_types = $objDefinition->getAllRBACObjects();
 
@@ -105,7 +110,7 @@ class ilValidator
             // TODO: move log functionality to new class ilScanLog
             // Delete old scan log
             $this->deleteScanLog();
-        
+
             // create scan log
             $this->scan_log = new ilLog(CLIENT_DATA_DIR, "scanlog.log");
             $this->scan_log->setLogFormat("");
@@ -113,15 +118,15 @@ class ilValidator
             $this->writeScanLogLine("\n[Systemscan from " . date("y-m-d H:i]"));
         }
     }
-    
+
     /**
      * get possible ilValidator modes
      */
-    public function getPossibleModes() : array
+    public function getPossibleModes(): array
     {
         return array_keys($this->mode);
     }
-    
+
     /**
      * set mode of ilValidator
      * Usage: setMode("restore",true)	=> enable object restorey
@@ -131,52 +136,52 @@ class ilValidator
      * @param bool   $a_value
      * @return bool
      */
-    public function setMode(string $a_mode, bool $a_value) : bool
+    public function setMode(string $a_mode, bool $a_value): bool
     {
-        if ((!in_array($a_mode, array_keys($this->mode)) and $a_mode != "all") or !is_bool($a_value)) {
+        if ((!array_key_exists($a_mode, $this->mode) && $a_mode !== "all") || !is_bool($a_value)) {
             $this->throwError(INVALID_PARAM, FATAL, DEBUG);
             return false;
         }
-        
-        if ($a_mode == "all") {
+
+        if ($a_mode === "all") {
             foreach ($this->mode as $mode => $value) {
                 $this->mode[$mode] = $a_value;
             }
         } else {
             $this->mode[$a_mode] = $a_value;
         }
-        
+
         // consider mode dependencies
         $this->setModeDependencies();
 
         return true;
     }
-    
+
     public function isModeEnabled(
         string $a_mode
-    ) : bool {
-        if (!in_array($a_mode, array_keys($this->mode))) {
+    ): bool {
+        if (!array_key_exists($a_mode, $this->mode)) {
             $this->throwError(VALIDATER_UNKNOWN_MODE, WARNING, DEBUG);
             return false;
         }
-        
+
         return $this->mode[$a_mode];
     }
-    
-    public function isLogEnabled() : bool
+
+    public function isLogEnabled(): bool
     {
         return $this->logging;
     }
-    
+
     /**
      * Sets modes by considering mode dependencies;
      * some modes require other modes to be activated.
      * This functions set all modes that are required according to the current setting.
      */
-    public function setModeDependencies() : void
+    public function setModeDependencies(): void
     {
         // DO NOT change the order
-        
+
         if ($this->mode["restore"] === true) {
             $this->mode["scan"] = true;
             $this->mode["purge"] = false;
@@ -206,10 +211,10 @@ class ilValidator
      * Performs the validation for each enabled mode.
      * Returns a validation summary for display to the user.
      */
-    public function validate() : string
+    public function validate(): string
     {
         $lng = $this->lng;
-        
+
         // The validation summary.
         $summary = "";
 
@@ -226,28 +231,28 @@ class ilValidator
             } else {
                 $summary .= $lng->txt("found_none");
             }
-            
+
             $summary .= "<br/>" . $lng->txt("searching_invalid_childs");
             if ($this->findInvalidChilds()) {
                 $summary .= count($this->getInvalidChilds()) . " " . $lng->txt("found");
             } else {
                 $summary .= $lng->txt("found_none");
             }
-            
+
             $summary .= "<br/>" . $lng->txt("searching_missing_objs");
             if ($this->findMissingObjects()) {
                 $summary .= count($this->getMissingObjects()) . " " . $lng->txt("found");
             } else {
                 $summary .= $lng->txt("found_none");
             }
-        
+
             $summary .= "<br/>" . $lng->txt("searching_unbound_objs");
             if ($this->findUnboundObjects()) {
                 $summary .= count($this->getUnboundObjects()) . " " . $lng->txt("found");
             } else {
                 $summary .= $lng->txt("found_none");
             }
-        
+
             $summary .= "<br/>" . $lng->txt("searching_deleted_objs");
             if ($this->findDeletedObjects()) {
                 $summary .= count($this->getDeletedObjects()) . " " . $lng->txt("found");
@@ -261,7 +266,7 @@ class ilValidator
             } else {
                 $summary .= $lng->txt("found_none");
             }
-            
+
             $summary .= "<br/><br/>" . $lng->txt("analyzing_tree_structure");
             if ($this->checkTreeStructure()) {
                 $summary .= $lng->txt("tree_corrupt");
@@ -269,7 +274,7 @@ class ilValidator
                 $summary .= $lng->txt("done");
             }
         }
-        
+
         // STEP 2: Dump tree
         // -------------------
         $summary .= "<br /><br />" . $lng->txt("dumping_tree");
@@ -296,7 +301,7 @@ class ilValidator
             } else {
                 $summary .= $lng->txt("nothing_to_remove") . $lng->txt("skipped");
             }
-            
+
             $summary .= "<br />" . $lng->txt("removing_invalid_childs");
             if ($this->removeInvalidChilds()) {
                 $summary .= strtolower($lng->txt("done"));
@@ -319,7 +324,7 @@ class ilValidator
 
         // STEP 4: Restore objects
         $summary .= "<br /><br />" . $lng->txt("restoring");
-        
+
         if (!$this->isModeEnabled("restore")) {
             $summary .= $lng->txt("disabled");
         } else {
@@ -329,7 +334,7 @@ class ilValidator
             } else {
                 $summary .= $lng->txt("nothing_to_restore") . $lng->txt("skipped");
             }
-            
+
             $summary .= "<br />" . $lng->txt("restoring_unbound_objs");
             if ($this->restoreUnboundObjects()) {
                 $summary .= strtolower($lng->txt("done"));
@@ -337,23 +342,21 @@ class ilValidator
                 $summary .= $lng->txt("nothing_to_restore") . $lng->txt("skipped");
             }
         }
-        
+
         // STEP 5: Restoring Trash
         $summary .= "<br /><br />" . $lng->txt("restoring_trash");
 
         if (!$this->isModeEnabled("restore_trash")) {
             $summary .= $lng->txt("disabled");
+        } elseif ($this->restoreTrash()) {
+            $summary .= strtolower($lng->txt("done"));
         } else {
-            if ($this->restoreTrash()) {
-                $summary .= strtolower($lng->txt("done"));
-            } else {
-                $summary .= $lng->txt("nothing_to_restore") . $lng->txt("skipped");
-            }
+            $summary .= $lng->txt("nothing_to_restore") . $lng->txt("skipped");
         }
-        
+
         // STEP 6: Purging...
         $summary .= "<br /><br />" . $lng->txt("purging");
-        
+
         if (!$this->isModeEnabled("purge")) {
             $summary .= $lng->txt("disabled");
         } else {
@@ -374,17 +377,15 @@ class ilValidator
 
         // STEP 7: Purging trash...
         $summary .= "<br /><br />" . $lng->txt("purging_trash");
-        
+
         if (!$this->isModeEnabled("purge_trash")) {
             $summary .= $lng->txt("disabled");
+        } elseif ($this->purgeTrash()) {
+            $summary .= strtolower($lng->txt("done"));
         } else {
-            if ($this->purgeTrash()) {
-                $summary .= strtolower($lng->txt("done"));
-            } else {
-                $summary .= $lng->txt("nothing_to_purge") . $lng->txt("skipped");
-            }
+            $summary .= $lng->txt("nothing_to_purge") . $lng->txt("skipped");
         }
-        
+
         // STEP 8: Initialize gaps in tree
         if ($this->isModeEnabled("clean")) {
             $summary .= "<br /><br />" . $lng->txt("cleaning_final");
@@ -392,15 +393,15 @@ class ilValidator
                 $summary .= "<br />" . $lng->txt("initializing_gaps") . " " . strtolower($lng->txt("done"));
             }
         }
-        
+
         // check RBAC starts here
         // ...
-        
+
         // le fin
         foreach ($this->mode as $mode => $value) {
             $arr[] = $mode . "[" . (int) $value . "]";
         }
-        
+
         return $summary;
     }
 
@@ -409,20 +410,20 @@ class ilValidator
      * Search database for all object entries with missing reference and/or tree entry
      * and stores result in $this->missing_objects
      */
-    public function findMissingObjects() : bool
+    public function findMissingObjects(): bool
     {
         $ilDB = $this->db;
-        
+
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
             return false;
         }
-        
+
         // init
-        $this->missing_objects = array();
-    
+        $this->missing_objects = [];
+
         $this->writeScanLogLine("\nfindMissingObjects:");
-        
+
         // Repair missing objects.
         // We only repair file objects which have an entry in table object_reference.
         // XXX - We should check all references to file objects which don't
@@ -437,11 +438,11 @@ class ilValidator
              $ilDB->in('object_data.type', $this->rbac_object_types, false, 'text') .
              ")";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             #if (!in_array($row->type,$this->object_types_exclude))
             if (!$this->isExcludedFromRecovery($row->type, $row->obj_id)) {
-                $this->missing_objects[] = array(
+                $this->missing_objects[] = [
                                                     "obj_id" => $row->obj_id,
                                                     "type" => $row->type,
                                                     "ref_id" => $row->ref_id,
@@ -451,10 +452,10 @@ class ilValidator
                                                     "owner" => $row->owner,
                                                     "create_date" => $row->create_date,
                                                     "last_update" => $row->last_update
-                                                );
+                ];
             }
         }
-        
+
         $this->filterWorkspaceObjects($this->missing_objects);
         if (count($this->missing_objects) > 0) {
             $this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
@@ -473,18 +474,18 @@ class ilValidator
      * Result is stored in $this->invalid_rolefolders
      * @return bool false if analyze mode disabled or nothing found
      */
-    public function findInvalidRolefolders() : bool
+    public function findInvalidRolefolders(): bool
     {
         $ilDB = $this->db;
-        
+
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
             return false;
         }
-        
+
         // init
-        $this->invalid_rolefolders = array();
-        
+        $this->invalid_rolefolders = [];
+
         $this->writeScanLogLine("\nfindInvalidRolefolders:");
 
         // find rolfs without reference/tree entry
@@ -494,9 +495,9 @@ class ilValidator
              "WHERE (object_reference.obj_id IS NULL OR tree.child IS NULL) " .
              "AND object_data.type='rolf'";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_rolefolders[] = array(
+            $this->invalid_rolefolders[] = [
                                                 "obj_id" => $row->obj_id,
                                                 "type" => $row->type,
                                                 "ref_id" => $row->ref_id,
@@ -506,9 +507,9 @@ class ilValidator
                                                 "owner" => $row->owner,
                                                 "create_date" => $row->create_date,
                                                 "last_update" => $row->last_update
-                                            );
+            ];
         }
-        
+
         // find rolfs within RECOVERY FOLDER
         $q = "SELECT object_data.*, ref_id FROM object_data " .
              "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id " .
@@ -516,9 +517,9 @@ class ilValidator
              "WHERE object_reference.ref_id = " . $ilDB->quote(RECOVERY_FOLDER_ID, 'integer') . " " .
              "AND object_data.type='rolf'";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_rolefolders[] = array(
+            $this->invalid_rolefolders[] = [
                                                 "obj_id" => $row->obj_id,
                                                 "type" => $row->type,
                                                 "ref_id" => $row->ref_id,
@@ -528,9 +529,9 @@ class ilValidator
                                                 "owner" => $row->owner,
                                                 "create_date" => $row->create_date,
                                                 "last_update" => $row->last_update
-                                            );
+            ];
         }
-            
+
         $this->filterWorkspaceObjects($this->invalid_rolefolders);
         if (count($this->invalid_rolefolders) > 0) {
             $this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
@@ -547,18 +548,18 @@ class ilValidator
      * ref_ids, stores results in $this->invalid_rolefolders
      * @return	bool false if analyze mode disabled or nothing found
      */
-    public function findInvalidRBACEntries() : bool
+    public function findInvalidRBACEntries(): bool
     {
         $ilDB = $this->db;
-        
+
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
             return false;
         }
-        
+
         // init
-        $this->invalid_rbac_entries = array();
-        
+        $this->invalid_rbac_entries = [];
+
         $this->writeScanLogLine("\nfindInvalidRBACEntries:");
 
         $q = "SELECT object_data.*, ref_id FROM object_data " .
@@ -567,9 +568,9 @@ class ilValidator
              "WHERE (object_reference.obj_id IS NULL OR tree.child IS NULL) " .
              "AND object_data.type='rolf'";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_rolefolders[] = array(
+            $this->invalid_rolefolders[] = [
                                                 "obj_id" => $row->obj_id,
                                                 "type" => $row->type,
                                                 "ref_id" => $row->ref_id,
@@ -579,9 +580,9 @@ class ilValidator
                                                 "owner" => $row->owner,
                                                 "create_date" => $row->create_date,
                                                 "last_update" => $row->last_update
-                                            );
+            ];
         }
-        
+
         // find rolfs within RECOVERY FOLDER
         $q = "SELECT object_data.*, ref_id FROM object_data " .
              "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id " .
@@ -589,9 +590,9 @@ class ilValidator
              "WHERE object_reference.ref_id =" . $ilDB->quote(RECOVERY_FOLDER_ID, "integer") . " " .
              "AND object_data.type='rolf'";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_rolefolders[] = array(
+            $this->invalid_rolefolders[] = [
                                                 "obj_id" => $row->obj_id,
                                                 "type" => $row->type,
                                                 "ref_id" => $row->ref_id,
@@ -601,9 +602,9 @@ class ilValidator
                                                 "owner" => $row->owner,
                                                 "create_date" => $row->create_date,
                                                 "last_update" => $row->last_update
-                                            );
+            ];
         }
-            
+
         $this->filterWorkspaceObjects($this->invalid_rolefolders);
         if (count($this->invalid_rolefolders) > 0) {
             $this->writeScanLogLine("obj_id\ttype\tref_id\tchild\ttitle\tdesc\towner\tcreate_date\tlast_update");
@@ -623,7 +624,7 @@ class ilValidator
      *		ref_id		=> reference entry of object (or NULL if missing)
      * 		child		=> always NULL (only for debugging and verification)
      */
-    public function getMissingObjects() : array
+    public function getMissingObjects(): array
     {
         return $this->missing_objects;
     }
@@ -633,18 +634,18 @@ class ilValidator
      * and stores result in $this->invalid_references
      * @return	bool false if analyze mode disabled or nothing found
      */
-    public function findInvalidReferences() : bool
+    public function findInvalidReferences(): bool
     {
         $ilDB = $this->db;
-        
+
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
             return false;
         }
 
         // init
-        $this->invalid_references = array();
-        
+        $this->invalid_references = [];
+
         $this->writeScanLogLine("\nfindInvalidReferences:");
         $q = "SELECT object_reference.* FROM object_reference " .
              "LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id " .
@@ -653,11 +654,11 @@ class ilValidator
         $r = $this->db->query($q);
 
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_references[] = array(
+            $this->invalid_references[] = [
                                             "ref_id" => $row->ref_id,
                                             "obj_id" => $row->obj_id,
                                             "msg" => "Object does not exist."
-                                            );
+            ];
         }
 
         $this->filterWorkspaceObjects($this->invalid_references);
@@ -674,7 +675,7 @@ class ilValidator
     /**
      * Gets all reference entries that are not linked with a valid object id.
      */
-    public function getInvalidReferences() : array
+    public function getInvalidReferences(): array
     {
         return $this->invalid_references;
     }
@@ -684,7 +685,7 @@ class ilValidator
      * and stores result in $this->invalid_childs
      * @return bool false if analyze mode disabled or nothing found
      */
-    public function findInvalidChilds() : bool
+    public function findInvalidChilds(): bool
     {
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
@@ -692,7 +693,7 @@ class ilValidator
         }
 
         // init
-        $this->invalid_childs = array();
+        $this->invalid_childs = [];
 
         $this->writeScanLogLine("\nfindInvalidChilds:");
 
@@ -702,11 +703,11 @@ class ilValidator
              "WHERE object_reference.ref_id IS NULL or object_data.obj_id IS NULL";
         $r = $this->db->query($q);
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->invalid_childs[] = array(
+            $this->invalid_childs[] = [
                                             "child" => $row->child,
                                             "ref_id" => $row->ref_id,
                                             "msg" => "No object found"
-                                            );
+            ];
         }
 
         if (count($this->invalid_childs) > 0) {
@@ -722,7 +723,7 @@ class ilValidator
     /**
      * Gets all tree entries without any link to a valid object
      */
-    public function getInvalidChilds() : array
+    public function getInvalidChilds(): array
     {
         return $this->invalid_childs;
     }
@@ -734,7 +735,7 @@ class ilValidator
      * have a negative number.
      * @return bool false if analyze mode disabled or nothing found
      */
-    public function findUnboundObjects() : bool
+    public function findUnboundObjects(): bool
     {
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
@@ -742,7 +743,7 @@ class ilValidator
         }
 
         // init
-        $this->unbound_objects = array();
+        $this->unbound_objects = [];
 
         $this->writeScanLogLine("\nfindUnboundObjects:");
 
@@ -752,16 +753,16 @@ class ilValidator
              "LEFT JOIN tree T2 ON T2.child=T1.parent " .
              "WHERE (T2.tree!=1 OR T2.tree IS NULL) AND T1.parent!=0";
         $r = $this->db->query($q);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // exclude deleted nodes
             if ($row->deleted === null) {
-                $this->unbound_objects[] = array(
+                $this->unbound_objects[] = [
                                                 "child" => $row->child,
                                                 "parent" => $row->parent,
                                                 "tree" => $row->tree,
                                                 "msg" => "No valid parent node found"
-                                                );
+                ];
             }
         }
 
@@ -782,7 +783,7 @@ class ilValidator
      * a negative number in ["deleted"] otherwise NULL.
      * @return bool false if analyze mode disabled or nothing found
      */
-    public function findDeletedObjects() : bool
+    public function findDeletedObjects(): bool
     {
         // check mode: analyze
         if ($this->mode["scan"] !== true) {
@@ -790,7 +791,7 @@ class ilValidator
         }
 
         // init
-        $this->deleted_objects = array();
+        $this->deleted_objects = [];
 
         $this->writeScanLogLine("\nfindDeletedObjects:");
 
@@ -802,11 +803,11 @@ class ilValidator
              " WHERE tree != 1 " .
              " ORDER BY deleted";
         $r = $this->db->query($query);
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $tmp_date = new ilDateTime($row->deleted, IL_CAL_DATETIME);
-            
-            $this->deleted_objects[] = array(
+
+            $this->deleted_objects[] = [
                                             "child" => $row->child,
                                             "parent" => $row->parent,
                                             "tree" => $row->tree,
@@ -818,18 +819,18 @@ class ilValidator
                                             "deleted_timestamp" => $tmp_date->get(IL_CAL_UNIX),
                                             "create_date" => $row->create_date,
                                             "last_update" => $row->last_update
-                                            );
+            ];
         }
 
         if (count($this->deleted_objects) > 0) {
-            $this->writeScanLogArray(array(array_keys($this->deleted_objects[0])));
+            $this->writeScanLogArray([array_keys($this->deleted_objects[0])]);
             $this->writeScanLogArray($this->deleted_objects);
             return true;
         }
         $this->writeScanLogLine("none");
         return false;
     }
-    
+
 
     /**
      * Gets all tree entries having no valid parent (=> no valid path to root node)
@@ -839,7 +840,7 @@ class ilValidator
      *		grandparent	=> grandparent of child (where path to root node continues)
      * 		deleted		=> containing a negative number (= parent in trash) or NULL (parent does not exist at all)
      */
-    public function getUnboundObjects() : array
+    public function getUnboundObjects(): array
     {
         return $this->unbound_objects;
     }
@@ -847,15 +848,15 @@ class ilValidator
     /**
      * Gets all object in trash
      */
-    public function getDeletedObjects() : array
+    public function getDeletedObjects(): array
     {
         return $this->deleted_objects;
     }
-    
+
     /**
      * Gets invalid rolefolders (same as missing objects)
      */
-    public function getInvalidRolefolders() : array
+    public function getInvalidRolefolders(): array
     {
         return $this->invalid_rolefolders;
     }
@@ -867,10 +868,10 @@ class ilValidator
      */
     public function removeInvalidReferences(
         array $a_invalid_refs = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
         $ilDB = $this->db;
-        
+
         // check mode: clean
         if ($this->mode["clean"] !== true) {
             return false;
@@ -878,7 +879,7 @@ class ilValidator
 
         $this->writeScanLogLine("\nremoveInvalidReferences:");
 
-        if ($a_invalid_refs === null and isset($this->invalid_references)) {
+        if ($a_invalid_refs === null && isset($this->invalid_references)) {
             $a_invalid_refs = &$this->invalid_references;
         }
 
@@ -888,7 +889,7 @@ class ilValidator
             return false;
         }
         // no unbound references found. do nothing
-        if (count($a_invalid_refs) == 0) {
+        if (count($a_invalid_refs) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
@@ -902,7 +903,7 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // to make sure
         $this->filterWorkspaceObjects($a_invalid_refs);
 
@@ -910,17 +911,17 @@ class ilValidator
             $query = "DELETE FROM object_reference WHERE ref_id= " . $this->db->quote($entry["ref_id"], 'integer') .
                 " AND obj_id = " . $this->db->quote($entry["obj_id"], 'integer') . " ";
             $res = $ilDB->manipulate($query);
-    
+
             $message = sprintf(
                 '%s::removeInvalidReferences(): Reference %s removed',
                 get_class($this),
                 $entry["ref_id"]
             );
             $ilLog->write($message, $ilLog->WARNING);
-            
+
             $this->writeScanLogLine("Entry " . $entry["ref_id"] . " removed");
         }
-        
+
         return true;
     }
 
@@ -931,7 +932,7 @@ class ilValidator
      */
     public function removeInvalidChilds(
         array $a_invalid_childs = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
 
         // check mode: clean
@@ -941,7 +942,7 @@ class ilValidator
 
         $this->writeScanLogLine("\nremoveInvalidChilds:");
 
-        if ($a_invalid_childs === null and isset($this->invalid_childs)) {
+        if ($a_invalid_childs === null && isset($this->invalid_childs)) {
             $a_invalid_childs = &$this->invalid_childs;
         }
 
@@ -952,7 +953,7 @@ class ilValidator
         }
 
         // no unbound childs found. do nothing
-        if (count($a_invalid_childs) == 0) {
+        if (count($a_invalid_childs) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
@@ -977,10 +978,10 @@ class ilValidator
                 $entry["child"]
             );
             $ilLog->write($message, $ilLog->WARNING);
-                
+
             $this->writeScanLogLine("Entry " . $entry["child"] . " removed");
         }
-        
+
         return true;
     }
 
@@ -992,9 +993,9 @@ class ilValidator
      */
     public function removeInvalidRolefolders(
         array $a_invalid_rolefolders = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
-        
+
         // check mode: clean
         if ($this->mode["clean"] !== true) {
             return false;
@@ -1002,7 +1003,7 @@ class ilValidator
 
         $this->writeScanLogLine("\nremoveInvalidRolefolders:");
 
-        if ($a_invalid_rolefolders === null and isset($this->invalid_rolefolders)) {
+        if ($a_invalid_rolefolders === null && isset($this->invalid_rolefolders)) {
             $a_invalid_rolefolders = $this->invalid_rolefolders;
         }
 
@@ -1013,26 +1014,26 @@ class ilValidator
         }
 
         // no invalid rolefolders found. do nothing
-        if (count($a_invalid_rolefolders) == 0) {
+        if (count($a_invalid_rolefolders) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
-        
+
         /*******************
         removal starts here
         ********************/
 
         $removed = false;
-        
+
         $message = sprintf(
             '%s::removeInvalidRolefolders(): Started...',
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // to make sure
         $this->filterWorkspaceObjects($a_invalid_rolefolders);
-        
+
         foreach ($a_invalid_rolefolders as $rolf) {
             // restore ref_id in case of missing
             if ($rolf["ref_id"] === null) {
@@ -1048,7 +1049,7 @@ class ilValidator
             $removed = true;
             $this->writeScanLogLine("Removed invalid rolefolder '" . $rolf["title"] . "' (id=" . $rolf["obj_id"] . ",ref=" . $rolf["ref_id"] . ") from system");
         }
-        
+
         return $removed;
     }
 
@@ -1062,10 +1063,10 @@ class ilValidator
      */
     public function restoreMissingObjects(
         array $a_missing_objects = null
-    ) : bool {
+    ): bool {
         $rbacadmin = $this->rbacadmin;
         $ilLog = $this->log;
-        
+
         // check mode: restore
         if ($this->mode["restore"] !== true) {
             return false;
@@ -1073,7 +1074,7 @@ class ilValidator
 
         $this->writeScanLogLine("\nrestoreMissingObjects:");
 
-        if ($a_missing_objects === null and isset($this->missing_objects)) {
+        if ($a_missing_objects === null && isset($this->missing_objects)) {
             $a_missing_objects = $this->missing_objects;
         }
 
@@ -1084,26 +1085,26 @@ class ilValidator
         }
 
         // no missing objects found. do nothing
-        if (count($a_missing_objects) == 0) {
+        if (count($a_missing_objects) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
-        
+
         /*******************
         restore starts here
         ********************/
 
         $restored = false;
-        
+
         $message = sprintf(
             '%s::restoreMissingObjects(): Started...',
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // to make sure
         $this->filterWorkspaceObjects($a_missing_objects);
-        
+
         foreach ($a_missing_objects as $missing_obj) {
             // restore ref_id in case of missing
             if ($missing_obj["ref_id"] === null) {
@@ -1115,7 +1116,7 @@ class ilValidator
             // put in tree under RecoveryFolder if not on exclude list
             #if (!in_array($missing_obj["type"],$this->object_types_exclude))
             if (!$this->isExcludedFromRecovery($missing_obj['type'], $missing_obj['obj_id'])) {
-                $rbacadmin->revokePermission($missing_obj["ref_id"]);
+                $rbacadmin->revokePermission((int) $missing_obj["ref_id"]);
                 $obj_data = ilObjectFactory::getInstanceByRefId($missing_obj["ref_id"]);
                 $obj_data->putInTree(RECOVERY_FOLDER_ID);
                 $obj_data->setPermissions(RECOVERY_FOLDER_ID);
@@ -1124,10 +1125,10 @@ class ilValidator
                 $restored = true;
                 $this->writeScanLogLine("Restored object '" . $missing_obj["title"] . "' (id=" . $missing_obj["obj_id"] . ",ref=" . $missing_obj["ref_id"] . ") in 'Restored objects folder'");
             }
-            
+
             // TODO: process rolefolders
         }
-        
+
         return $restored;
     }
 
@@ -1145,9 +1146,10 @@ class ilValidator
             $this->throwError(INVALID_PARAM, WARNING, DEBUG);
             return false;
         }
-        
-        $query = "INSERT INTO object_reference (ref_id,obj_id) " .
-            "VALUES (" . $next_id = $ilDB->nextId('object_reference') . "," . $this->db->quote($a_obj_id, 'integer') . " )";
+
+        $next_id = $ilDB->nextId('object_reference');
+        $query = "INSERT INTO object_reference (ref_id, obj_id) " .
+            "VALUES (" . $this->db->quote($next_id, 'integer') . ", " . $this->db->quote($a_obj_id, 'integer') . ")";
         $res = $ilDB->manipulate($query);
 
         $message = sprintf(
@@ -1168,7 +1170,7 @@ class ilValidator
      */
     public function restoreUnboundObjects(
         array $a_unbound_objects = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
 
         // check mode: restore
@@ -1178,7 +1180,7 @@ class ilValidator
 
         $this->writeScanLogLine("\nrestoreUnboundObjects:");
 
-        if ($a_unbound_objects === null and isset($this->unbound_objects)) {
+        if ($a_unbound_objects === null && isset($this->unbound_objects)) {
             $a_unbound_objects = $this->unbound_objects;
         }
 
@@ -1193,11 +1195,11 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // start restore process
         return $this->restoreSubTrees($a_unbound_objects);
     }
-    
+
     /**
      * Restore all objects in trash to RecoveryFolder
      * NOTE: All objects will be restored to top of RecoveryFolder regardless of existing hierarchical structure!
@@ -1206,7 +1208,7 @@ class ilValidator
      */
     public function restoreTrash(
         array $a_deleted_objects = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
 
         // check mode: restore
@@ -1215,8 +1217,8 @@ class ilValidator
         }
 
         $this->writeScanLogLine("\nrestoreTrash:");
-    
-        if ($a_deleted_objects === null and isset($this->deleted_objects)) {
+
+        if ($a_deleted_objects === null && isset($this->deleted_objects)) {
             $a_deleted_objects = $this->deleted_objects;
         }
 
@@ -1231,10 +1233,10 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-    
+
         // start restore process
         $restored = $this->restoreDeletedObjects($a_deleted_objects);
-        
+
         if ($restored) {
             $q = "DELETE FROM tree WHERE tree!=1";
             $this->db->query($q);
@@ -1244,13 +1246,13 @@ class ilValidator
                 get_class($this)
             );
             $ilLog->write($message, $ilLog->WARNING);
-        
+
             $this->writeScanLogLine("Old tree entries removed");
         }
-        
+
         return $restored;
     }
-    
+
     /**
      * Restore deleted objects (and their subobjects) to RecoveryFolder
      * @param  array $a_nodes list of nodes
@@ -1261,7 +1263,7 @@ class ilValidator
      */
     public function restoreDeletedObjects(
         array $a_nodes
-    ) : bool {
+    ): bool {
         $tree = $this->tree;
         $rbacadmin = $this->rbacadmin;
         $ilLog = $this->log;
@@ -1272,7 +1274,7 @@ class ilValidator
         }
 
         // no invalid parents found. do nothing
-        if (count($a_nodes) == 0) {
+        if (count($a_nodes) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
@@ -1287,7 +1289,7 @@ class ilValidator
         // don't save rolefolders, remove them
         // TODO process ROLE_FOLDER_ID
         foreach ($a_nodes as $key => $node) {
-            if ($node["type"] == "rolf") {
+            if ($node["type"] === "rolf") {
                 // delete old tree entries
                 $tree->deleteTree($node);
 
@@ -1296,18 +1298,18 @@ class ilValidator
                 unset($a_nodes[$key]);
             }
         }
-        
+
         // process move
         foreach ($a_nodes as $node) {
             // delete old tree entries
             $tree->deleteTree($node);
-            
-            $rbacadmin->revokePermission($node["child"]);
+
+            $rbacadmin->revokePermission((int) $node["child"]);
             $obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
             $obj_data->putInTree(RECOVERY_FOLDER_ID);
             $obj_data->setPermissions(RECOVERY_FOLDER_ID);
         }
-        
+
         return true;
     }
 
@@ -1318,11 +1320,11 @@ class ilValidator
      */
     public function restoreSubTrees(
         array $a_nodes
-    ) : bool {
+    ): bool {
         $tree = $this->tree;
         $rbacadmin = $this->rbacadmin;
         $ilLog = $this->log;
-        
+
         // handle wrong input
         if (!is_array($a_nodes)) {
             $this->throwError(INVALID_PARAM, WARNING, DEBUG);
@@ -1330,42 +1332,41 @@ class ilValidator
         }
 
         // no invalid parents found. do nothing
-        if (count($a_nodes) == 0) {
+        if (count($a_nodes) === 0) {
             $this->writeScanLogLine("none");
             return false;
         }
-        
+
         /*******************
         restore starts here
         ********************/
 
-        $subnodes = array();
-        $topnode = array();
+        $subnodes = [];
+        $topnode = [];
 
         $message = sprintf(
             '%s::restoreSubTrees(): Started...',
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // process move subtree
         foreach ($a_nodes as $node) {
             // get node data
             $topnode = $tree->getNodeData($node["child"], $node['tree']);
-            
+
             // don't save rolefolders, remove them
             // TODO process ROLE_FOLDER_ID
-            if ($topnode["type"] == "rolf") {
+            if ($topnode["type"] === "rolf") {
                 $rolfObj = ilObjectFactory::getInstanceByRefId($topnode["child"]);
                 $rolfObj->delete();
-                unset($top_node);
-                unset($rolfObj);
+                unset($top_node, $rolfObj);
                 continue;
             }
 
             // get subnodes of top nodes
             $subnodes[$node["child"]] = $tree->getSubTree($topnode);
-        
+
             // delete old tree entries
             $tree->deleteTree($topnode);
         }
@@ -1373,26 +1374,25 @@ class ilValidator
         // now move all subtrees to new location
         // TODO: this whole put in place again stuff needs revision. Permission settings get lost.
         foreach ($subnodes as $key => $subnode) {
-
             // first paste top_node ...
-            $rbacadmin->revokePermission($key);
+            $rbacadmin->revokePermission((int) $key);
             $obj_data = ilObjectFactory::getInstanceByRefId($key);
             $obj_data->putInTree(RECOVERY_FOLDER_ID);
             $obj_data->setPermissions(RECOVERY_FOLDER_ID);
-            
+
             $this->writeScanLogLine("Object '" . $obj_data->getId() . "' restored.");
 
             // ... remove top_node from list ...
             array_shift($subnode);
-            
+
             // ... insert subtree of top_node if any subnodes exist
             if (count($subnode) > 0) {
                 foreach ($subnode as $node) {
-                    $rbacadmin->revokePermission($node["child"]);
+                    $rbacadmin->revokePermission((int) $node["child"]);
                     $obj_data = ilObjectFactory::getInstanceByRefId($node["child"]);
                     $obj_data->putInTree($node["parent"]);
                     $obj_data->setPermissions($node["parent"]);
-                    
+
                     $this->writeScanLogLine("Object '" . $obj_data->getId() . "' restored.");
                 }
             }
@@ -1404,7 +1404,7 @@ class ilValidator
 
         return true;
     }
-    
+
     /**
      * Removes all objects in trash from system
      * @param array	$a_nodes list of nodes to delete
@@ -1412,7 +1412,7 @@ class ilValidator
      */
     public function purgeTrash(
         array $a_nodes = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
 
         // check mode: purge_trash
@@ -1421,8 +1421,8 @@ class ilValidator
         }
 
         $this->writeScanLogLine("\npurgeTrash:");
-    
-        if ($a_nodes === null and isset($this->deleted_objects)) {
+
+        if ($a_nodes === null && isset($this->deleted_objects)) {
             $a_nodes = $this->deleted_objects;
         }
         $message = sprintf(
@@ -1430,11 +1430,11 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // start purge process
         return $this->purgeObjects($a_nodes);
     }
-    
+
     /**
      * Removes all invalid objects from system
      * @param array	$a_nodes list of nodes to delete
@@ -1442,9 +1442,9 @@ class ilValidator
      */
     public function purgeUnboundObjects(
         array $a_nodes = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
-        
+
         // check mode: purge
         if ($this->mode["purge"] !== true) {
             return false;
@@ -1452,7 +1452,7 @@ class ilValidator
 
         $this->writeScanLogLine("\npurgeUnboundObjects:");
 
-        if ($a_nodes === null and isset($this->unbound_objects)) {
+        if ($a_nodes === null && isset($this->unbound_objects)) {
             $a_nodes = $this->unbound_objects;
         }
 
@@ -1461,7 +1461,7 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // start purge process
         return $this->purgeObjects($a_nodes);
     }
@@ -1473,9 +1473,9 @@ class ilValidator
      */
     public function purgeMissingObjects(
         array $a_nodes = null
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
-        
+
         // check mode: purge
         if ($this->mode["purge"] !== true) {
             return false;
@@ -1483,7 +1483,7 @@ class ilValidator
 
         $this->writeScanLogLine("\npurgeMissingObjects:");
 
-        if ($a_nodes === null and isset($this->missing_objects)) {
+        if ($a_nodes === null && isset($this->missing_objects)) {
             $a_nodes = $this->missing_objects;
         }
 
@@ -1492,11 +1492,11 @@ class ilValidator
             get_class($this)
         );
         $ilLog->write($message, $ilLog->WARNING);
-        
+
         // start purge process
         return $this->purgeObjects($a_nodes);
     }
-    
+
     /**
      * removes objects from system
      * @param array $a_nodes list of objects
@@ -1504,7 +1504,7 @@ class ilValidator
      */
     public function purgeObjects(
         array $a_nodes
-    ) : bool {
+    ): bool {
         $ilLog = $this->log;
         $ilUser = $this->user;
 
@@ -1521,11 +1521,11 @@ class ilValidator
         $type_limit = $ilUser->getPref("systemcheck_type_limit");
         if ($type_limit) {
             $type_limit = trim($type_limit);
-            if (strlen($type_limit) == 0) {
+            if ($type_limit === '') {
                 $type_limit = null;
             }
         }
-        
+
         // handle wrong input
         if (!is_array($a_nodes)) {
             $this->throwError(INVALID_PARAM, WARNING, DEBUG);
@@ -1557,7 +1557,7 @@ class ilValidator
 
             $ref_id = ($node["child"]) ?: $node["ref_id"];
             $node_obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
-            
+
             if ($node_obj === false) {
                 $this->invalid_objects[] = $node;
                 continue;
@@ -1570,16 +1570,16 @@ class ilValidator
                 $node_obj->getId()
             );
             $ilLog->write($message, $ilLog->WARNING);
-        
+
             $startTime = microtime(true);
             $node_obj->delete();
             ilTree::_removeEntry($node["tree"], $ref_id);
             $endTime = microtime(true);
-            
+
             $this->writeScanLogLine("purged\t" . $ref_id . "\t" . $node_obj->getId() .
                 "\t" . $node['type'] . "\t" . round($endTime - $startTime, 1) . "\t" . $node['title']);
         }
-        
+
         $this->findInvalidChilds();
         $this->removeInvalidChilds();
 
@@ -1596,11 +1596,11 @@ class ilValidator
      * Wrapper for ilTree::renumber()
      * @return bool false if clean mode disabled
      */
-    public function initGapsInTree() : bool
+    public function initGapsInTree(): bool
     {
         $tree = $this->tree;
         $ilLog = $this->log;
-        
+
         $message = sprintf(
             '%s::initGapsInTree(): Started...',
             get_class($this)
@@ -1628,7 +1628,7 @@ class ilValidator
      */
     public function handleErr(
         object $error
-    ) : void {
+    ): void {
         $call_loc = $error->backtrace[count($error->backtrace) - 1];
         $num_args = count($call_loc["args"]);
         $arg_list = [];
@@ -1636,7 +1636,7 @@ class ilValidator
         if ($num_args > 0) {
             foreach ($call_loc["args"] as $arg) {
                 $type = gettype($arg);
-                
+
                 switch ($type) {
                     case "string":
                         $value = strlen($arg);
@@ -1653,18 +1653,18 @@ class ilValidator
                     case "boolean":
                         $value = ($arg) ? "true" : "false";
                         break;
-                        
+
                     default:
                         $value = $arg;
                         break;
                 }
-                
-                $arg_list[] = array(
+
+                $arg_list[] = [
                                     "type" => $type,
                                     "value" => "(" . $value . ")"
-                                    );
+                ];
             }
-            
+
             foreach ($arg_list as $arg) {
                 $arg_str .= implode("", $arg) . " ";
             }
@@ -1674,43 +1674,44 @@ class ilValidator
                    "<br/>Called from: " . basename($call_loc["file"]) . " , line " . $call_loc["line"] .
                    "<br/>Passed parameters: [" . $num_args . "] " . $arg_str . "<br/>";
         printf($err_msg);
-        
+
+        /*
         if ($error->getUserInfo()) {
             printf("<br/>Parameter details:");
             echo "<pre>";
-            var_dump($call_loc["args"]);
+            var_dump($call_loc["args"]);// TODO PHP8-REVIEW This should be removed and the ilLogger should be used instead
             echo "</pre>";
-        }
-        
+        }*/
+
         if ($error->getCode() == FATAL) {
             exit();
         }
     }
-    
-    public function writeScanLogArray(array $a_arr) : void
+
+    public function writeScanLogArray(array $a_arr): void
     {
         if (!$this->isLogEnabled()) {
             return;
         }
-        
+
         foreach ($a_arr as $entry) {
             $this->scan_log->write(implode("\t", $entry));
         }
     }
-    
-    public function writeScanLogLine(string $a_msg) : void
+
+    public function writeScanLogLine(string $a_msg): void
     {
         if (!$this->isLogEnabled()) {
             return;
         }
-        
+
         $this->scan_log->write($a_msg);
     }
 
     /**
      * Quickly determine if there is a scan log
      */
-    public function hasScanLog() : bool
+    public function hasScanLog(): bool
     {
         // file check
         return is_file(CLIENT_DATA_DIR . "/" . $this->scan_log_file);
@@ -1719,12 +1720,12 @@ class ilValidator
     /**
      * Delete scan log.
      */
-    public function deleteScanLog() : void
+    public function deleteScanLog(): void
     {
         unlink(CLIENT_DATA_DIR . "/" . $this->scan_log_file);
     }
 
-    public function readScanLog() : ?array
+    public function readScanLog(): ?array
     {
         // file check
         if (!$this->hasScanLog()) {
@@ -1737,25 +1738,25 @@ class ilValidator
         }
         // Ensure that memory is freed
         unset($scanfile);
-        
+
         return $scan_log;
     }
-    
-    public function get_last_scan(array $a_scan_log) : ?array
+
+    public function get_last_scan(array $a_scan_log): ?array
     {
         $logs = array_keys($a_scan_log, $this->scan_log_separator . "\n");
-        
+
         if (count($logs) > 0) {
             return array_slice($a_scan_log, array_pop($logs) + 2);
         }
-        
+
         return null;
     }
-    
-    public function checkTreeStructure() : bool
+
+    public function checkTreeStructure(): bool
     {
         $this->writeScanLogLine("\nchecking tree structure is disabled");
-        
+
         return false;
     }
 
@@ -1763,7 +1764,7 @@ class ilValidator
      * Dumps the Tree structure into the scan log
      * @return int number of errors found while dumping tree
      */
-    public function dumpTree() : int
+    public function dumpTree(): int
     {
         $this->writeScanLogLine("BEGIN dumpTree:");
 
@@ -1772,11 +1773,11 @@ class ilValidator
         // erroneous.).
         $q = 'SELECT child FROM tree GROUP BY child HAVING COUNT(*) > 1';
         $r = $this->db->query($q);
-        $duplicateNodes = array();
+        $duplicateNodes = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $duplicateNodes[] = $row->child;
         }
-        
+
         // dump tree
         $q = "SELECT tree.*,ref.ref_id,dat.obj_id objobj_id,ref.obj_id refobj_id,ref.deleted,dat.* "
             . "FROM tree "
@@ -1785,7 +1786,7 @@ class ilValidator
 //			."LEFT JOIN usr_data usr ON usr.usr_id = dat.owner "
             . "ORDER BY tree, lft, type, dat.title";
         $r = $this->db->query($q);
-        
+
         $this->writeScanLogLine(
             '<table><tr>'
             . '<td>tree, child, parent, lft, rgt, depth</td>'
@@ -1793,11 +1794,11 @@ class ilValidator
             . '<td>obj_id, type, owner, title</td>'
             . '</tr>'
         );
-        
+
         // We use a stack to represent the path to the current node.
         // This allows us to do analyze the tree structure without having
         // to implement a recursive algorithm.
-        $stack = array();
+        $stack = [];
         $error_count = 0;
         $repository_tree_count = 0;
         $trash_trees_count = 0;
@@ -1806,16 +1807,16 @@ class ilValidator
 
         // The previous number is used for gap checking
         $previousNumber = 0;
-        
+
         $this->initWorkspaceObjects();
-        
+
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // workspace objects are not to be processed
             if ($this->workspace_object_ids &&
                 in_array($row->objobj_id, $this->workspace_object_ids)) {
                 continue;
             }
-            
+
             // If there is no entry in table tree for the object, we display it here
             if (is_null($row->child)) {
                 switch ($row->type) {
@@ -1837,21 +1838,21 @@ class ilValidator
                             // In this case, they do not have a row in table object_reference.
                             // We are not interested in dumping these file objects.
                             continue 2;
-                        } else {
-                            // File objects which have a row in table object_reference, but
-                            // none in table tree are an error.
-                            $error_count++;
-                            $isRowOkay = false;
-                            $isParentOkay = false;
-                            $isLftOkay = false;
-                            $isRgtOkay = false;
-                            $isDepthOkay = false;
                         }
+
+                        // File objects which have a row in table object_reference, but
+                        // none in table tree are an error.
+                        $error_count++;
+                        $isRowOkay = false;
+                        $isParentOkay = false;
+                        $isLftOkay = false;
+                        $isRgtOkay = false;
+                        $isDepthOkay = false;
                         break;
-                        
+
                     default:
                         // ignore folders on media pools
-                        if ($row->type == "fold" && $this->isMediaFolder($row->obj_id)) {
+                        if ($row->type === "fold" && $this->isMediaFolder($row->obj_id)) {
                             continue 2;
                         }
                         $error_count++;
@@ -1865,7 +1866,7 @@ class ilValidator
 
                 // moved here (below continues in switch)
                 $not_in_tree_count++;
-                
+
                 $this->writeScanLogLine(
                     '<tr>'
                     . '<td>'
@@ -1912,23 +1913,23 @@ class ilValidator
                 );
                 continue;
             }
-        
+
             // Update stack
             // -------------------
             $indent = "";
             for ($i = 1; $i < $row->depth; $i++) {
                 $indent .= ". ";
             }
-            
+
             // Initialize the stack and the previous number if we are in a new tree
-            if (count($stack) == 0 || $stack[0]->tree != $row->tree) {
-                $stack = array();
+            if (count($stack) === 0 || $stack[0]->tree != $row->tree) {
+                $stack = [];
                 $previousNumber = $row->lft - 1;
                 $this->writeScanLogLine('<tr><td>&nbsp;</td></tr>');
             }
             // Pop old stack entries
-            
-            
+
+
             while (count($stack) > 0 && $stack[count($stack) - 1]->rgt < $row->lft) {
                 $popped = array_pop($stack);
 
@@ -1963,7 +1964,7 @@ class ilValidator
             // Check row integrity
             // -------------------
             $isRowOkay = true;
-            
+
             // Check tree structure
             $isChildOkay = true;
             $isParentOkay = true;
@@ -1971,7 +1972,7 @@ class ilValidator
             $isRgtOkay = true;
             $isDepthOkay = true;
             $isGap = false;
-            
+
             if (count($stack) > 0) {
                 $parent = $stack[count($stack) - 1];
                 if ($parent->depth + 1 != $row->depth) {
@@ -1982,7 +1983,7 @@ class ilValidator
                     $isParentOkay = false;
                     $isRowOkay = false;
                 }
-                if ($GLOBALS['ilSetting']->get('main_tree_impl', 'ns') == 'ns') {
+                if ($GLOBALS['ilSetting']->get('main_tree_impl', 'ns') === 'ns') {
                     if ($parent->lft >= $row->lft) {
                         $isLftOkay = false;
                         $isRowOkay = false;
@@ -1995,18 +1996,16 @@ class ilValidator
             }
 
             // Check lft rgt
-            if ($GLOBALS['ilSetting']->get('main_tree_impl', 'ns') == 'ns') {
-                if ($row->lft >= $row->rgt) {
-                    $isLftOkay = false;
-                    $isRgtOkay = false;
-                    $isRowOkay = false;
-                }
+            if ($row->lft >= $row->rgt && $GLOBALS['ilSetting']->get('main_tree_impl', 'ns') === 'ns') {
+                $isLftOkay = false;
+                $isRgtOkay = false;
+                $isRowOkay = false;
             }
             if (in_array($row->child, $duplicateNodes)) {
                 $isChildOkay = false;
                 $isRowOkay = false;
             }
-            
+
             // Check object reference
             $isRefRefOkay = true;
             $isRefObjOkay = true;
@@ -2018,14 +2017,14 @@ class ilValidator
                 $isRefObjOkay = false;
                 $isRowOkay = false;
             }
-            
+
             if (!$isRowOkay) {
                 $error_count++;
             }
 
             // Check for gap between siblings,
             // and eventually write a log line
-            if ($GLOBALS['ilSetting']->get('main_tree_impl', 'ns') == 'ns') {
+            if ($GLOBALS['ilSetting']->get('main_tree_impl', 'ns') === 'ns') {
                 $gap = $row->lft - $previousNumber - 1;
                 $previousNumber = $row->lft;
                 if ($gap > 0) {
@@ -2041,7 +2040,7 @@ class ilValidator
                     );
                 }
             }
-                        
+
             // Write log line
             // -------------------
             $this->writeScanLogLine(
@@ -2137,7 +2136,7 @@ class ilValidator
             $previousNumber = $popped->rgt;
             unset($popped);
         }
-        
+
         //
         $this->writeScanLogLine("</table>");
 
@@ -2151,16 +2150,16 @@ class ilValidator
         $this->writeScanLogLine("$other_trees_count nodes in other trees");
         $this->writeScanLogLine("$not_in_tree_count nodes are not in a tree");
         $this->writeScanLogLine("END dumpTree");
-        
+
         return $error_count;
     }
-    
-    protected function isMediaFolder(int $a_obj_id) : bool
+
+    protected function isMediaFolder(int $a_obj_id): bool
     {
         $ilDB = $this->db;
-        
+
         if (!is_array($this->media_pool_ids)) {
-            $this->media_pool_ids = array();
+            $this->media_pool_ids = [];
             $query = "SELECT child FROM mep_tree ";
             $res = $ilDB->query($query);
             while ($row = $ilDB->fetchObject($res)) {
@@ -2170,12 +2169,12 @@ class ilValidator
 
         return in_array($a_obj_id, $this->media_pool_ids);
     }
-    
+
     // Check if type is excluded from recovery
     protected function isExcludedFromRecovery(
         string $a_type,
         int $a_obj_id
-    ) : bool {
+    ): bool {
         switch ($a_type) {
             case 'fold':
                 if (!$this->isMediaFolder($a_obj_id)) {
@@ -2184,20 +2183,20 @@ class ilValidator
         }
         return in_array($a_type, $this->object_types_exclude);
     }
-    
-    protected function initWorkspaceObjects() : void
+
+    protected function initWorkspaceObjects(): void
     {
         $ilDB = $this->db;
-        
+
         if ($this->workspace_object_ids === null) {
-            $this->workspace_object_ids = array();
-            
+            $this->workspace_object_ids = [];
+
             // workspace objects
             $set = $ilDB->query("SELECT DISTINCT(obj_id) FROM object_reference_ws");
             while ($row = $ilDB->fetchAssoc($set)) {
                 $this->workspace_object_ids[] = $row["obj_id"];
             }
-            
+
             // portfolios
             $set = $ilDB->query("SELECT id FROM usr_portfolio");
             while ($row = $ilDB->fetchAssoc($set)) {
@@ -2205,14 +2204,14 @@ class ilValidator
             }
         }
     }
-    
+
     protected function filterWorkspaceObjects(
         array &$a_data,
         string $a_index = "obj_id"
-    ) : void {
-        if (sizeof($a_data)) {
+    ): void {
+        if (count($a_data)) {
             $this->initWorkspaceObjects();
-            
+
             // remove workspace objects from result objects
             if (is_array($this->workspace_object_ids)) {
                 foreach ($a_data as $idx => $item) {

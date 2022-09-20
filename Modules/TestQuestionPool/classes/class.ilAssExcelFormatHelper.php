@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 require_once 'Services/Excel/classes/class.ilExcel.php';
@@ -9,7 +10,7 @@ require_once 'Services/Excel/classes/class.ilExcel.php';
  */
 class ilAssExcelFormatHelper extends ilExcel
 {
-    const escapeString = true;
+    public const escapeString = true;
 
     protected $stringEscaping = self::escapeString;
 
@@ -25,7 +26,7 @@ class ilAssExcelFormatHelper extends ilExcel
      * @param string $coordinates
      * @param string $value
      */
-    public function setFormattedExcelTitle($coordinates, $value)
+    public function setFormattedExcelTitle($coordinates, $value): void
     {
         $this->setCellByCoordinates($coordinates, $value);
         $this->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
@@ -35,7 +36,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCellByCoordinates($a_coords, $a_value)
+    public function setCellByCoordinates($a_coords, $a_value): void
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicit(
@@ -52,7 +53,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @inheritdoc
      */
-    public function setCell($a_row, $a_col, $a_value, $datatype = null)
+    public function setCell($a_row, $a_col, $a_value, $datatype = null): void
     {
         if (is_string($a_value) && !is_numeric($a_value)) {
             $this->workbook->getActiveSheet()->setCellValueExplicitByColumnAndRow(
@@ -71,7 +72,7 @@ class ilAssExcelFormatHelper extends ilExcel
      * @param string $a_value
      * @return string
      */
-    protected function prepareString($a_value)
+    protected function prepareString($a_value): string
     {
         if ($this->stringEscaping == false) {
             return $a_value;
@@ -91,7 +92,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @param int $stringEscaping
      */
-    public function setStringEscaping($stringEscaping)
+    public function setStringEscaping($stringEscaping): void
     {
         $this->stringEscaping = $stringEscaping;
     }

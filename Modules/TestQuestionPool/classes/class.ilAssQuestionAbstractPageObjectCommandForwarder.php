@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,6 +12,7 @@
  */
 abstract class ilAssQuestionAbstractPageObjectCommandForwarder
 {
+    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
     /**
      * object instance of current question
      *
@@ -18,7 +20,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * @var assQuestion
      */
     protected $questionOBJ = null;
-    
+
     /**
      * global $ilCtrl
      *
@@ -42,7 +44,7 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * @var ilCtrl
      */
     protected $lng = null;
-    
+
     /**
      * Constructor
      *
@@ -55,13 +57,15 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
     public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilTabsGUI $tabs, ilLanguage $lng)
     {
         $this->questionOBJ = $questionOBJ;
-        
+
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
 
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->tabs->clearTargets();
-        
+
         $this->lng->loadLanguageModule('content');
     }
 
@@ -70,19 +74,16 @@ abstract class ilAssQuestionAbstractPageObjectCommandForwarder
      * by derived forwarder classes
      */
     abstract public function forward();
-    
+
     /**
      * ensures an existing page object with giben type/id
      *
      * @access protected
      */
-    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId);
-    
+    abstract protected function ensurePageObjectExists($pageObjectType, $pageObjectId): void;
+
     /**
      * instantiates, initialises and returns a page object gui object
-     *
-     * @access protected
-     * @return page object gui object
      */
     abstract protected function getPageObjectGUI($pageObjectType, $pageObjectId);
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,7 +21,7 @@
 class ilRobotSettings
 {
     private bool $open_robots = false;
-    private \ilSetting $settings;
+    private ilSetting $settings;
     private static ?self $instance = null;
 
     /**
@@ -36,9 +38,9 @@ class ilRobotSettings
     /**
      * get singleton instance
      */
-    public static function getInstance()
+    public static function getInstance(): ?\ilRobotSettings
     {
-        if (!self::$instance instanceof \ilRobotSettings) {
+        if (!self::$instance instanceof ilRobotSettings) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -47,7 +49,7 @@ class ilRobotSettings
     /**
      * Check if client is open for robots
      */
-    public function robotSupportEnabled() : bool
+    public function robotSupportEnabled(): bool
     {
         return $this->open_robots;
     }
@@ -56,7 +58,7 @@ class ilRobotSettings
      * Read settings
      * @access private
      */
-    private function read()
+    private function read(): void
     {
         $this->open_robots = (bool) $this->settings->get('open_google', null);
     }
@@ -65,7 +67,7 @@ class ilRobotSettings
      * Indirect Check of allow override
      * @access public
      */
-    public function checkRewrite() : bool
+    public function checkRewrite(): bool
     {
         if (!function_exists('apache_lookup_uri')) {
             return true;

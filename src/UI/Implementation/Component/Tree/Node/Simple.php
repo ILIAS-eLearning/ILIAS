@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
@@ -28,7 +44,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -36,7 +52,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function getIcon() : ?Icon
+    public function getIcon(): ?Icon
     {
         return $this->icon;
     }
@@ -44,7 +60,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function getAsyncLoading() : bool
+    public function getAsyncLoading(): bool
     {
         return $this->getAsyncURL() != '';
     }
@@ -52,7 +68,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function withAsyncURL(string $url) : ISimple
+    public function withAsyncURL(string $url): ISimple
     {
         $clone = clone $this;
         $clone->asynch_url = $url;
@@ -62,7 +78,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function getAsyncURL() : string
+    public function getAsyncURL(): string
     {
         return $this->asynch_url;
     }
@@ -70,7 +86,7 @@ class Simple extends Node implements ISimple
     /**
      * Create a new node object with an URI that will be added to the UI
      */
-    public function withLink(URI $link) : \ILIAS\UI\Component\Tree\Node\Node
+    public function withLink(URI $link): \ILIAS\UI\Component\Tree\Node\Node
     {
         $clone = clone $this;
         $clone->link = $link;

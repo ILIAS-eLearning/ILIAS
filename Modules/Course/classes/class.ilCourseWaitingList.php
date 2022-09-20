@@ -1,71 +1,70 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
 
-
-include_once('./Services/Membership/classes/class.ilWaitingList.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Course waiting list
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @extends ilWaitingList
  */
 class ilCourseWaitingList extends ilWaitingList
 {
-    /**
-     * Add to waiting list and raise event
-     * @param int $a_usr_id
-     */
-    public function addToList($a_usr_id)
+    private ilLogger $logger;
+
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilLog = $DIC['ilLog'];
-        
+        $this->logger = $DIC->logger()->crs();
+        parent::__construct($a_obj_id);
+    }
+
+    public function addToList(int $a_usr_id): bool
+    {
         if (!parent::addToList($a_usr_id)) {
             return false;
         }
-        
-        $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course addToList');
-        $ilAppEventHandler->raise(
+        $this->logger->debug('Raise new event: Modules/Course addToList');
+        $this->eventHandler->raise(
             "Modules/Course",
             'addToWaitingList',
-            array(
-                    'obj_id' => $this->getObjId(),
-                    'usr_id' => $a_usr_id
-                )
+            [
+                'obj_id' => $this->getObjId(),
+                'usr_id' => $a_usr_id
+            ]
         );
         return true;
     }
 
-
-    /**
-     * Remove from waiting list and raise event
-     * @param int $a_usr_id
-     */
-    public function removeFromList($a_usr_id)
+    public function removeFromList(int $a_usr_id): bool
     {
-        global $DIC;
-
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
-        $ilLog = $DIC['ilLog'];
-
         if (!parent::removeFromList($a_usr_id)) {
             return false;
         }
-
-        $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
-        $ilAppEventHandler->raise(
+        $this->logger->debug('Raise new event: Modules/Course removeFromList');
+        $this->eventHandler->raise(
             "Modules/Course",
             'removeFromWaitingList',
-            array(
+            [
                 'obj_id' => $this->getObjId(),
                 'usr_id' => $a_usr_id
-            )
+            ]
         );
         return true;
     }

@@ -14,10 +14,10 @@
 		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="1.0357" y1="33.6071" x2="2.0357" y2="33.6071" gradientTransform="matrix(28 0 0 -28 -27 957)">
 		<stop  offset="0" style="stop-color:#2F5A28"/>
 		<stop  offset="1.983430e-02" style="stop-color:#2F5A28"/>
-		<stop  offset="0.2094" style="stop-color:#416E2E"/>
-		<stop  offset="0.5166" style="stop-color:#5A8936"/>
-		<stop  offset="0.79" style="stop-color:#69993A"/>
-		<stop  offset="1" style="stop-color:#6E9F3C"/>
+		<stop  offset="0.2094" style="stop-color:#2F5A28"/>
+		<stop  offset="0.5166" style="stop-color:#2F5A28"/>
+		<stop  offset="0.79" style="stop-color:#2F5A28"/>
+		<stop  offset="1" style="stop-color:#2F5A28"/>
 	</linearGradient>
 	<rect x="2" y="2" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="28" height="28"/>
 </g>

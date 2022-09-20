@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,7 +23,7 @@ use ILIAS\RootFolder\StandardGUIRequest;
  * @author Stefan Meyer <meyer@leifos.com>
  *
  * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
@@ -43,7 +45,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $lng = $DIC->language();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-        
+
         $lng->loadLanguageModule("cntr");
         $lng->loadLanguageModule("obj");
 
@@ -55,7 +57,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->help = $DIC->help();
     }
 
-    protected function getTabs()
+    protected function getTabs(): void
     {
         $lng = $this->lng;
         $rbacsystem = $this->rbacsystem;
@@ -72,7 +74,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $this->ctrl->getLinkTarget($this, "")
             );
         }
-        
+
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
             $cmd = $this->ctrl->getCmd();
             $this->tabs_gui->addTarget(
@@ -81,7 +83,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 "edit",
                 get_class($this),
                 "",
-                $cmd == 'edit'
+                $cmd === 'edit'
             );
         }
 
@@ -89,23 +91,23 @@ class ilObjRootFolderGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
-                $ru = new \ilRepositoryTrashGUI($this);
+                $ru = new ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
 
-            // container page editing
+                // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
-                if ($ret != "") {
+                if ($ret !== "") {
                     $this->tpl->setContent($ret);
                 }
                 break;
@@ -120,9 +122,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
                 $this->renderObject();
                 break;
@@ -133,11 +135,19 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 $cp->setType('root');
                 $this->ctrl->forwardCommand($cp);
                 break;
-                
-            case "ilobjstylesheetgui":
-                $this->forwardToStyleSheet();
+
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->setTitleAndDescription();
+                //$this->showContainerPageTabs();
+                $settings_gui = $this->content_style_gui
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-            
+
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -152,7 +162,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
 
             default:
-                if ($cmd == "infoScreen") {
+                if ($cmd === "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
                     try {
@@ -162,9 +172,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
                     }
                 }
                 $this->prepareOutput();
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
+                $this->content_style_gui->addCss(
+                    $this->tpl,
+                    $this->object->getRefId()
                 );
 
                 if (!$cmd) {
@@ -176,19 +186,18 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
                 break;
         }
-        return true;
     }
-    
-    public function renderObject() : void
+
+    public function renderObject(): void
     {
         global $ilTabs;
 
         ilObjectListGUI::prepareJsLinks(
             "",
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+            "",
+            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true, false)
         );
-        
+
         $ilTabs->activateTab("view_content");
         parent::renderObject();
     }
@@ -196,29 +205,28 @@ class ilObjRootFolderGUI extends ilContainerGUI
     /**
      * @throws ilObjectException
      */
-    public function viewObject()
+    public function viewObject(): void
     {
         $this->checkPermission('read');
 
-        if (strtolower($this->root_request->getBaseClass()) == "iladministrationgui") {
+        if (strtolower($this->root_request->getBaseClass()) === "iladministrationgui") {
             parent::viewObject();
-            return true;
+            return;
         }
 
         $this->renderObject();
-        return true;
     }
 
-    protected function setTitleAndDescription()
+    protected function setTitleAndDescription(): void
     {
         global $lng;
 
         parent::setTitleAndDescription();
         $this->tpl->setDescription("");
         if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
-            if ($this->object->getTitle() == "ILIAS") {
+            if ($this->object->getTitle() === "ILIAS") {
                 $this->tpl->setTitle($lng->txt("repository"));
-            } elseif ($this->object->getDescription() != "") {
+            } elseif ($this->object->getDescription() !== "") {
                 $this->tpl->setDescription($this->object->getDescription()); // #13479
             }
         }
@@ -226,7 +234,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
     protected function setEditTabs(
         string $active_tab = "settings_misc"
-    ) : void {
+    ): void {
         $this->tabs_gui->addSubTab(
             "settings_misc",
             $this->lng->txt("settings"),
@@ -243,8 +251,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->tabs_gui->activateTab("settings");
         $this->tabs_gui->activateSubTab($active_tab);
     }
-    
-    protected function initEditForm()
+
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $this->setEditTabs();
         $obj_service = $this->getObjectService();
@@ -263,11 +271,11 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         $this->initSortingForm(
             $form,
-            array(
+            [
                     ilContainer::SORT_TITLE,
                     ilContainer::SORT_CREATION,
                     ilContainer::SORT_MANUAL
-                )
+            ]
         );
 
 
@@ -281,12 +289,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function getEditFormValues()
+    protected function getEditFormValues(): array
     {
         // values are set in initEditForm()
+        return [];
     }
 
-    public function updateObject()
+    public function updateObject(): void
     {
         global $ilSetting;
 
@@ -294,54 +303,54 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         if (!$this->checkPermissionBool("write")) {
             throw new ilPermissionException($this->lng->txt("msg_no_perm_write"));
-        } else {
-            $form = $this->initEditForm();
-            if ($form->checkInput()) {
-                $this->saveSortingSettings($form);
+        }
 
-                // list presentation
-                $this->saveListPresentation($form);
+        $form = $this->initEditForm();
+        if ($form->checkInput()) {
+            $this->saveSortingSettings($form);
 
-                if ($ilSetting->get('custom_icons')) {
-                    global $DIC;
-                    /** @var \ilObjectCustomIconFactory $customIconFactory */
-                    $customIconFactory = $DIC['object.customicons.factory'];
-                    $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
+            // list presentation
+            $this->saveListPresentation($form);
 
-                    /** @var \ilImageFileInputGUI $item */
-                    $fileData = (array) $form->getInput('cont_icon');
-                    $item = $form->getItemByPostVar('cont_icon');
+            if ($ilSetting->get('custom_icons')) {
+                global $DIC;
+                /** @var ilObjectCustomIconFactory $customIconFactory */
+                $customIconFactory = $DIC['object.customicons.factory'];
+                $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
-                    if ($item->getDeletionFlag()) {
-                        $customIcon->remove();
-                    }
+                /** @var ilImageFileInputGUI $item */
+                $fileData = (array) $form->getInput('cont_icon');
+                $item = $form->getItemByPostVar('cont_icon');
 
-                    if ($fileData['tmp_name']) {
-                        $customIcon->saveFromHttpRequest();
-                    }
+                if ($item->getDeletionFlag()) {
+                    $customIcon->remove();
                 }
 
-                // custom icon
-                $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
-
-                // BEGIN ChangeEvent: Record update
-                global $ilUser;
-                ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-                ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-                // END ChangeEvent: Record update
-
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirect($this, "edit");
+                if ($fileData['tmp_name']) {
+                    $customIcon->saveFromHttpRequest();
+                }
             }
 
-            // display form to correct errors
-            $this->setEditTabs();
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
+            // custom icon
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+            // BEGIN ChangeEvent: Record update
+            global $ilUser;
+            ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+            ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+            // END ChangeEvent: Record update
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "edit");
         }
+
+        // display form to correct errors
+        $this->setEditTabs();
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
-    public static function _goto($a_target)
+    public static function _goto(string $a_target): void
     {
         ilObjectGUI::_gotoRepositoryRoot(true);
     }

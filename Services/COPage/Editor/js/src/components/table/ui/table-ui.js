@@ -4,7 +4,21 @@ import TinyWrapper from "../../paragraph/ui/tiny-wrapper.js";
 import ParagraphUI from '../../paragraph/ui/paragraph-ui.js';
 import TINY_CB from "../../paragraph/ui/tiny-wrapper-cb-types.js";
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * table ui
@@ -189,16 +203,30 @@ export default class TableUI {
           ul.innerHTML = "";
 
             if (headType === "data-column-head") {
+              const th = b.closest("th");
+              const first = !(th.previousElementSibling.previousElementSibling);
+              const last = !(th.nextElementSibling);
               this.addDropdownAction(li_templ, ul, "cont_ed_new_col_before", af.colBefore(nr, cellPcid, tablePcid));
               this.addDropdownAction(li_templ, ul, "cont_ed_new_col_after", af.colAfter(nr, cellPcid, tablePcid));
-              this.addDropdownAction(li_templ, ul, "cont_ed_col_left", af.colLeft(nr, cellPcid, tablePcid));
-              this.addDropdownAction(li_templ, ul, "cont_ed_col_right", af.colRight(nr, cellPcid, tablePcid));
+              if (!first) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_col_left", af.colLeft(nr, cellPcid, tablePcid));
+              }
+              if (!last) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_col_right", af.colRight(nr, cellPcid, tablePcid));
+              }
               this.addDropdownAction(li_templ, ul, "cont_ed_delete_col", af.colDelete(nr, cellPcid, tablePcid));
             } else {
+              const tr = b.closest("tr");
+              const first = !(tr.previousElementSibling.previousElementSibling);
+              const last = !(tr.nextElementSibling);
               this.addDropdownAction(li_templ, ul, "cont_ed_new_row_before", af.rowBefore(nr, cellPcid, tablePcid));
               this.addDropdownAction(li_templ, ul, "cont_ed_new_row_after", af.rowAfter(nr, cellPcid, tablePcid));
-              this.addDropdownAction(li_templ, ul, "cont_ed_row_up", af.rowUp(nr, cellPcid, tablePcid));
-              this.addDropdownAction(li_templ, ul, "cont_ed_row_down", af.rowDown(nr, cellPcid, tablePcid));
+              if (!first) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_row_up", af.rowUp(nr, cellPcid, tablePcid));
+              }
+              if (!last) {
+                this.addDropdownAction(li_templ, ul, "cont_ed_row_down", af.rowDown(nr, cellPcid, tablePcid));
+              }
               this.addDropdownAction(li_templ, ul, "cont_ed_delete_row", af.rowDelete(nr, cellPcid, tablePcid));
             }
         });
@@ -313,6 +341,9 @@ export default class TableUI {
     const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
     const tableModel = this.tableModel;
     const wrapper = this.tinyWrapper;
+    if (tableModel.getCurrentRow() == null) {
+      return;
+    }
     pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
   }
 

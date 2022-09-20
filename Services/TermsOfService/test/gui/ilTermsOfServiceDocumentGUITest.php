@@ -1,8 +1,26 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\UI\Component\Button\Standard;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
@@ -16,42 +34,43 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrl */
-    protected ilCtrl $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilCtrlInterface */
+    protected ilCtrlInterface $ctrl;
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|ilObjUser */
+    /** @var MockObject&ilObjUser */
     protected ilObjUser $user;
-    /** @var MockObject|ilLogger */
+    /** @var MockObject&ilLogger */
     protected ilLogger $log;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $httpState;
-    /** @var MockObject|ilToolbarGUI */
+    /** @var MockObject&ilToolbarGUI */
     protected ilToolbarGUI $toolbar;
-    /** @var MockObject|FileUpload */
+    /** @var MockObject&FileUpload */
     protected FileUpload $fileUpload;
-    /** @var MockObject|Filesystems */
+    /** @var MockObject&Filesystems */
     protected Filesystems $fileSystems;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    /** @var MockObject|ilHtmlPurifierInterface */
+    /** @var MockObject&ilHtmlPurifierInterface */
     protected ilHtmlPurifierInterface $documentPurifier;
+    protected Refinery $refinery;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -72,9 +91,13 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->fileUpload = $this->getMockBuilder(FileUpload::class)->getMock();
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
         $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
+        $this->refinery = new ILIAS\Refinery\Factory(
+            new \ILIAS\Data\Factory(),
+            $this->lng
+        );
     }
 
-    public function commandProvider() : array
+    public function commandProvider(): array
     {
         return [
             ['default_____read', [false]],
@@ -96,10 +119,9 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 
     /**
      * @dataProvider commandProvider
-     * @param string $command
      * @param bool[] $accessResults
      */
-    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults) : void
+    public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing(string $command, array $accessResults): void
     {
         $this->ctrl
             ->expects($this->once())
@@ -110,7 +132,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->rbacsystem
             ->expects($this->exactly(count($accessResults)))
             ->method('checkAccess')
-            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter) {
+            ->willReturnCallback(function () use ($accessResults, &$accessResultCounter): bool {
                 $result = $accessResults[$accessResultCounter];
 
                 $accessResultCounter++;
@@ -139,7 +161,8 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $this->expectException(ilException::class);
@@ -147,7 +170,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);
@@ -266,13 +289,14 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $gui->executeCommand();
     }
 
-    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
+    public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce(): void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
         $this->setGlobalVariable('ilUser', clone $this->user);
@@ -374,7 +398,8 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             $this->fileSystems,
             $this->fileUpload,
             $this->tableDataProviderFactory,
-            $this->documentPurifier
+            $this->documentPurifier,
+            $this->refinery
         );
 
         $gui->executeCommand();

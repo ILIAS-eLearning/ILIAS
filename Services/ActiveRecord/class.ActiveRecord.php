@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ActiveRecord
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -14,12 +27,12 @@ abstract class ActiveRecord
     protected string $connector_container_name = '';
     protected bool $is_new = true;
 
-    public function getArConnector() : \arConnector
+    public function getArConnector(): \arConnector
     {
         return arConnectorMap::get($this);
     }
 
-    public function getArFieldList() : \arFieldList
+    public function getArFieldList(): \arFieldList
     {
         return arFieldCache::get($this);
     }
@@ -28,16 +41,18 @@ abstract class ActiveRecord
      * @throws \arException
      * @deprecated
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
-        throw new arException(arException::UNKNONWN_EXCEPTION,
-            'Implement getConnectorContainerName in your child-class');
+        throw new arException(
+            arException::UNKNONWN_EXCEPTION,
+            'Implement getConnectorContainerName in your child-class'
+        );
     }
 
     /**
      * @description Return the Name of your Connector Table
      */
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         // WILL BE ABSTRACT TO REPLACE returnDbTableName() IN NEXT VERSION
         if ($this->connector_container_name) {
@@ -49,7 +64,7 @@ abstract class ActiveRecord
         return $ar::returnDbTableName();
     }
 
-    public function setConnectorContainerName(string $connector_container_name) : void
+    public function setConnectorContainerName(string $connector_container_name): void
     {
         $this->connector_container_name = $connector_container_name;
     }
@@ -67,7 +82,7 @@ abstract class ActiveRecord
     /**
      * @param $value
      */
-    public function setPrimaryFieldValue($value) : void
+    public function setPrimaryFieldValue($value): void
     {
         $primary_fieldname = arFieldCache::getPrimaryFieldName($this);
 
@@ -75,8 +90,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param int         $primary_key
-     * @param arConnector $connector
+     * @param mixed         $primary_key
      */
     public function __construct($primary_key = 0)
     {
@@ -89,12 +103,12 @@ abstract class ActiveRecord
         }
     }
 
-    public function storeObjectToCache() : void
+    public function storeObjectToCache(): void
     {
         arObjectCache::store($this);
     }
 
-    public function asStdClass() : \stdClass
+    public function asStdClass(): \stdClass
     {
         $return = new stdClass();
         foreach ($this->getArFieldList()->getFields() as $field) {
@@ -105,7 +119,7 @@ abstract class ActiveRecord
         return $return;
     }
 
-    public function buildFromArray(array $array) : \ActiveRecord
+    public function buildFromArray(array $array): \ActiveRecord
     {
         $class = get_class($this);
         $primary = $this->getArFieldList()->getPrimaryFieldName();
@@ -156,7 +170,7 @@ abstract class ActiveRecord
         return null;
     }
 
-    final public function getArrayForConnector() : array
+    final public function getArrayForConnector(): array
     {
         $data = array();
         foreach ($this->getArFieldList()->getFields() as $field) {
@@ -179,7 +193,7 @@ abstract class ActiveRecord
      * @description Returns an instance of the instatiated calling active record (needs to be done in static methods)
      * @TODO        : This should be cached somehow
      */
-    protected static function getCalledClass() : \ActiveRecord
+    protected static function getCalledClass(): \ActiveRecord
     {
         $class = static::class;
 
@@ -191,7 +205,7 @@ abstract class ActiveRecord
      *             $arBuilder = new arBuilder(new ilYourARBasedClass());
      *             $arBuilder->generateDBUpdateForInstallation();
      */
-    final public static function installDB() : bool
+    final public static function installDB(): bool
     {
         return self::getCalledClass()->installDatabase();
     }
@@ -199,7 +213,7 @@ abstract class ActiveRecord
     /**
      * @deprecated Do not use in Core DB-update.
      */
-    public function installConnector() : bool
+    public function installConnector(): bool
     {
         return $this->installDatabase();
     }
@@ -208,12 +222,12 @@ abstract class ActiveRecord
      * @param $old_name
      * @param $new_name
      */
-    final public static function renameDBField($old_name, $new_name) : bool
+    final public static function renameDBField(string $old_name, string $new_name): bool
     {
         return self::getCalledClass()->getArConnector()->renameField(self::getCalledClass(), $old_name, $new_name);
     }
 
-    final public static function tableExists() : bool
+    final public static function tableExists(): bool
     {
         return self::getCalledClass()->getArConnector()->checkTableExists(self::getCalledClass());
     }
@@ -221,20 +235,22 @@ abstract class ActiveRecord
     /**
      * @param $field_name
      */
-    final public static function fieldExists($field_name) : bool
+    final public static function fieldExists(string $field_name): bool
     {
         return self::getCalledClass()->getArConnector()->checkFieldExists(self::getCalledClass(), $field_name);
     }
 
     /**
-     * @param $field_name
+     * @deprecated never use in ILIAS Core, Plugins only
      */
-    final public static function removeDBField($field_name) : bool
+    final public static function removeDBField(string $field_name): bool
     {
         return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
     }
-
-    final protected function installDatabase() : bool
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
+    final protected function installDatabase(): bool
     {
         if (!self::tableExists()) {
             $fields = array();
@@ -250,7 +266,10 @@ abstract class ActiveRecord
         return $this->getArConnector()->updateDatabase($this);
     }
 
-    final public static function updateDB() : bool
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
+    final public static function updateDB(): bool
     {
         if (!self::tableExists()) {
             self::getCalledClass()->installDatabase();
@@ -260,18 +279,25 @@ abstract class ActiveRecord
 
         return self::getCalledClass()->getArConnector()->updateDatabase(self::getCalledClass());
     }
-
-    final public static function resetDB() : bool
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
+    final public static function resetDB(): bool
     {
         return self::getCalledClass()->getArConnector()->resetDatabase(self::getCalledClass());
     }
 
-    final public static function truncateDB() : void
+    /**
+     * @deprecated never use in ILIAS Core, Plugins only
+     */
+    final public static function truncateDB(): void
     {
         self::getCalledClass()->getArConnector()->truncateDatabase(self::getCalledClass());
     }
-
-    final public static function flushDB() : void
+    /**
+     * @depracated never use in ILIAS Core, Plugins only
+     */
+    final public static function flushDB(): void
     {
         self::truncateDB();
     }
@@ -279,7 +305,7 @@ abstract class ActiveRecord
     //
     // CRUD
     //
-    public function store() : void
+    public function store(): void
     {
         $primary_fieldname = arFieldCache::getPrimaryFieldName($this);
         $primary_value = $this->getPrimaryFieldValue();
@@ -291,12 +317,12 @@ abstract class ActiveRecord
         }
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->store();
     }
 
-    public function create() : void
+    public function create(): void
     {
         if ($this->getArFieldList()->getPrimaryField()->getSequence()) {
             $primary_fieldname = arFieldCache::getPrimaryFieldName($this);
@@ -310,7 +336,7 @@ abstract class ActiveRecord
     /**
      * @throws arException
      */
-    public function copy(int $new_id = 0) : self
+    public function copy(int $new_id = 0): self
     {
         if (self::where(array($this->getArFieldList()->getPrimaryFieldName() => $new_id))->hasSets()) {
             throw new arException(arException::COPY_DESTINATION_ID_EXISTS);
@@ -321,14 +347,14 @@ abstract class ActiveRecord
         return $new_obj;
     }
 
-    public function afterObjectLoad()
+    public function afterObjectLoad(): void
     {
     }
 
     /**
      * @throws arException
      */
-    public function read()
+    public function read(): void
     {
         $records = $this->getArConnector()->read($this);
         if ($this->ar_safe_read === true && is_array($records) && count($records) === 0) {
@@ -366,7 +392,7 @@ abstract class ActiveRecord
     /**
      * @return ActiveRecord[]
      */
-    public static function preloadObjects() : array
+    public static function preloadObjects(): array
     {
         return self::get();
     }
@@ -374,7 +400,7 @@ abstract class ActiveRecord
     /**
      * @return $this
      */
-    public static function additionalParams(array $additional_params) : \ActiveRecordList
+    public static function additionalParams(array $additional_params): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
         $srModelObjectList->additionalParams($additional_params);
@@ -385,7 +411,7 @@ abstract class ActiveRecord
     /**
      * @param       $primary_key
      */
-    public static function find($primary_key, array $add_constructor_args = array()) : ?\ActiveRecord
+    public static function find($primary_key, array $add_constructor_args = array()): ?\ActiveRecord
     {
         /**
          * @var $obj ActiveRecord
@@ -416,7 +442,7 @@ abstract class ActiveRecord
      * @param $primary_key
      * @throws arException
      */
-    public static function findOrFail($primary_key, array $add_constructor_args = array()) : \ActiveRecord
+    public static function findOrFail($primary_key, array $add_constructor_args = array()): \ActiveRecord
     {
         $obj = self::find($primary_key, $add_constructor_args);
         if (is_null($obj)) {
@@ -451,7 +477,7 @@ abstract class ActiveRecord
      * @param      $where
      * @param null $operator
      */
-    public static function where($where, $operator = null) : \ActiveRecordList
+    public static function where($where, $operator = null): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
         $srModelObjectList->where($where, $operator);
@@ -471,9 +497,15 @@ abstract class ActiveRecord
         array $fields = array('*'),
         string $operator = '=',
         $both_external = false
-    ) : \ActiveRecordList {
-        return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+    ): \ActiveRecordList {
+        return self::innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
@@ -488,8 +520,8 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
-    ) : \ActiveRecordList {
+        bool $both_external = false
+    ): \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->innerjoin($tablename, $on_this, $on_external, $fields, $operator, $both_external);
@@ -507,8 +539,8 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
-    ) : \ActiveRecordList {
+        bool $both_external = false
+    ): \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->leftjoin($tablename, $on_this, $on_external, $fields, $operator, $both_external);
@@ -517,7 +549,7 @@ abstract class ActiveRecord
     /**
      * @param        $orderBy
      */
-    public static function orderBy($orderBy, string $orderDirection = 'ASC') : \ActiveRecordList
+    public static function orderBy($orderBy, string $orderDirection = 'ASC'): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
         $srModelObjectList->orderBy($orderBy, $orderDirection);
@@ -525,7 +557,7 @@ abstract class ActiveRecord
         return $srModelObjectList;
     }
 
-    public static function dateFormat(string $date_format = 'd.m.Y - H:i:s') : \ActiveRecordList
+    public static function dateFormat(string $date_format = 'd.m.Y - H:i:s'): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
         $srModelObjectList->dateFormat($date_format);
@@ -537,7 +569,7 @@ abstract class ActiveRecord
      * @param $start
      * @param $end
      */
-    public static function limit($start, $end) : \ActiveRecordList
+    public static function limit($start, $end): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
         $srModelObjectList->limit($start, $end);
@@ -545,14 +577,14 @@ abstract class ActiveRecord
         return $srModelObjectList;
     }
 
-    public static function affectedRows() : int
+    public static function affectedRows(): int
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->affectedRows();
     }
 
-    public static function count() : int
+    public static function count(): int
     {
         return self::affectedRows();
     }
@@ -560,33 +592,34 @@ abstract class ActiveRecord
     /**
      * @return ActiveRecord[]
      */
-    public static function get() : array
+    public static function get(): array
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->get();
     }
 
-    public static function debug() : \ActiveRecordList
+    public static function debug(): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->debug();
     }
 
-    public static function first() : ?\ActiveRecord
+    public static function first(): ?\ActiveRecord
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->first();
     }
 
-    public static function getCollection() : \ActiveRecordList
+    public static function getCollection(): \ActiveRecordList
     {
-        return new ActiveRecordList(self::getCalledClass());;
+        return new ActiveRecordList(self::getCalledClass());
+        ;
     }
 
-    public static function last() : ?\ActiveRecord
+    public static function last(): ?\ActiveRecord
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -596,21 +629,21 @@ abstract class ActiveRecord
     /**
      * @deprecated
      */
-    public static function getFirstFromLastQuery() : ?\ActiveRecord
+    public static function getFirstFromLastQuery(): ?\ActiveRecord
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->getFirstFromLastQuery();
     }
 
-    public static function connector(arConnector $connector) : \ActiveRecordList
+    public static function connector(arConnector $connector): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
         return $srModelObjectList->connector($connector);
     }
 
-    public static function raw(bool $set_raw = true) : \ActiveRecordList
+    public static function raw(bool $set_raw = true): \ActiveRecordList
     {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -618,11 +651,9 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param string|null $key
      * @param null        $values
-     * @return array
      */
-    public static function getArray(?string $key = null, $values = null) : array
+    public static function getArray(?string $key = null, $values = null): array
     {
         $record_list = new ActiveRecordList(self::getCalledClass());
 
@@ -650,19 +681,19 @@ abstract class ActiveRecord
         }
     }
 
-    public static function _toCamelCase(string $str, bool $capitalise_first_char = false) : ?string
+    public static function _toCamelCase(string $str, bool $capitalise_first_char = false): ?string
     {
         if ($capitalise_first_char) {
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/_([a-z])/', fn($c) => strtoupper($c[1]), $str);
+        return preg_replace_callback('/_([a-z])/', fn ($c) => strtoupper($c[1]), $str);
     }
 
-    protected static function fromCamelCase(string $str) : ?string
+    protected static function fromCamelCase(string $str): ?string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', fn($c) => "_" . strtolower($c[1]), $str);
+        return preg_replace_callback('/([A-Z])/', fn ($c) => "_" . strtolower($c[1]), $str);
     }
 }

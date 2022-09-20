@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -10,19 +26,13 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
 
 class AsyncTaskManager extends BasicTaskManager
 {
-    const CMD_START_WORKER = 'startBackgroundTaskWorker';
-
+    public const CMD_START_WORKER = 'startBackgroundTaskWorker';
 
     /**
      * This will add an Observer of the Task and start running the task.
-     *
-     * @param Bucket $bucket
-     *
-     * @return mixed|void
      * @throws \Exception
-     *
      */
-    public function run(Bucket $bucket)
+    public function run(Bucket $bucket): void
     {
         global $DIC;
 
@@ -38,9 +48,14 @@ class AsyncTaskManager extends BasicTaskManager
         $soap_client->enableWSDL(true);
         $soap_client->init();
         $session_id = session_id();
-        $client_id = $_COOKIE['ilClientId'];
+        $client_id = $DIC->http()->wrapper()->cookie()->has('ilClientId')
+            ? $DIC->http()->wrapper()->cookie()->retrieve(
+                'ilClientId',
+                $DIC->refinery()->kindlyTo()->string()
+            )
+            : '';
         try {
-            $call = $soap_client->call(self::CMD_START_WORKER, array(
+            $soap_client->call(self::CMD_START_WORKER, array(
                 $session_id . '::' . $client_id,
             ));
         } catch (\Throwable $t) {
@@ -52,7 +67,9 @@ class AsyncTaskManager extends BasicTaskManager
         }
     }
 
-
+    /**
+     * @return void|bool
+     */
     public function runAsync()
     {
         global $DIC, $ilIliasIniFile;
@@ -73,7 +90,7 @@ class AsyncTaskManager extends BasicTaskManager
 
         while (true) {
             $ids = $persistence->getBucketIdsByState(State::SCHEDULED);
-            if (!count($ids)) {
+            if (count($ids) === 0) {
                 break;
             }
 

@@ -1,7 +1,8 @@
 .il-filter {
-	.col-md-4 {
-		padding-top: @padding-large-vertical;
-		padding-bottom: @padding-large-vertical;
+	.col-md-4, .col-md-6{
+		padding-top: @il-padding-large-vertical;
+		padding-bottom: @il-padding-large-vertical;
+		padding-right: 0px;
 	}
 
 	//Necessary fix for Apply-Glyph
@@ -27,6 +28,10 @@
 			border: @il-standard-filter-select-input-border;
 			background-color: @il-main-bg;
 		}
+
+		.btn-bulky {
+			background-color: @il-main-darker-bg;
+		}
 	}
 
 	.leftaddon {
@@ -41,12 +46,17 @@
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		width: @il-standard-filter-input-remove-width;
+
+		.glyphicon{
+			top: 0;
+		}
 	}
 }
 
 .il-filter-bar {
 	display: flex;
-	padding: @padding-small-vertical @padding-large-horizontal;
+	padding: @il-padding-small-vertical @il-padding-large-horizontal;
+	background-color: @il-main-dark-bg;
 
 	.il-filter-bar-opener {
 		flex: 1;
@@ -82,20 +92,28 @@
 	}
 }
 
+.il-filter {
+	.glyphicon {
+		font-size: @il-font-size-base;
+	}
+}
+
+
 .il-filter-inputs-active {
 	background-color: @il-main-dark-bg;
-	padding: @padding-small-vertical @padding-base-horizontal;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+	padding: @il-padding-small-vertical @il-padding-base-horizontal;
 
 	span {
 		display: inline-block;
-		margin: @padding-small-vertical @padding-base-horizontal @padding-small-vertical @il-standard-filter-active-inputs-margin-left;
-		padding: @il-standard-filter-active-inputs-padding-vertical @padding-base-horizontal;
+		margin: @il-margin-small-vertical @il-margin-base-horizontal @il-margin-small-vertical @il-standard-filter-active-inputs-margin-left;
+		padding: @il-standard-filter-active-inputs-padding-vertical @il-padding-base-horizontal;
 		float: left;
 		background-color: @il-main-bg;
 		font-size: @il-standard-filter-active-inputs-font-size;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 90vw;
 	}
 }
 
@@ -103,7 +121,13 @@
 	border-top: @il-standard-filter-input-section-border-top;
 	position: relative;
 	padding-bottom: @il-standard-filter-input-section-padding-bottom;
+	padding-right: @il-padding-large-horizontal;
 	margin: @il-standard-filter-input-section-margin;
+	background: @il-main-dark-bg;
+
+	.leftaddon {
+		font-size: @il-font-size-small;
+	}
 
 	.il-input-multiselect {
 		margin: @il-standard-filter-input-section-multiselect-margin;
@@ -150,7 +174,7 @@
 	padding: @il-standard-filter-add-input-popover-list-padding;
 
 	li > button {
-		padding: @padding-large-vertical @padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 		display: block;
 		width: @il-standard-filter-add-input-popover-list-button-width;
 	}

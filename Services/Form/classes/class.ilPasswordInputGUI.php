@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a password property in a property form.
@@ -25,14 +30,14 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
     protected int $size = 20;
     protected string $validateauthpost = "";
     protected bool $requiredonauth = false;
-    protected bool $maxlength = false;
+    protected int $maxlength = 0;
     protected bool $use_strip_slashes = true;
     /**
      * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
      */
     protected bool $autocomplete_disabled = true;
-    protected string $retypevalue;
-    protected bool $retype;
+    protected string $retypevalue = "";
+    protected bool $retype = false;
 
     public function __construct(
         string $a_title = "",
@@ -48,119 +53,119 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValue(
         string $a_value
-    ) : void {
+    ): void {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setRetype(bool $a_val) : void
+    public function setRetype(bool $a_val): void
     {
         $this->retype = $a_val;
     }
-    
-    public function getRetype() : bool
+
+    public function getRetype(): bool
     {
         return $this->retype;
     }
-    
-    public function setRetypeValue(string $a_retypevalue) : void
+
+    public function setRetypeValue(string $a_retypevalue): void
     {
         $this->retypevalue = $a_retypevalue;
     }
 
-    public function getRetypeValue() : string
+    public function getRetypeValue(): string
     {
         return $this->retypevalue;
     }
 
-    public function setMaxLength(int $a_maxlength) : void
+    public function setMaxLength(int $a_maxlength): void
     {
         $this->maxlength = $a_maxlength;
     }
 
-    public function getMaxLength() : int
+    public function getMaxLength(): int
     {
         return $this->maxlength;
     }
 
-    public function setSize(int $a_size) : void
+    public function setSize(int $a_size): void
     {
         $this->size = $a_size;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
         $this->setRetypeValue($a_values[$this->getPostVar() . "_retype"] ?? "");
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
     // Set Validate required status against authentication POST var.
-    public function setValidateAuthPost(string $a_validateauthpost) : void
+    public function setValidateAuthPost(string $a_validateauthpost): void
     {
         $this->validateauthpost = $a_validateauthpost;
     }
 
-    public function getValidateAuthPost() : string
+    public function getValidateAuthPost(): string
     {
         return $this->validateauthpost;
     }
 
     // Set input required, if authentication mode allows password setting.
-    public function setRequiredOnAuth(bool $a_requiredonauth) : void
+    public function setRequiredOnAuth(bool $a_requiredonauth): void
     {
         $this->requiredonauth = $a_requiredonauth;
     }
 
-    public function getRequiredOnAuth() : bool
+    public function getRequiredOnAuth(): bool
     {
         return $this->requiredonauth;
     }
 
-    public function setSkipSyntaxCheck(bool $a_val) : void
+    public function setSkipSyntaxCheck(bool $a_val): void
     {
         $this->skip_syntax_check = $a_val;
     }
-    
-    public function getSkipSyntaxCheck() : bool
+
+    public function getSkipSyntaxCheck(): bool
     {
         return $this->skip_syntax_check;
     }
-    
-    public function setDisableHtmlAutoComplete(bool $a_value) : void
+
+    public function setDisableHtmlAutoComplete(bool $a_value): void
     {
         $this->autocomplete_disabled = $a_value;
     }
 
-    public function isHtmlAutoCompleteDisabled() : bool
+    public function isHtmlAutoCompleteDisabled(): bool
     {
         return $this->autocomplete_disabled;
     }
-    
+
     /**
      * En/disable use of stripslashes. e.g on login screen.
      * Otherwise passwords containing "<" are stripped and therefor authentication
      * fails against external authentication services.
      */
-    public function setUseStripSlashes(bool $a_stat) : void
+    public function setUseStripSlashes(bool $a_stat): void
     {
         $this->use_strip_slashes = $a_stat;
     }
-    
-    public function getUseStripSlashes() : bool
+
+    public function getUseStripSlashes(): bool
     {
         return $this->use_strip_slashes;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -182,7 +187,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
                 $this->setAlert($lng->txt("form_password_required_for_auth"));
                 return false;
             }
-            
+
             // check, if password is allowed to be set for given auth mode
             if (trim($pass_value) != "" &&
                 !ilAuthUtils::_allowPasswordModificationByAuthMode($auth)) {
@@ -196,7 +201,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
             return false;
         }
         if (!$this->getSkipSyntaxCheck() &&
-            !ilUtil::isPassword($pass_value, $custom_error) &&
+            !ilSecuritySettingsChecker::isPassword($pass_value, $custom_error) &&
             $pass_value != "") {
             if ($custom_error != '') {
                 $this->setAlert($custom_error);
@@ -209,7 +214,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         if ($this->getUseStripSlashes()) {
             return $this->str($this->getPostVar());
@@ -217,12 +222,12 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->raw($this->getPostVar());
     }
 
-    public function render() : string
+    public function render(): string
     {
         $lng = $this->lng;
-        
+
         $ptpl = new ilTemplate("tpl.prop_password.html", true, true, "Services/Form");
-        
+
         if ($this->getRetype()) {
             $ptpl->setCurrentBlock("retype");
             $ptpl->setVariable("RSIZE", $this->getSize());
@@ -243,7 +248,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
                 ? $this->getRetypeValue()
                 : $this->getValue();*/
             $retype_value = $this->getRetypeValue();
-            $ptpl->setVariable("PROPERTY_RETYPE_VALUE", ilUtil::prepareFormOutput($retype_value));
+            $ptpl->setVariable("PROPERTY_RETYPE_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($retype_value));
             if ($this->getDisabled()) {
                 $ptpl->setVariable(
                     "RDISABLED",
@@ -256,7 +261,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 
         if (strlen($this->getValue())) {
             $ptpl->setCurrentBlock("prop_password_propval");
-            $ptpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $ptpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
             $ptpl->parseCurrentBlock();
         }
         $ptpl->setVariable("POST_VAR", $this->getPostVar());
@@ -282,7 +287,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         return $ptpl->get();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 

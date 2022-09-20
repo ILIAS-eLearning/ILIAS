@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,99 +24,48 @@
 */
 
 /**
-* Abstract base class for all ical items (Component, Parameter and Value)
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Abstract base class for all ical items (Component, Parameter and Value)
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 abstract class ilICalItem
 {
-    protected $name = '';
-    protected $value = '';
-    protected $items = array();
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string name
-     *
-     */
-    public function __construct($a_name, $a_value = '')
+    protected string $name = '';
+    protected string $value = '';
+    protected array $items = [];
+
+    public function __construct(string $a_name, string $a_value = '')
     {
         $this->name = $a_name;
         $this->value = $a_value;
     }
-    
-    /**
-     * set value
-     *
-     * @access public
-     * @param string value
-     *
-     */
-    public function setValue($a_value)
+
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
-    
-    /**
-     * get value
-     *
-     * @access public
-     *
-     */
-    public function getValue()
+
+    public function getValue(): string
     {
         return trim($this->value);
     }
-    
-    /**
-     * get items
-     *
-     * @access public
-     *
-     */
-    public function getItems()
+
+    public function getItems(): array
     {
-        return $this->items ? $this->items : array();
+        return $this->items;
     }
-    
-    /**
-     * get name
-     *
-     * @access public
-     *
-     */
-    public function getName()
+
+    public function getName(): string
     {
         return $this->name;
     }
-    
-    /**
-     * Get items by name
-     *
-     * @access public
-     * @param string name
-     *
-     */
-    public function getItemsByName($a_name, $a_recursive = true)
+
+    public function getItemsByName(string $a_name, bool $a_recursive = true): array
     {
-        return array();
+        return [];
     }
-    
-    /**
-     * Add item
-     *
-     * @access public
-     *
-     * @param ilICalItem
-     */
-    public function addItem($a_item)
+
+    public function addItem(ilICalItem $a_item): void
     {
         $this->items[] = $a_item;
     }

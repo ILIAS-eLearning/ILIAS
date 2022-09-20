@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -9,7 +26,7 @@ class ilMailValueObjectJsonService
     /**
      * @param ilMailValueObject[] $mailValueObjects
      */
-    public function convertToJson(array $mailValueObjects) : string
+    public function convertToJson(array $mailValueObjects): string
     {
         $mailArray = [];
         foreach ($mailValueObjects as $mailValueObject) {
@@ -34,7 +51,7 @@ class ilMailValueObjectJsonService
     /**
      * @return ilMailValueObject[]
      */
-    public function convertFromJson(string $json) : array
+    public function convertFromJson(string $json): array
     {
         $result = [];
         $array = json_decode($json, true, 512, JSON_THROW_ON_ERROR);

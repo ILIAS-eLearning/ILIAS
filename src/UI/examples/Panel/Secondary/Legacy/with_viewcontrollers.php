@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Panel\Secondary\Legacy;
 
@@ -8,6 +10,8 @@ function with_viewcontrollers()
 
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     $actions = $factory->dropdown()->standard(array(
         $factory->button()->shy("ILIAS", "https://www.ilias.de"),
@@ -27,7 +31,10 @@ function with_viewcontrollers()
     $url = $DIC->http()->request()->getRequestTarget();
 
     $parameter_name = 'page';
-    $current_page = (int) (array_key_exists($parameter_name, $_GET) ? $_GET[$parameter_name] : 0);
+    $current_page = 0;
+    if ($request_wrapper->has($parameter_name)) {
+        $current_page = $request_wrapper->retrieve($parameter_name, $refinery->kindlyTo()->int());
+    }
 
     $pagination = $factory->viewControl()->pagination()
         ->withTargetURL($url, $parameter_name)

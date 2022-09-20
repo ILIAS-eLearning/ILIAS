@@ -12,12 +12,12 @@
  */
 class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
 {
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
     }
-    
-    public function setAreasByArray($a_areas)
+
+    public function setAreasByArray($a_areas): void
     {
         if (is_array($a_areas['points'])) {
             foreach ($this->areas as $idx => $name) {
@@ -26,25 +26,25 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                 } else {
                     $this->areas[$idx]->setPointsUnchecked(0);
                 }
-                
+
                 $this->areas[$idx]->setPoints($a_areas['points'][$idx]);
             }
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
         }
-        
+
         $max = 0;
         if (is_array($_POST[$this->getPostVar()]['coords']['points'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['points'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }
@@ -57,21 +57,21 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                 }
             }
         }
-        
+
         if ($max == 0) {
             $this->setAlert($lng->txt("enter_enough_positive_points"));
             return false;
         }
         return true;
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $template = new ilTemplate("tpl.prop_imagemapquestioncorrection_input.html", true, true, "Modules/TestQuestionPool");
-        
+
         if ($this->getImage() != "") {
             $template->setCurrentBlock("image");
             if (count($this->getAreas())) {
@@ -90,7 +90,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("POST_VAR_D", $this->getPostVar());
             $template->parseCurrentBlock();
         }
-        
+
         if (is_array($this->getAreas()) && $this->getAreas()) {
             $counter = 0;
             foreach ($this->getAreas() as $area) {
@@ -105,7 +105,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
                         $template->setVariable('VALUE_POINTS_UNCHECKED', $area->getPointsUnchecked());
                         $template->parseCurrentBlock();
                     }
-                    
+
                     $template->setCurrentBlock('area_points_unchecked_field');
                     $template->parseCurrentBlock();
                 }
@@ -127,7 +127,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("TEXT_NAME", $lng->txt("ass_imap_hint"));
             if ($this->getPointsUncheckedFieldEnabled()) {
                 $template->setVariable("TEXT_POINTS", $lng->txt("points_checked"));
-                
+
                 $template->setCurrentBlock('area_points_unchecked_head');
                 $template->setVariable("TEXT_POINTS_UNCHECKED", $lng->txt("points_unchecked"));
                 $template->parseCurrentBlock();
@@ -139,17 +139,17 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
             $template->setVariable("TEXT_COMMANDS", $lng->txt("actions"));
             $template->parseCurrentBlock();
         }
-        
+
         $template->setVariable("POST_VAR", $this->getPostVar());
         $template->setVariable("ID", $this->getFieldId());
         $template->setVariable("TXT_BROWSE", $lng->txt("select_file"));
         $template->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
             $this->getMaxFileSizeString());
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
-        
+
         global $DIC;
         $tpl = $DIC['tpl'];
         #$tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nhaagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Table;
 
@@ -93,7 +109,7 @@ interface Factory
      * UI examples.
      *
      */
-    public function presentation(string $title, array $view_controls, Closure $row_mapping) : Presentation;
+    public function presentation(string $title, array $view_controls, Closure $row_mapping): Presentation;
 
     /**
      * ---
@@ -166,7 +182,7 @@ interface Factory
      * @param string     $title
      * @return \ILIAS\UI\Component\Table\Data
      */
-    public function data(string $title, ?int $page_size = 50) : Data;
+    public function data(string $title, ?int $page_size = 50): Data;
 
     /**
      * ---
@@ -203,5 +219,5 @@ interface Factory
      * @param string     $title
      * @return \ILIAS\UI\Component\Table\Column\Factory
      */
-    public function column() : Column\Factory;
+    public function column(): Column\Factory;
 }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -11,18 +28,15 @@ class ilPageFormats
     public const DEFAULT_MARGIN_BODY_BOTTOM = '0cm';
     public const DEFAULT_MARGIN_BODY_LEFT = '2cm';
 
-    private ilLanguage $language;
-
-    public function __construct(ilLanguage $language)
+    public function __construct(private ilLanguage $language)
     {
-        $this->language = $language;
     }
 
     /**
      * Retrieves predefined page formats
-     * @return array<string, array{name: string, value: string, width: string, height: string}>
+     * @return array{a4: array{name: string, value: string, width: string, height: string}, a4landscape: array{name: string, value: string, width: string, height: string}, a5: array{name: string, value: string, width: string, height: string}, a5landscape: array{name: string, value: string, width: string, height: string}, letter: array{name: string, value: string, width: string, height: string}, letterlandscape: array{name: string, value: string, width: string, height: string}, custom: array{name: string, value: string, width: string, height: string}}
      */
-    public function fetchPageFormats() : array
+    public function fetchPageFormats(): array
     {
         return [
             'a4' => [

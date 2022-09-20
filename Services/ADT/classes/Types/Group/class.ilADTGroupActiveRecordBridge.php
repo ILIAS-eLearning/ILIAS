@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 {
@@ -7,7 +9,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
      */
     protected array $elements = [];
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
@@ -15,7 +17,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function getFieldValue(string $a_field_name) : mixed
+    public function getFieldValue(string $a_field_name)
     {
         return '';
     }
@@ -23,15 +25,15 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
+    public function setFieldValue(string $a_field_name, $a_field_value): void
     {
     }
 
     // elements
 
-    protected function prepareElements() : void
+    protected function prepareElements(): void
     {
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             return;
         }
 
@@ -46,13 +48,13 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         }
     }
 
-    public function getElements() : array
+    public function getElements(): array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement(string $a_element_id) : ?ilADTActiveRecordBridge
+    public function getElement(string $a_element_id): ?ilADTActiveRecordBridge
     {
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
@@ -60,7 +62,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         return null;
     }
 
-    public function getActiveRecordFields() : array
+    public function getActiveRecordFields(): array
     {
         $fields = array();
         foreach ($this->getElements() as $element_id => $element) {

@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilLearningSequenceExporter extends ilXmlExporter
 {
     protected ilSetting $settings;
     protected ilRbacReview $rbac_review;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -15,7 +31,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         $this->rbac_review = $DIC["rbacreview"];
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $writer = $this->getWriter((int) $a_id);
         $writer->start();
@@ -23,7 +39,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         return $writer->getXml();
     }
 
-    protected function getWriter(int $obj_id) : ilLearningSequenceXMLWriter
+    protected function getWriter(int $obj_id): ilLearningSequenceXMLWriter
     {
         if ($type = ilObject::_lookupType($obj_id) != "lso") {
             throw new Exception("Wrong type " . $type . " for lso export.");
@@ -48,7 +64,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         );
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.4.0" => array(
@@ -61,7 +77,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         return array(
             array(
@@ -75,7 +91,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $res = [];
 

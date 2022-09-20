@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -83,7 +99,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\MainControls\MetaBar
      */
-    public function metaBar() : MetaBar;
+    public function metaBar(): MetaBar;
 
     /**
      * ---
@@ -210,7 +226,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\MainControls\MainBar
      */
-    public function mainBar() : MainBar;
+    public function mainBar(): MainBar;
 
 
     /**
@@ -288,7 +304,7 @@ interface Factory
      * ----
      * @return  \ILIAS\UI\Component\MainControls\Slate\Factory
      */
-    public function slate() : Slate\Factory;
+    public function slate(): Slate\Factory;
 
     /**
      * ---
@@ -319,7 +335,7 @@ interface Factory
      * @param  string $text
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
-    public function footer(array $links, string $text = '') : Footer;
+    public function footer(array $links, string $text = ''): Footer;
 
 
     /**
@@ -356,7 +372,7 @@ interface Factory
      * ----
      * @return \ILIAS\UI\Component\MainControls\ModeInfo
      */
-    public function modeInfo(string $title, URI $close_action) : ModeInfo;
+    public function modeInfo(string $title, URI $close_action): ModeInfo;
 
     /**
      * ---
@@ -422,5 +438,5 @@ interface Factory
      * ----
      * @return \ILIAS\UI\Component\MainControls\SystemInfo
      */
-    public function systemInfo(string $headline, string $information_text) : SystemInfo;
+    public function systemInfo(string $headline, string $information_text): SystemInfo;
 }

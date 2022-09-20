@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCounterDetector
@@ -12,53 +24,37 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
  * detector.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilCounterDetector extends ilSimpleDetector
 {
     /**
      * This holds the number of trigger events before the detector is satisfied.
-     *
-     * @var integer Number of trigger events expected.
      */
-    private $expected_trigger_events = 1;
+    private int $expected_trigger_events = 1;
 
     /**
      * This holds the current number of trigger events which have already taken
      * place.
-     *
-     * @var integer Number of past trigger events.
      */
-    private $actual_trigger_events = 0;
-
-    /**
-     * Default constructor, passing the context to the parent constructor.
-     *
-     * @param ilNode $context
-     */
-    public function __construct(ilNode $context)
-    {
-        parent::__construct($context);
-    }
+    private int $actual_trigger_events = 0;
 
     /**
      * Set the expected trigger event count before the detector is satisfied.
      *
-     * @param integer $count
+     * @param int $count
      */
-    public function setExpectedTriggerEvents($count)
+    public function setExpectedTriggerEvents(int $count): void
     {
-        $this->expected_trigger_events = (int) $count;
+        $this->expected_trigger_events = $count;
     }
 
     /**
      * Returns the currently set number of expected trigger events.
      *
-     * @return integer
+     * @return int
      */
-    public function getExpectedTriggerEvents()
+    public function getExpectedTriggerEvents(): int
     {
         return $this->expected_trigger_events;
     }
@@ -66,27 +62,24 @@ class ilCounterDetector extends ilSimpleDetector
     /**
      * Returns the actual trigger events of the detector.
      *
-     * @return integer Number of past trigger events.
+     * @return int Number of past trigger events.
      *
      */
-    public function getActualTriggerEvents()
+    public function getActualTriggerEvents(): int
     {
         return $this->actual_trigger_events;
     }
 
     /**
      * Sets the actual count of trigger events already taken place.
-     *
      * Reason this method exists, is to allow the workflow controller to
      * "fast forward" workflows to set a non-default state. I.e. a workflow
      * has to be set into a state in the middle of running. Use with care.
-     *
-     * @param integer $count Number of past trigger events.
-     *
+     * @param int $count Number of past trigger events.
      */
-    public function setActualTriggerEvents($count)
+    public function setActualTriggerEvents(int $count): void
     {
-        if ($this->expected_trigger_events < (int) $count) {
+        if ($this->expected_trigger_events < $count) {
             $this->actual_trigger_events = $count;
         } else {
             // TODO: throw actual must be smaller than expected.
@@ -101,13 +94,13 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @param array $params
      *
-     * @return boolean False, if detector was already satisfied before.
+     * @return bool False, if detector was already satisfied before.
      */
-    public function trigger($params)
+    public function trigger($params): ?bool
     {
         if ($this->actual_trigger_events < $this->expected_trigger_events) {
             $this->actual_trigger_events++;
-            if ($this->actual_trigger_events == $this->expected_trigger_events) {
+            if ($this->actual_trigger_events === $this->expected_trigger_events) {
                 $this->setDetectorState(true);
             }
             return true;

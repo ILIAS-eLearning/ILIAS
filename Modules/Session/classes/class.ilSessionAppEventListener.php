@@ -1,46 +1,36 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilSessionAppEventListener implements ilAppEventListener
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
+    protected ilDBInterface $database;
+    protected ilObjectDataCache $objectDataCache;
+    protected ilLogger $logger;
+    protected string $component = "";
+    protected string $event = "";
+    protected array $parameters = [];
 
-    /**
-     * @var ilObjectDataCache
-     */
-    private $objectDataCache;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var string
-     */
-    private $component;
-
-    /**
-     * @var string
-     */
-    private $event;
-
-    /**
-     * @var array
-     */
-    private $parameters;
-
-    /**
-     * @param ilDBInterface $db
-     * @param ilObjectDataCache $objectDataCache
-     * @param ilLogger $logger
-     */
     public function __construct(
         \ilDBInterface $db,
         \ilObjectDataCache $objectDataCache,
@@ -51,11 +41,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         $this->logger = $logger;
     }
 
-    /**
-     * @param string $component
-     * @return \ilSessionAppEventListener
-     */
-    public function withComponent($component)
+    public function withComponent(string $component): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -64,11 +50,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param string $event
-     * @return \ilSessionAppEventListener
-     */
-    public function withEvent($event)
+    public function withEvent(string $event): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -77,11 +59,7 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param array $parameters
-     * @return \ilSessionAppEventListener
-     */
-    public function withParameters(array $parameters)
+    public function withParameters(array $parameters): ilSessionAppEventListener
     {
         $clone = clone $this;
 
@@ -90,20 +68,14 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * Handle an event in a listener.
-     * @param    string $a_component component, e.g. "Modules/Forum" or "Services/User"
-     * @param    string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
-     * @param    array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
-     */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
         $listener = new static(
             $DIC->database(),
             $DIC['ilObjDataCache'],
-            $DIC->logger()->sess()
+            $DIC->logger()->root()
         );
 
         $listener
@@ -113,7 +85,7 @@ class ilSessionAppEventListener implements ilAppEventListener
             ->handle();
     }
 
-    public function handle()
+    public function handle(): void
     {
         if ('Modules/Session' !== $this->component) {
             return;
@@ -132,32 +104,32 @@ class ilSessionAppEventListener implements ilAppEventListener
         }
     }
 
-    private function handleRegisterEvent()
+    private function handleRegisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
 
         $this->sendMail($type);
     }
 
-    private function handleEnteredEvent()
+    private function handleEnteredEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
 
         $this->sendMail($type);
     }
 
-    private function handleUnregisterEvent()
+    private function handleUnregisterEvent(): void
     {
         $type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
 
         $this->sendMail($type);
     }
 
-    private function fetchRecipientParticipants()
+    private function fetchRecipientParticipants(): array
     {
-        $object = new ilEventParticipants($this->parameters['obj_id']);
+        $object = new ilEventParticipants((int) $this->parameters['obj_id']);
 
-        $recipients = array();
+        $recipients = [];
         $participants = $object->getParticipants();
         foreach ($participants as $id => $participant) {
             if ($participant['notification_enabled'] === true) {
@@ -168,21 +140,16 @@ class ilSessionAppEventListener implements ilAppEventListener
         return $recipients;
     }
 
-    /**
-     * @param array $recipients
-     * @param $type
-     * @throws ilException
-     */
-    private function sendMail($type)
+    private function sendMail(int $type): void
     {
         $recipients = $this->fetchRecipientParticipants();
-        if (array() !== $recipients) {
+        if (!empty($recipients)) {
             $notification = new ilSessionMembershipMailNotification();
             $notification->setRecipients($recipients);
             $notification->setType($type);
             $notification->setRefId($this->parameters['ref_id']);
 
-            $notification->send($this->parameters['usr_id']);
+            $notification->send((int) $this->parameters['usr_id']);
         }
     }
 }

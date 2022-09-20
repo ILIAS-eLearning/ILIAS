@@ -1,45 +1,38 @@
 <?php
 
 /**
- * Interface ilBiblEntryInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblEntryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblEntryInterface
 {
+    public function setId(int $id): void;
 
-    /**
-     * @param int $id
-     */
-    public function setId($id);
+    public function getId(): ?int;
 
+    public function getDataId(): int;
 
-    /**
-     * @return int
-     */
-    public function getId();
+    public function setDataId(int $data_id): void;
 
+    public function getType(): string;
 
-    /**
-     * @return integer
-     */
-    public function getDataId();
+    public function setType(string $type): void;
 
-
-    /**
-     * @param integer $data_id
-     */
-    public function setDataId($data_id);
-
-
-    /**
-     * @return string
-     */
-    public function getType();
-
-
-    /**
-     * @param string $type
-     */
-    public function setType($type);
+    public function getOverview(): string;
 }

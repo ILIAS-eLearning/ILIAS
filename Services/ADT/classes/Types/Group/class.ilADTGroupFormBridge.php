@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
     protected array $elements = [];
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
 
-    protected function prepareElements() : void
+    protected function prepareElements(): void
     {
         if (count($this->elements)) {
             return;
@@ -23,17 +25,17 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getFormBridgeForInstance($element);
             $this->elements[$name]->setForm($this->getForm());
-            $this->elements[$name]->setElementId($name);
+            $this->elements[$name]->setElementId((string) $name);
         }
     }
 
-    public function getElements() : array
+    public function getElements(): array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement(string $a_name) : ?ilADTFormBridge
+    public function getElement(string $a_name): ?ilADTFormBridge
     {
         $this->prepareElements();
         if (array_key_exists($a_name, $this->elements)) {
@@ -42,7 +44,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         return null;
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         if ($this->getTitle()) {
             $section = new ilFormSectionHeaderGUI();
@@ -61,7 +63,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function addJS(ilGlobalTemplate $a_tpl) : void
+    public function addJS(ilGlobalTemplateInterface $a_tpl): void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -69,7 +71,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -79,11 +81,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
                 if (is_array($parent)) {
                     $parent = $parent[0];
                 }
-                if (isset($adt_forms[$parent])) {
-                    $parent = $adt_forms[$parent];
-                } else {
-                    $parent = null;
-                }
+                $parent = $adt_forms[$parent] ?? null;
             }
             if ($element->shouldBeImportedFromPost($parent)) {
                 $element->importFromPost();
@@ -91,7 +89,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
 
-    public function validate() : bool
+    public function validate(): bool
     {
         $valid = true;
 
@@ -118,7 +116,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
             }
 
             foreach ($tmp as $element_id => $errors) {
-                $field = $this->getForm()->getItemByPostVar($element_id);
+                $field = $this->getForm()->getItemByPostVar((string) $element_id);
                 $field->setAlert(implode("<br />", $errors));
             }
 

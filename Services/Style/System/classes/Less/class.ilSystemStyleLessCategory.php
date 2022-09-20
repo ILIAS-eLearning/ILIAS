@@ -1,5 +1,22 @@
 <?php
-require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.php");
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Capsules data of a less category in the variables to less file. A less category has the following structure:
@@ -7,68 +24,42 @@ require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.p
  * //== NameOfCategory
  * //
  * //## Comment
- *
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleLessCategory extends ilSystemStyleLessItem
 {
     /**
      * Name of the category
-     *
-     * @var string
      */
-    protected $name = "";
+    protected string $name = '';
 
     /**
      * Comment to describe what this category is about
-     *
-     * @var string
      */
-    protected $comment = "";
+    protected string $comment = '';
 
-    /**
-     * ilSystemStyleLessCategory constructor.
-     * @param string $name
-     * @param string $comment
-     */
-    public function __construct($name, $comment = "")
+    public function __construct(string $name, string $comment = '')
     {
         $this->setName($name);
         $this->setComment($comment);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $name = str_replace(PHP_EOL, '', $name);
         $this->name = str_replace("\n", '', $name);
     }
 
-    /**
-     * @return string
-     */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $comment
-     */
-    public function setComment($comment)
+    public function setComment(string $comment): void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace("\n", '', $comment);
@@ -77,15 +68,13 @@ class ilSystemStyleLessCategory extends ilSystemStyleLessItem
     /**
      * This function will be needed to write the category back to the less file and restore it's initial structure
      * in less.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->getComment()) {
-            return "//== " . $this->getName() . "\n//\n//## " . $this->getComment() . "\n";
+            return '//== ' . $this->getName() . "\n//\n//## " . $this->getComment() . "\n";
         } else {
-            return "//== " . $this->getName() . "\n//\n//##\n";
+            return '//== ' . $this->getName() . "\n//\n//##\n";
         }
     }
 }

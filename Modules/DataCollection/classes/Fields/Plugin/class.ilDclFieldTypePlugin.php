@@ -1,36 +1,42 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldTypePlugin
- *
  * Definition of the PluginHook
- *
  * @author  Michael Herren
  * @extends ilPlugin
  */
 abstract class ilDclFieldTypePlugin extends ilPlugin
 {
-    const COMPONENT_NAME = "DataCollection";
-    const SLOT_NAME = "FieldTypeHook";
-    const SLOT_ID = "dclfth";
-    const CONFIG_FIELD_MODEL = "field_model";
-    const CONFIG_RECORD_MODEL = "record_model";
-    const CONFIG_RECORD_FIELD_MODEL = "record_field_model";
-    const CONFIG_FIELD_REPRESENTATION = "field_representation";
-    const CONFIG_RECORD_REPRESENTATION = "record_representation";
-    /**
-     * @var ilDclFieldTypePlugin singleton-instance
-     */
-    protected static $instances = array();
+    public const COMPONENT_NAME = "DataCollection";
+    public const SLOT_NAME = "FieldTypeHook";
+    public const SLOT_ID = "dclfth";
 
+    /**
+     * @var ilDclFieldTypePlugin[] singleton-instance
+     */
+    protected static array $instances = array();
 
     /**
      * Singleton for abstract class
-     *
-     * @return ilDclFieldTypePlugin
      */
-    public static function getInstance()
+    public static function getInstance(): ilDclFieldTypePlugin
     {
         $class = get_called_class();
         if (!isset(self::$instances[$class])) {
@@ -40,85 +46,22 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return self::$instances[$class];
     }
 
-
-    /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
+    public function getPluginTablePrefix(): string
     {
-        return IL_COMP_MODULE;
+        return $this->getLanguageHandler()->getPrefix();
     }
 
-
-    /**
-     * Get Component Name.
-     *
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return self::COMPONENT_NAME;
-    }
-
-
-    /**
-     * Get Slot Name.
-     *
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return self::SLOT_NAME;
-    }
-
-
-    /**
-     * Get Slot ID.
-     *
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
-    {
-        return self::SLOT_ID;
-    }
-
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
-
-    public function getPluginTablePrefix()
-    {
-        $id = $this->getId();
-        if (!$id) {
-            $rec = ilPlugin::getPluginRecord($this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
-            $id = $rec['plugin_id'];
-        }
-
-        return $this->getSlotObject()->getPrefix() . "_" . $id;
-    }
-
-
-    public function getPluginTableName()
+    public function getPluginTableName(): string
     {
         return $this->getPluginTablePrefix() . "_props";
     }
 
-
-    public function getPluginConfigTableName()
+    public function getPluginConfigTableName(): string
     {
         return $this->getPluginTablePrefix() . "_config";
     }
 
-
-    public function getPluginClassPrefix()
+    public function getPluginClassPrefix(): string
     {
         return 'il';
     }

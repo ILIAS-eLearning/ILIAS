@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilExtractorFactory
@@ -12,12 +27,10 @@ class ilExtractorFactory
 {
     /**
      * @param string $component
-     *
      * @return ilExtractor|stdClass
      */
-    public static function getExtractorByEventDescriptor($component)
+    public static function getExtractorByEventDescriptor(string $component)
     {
-        require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractedParams.php';
         $params_object = new ilExtractedParams();
 
         // Code for transition phase only!
@@ -36,8 +49,8 @@ class ilExtractorFactory
         if (class_exists($extractor_class_name, false)) {
             $extractor = new $extractor_class_name($params_object);
             return $extractor;
-        } else {
-            return new stdClass();
         }
+
+        return new stdClass();
     }
 }

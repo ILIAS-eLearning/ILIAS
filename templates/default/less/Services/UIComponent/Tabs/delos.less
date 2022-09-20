@@ -2,23 +2,14 @@
 
 .nav-tabs {
 	> li {
-		margin: 0 4px 0 0;
-		//border-top: 4px solid transparent;
+		margin: 0 @il-padding-xs-horizontal 0 0;
 		> a {
 			border-radius: 0;
 			border: 0 none;
-			padding: 6px 12px 3px;
-			font-size: ceil((@font-size-base * 0.9));
+			padding: @il-padding-large-vertical @il-padding-xlarge-horizontal @il-padding-base-vertical;
+			font-size: @il-font-size-base;
 			margin: 0;
-			&:hover {
-				//background-color: transparent;
-				//border-color: transparent;
-			}
 		}
-		&.active {
-			//border-top: 4px solid lighten(@brand-primary, 25%);
-		}
-		// Active state, and its :hover to override normal :hover
 		&.active > a {
 			&,
 			&:hover,
@@ -34,20 +25,20 @@
 
 [dir="rtl"] .nav-tabs {
 	> li {
-		margin: 0 0 0 4px;
+		margin: 0 0 0 @il-margin-xs-horizontal;
 		float: right;
 	}
 }
 
 #ilTab {
 	padding: 0;
-	margin:  7px 15px 23px;
+	margin:  @il-padding-base-vertical @il-margin-xlarge-horizontal @il-padding-base-vertical;
 	border: 0 none;
 	border-bottom: 2px solid @il-neutral-color;
 }
 
-.ilSetupContent #ilTab {
-	margin:  7px 0 23px;
+#ilTab a:focus-visible {
+	z-index: 3;
 }
 
 .ilTabsContentOuter {
@@ -56,16 +47,22 @@
 
 /* Sub Tabs */
 #ilSubTab {
-	padding: 5px 20px;
-	margin: -23px 0 10px;
+	padding: @il-padding-large-vertical 0;
+	margin: 0 @il-margin-xlarge-horizontal;
+
+	> li:first-child > a {
+		margin-left: @il-padding-xs-horizontal;
+	}
+
 	> li {
 		> a {
 			border-radius: 0;
-			padding: 3px 7px;
-			font-size: (@font-size-small * 0.97);
-			/* font-weight: 600; */
+			padding: @il-padding-base-vertical @il-padding-large-horizontal;
+			font-size: (@il-font-size-small);
+
 			&:hover {
-				color: @il-link-hover-color;
+				text-decoration: underline;
+				background-color: transparent;
 			}
 		}
 		&.active > a {
@@ -78,4 +75,8 @@
 			}
 		}
 	}
+}
+
+.il_after_tabs_spacing {
+	margin-bottom: @il-margin-xxlarge-vertical;
 }

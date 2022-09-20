@@ -1,12 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * Class ilWebDAVAuthentication
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * Implements the callback to authenticate users. Is called by the sabreDAV Authentication Plugin
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * @author Raphael Heer <raphael.heer@hslu.ch>
- * $Id$
  */
 class ilWebDAVAuthentication
 {
@@ -20,18 +33,23 @@ class ilWebDAVAuthentication
      * - Konqueror (Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) konqueror/5.0.97)
      * - WinSCP (WinSCP/5.15.1 neon/0.30.2)
      *
-     * @var array
+     * @var string[]
      */
-    protected $session_aware_webdav_clients = [
+    protected array $session_aware_webdav_clients = [
         "Microsoft-WebDAV-MiniRedir",
         "gvfs"
     ];
 
-    /**
-     * @param string $user_agent  User Agent from $_SERVER["HTTP_USER_AGENT"]
-     * @return bool
-     */
-    public function isUserAgentSessionAware(string $user_agent) : bool
+    protected ilObjUser $user;
+    protected ilAuthSession $session;
+
+    public function __construct(ilObjUser $user, ilAuthSession $session)
+    {
+        $this->user = $user;
+        $this->session = $session;
+    }
+
+    protected function isUserAgentSessionAware(string $user_agent): bool
     {
         foreach ($this->session_aware_webdav_clients as $webdav_client_name) {
             if (stristr($user_agent, $webdav_client_name)) {
@@ -41,75 +59,59 @@ class ilWebDAVAuthentication
         return false;
     }
 
-    /**
-     * Gets the given user agent from the request. If user agent is not set -> return an empty string
-     * @return string
-     */
-    protected function getUserAgent() : string
+    protected function getUserAgent(): string
     {
-        // is user agent set?
-        $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : "";
-
-        // is value of user agent a string?
+        $user_agent = $_SERVER["HTTP_USER_AGENT"] ?? "";
         $user_agent = is_string($user_agent) ? $user_agent : "";
 
         return $user_agent;
     }
 
-    /**
-     * Callback function. Identifies user by username and password and returns if authentication was successful
-     *
-     * @param $a_username
-     * @param $a_password
-     * @return bool
-     */
-    public function authenticate($a_username, $a_password)
+    public function authenticate(string $a_username, string $a_password): bool
     {
-        global $DIC;
-
         if ($this->isUserAgentSessionAware($this->getUserAgent())) {
-            if ($DIC['ilAuthSession']->isAuthenticated() && $DIC->user()->getId() != 0) {
-                ilLoggerFactory::getLogger('webdav')->debug('User authenticated through session. UserID = ' . $DIC->user()->getId());
+            if ($this->session->isAuthenticated() && $this->user->getId() != 0) {
+                ilLoggerFactory::getLogger('webdav')->debug('User authenticated through session. UserID = ' . $this->user->getId());
                 return true;
             }
         } else {
             ilSession::enableWebAccessWithoutSession(true);
         }
-       
+
         $credentials = new ilAuthFrontendCredentialsHTTP();
         $credentials->setUsername($a_username);
         $credentials->setPassword($a_password);
-        
+
         $provider_factory = new ilAuthProviderFactory();
         $providers = $provider_factory->getProviders($credentials);
-        
+
         $status = ilAuthStatus::getInstance();
-        
+
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
         $frontend = $frontend_factory->getFrontend(
-            $DIC['ilAuthSession'],
+            $this->session,
             $status,
             $credentials,
             $providers
-            );
+        );
 
         $frontend->authenticate();
-        
+
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
-                ilLoggerFactory::getLogger('webdav')->debug('User authenticated through basic authentication. UserId = ' . $DIC->user()->getId());
+                ilLoggerFactory::getLogger('webdav')->debug('User authenticated through basic authentication. UserId = ' . $this->user->getId());
                 return true;
-                
+
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                 ilLoggerFactory::getLogger('webdav')->info('Basic authentication failed; Account migration required.');
                 return false;
-                
+
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 ilLoggerFactory::getLogger('webdav')->info('Basic authentication failed; Wrong login, password.');
                 return false;
         }
-        
+
         return false;
     }
 }

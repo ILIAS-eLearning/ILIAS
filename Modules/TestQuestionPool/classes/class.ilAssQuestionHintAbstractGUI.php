@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
@@ -14,6 +15,8 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
  */
 abstract class ilAssQuestionHintAbstractGUI
 {
+    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * gui instance of current question
      *
@@ -21,7 +24,7 @@ abstract class ilAssQuestionHintAbstractGUI
      * @var		assQuestionGUI
      */
     protected $questionGUI = null;
-    
+
     /**
      * object instance of current question
      *
@@ -40,5 +43,7 @@ abstract class ilAssQuestionHintAbstractGUI
     {
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
     }
 }

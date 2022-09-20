@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -12,39 +13,12 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
-    const IDENTIFIER = 'tstRndPools';
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
-
-    /**
-     * @var boolean
-     */
-    private $definitionEditModeEnabled = null;
-
-    /**
-     * @var boolean
-     */
-    private $questionAmountColumnEnabled = null;
-    
-    // fau: taxFilter/typeFilter - flag to show the mapped taxonomy filter instead of the original
-    /**
-     * @var boolean
-     */
-    private $showMappedTaxonomyFilter = false;
-    // fau.
-
-    /**
-     * @var ilTestTaxonomyFilterLabelTranslater
-     */
-    private $taxonomyLabelTranslater = null;
+    public const IDENTIFIER = 'tstRndPools';
+    private bool $definitionEditModeEnabled;
+    private bool $questionAmountColumnEnabled;
+    private bool $showMappedTaxonomyFilter = false;
+    private ?ilTestTaxonomyFilterLabelTranslater $taxonomyLabelTranslater = null;
+    private \ILIAS\Test\InternalRequestService $testrequest;
 
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
     {
@@ -52,65 +26,64 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->definitionEditModeEnabled = false;
         $this->questionAmountColumnEnabled = false;
     }
 
-    public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater)
+    public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater): void
     {
         $this->taxonomyLabelTranslater = $translater;
     }
 
-    public function setDefinitionEditModeEnabled($definitionEditModeEnabled)
+    public function setDefinitionEditModeEnabled($definitionEditModeEnabled): void
     {
         $this->definitionEditModeEnabled = $definitionEditModeEnabled;
     }
 
-    public function isDefinitionEditModeEnabled()
+    public function isDefinitionEditModeEnabled(): bool
     {
         return $this->definitionEditModeEnabled;
     }
 
-    public function setQuestionAmountColumnEnabled($questionAmountColumnEnabled)
+    public function setQuestionAmountColumnEnabled(bool $questionAmountColumnEnabled): void
     {
         $this->questionAmountColumnEnabled = $questionAmountColumnEnabled;
     }
 
-    public function isQuestionAmountColumnEnabled()
+    public function isQuestionAmountColumnEnabled(): bool
     {
         return $this->questionAmountColumnEnabled;
     }
-    
-    // fau: taxFilter - set flag to show the mapped tayonomy filter instead of original
-    public function setShowMappedTaxonomyFilter($showMappedTaxonomyFilter)
+
+    public function setShowMappedTaxonomyFilter(bool $showMappedTaxonomyFilter): void
     {
         $this->showMappedTaxonomyFilter = $showMappedTaxonomyFilter;
     }
-    // fau.
 
-    public function fillRow($set)
+    public function fillRow(array $a_set): void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->tpl->setCurrentBlock('col_selection_checkbox');
-            $this->tpl->setVariable('SELECTION_CHECKBOX_HTML', $this->getSelectionCheckboxHTML($set['def_id']));
+            $this->tpl->setVariable('SELECTION_CHECKBOX_HTML', $this->getSelectionCheckboxHTML($a_set['def_id']));
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setCurrentBlock('col_actions');
-            $this->tpl->setVariable('ACTIONS_HTML', $this->getActionsHTML($set['def_id']));
+            $this->tpl->setVariable('ACTIONS_HTML', $this->getActionsHTML($a_set['def_id']));
             $this->tpl->parseCurrentBlock();
 
             $this->tpl->setCurrentBlock('col_order_checkbox');
             $this->tpl->setVariable('ORDER_INPUT_HTML', $this->getDefinitionOrderInputHTML(
-                $set['def_id'],
-                $this->getOrderNumberForSequencePosition($set['sequence_position'])
+                $a_set['def_id'],
+                $this->getOrderNumberForSequencePosition($a_set['sequence_position'])
             ));
             $this->tpl->parseCurrentBlock();
         }
         // fau: taxFilter/typeFilter - show sequence position to identify the filter in the database
         else {
             $this->tpl->setCurrentBlock('col_order_checkbox');
-            $this->tpl->setVariable('ORDER_INPUT_HTML', $set['sequence_position']);
+            $this->tpl->setVariable('ORDER_INPUT_HTML', $a_set['sequence_position']);
             $this->tpl->parseCurrentBlock();
         }
         // fau.
@@ -118,11 +91,11 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         if ($this->isQuestionAmountColumnEnabled()) {
             if ($this->isDefinitionEditModeEnabled()) {
                 $questionAmountHTML = $this->getQuestionAmountInputHTML(
-                    $set['def_id'],
-                    $set['question_amount']
+                    $a_set['def_id'],
+                    $a_set['question_amount']
                 );
             } else {
-                $questionAmountHTML = $set['question_amount'];
+                $questionAmountHTML = $a_set['question_amount'];
             }
 
             $this->tpl->setCurrentBlock('col_question_amount');
@@ -130,32 +103,32 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable('SOURCE_POOL_LABEL', $set['source_pool_label']);
+        $this->tpl->setVariable('SOURCE_POOL_LABEL', $a_set['source_pool_label']);
         // fau: taxFilter/typeFilter - set taxonomy/type filter label in a single coulumn each
-        $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($set['taxonomy_filter'], '<br />'));
+        $this->tpl->setVariable('TAXONOMY_FILTER', $this->taxonomyLabelTranslater->getTaxonomyFilterLabel($a_set['taxonomy_filter'], '<br />'));
         #$this->tpl->setVariable('FILTER_TAXONOMY', $this->getTaxonomyTreeLabel($set['filter_taxonomy']));
         #$this->tpl->setVariable('FILTER_TAX_NODE', $this->getTaxonomyNodeLabel($set['filter_tax_node']));
-        $this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($set['lifecycle_filter']));
-        $this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($set['type_filter']));
+        $this->tpl->setVariable('LIFECYCLE_FILTER', $this->taxonomyLabelTranslater->getLifecycleFilterLabel($a_set['lifecycle_filter']));
+        $this->tpl->setVariable('TYPE_FILTER', $this->taxonomyLabelTranslater->getTypeFilterLabel($a_set['type_filter']));
         // fau.
     }
 
-    private function getSelectionCheckboxHTML($sourcePoolDefinitionId)
+    private function getSelectionCheckboxHTML($sourcePoolDefinitionId): string
     {
         return '<input type="checkbox" value="' . $sourcePoolDefinitionId . '" name="src_pool_def_ids[]" />';
     }
 
-    private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber)
+    private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber): string
     {
         return '<input type="text" size="2" value="' . $defOrderNumber . '" name="def_order[' . $srcPoolDefId . ']" />';
     }
 
-    private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount)
+    private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount): string
     {
         return '<input type="text" size="4" value="' . $questionAmount . '" name="quest_amount[' . $srcPoolDefId . ']" />';
     }
 
-    private function getActionsHTML($sourcePoolDefinitionId)
+    private function getActionsHTML($sourcePoolDefinitionId): string
     {
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
@@ -170,7 +143,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $selectionList->getHTML();
     }
 
-    private function getEditHref($sourcePoolDefinitionId)
+    private function getEditHref($sourcePoolDefinitionId): string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
@@ -182,7 +155,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $href;
     }
 
-    private function getDeleteHref($sourcePoolDefinitionId)
+    private function getDeleteHref($sourcePoolDefinitionId): string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
@@ -217,7 +190,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $this->taxonomyLabelTranslater->getTaxonomyNodeLabel($taxonomyNodeId);
     }
 
-    public function build()
+    public function build(): void
     {
         $this->setTableIdentifiers();
 
@@ -240,14 +213,14 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->addColumns();
     }
 
-    private function setTableIdentifiers()
+    private function setTableIdentifiers(): void
     {
         $this->setId(self::IDENTIFIER);
         $this->setPrefix(self::IDENTIFIER);
         $this->setFormName(self::IDENTIFIER);
     }
 
-    private function addCommands()
+    private function addCommands(): void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->addMultiCommand(ilTestRandomQuestionSetConfigGUI::CMD_DELETE_MULTI_SRC_POOL_DEFS, $this->lng->txt('delete'));
@@ -255,26 +228,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    private function addColumns()
+    private function addColumns(): void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->addColumn('', 'select', '1%', true);
             $this->addColumn('', 'order', '1%', true);
-        }
-        // fau: taxFilter/typeFilter - show order position to easily identify the filter in the database
-        else {
+        } else {
             $this->addColumn($this->lng->txt("position"));
         }
-        // fau.
 
         $this->addColumn($this->lng->txt("tst_source_question_pool"), 'source_question_pool', '');
-        // fau: taxFilter/typeFilter - add one column for taxonomy and nodes and one for type filter
         $this->addColumn($this->lng->txt("tst_filter_taxonomy") . ' / ' . $this->lng->txt("tst_filter_tax_node"), 'tst_filter_taxonomy', '');
         #$this->addColumn($this->lng->txt("tst_filter_taxonomy"),'tst_filter_taxonomy', '');
         #$this->addColumn($this->lng->txt("tst_filter_tax_node"),'tst_filter_tax_node', '');
         $this->addColumn($this->lng->txt("qst_lifecycle"), 'tst_filter_lifecycle', '');
         $this->addColumn($this->lng->txt("tst_filter_question_type"), 'tst_filter_question_type', '');
-        // fau.
 
         if ($this->isQuestionAmountColumnEnabled()) {
             $this->addColumn($this->lng->txt("tst_question_amount"), 'tst_question_amount', '');
@@ -285,7 +253,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
     {
         $rows = array();
 
@@ -318,7 +286,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->setData($rows);
     }
 
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList): void
     {
         foreach ($sourcePoolDefinitionList as $sourcePoolDefinition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
@@ -335,13 +303,15 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        return (int) $_POST['def_order'][$definition->getId()];
+        $def_order = $this->testrequest->raw('def_order');
+        return array_key_exists($definition->getId(), $def_order) ? (int) $def_order[$definition->getId()] : 0;
     }
 
-    private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition): int
     {
-        return (int) $_POST['quest_amount'][$definition->getId()];
+        $quest_amount = $this->testrequest->raw('quest_amount');
+        return array_key_exists($definition->getId(), $quest_amount) ? (int) $quest_amount[$definition->getId()] : 0;
     }
 }

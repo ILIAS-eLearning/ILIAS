@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Collection of basic placeholder values that can be used
@@ -14,7 +31,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     private ilLanguage $language;
     private ilCertificateUtilHelper $utilHelper;
     private ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
-    private int $birthdayDateFormat;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,
@@ -23,7 +39,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         ?ilLanguage $language = null,
         ?ilCertificateUtilHelper $utilHelper = null,
         ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        int $birthdayDateFormat = IL_CAL_DATE
+        private int $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -57,8 +73,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->userDefinedFieldsPlaceholderValues = $userDefinedFieldsPlaceholderValues;
 
-        $this->birthdayDateFormat = $birthdayDateFormat;
-
         $this->placeholder = [
             'USER_LOGIN' => '',
             'USER_FULLNAME' => '',
@@ -82,18 +96,15 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param int $userId
-     * @param int $objId
-     * @return array - Array with a mapping of [placholder_key] => actual value
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
-        /** @var ilObjUser $user */
+        /** @var ilObjUser|null $user */
         $user = $this->objectHelper->getInstanceByObjId($userId);
         if (!$user instanceof ilObjUser) {
             throw new ilException('The entered id: ' . $userId . ' is not an user object');
@@ -109,7 +120,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $salutation = '';
         $gender = $user->getGender();
-        if (is_string($gender) && trim($gender) !== '' && strtolower($gender) !== 'n') {
+        if (trim($gender) !== '' && strtolower($gender) !== 'n') {
             $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
         }
 
@@ -133,17 +144,15 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             time(),
             $this->dateFormat
         ))));
-        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+        $placeholder['DATETIME'] = $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
             time(),
             $this->dateFormat
         ))));
 
-        $placeholder = array_merge(
+        return array_merge(
             $placeholder,
             $this->userDefinedFieldsPlaceholderValues->getPlaceholderValues($userId, $objId)
         );
-
-        return $placeholder;
     }
 
     /**
@@ -152,13 +161,10 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * that is used to create a preview certificate.
      * Due the fact that this is a class to create default values
      * the placeholder values will be identical to the description
-     * @param int $userId
-     * @param int $objId
-     * @return mixed
      * @throws ilDateTimeException
      * @throws ilException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $previewPlacholderValues = [
             "USER_LOGIN" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
@@ -182,7 +188,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             )))),
@@ -190,7 +196,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             )))),
-            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDatetime(
+            'DATETIME_COMPLETED' => $this->utilHelper->prepareFormOutput((trim($this->dateHelper->formatDateTime(
                 time(),
                 $this->dateFormat
             ))))

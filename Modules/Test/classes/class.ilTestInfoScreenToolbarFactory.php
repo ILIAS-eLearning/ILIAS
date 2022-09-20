@@ -1,12 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-require_once 'Modules/Test/classes/class.ilTestPlayerFactory.php';
-require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
-require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
-require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
-require_once 'Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -20,7 +28,7 @@ class ilTestInfoScreenToolbarFactory
      * @var integer
      */
     private $testRefId;
-    
+
     /**
      * @var ilObjTest
      */
@@ -49,7 +57,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return int
      */
-    public function getTestRefId()
+    public function getTestRefId(): int
     {
         return $this->testRefId;
     }
@@ -65,7 +73,7 @@ class ilTestInfoScreenToolbarFactory
     /**
      * @return ilObjTest
      */
-    public function getTestOBJ()
+    public function getTestOBJ(): ilObjTest
     {
         return $this->testOBJ;
     }
@@ -77,46 +85,46 @@ class ilTestInfoScreenToolbarFactory
     {
         $this->testOBJ = $testOBJ;
     }
-    
+
     protected function ensureInitialised()
     {
         $this->ensureTestObjectInitialised();
-        
+
         $d = $GLOBALS['DIC'];
 
         $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
             $d['tree'],
             $d['ilDB'],
-            $d['ilPluginAdmin'],
+            $d['component.repository'],
             $this->getTestOBJ()
         );
-        
+
         $this->testPlayerFactory = new ilTestPlayerFactory($this->getTestOBJ());
         $this->testSessionFactory = new ilTestSessionFactory($this->getTestOBJ());
-        
+
         $this->testSequenceFactory = new ilTestSequenceFactory(
             $d['ilDB'],
             $d['lng'],
-            $d['ilPluginAdmin'],
+            $d['component.repository'],
             $this->getTestOBJ()
         );
     }
-    
+
     private function ensureTestObjectInitialised()
     {
         if (!($this->testOBJ instanceof ilObjTest)) {
             $this->testOBJ = ilObjectFactory::getInstanceByRefId($this->testRefId);
         }
     }
-    
-    public function getToolbarInstance()
+
+    public function getToolbarInstance(): ilTestInfoScreenToolbarGUI
     {
         $this->ensureInitialised();
-        
+
         $d = $GLOBALS['DIC'];
-        
-        $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['ilPluginAdmin']);
-        
+
+        $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['component.repository']);
+
         $toolbar->setTestOBJ($this->getTestOBJ());
         $toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());
 
@@ -129,7 +137,7 @@ class ilTestInfoScreenToolbarFactory
         $toolbar->setTestQuestionSetConfig($testQuestionSetConfig);
         $toolbar->setTestSession($testSession);
         $toolbar->setTestSequence($testSequence);
-        
+
         return $toolbar;
     }
 }

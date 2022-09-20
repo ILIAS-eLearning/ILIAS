@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomServerConnector
@@ -18,7 +35,7 @@ class ilChatroomServerConnector
         $this->settings = $settings;
     }
 
-    public static function checkServerConnection(bool $use_cache = true) : bool
+    public static function checkServerConnection(bool $use_cache = true): bool
     {
         if ($use_cache && self::$connection_status !== null) {
             return self::$connection_status;
@@ -30,7 +47,7 @@ class ilChatroomServerConnector
         return self::$connection_status;
     }
 
-    public function isServerAlive() : bool
+    public function isServerAlive(): bool
     {
         $response = $this->file_get_contents(
             $this->settings->getURL('Heartbeat'),
@@ -50,7 +67,7 @@ class ilChatroomServerConnector
 
         $responseObject = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
 
-        return $response instanceof stdClass && ((int) $responseObject->status) === 200;
+        return $responseObject instanceof stdClass && ((int) $responseObject->status) === 200;
     }
 
     /**
@@ -94,13 +111,12 @@ class ilChatroomServerConnector
             $ctx = array_merge_recursive($ctx, $stream_context_params);
         }
 
-        set_error_handler(static function ($severity, $message, $file, $line) : void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 
         try {
-            $response = file_get_contents($url, false, stream_context_create($ctx));
-            return $response;
+            return file_get_contents($url, false, stream_context_create($ctx));
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
         } finally {
@@ -114,6 +130,7 @@ class ilChatroomServerConnector
      * @param int $scope
      * @param int $subScope
      * @param int $user
+     * @param string $title
      * @return string|false
      */
     public function sendCreatePrivateRoom(int $scope, int $subScope, int $user, string $title)
@@ -238,7 +255,7 @@ class ilChatroomServerConnector
         );
     }
 
-    public function getSettings() : ilChatroomServerSettings
+    public function getSettings(): ilChatroomServerSettings
     {
         return $this->settings;
     }

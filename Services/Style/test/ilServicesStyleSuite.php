@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
@@ -17,7 +18,9 @@ class ilServicesStyleSuite extends TestSuite
 
         // add each test class of the component
         include_once("./Services/Style/System/test/ilServicesStyleSystemSuite.php");
+        include_once("./Services/Style/Content/test/ilServicesStyleContentSuite.php");
         $suite->addTestSuite("ilServicesStyleSystemSuite");
+        $suite->addTestSuite("ilServicesStyleContentSuite");
         return $suite;
     }
 }

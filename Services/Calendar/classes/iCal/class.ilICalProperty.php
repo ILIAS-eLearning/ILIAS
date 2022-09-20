@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,47 +22,35 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
 
 /**
-* Represents a ical property.
-* E.g DTSTART;VALUE=DATE;TZID=Europe/Berlin:20080214
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Represents a ical property.
+ * E.g DTSTART;VALUE=DATE;TZID=Europe/Berlin:20080214
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilICalProperty extends ilICalItem
 {
     /**
-     * Constructor
-     *
-     * @access public
-     * @param string name
-     *
+     * @inheritDoc
      */
-    public function __construct($a_name, $a_value = '')
+    public function __construct(string $a_name, string $a_value = '')
     {
         parent::__construct($a_name, $a_value);
     }
-    
+
     /**
-     * get items by name
-     *
-     * @access public
-     * @param string name
-     *
+     * @inheritDoc
      */
-    public function getItemsByName($a_name, $a_recursive = true)
+    public function getItemsByName(string $a_name, bool $a_recursive = true): array
     {
+        $found = [];
         foreach ($this->getItems() as $item) {
             if ($item->getName() == $a_name) {
                 $found[] = $item;
             }
         }
-        return $found ? $found : array();
+        return $found;
     }
 }

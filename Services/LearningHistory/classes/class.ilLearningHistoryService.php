@@ -1,49 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning history service
- *
- * @author killing@leifos.de
- * @ingroup ServiceLearningHistory
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLearningHistoryService
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $current_user;
+    protected ilObjUser $current_user;
+    protected ilLanguage $lng;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * Constructor
-     * @param ilObjUser $user
-     * @param ilLanguage $lng
-     * @param \ILIAS\DI\UIServices $ui
-     * @param ilAccessHandler $access
-     */
-    public function __construct(ilObjUser $user, ilLanguage $lng, \ILIAS\DI\UIServices $ui, ilAccessHandler $access, ilTree $tree)
-    {
+    public function __construct(
+        ilObjUser $user,
+        ilLanguage $lng,
+        \ILIAS\DI\UIServices $ui,
+        ilAccessHandler $access,
+        ilTree $tree
+    ) {
         $this->current_user = $user;
         $this->lng = $lng;
         $this->ui = $ui;
@@ -51,83 +42,58 @@ class ilLearningHistoryService
         $this->tree = $tree;
     }
 
-    /**
-     * Get tree
-     *
-     * @return ilTree
-     */
-    public function repositoryTree()
+    public function request(): \ILIAS\LearningHistory\StandardGUIRequest
+    {
+        global $DIC;
+
+        return new \ILIAS\LearningHistory\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+    }
+
+    public function repositoryTree(): ilTree
     {
         return $this->tree;
     }
 
-    /**
-     * Get access
-     *
-     * @return ilAccessHandler
-     */
-    public function access()
+    public function access(): ilAccessHandler
     {
         return $this->access;
     }
 
-    /**
-     * Get current user
-     *
-     * @return ilObjUser
-     */
-    public function user()
+    public function user(): ilObjUser
     {
         return $this->current_user;
     }
 
-    /**
-     * Get language object
-     *
-     * @return ilLanguage
-     */
-    public function language()
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
 
-    /**
-     * Get ui service
-     *
-     * @return \ILIAS\DI\UIServices
-     */
-    public function ui()
+    public function ui(): \ILIAS\DI\UIServices
     {
         return $this->ui;
     }
 
     /**
      * Factory for learning history entries
-     *
-     * @return ilLearningHistoryFactory
      */
-    public function factory()
+    public function factory(): ilLearningHistoryFactory
     {
         return new ilLearningHistoryFactory($this);
     }
 
-    /**
-     * Provider
-     *
-     * @return ilLearningHistoryProviderFactory
-     */
-    public function provider()
+    public function provider(): ilLearningHistoryProviderFactory
     {
         return new ilLearningHistoryProviderFactory($this);
     }
 
     /**
      * Is the service active? The service will be active, if any of its providers are active.
-     *
-     * @param int $user_id
-     * @return bool
      */
-    public function isActive(int $user_id = 0)
+    public function isActive(int $user_id = 0): bool
     {
         global $DIC;
 
@@ -136,12 +102,10 @@ class ilLearningHistoryService
             return false;
         }
 
-        if ($user_id = 0) {
+        if ($user_id === 0) {
             $user_id = $this->user()->getId();
         }
-        foreach ($this->provider()->getAllProviders(true, $user_id) as $p) {
-            return true;
-        }
-        return false;
+
+        return count($this->provider()->getAllProviders(true, $user_id)) > 0;
     }
 }

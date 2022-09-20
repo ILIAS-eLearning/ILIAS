@@ -1,144 +1,105 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilCalendarUserNotification
 {
-    const TYPE_USER = 1;
-    const TYPE_EMAIL = 2;
+    public const TYPE_USER = 1;
+    public const TYPE_EMAIL = 2;
 
+    private int $cal_id = 0;
+    private array $rcps = array();
 
-    private $cal_id = 0;
-    private $rcps = array();
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilErrorHandling $error;
 
-    /**
-     * Init with calendar entry id
-     */
-    public function __construct($a_cal_id = 0)
+    public function __construct(int $a_cal_id = 0)
     {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        $this->error = $DIC['ilErr'];
+
         $this->cal_id = $a_cal_id;
         $this->read();
     }
 
-    /**
-     * Delete a singel user
-     * @global ilDB $ilDB
-     * @param int $a_usr_id
-     * @return bool
-     */
-    public static function deleteUser($a_usr_id)
+    public static function deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM cal_notification ' .
             'WHERE user_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
-        return true;
     }
 
-    /**
-     * Delete notification for a calendar entry
-     * @global ilDB $ilDB
-     * @param int $a_cal_id
-     * @return bool
-     */
-    public static function deleteCalendarEntry($a_cal_id)
+    public static function deleteCalendarEntry(int $a_cal_id): void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM cal_notification ' .
             'WHERE cal_id = ' . $ilDB->quote($a_cal_id, 'integer');
         $res = $ilDB->manipulate($query);
-        return true;
     }
 
-    /**
-     * Set calendar entry id
-     * @param int $a_id
-     */
-    public function setEntryId($a_id)
+    public function setEntryId(int $a_id): void
     {
         $this->cal_id = $a_id;
     }
 
-    /**
-     * Get calendar entry id
-     */
-    public function getEntryId()
+    public function getEntryId(): int
     {
         return $this->cal_id;
     }
 
-    public function getRecipients()
+    public function getRecipients(): array
     {
-        return (array) $this->rcps;
+        return $this->rcps;
     }
 
-    public function validate()
+    public function validate(): bool
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $lng = $DIC['lng'];
-
         if (!count($this->getRecipients())) {
             return true;
         }
-        foreach ((array) $this->getRecipients() as $rcp_data) {
+        foreach ($this->getRecipients() as $rcp_data) {
             if ($rcp_data['type'] == self::TYPE_USER) {
                 continue;
-            } else {
-                if (!ilUtil::is_email($rcp_data['email'])) {
-                    $ilErr->appendMessage($lng->txt('cal_err_invalid_notification_rcps'));
-                    return false;
-                }
+            } elseif (!ilUtil::is_email($rcp_data['email'])) {
+                $this->error->appendMessage($this->lng->txt('cal_err_invalid_notification_rcps'));
+                return false;
             }
         }
         return true;
     }
 
-    /**
-     * Save recipients to db
-     */
-    public function save()
+    public function save(): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $this->deleteRecipients();
-
         foreach ($this->getRecipients() as $rcp) {
             $query = 'INSERT INTO cal_notification ' .
                 '(notification_id,cal_id, user_type, user_id, email) ' .
                 'VALUES ( ' .
-                $ilDB->quote($ilDB->nextId('cal_notification'), 'integer') . ', ' .
-                $ilDB->quote((int) $this->getEntryId(), 'integer') . ', ' .
-                $ilDB->quote((int) $rcp['type'], 'integer') . ', ' .
-                $ilDB->quote((int) $rcp['usr_id'], 'integer') . ', ' .
-                $ilDB->quote($rcp['email'], 'text') .
+                $this->db->quote($this->db->nextId('cal_notification'), 'integer') . ', ' .
+                $this->db->quote($this->getEntryId(), 'integer') . ', ' .
+                $this->db->quote((int) $rcp['type'], 'integer') . ', ' .
+                $this->db->quote((int) $rcp['usr_id'], 'integer') . ', ' .
+                $this->db->quote($rcp['email'], 'text') .
                 ')';
-            $ilDB->manipulate($query);
+            $this->db->manipulate($query);
         }
         return true;
     }
 
-    /**
-     * Add recipient
-     * @param int $a_type
-     * @param int $a_usr_id
-     * @param string $a_email
-     */
-    public function addRecipient($a_type, $a_usr_id = 0, $a_email = '')
+    public function addRecipient(int $a_type, int $a_usr_id = 0, string $a_email = ''): void
     {
         $this->rcps[] = array(
             'type' => $a_type,
@@ -147,82 +108,56 @@ class ilCalendarUserNotification
         );
     }
 
-    /**
-     * Set recipients
-     * @param array $a_rcps
-     */
-    public function setRecipients($a_rcps)
+    public function setRecipients(array $a_rcps): void
     {
         $this->rcps = array();
     }
 
-    /**
-     * Delete all recipients
-     * @global ilDB $ilDB
-     * @return bool
-     */
-    public function deleteRecipients()
+    public function deleteRecipients(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM cal_notification ' .
-            'WHERE cal_id = ' . $ilDB->quote($this->getEntryId(), 'integer');
-        $res = $ilDB->manipulate($query);
-        return true;
+            'WHERE cal_id = ' . $this->db->quote($this->getEntryId(), 'integer');
+        $res = $this->db->manipulate($query);
     }
 
-
-
-    /**
-     * Read recipients
-     * @global ilDB $ilDB
-     */
-    protected function read()
+    protected function read(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->getEntryId()) {
-            return true;
+            return;
         }
 
         $query = 'SELECT * FROM cal_notification ' .
-            'WHERE cal_id = ' . $ilDB->quote($this->getEntryId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE cal_id = ' . $this->db->quote($this->getEntryId(), 'integer');
+        $res = $this->db->query($query);
 
         $this->rcps = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->addRecipient(
-                $row->user_type,
-                $row->user_id,
+                (int) $row->user_type,
+                (int) $row->user_id,
                 $row->email
             );
         }
     }
 
-    // Create table (not merged into into 4.3)
-    public static function createTable()
+    public static function createTable(): void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-
         if ($ilDB->tableExists('cal_notification')) {
-            return true;
+            return;
         }
 
         // Create notification table
         $ilDB->createTable(
             'cal_notification',
             array(
-                'notification_id' => array('type' => 'integer','length' => 4,'notnull' => true),
-                'cal_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'user_type' => array('type' => 'integer','length' => 1, 'notnull' => true, 'default' => 0),
-                'user_id' => array('type' => 'integer','length' => 4, 'notnull' => true, 'default' => 0),
-                'email' => array('type' => 'text','length' => 64, 'notnull' => false)
+                'notification_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+                'cal_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'user_type' => array('type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0),
+                'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+                'email' => array('type' => 'text', 'length' => 64, 'notnull' => false)
             )
         );
         $ilDB->addPrimaryKey(

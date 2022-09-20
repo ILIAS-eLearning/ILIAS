@@ -11,14 +11,21 @@
 		text-align: left;
 		margin: 0;
 		font-weight: @il-standard-page-breadcrumbs-font-weight;
-		font-size: @font-size-small;
-		padding: @il-padding-small-vertical;
-		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
+		font-size: @il-font-size-small;
+		padding: (@il-padding-small-vertical * 2);
+		padding-left: @il-standard-page-content-padding;
 
-		span.crumb {
+		span.crumb a {
 			color: @il-standard-page-breadcrumbs-color;
 			&:hover {
 				color: @il-standard-page-breadcrumbs-active-color;
+			}
+			&:focus {
+				border: @il-focus-outline-inner;
+				
+				&::after {
+					content: none;
+				}
 			}
 		}
 
@@ -43,7 +50,7 @@
 //** Breadcrumb margin
 @il-breadcrumb-margin-top: .8em;
 @il-breadcrumb-margin-right: 0;
-@il-breadcrumb-margin-bottom: @line-height-computed;
+@il-breadcrumb-margin-bottom: @il-line-height-computed;
 @il-breadcrumb-margin-left: 0;
 @il-breadcrumb-resp-margin-top: 0;
 @il-breadcrumb-resp-margin-right: 0;
@@ -57,11 +64,11 @@
 //** Breadcrumb background color
 @breadcrumb-bg:                 transparent;
 //** Breadcrumb text color
-@breadcrumb-color:               @link-color;
+@breadcrumb-color:               @il-link-color;
 //** Text color of current page in the breadcrumb
-@breadcrumb-active-color:        @link-hover-color;
+@breadcrumb-active-color:        @il-link-hover-color;
 //** font-weight of breadcrumbs
-@breadcrumb-font-weight:        600;
+@breadcrumb-font-weight:        @il-font-weight-bold;
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          " \e606";
 
@@ -70,7 +77,7 @@
 
 .breadcrumb {
 	margin: @il-breadcrumb-margin-top @il-breadcrumb-margin-right @il-breadcrumb-margin-bottom @il-breadcrumb-margin-left;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 
 	> li + li:before {
 		font-family: 'il-icons';

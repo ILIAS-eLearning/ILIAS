@@ -21,7 +21,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      */
     protected $matched;
 
-    protected function getPattern()
+    protected function getPattern(): string
     {
         return '/(\?)/';
     }
@@ -30,7 +30,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return "?";
     }
@@ -39,7 +39,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return " nicht beantwortet";
     }
@@ -51,7 +51,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null)
+    public function checkResult($result, $comperator, $index = null): bool
     {
         if ($index == null) {
             switch ($comperator) {
@@ -86,7 +86,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches): void
     {
         $this->matched = true;
     }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -26,13 +43,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected ilTabsGUI $tabs;
     /** @var MessageBox[] */
     protected array $messages = [];
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
 
-    protected function getObjectClass() : string
+    protected function getObjectClass(): string
     {
         return ilObjContentPage::class;
     }
 
-    protected function setObject(ilObject $object)
+    protected function setObject(ilObject $object): void
     {
         global $DIC;
 
@@ -46,27 +65,30 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->refinery = $DIC->refinery();
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
+        $cs = $DIC->contentStyle();
+        $this->content_style_gui = $cs->gui();
+        $this->content_style_domain = $cs->domain()->styleForRefId($object->getRefId());
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
     }
 
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return $empty_state;
     }
 
-    public function buildControls(State $state, ControlBuilder $builder)
+    public function buildControls(State $state, ControlBuilder $builder): void
     {
         $this->buildLearningProgressToggleControl($builder);
     }
 
-    protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
+    protected function buildLearningProgressToggleControl(ControlBuilder $builder): void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+        if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
@@ -85,21 +107,21 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    public function updateGet(State $state, string $command, int $parameter = null) : State
+    public function updateGet(State $state, string $command, int $parameter = null): State
     {
         $this->toggleLearningProgress($command);
 
         return $state;
     }
 
-    protected function toggleLearningProgress(string $command) : void
+    protected function toggleLearningProgress(string $command): void
     {
         if (in_array($command, [
             self::CMD_LP_TO_COMPLETED,
             self::CMD_LP_TO_INCOMPLETE
         ])) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+            if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
                 $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 
                 $old_state = $marks->getCompleted();
@@ -108,7 +130,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
                 $marks->update();
                 ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-                if ($old_state != $new_state) {
+                if ((int) $old_state !== (int) $new_state) {
                     $this->lng->loadLanguageModule('trac');
                     $this->messages[] = $this->uiFactory->messageBox()->success(
                         $this->lng->txt('trac_updated_status')
@@ -118,7 +140,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    public function updatePost(State $state, string $command, array $post) : State
+    public function updatePost(State $state, string $command, array $post): State
     {
         return $state;
     }
@@ -128,7 +150,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         ilLearningProgress::_tracProgress(
             $this->user->getId(),
             $this->contentPageObject->getId(),
@@ -145,7 +167,8 @@ class ilContentPageKioskModeView extends ilKioskModeView
             $this->lng,
             $this->contentPageObject,
             $this->user,
-            $this->refinery
+            $this->refinery,
+            $this->content_style_domain
         );
         $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 
@@ -162,13 +185,12 @@ class ilContentPageKioskModeView extends ilKioskModeView
     /**
      * Renders the content style of a ContentPage object into main template
      */
-    protected function renderContentStyle() : void
+    protected function renderContentStyle(): void
     {
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
-        $this->mainTemplate->addCss(
-            ilObjStyleSheet::getContentStylePath(
-                $this->contentPageObject->getStyleSheetId()
-            )
+        $this->content_style_gui->addCss(
+            $this->mainTemplate,
+            $this->contentPageObject->getRefId()
         );
     }
 }

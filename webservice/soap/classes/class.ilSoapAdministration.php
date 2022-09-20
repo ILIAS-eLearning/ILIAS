@@ -1,335 +1,193 @@
 <?php
-  /*
-   +-----------------------------------------------------------------------------+
-   | ILIAS open source                                                           |
-   +-----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-   |                                                                             |
-   | This program is free software; you can redistribute it and/or               |
-   | modify it under the terms of the GNU General Public License                 |
-   | as published by the Free Software Foundation; either version 2              |
-   | of the License, or (at your option) any later version.                      |
-   |                                                                             |
-   | This program is distributed in the hope that it will be useful,             |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-   | GNU General Public License for more details.                                |
-   |                                                                             |
-   | You should have received a copy of the GNU General Public License           |
-   | along with this program; if not, write to the Free Software                 |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-   +-----------------------------------------------------------------------------+
-  */
 
+declare(strict_types=1);
+/*
+ +-----------------------------------------------------------------------------+
+ | ILIAS open source                                                           |
+ +-----------------------------------------------------------------------------+
+ | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+ |                                                                             |
+ | This program is free software; you can redistribute it and/or               |
+ | modify it under the terms of the GNU General Public License                 |
+ | as published by the Free Software Foundation; either version 2              |
+ | of the License, or (at your option) any later version.                      |
+ |                                                                             |
+ | This program is distributed in the hope that it will be useful,             |
+ | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+ | GNU General Public License for more details.                                |
+ |                                                                             |
+ | You should have received a copy of the GNU General Public License           |
+ | along with this program; if not, write to the Free Software                 |
+ | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+ +-----------------------------------------------------------------------------+
+*/
 
-  /**
-   * soap server
-   * Base class for all SOAP registered methods. E.g ilSoapUserAdministration
-   *
-   * @author Stefan Meyer <meyer@leifos.com>
-   * @version $Id$
-   *
-   * @package ilias
-   */
+/**
+ * soap server
+ * Base class for all SOAP registered methods. E.g ilSoapUserAdministration
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 
 include_once './webservice/soap/lib/nusoap.php';
-include_once("./Services/Authentication/classes/class.ilAuthUtils.php");		// to get auth mode constants
-
-define('SOAP_CLIENT_ERROR', 1);
-define('SOAP_SERVER_ERROR', 2);
+include_once("./Services/Authentication/classes/class.ilAuthUtils.php");        // to get auth mode constants
 
 class ilSoapAdministration
 {
-    protected $soap_check = true;
-    
-    
-    /*
-     * object which handles php's authentication
-     * @var object
-     */
-    public $sauth = null;
+    public const NUSOAP = 1;
+    public const PHP5 = 2;
 
-    /*
-     * Defines type of error handling (PHP5 || NUSOAP)
-     * @var object
-     */
-    public $error_method = null;
-
+    protected bool $soap_check = true;
+    protected string $message = '';
+    protected string $message_code = '';
 
     /**
-     * Constructor
-     * @param bool $use_nusoap
+     * Defines type of error handling (PHP5 || NUSOAP)
      */
-    public function __construct($use_nusoap = true)
-    {
-        define('USER_FOLDER_ID', 7);
-        define('NUSOAP', 1);
-        define('PHP5', 2);
+    public int $error_method;
 
+    public function __construct(bool $use_nusoap = true)
+    {
         if (
-            defined('IL_SOAPMODE') && defined('IL_SOAPMODE_NUSOAP') &&
+            defined('IL_SOAPMODE') &&
+            defined('IL_SOAPMODE_NUSOAP') &&
             IL_SOAPMODE == IL_SOAPMODE_NUSOAP
         ) {
-            $this->error_method = NUSOAP;
+            $this->error_method = self::NUSOAP;
         } else {
-            $this->error_method = PHP5;
+            $this->error_method = self::PHP5;
         }
 
-        $this->__initAuthenticationObject();
+        $this->initAuthenticationObject();
     }
 
-    // PROTECTED
-    public function __checkSession($sid)
+    protected function checkSession(string $sid): bool
     {
-        /**
-         * @var $ilUser ilObjUser
-         */
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        list($sid, $client) = $this->__explodeSid($sid);
-        
-        if (!strlen($sid)) {
-            $this->__setMessage('No session id given');
-            $this->__setMessageCode('Client');
+        $ilUser = $DIC->user();
+
+        [$sid, $client] = $this->explodeSid($sid);
+
+        if ($sid === '') {
+            $this->setMessage('No session id given');
+            $this->setMessageCode('Client');
             return false;
         }
         if (!$client) {
-            $this->__setMessage('No client given');
-            $this->__setMessageCode('Client');
+            $this->setMessage('No client given');
+            $this->setMessageCode('Client');
             return false;
         }
-        
+
         if (!$GLOBALS['DIC']['ilAuthSession']->isAuthenticated()) {
-            $this->__setMessage('Session invalid');
-            $this->__setMessageCode('Client');
+            $this->setMessage('Session invalid');
+            $this->setMessageCode('Client');
             return false;
         }
 
         if ($ilUser->hasToAcceptTermsOfService()) {
-            $this->__setMessage('User agreement no accepted.');
-            $this->__setMessageCode('Server');
+            $this->setMessage('User agreement no accepted.');
+            $this->setMessageCode('Server');
             return false;
         }
 
         if ($this->soap_check) {
             $set = new ilSetting();
-            $this->__setMessage('SOAP is not enabled in ILIAS administration for this client');
-            $this->__setMessageCode('Server');
-            return ($set->get("soap_user_administration") == 1);
+            $this->setMessage('SOAP is not enabled in ILIAS administration for this client');
+            $this->setMessageCode('Server');
+            return (int) $set->get("soap_user_administration", '0') === 1;
         }
 
         return true;
     }
 
-    /**
-     * Overwrite error handler
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function initErrorWriter()
-    {
-        include_once('./Services/Init/classes/class.ilErrorHandling.php');
-
-        set_error_handler(array('ilErrorHandling','_ilErrorWriter'), E_ALL);
-    }
-
-
-    public function __explodeSid($sid)
+    protected function explodeSid(string $sid): array
     {
         $exploded = explode('::', $sid);
 
-        return is_array($exploded) ? $exploded : array('sid' => '','client' => '');
+        return is_array($exploded) ? $exploded : array('sid' => '', 'client' => '');
     }
 
-
-    public function __setMessage($a_str)
+    protected function setMessage(string $a_str): void
     {
         $this->message = $a_str;
     }
-    public function __getMessage()
+
+    public function getMessage(): string
     {
         return $this->message;
     }
-    public function __appendMessage($a_str)
+
+    public function appendMessage(string $a_str): void
     {
         $this->message .= isset($this->message) ? ' ' : '';
         $this->message .= $a_str;
     }
-    
-    public function __setMessageCode($a_code)
+
+    public function setMessageCode(string $a_code): void
     {
         $this->message_code = $a_code;
     }
-    
-    public function __getMessageCode()
+
+    public function getMessageCode(): string
     {
         return $this->message_code;
     }
 
-    /**
-     * Init authentication
-     * @param string $sid
-     */
-    public function initAuth($sid)
+    protected function initAuth(string $sid): void
     {
-        list($sid, $client) = $this->__explodeSid($sid);
-        define('CLIENT_ID', $client);
-        $_COOKIE['ilClientId'] = $client;
-        $_COOKIE[session_name()] = $sid;
+        global $DIC;
+
+        [$sid, $client] = $this->explodeSid($sid);
+
+        if (isset($DIC)) {
+            ilUtil::setCookie(session_name(), $sid);
+        } else {
+            $_COOKIE['ilClientId'] = $client;
+            $_COOKIE[session_name()] = $sid;
+        }
     }
 
-    public function initIlias()
+    protected function initIlias(): void
     {
-        if (ilContext::getType() == ilContext::CONTEXT_SOAP) {
+        if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
                 require_once("Services/Init/classes/class.ilInitialisation.php");
                 ilInitialisation::reinitILIAS();
             } catch (Exception $e) {
-                // #10608
-                // no need to do anything here, see __checkSession() below
             }
         }
     }
 
-
-    public function __initAuthenticationObject($a_auth_mode = AUTH_LOCAL)
+    protected function initAuthenticationObject(): void
     {
         include_once './Services/Authentication/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
     }
 
-
-    public function __raiseError($a_message, $a_code)
+    /**
+     * @param string $a_message
+     * @param string|int $a_code
+     * @return soap_fault|SoapFault|null
+     */
+    protected function raiseError(string $a_message, $a_code)
     {
-        #echo $a_message, $a_code;
         switch ($this->error_method) {
-            case NUSOAP:
+            case self::NUSOAP:
                 return new soap_fault($a_code, '', $a_message);
-            case PHP5:
+            case self::PHP5:
                 return new SoapFault($a_code, $a_message);
         }
+        return null;
     }
 
-    /**
-     * get client information from current as xml result set
-     *
-     * @param string $sid  current session id
-     *
-     * @return XMLResultSet containing columns installation_id, installation_version, installation_url, installation_description, installation_default_language
-     */
-    public function getNIC($sid)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
-
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
-
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilLog = $DIC['ilLog'];
-        $rbacadmin = $DIC['rbacadmin'];
-        $ilSetting = $DIC['ilSetting'];
-        $ilClientIniFile = $DIC['ilClientIniFile'];
-
-        if (!is_object($ilClientIniFile)) {
-            return $this->__raiseError("Client ini is not initialized", "Server");
-        }
-        $auth_modes = ilAuthUtils::_getActiveAuthModes();
-        $auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
-        $auth_mode_names = array();
-        foreach ($auth_modes as $mode) {
-            $auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
-        }
-
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
-        
-        // create advanced meta data record xml
-        $record_ids = array();
-        $record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
-        foreach ($record_types as $type_info) {
-            $type = $type_info['obj_type'];
-            $records = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type);
-            foreach ($records as $record) {
-                $record_ids [] = $record->getRecordId();
-            }
-        }
-        $record_ids = array_unique($record_ids);
-        $advmwriter = new ilAdvancedMDRecordXMLWriter($record_ids);
-        $advmwriter->write();
-        
-        // create user defined fields record xml, simulate empty user records
-        include_once("./Services/User/classes/class.ilUserXMLWriter.php");
-        $udfWriter = new ilUserXMLWriter();
-        $users = array();
-        $udfWriter->setObjects($users);
-        $udfWriter->start();
-         
-        // todo: get information from client id, read from ini file specificied
-        $client_details[] = array("installation_id" => IL_INST_ID,
-                                   "installation_version" => ILIAS_VERSION,
-                                   "installation_url" => ILIAS_HTTP_PATH,
-                                   "installation_description" => $ilClientIniFile->readVariable("client", "description"),
-                                    "installation_language_default" => $ilClientIniFile->readVariable("language", "default"),
-                                    "installation_session_expire" => $ilClientIniFile->readVariable("session", "expire"),
-                                    "installation_php_postmaxsize" => $this->return_bytes(ini_get("post_max_size")),
-                                    "authentication_methods" => join(",", $auth_mode_names),
-                                    "authentication_default_method" => $auth_mode_default,
-                                    "installation_udf_xml" => $udfWriter ->getXML(),
-                                    "installation_advmd_xml" => $advmwriter->xmlDumpMem(false)
-
-                                                                        );
-
-        // store into xml result set
-        include_once './webservice/soap/classes/class.ilXMLResultSet.php';
-
-
-        $xmlResult = new ilXMLResultSet();
-        $xmlResult->addArray($client_details, true);
-
-        // create writer and return xml
-        include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
-        $xmlResultWriter = new ilXMLResultSetWriter($xmlResult);
-        $xmlResultWriter->start();
-        return $xmlResultWriter->getXML();
-    }
-
-    /**
-    *	calculate bytes from K,M,G modifiers
-        e.g: 8M = 8 * 1024 * 1024 bytes
-    */
-    public static function return_bytes($val)
-    {
-        $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
-        switch ($last) {
-        // The 'G' modifier is available since PHP 5.1.0
-        case 'g':
-            $val *= 1024;
-            // no break
-        case 'm':
-            $val *= 1024;
-            // no break
-        case 'k':
-            $val *= 1024;
-        }
-        return $val;
-    }
-
-    public function isFault($object)
+    public function isFault($object): bool
     {
         switch ($this->error_method) {
-            case NUSOAP:
+            case self::NUSOAP:
                 return $object instanceof soap_fault;
-            case PHP5:
+            case self::PHP5:
                 return $object instanceof SoapFault;
         }
         return true;
@@ -337,154 +195,97 @@ class ilSoapAdministration
 
     /**
      * check access for ref id: expected type, permission, return object instance if returnobject is true
-     *
-     * @param int $ref_id
-     * @param string or array $expected_type
-     * @param string $permission
-     * @param boolean $returnObject
-     * @return Object or type
      */
-    public function checkObjectAccess($ref_id, $expected_type, $permission, $returnObject = false)
-    {
+    protected function checkObjectAccess(
+        int $ref_id,
+        array $expected_type,
+        string $permission,
+        bool $returnObject = false
+    ) {
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        if (!is_numeric($ref_id)) {
-            return $this->__raiseError(
-                'No valid id given.',
-                'Client'
-            );
-        }
+        $rbacsystem = $DIC->rbac()->system();
+
         if (!ilObject::_exists($ref_id, true)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'No object for id.',
                 'CLIENT_OBJECT_NOT_FOUND'
             );
         }
-        
+
         if (ilObject::_isInTrash($ref_id)) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Object is already trashed.',
                 'CLIENT_OBJECT_DELETED'
             );
         }
-        
-        $type = ilObjectFactory::getTypeByRefId($ref_id);
-        if ((is_array($expected_type) && !in_array($type, $expected_type))
-            ||
-            (!is_array($expected_type) && $type != $expected_type)
-            ) {
-            return $this->__raiseError("Wrong type $type for id. Expected: " . (is_array($expected_type) ? join(",", $expected_type) : $expected_type), 'CLIENT_OBJECT_WRONG_TYPE');
+
+        $type = ilObject::_lookupType(ilObject::_lookupObjId($ref_id));
+        if (!in_array($type, $expected_type, true)) {
+            return $this->raiseError(
+                "Wrong type $type for id. Expected: " . implode(",", $expected_type),
+                'CLIENT_OBJECT_WRONG_TYPE'
+            );
         }
-        
         if (!$rbacsystem->checkAccess($permission, $ref_id, $type)) {
-            return $this->__raiseError('Missing permission $permission for type $type.', 'CLIENT_OBJECT_WRONG_PERMISSION');
+            return $this->raiseError(
+                'Missing permission $permission for type $type.',
+                'CLIENT_OBJECT_WRONG_PERMISSION'
+            );
         }
-        
         if ($returnObject) {
-            return ilObjectFactory::getInstanceByRefId($ref_id);
+            try {
+                return ilObjectFactory::getInstanceByRefId($ref_id);
+            } catch (ilObjectNotFoundException $e) {
+                return $this->raiseError('No valid ref_id given', 'Client');
+            }
         }
-        
         return $type;
     }
 
-    public function getInstallationInfoXML()
+    public function getInstallationInfoXML(): string
     {
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
-        
+
         require_once("Services/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
-                
+
         $clientdirs = glob(ILIAS_WEB_DIR . "/*", GLOB_ONLYDIR);
         require_once("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
         $writer->start();
         if (is_array($clientdirs)) {
             foreach ($clientdirs as $clientdir) {
-                if (is_object($clientInfo= $this->getClientInfo(null, $clientdir))) {
-                    $writer->addClient($clientInfo);
-                }
+                $writer->addClient($clientdir);
             }
         }
         $writer->end();
-        
         return $writer->getXML();
     }
-    
-    public function getClientInfoXML($clientid)
+
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
+    public function getClientInfoXML(string $clientid)
     {
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
-        
+
         require_once("Services/Init/classes/class.ilInitialisation.php");
         ilInitialisation::initILIAS();
-        
+
         $clientdir = ILIAS_WEB_DIR . "/" . $clientid;
         require_once("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
         $writer = new ilSoapInstallationInfoXMLWriter();
-        $writer->setExportAdvancedMetaDataDefinitions(true);
-        $writer->setExportUDFDefinitions(true);
         $writer->start();
-        if (is_object($client = $this->getClientInfo(null, $clientdir))) {
-            $writer->addClient($client);
-        } else {
-            return $this->__raiseError("Client ID $clientid does not exist!", 'Client');
+        if (!$writer->addClient($clientdir)) {
+            return $this->raiseError(
+                'Client ID ' . $clientid . 'does not exist!',
+                'Client'
+            );
         }
         $writer->end();
         return $writer->getXML();
-    }
-    
-    private function getClientInfo($init, $client_dir)
-    {
-        global $DIC;
-
-        $ini_file = "./" . $client_dir . "/client.ini.php";
-        
-        // get settings from ini file
-        require_once("./Services/Init/classes/class.ilIniFile.php");
-        
-        $ilClientIniFile = new ilIniFile($ini_file);
-        $ilClientIniFile->read();
-        if ($ilClientIniFile->ERROR != "") {
-            return false;
-        }
-        $client_id = $ilClientIniFile->readVariable('client', 'name');
-        if ($ilClientIniFile->variableExists('client', 'expose')) {
-            $client_expose = $ilClientIniFile->readVariable('client', 'expose');
-            if ($client_expose == "0") {
-                return false;
-            }
-        }
-
-        // build dsn of database connection and connect
-        $ilDB = ilDBWrapperFactory::getWrapper(
-            $ilClientIniFile->readVariable("db", "type")
-        );
-        $ilDB->initFromIniFile($ilClientIniFile);
-        if ($ilDB->connect(true)) {
-            unset($DIC['ilDB']);
-            $DIC['ilDB'] = $ilDB;
-
-            require_once("Services/Administration/classes/class.ilSetting.php");
-
-            $settings = new ilSetting();
-            unset($DIC["ilSetting"]);
-            $DIC["ilSetting"] = $settings;
-            // workaround to determine http path of client
-            define("IL_INST_ID", $settings->get("inst_id", 0));
-            $settings->access = $ilClientIniFile->readVariable("client", "access");
-            $settings->description = $ilClientIniFile->readVariable("client", "description");
-            $settings->session = min((int) ini_get("session.gc_maxlifetime"), (int) $ilClientIniFile->readVariable("session", "expire"));
-            $settings->language = $ilClientIniFile->readVariable("language", "default");
-            $settings->clientid = basename($client_dir); //pathinfo($client_dir, PATHINFO_FILENAME);
-            $settings->default_show_users_online = $settings->get("show_users_online");
-            $settings->default_hits_per_page = $settings->get("hits_per_page");
-            $skin = $ilClientIniFile->readVariable("layout", "skin");
-            $style = $ilClientIniFile->readVariable("layout", "style");
-            $settings->default_skin_style = $skin . ":" . $style;
-            return $settings;
-        }
-        return null;
     }
 }

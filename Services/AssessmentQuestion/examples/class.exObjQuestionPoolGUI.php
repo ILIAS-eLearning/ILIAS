@@ -26,22 +26,22 @@ class exObjQuestionPoolGUI
     public function executeCommand()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         switch ($DIC->ctrl()->getNextClass($this)) {
             case $DIC->question()->service()->fetchNextAuthoringCommandClass($DIC->ctrl()->getNextClass()):
-                
+
                 $questionId = 0; // Fetch questionId from Request Parameters
                 $backLink = ''; // Initialise with Back Link to Consumers Back-Landing Page
-                
+
                 $questionInstance = $DIC->question()->getQuestionInstance($questionId);
                 $questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
-                
+
                 $questionAuthoringGUI->setBackLink($backLink);
-                
+
                 $DIC->ctrl()->forwardCommand($questionAuthoringGUI);
         }
     }
-    
+
     /**
      * For question listings the ilAsqQuestionFactory provides a factory method to retrieve
      * an array of associative question data arrays. This structure can be simply used as
@@ -50,22 +50,22 @@ class exObjQuestionPoolGUI
     public function showQuestions()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $parentObjectId = 0; // init with question pool object id
-        
+
         $questionDataArray = $DIC->question()->getQuestionDataArray($parentObjectId);
-        
+
         /**
          * initialise any ilTable2GUI with this data array
          * render initialised ilTable2GUI
          */
-        
+
         $tableGUI = new exQuestionsTableGUI($this, 'showQuestions', '');
         $tableGUI->setData($questionDataArray);
-        
+
         $tableHTML = $tableGUI->getHTML(); // render table
     }
-    
+
     /**
      * When a component provides import functionality for assessment questions, it needs to make use of the
      * ILIAS QTI service to get any qti xml parsed to an QTI object graph provided by the QTI service.
@@ -80,25 +80,25 @@ class exObjQuestionPoolGUI
     public function importQuestions()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $parentObjectId = 0; // init with question pool object id
-        
+
         /**
          * parse any qti import xml using the QTI Service and retrieve
          * an array containing ilQTIItem instances
          */
         $qtiItems = array(); /* @var ilQTIItem[] $qtiItems */
-        
+
         foreach ($qtiItems as $qtiItem) {
             $questionType = $DIC->question()->service()->determineQuestionTypeByQtiItem($qtiItem);
             $questionInstance = $DIC->question()->getEmptyQuestionInstance($questionType);
-            
+
             $questionInstance->fromQtiItem($qtiItem);
             $questionInstance->setParentId($parentObjectId);
             $questionInstance->save();
         }
     }
-    
+
     /**
      * When a component provides export functionality for assessment questions, it needs the ilAsqQuestion
      * interface method toQtiXML to retrieve an qti item xml string. Since the QTI service does not support
@@ -111,25 +111,25 @@ class exObjQuestionPoolGUI
     public function exportQuestions()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $parentObjectId = 0; // init with question pool object id
-        
+
         /**
          * get questions managed by this parent object
          */
         $questions = $DIC->question()->getQuestionInstances($parentObjectId);
-        
+
         /**
          * build QTI xml string that will be used for any kind of export
          */
-        
+
         $qtiXML = '';
-        
+
         foreach ($questions as $questionInstance) {
             $qtiXML .= $questionInstance->toQtiXML();
         }
     }
-    
+
     /**
      * For the deletion of questions ilAsqQuestion provides the interface method deleteQuestion.
      * The ilAsqFactory is to be used to get the ilAsqQuestion instance for any given questionId.
@@ -138,14 +138,14 @@ class exObjQuestionPoolGUI
     public function deleteQuestion()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $questionId = 0; // init from GET parameters
-        
+
         /**
          * use the ilAsqFactory to get an ilAsqQuestion instance
          * that supports the deletion process
          */
-        
+
         $questionInstance = $DIC->question()->getQuestionInstance($questionId);
         $questionInstance->delete();
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Resources content object (see ILIAS DTD). Inserts Repository Resources
@@ -23,12 +26,12 @@ class ilPCResources extends ilPageContent
 {
     public php4DOMElement $res_node;
 
-    public function init() : void
+    public function init(): void
     {
         $this->setType("repobj");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->res_node = $a_node->first_child();		// this is the Resources node
@@ -38,14 +41,14 @@ class ilPCResources extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->res_node = $this->dom->create_element("Resources");
         $this->res_node = $this->node->append_child($this->res_node);
     }
 
-    public function setResourceListType(string $a_type) : void
+    public function setResourceListType(string $a_type): void
     {
         if (!empty($a_type)) {
             $children = $this->res_node->child_nodes();
@@ -58,7 +61,7 @@ class ilPCResources extends ilPageContent
         }
     }
 
-    public function setItemGroupRefId(int $a_ref_id) : void
+    public function setItemGroupRefId(int $a_ref_id): void
     {
         if (!empty($a_ref_id)) {
             $children = $this->res_node->child_nodes();
@@ -74,7 +77,7 @@ class ilPCResources extends ilPageContent
     /**
      * Get Resource List Type.
      */
-    public function getResourceListType() : ?string
+    public function getResourceListType(): ?string
     {
         if (is_object($this->res_node)) {
             $children = $this->res_node->child_nodes();
@@ -84,11 +87,11 @@ class ilPCResources extends ilPageContent
         }
         return null;
     }
-    
+
     /**
      * Get item group ref id
      */
-    public function getItemGroupRefId() : ?int
+    public function getItemGroupRefId(): ?int
     {
         if (is_object($this->res_node)) {
             $children = $this->res_node->child_nodes();
@@ -99,7 +102,7 @@ class ilPCResources extends ilPageContent
         return null;
     }
 
-    public function getMainType() : ?string
+    public function getMainType(): ?string
     {
         if (is_object($this->res_node)) {
             $children = $this->res_node->child_nodes();
@@ -113,16 +116,16 @@ class ilPCResources extends ilPageContent
     public static function modifyItemGroupRefIdsByMapping(
         ilPageObject $a_page,
         array $mappings
-    ) : void {
+    ): void {
         $dom = $a_page->getDom();
-        
+
         if ($dom instanceof php4DOMDocument) {
             $dom = $dom->myDOMDocument;
         }
- 
+
         $xpath_temp = new DOMXPath($dom);
         $igs = $xpath_temp->query("//Resources/ItemGroup");
-        
+
         foreach ($igs as $ig_node) {
             $ref_id = $ig_node->getAttribute("RefId");
             if ($mappings[$ref_id] > 0) {
@@ -130,8 +133,8 @@ class ilPCResources extends ilPageContent
             }
         }
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("pc_res");
     }
@@ -139,7 +142,7 @@ class ilPCResources extends ilPageContent
     public static function resolveResources(
         ilPageObject $page,
         array $ref_mappings
-    ) : void {
+    ): void {
         self::modifyItemGroupRefIdsByMapping($page, $ref_mappings);
     }
 }

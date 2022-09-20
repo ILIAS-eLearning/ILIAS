@@ -1,10 +1,25 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
 use Exception;
 use InvalidArgumentException;
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class DateComparator
@@ -13,11 +28,6 @@ use InvalidArgumentException;
  */
 class DateComparator extends BaseComparator
 {
-    /**
-     * DateComparator constructor.
-     * @param string $test
-     * @throws InvalidArgumentException
-     */
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?|after|since|before|until)?\s*(.+?)\s*$#i', $test, $matches)) {

@@ -35,7 +35,7 @@ class ilAssLacUnsupportedOperation extends ilAssLacException implements ilAssLac
     /**
      * @return string
      */
-    public function getOperator()
+    public function getOperator(): string
     {
         return $this->operator;
     }
@@ -44,11 +44,11 @@ class ilAssLacUnsupportedOperation extends ilAssLacException implements ilAssLac
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_operator_not_supported"),
-            $e->getOperator()
+            $this->getOperator()
         );
     }
 }

@@ -31,7 +31,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -45,7 +46,7 @@ import org.jdom.xpath.XPath;
  */
 public abstract class ZipBasedOfficeHandler {
 
-	protected static Logger logger = Logger.getLogger(ZipBasedOfficeHandler.class); 
+	protected static Logger logger = LogManager.getLogger(ZipBasedOfficeHandler.class); 
 	protected static final int BUFFER = 2048;
 	
 	/**

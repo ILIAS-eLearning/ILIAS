@@ -1,9 +1,24 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\FileUpload\Handler;
 
 use JsonSerializable;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface FileInfoResult
  *
@@ -11,14 +26,14 @@ use JsonSerializable;
  */
 interface FileInfoResult extends JsonSerializable
 {
-    public function getFileIdentifier() : string;
+    public function getFileIdentifier(): string;
 
 
-    public function getName() : string;
+    public function getName(): string;
 
 
-    public function getSize() : int;
+    public function getSize(): int;
 
 
-    public function getMimeType() : string;
+    public function getMimeType(): string;
 }

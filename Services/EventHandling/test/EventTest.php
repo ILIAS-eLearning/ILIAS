@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Test clipboard repository
@@ -11,7 +14,7 @@ class EventTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
@@ -34,25 +37,24 @@ class EventTest extends TestCase
                 )
             );
 
-        $pa_mock = $this->createMock(ilPluginAdmin::class);
-        $pa_mock->method("getActivePluginsForSlot")
-            ->will(
-                $this->onConsecutiveCalls(
-                    []
-                )
-            );
 
         $this->setGlobalVariable(
             "ilDB",
             $db_mock
         );
         $this->setGlobalVariable(
-            "ilPluginAdmin",
-            $pa_mock
-        );
-        $this->setGlobalVariable(
             "ilSetting",
             $this->createMock(ilSetting::class)
+        );
+        $component_repository = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable(
+            "component.repository",
+            $component_repository
+        );
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $this->setGlobalVariable(
+            "component.factory",
+            $component_factory
         );
     }
 
@@ -60,23 +62,23 @@ class EventTest extends TestCase
      * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getHandler() : ilAppEventHandler
+    protected function getHandler(): ilAppEventHandler
     {
         return new ilAppEventHandler();
     }
@@ -84,7 +86,7 @@ class EventTest extends TestCase
     /**
      * Test event
      */
-    public function testEvent()
+    public function testEvent(): void
     {
         $handler = $this->getHandler();
 

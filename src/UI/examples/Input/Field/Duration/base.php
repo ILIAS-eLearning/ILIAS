@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Input\Field\Duration;
 
@@ -7,7 +9,6 @@ namespace ILIAS\UI\examples\Input\Field\Duration;
  */
 function base()
 {
-
     //Step 0: Declare dependencies
     global $DIC;
 
@@ -19,11 +20,12 @@ function base()
 
     //Step 1: define the input
     $duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text");
-    $time = $duration->withTimeOnly(true)->withRequired(true);
     $timezone = $duration
         ->withTimezone('America/El_Salvador')
         ->withUseTime(true)
         ->withByline('timezone and both time and date');
+
+    $time = $duration->withTimeOnly(true)->withRequired(true)->withLabels('start time', 'end time');
 
     //Step 2: define form and form actions, attach the input
     $form = $ui->input()->container()->form()->standard(
@@ -37,7 +39,7 @@ function base()
     );
 
     $result = "";
-    
+
     //Step 3: implement some form data processing.
     if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);

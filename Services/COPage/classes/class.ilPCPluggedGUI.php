@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * User Interface for plugged page component
@@ -21,13 +24,14 @@
 class ilPCPluggedGUI extends ilPageContentGUI
 {
     protected string $pluginname = "";
-    protected ilPluginAdmin $plugin_admin;
     protected ilTabsGUI $tabs;
     protected ?ilPageComponentPlugin $current_plugin = null;
-    
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
+
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_plugin_name = "",
         string $a_pc_id = ""
@@ -35,7 +39,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_repository = $DIC["component.repository"];
+        $this->component_factory = $DIC["component.factory"];
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
@@ -44,12 +49,12 @@ class ilPCPluggedGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function setPluginName(string $a_pluginname) : void
+    public function setPluginName(string $a_pluginname): void
     {
         $this->pluginname = $a_pluginname;
     }
 
-    public function getPluginName() : string
+    public function getPluginName(): string
     {
         return $this->pluginname;
     }
@@ -60,32 +65,23 @@ class ilPCPluggedGUI extends ilPageContentGUI
      */
     public function executeCommand()
     {
-        $ilPluginAdmin = $this->plugin_admin;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ret = "";
-        
+
         $ilTabs->setBackTarget($lng->txt("pg"), $ilCtrl->getLinkTarget($this, "returnToParent"));
-        
+
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
         // get all plugins and check, whether next class belongs to one
         // of them, then forward
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
+        $plugins = $this->component_repository->getPluginSlotById("pgcp")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $pl_name = $pl->getName();
             if ($next_class == strtolower("il" . $pl_name . "plugingui")) {
-                $plugin = $ilPluginAdmin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "COPage",
-                    "pgcp",
-                    $pl_name
-                );
+                $plugin = $this->component_factory->getPlugin($pl->getId());
                 $plugin->setPageObj($this->getPage());
                 $this->current_plugin = $plugin;
                 $this->setPluginName($pl_name);
@@ -105,33 +101,28 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         $this->edit(true);
     }
 
-    public function edit(bool $a_insert = false) : void
+    public function edit(bool $a_insert = false): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $ilPluginAdmin = $this->plugin_admin;
         $html = "";
-        
+
         $this->displayValidationError();
-        
+
         // edit form
         if ($a_insert) {
             $plugin_name = $this->getPluginName();
         } else {
             $plugin_name = $this->content_obj->getPluginName();
         }
-        if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
-            $plugin_obj = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $plugin_name
-            );
+        $plugin = $this->component_repository->getPluginByName($plugin_name);
+        if ($plugin->isActive()) {
+            $plugin_obj = $this->component_factory->getPlugin($plugin->getId());
             $plugin_obj->setPageObj($this->getPage());
             $gui_obj = $plugin_obj->getUIClassInstance();
             $gui_obj->setPCGUI($this);
@@ -148,7 +139,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         }
     }
 
-    public function createElement(array $a_properties) : bool
+    public function createElement(array $a_properties): bool
     {
         $this->content_obj = new ilPCPlugged($this->getPage());
         $this->content_obj->create(
@@ -166,7 +157,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return false;
     }
 
-    public function updateElement(array $a_properties) : bool
+    public function updateElement(array $a_properties): bool
     {
         $this->content_obj->setProperties($a_properties);
         $this->content_obj->setPluginVersion($this->current_plugin->getVersion());
@@ -176,8 +167,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
         }
         return false;
     }
-    
-    public function returnToParent() : void
+
+    public function returnToParent(): void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

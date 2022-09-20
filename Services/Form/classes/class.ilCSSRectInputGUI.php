@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text property in a property form.
@@ -26,7 +31,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $bottom = "";
     protected int $size = 0;
     protected bool $useUnits = false;
-    
+
     /**
     * Constructor
     *
@@ -43,7 +48,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->useUnits = true;
     }
 
-    public function setValue(array $valueArray) : void
+    public function setValue(array $valueArray): void
     {
         $this->top = $valueArray['top'];
         $this->left = $valueArray['left'];
@@ -51,81 +56,90 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->bottom = $valueArray['bottom'];
     }
 
-    public function setUseUnits(bool $a_value) : void
+    public function setUseUnits(bool $a_value): void
     {
         $this->useUnits = $a_value;
     }
 
-    public function useUnits() : bool
+    public function useUnits(): bool
     {
         return $this->useUnits;
     }
 
-    public function setTop(string $a_value) : void
+    public function setTop(string $a_value): void
     {
         $this->top = $a_value;
     }
 
-    public function getTop() : string
+    public function getTop(): string
     {
         return $this->top;
     }
 
-    public function setBottom(string $a_value) : void
+    public function setBottom(string $a_value): void
     {
         $this->bottom = $a_value;
     }
 
-    public function getBottom() : string
+    public function getBottom(): string
     {
         return $this->bottom;
     }
 
-    public function setLeft(string $a_value) : void
+    public function setLeft(string $a_value): void
     {
         $this->left = $a_value;
     }
 
-    public function getLeft() : string
+    public function getLeft(): string
     {
         return $this->left;
     }
 
-    public function setRight(string $a_value) : void
+    public function setRight(string $a_value): void
     {
         $this->right = $a_value;
     }
 
-    public function getRight() : string
+    public function getRight(): string
     {
         return $this->right;
     }
 
-    public function setSize(int $a_size) : void
+    public function setSize(int $a_size): void
     {
         $this->size = $a_size;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $postVar = $this->getPostVar();
 
-        $values = array(
-            'top' => $a_values[$postVar . '_top'],
-            'bottom' => $a_values[$postVar . '_bottom'],
-            'right' => $a_values[$postVar . '_right'],
-            'left' => $a_values[$postVar . '_left'],
-        );
+        $positions = ['top', 'left', 'right', 'bottom'];
+        $values = [
+            'top' => '',
+            'bottom' => '',
+            'right' => '',
+            'left' => '',
+        ];
+
+        foreach ($positions as $position) {
+            if (isset($a_values[$postVar . '_' . $position])) {
+                $values[$position] = $a_values[$postVar . '_' . $position];
+            } elseif (isset($a_values[$postVar][$position])) {
+                $values[$position] = $a_values[$postVar][$position];
+            }
+        }
 
         $this->setValue($values);
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -155,7 +169,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->strArray($this->getPostVar());
         $ret[$this->getPostVar() . '_top'] = trim($val['top']);
@@ -165,28 +179,28 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         return $ret;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         if (strlen($this->getTop())) {
             $a_tpl->setCurrentBlock("cssrect_value_top");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getTop()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTop()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getBottom())) {
             $a_tpl->setCurrentBlock("cssrect_value_bottom");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getBottom()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getBottom()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getLeft())) {
             $a_tpl->setCurrentBlock("cssrect_value_left");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getLeft()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getLeft()));
             $a_tpl->parseCurrentBlock();
         }
         if (strlen($this->getRight())) {
             $a_tpl->setCurrentBlock("cssrect_value_right");
-            $a_tpl->setVariable("CSSRECT_VALUE", ilUtil::prepareFormOutput($this->getRight()));
+            $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getRight()));
             $a_tpl->parseCurrentBlock();
         }
         $a_tpl->setCurrentBlock("cssrect");

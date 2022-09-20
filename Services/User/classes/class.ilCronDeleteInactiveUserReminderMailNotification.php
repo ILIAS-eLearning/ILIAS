@@ -1,35 +1,39 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMimeMailNotification.php';
-include_once './Services/Mail/classes/class.ilMimeMail.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCronDeleteInactiveUserReminderMailNotification
  * @author Guido Vollbach <gvollbach@databay.de>
- * @version $Id$
- * @package Services/User
  */
 class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotification
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
     }
 
-    /**
-     * @param string $a_code
-     */
-    protected function initLanguageByIso2Code(string $a_code = '') : void
+    protected function initLanguageByIso2Code(string $a_code = ''): void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    public function send()
+    public function send(): void
     {
         global $DIC;
 

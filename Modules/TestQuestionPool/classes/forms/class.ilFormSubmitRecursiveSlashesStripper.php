@@ -18,12 +18,12 @@
  */
 class ilFormSubmitRecursiveSlashesStripper implements ilFormValuesManipulator
 {
-    public function manipulateFormInputValues(array $inputValues) : array
+    public function manipulateFormInputValues(array $inputValues): array
     {
         return $inputValues;
     }
-    
-    public function manipulateFormSubmitValues(array $submitValues) : array
+
+    public function manipulateFormSubmitValues(array $submitValues): array
     {
         foreach ($submitValues as $identifier => $value) {
             if (is_object($value)) {
@@ -31,10 +31,10 @@ class ilFormSubmitRecursiveSlashesStripper implements ilFormValuesManipulator
                 // object building happened, sanitizing did also
                 continue;
             }
-            
-            $submitValues[$identifier] = ilUtil::stripSlashesRecursive($value);
+
+            $submitValues[$identifier] = ilArrayUtil::stripSlashesRecursive($value);
         }
-        
+
         return $submitValues;
     }
 }

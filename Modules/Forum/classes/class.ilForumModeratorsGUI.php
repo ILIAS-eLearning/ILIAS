@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumModeratorsGUI
@@ -9,7 +26,7 @@
  */
 class ilForumModeratorsGUI
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilTabsGUI $tabs;
@@ -48,14 +65,14 @@ class ilForumModeratorsGUI
             );
         }
 
-        if (!$this->access->checkAccess('write', '', (int) $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->oForumModerators = new ilForumModerators((int) $this->ref_id);
+        $this->oForumModerators = new ilForumModerators($this->ref_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -77,10 +94,10 @@ class ilForumModeratorsGUI
         }
     }
 
-    public function addModerator($users = []) : void
+    public function addModerator($users = []): void
     {
         if (!$users) {
-            ilUtil::sendFailure($this->lng->txt('frm_moderators_select_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_one'));
             return;
         }
 
@@ -101,11 +118,11 @@ class ilForumModeratorsGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('frm_moderator_role_added_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderator_role_added_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    public function detachModeratorRole() : void
+    public function detachModeratorRole(): void
     {
         $usr_ids = [];
         if ($this->http_wrapper->post()->has('usr_id')) {
@@ -116,13 +133,13 @@ class ilForumModeratorsGUI
         }
 
         if (!isset($usr_ids) || !is_array($usr_ids)) {
-            ilUtil::sendFailure($this->lng->txt('frm_moderators_select_at_least_one'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_moderators_select_at_least_one'));
             $this->ctrl->redirect($this, 'showModerators');
         }
 
         $entries = $this->oForumModerators->getCurrentModerators();
         if (count($usr_ids) === count($entries)) {
-            ilUtil::sendFailure($this->lng->txt('frm_at_least_one_moderator'));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_at_least_one_moderator'));
             $this->ctrl->redirect($this, 'showModerators');
         }
 
@@ -143,11 +160,11 @@ class ilForumModeratorsGUI
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_moderators_detached_role_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    public function showModerators() : void
+    public function showModerators(): void
     {
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
@@ -172,16 +189,15 @@ class ilForumModeratorsGUI
         $result = [];
         $i = 0;
         foreach ($entries as $usr_id) {
-            /** @var $user ilObjUser */
+            /** @var ilObjUser $user */
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
-            // Bugfix/Fallback for #25640
-            if (!$user) {
+            if (!($user instanceof ilObjUser)) {
                 $this->oForumModerators->detachModeratorRole($usr_id);
                 continue;
             }
 
             if ($num > 1) {
-                $result[$i]['check'] = ilUtil::formCheckbox(false, 'usr_id[]', $user->getId());
+                $result[$i]['check'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $user->getId());
             } else {
                 $result[$i]['check'] = '';
             }

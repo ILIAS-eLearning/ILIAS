@@ -1,9 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * Class ilMMAbstractBaseTypeHandlerAction
@@ -11,38 +30,35 @@ use ILIAS\DI\Container;
  */
 abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
+    protected array $links = [];
 
-    /**
-     * @var array
-     */
-    protected $links = [];
-    /**
-     * @inheritDoc
-     */
-    const F_ACTION = 'action';
-    /**
-     * ilMMAbstractBaseTypeHandlerAction constructor.
-     */
-    const F_EXTERNAL = 'external';
+    public const F_ACTION = 'action';
+    public const F_EXTERNAL = 'external';
 
     public function __construct()
     {
         $this->links = ilMMTypeActionStorage::getArray('identification', [self::F_ACTION, self::F_EXTERNAL]);
     }
 
-    abstract public function matchesForType() : string;
+    abstract public function matchesForType(): string;
 
     /**
      * @inheritdoc
      */
-    abstract public function enrichItem(isItem $item) : isItem;
+    abstract public function enrichItem(isItem $item): isItem;
 
     /**
      * @inheritdoc
      */
-    public function saveFormFields(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, array $data) : bool
+    public function saveFormFields(IdentificationInterface $identification, array $data): bool
     {
-        ilMMTypeActionStorage::find($identification->serialize())->setAction((string) $data[self::F_ACTION])->setExternal((bool) $data[self::F_EXTERNAL])->update();
+        $storage = ilMMTypeActionStorage::find($identification->serialize());
+        if (!$storage instanceof ilMMTypeActionStorage) {
+            return false;
+        }
+        $storage->setAction((string) ($data[self::F_ACTION] ?? '#'));
+        $storage->setExternal((bool) ($data[self::F_EXTERNAL] ?? false));
+        $storage->update();
 
         return true;
     }
@@ -50,7 +66,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @inheritdoc
      */
-    public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
+    public function getAdditionalFieldsForSubForm(IdentificationInterface $identification): array
     {
         global $DIC;
         /**
@@ -76,7 +92,7 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @return string
      */
-    abstract protected function getFieldTranslation() : string;
+    abstract protected function getFieldTranslation(): string;
 
-    abstract protected function getFieldInfoTranslation() : string;
+    abstract protected function getFieldInfoTranslation(): string;
 }

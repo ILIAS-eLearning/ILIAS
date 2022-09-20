@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -8,7 +25,7 @@
 */
 class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 {
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $subtpl = new ilTemplate(
             'tpl.mail_new_placeholders.html',
@@ -26,7 +43,7 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
         $subtpl->setVariable('TXT_LAST_NAME', $this->lng->txt('lastname'));
         $subtpl->setVariable('TXT_LOGIN', $this->lng->txt('mail_nacc_login'));
         $subtpl->setVariable('TXT_ILIAS_URL', $this->lng->txt('mail_nacc_ilias_url'));
-        $subtpl->setVariable('TXT_CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));
+        $subtpl->setVariable('TXT_INSTALLATION_NAME', $this->lng->txt('mail_nacc_installation_name'));
 
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $subtpl->get());

@@ -1,75 +1,65 @@
 <?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 /**
  * Message for the user. Mostly they are stacked, to be shown on rendering to the user all at once.
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
  */
 class ilSystemStyleMessage
 {
-    const TYPE_INFO = 0;
-    const TYPE_SUCCESS = 1;
-    const TYPE_ERROR = 2;
+    public const TYPE_INFO = 0;
+    public const TYPE_SUCCESS = 1;
+    public const TYPE_ERROR = 2;
 
-    /**
-     * @var string
-     */
-    protected $message = "";
+    protected string $message = '';
+    protected int $type_id = self::TYPE_SUCCESS;
 
-    /**
-     * @var int
-     */
-    protected $type_id = self::TYPE_SUCCESS;
-
-    /**
-     * ilMessageStack constructor.
-     * @param string $message
-     * @param int $type_id
-     */
-    public function __construct($message, $type_id = self::TYPE_SUCCESS)
+    public function __construct(string $message, int $type_id = self::TYPE_SUCCESS)
     {
         $this->setMessage($message);
         $this->setTypeId($type_id);
     }
 
-
-    /**
-     * @return string
-     */
-    public function getMessageOutput()
+    public function getMessageOutput(): string
     {
-        return $this->message . "</br>";
+        return $this->message . '</br>';
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @param string $message
-     */
-    public function setMessage($message)
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
 
-    /**
-     * @return int
-     */
-    public function getTypeId()
+    public function getTypeId(): int
     {
         return $this->type_id;
     }
 
     /**
-     * @param $type_id
      * @throws ilSystemStyleMessageStackException
      */
-    public function setTypeId($type_id)
+    public function setTypeId(int $type_id): void
     {
         if ($this->isValidTypeId($type_id)) {
             $this->type_id = $type_id;
@@ -78,7 +68,7 @@ class ilSystemStyleMessage
         }
     }
 
-    protected function isValidTypeId($type_id)
+    protected function isValidTypeId(int $type_id): bool
     {
         switch ($type_id) {
             case self::TYPE_ERROR:

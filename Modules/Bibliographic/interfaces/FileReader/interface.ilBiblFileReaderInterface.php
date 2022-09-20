@@ -1,44 +1,36 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Interface ilBiblFileReaderInterface
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblFileReaderInterface
 {
+    public function readContent(ResourceIdentification $identification): bool;
 
-    /**
-     * @param ResourceIdentification $identification
-     *
-     * @return bool
-     */
-    public function readContent(ResourceIdentification $identification);
+    public function parseContentToEntries(ilObjBibliographic $bib): array;
 
+    public function getEntryFactory(): ilBiblEntryFactoryInterface;
 
-    /**
-     * @return array
-     * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
-     */
-    public function parseContent();
+    public function getFieldFactory(): ilBiblFieldFactoryInterface;
 
-
-    /**
-     * @return ilBiblEntryFactoryInterface
-     */
-    public function getEntryFactory();
-
-
-    /**
-     * @return ilBiblFieldFactoryInterface
-     */
-    public function getFieldFactory();
-
-
-    /**
-     * @return ilBiblAttributeFactoryInterface
-     */
-    public function getAttributeFactory();
+    public function getAttributeFactory(): ilBiblAttributeFactoryInterface;
 }

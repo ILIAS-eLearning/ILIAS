@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -13,7 +31,11 @@ final class RootFolderTest extends TestCase
         '.gitignore',
         '.htaccess',
         '.phpunit.result.cache',
+        'captainhook.local.json',
+        'phpstan.local.neon',
+        'phpstan-baseline.neon',
         '.php_cs.cache',
+        '.php-cs-fixer.cache',
         'calendar.php',
         'captainhook.json',
         'composer.json',
@@ -48,8 +70,11 @@ final class RootFolderTest extends TestCase
         'studip_referrer.php',
         'unzip_test_file.zip',
         'webdav.php',
+        '.DS_Store',
+        '.buildpath',
+        '.project'
     ];
-    
+
     private const ALLOWED_ROOT_FOLDER_DIRS = [
         '.git',
         '.github',
@@ -75,9 +100,25 @@ final class RootFolderTest extends TestCase
         'tests',
         'webservice',
         'xml',
+        '.settings'
     ];
 
-    private function getAppRootFolderOrFail() : string
+    protected array $ALLOWED_ROOT_FOLDER_DIRS = [];
+    protected array $ALLOWED_ROOT_FOLDER_FILES = [];
+
+    protected function setUp(): void
+    {
+        $this->ALLOWED_ROOT_FOLDER_DIRS = array_merge(
+            self::ALLOWED_ROOT_FOLDER_DIRS,
+            explode(",", (string) getenv('ALLOWED_ROOT_FOLDER_DIRS'))
+        );
+        $this->ALLOWED_ROOT_FOLDER_FILES = array_merge(
+            self::ALLOWED_ROOT_FOLDER_FILES,
+            explode(",", (string) getenv('ALLOWED_ROOT_FOLDER_FILES'))
+        );
+    }
+
+    private function getAppRootFolderOrFail(): string
     {
         $app_root_folder = getcwd();
 
@@ -88,16 +129,16 @@ final class RootFolderTest extends TestCase
         if (!is_file($app_root_folder . '/index.php')) {
             $this->fail('Could not determine ILIAS root folder');
         }
-        
+
         return $app_root_folder;
     }
 
-    public function testAppRootFolderOnlyContainsDefinedFiles() : void
+    public function testAppRootFolderOnlyContainsDefinedFiles(): void
     {
         $found_files = [];
         $iter = new CallbackFilterIterator(
             new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file) : bool {
+            static function (DirectoryIterator $file): bool {
                 return $file->isFile();
             }
         );
@@ -107,7 +148,7 @@ final class RootFolderTest extends TestCase
         }
         sort($found_files);
 
-        $unexpected_files = array_diff($found_files, self::ALLOWED_ROOT_FOLDER_FILES);
+        $unexpected_files = array_diff($found_files, $this->ALLOWED_ROOT_FOLDER_FILES);
 
         $this->assertEmpty(
             $unexpected_files,
@@ -118,12 +159,12 @@ final class RootFolderTest extends TestCase
         );
     }
 
-    public function testAppRootFolderOnlyContainsDefinedFolders() : void
+    public function testAppRootFolderOnlyContainsDefinedFolders(): void
     {
         $found_directories = [];
         $iter = new CallbackFilterIterator(
             new DirectoryIterator($this->getAppRootFolderOrFail()),
-            static function (DirectoryIterator $file) : bool {
+            static function (DirectoryIterator $file): bool {
                 return $file->isDir() && !$file->isDot();
             }
         );
@@ -132,7 +173,7 @@ final class RootFolderTest extends TestCase
             $found_directories[] = $file->getBasename();
         }
 
-        $unexpected_directories = array_diff($found_directories, self::ALLOWED_ROOT_FOLDER_DIRS);
+        $unexpected_directories = array_diff($found_directories, $this->ALLOWED_ROOT_FOLDER_DIRS);
         sort($unexpected_directories);
 
         $this->assertEmpty(

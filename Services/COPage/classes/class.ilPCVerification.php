@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCVerification
@@ -23,7 +28,7 @@ class ilPCVerification extends ilPageContent
     private php4DOMElement $vrfc_node;
     protected ilObjUser $user;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -31,7 +36,7 @@ class ilPCVerification extends ilPageContent
         $this->setType('vrfc');
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node); // this is the PageContent node
         $this->vrfc_node = $a_node->first_child(); // this is the verification node
@@ -41,7 +46,7 @@ class ilPCVerification extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->vrfc_node = $this->dom->create_element('Verification');
@@ -51,7 +56,7 @@ class ilPCVerification extends ilPageContent
     public function setData(
         string $a_type,
         int $a_id
-    ) : void {
+    ): void {
         $this->vrfc_node->set_attribute('Type', $a_type);
         $this->vrfc_node->set_attribute('Id', $a_id);
         $this->vrfc_node->set_attribute('User', $this->user->getId());
@@ -60,7 +65,7 @@ class ilPCVerification extends ilPageContent
     /**
      * @return null|array<string, string>
      */
-    public function getData() : ?array
+    public function getData(): ?array
     {
         if (is_object($this->vrfc_node)) {
             return [
@@ -76,7 +81,7 @@ class ilPCVerification extends ilPageContent
     /**
      * @return string[]
      */
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return [
             'pc_vrfc',
@@ -88,7 +93,7 @@ class ilPCVerification extends ilPageContent
         ilPortfolioPage $a_page,
         string $a_type,
         int $a_id
-    ) : bool {
+    ): bool {
         // try to find verification in portfolio page
         $a_page->buildDom();
 

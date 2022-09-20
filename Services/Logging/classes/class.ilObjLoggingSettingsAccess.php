@@ -1,15 +1,13 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ServicesLogging
 */
 class ilObjLoggingSettingsAccess extends ilObjectAccess

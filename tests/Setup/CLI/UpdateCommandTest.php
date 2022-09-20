@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup\CLI;
 
@@ -12,16 +28,16 @@ use ILIAS\Data\Factory as DataFactory;
 
 class UpdateCommandTest extends TestCase
 {
-    public function testBasicFunctionality() : void
+    public function testBasicFunctionality(): void
     {
         $this->basicFunctionality(false);
     }
 
-    public function testBasicFunctionalityAlreadyAchieved() : void
+    public function testBasicFunctionalityAlreadyAchieved(): void
     {
         $this->basicFunctionality(true);
     }
-    public function basicFunctionality(bool $is_applicable) : void
+    public function basicFunctionality(bool $is_applicable): void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
@@ -105,7 +121,7 @@ class UpdateCommandTest extends TestCase
             ->expects($this->once())
             ->method("isApplicable")
             ->willReturn($return);
-        
+
         $tester->execute([
             "config" => $config_file
         ]);

@@ -5,17 +5,22 @@
 	"authors": [],
 	"config": {
 		"optimize-autoloader": true,
-		"vendor-dir": "./libs/composer/vendor"
+		"vendor-dir": "./libs/composer/vendor",
+		"allow-plugins": {
+			"simplesamlphp/composer-module-installer": true,
+			"cweagans/composer-patches": true,
+			"captainhook/plugin-composer": true
+		}
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"php setup/cli.php build-artifacts --yes"
+			"@php setup/cli.php build-artifacts --yes"
 		],
 		"post-install-cmd": [
-			"php libs/composer/rmdirs.php"
+			"@php libs/composer/rmdirs.php"
 		],
 		"post-update-cmd": [
-			"php libs/composer/rmdirs.php"
+			"@php libs/composer/rmdirs.php"
 		],
 		"test-php-all": [
 			"./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
@@ -24,46 +29,57 @@
 			"./CI/PHPUnit/run_tests.sh"
 		],
 		"rector": [
-			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/rector.php --no-diffs"
+			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs"
 		]
 	},
 	"require": {
-		"php": ">=7.4",
+		"php": ">=8.0 <8.2",
+		"ext-gd": "*",
+		"ext-dom": "*",
+		"ext-xsl": "*",
+		"ext-curl": "*",
+		"ext-json": "*",
+		"ext-simplexml": "*",
+		"ext-libxml": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
 		"technosophos/libris": "^2.0.2",
-		"ezyang/htmlpurifier": "4.13.0",
+		"ezyang/htmlpurifier": "4.14.0",
 		"phpmailer/phpmailer": "^6.5",
-		"geshi/geshi": "^1.0.9",
+		"geshi/geshi": "^1.0.9.1",
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
-		"symfony/yaml": "^3.4",
-		"imsglobal/lti": "^3.0.2",
-		"guzzlehttp/psr7": "^1.4",
+		"symfony/yaml": "^5.3",
+		"guzzlehttp/psr7": "1.8.5",
 		"psr/http-message": "^1.0",
 		"dflydev/fig-cookies": "^1.0",
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
-		"jumbojett/openid-connect-php": "^0.9.2",
+		"jumbojett/openid-connect-php": "^0.9.5",
 		"sabre/dav": "^4.1",
-		"symfony/console" : "^4.2",
+		"symfony/console" : "^5.0",
 		"slim/slim": "^3.11",
-		"ramsey/uuid": "^3.8",
-		"enshrined/svg-sanitize": "^0.13.0",
+		"ramsey/uuid": "4.4.0",
+		"enshrined/svg-sanitize": "^0.15.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"simplesamlphp/simplesamlphp": "^1.18"
+		"simplesamlphp/simplesamlphp": "^1.19.4",
+		"seld/jsonlint": "^1.8",
+		"ext-xml": "*",
+		"jasig/phpcas": "^1.4"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.5",
 		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^2.15",
+		"friendsofphp/php-cs-fixer": "^3.5",
 		"sebastian/environment": "^5.0",
-		"captainhook/captainhook": "^5.3",
-		"rector/rector": "^0.11.7"
+		"captainhook/captainhook": "^5.10",
+		"captainhook/plugin-composer": "^5.3",
+		"rector/rector": "^0.12.12",
+		"phpstan/phpstan": "^1.6"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -76,16 +92,71 @@
 			"./Services/",
 			"./Modules",
 			"./libs/ilias",
+			"./CI/Rector",
+			"./webservice/soap",
 			"./setup/classes"
 		],
 		"exclude-from-classmap": [
 			"./Services/Migration",
 			"./*/*/lib", "./*/*/test",
-			"./Services/CAS/phpcas",
 			"./Customizing/**/vendor"
 		]
 	},
 	"extra": {
+		"ext-gd" : {
+			"source" : "https://www.php.net/manual/en/book.image.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/MediaObjects",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for image map editing since the beginning of ILIAS 3"
+		},
+		"ext-dom" : {
+			"source" : "https://www.php.net/manual/en/class.domdocument.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xml document handling since the beginning of ILIAS 3"
+		},
+		"ext-xsl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/COPage",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xsl processing in the page editor since the beginning of ILIAS 3"
+		},
+		"ext-curl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "",
+			"approved-date": ""
+		},
+		"ext-json" : {
+			"source" : "https://www.php.net/manual/de/json.installation.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "",
+			"approved-date": "",
+			"info": "will be core extension with PHP 8.0"
+		},
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",
 			"used_version" : "v1.7",
@@ -118,20 +189,20 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v2.3.5",
+			"used_version" : "v2.6.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2021-11-05",
+			"last_update" : "2022-05-11",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2015-09-07"
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.13.0",
+			"used_version" : "v4.14.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2020-10-15",
+			"last_update" : "2022-01-04",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -141,7 +212,7 @@
 			"used_version" : "v6.5.0",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2021-06-22",
+			"last_update" : "2022-07-07",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -190,10 +261,10 @@
 		},
 		"symfony/yaml" : {
 			"source": "https://github.com/symfony/yaml.git",
-			"used_version": "v3.1",
+			"used_version": "v5.3.11",
 			"added_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>",
 			"wrapped_by": "ILIAS\\UI\\Crawler",
-			"last_update": "2016-07-07",
+			"last_update": "2021-12-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -205,16 +276,6 @@
 			"wrapped_by": "",
 			"last_update": "2016-07-07",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
-		},
-		"imsglobal/lti" : {
-			"source": "https://github.com/ILIAS-eLearning/LTI-Tool-Provider-Library-PHP",
-			"used_version": "v3.0.2",
-			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"wrapped_by": "",
-			"last_update": "2020-05-26",
-			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
@@ -280,10 +341,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.18.8",
+			"used_version": "v1.19.3",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2020-10-12",
+			"last_update": "2021-12-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -347,7 +408,7 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de",
 			"approved_by": "Jour Fixe",
 			"approved-date": "2018-02-26"
-                },
+		},
 		"slim/slim": {
 			"source": "https://github.com/slimphp/Slim",
 			"used_version": "v3.11",
@@ -368,6 +429,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
+		"phpstan/phpstan": {
+			"source": "https://github.com/phpstan/phpstanr",
+			"used_version": "1.6",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-05-02",
+			"last_update_by": "",
+			"approved-by": "TB",
+			"approved-date": "2022-05-03"
+		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
 			"used_version": "v4.4.16",
@@ -379,11 +450,11 @@
 		},
 		"ramsey/uuid": {
 			"source": "https://github.com/ramsey/uuid",
-			"used_version": "v3.8",
+			"used_version": "v4.4.0",
 			"added_by": "Theodor Truffer <tt@studer-raimann.ch>",
-			"wrapped_by": null,
-			"last_update": "2019-07-10",
-			"last_update_by": "Theodor Truffer <tt@studer-raimann.ch>",
+			"wrapped_by": "\\ILIAS\\Data\\UUID\\Uuid",
+			"last_update": "2022-08-30",
+			"last_update_by": "Fabian Schmid <fabian@sr.solutions>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-15"
 		},
@@ -396,6 +467,46 @@
 			"last_update_by" : "Alex Killing <killing@leifos.de>",
 			"approved-by": "see security issue 20339",
 			"approved-date": "2017-04-05"
+		},
+		"seld/jsonlint" : {
+			"source" : "https://github.com/Seldaek/jsonlint",
+			"used_version" : "v1.8.3",
+			"wrapped_by" : null,
+			"added_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"last_update" : "2021-11-18",
+			"last_update_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"approved-by": "Jour Fix",
+			"approved-date": "2021-11-29"
+		},
+	        "jasig/phpcas" : {
+			"source" : "https://github.com/apereo/phpCAS",
+			"used_version" : "v1.4.0",
+			"wrapped_by": null,
+			"added_by" : "Alex Killing <killing@leifos.de>",
+			"last_update" : "2022-01-28",
+			"last_update_by" : "Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de",
+			"approved-by" : "In Codebase since 2006",
+			"approved-date" : "YYYY-MM-DD"
+		},
+		"captainhook/captainhook": {
+			"source": "https://github.com/captainhookphp/captainhook",
+			"used_version": "5.10",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-08-12",
+			"last_update_by": "",
+			"approved-by": "JF",
+			"approved-date": "2021-11-21"
+		},
+		"captainhook/plugin-composer": {
+			"source": "https://github.com/captainhookphp/plugin-composer",
+			"used_version": "5.3",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-08-12",
+			"last_update_by": "",
+			"approved-by": "JF",
+			"approved-date": "2021-11-21"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

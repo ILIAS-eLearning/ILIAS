@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -23,25 +25,25 @@ class Version
         }
         $this->major = (int) $match["major"];
         $this->minor = (int) ($match["minor"] ?? 0);
-        $this->patch = (int) ($match["patch"] ?? 0); 
+        $this->patch = (int) ($match["patch"] ?? 0);
     }
 
-    public function getMajor() : int
+    public function getMajor(): int
     {
         return $this->major;
     }
 
-    public function getMinor() : int
+    public function getMinor(): int
     {
         return $this->minor;
     }
 
-    public function getPatch() : int
+    public function getPatch(): int
     {
         return $this->patch;
     }
 
-    public function equals(Version $other) : bool
+    public function equals(Version $other): bool
     {
         return
             $this->major === $other->major
@@ -49,7 +51,7 @@ class Version
             && $this->patch === $other->patch;
     }
 
-    public function isGreaterThan(Version $other) : bool
+    public function isGreaterThan(Version $other): bool
     {
         if ($this->major > $other->major) {
             return true;
@@ -66,17 +68,17 @@ class Version
         return $this->patch > $other->patch;
     }
 
-    public function isGreaterThanOrEquals(Version $other) : bool
+    public function isGreaterThanOrEquals(Version $other): bool
     {
         return $this->equals($other) || $this->isGreaterThan($other);
     }
 
-    public function isSmallerThan(Version $other) : bool
+    public function isSmallerThan(Version $other): bool
     {
         return $other->isGreaterThan($this);
     }
 
-    public function isSmallerThanOrEquals(Version $other) : bool
+    public function isSmallerThanOrEquals(Version $other): bool
     {
         return $other->isGreaterThan($this) || $this->equals($other);
     }

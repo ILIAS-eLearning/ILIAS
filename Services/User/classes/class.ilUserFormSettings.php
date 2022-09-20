@@ -1,156 +1,123 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
 /**
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup Services/User
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserFormSettings
 {
-    protected $db;
-    protected $user_id;
-    protected $id;
-    protected $settings = array();
-    private $has_stored_entry = false;
-    
-    /**
-     * Constructor
-     *
-     * @param int $a_user_id
-     * @param int $a_id
-     */
-    public function __construct($a_id, $a_user_id = null)
-    {
+    protected ilDBInterface $db;
+    protected int $user_id;
+    protected string $id;
+    protected array $settings = array(); // Missing array type.
+    private bool $has_stored_entry = false;
+
+    public function __construct(
+        string $a_id,
+        ?int $a_user_id = null
+    ) {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
-        
+
         $this->user_id = (int) $a_user_id;
-        $this->id = (string) $a_id;
+        $this->id = $a_id;
         $this->db = $ilDB;
-        
+
         if (!$this->user_id) {
             $this->user_id = $ilUser->getId();
         }
-        
+
         $this->read();
     }
-    
+
     /**
      * Check if entry exist
-     * @return type
      */
-    public function hasStoredEntry()
+    public function hasStoredEntry(): bool
     {
         return $this->has_stored_entry;
     }
-    
+
     /**
-     * Set Settings
-     *
      * @param array Array of Settings
      */
-    public function set($a_data)
+    public function set(array $a_data): void // Missing array type.
     {
         $this->settings = $a_data;
     }
-    
-    /**
-     * Remove all settings (internally)
-     */
-    public function reset()
+
+    public function reset(): void
     {
         $this->settings = array();
     }
-    
+
     /**
      * Check if a specific option is enabled
-     *
-     * @param string $a_option
-     * @return bool
      */
-    public function enabled($a_option)
+    public function enabled(string $a_option): bool
     {
         return (bool) $this->getValue($a_option);
     }
-    
+
     /**
      * Get value
-     *
-     * @param string $a_option
      * @return mixed
      */
-    public function getValue($a_option)
+    public function getValue(string $a_option)
     {
         if ($this->valueExists($a_option)) {
             return $this->settings[$a_option];
         }
+        return null;
     }
-    
+
     /**
-     * Set value
-     *
-     * @param string $a_option
-     * @param mmixed $a_value
+     * @param mixed $a_value
      */
-    public function setValue($a_option, $a_value)
+    public function setValue(string $a_option, $a_value): void
     {
         $this->settings[$a_option] = $a_value;
     }
-    
+
     /**
      * Delete value
-     *
-     * @param string $a_option
      */
-    public function deleteValue($a_option)
+    public function deleteValue(string $a_option): void
     {
         if ($this->valueExists($a_option)) {
             unset($this->settings[$a_option]);
         }
     }
-    
-    /**
-     * Does value exist in settings?
-     *
-     * @param string  $a_option
-     * @return bool
-     */
-    public function valueExists($a_option)
-    {
-        return array_key_exists($a_option, (array) $this->settings);
-    }
 
     /**
-     * Store settings in DB
+     * Does value exist in settings?
      */
-    public function store()
+    public function valueExists(string $a_option): bool
+    {
+        return array_key_exists($a_option, $this->settings);
+    }
+
+    public function store(): void
     {
         $this->delete(false);
-            
+
         $query = "INSERT INTO usr_form_settings (user_id,id,settings) " .
             "VALUES( " .
                 $this->db->quote($this->user_id, 'integer') . ", " .
@@ -159,53 +126,43 @@ class ilUserFormSettings
             ")";
         $this->db->manipulate($query);
     }
-    
-    /**
-     * Read store settings
-     *
-     * @access private
-     * @param
-     *
-     */
-    protected function read()
+
+    protected function read(): void
     {
         $query = "SELECT * FROM usr_form_settings" .
             " WHERE user_id = " . $this->db->quote($this->user_id, 'integer') .
             " AND id = " . $this->db->quote($this->id, 'text');
         $res = $this->db->query($query);
-        
+
         if ($res->numRows()) {
             $this->has_stored_entry = true;
         }
-        
+
         $this->reset();
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->settings = unserialize($row->settings);
+            $this->settings = unserialize($row->settings, ['allowed_classes' => false]);
         }
-        return true;
     }
-        
+
     /**
      * Delete user related data
-     *
-     * @param bool $a_reset
      */
-    public function delete($a_reset = true)
+    public function delete(bool $a_reset = true): void
     {
         $query = "DELETE FROM usr_form_settings" .
             " WHERE user_id = " . $this->db->quote($this->user_id, 'integer') .
             " AND id = " . $this->db->quote($this->id, 'text');
         $this->db->manipulate($query);
-        
+
         if ($a_reset) {
             $this->reset();
         }
     }
-    
+
     /**
      * Delete all settings for user id
      */
-    public static function deleteAllForUser($a_user_id)
+    public static function deleteAllForUser(int $a_user_id): void
     {
         global $DIC;
 
@@ -214,43 +171,40 @@ class ilUserFormSettings
             " WHERE user_id = " . $ilDB->quote($a_user_id, 'integer');
         $ilDB->manipulate($query);
     }
-    
+
     /**
      * Delete for id
-     * @param string $a_id
      */
-    public static function deleteAllForId($a_id)
+    public static function deleteAllForId(string $a_id): void
     {
         $query = "DELETE FROM usr_form_settings" .
             " WHERE id = " . $GLOBALS['DIC']['ilDB']->quote($a_id, 'text');
         $GLOBALS['DIC']['ilDB']->manipulate($query);
     }
-    
+
     /**
      * Delete all entries for prefix
-     * @param type $a_prefix
      */
-    public static function deleteAllForPrefix($a_prefix)
+    public static function deleteAllForPrefix(string $a_prefix): void
     {
         $query = "DELETE FROM usr_form_settings " .
             'WHERE ' . $GLOBALS['DIC']['ilDB']->like('id', 'text', $a_prefix . '%');
-        
+
         $GLOBALS['DIC']['ilDB']->manipulate($query);
     }
-    
+
     /**
      * Import settings from form
-     *
-     * @param ilPropertyFormGUI $a_form
      */
-    public function importFromForm(ilPropertyFormGUI $a_form)
+    public function importFromForm(ilPropertyFormGUI $a_form): void
     {
         $this->reset();
-        
+        $value = null;
+
         foreach ($a_form->getItems() as $item) {
             if (method_exists($item, "getPostVar")) {
                 $field = $item->getPostVar();
-                
+
                 if (method_exists($item, "getDate")) {
                     $value = $item->getDate();
                     if ($value && !$value->isNull()) {
@@ -263,28 +217,25 @@ class ilUserFormSettings
                 } elseif (method_exists($item, "getValue")) {
                     $value = $item->getValue();
                 }
-                
+
                 $this->setValue($field, $value);
             }
         }
     }
-    
+
     /**
-     * Export settings from form
-     *
-     * @param ilPropertyFormGUI $a_form
+     * Export settings to form
      */
-    public function exportToForm(ilPropertyFormGUI $a_form, $a_set_post = false)
-    {
+    public function exportToForm(
+        ilPropertyFormGUI $a_form,
+        bool $a_set_post = false
+    ): void {
         foreach ($a_form->getItems() as $item) {
             if (method_exists($item, "getPostVar")) {
                 $field = $item->getPostVar();
-                
+
                 if ($this->valueExists($field)) {
                     $value = $this->getValue($field);
-                    if ($a_set_post) {
-                        $_POST[$item->getPostVar()] = $value;
-                    }
 
                     if (method_exists($item, "setDate")) {
                         $date = new ilDateTime($value, IL_CAL_DATETIME);

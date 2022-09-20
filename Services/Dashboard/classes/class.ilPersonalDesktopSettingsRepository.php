@@ -29,112 +29,101 @@ class ilPersonalDesktopSettingsRepository
 
 
     // Notes enabled?
-    public function ifNotesEnabled() : bool
+    public function ifNotesEnabled(): bool
     {
         return !$this->settings->get("disable_notes");
     }
 
-    public function enableNotes(bool $active = true) : void
+    public function enableNotes(bool $active = true): void
     {
         $this->settings->set("disable_notes", (int) !$active);
     }
 
     // Comments enabled?
-    public function ifCommentsEnabled() : bool
+    public function ifCommentsEnabled(): bool
     {
         return !$this->settings->get("disable_comments");
     }
 
-    public function enableComments(bool $active = true) : void
+    public function enableComments(bool $active = true): void
     {
         $this->settings->set("disable_comments", (int) !$active);
     }
 
     // Can authors delete their comments
-    public function ifAuthorsCanDelete() : bool
+    public function ifAuthorsCanDelete(): bool
     {
-        return (bool) $this->settings->get("comments_del_user", 0);
+        return (bool) $this->settings->get("comments_del_user", '0');
     }
 
-    public function enableAuthorsCanDelete(bool $active = true) : void
+    public function enableAuthorsCanDelete(bool $active = true): void
     {
         $this->settings->set("comments_del_user", (int) $active);
     }
 
     // Can tutors delete comments of others
-    public function ifTutorsCanDelete() : bool
+    public function ifTutorsCanDelete(): bool
     {
-        return (bool) $this->settings->get("comments_del_tutor", 1);
+        return (bool) $this->settings->get("comments_del_tutor", '1');
     }
 
-    public function enableTutorsCanDelete(bool $active = true) : void
+    public function enableTutorsCanDelete(bool $active = true): void
     {
         $this->settings->set("comments_del_tutor", (int) $active);
     }
 
     // Get recipients of comments notification
-    public function getCommentsNotificationRecipients() : string
+    public function getCommentsNotificationRecipients(): string
     {
         return (string) $this->settings->get("comments_noti_recip");
     }
 
     // Update recipients of comments notification
-    public function updateCommentsNotificationRecipients(string $recipients) : void
+    public function updateCommentsNotificationRecipients(string $recipients): void
     {
         $this->settings->set("comments_noti_recip", $recipients);
     }
 
     // learning history enabled?
-    public function ifLearningHistoryEnabled() : bool
+    public function ifLearningHistoryEnabled(): bool
     {
         return (bool) $this->settings->get("enable_learning_history");
     }
 
-    public function enableLearningHistory(bool $active = true) : void
+    public function enableLearningHistory(bool $active = true): void
     {
         $this->settings->set("enable_learning_history", (int) $active);
     }
 
     // chat viewer enabled?
-    public function ifChatViewerEnabled() : bool
+    public function ifChatViewerEnabled(): bool
     {
         return (bool) $this->settings->get("block_activated_chatviewer");
     }
 
-    public function enableChatViewer(bool $active = true) : void
+    public function enableChatViewer(bool $active = true): void
     {
         $this->settings->set("block_activated_chatviewer", (int) $active);
     }
 
-    public function getSystemMessagePresentation() : int
+    public function getSystemMessagePresentation(): int
     {
         return (int) $this->settings->get("pd_sys_msg_mode");
     }
 
-    public function updateSystemMessagePresentation(int $mode) : void
+    public function updateSystemMessagePresentation(int $mode): void
     {
         $this->settings->set("pd_sys_msg_mode", $mode);
     }
 
     // forum draft block enabled?
-    public function ifForumDrafts() : bool
+    public function ifForumDrafts(): bool
     {
-        return (bool) $this->settings->get('block_activated_pdfrmpostdraft', 0);
+        return (bool) $this->settings->get('block_activated_pdfrmpostdraft', '0');
     }
 
-    public function enableForumDrafts(bool $active = true) : void
+    public function enableForumDrafts(bool $active = true): void
     {
         $this->settings->set("block_activated_pdfrmpostdraft", (int) $active);
-    }
-
-    // block moving enabled?
-    public function ifMoveBlocks() : bool
-    {
-        return (bool) $this->settings->get('enable_block_moving', 0);
-    }
-
-    public function enableMoveBlocks(bool $active = true) : void
-    {
-        $this->settings->set("enable_block_moving", (int) $active);
     }
 }

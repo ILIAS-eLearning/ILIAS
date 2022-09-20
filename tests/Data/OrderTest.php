@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data\Order;
 use PHPUnit\Framework\TestCase;
@@ -8,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class orderTest extends TestCase
 {
-    public function testFactory()
+    public function testFactory(): Order
     {
         $f = new ILIAS\Data\Factory();
         $order = $f->order('subject', Order::ASC);
@@ -19,7 +21,7 @@ class orderTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testValues(Order $order)
+    public function testValues(Order $order): void
     {
         $this->assertEquals(
             ['subject' => Order::ASC],
@@ -30,7 +32,7 @@ class orderTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testAppend(Order $order)
+    public function testAppend(Order $order): Order
     {
         $order = $order->append('sub2', Order::DESC);
         $this->assertEquals(
@@ -46,7 +48,7 @@ class orderTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testJoinOne(Order $order)
+    public function testJoinOne(Order $order): void
     {
         $this->assertEquals(
             'SORT BY subject ASC',
@@ -62,7 +64,7 @@ class orderTest extends TestCase
     /**
      * @depends testAppend
      */
-    public function testJoinMore(Order $order)
+    public function testJoinMore(Order $order): void
     {
         $this->assertEquals(
             'Sorting subject ASC, sub2 DESC,',
@@ -78,7 +80,7 @@ class orderTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testInvalidDirection(Order $order)
+    public function testInvalidDirection(Order $order): void
     {
         $this->expectException(TypeError::class);
         $order = $order->append('sub3', -1);
@@ -87,7 +89,7 @@ class orderTest extends TestCase
     /**
      * @depends testFactory
      */
-    public function testInvalidSubject(Order $order)
+    public function testInvalidSubject(Order $order): void
     {
         $this->expectException(InvalidArgumentException::class);
         $order = $order->append('subject', Order::ASC);

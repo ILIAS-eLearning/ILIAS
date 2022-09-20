@@ -1,13 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Handles user interface for exercises
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExerciseHandlerGUI: ilObjExerciseGUI
  */
-class ilExerciseHandlerGUI
+class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -35,12 +49,12 @@ class ilExerciseHandlerGUI
      * @throws ilCtrlException
      * @throws ilExerciseException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjexercisegui");

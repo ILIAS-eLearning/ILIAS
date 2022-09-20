@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -13,20 +14,14 @@ require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
  */
 class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
 {
-    const SKILL_PROFILE_PARAM = 'skill_profile';
+    public const SKILL_PROFILE_PARAM = 'skill_profile';
 
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
+    private ilCtrl $ctrl;
 
     private $parentGUI;
     private $parentCMD;
-
     private $availableSkillProfiles;
-
     private $noSkillProfileOptionEnabled;
-
     private $selectedEvaluationMode;
 
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
@@ -39,7 +34,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         parent::__construct();
     }
 
-    public function setAvailableSkillProfiles($availableSkillProfiles)
+    public function setAvailableSkillProfiles($availableSkillProfiles): void
     {
         $this->availableSkillProfiles = $availableSkillProfiles;
     }
@@ -49,7 +44,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         return $this->availableSkillProfiles;
     }
 
-    public function setNoSkillProfileOptionEnabled($noSkillProfileOptionEnabled)
+    public function setNoSkillProfileOptionEnabled($noSkillProfileOptionEnabled): void
     {
         $this->noSkillProfileOptionEnabled = $noSkillProfileOptionEnabled;
     }
@@ -59,7 +54,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         return $this->noSkillProfileOptionEnabled;
     }
 
-    public function setSelectedEvaluationMode($selectedEvaluationMode)
+    public function setSelectedEvaluationMode($selectedEvaluationMode): void
     {
         $this->selectedEvaluationMode = $selectedEvaluationMode;
     }
@@ -69,7 +64,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         return $this->selectedEvaluationMode;
     }
 
-    public function build()
+    public function build(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parentGUI));
 
@@ -81,7 +76,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         $this->addFormButton($this->lng->txt("select"), $this->parentCMD);
     }
 
-    private function buildEvaluationModeOptionsArray()
+    private function buildEvaluationModeOptionsArray(): array
     {
         $options = array();
 
@@ -97,7 +92,7 @@ class ilTestSkillEvaluationToolbarGUI extends ilToolbarGUI
         return $options;
     }
 
-    public static function fetchSkillProfileParam($postData)
+    public static function fetchSkillProfileParam($postData): int
     {
         if (isset($postData[self::SKILL_PROFILE_PARAM])) {
             return (int) $postData[self::SKILL_PROFILE_PARAM];

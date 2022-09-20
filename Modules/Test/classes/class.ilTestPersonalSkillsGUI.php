@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -38,7 +39,7 @@ class ilTestPersonalSkillsGUI
         $this->testId = $testId;
     }
 
-    public function getHTML()
+    public function getHTML(): string
     {
         $gui = new ilPersonalSkillsGUI();
 
@@ -53,7 +54,7 @@ class ilTestPersonalSkillsGUI
 
         $gui->setProfileId($this->getSelectedSkillProfile());
 
-        $html = $gui->getGapAnalysisHTML($this->getUsrId(), $this->getAvailableSkills());
+        $html = $gui->getGapAnalysisHTML((int) $this->getUsrId(), $this->getAvailableSkills());
 
         return $html;
     }
@@ -101,7 +102,7 @@ class ilTestPersonalSkillsGUI
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId(): int
     {
         return $this->testId;
     }

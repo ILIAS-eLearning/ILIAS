@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Assignment types gui.
@@ -10,7 +24,7 @@
  */
 class ilExAssignmentTypesGUI
 {
-    protected $class_names = array(
+    protected array $class_names = array(
         ilExAssignment::TYPE_UPLOAD => "ilExAssTypeUploadGUI",
         ilExAssignment::TYPE_BLOG => "ilExAssTypeBlogGUI",
         ilExAssignment::TYPE_PORTFOLIO => "ilExAssTypePortfolioGUI",
@@ -28,10 +42,8 @@ class ilExAssignmentTypesGUI
 
     /**
      * Get instance
-     *
-     * @return ilExAssignmentTypesGUI
      */
-    public static function getInstance()
+    public static function getInstance(): \ilExAssignmentTypesGUI
     {
         return new self();
     }
@@ -43,9 +55,8 @@ class ilExAssignmentTypesGUI
      * by initial consts definition.
      *
      * @param int $a_id type id
-     * @return ilExAssignmentTypeGUIInterface
      */
-    public function getById($a_id) : ilExAssignmentTypeGUIInterface
+    public function getById(int $a_id): ilExAssignmentTypeGUIInterface
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
@@ -77,7 +88,7 @@ class ilExAssignmentTypesGUI
      * @param
      * @return
      */
-    public function getByClassName($a_class_name)
+    public function getByClassName($a_class_name): \ilExAssignmentTypeGUIInterface
     {
         $id = $this->getIdForClassName($a_class_name);
         return $this->getById($id);
@@ -89,12 +100,11 @@ class ilExAssignmentTypesGUI
      * (case insensitive, since ilCtrl uses lower keys due to historic reasons)
      *
      * @param string
-     * @return bool
      */
-    public function isExAssTypeGUIClass($a_string)
+    public function isExAssTypeGUIClass($a_string): bool
     {
         foreach ($this->class_names as $cn) {
-            if (strtolower($cn) == strtolower($a_string)) {
+            if (strtolower($cn) === strtolower($a_string)) {
                 return true;
             }
         }
@@ -110,7 +120,7 @@ class ilExAssignmentTypesGUI
     public function getIdForClassName($a_string)
     {
         foreach ($this->class_names as $k => $cn) {
-            if (strtolower($cn) == strtolower($a_string)) {
+            if (strtolower($cn) === strtolower($a_string)) {
                 return $k;
             }
         }

@@ -1,16 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilConsultationHourUtils
 {
-    public static function getConsultationHourLinksForRepositoryObject(int $ref_id, int $current_user_id, array $ctrl_class_structure)
-    {
+    public static function getConsultationHourLinksForRepositoryObject(
+        int $ref_id,
+        int $current_user_id,
+        array $ctrl_class_structure
+    ): array {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
@@ -23,7 +26,7 @@ class ilConsultationHourUtils
             $participants->getAdmins(),
             $participants->getTutors()
         ));
-        $users = \ilBookingEntry::lookupBookableUsersForObject($obj_id, $candidates);
+        $users = \ilBookingEntry::lookupBookableUsersForObject([$obj_id], $candidates);
         $now = new \ilDateTime(time(), IL_CAL_UNIX);
         $links = [];
         foreach ($users as $user_id) {
@@ -47,11 +50,19 @@ class ilConsultationHourUtils
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
             if ($next_entry instanceof \ilCalendarEntry) {
-                $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed', $next_entry->getStart()->get(IL_CAL_DATE));
+                $ctrl->setParameterByClass(
+                    end($ctrl_class_structure),
+                    'seed',
+                    $next_entry->getStart()->get(IL_CAL_DATE)
+                );
             }
             $current_link = [
                 'link' => $ctrl->getLinkTargetByClass($ctrl_class_structure, 'selectCHCalendarOfUser'),
-                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
+                'txt' => str_replace(
+                    "%1",
+                    ilObjUser::_lookupFullname($user_id),
+                    $lng->txt("cal_consultation_hours_for_user")
+                )
             ];
             $links[] = $current_link;
         }
@@ -61,17 +72,14 @@ class ilConsultationHourUtils
         return $links;
     }
 
-
-
     /**
-     * @param ilBookingEntry $booking
-     * @param ilDateTime     $start
-     * @param ilDateTime     $end
      * @return int[]
-     * @throws ilDatabaseException
      */
-    public static function findCalendarAppointmentsForBooking(\ilBookingEntry $booking, \ilDateTime $start, \ilDateTime $end)
-    {
+    public static function findCalendarAppointmentsForBooking(
+        ilBookingEntry $booking,
+        ilDateTime $start,
+        ilDateTime $end
+    ): array {
         global $DIC;
 
         $db = $DIC->database();
@@ -80,76 +88,70 @@ class ilConsultationHourUtils
             'join cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
             'join cal_categories cc on cca.cat_id = cc.cat_id ' .
             'where context_id = ' . $db->quote($booking->getId(), 'integer') . ' ' .
-            'and starta = ' . $db->quote($start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .
-            'and enda = ' . $db->quote($end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .
+            'and starta = ' . $db->quote(
+                $start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ' ' .
+            'and enda = ' . $db->quote(
+                $end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ' ' .
             'and type = ' . $db->quote(\ilCalendarCategory::TYPE_CH, 'integer');
         $res = $db->query($query);
 
         $calendar_apppointments = [];
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            $calendar_apppointments[] = $row->cal_id;
+            $calendar_apppointments[] = (int) $row->cal_id;
         }
         return $calendar_apppointments;
     }
 
-
     /**
      * Book an appointment. All checks (assignment possible, max booking) must be done before
-     * @param type $a_usr_id
-     * @param type $a_app_id
+     * @param int $a_usr_id
+     * @param int $a_app_id
      * @return bool
      */
-    public static function bookAppointment($a_usr_id, $a_app_id)
+    public static function bookAppointment(int $a_usr_id, int $a_app_id): bool
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // Create new default consultation hour calendar
-        include_once './Services/Language/classes/class.ilLanguageFactory.php';
         $cal_lang = ilLanguageFactory::_getLanguage($lng->getDefaultLanguage());
         $cal_lang->loadLanguageModule('dateplaner');
-        
-        include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
-        include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
+
         $ch = ilCalendarUtil::initDefaultCalendarByType(
             ilCalendarCategory::TYPE_CH,
             $a_usr_id,
             $cal_lang->txt('cal_ch_personal_ch'),
             true
         );
-        
+
         // duplicate appointment
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $app = new ilCalendarEntry($a_app_id);
         $personal_app = clone $app;
         $personal_app->save();
 
         // assign appointment to category
-        include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
         $assignment = new ilCalendarCategoryAssignments($personal_app->getEntryId());
         $assignment->addAssignment($ch->getCategoryID());
 
         // book appointment
-        include_once './Services/Booking/classes/class.ilBookingEntry.php';
         $booking = new ilBookingEntry($app->getContextId());
         $booking->book($app->getEntryId(), $a_usr_id);
         return true;
     }
-    
+
     /**
      * Cancel a booking
-     * @param type $a_usr_id
-     * @param type $a_app_id
-     * @return bool
      */
-    public static function cancelBooking($a_usr_id, $a_app_id, $a_send_notification = true)
+    public static function cancelBooking(int $a_usr_id, int $a_app_id, bool $a_send_notification = true): bool
     {
         // Delete personal copy of appointment
-        include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $app = new ilCalendarEntry($a_app_id);
-        
-        include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+
         $user_apps = ilConsultationHourAppointments::getAppointmentIds(
             $a_usr_id,
             $app->getContextId(),
@@ -161,12 +163,11 @@ class ilConsultationHourUtils
             $uapp = new ilCalendarEntry($uapp_id);
             $uapp->delete();
 
-            include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
             ilCalendarCategoryAssignments::_deleteByAppointmentId($uapp_id);
-            
+
             break;
         }
-        
+
         // Delete booking entries
         // Send notification
         $booking = new ilBookingEntry($app->getContextId());
@@ -177,24 +178,23 @@ class ilConsultationHourUtils
         }
         return true;
     }
-    
+
     /**
      * Lookup managed users
-     * @param type $a_usr_id
+     * @return int[]
      */
-    public static function lookupManagedUsers($a_usr_id)
+    public static function lookupManagedUsers($a_usr_id): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
         $query = 'SELECT user_id FROM cal_ch_settings ' .
-                'WHERE admin_id = ' . $ilDB->quote($a_usr_id, 'integer');
+            'WHERE admin_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
-        
+
         $users = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[] = $row->user_id;
+            $users[] = (int) $row->user_id;
         }
         return $users;
     }

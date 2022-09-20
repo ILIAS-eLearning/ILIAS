@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * class for DOM utilities
@@ -34,7 +37,7 @@ class ilDOMUtil
         string $a_content,
         array $a_attributes,
         bool $a_remove_childs = true
-    ) : void {
+    ): void {
         $search = $a_successors;
         $search[] = $a_node_name;
         $child_name = "";
@@ -89,7 +92,7 @@ class ilDOMUtil
     public static function set_attributes(
         php4DOMElement $a_node,
         array $a_attributes
-    ) : void {
+    ): void {
         foreach ($a_attributes as $attribute => $value) {
             if ($value != "") {
                 $a_node->set_attribute($attribute, $value);
@@ -107,7 +110,7 @@ class ilDOMUtil
     public static function deleteAllChildsByName(
         php4DOMElement $a_parent,
         array $a_node_names
-    ) : void {
+    ): void {
         $childs = $a_parent->child_nodes();
         foreach ($childs as $child) {
             $child_name = $child->node_name();
@@ -129,7 +132,7 @@ class ilDOMUtil
         array $a_successors,
         string $a_content,
         array $a_attributes
-    ) : php4DOMElement {
+    ): php4DOMElement {
         $search = $a_successors;
         $child = null;
         $childs = $parent_node->child_nodes();

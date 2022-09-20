@@ -22,19 +22,10 @@
 }
 
 
-//
-// This is needed to break the current grid from the page
-//
-.il-layout-page-content > div {
-  display: grid;
-  grid-template-rows: auto 1fr
-}
-
-
 .il-mode-info span.il-mode-info-content {
   margin: auto;
   background-color: @il-mode-info-color;
-  padding: @padding-base-vertical @padding-base-horizontal @padding-base-vertical @padding-base-horizontal;
+  padding: @il-padding-base-vertical @il-padding-base-horizontal @il-padding-base-vertical @il-padding-base-horizontal;
   -webkit-box-shadow: @il-mode-info-shadow;
   -moz-box-shadow: @il-mode-info-shadow;
   box-shadow: @il-mode-info-shadow;
@@ -44,7 +35,7 @@
 
 .il-mode-info span {
   color: @il-mode-info-text-color;
-  font-size: @font-size-large;
+  font-size: @il-font-size-large;
 }
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {

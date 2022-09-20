@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -11,19 +13,19 @@ class FormGUITest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test get HTML return an array
      */
-    public function testFormGUIProperties()
+    public function testFormGUIProperties(): void
     {
         $form_gui = new ilFormGUI();
 

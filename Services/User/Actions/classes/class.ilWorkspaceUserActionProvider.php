@@ -1,26 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/User/Actions/classes/class.ilUserActionProvider.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Adds link to shared resources
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceUserActionProvider extends ilUserActionProvider
 {
-    protected $wsp_activated;
+    protected bool $wsp_activated;
 
-    /**
-     * Construct
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,31 +36,22 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         parent::__construct();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getComponentId()
+    public function getComponentId(): string
     {
         return "pwsp";
     }
 
     /**
-     * @inheritdoc
+     * @return array<string,string>
      */
-    public function getActionTypes()
+    public function getActionTypes(): array
     {
         return array(
             "shared_res" => $this->lng->txt("wsp_shared_resources")
         );
     }
 
-    /**
-     * Collect all actions
-     *
-     * @param int $a_target_user target user
-     * @return ilUserActionCollection collection
-     */
-    public function collectActionsForTargetUser($a_target_user)
+    public function collectActionsForTargetUser(int $a_target_user): ilUserActionCollection
     {
         global $DIC;
 
@@ -65,7 +59,6 @@ class ilWorkspaceUserActionProvider extends ilUserActionProvider
         $lng = $DIC['lng'];
 
         $coll = ilUserActionCollection::getInstance();
-        include_once("./Services/User/Actions/classes/class.ilUserAction.php");
 
         if (!$this->wsp_activated) {
             return $coll;

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
 /**
  * Class ilMMNullItemFacade
@@ -11,19 +14,9 @@ use ILIAS\MainMenu\Provider\CustomMainBarProvider;
  */
 class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeInterface
 {
-
-    /**
-     * @var string
-     */
-    private $parent_identification = "";
-    /**
-     * @var
-     */
-    private $active_status;
-    /**
-     * @var bool
-     */
-    protected $top_item = false;
+    private ?string $parent_identification = "";
+    private bool $active_status;
+    protected bool $top_item = false;
 
 
     /**
@@ -39,7 +32,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function isTopItem() : bool
+    public function isTopItem(): bool
     {
         return $this->top_item;
     }
@@ -48,7 +41,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setIsTopItm(bool $top_item)
+    public function setIsTopItm(bool $top_item): void
     {
         $this->top_item = $top_item;
     }
@@ -57,7 +50,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return true;
     }
@@ -66,7 +59,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setActiveStatus(bool $status)
+    public function setActiveStatus(bool $status): void
     {
         $this->active_status = $status;
     }
@@ -75,13 +68,13 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function setParent(string $parent)
+    public function setParent(string $parent): void
     {
         $this->parent_identification = $parent;
     }
 
 
-    public function create()
+    public function create(): void
     {
         $s = new ilMMCustomItemStorage();
         $s->setIdentifier(uniqid());
@@ -95,28 +88,28 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
 
         global $DIC;
         $provider = new CustomMainBarProvider($DIC);
-        $this->gs_item = $provider->getSingleCustomItem($s);
-        if ($this->parent_identification && $this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+        $this->raw_item = $provider->getSingleCustomItem($s);
+        if ($this->parent_identification && $this->raw_item instanceof isChild) {
             global $DIC;
-            $this->gs_item = $this->gs_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
+            $this->raw_item = $this->raw_item->withParent($DIC->globalScreen()->identification()->fromSerializedIdentification($this->parent_identification));
         }
 
-        $this->identification = $this->gs_item->getProviderIdentification();
+        $this->identification = $this->raw_item->getProviderIdentification();
 
         $this->mm_item = new ilMMItemStorage();
         $this->mm_item->setPosition(9999999); // always the last on the top item
-        $this->mm_item->setIdentification($this->gs_item->getProviderIdentification()->serialize());
+        $this->mm_item->setIdentification($this->raw_item->getProviderIdentification()->serialize());
         $this->mm_item->setParentIdentification($this->parent_identification);
         $this->mm_item->setActive($this->active_status);
-        if ($this->gs_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
-            $this->mm_item->setParentIdentification($this->gs_item->getParent()->serialize());
+        if ($this->raw_item instanceof isChild) {
+            $this->mm_item->setParentIdentification($this->raw_item->getParent()->serialize());
         }
 
         parent::create();
     }
 
 
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         return false;
     }
@@ -125,7 +118,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function isAlwaysAvailable() : bool
+    public function isAlwaysAvailable(): bool
     {
         return false;
     }
@@ -134,7 +127,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return $this->identification->getProviderNameForPresentation();
     }
@@ -143,7 +136,7 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function isDeletable() : bool
+    public function isDeletable(): bool
     {
         return true;
     }
@@ -152,17 +145,8 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     /**
      * @inheritDoc
      */
-    public function delete()
-    {
-        parent::delete();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function supportsRoleBasedVisibility() : bool
+    public function supportsRoleBasedVisibility(): bool
     {
         return true;
     }
-
 }

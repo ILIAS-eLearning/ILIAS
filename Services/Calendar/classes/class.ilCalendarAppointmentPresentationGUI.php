@@ -1,45 +1,62 @@
 <?php
-include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Component\Item\Item;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
 
 /**
  * Class ilCalendarAppointmentPresentationGUI
- *
- * @author	Jesús López <lopez@leifos.com>
- * @version  $Id$
+ * @author       Jesús López <lopez@leifos.com>
  * @ilCtrl_Calls ilCalendarAppointmentPresentationGUI: ilInfoScreenGUI, ilCalendarAppointmentGUI
-*/
+ */
 class ilCalendarAppointmentPresentationGUI
 {
-    const MODE_MODAL = "modal";
-    const MODE_LIST_ITEM = "list_item";
+    protected const MODE_MODAL = "modal";
+    protected const MODE_LIST_ITEM = "list_item";
 
-    protected $seed = null;
-    protected static $instance = null;
-    protected $settings = null;
-    protected $appointment;
+    protected static ?self $instance = null;
 
-    protected $mode = self::MODE_MODAL;
+    protected ilDate $seed;
+    protected ilCalendarSettings $settings;
+    protected array $appointment = [];
 
-    protected $toolbar;
-    protected $info_screen;
+    protected string $mode = self::MODE_MODAL;
+
+    protected ilToolbarGUI $toolbar;
+    protected ilInfoScreenGUI $info_screen;
+    protected ilLanguage $lng;
+    protected ilCtrlInterface $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected HttpServices $http;
+    protected RefineryFactory $refinery;
 
 
-    /**
-     * @var \ILIAS\UI\Component\Item\Standard|null
-     */
-    protected $list_item = null;
+    protected ?Item $list_item = null;
 
-    /**
-     * Singleton
-     *
-     * @access public
-     * @param
-     * @param
-     * @return
-     */
-    protected function __construct(ilDate $seed = null, $a_app)
+    protected function __construct(ilDate $seed, array $a_app)
     {
         global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
@@ -48,60 +65,51 @@ class ilCalendarAppointmentPresentationGUI
         $this->seed = $seed;
         $this->appointment = $a_app;
 
-        $this->tpl = $DIC["tpl"];
-
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->info_screen = new ilInfoScreenGUI($this);
         $this->toolbar = new ilToolbarGUI();
     }
-    
+
     /**
      * Set list item mode
-     *
-     * @param \ILIAS\UI\Component\Item\Standard $a_val
      */
-    public function setListItemMode(\ILIAS\UI\Component\Item\Standard $a_val)
+    public function setListItemMode(Item $a_val)
     {
         $this->list_item = $a_val;
         $this->mode = self::MODE_LIST_ITEM;
     }
-    
-    /**
-     * Get list item mode
-     *
-     * @return \ILIAS\UI\Component\Item\Standard
-     */
-    public function getListItem()
+
+    public function getListItem(): Item
     {
         return $this->list_item;
     }
 
     /**
      * get singleton instance
-     *
-     * @access public
-     * @param ilDate $seed
-     * @param  $a_app
-     * @return ilCalendarAppointmentPresentationGUI
-     * @static
      */
-    public static function _getInstance(ilDate $seed, $a_app)
+    public static function _getInstance(ilDate $seed, array $a_app): self
     {
-        return new static($seed, $a_app);
+        if (!self::$instance instanceof self) {
+            self::$instance = new self($seed, $a_app);
+        }
+        return self::$instance;
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd("getHTML");
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd("getHTML");
 
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
-                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
-                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $app_id = 0;
+                if ($this->http->wrapper()->query()->has('app_id')) {
+                    $app_id = $this->http->wrapper()->query()->retrieve(
+                        'app_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $app_id);
                 $this->ctrl->forwardCommand($app);
                 break;
 
@@ -109,7 +117,6 @@ class ilCalendarAppointmentPresentationGUI
                 if ($next_class != '') {
                     // get the path and include
                     $class_path = $this->ctrl->lookupClassPath($next_class);
-                    include_once($class_path);
 
                     // check if the class implements our interface
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
@@ -126,16 +133,12 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Get seed date
      */
-    public function getSeed()
+    public function getSeed(): ilDate
     {
         return $this->seed;
     }
 
-    /**
-     * Get modal html
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML(): string
     {
         if ($this->mode == self::MODE_MODAL) {
             return $this->getModalHTML();
@@ -146,23 +149,16 @@ class ilCalendarAppointmentPresentationGUI
         return "";
     }
 
-    /**
-     * Get modal html
-     * @return string
-     */
-    public function getModalHTML()
+    public function getModalHTML(): string
     {
-        include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
-
         $tpl = new ilTemplate('tpl.appointment_presentation.html', true, true, 'Services/Calendar');
 
         $info_screen = $this->info_screen;
         $info_screen->setFormAction($this->ctrl->getFormAction($this));
 
         #21529 create new toolbar with unique id using the entry id for this purpose
-        //$toolbar = $this->toolbar;
         $toolbar = new ilToolbarGUI();
-        $toolbar->setId($this->appointment['event']->getEntryId());
+        $toolbar->setId((string) $this->appointment['event']->getEntryId());
 
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, $info_screen, $toolbar, null);
 
@@ -179,7 +175,6 @@ class ilCalendarAppointmentPresentationGUI
         $tpl->setVariable("TOOLBAR", $toolbar->getHTML());
         $tpl->parseCurrentBlock();
 
-
         // show infoscreen
         $tpl->setVariable("CONTENT", $content);
 
@@ -189,47 +184,33 @@ class ilCalendarAppointmentPresentationGUI
     /**
      * Modify List item
      */
-    public function modifyListItem()
+    public function modifyListItem(): string
     {
         $li = $this->getListItem();
-        include_once "./Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationFactory.php";
         $f = ilAppointmentPresentationFactory::getInstance($this->appointment, null, null, $li);
         $this->ctrl->getHTML($f);
         $this->list_item = $f->getListItem();
+        return '';
     }
 
-    protected function getActivePlugins()
+    protected function getActivePlugins(): Iterator
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $res = array();
-
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", "capm") as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "Calendar",
-                "capm",
-                $plugin_name
-            );
-        }
-
-        return $res;
+        $component_factory = $DIC['component.factory'];
+        return $component_factory->getActivePluginsInSlot("capm");
     }
 
-    protected function getContentByPlugins($a_content, $a_toolbar)
+    protected function getContentByPlugins($a_content, $a_toolbar): array
     {
         $content = $a_content;
         $toolbar = $a_toolbar;
         foreach ($this->getActivePlugins() as $plugin) {
             //pass only the appointment stuff
             $plugin->setAppointment($this->appointment['event'], new ilDateTime($this->appointment['dstart']));
-
             if ($new_infoscreen = $plugin->infoscreenAddContent($this->info_screen)) {
                 $this->info_screen = $new_infoscreen;
             }
-
             $content = $this->info_screen->getHTML();
             $extra_content = $plugin->addExtraContent();
             if ($extra_content != '') {
@@ -245,11 +226,10 @@ class ilCalendarAppointmentPresentationGUI
             }
 
             if ($new_toolbar = $plugin->toolbarReplaceContent()) {
-                $new_toolbar->setId($a_toolbar->getId());
+                $new_toolbar->setId((string) $a_toolbar->getId());
                 $toolbar = $new_toolbar;
             }
         }
-
         return array(
             'content' => $content,
             'toolbar' => $toolbar

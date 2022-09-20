@@ -25,16 +25,6 @@
 class ilContSkillTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilGlobalTemplateInterface
      */
     protected $tpl;
@@ -65,16 +55,16 @@ class ilContSkillTableGUI extends ilTable2GUI
             $this->container_global_profiles,
             $this->container_local_profiles
         );
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getSkills());
         $this->setTitle($this->lng->txt("cont_cont_skills"));
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("cont_skill"), "", "1");
         $this->addColumn($this->lng->txt("cont_path"), "", "1");
         $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_skill_row.html", "Services/Container/Skills");
         $this->setSelectAllCheckbox("id");
@@ -83,14 +73,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    public function getSkills() : array
+    public function getSkills(): array
     {
         $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $tpl = $this->tpl;
 
@@ -99,7 +89,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         $path = $this->getParentObject()->getPathString($a_set["base_skill_id"], $a_set["tref_id"]);
         $tpl->setVariable("PATH", $path);
 
-        if ($a_set["profile"] != null) {
+        if (isset($a_set["profile"])) {
             $tpl->setVariable("PROFILE", $a_set["profile"]);
         } else {
             $tpl->setCurrentBlock("checkbox");

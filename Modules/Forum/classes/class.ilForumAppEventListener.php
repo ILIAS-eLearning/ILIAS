@@ -1,18 +1,34 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Forum listener. Listens to events of other components.
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ModulesForum
  */
 class ilForumAppEventListener implements ilAppEventListener
 {
     /** @var array<int, int[]> */
     protected static array $ref_ids = [];
-    
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         /**
          * @var $post   ilForumPost
@@ -31,14 +47,13 @@ class ilForumAppEventListener implements ilAppEventListener
                 switch ($a_event) {
                     case 'mergedThreads':
                         ilForumPostDraft::moveDraftsByMergedThreads(
-                            $a_parameter['source_thread_id'],
-                            $a_parameter['target_thread_id']
+                            (int) $a_parameter['source_thread_id'],
+                            (int) $a_parameter['target_thread_id']
                         );
                         ilLPStatusWrapper::_refreshStatus(
-                            $a_parameter['obj_id']
+                            (int) $a_parameter['obj_id']
                         );
                         break;
-
                     case 'movedThreads':
                         ilLPStatusWrapper::_refreshStatus(
                             $a_parameter['source_frm_obj_id']
@@ -47,7 +62,6 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['target_frm_obj_id']
                         );
                         break;
-
                     case 'createdPost':
                         $post = $a_parameter['post'];
                         $forum = $a_parameter['object'];
@@ -62,9 +76,9 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['ref_id']
                         ));
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 
@@ -107,7 +121,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         // If the author of the parent post wants to be notified and the author of the new post is not the same individual: Send a message
                         // This notification will be NOT send via cron job
-                        if ($immediate_notifications_enabled || ilCronManager::isJobActive('frm_notification')) {
+                        if ($immediate_notifications_enabled || $DIC->cron()->manager()->isJobActive('frm_notification')) {
                             if ($post->isActivated() && $post->getParentId() > 0) {
                                 $parent_post = new ilForumPost($post->getParentId());
                                 if (
@@ -115,8 +129,7 @@ class ilForumAppEventListener implements ilAppEventListener
                                     $parent_post->getPosAuthorId() !== $post->getPosAuthorId()
                                 ) {
                                     $logger->debug(
-                                        'Author of parent posting wants to be notified: ' .
-                                        'Delegating "Reply to Posting" notification ...'
+                                        'Author of parent posting wants to be notified: Delegating "Reply to Posting" notification ...'
                                     );
 
                                     self::delegateNotification(
@@ -165,9 +178,9 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled && $post->isActivated()) {
-                            $provider = new ilObjForumNotificationDataProvider(
+                            $provider = new ilForumNotificationDataProvider(
                                 $post,
-                                $a_parameter['ref_id'],
+                                (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
                             );
 
@@ -216,9 +229,9 @@ class ilForumAppEventListener implements ilAppEventListener
                             return;
                         }
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 
@@ -273,9 +286,9 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled) {
-                            $provider = new ilObjForumNotificationDataProvider(
+                            $provider = new ilForumNotificationDataProvider(
                                 $post,
-                                $a_parameter['ref_id'],
+                                (int) $a_parameter['ref_id'],
                                 new ilForumNotificationCache()
                             );
                             if ($post->isCensored() && $post->isActivated()) {
@@ -334,14 +347,14 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $thread_deleted = $a_parameter['thread_deleted'];
 
-                        $provider = new ilObjForumNotificationDataProvider(
+                        $provider = new ilForumNotificationDataProvider(
                             $post,
-                            $a_parameter['ref_id'],
+                            (int) $a_parameter['ref_id'],
                             new ilForumNotificationCache()
                         );
 
                         if ($post->isActivated()) {
-                            if (ilCronManager::isJobActive('frm_notification')) {
+                            if ($DIC->cron()->manager()->isJobActive('frm_notification')) {
                                 $logger->debug(
                                     'Notification delivery via cron job is enabled: ' .
                                     'Storing posting data for deferred "Posting/Thread Deleted" notifications ...'
@@ -356,13 +369,11 @@ class ilForumAppEventListener implements ilAppEventListener
                                     $notificationType = ilForumMailNotification::TYPE_THREAD_DELETED;
 
                                     $logger->debug(
-                                        'Immediate notification delivery is enabled : ' .
-                                        'Delegating "Thread Deleted" notifications ...'
+                                        'Immediate notification delivery is enabled : Delegating "Thread Deleted" notifications ...'
                                     );
                                 } else {
                                     $logger->debug(
-                                        'Immediate notification delivery is enabled : ' .
-                                        'Delegating "Posting Deleted" notifications ...'
+                                        'Immediate notification delivery is enabled : Delegating "Posting Deleted" notifications ...'
                                     );
                                 }
 
@@ -374,8 +385,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             }
                         } else {
                             $logger->debug(
-                                'Posting is not published: ' .
-                                '"Posting Deleted" or "Thread Deleted" notifications will not be send ...'
+                                'Posting is not published: "Posting Deleted" or "Thread Deleted" notifications will not be send ...'
                             );
                         }
                         break;
@@ -418,19 +428,13 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
 
             case "Services/News":
-                switch ($a_event) {
-                    case "readNews":
-                        // here we could set postings to read, if news is
-                        // read (has to be implemented)
-                        break;
+                if ($a_event === "readNews") {
                 }
                 break;
 
             case "Services/Tree":
-                switch ($a_event) {
-                    case "moveTree":
-                        ilForumNotification::_clearForcedForumNotifications($a_parameter);
-                        break;
+                if ($a_event === "moveTree") {
+                    ilForumNotification::_clearForcedForumNotifications($a_parameter);
                 }
                 break;
 
@@ -459,20 +463,17 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
 
             case 'Services/User':
-                switch ($a_event) {
-                    case 'deleteUser':
-                        ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
-                        break;
+                if ($a_event === 'deleteUser') {
+                    ilForumPostDraft::deleteDraftsByUserId($a_parameter['usr_id']);
                 }
                 break;
         }
     }
 
     /**
-     * @param int $obj_id
      * @return int[]
      */
-    private static function getCachedReferences(int $obj_id) : array
+    private static function getCachedReferences(int $obj_id): array
     {
         if (!array_key_exists($obj_id, self::$ref_ids)) {
             self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);
@@ -482,10 +483,10 @@ class ilForumAppEventListener implements ilAppEventListener
     }
 
     private static function delegateNotification(
-        ilObjForumNotificationDataProvider $provider,
+        ilForumNotificationDataProvider $provider,
         int $notification_type,
         ilLogger $logger
-    ) : void {
+    ): void {
         switch ($notification_type) {
             case ilForumMailNotification::TYPE_POST_ACTIVATION:
                 self::sendNotification(
@@ -517,18 +518,15 @@ class ilForumAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param ilObjForumNotificationDataProvider $provider
-     * @param ilLogger $logger
-     * @param int $notificationTypes
-     * @param int[] $recipients
+     * @param int[]                           $recipients
      */
     public static function sendNotification(
-        ilObjForumNotificationDataProvider $provider,
+        ilForumNotificationDataProvider $provider,
         ilLogger $logger,
         int $notificationTypes,
         array $recipients
-    ) : void {
-        if (count($recipients)) {
+    ): void {
+        if ($recipients !== []) {
             $logger->debug(sprintf(
                 'Will send %s notification(s) to: %s',
                 count($recipients),

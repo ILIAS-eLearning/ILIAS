@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,15 +9,7 @@
  */
 class ilRandom
 {
-
-    /**
-     * ilRandom constructor.
-     */
-    public function __construct()
-    {
-    }
-
-    private function logIfPossible(callable $c) : void
+    private function logIfPossible(callable $c): void
     {
         global $DIC;
 
@@ -25,20 +18,12 @@ class ilRandom
         }
     }
 
-    public function int(int $min = null, int $max = null) : int
+    public function int(int $min = 0, int $max = PHP_INT_MAX): int
     {
-        if (is_null($min)) {
-            $min = 0;
-        }
-
-        if (is_null($max)) {
-            $max = mt_getrandmax();
-        }
-
         try {
             return random_int($min, $max);
         } catch (Throwable $e) {
-            $this->logIfPossible(static function (ilLogger $logger) : void {
+            $this->logIfPossible(static function (ilLogger $logger): void {
                 $logger->logStack(ilLogLevel::ERROR);
                 $logger->error('No suitable random number generator found.');
             });

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilDBPdoManager
@@ -6,7 +24,6 @@
  */
 class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 {
-
     protected \PDO $pdo;
     protected \ilDBPdo $db_instance;
     protected ?\ilQueryUtils $query_utils = null;
@@ -20,7 +37,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $this->db_instance = $db_instance;
     }
 
-    public function getQueryUtils() : \ilQueryUtils
+    public function getQueryUtils(): \ilQueryUtils
     {
         if ($this->query_utils === null) {
             $this->query_utils = new ilMySQLQueryUtils($this->db_instance);
@@ -29,16 +46,15 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $this->query_utils;
     }
 
-    public function getDBInstance() : \ilDBPdo
+    public function getDBInstance(): \ilDBPdo
     {
         return $this->db_instance;
     }
 
     /**
-     * @param string|null $database
      * @return int[]|string[]
      */
-    public function listTables(string $database = null) : array
+    public function listTables(?string $database = null): array
     {
         $str = 'SHOW TABLES ' . ($database ? ' IN ' . $database : '');
         $r = $this->pdo->query($str);
@@ -46,7 +62,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
         $sequence_identifier = "_seq";
         while ($data = $r->fetchColumn()) {
-            if (!preg_match("/{$sequence_identifier}$/um", $data)) {
+            if (!preg_match("/$sequence_identifier$/um", $data)) {
                 $tables[] = $data;
             }
         }
@@ -54,7 +70,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $tables;
     }
 
-    protected function fixSequenceName(string $sqn, bool $check = false) : string
+    protected function fixSequenceName(string $sqn, bool $check = false): string
     {
         $seq_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', ilDBConstants::SEQUENCE_FORMAT) . '$/i';
         $seq_name = preg_replace($seq_pattern, '\\1', $sqn);
@@ -68,7 +84,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @return string[]
      */
-    public function listSequences(string $database = null) : array
+    public function listSequences(string $database = null): array
     {
         $query = "SHOW TABLES LIKE '%_seq'";
         if (!is_null($database)) {
@@ -84,8 +100,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
         if ($this->db_instance->options['portability'] ?? null) {
-            $result = array_map(($this->db_instance->options['field_case'] === CASE_LOWER ? 'strtolower' : 'strtoupper'),
-                $result);
+            $result = array_map(
+                ($this->db_instance->options['field_case'] === CASE_LOWER ? 'strtolower' : 'strtoupper'),
+                $result
+            );
         }
 
         return $result;
@@ -94,7 +112,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @throws \ilDatabaseException
      */
-    public function createConstraint(string $table, string $name, array $definition) : bool
+    public function createConstraint(string $table, string $name, array $definition): bool
     {
         $db = $this->db_instance;
 
@@ -115,7 +133,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec($query);
     }
 
-    public function createSequence(string $seq_name, int $start = 1, array $options = []) : bool
+    public function createSequence(string $seq_name, int $start = 1, array $options = []): bool
     {
         $sequence_name = $this->db_instance->quoteIdentifier($this->db_instance->getSequenceName($seq_name));
         $seqcol_name = $this->db_instance->quoteIdentifier(ilDBConstants::SEQUENCE_COLUMNS_NAME);
@@ -161,7 +179,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @throws \ilDatabaseException
      */
-    public function alterTable(string $name, array $changes, bool $check) : bool
+    public function alterTable(string $name, array $changes, bool $check): bool
     {
         $db = $this->db_instance;
 
@@ -193,7 +211,10 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 if ($query !== '') {
                     $query .= ', ';
                 }
-                $query .= 'ADD ' . $db->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+                $fd = $db->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= 'ADD ' . $fd->getDeclaration($field['type'], $field_name, $field);
+                }
             }
         }
 
@@ -226,9 +247,15 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                     $old_field_name = $field_name;
                 }
                 $old_field_name = $db->quoteIdentifier($old_field_name);
-                $query .= "CHANGE $old_field_name " . $this->db_instance->getFieldDefinition()
-                                                                        ->getDeclaration($field['definition']['type'],
-                                                                            $field_name, $field['definition']);
+                $fd = $this->db_instance->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= "CHANGE $old_field_name " . $fd
+                            ->getDeclaration(
+                                $field['definition']['type'],
+                                $field_name,
+                                $field['definition']
+                            );
+                }
             }
         }
 
@@ -239,10 +266,15 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
                 }
                 $field = $changes['rename'][$renamed_field];
                 $renamed_field = $db->quoteIdentifier($renamed_field);
-                $query .= 'CHANGE ' . $renamed_field . ' ' . $this->db_instance->getFieldDefinition()
-                                                                               ->getDeclaration($field['definition']['type'],
-                                                                                   $field['name'],
-                                                                                   $field['definition']);
+                $fd = $this->db_instance->getFieldDefinition();
+                if ($fd !== null) {
+                    $query .= 'CHANGE ' . $renamed_field . ' ' . $fd
+                            ->getDeclaration(
+                                $field['definition']['type'],
+                                $field['name'],
+                                $field['definition']
+                            );
+                }
             }
         }
 
@@ -257,27 +289,24 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec($statement);
     }
 
-    public function createTable(string $name, array $fields, array $options = array()) : bool
+    public function createTable(string $name, array $fields, array $options = array()): bool
     {
         $options['type'] = $this->db_instance->getStorageEngine();
 
         return (bool) $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
     }
 
-    public function getIndexName(string $idx) : string
+    public function getIndexName(string $idx): string
     {
         return $this->db_instance->getIndexName($idx);
     }
 
-    public function getSequenceName(string $sqn) : string
+    public function getSequenceName(string $sqn): string
     {
         return $this->db_instance->getSequenceName($sqn);
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function listTableFields(string $table) : array
+    public function listTableFields(string $table): array
     {
         $table = $this->db_instance->quoteIdentifier($table);
         $query = "SHOW COLUMNS FROM $table";
@@ -293,13 +322,13 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @return string[]
      */
-    public function listTableConstraints(string $table) : array
+    public function listTableConstraints(string $table): array
     {
         $key_name = 'Key_name';
         $non_unique = 'Non_unique';
 
         $db = $this->getDBInstance();
-        if ($db->options['portability']) {
+        if ($db->options['portability'] ?? null) {
             if ($db->options['field_case'] == CASE_LOWER) {
                 $key_name = strtolower($key_name);
                 $non_unique = strtolower($non_unique);
@@ -324,7 +353,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             }
         }
 
-        if ($this->db_instance->options['portability']) {
+        if ($this->db_instance->options['portability'] ?? null) {
             $result = array_change_key_case($result, $this->db_instance->options['field_case']);
         }
 
@@ -334,7 +363,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @return string[]
      */
-    public function listTableIndexes(string $table) : array
+    public function listTableIndexes(string $table): array
     {
         $key_name = 'Key_name';
         $non_unique = 'Non_unique';
@@ -369,7 +398,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return array_keys($result);
     }
 
-    protected function fixIndexName(string $idx) : string
+    protected function fixIndexName(string $idx): string
     {
         $idx_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', ilDBPdoFieldDefinition::INDEX_FORMAT) . '$/i';
         $idx_name = preg_replace($idx_pattern, '\\1', $idx);
@@ -380,7 +409,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $idx;
     }
 
-    public function createIndex(string $table, string $name, array $definition) : bool
+    public function createIndex(string $table, string $name, array $definition): bool
     {
         $table = $this->db_instance->quoteIdentifier($table, true);
         $name = $this->db_instance->quoteIdentifier($this->db_instance->getIndexName($name), true);
@@ -398,7 +427,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec($query);
     }
 
-    public function dropIndex(string $table, string $name) : bool
+    public function dropIndex(string $table, string $name): bool
     {
         $table = $this->db_instance->quoteIdentifier($table, true);
         $name = $this->db_instance->quoteIdentifier($this->db_instance->getIndexName($name), true);
@@ -406,7 +435,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec("DROP INDEX $name ON $table");
     }
 
-    public function dropSequence(string $seq_name) : bool
+    public function dropSequence(string $seq_name): bool
     {
         $sequence_name = $this->db_instance->quoteIdentifier($this->db_instance->getSequenceName($seq_name));
 
@@ -416,12 +445,12 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
     /**
      * @throws \ilDatabaseException
      */
-    public function getTableCreationQuery(string $name, array $fields, array $options = []) : string
+    public function getTableCreationQuery(string $name, array $fields, array $options = []): string
     {
         return $this->getQueryUtils()->createTable($name, $fields, $options);
     }
 
-    public function dropConstraint(string $table, string $name, bool $primary = false) : bool
+    public function dropConstraint(string $table, string $name, bool $primary = false): bool
     {
         $db = $this->getDBInstance();
         $table = $db->quoteIdentifier($table, true);
@@ -435,7 +464,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return (bool) $this->pdo->exec($query);
     }
 
-    public function dropTable(string $name) : bool
+    public function dropTable(string $name): bool
     {
         $db = $this->getDBInstance();
         $name = $db->quoteIdentifier($name, true);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,32 +9,25 @@
  */
 class ilADTLocalizedText extends ilADTText
 {
-    /**
-     * @var array
-     */
-    private $translations = [];
+    private array $translations = [];
 
-    public function getTextForLanguage(string $language) : string
+    public function getTextForLanguage(string $language): string
     {
-        if (strlen($this->getTranslations()[$language])) {
+        if (array_key_exists($language, $this->getTranslations()) && strlen($this->getTranslations()[$language])) {
             return $this->getTranslations()[$language];
         }
-        return $this->getText();
+        return (string) $this->getText();
     }
 
     /**
      * @return array
      */
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         return $this->translations;
     }
 
-    /**
-     * @param string $language
-     * @param string $translation
-     */
-    public function setTranslation(string $language, string $translation) : void
+    public function setTranslation(string $language, string $translation): void
     {
         $this->translations[$language] = $translation;
     }
@@ -40,7 +35,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTLocalizedTextDefinition;
     }
@@ -48,7 +43,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if (!$this->getDefinition()->isComparableTo($a_adt)) {
             return null;
@@ -70,7 +65,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
@@ -78,7 +73,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
@@ -86,7 +81,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return !$this->getLength() && !count($this->getTranslations());
     }
@@ -94,7 +89,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return md5(serialize($this->getTranslations()));
@@ -105,7 +100,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -118,7 +113,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->translations = $a_std->translations;

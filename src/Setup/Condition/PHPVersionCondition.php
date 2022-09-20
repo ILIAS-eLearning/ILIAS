@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\Condition;
 
@@ -10,12 +26,10 @@ class PHPVersionCondition extends ExternalConditionObjective
 {
     public function __construct(string $which)
     {
-        return parent::__construct(
+        parent::__construct(
             "PHP version >= $which",
-            function (Setup\Environment $env) use ($which) : bool {
-                return version_compare(phpversion(), $which, ">=");
-            },
-            "ILIAS 6 requires PHP $which or later."
+            static fn (Setup\Environment $env): bool => version_compare(PHP_VERSION, $which, ">="),
+            "ILIAS " . ILIAS_VERSION_NUMERIC . " requires PHP $which or later."
         );
     }
 }

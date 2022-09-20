@@ -1,12 +1,29 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateCanBeImportedWithBackgroundImage() : void
+    public function testCertificateCanBeImportedWithBackgroundImage(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -43,16 +60,16 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array(
-                array(
+            ->willReturn([
+                [
                     'type' => 'file',
                     'entry' => 'background.jpg'
-                ),
-                array(
+                ],
+                [
                     'type' => 'file',
                     'entry' => 'certificate.xml'
-                )
-            ));
+                ]
+            ]);
 
         $utilHelper
             ->expects($this->once())
@@ -83,10 +100,10 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
     }
 
-    public function testCertificateCanBeImportedWithoutBackgroundImage() : void
+    public function testCertificateCanBeImportedWithoutBackgroundImage(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -123,12 +140,12 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array(
-                array(
+            ->willReturn([
+                [
                     'type' => 'file',
                     'entry' => 'certificate.xml'
-                )
-            ));
+                ]
+            ]);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -155,10 +172,10 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(true, $result);
+        $this->assertTrue($result);
     }
 
-    public function testNoXmlFileInUplodadZipFolder() : void
+    public function testNoXmlFileInUplodadZipFolder(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -192,7 +209,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 
         $utilHelper
             ->method('getDir')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -219,10 +236,10 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(false, $result);
+        $this->assertFalse($result);
     }
 
-    public function testZipfileCouldNoBeMoved() : void
+    public function testZipfileCouldNoBeMoved(): void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
@@ -276,6 +293,6 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
             'someInstallationId'
         );
 
-        $this->assertEquals(false, $result);
+        $this->assertFalse($result);
     }
 }

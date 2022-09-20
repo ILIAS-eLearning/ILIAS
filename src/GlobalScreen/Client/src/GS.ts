@@ -31,7 +31,7 @@ namespace il {
          */
         export class Logger {
 
-            public static debug = true;
+            public static debug = false;
 
             static log(item: any): void {
                 if (this.debug) {

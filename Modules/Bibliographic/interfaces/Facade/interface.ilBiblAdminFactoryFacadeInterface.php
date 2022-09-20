@@ -1,45 +1,36 @@
 <?php
 
 /**
- * Interface ilBiblFactoryFacadeInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblFactoryFacadeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblAdminFactoryFacadeInterface
 {
+    public function typeFactory(): \ilBiblTypeFactoryInterface;
 
-    /**
-     * @return \ilBiblTypeFactoryInterface
-     */
-    public function typeFactory();
+    public function type(): \ilBiblTypeInterface;
 
+    public function translationFactory(): \ilBiblTranslationFactoryInterface;
 
-    /**
-     * @return \ilBiblTypeInterface
-     */
-    public function type();
+    public function fieldFactory(): \ilBiblFieldFactoryInterface;
 
+    public function iliasObjId(): int;
 
-    /**
-     * @return \ilBiblTranslationFactoryInterface
-     */
-    public function translationFactory();
-
-
-    /**
-     * @return \ilBiblFieldFactoryInterface
-     */
-    public function fieldFactory();
-
-
-    /**
-     * @return int
-     */
-    public function iliasObjId();
-
-
-    /**
-     * @return int
-     */
-    public function iliasRefId();
+    public function iliasRefId(): int;
 }

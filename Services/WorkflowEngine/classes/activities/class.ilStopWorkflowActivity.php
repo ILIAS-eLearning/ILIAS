@@ -1,12 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Workflow Node of the petri net based workflow engine.
@@ -17,8 +27,6 @@ require_once './Services/WorkflowEngine/interfaces/ilNode.php';
  * instances. Use with caution.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
@@ -30,14 +38,8 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
      */
     private $context;
 
-    /** @var string $name */
-    protected $name;
+    protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
@@ -57,37 +59,27 @@ class ilStopWorkflowActivity implements ilActivity, ilWorkflowEngineElement
      * Executes this action according to its settings.
      *
      * @todo Use exceptions / internal logging.
-     *
      */
-    public function execute()
+    public function execute(): void
     {
         /**
-         * @var $workflow ilBaseWorkflow
+         * @var ilBaseWorkflow $workflow
          */
         $workflow = $this->context->getContext();
         $workflow->stopWorkflow();
     }
 
-    /**
-     * Destructor
-     */
     public function __destruct()
     {
         unset($this->context);
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

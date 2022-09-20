@@ -1,46 +1,44 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\Container;
 
-use ILIAS\Data\Factory;
-use ILIAS\Refinery\Container\Group;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Container\Group as ContainerGroup;
 use ILIAS\Refinery\Container\AddLabels;
 use ILIAS\Tests\Refinery\TestCase;
 
-require_once('./libs/composer/vendor/autoload.php');
-require_once('./tests/Refinery/TestCase.php');
-
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private ContainerGroup $group;
+    private DataFactory $dataFactory;
 
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
-
-    public function setUp() : void
+    protected function setUp(): void
     {
-        $this->dataFactory = new Factory();
-        $this->language = $this->getMockBuilder('\ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->group = new Group($this->dataFactory);
+        $this->dataFactory = new DataFactory();
+        $this->group = new ContainerGroup($this->dataFactory);
     }
 
-    public function testCustomConstraint()
+    public function testCustomConstraint(): void
     {
-        $instance = $this->group->addLabels(array('hello', 'world'));
+        $instance = $this->group->addLabels(['hello', 'world']);
         $this->assertInstanceOf(AddLabels::class, $instance);
     }
 }

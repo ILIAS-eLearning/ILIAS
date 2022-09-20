@@ -1,7 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSCORM2004TrackingItemsPerScoFilterGUI
@@ -11,11 +26,13 @@ include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 {
+    protected ilObjSCORM2004LearningModuleGUI $parent_obj;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    protected string $parent_cmd;
+
+    public ilPropertyFormGUI $form;
+
+    public function __construct(ilObjSCORM2004LearningModuleGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -26,7 +43,10 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    public function parse($scoSelected, $report, $reports)
+    /**
+     * @throws ilCtrlException
+     */
+    public function parse(string $scoSelected, string $report, array $reports): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -45,8 +65,8 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

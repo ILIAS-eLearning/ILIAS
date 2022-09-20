@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -7,11 +9,11 @@ namespace ILIAS\Data;
 /**
  * Class ClientId
  * @package ILIAS\Data
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  */
 class ClientId
 {
-    private string $clientId = '';
+    private string $clientId;
 
     /**
      * ClientId constructor.
@@ -19,6 +21,10 @@ class ClientId
      */
     public function __construct(string $clientId)
     {
+        if ($clientId === '') {
+            throw new \InvalidArgumentException('Empty $clientId');
+        }
+
         if (preg_match('/[^A-Za-z0-9#_\.\-]/', $clientId)) {
             throw new \InvalidArgumentException('Invalid value for $clientId');
         }
@@ -26,12 +32,12 @@ class ClientId
         $this->clientId = $clientId;
     }
 
-    public function toString() : string
+    public function toString(): string
     {
         return $this->clientId;
     }
 
-    public function __toString() : string
+    public function __toString(): string
     {
         return $this->toString();
     }

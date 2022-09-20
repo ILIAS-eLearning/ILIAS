@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroup extends ilADT
 {
@@ -13,23 +15,23 @@ class ilADTGroup extends ilADT
         }
     }
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return ($a_def instanceof ilADTGroupDefinition);
     }
 
-    protected function setDefinition(ilADTDefinition $a_def) : void
+    protected function setDefinition(ilADTDefinition $a_def): void
     {
         parent::setDefinition($a_def);
 
         $this->elements = array();
 
         foreach ($this->getDefinition()->getElements() as $name => $def) {
-            $this->addElement($name, $def);
+            $this->addElement((string) $name, $def);
         }
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
 
@@ -41,17 +43,17 @@ class ilADTGroup extends ilADT
         }
     }
 
-    protected function addElement(string $a_name, ilADTDefinition $a_def) : void
+    protected function addElement(string $a_name, ilADTDefinition $a_def): void
     {
         $this->elements[$a_name] = ilADTFactory::getInstance()->getInstanceByDefinition($a_def);
     }
 
-    public function hasElement(string $a_name) : bool
+    public function hasElement(string $a_name): bool
     {
         return array_key_exists($a_name, $this->elements);
     }
 
-    public function getElement(string $a_name) : ?ilADT
+    public function getElement(string $a_name): ?ilADT
     {
         if ($this->hasElement($a_name)) {
             return $this->elements[$a_name];
@@ -59,12 +61,12 @@ class ilADTGroup extends ilADT
         return null;
     }
 
-    public function getElements() : array
+    public function getElements(): array
     {
         return $this->elements;
     }
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getCheckSum() == $a_adt->getCheckSum());
@@ -72,24 +74,24 @@ class ilADTGroup extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
 
     // null
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
-        return !sizeof($this->getElements());
+        return !count($this->getElements());
     }
 
-    public function getValidationErrorsByElements() : array
+    public function getValidationErrorsByElements(): array
     {
         return $this->validation_errors;
     }
@@ -97,24 +99,24 @@ class ilADTGroup extends ilADT
     /**
      * @inheritcoc
      */
-    public function getValidationErrors() : array
+    public function getValidationErrors(): array
     {
         return array_keys($this->validation_errors);
     }
 
-    protected function addElementValidationError(string $a_element_id, string $a_error_code) : void
+    protected function addElementValidationError(string $a_element_id, string $a_error_code): void
     {
         $this->validation_errors[$a_error_code] = $a_element_id;
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
             foreach ($this->getElements() as $element_id => $element) {
                 if (!$element->isValid()) {
                     foreach ($element->getValidationErrors() as $error) {
-                        $this->addElementValidationError($element_id, $error);
+                        $this->addElementValidationError((string) $element_id, $error);
                     }
                     $valid = false;
                 }
@@ -126,7 +128,7 @@ class ilADTGroup extends ilADT
     /**
      * @inheritcoc
      */
-    public function translateErrorCode(string $a_code) : string
+    public function translateErrorCode(string $a_code): string
     {
         if (isset($this->validation_errors[$a_code])) {
             $element_id = $this->validation_errors[$a_code];
@@ -138,7 +140,7 @@ class ilADTGroup extends ilADT
         return parent::translateErrorCode($a_code);
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             $tmp = [];
@@ -150,7 +152,7 @@ class ilADTGroup extends ilADT
         return null;
     }
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         $obj = new stdClass();
         foreach ($this->getElements() as $id => $element) {
@@ -159,7 +161,7 @@ class ilADTGroup extends ilADT
         return $obj;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             foreach ($this->getElements() as $id => $element) {

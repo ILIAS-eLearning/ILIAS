@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Component/classes/class.ilPlugin.php';
@@ -16,7 +17,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 {
     /** @var \ilTestSignatureGUI */
     protected $GUIObject;
-    
+
     /**
      * @param \ilTestSignatureGUI $GUIObject
      */
@@ -28,52 +29,9 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     /**
      * @return \ilTestSignatureGUI
      */
-    public function getGUIObject()
+    public function getGUIObject(): ilTestSignatureGUI
     {
         return $this->GUIObject;
-    }
-    
-    /**
-     * Get Component Type
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_MODULE;
-    }
-
-    /**
-     * Get Component Name.
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return "Test";
-    }
-
-    /**
-     * Get Slot Name.
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return "Signature";
-    }
-
-    /**
-     * Get Slot ID.
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
-    {
-        return "tsig";
-    }
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
     }
 
     /**
@@ -81,7 +39,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForCmd($cmd)
+    protected function getLinkTargetForCmd($cmd): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -98,7 +56,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getLinkTargetForRessource($cmd, $ressource)
+    protected function getLinkTargetForRessource($cmd, $ressource): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -115,7 +73,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
      *
      * @return string
      */
-    protected function getFormAction($default_cmd)
+    protected function getFormAction($default_cmd): string
     {
         /** @var $ilCtrl ilCtrl */
         global $DIC;
@@ -163,7 +121,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     {
         $this->getGUIObject()->redirectToTest($success);
     }
-    
+
     /**
      * Method all commands are forwarded to.
      *

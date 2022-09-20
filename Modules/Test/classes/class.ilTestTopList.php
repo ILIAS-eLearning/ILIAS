@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -27,7 +28,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
+    public function getUserToplistByWorkingtime(int $a_test_ref_id, int $a_user_id): array
     {
         $result = $this->db->query(
             '
@@ -176,7 +177,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
+    public function getGeneralToplistByPercentage(int $a_test_ref_id, int $a_user_id): array
     {
         $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
@@ -210,7 +211,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getGeneralToplistByWorkingtime(int $a_test_ref_id, int $a_user_id) : array
+    public function getGeneralToplistByWorkingtime(int $a_test_ref_id, int $a_user_id): array
     {
         $this->db->setLimit($this->object->getHighscoreTopNum(), 0);
         $result = $this->db->query(
@@ -243,7 +244,7 @@ class ilTestTopList
      * @param int $a_user_id
      * @return array
      */
-    public function getUserToplistByPercentage(int $a_test_ref_id, int $a_user_id) : array
+    public function getUserToplistByPercentage(int $a_test_ref_id, int $a_user_id): array
     {
         $result = $this->db->query(
             '
@@ -394,7 +395,7 @@ class ilTestTopList
      * @return array
      * @throws ilDateTimeException
      */
-    private function getResultTableRow(array $row, int $i, int $usrId) : array
+    private function getResultTableRow(array $row, int $i, int $usrId): array
     {
         $item = [];
 
@@ -435,14 +436,14 @@ class ilTestTopList
      * @param int $seconds
      * @return string
      */
-    private function formatTime(int $seconds) : string
+    private function formatTime(int $seconds): string
     {
         $retval = '';
-        $hours = intval(intval($seconds) / 3600);
+        $hours = intval($seconds / 3600);
         $retval .= str_pad($hours, 2, "0", STR_PAD_LEFT) . ":";
-        $minutes = intval(($seconds / 60) % 60);
+        $minutes = ($seconds / 60) % 60;
         $retval .= str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":";
-        $seconds = intval($seconds % 60);
+        $seconds = $seconds % 60;
         $retval .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
 
         return $retval;

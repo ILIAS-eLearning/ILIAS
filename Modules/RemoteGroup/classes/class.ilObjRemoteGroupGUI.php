@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php');
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 *
@@ -14,7 +27,7 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php')
 * @ingroup ModulesRemoteGroup
 */
 
-class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI
+class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
@@ -23,26 +36,26 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI
         $this->lng->loadLanguageModule('rgrp');
         $this->lng->loadLanguageModule('grp');
     }
-    
-    public function getType()
+
+    public function getType(): string
     {
         return 'rgrp';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('grp_visibility'), $this->availabilityToString());
     }
-    
+
     protected function availabilityToString()
     {
         switch ($this->object->getAvailabilityType()) {
             case ilObjRemoteGroup::ACTIVATION_OFFLINE:
                 return $this->lng->txt('offline');
-            
+
             case ilObjRemoteGroup::ACTIVATION_UNLIMITED:
                 return $this->lng->txt('grp_unlimited');
-            
+
             case ilObjRemoteGroup::ACTIVATION_LIMITED:
                 return ilDatePresentation::formatPeriod(
                     new ilDateTime($this->object->getStartingTime(), IL_CAL_UNIX),
@@ -51,8 +64,8 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI
         }
         return '';
     }
-    
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form): void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('grp_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());
@@ -66,7 +79,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI
 
         // :TODO: not supported in ECS yet
         $radio_opt = new ilRadioOption($this->lng->txt('grp_visibility_until'), ilObjRemoteGroup::ACTIVATION_LIMITED);
-        
+
         $start = new ilDateTimeInputGUI($this->lng->txt('grp_start'), 'start');
         $start->setDate(new ilDateTime(time(), IL_CAL_UNIX));
         $start->setDisabled(true);
@@ -77,7 +90,7 @@ class ilObjRemoteGroupGUI extends ilRemoteObjectBaseGUI
         $end->setDisabled(true);
         $end->setShowTime(true);
         $radio_opt->addSubItem($end);
-        
+
         $radio_grp->addOption($radio_opt);
         $a_form->addItem($radio_grp);
     }

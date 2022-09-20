@@ -1,29 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * tree explorer lm public area
- *
  * @author Fabian Wolf <wolf@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesLearningModule
  */
 class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 {
-    public $exp_id = "public_section";
+    protected ilObjLearningModule $lm;
+    public string $exp_id = "public_section";
+    public string $requested_transl = "";
 
-    /**
-     * constructor
-     *
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilObjLearningModule $a_lm
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjLearningModule $a_lm,
+        string $requested_transl = ""
+    ) {
         $this->lm = $a_lm;
+        $this->requested_transl = $requested_transl;
 
         $tree = ilLMTree::getInstance($this->lm->getId());
 
@@ -31,16 +41,14 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * get node content
-     * @param mixed $a_node
-     * @return string note name
+     * @param object|array $a_node
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
-        $lang = ($_GET["transl"] != "")
-            ? $_GET["transl"]
+        $lang = ($this->requested_transl != "")
+            ? $this->requested_transl
             : "-";
-        return ilLMObject::_getPresentationTitle(
+        return ilLMObject::_getNodePresentationTitle(
             $a_node,
             ilLMObject::PAGE_TITLE,
             $this->lm->isActiveNumbering(),
@@ -52,11 +60,9 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Get node icon
-     * @param array $a_node node array
-     * @return string icon path
+     * @param object|array $a_node
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -96,10 +102,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         return $icon;
     }
 
-    /**
-     * select public pages and open public chapter
-     */
-    public function beforeRendering() : void
+    public function beforeRendering(): void
     {
         //select public pages and open public chapters
         foreach ($this->getAllNodes() as $node) {
@@ -112,13 +115,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    /**
-     * Returns all nodes from tree recursive
-     *
-     * @param mixed $from_id
-     * @return array nodes
-     */
-    protected function getAllNodes($from_id = null)
+    protected function getAllNodes(?int $from_id = null): array
     {
         $nodes = array();
 
@@ -137,11 +134,10 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Is not clickable?
-     * @param array $a_node node array
+     * @param object|array $a_node
      * @return bool
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if ($a_node["type"] == "pg") {
             return true;

@@ -1,41 +1,43 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDatatype
- *
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  * @author       Oskar Truffer <ot@studer-raimann.ch>
  * @version      $Id:
- *
  * @ingroup      ModulesDataCollection
- *
  * @ilCtrl_Calls ilDclTreePickInputGUI : ilDclRecordEditGUI
- *
  */
 class ilDclTreePickInputGUI extends ilCustomInputGUI
 {
+    protected ilTextInputGUI $title_input;
+    protected ilTextInputGUI $search_input;
+    protected ilHiddenInputGUI $hidden_input;
 
-    /**
-     * @var ilTextInputGUI
-     */
-    protected $title_input;
-    /**
-     * @var ilTextInputGUI
-     */
-    protected $search_input;
-
-    /**
-     * @param string $title
-     * @param string $post_var
-     */
-    public function __construct($title, $post_var)
+    public function __construct(string $title, string $post_var)
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
+        /** @var \ilGlobalTemplateInterface $tpl */
+        $tpl = $DIC->ui()->mainTemplate();
         /**
          * @var $tpl iltemplate
          */
@@ -53,11 +55,7 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         $this->lng = $lng;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getHtml() : string
+    public function getHtml(): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -75,17 +73,13 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-
-    /**
-     * @param $value
-     */
-    public function setValueByArray(array $value) : void
+    public function setValueByArray(array $values): void
     {
-        parent::setValueByArray($value);
+        parent::setValueByArray($values);
         $path = new ilPathGUI();
-        $reference = $value[$this->getPostVar()];
+        $reference = $values[$this->getPostVar()];
         if ($reference) {
-            $pathString = $path->getPath(ROOT_FOLDER_ID, $reference);
+            $pathString = $path->getPath(ROOT_FOLDER_ID, (int) $reference);
             $id = ilObject::_lookupObjId($reference);
             $this->title_input->setValue($pathString . " > " . ilObject::_lookupTitle($id));
             $this->hidden_input->setValue($reference);

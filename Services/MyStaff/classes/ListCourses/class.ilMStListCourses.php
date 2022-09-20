@@ -1,29 +1,40 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+declare(strict_types=1);
+
 namespace ILIAS\MyStaff\ListCourses;
 
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ilLPStatus;
 use ilOrgUnitOperation;
+use ILIAS\Services\MyStaff\Utils\ListFetcherResult;
 
 /**
  * Class ilMStListCourses
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCourses
 {
-
-
-    /**
-     * @var Container
-     */
-    protected $dic;
-
+    protected Container $dic;
 
     /**
      * ilMStListCourses constructor.
-     *
      * @param Container $dic
      */
     public function __construct(Container $dic)
@@ -31,13 +42,7 @@ class ilMStListCourses
         $this->dic = $dic;
     }
 
-    /**
-     * @param array $arr_usr_ids
-     * @param array $options
-     *
-     * @return array|int
-     */
-    public function getData(array $arr_usr_ids = array(), array $options = array())
+    final public function getData(array $arr_usr_ids = array(), array $options = array()): ListFetcherResult
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
@@ -60,7 +65,7 @@ class ilMStListCourses
 	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
+                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin = 1 OR reg.tutor = 1 OR reg.member = 1)
 		            UNION
 	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
 	                    WHERE ' . $this->dic->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
@@ -70,37 +75,40 @@ class ilMStListCourses
 	                    ) AS memb
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
-                ->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
-                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
+                                                                                                           ->quote(
+                                                                                                               ilMyStaffAccess::DEFAULT_CONTEXT,
+                                                                                                               'text'
+                                                                                                           ) . '
+                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
-
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
 
         if (empty($users_per_position)) {
-            if ($options["count"]) {
-                return 0;
-            } else {
-                return [];
-            }
+            return new ListFetcherResult([], 0);
         }
 
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {
-            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
-            $arr_query[] = $query . " AND " . $this->dic->database()->in('crs.obj_id', $obj_ids, false, 'integer') . " AND " . $this->dic->database()->in('usr_data.usr_id', $users, false, 'integer');
+            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
+                $this->dic->user()->getId(),
+                $operation_access
+            );
+            $arr_query[] = $query . " AND " . $this->dic->database()->in(
+                'crs.obj_id',
+                $obj_ids,
+                false,
+                'integer'
+            ) . " AND " . $this->dic->database()->in('usr_data.usr_id', $users, false, 'integer');
         }
 
         $union_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";
 
         $union_query .= static::createWhereStatement($options['filters']);
 
-        if ($options['count']) {
-            $result = $this->dic->database()->query($union_query);
-
-            return $this->dic->database()->numRows($result);
-        }
+        $result = $this->dic->database()->query($union_query);
+        $numRows = $this->dic->database()->numRows($result);
 
         if ($options['sort']) {
             $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
@@ -114,39 +122,34 @@ class ilMStListCourses
 
         while ($crs = $this->dic->database()->fetchAssoc($result)) {
             $list_course = new ilMStListCourse();
-            $list_course->setCrsRefId($crs['crs_ref_id']);
+            $list_course->setCrsRefId(intval($crs['crs_ref_id']));
             $list_course->setCrsTitle($crs['crs_title']);
-            $list_course->setUsrRegStatus($crs['reg_status']);
-            $list_course->setUsrLpStatus($crs['lp_status']);
+            $list_course->setUsrRegStatus(intval($crs['reg_status']));
+            $list_course->setUsrLpStatus(intval($crs['lp_status']));
             $list_course->setUsrLogin($crs['usr_login']);
             $list_course->setUsrLastname($crs['usr_lastname']);
             $list_course->setUsrFirstname($crs['usr_firstname']);
             $list_course->setUsrEmail($crs['usr_email']);
-            $list_course->setUsrId($crs['usr_id']);
+            $list_course->setUsrId(intval($crs['usr_id']));
 
             $crs_data[] = $list_course;
         }
 
-        return $crs_data;
+        return new ListFetcherResult($crs_data, $numRows);
     }
-
 
     /**
      * Returns the WHERE Part for the Queries using parameter $user_ids AND local variable $filters
-     *
-     * @param array  $arr_usr_ids
-     * @param array  $arr_filter
-     * @param string $tmp_table_user_matrix
-     *
-     * @return string
      */
-    protected function createWhereStatement(array $arr_filter)
+    protected function createWhereStatement(array $arr_filter): string
     {
         $where = array();
 
-
         if (!empty($arr_filter['crs_title'])) {
-            $where[] = '(crs_title LIKE ' . $this->dic->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
+            $where[] = '(crs_title LIKE ' . $this->dic->database()->quote(
+                '%' . $arr_filter['crs_title'] . '%',
+                'text'
+            ) . ')';
         }
 
         if ($arr_filter['course'] > 0) {
@@ -157,10 +160,16 @@ class ilMStListCourses
             switch ($arr_filter['lp_status']) {
                 case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
                     //if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks
-                    $where[] = '(lp_status = ' . $this->dic->database()->quote($arr_filter['lp_status'], 'integer') . ' OR lp_status is NULL)';
+                    $where[] = '(lp_status = ' . $this->dic->database()->quote(
+                        $arr_filter['lp_status'],
+                        'integer'
+                    ) . ' OR lp_status is NULL)';
                     break;
                 default:
-                    $where[] = '(lp_status = ' . $this->dic->database()->quote($arr_filter['lp_status'], 'integer') . ')';
+                    $where[] = '(lp_status = ' . $this->dic->database()->quote(
+                        $arr_filter['lp_status'],
+                        'integer'
+                    ) . ')';
                     break;
             }
         }
@@ -170,15 +179,42 @@ class ilMStListCourses
         }
 
         if (!empty($arr_filter['user'])) {
-            $where[] = "(" . $this->dic->database()->like("usr_login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-                    ->like("usr_email", "text", "%" . $arr_filter['user'] . "%") . ") ";
+            $where[] = "(" . $this->dic->database()->like(
+                "usr_login",
+                "text",
+                "%" . $arr_filter['user'] . "%"
+            ) . " " . "OR " . $this->dic->database()
+                                                                               ->like(
+                                                                                   "usr_firstname",
+                                                                                   "text",
+                                                                                   "%" . $arr_filter['user'] . "%"
+                                                                               ) . " " . "OR " . $this->dic->database()
+                                                                                                                                              ->like(
+                                                                                                                                                  "usr_lastname",
+                                                                                                                                                  "text",
+                                                                                                                                                  "%" . $arr_filter['user'] . "%"
+                                                                                                                                              ) . " " . "OR " . $this->dic->database()
+                                                                                                                                                                                                             ->like(
+                                                                                                                                                                                                                 "usr_email",
+                                                                                                                                                                                                                 "text",
+                                                                                                                                                                                                                 "%" . $arr_filter['user'] . "%"
+                                                                                                                                                                                                             ) . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {
             $where[] = 'usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
-                    ->quote($arr_filter['org_unit'], 'integer') . ')';
+                                                                                                ->quote(
+                                                                                                    $arr_filter['org_unit'],
+                                                                                                    'integer'
+                                                                                                ) . ')';
+        }
+
+        if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
+            $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER);
+        }
+
+        if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
+            $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER);
         }
 
         if (!empty($where)) {

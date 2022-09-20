@@ -1,38 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group access class
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjItemGroupAccess extends ilObjectAccess
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,59 +37,32 @@ class ilObjItemGroupAccess extends ilObjectAccess
         $this->access = $DIC->access();
     }
 
-
-    /**
-     * get list of command/permission combinations
-     *
-     * @access public
-     * @return array
-     * @static
-     */
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
+        global $DIC;
+
+        $DIC->language()->loadLanguageModule("itgr");
         $commands = array(
             array("permission" => "read", "cmd" => "gotoParent", "lang_var" => "", "default" => true),
-            array("permission" => "write", "cmd" => "listMaterials", "lang_var" => "edit_content", "default" => false),
+            array("permission" => "write", "cmd" => "listMaterials", "lang_var" => "itgr_assign_materials", "default" => false),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings", "default" => false)
         );
-        
+
         return $commands;
     }
 
-    /**
-     * checks wether a user may invoke a command or not
-     * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string		$a_cmd		command (not permission!)
-     * @param	string		$a_permission	permission
-     * @param	int			$a_ref_id	reference id
-     * @param	int			$a_obj_id	object id
-     * @param	int			$a_user_id	user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
-     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
-        $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
-        
-        $a_user_id = $a_user_id ? $a_user_id : $ilUser->getId();
         return true;
     }
-    
-    
-    /**
-     * check whether goto script will succeed
-     */
-    public static function _checkGoto($a_target)
+
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
-        
-        $t_arr = explode("_", $a_target);
+
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "itgr" || ((int) $t_arr[1]) <= 0) {
             return false;

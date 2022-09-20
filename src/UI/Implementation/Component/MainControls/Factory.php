@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -24,7 +40,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritdoc
      */
-    public function metaBar() : IMainControls\MetaBar
+    public function metaBar(): IMainControls\MetaBar
     {
         return new MetaBar($this->signal_generator);
     }
@@ -32,7 +48,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritdoc
      */
-    public function mainBar() : IMainControls\MainBar
+    public function mainBar(): IMainControls\MainBar
     {
         return new MainBar($this->signal_generator);
     }
@@ -40,7 +56,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritdoc
      */
-    public function slate() : IMainControls\Slate\Factory
+    public function slate(): IMainControls\Slate\Factory
     {
         return $this->slate_factory;
     }
@@ -48,7 +64,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritdoc
      */
-    public function footer(array $links, string $text = '') : IMainControls\Footer
+    public function footer(array $links, string $text = ''): IMainControls\Footer
     {
         return new Footer($links, $text);
     }
@@ -56,7 +72,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritDoc
      */
-    public function modeInfo(string $title, URI $close_action) : IMainControls\ModeInfo
+    public function modeInfo(string $title, URI $close_action): IMainControls\ModeInfo
     {
         return new ModeInfo($title, $close_action);
     }
@@ -64,7 +80,7 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritDoc
      */
-    public function systemInfo(string $headline, string $information_text) : IMainControls\SystemInfo
+    public function systemInfo(string $headline, string $information_text): IMainControls\SystemInfo
     {
         return new SystemInfo(
             $this->signal_generator,

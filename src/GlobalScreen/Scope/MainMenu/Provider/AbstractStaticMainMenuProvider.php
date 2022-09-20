@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
@@ -8,25 +27,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Interface StaticMainMenuProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractStaticMainMenuProvider extends AbstractProvider implements StaticMainMenuProvider
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
-    /**
-     * @var IdentificationProviderInterface
-     */
-    protected $if;
-    /**
-     * @var MainMenuItemFactory
-     */
-    protected $mainmenu;
-
+    protected Container $dic;
+    protected IdentificationProviderInterface $if;
+    protected MainMenuItemFactory $mainmenu;
 
     /**
      * @inheritDoc
@@ -38,11 +45,10 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
         $this->if = $this->globalScreen()->identification()->core($this);
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getAllIdentifications() : array
+    public function getAllIdentifications(): array
     {
         $ids = [];
         foreach ($this->getStaticTopItems() as $slate) {
@@ -55,11 +61,10 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
         return $ids;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function provideTypeInformation() : TypeInformationCollection
+    public function provideTypeInformation(): TypeInformationCollection
     {
         return new TypeInformationCollection();
     }

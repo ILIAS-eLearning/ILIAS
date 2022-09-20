@@ -3,19 +3,21 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Feed writer for personal user feeds.
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserFeedWriter extends ilFeedWriter
@@ -35,18 +37,18 @@ class ilUserFeedWriter extends ilFeedWriter
         $ilSetting = $DIC->settings();
 
         parent::__construct();
-        
+
         if ($a_user_id == "" || $a_hash == "") {
             return;
         }
-        
+
         $news_set = new ilSetting("news");
         if (!$news_set->get("enable_rss_for_internal")) {
             return;
         }
 
         $hash = ilObjUser::_lookupFeedHash($a_user_id);
-        
+
         $rss_period = ilNewsItem::_lookupRSSPeriod();
 
         if ($a_hash == $hash) {
@@ -56,7 +58,7 @@ class ilUserFeedWriter extends ilFeedWriter
             } else {
                 $items = ilNewsItem::_getNewsItemsOfUser($a_user_id, true, true, $rss_period);
             }
-            
+
             if ($ilSetting->get('short_inst_name') != "") {
                 $this->setChannelTitle($ilSetting->get('short_inst_name'));
             } else {
@@ -66,7 +68,6 @@ class ilUserFeedWriter extends ilFeedWriter
             $this->setChannelAbout(ILIAS_HTTP_PATH);
             $this->setChannelLink(ILIAS_HTTP_PATH);
             //$this->setChannelDescription("ILIAS Channel Description");
-            $i = 0;
             foreach ($items as $item) {
                 $obj_id = ilObject::_lookupObjId($item["ref_id"]);
                 $obj_type = ilObject::_lookupType($obj_id);
@@ -79,7 +80,6 @@ class ilUserFeedWriter extends ilFeedWriter
                     }
                 }
 
-                $i++;
                 $feed_item = new ilFeedItem();
                 $title = ilNewsItem::determineNewsTitle(
                     $item["context_obj_type"],
@@ -91,7 +91,7 @@ class ilUserFeedWriter extends ilFeedWriter
 
                 // path
                 $loc = $this->getContextPath($item["ref_id"]);
-                
+
                 // title
                 if ($news_set->get("rss_title_format") == "news_obj") {
                     $feed_item->setTitle($this->prepareStr(str_replace("<br />", " ", $title)) .
@@ -101,15 +101,19 @@ class ilUserFeedWriter extends ilFeedWriter
                     $feed_item->setTitle($this->prepareStr($loc) . " " . $this->prepareStr($obj_title) .
                         ": " . $this->prepareStr(str_replace("<br />", " ", $title)));
                 }
-                                
+
                 // description
                 $content = $this->prepareStr(nl2br(
-                    ilNewsItem::determineNewsContent($item["context_obj_type"], $item["content"], $item["content_text_is_lang_var"])
+                    ilNewsItem::determineNewsContent(
+                        $item["context_obj_type"],
+                        $item["content"],
+                        $item["content_text_is_lang_var"]
+                    )
                 ));
                 $feed_item->setDescription($content);
 
                 // lm page hack, not nice
-                if (in_array($item["context_obj_type"], array("lm")) && $item["context_sub_obj_type"] == "pg"
+                if ($item["context_obj_type"] == "lm" && $item["context_sub_obj_type"] == "pg"
                     && $item["context_sub_obj_id"] > 0) {
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                         "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
@@ -118,7 +122,7 @@ class ilUserFeedWriter extends ilFeedWriter
                     $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                         "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . urlencode($wptitle)); // #14629
-                } elseif (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
+                } elseif ($item["context_obj_type"] == "frm" && $item["context_sub_obj_type"] == "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     // frm hack, not nice
                     $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);

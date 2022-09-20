@@ -36,7 +36,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      */
     protected $ordering;
 
-    protected function getPattern()
+    protected function getPattern(): string
     {
         return '/(\d+)/';
     }
@@ -48,7 +48,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches): void
     {
         $this->ordering = array();
 
@@ -60,7 +60,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return \int[]
      */
-    public function getOrdering()
+    public function getOrdering(): array
     {
         return $this->ordering;
     }
@@ -69,7 +69,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return "$" . join(",", $this->ordering) . "$";
     }
@@ -78,7 +78,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return join(",", $this->ordering) . " beantwortet ";
     }
@@ -90,7 +90,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null)
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $keys = $result->getUserSolutionsByIdentifier("key");
         $keys = array_filter($keys, function ($element) {

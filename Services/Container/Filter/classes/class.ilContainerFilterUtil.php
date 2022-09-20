@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 
@@ -43,10 +46,10 @@ class ilContainerFilterUtil
     public function getContainerFieldTitle(
         int $record_id,
         int $field_id
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_filter_title_" . $field_id);
         }
 
@@ -58,11 +61,11 @@ class ilContainerFilterUtil
      * Get title of record
      * @throws ilException
      */
-    public function getContainerRecordTitle(int $record_id) : string
+    public function getContainerRecordTitle(int $record_id): string
     {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_record_title");
         }
 
@@ -78,7 +81,7 @@ class ilContainerFilterUtil
         int $ref_id,
         string $action,
         bool $admin = false
-    ) : Standard {
+    ): Standard {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -94,7 +97,6 @@ class ilContainerFilterUtil
 
         // if admin mode
         if ($admin) {
-
             // always add online/offline filter
             $options = [
                 1 => $this->lng->txt("online"),
@@ -110,7 +112,7 @@ class ilContainerFilterUtil
 
         foreach ($set->getFields() as $field) {
             // standard fields
-            if ($field->getRecordSetId() == 0) {
+            if ($field->getRecordSetId() === 0) {
                 $title = $service->util()->getContainerFieldTitle(0, $field->getFieldId());
                 $key = "std_" . $field->getFieldId();
                 switch ($field->getFieldId()) {

@@ -14,23 +14,23 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
 class ilPluginLP extends ilObjectLP
 {
     protected $status; // [mixed]
-    
-    const INACTIVE_PLUGIN = -1;
-    
+
+    public const INACTIVE_PLUGIN = -1;
+
     protected function __construct($a_obj_id)
     {
         parent::__construct($a_obj_id);
-        
+
         $this->initPlugin();
     }
-    
-    protected function initPlugin()
+
+    protected function initPlugin(): void
     {
         // active plugin?
         include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
         if (ilRepositoryObjectPluginSlot::isTypePluginWithLP(ilObject::_lookupType($this->obj_id))) {
             $obj = ilObjectFactory::getInstanceByObjId($this->obj_id, false); // #12640
-            if ($obj && $obj instanceof ilLPStatusPluginInterface) {
+            if ($obj instanceof ilLPStatusPluginInterface) {
                 $this->status = $obj;
             }
         }
@@ -39,49 +39,51 @@ class ilPluginLP extends ilObjectLP
             $this->status = self::INACTIVE_PLUGIN;
         }
     }
-    
+
     public function getPluginInstance()
     {
         return $this->status;
     }
-    
-    public function getDefaultMode()
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
-    
-    public function getValidModes()
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_UNDEFINED,
             ilLPObjSettings::LP_MODE_PLUGIN
         );
     }
-    
-    public function getCurrentMode()
+
+    public function getCurrentMode(): int
     {
         if ($this->status !== null) {
             return ilLPObjSettings::LP_MODE_PLUGIN;
         }
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
-    
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+
+    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids): bool
     {
         global $DIC;
         $objDefinition = $DIC['objDefinition'];
-        
-        $type = $a_obj_ids;
+
+        $type = $obj_ids;
         $type = array_shift($type);
         $type = ilObject::_lookupType($type);
-        
+
         $location = $objDefinition->getLocation($type);
         $class_name = "ilObj" . $objDefinition->getClassName($type);
         include_once $location . "/class." . $class_name . ".php";
-        
+
         // forward to plugin object
         if (method_exists($class_name, "isLPMember")) {
-            $class_name::isLPMember($a_res, $a_usr_id, $a_obj_ids);
+            return $class_name::isLPMember($res, $usr_id, $obj_ids);
         }
+
+        return false;
     }
 }

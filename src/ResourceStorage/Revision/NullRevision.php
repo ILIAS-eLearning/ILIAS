@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Revision;
 
@@ -13,15 +30,10 @@ use ILIAS\ResourceStorage\Information\Information;
  */
 class NullRevision implements Revision
 {
-
-    /**
-     * @var ResourceIdentification
-     */
-    private $identification;
+    private \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
     /**
      * NullRevision constructor.
-     * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
@@ -31,7 +43,7 @@ class NullRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getIdentification() : ResourceIdentification
+    public function getIdentification(): ResourceIdentification
     {
         return $this->identification;
     }
@@ -39,7 +51,7 @@ class NullRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getVersionNumber() : int
+    public function getVersionNumber(): int
     {
         return 0;
     }
@@ -47,7 +59,7 @@ class NullRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getCreationDate() : DateTimeImmutable
+    public function getCreationDate(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
@@ -55,16 +67,16 @@ class NullRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function getInformation() : Information
+    public function getInformation(): Information
     {
         return new FileInformation();
     }
 
-    public function setInformation(Information $information)
+    public function setInformation(Information $information): void
     {
     }
 
-    public function setUnavailable() : void
+    public function setUnavailable(): void
     {
         // do nothing
     }
@@ -72,24 +84,24 @@ class NullRevision implements Revision
     /**
      * @inheritDoc
      */
-    public function isAvailable() : bool
+    public function isAvailable(): bool
     {
         return false;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return 0;
     }
 
-    public function setTitle(string $title) : Revision
+    public function setTitle(string $title): Revision
     {
         // do nothing
+        return $this;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return '';
     }
-
 }

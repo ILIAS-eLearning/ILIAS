@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -9,7 +11,6 @@
  */
 class ilADTExternalLinkFormBridge extends ilADTFormBridge
 {
-
     protected ilLogger $logger;
 
     public function __construct(ilADT $a_adt)
@@ -25,7 +26,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return $a_adt instanceof ilADTExternalLink;
     }
@@ -33,7 +34,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
     /**
      * Add element to form
      */
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -56,7 +57,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
     /**
      * Import from post
      */
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         $this->getADT()->setUrl($this->getForm()->getInput($this->getElementId() . '_url'));
         $this->getADT()->setTitle($this->getForm()->getInput($this->getElementId() . '_title'));

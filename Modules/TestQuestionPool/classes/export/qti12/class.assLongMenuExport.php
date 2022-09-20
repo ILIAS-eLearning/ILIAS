@@ -1,13 +1,28 @@
 <?php
-require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class assLongMenuExport extends assQuestionExport
 {
     /**
-     * @var assKprimChoice
+     * @var assLongMenu
      */
     public $object;
 
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -16,7 +31,7 @@ class assLongMenuExport extends assQuestionExport
         $answers = $this->object->getAnswers();
 
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $xml = new ilXmlWriter;
+        $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();
         $xml->xmlStartTag("questestinterop");
@@ -83,10 +98,10 @@ class assLongMenuExport extends assQuestionExport
         // add flow to presentation
         $xml->xmlStartTag("flow");
 
-            
+
         $this->object->addQTIMaterial($xml, $this->object->getQuestion());
         $this->object->addQTIMaterial($xml, $this->object->getLongMenuTextValue());
-    
+
         foreach ($answers as $key => $values) {
             $real_id = $key + 1;
             $attrs = array(
@@ -105,7 +120,7 @@ class assLongMenuExport extends assQuestionExport
         }
         $xml->xmlEndTag("flow");
         $xml->xmlEndTag("presentation");
-        
+
         $xml->xmlStartTag("resprocessing");
         $xml->xmlStartTag("outcomes");
         $xml->xmlElement("decvar");
@@ -117,7 +132,7 @@ class assLongMenuExport extends assQuestionExport
                 $xml->xmlStartTag("conditionvar");
                 $xml->xmlElement("varequal", array('respident' => "LongMenu_" . $real_id), $value);
                 $xml->xmlEndTag("conditionvar");
-    
+
                 if (in_array($value, $correct_answers[$key][0])) {
                     $xml->xmlElement("setvar", array('action' => "Add"), $correct_answers[$key][1]);
                 } else {
@@ -190,12 +205,12 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlElement("displayfeedback", array('feedbacktype' => "Response", 'linkrefid' => 'response_onenotcorrect'));
             $xml->xmlEndTag("respcondition");
         }
-        
+
         $xml->xmlEndTag("resprocessing");
 
-        
-        
-        
+
+
+
         for ($i = 0; $i < sizeof($correct_answers); $i++) {
             $attrs = array(
                 "ident" => $i,
@@ -213,7 +228,7 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
-        
+
         if (strlen($feedback_allcorrect) > 0) {
             $xml->xmlStartTag("itemfeedback", array('ident' => 'response_allcorrect','view' => 'All'));
             $xml->xmlStartTag("flow_mat");
@@ -232,7 +247,9 @@ class assLongMenuExport extends assQuestionExport
             $xml->xmlEndTag("flow_mat");
             $xml->xmlEndTag("itemfeedback");
         }
-        
+
+        $xml = $this->addSolutionHints($xml);
+
         $xml->xmlEndTag("item");
         $xml->xmlEndTag("questestinterop");
 

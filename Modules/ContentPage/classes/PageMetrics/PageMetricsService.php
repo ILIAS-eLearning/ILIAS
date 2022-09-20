@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\ContentPage\PageMetrics;
 
@@ -28,12 +45,12 @@ final class PageMetricsService implements ilContentPageObjectConstants
         $this->refinery = $refinery;
     }
 
-    protected function doesPageExistsForLanguage(int $contentPageId, string $language) : bool
+    protected function doesPageExistsForLanguage(int $contentPageId, string $language): bool
     {
         return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language);
     }
 
-    protected function ensurePageObjectExists(int $contentPageId, string $language) : void
+    protected function ensurePageObjectExists(int $contentPageId, string $language): void
     {
         if (!$this->doesPageExistsForLanguage($contentPageId, $language)) {
             $pageObject = new ilContentPagePage();
@@ -48,7 +65,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @param StorePageMetricsCommand $command
      * @throws ilException
      */
-    public function store(StorePageMetricsCommand $command) : void
+    public function store(StorePageMetricsCommand $command): void
     {
         $this->ensurePageObjectExists($command->getContentPageId(), $command->getLanguage());
 
@@ -76,7 +93,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @return PageMetrics
      * @throws CouldNotFindPageMetrics
      */
-    public function get(GetPageMetricsCommand $command) : PageMetrics
+    public function get(GetPageMetricsCommand $command): PageMetrics
     {
         return $this->pageMetricsRepository->findBy(
             $command->getContentPageId(),

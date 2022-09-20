@@ -1,21 +1,32 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAutoCompleteUserProvider
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
-    public function __construct(string $quoted_term, string $term)
-    {
-        parent::__construct($quoted_term, $term);
-    }
-
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */
-    public function current() : array
+    public function current(): array
     {
         return [
             'login' => $this->data['login'],
@@ -24,14 +35,14 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         ];
     }
 
-    public function key() : string
+    public function key(): string
     {
         return $this->data['login'];
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
-        if ($this->res) {
+        if ($this->res !== null) {
             $this->db->free($this->res);
             $this->res = null;
         }
@@ -42,26 +53,24 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $query = implode(" ", [
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
-            $where_part ? 'WHERE ' . $where_part : '',
-            $order_by_part ? 'ORDER BY ' . $order_by_part : '',
+            $where_part !== '' ? 'WHERE ' . $where_part : '',
+            $order_by_part !== '' ? 'ORDER BY ' . $order_by_part : '',
         ]);
 
         $this->res = $this->db->query($query);
     }
 
-    protected function getSelectPart() : string
+    protected function getSelectPart(): string
     {
         $fields = [
             'login',
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN firstname ELSE '' END) firstname",
+                '(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN firstname ELSE \'\' END) firstname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s) " .
-                "THEN lastname ELSE '' END) lastname",
+                '(CASE WHEN (profpref.value = %s OR profpref.value = %s) THEN lastname ELSE \'\' END) lastname',
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
@@ -80,7 +89,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(', ', $fields);
     }
 
-    protected function getFromPart() : string
+    protected function getFromPart(): string
     {
         $joins = [];
 
@@ -94,14 +103,10 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 			ON pubemail.usr_id = usr_data.usr_id
 			AND pubemail.keyword = ' . $this->db->quote('public_email', 'text');
 
-        if ($joins) {
-            return 'usr_data ' . implode(' ', $joins);
-        }
-
-        return 'usr_data ';
+        return 'usr_data ' . implode(' ', $joins);
     }
 
-    protected function getWherePart(string $search_query) : string
+    protected function getWherePart(string $search_query): string
     {
         $outer_conditions = [];
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
@@ -129,7 +134,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         // should only be searchable if the users' profile is published (y oder g)
         // In 'anonymous' context we do not need this additional conditions,
         // because we checked the privacy setting in the condition above: profile = 'g'
-        if ($field_conditions) {
+        if ($field_conditions !== []) {
             $fields = '(' . implode(' OR ', $field_conditions) . ')';
 
             $field_conditions = ['(' . implode(' AND ', [
@@ -151,19 +156,19 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             );
         }
 
-        if ($field_conditions) {
+        if ($field_conditions !== []) {
             $outer_conditions[] = '(' . implode(' OR ', $field_conditions) . ')';
         }
 
         return implode(' AND ', $outer_conditions);
     }
 
-    protected function getOrderByPart() : string
+    protected function getOrderByPart(): string
     {
         return 'login ASC';
     }
 
-    protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
+    protected function getQueryConditionByFieldAndValue(string $field, $a_str): string
     {
         return $this->db->like($field, 'text', $a_str . '%');
     }
@@ -171,7 +176,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return string[]
      */
-    protected function getFields() : array
+    protected function getFields(): array
     {
         $available_fields = [];
         foreach (['firstname', 'lastname'] as $field) {

@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\InfoScreen\StandardGUIRequest;
+use ILIAS\Data\Factory;
 
 /**
  * Test clipboard repository
@@ -9,24 +13,17 @@ use PHPUnit\Framework\TestCase;
  */
 class InfoScreenStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\InfoScreen\StandardGUIRequest
+    protected function getRequest(array $get, array $post): StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
-        $data = new \ILIAS\Data\Factory();
+        $data = new Factory();
         $refinery = new \ILIAS\Refinery\Factory($data, $lng_mock);
-        return new \ILIAS\InfoScreen\StandardGUIRequest(
+        return new StandardGUIRequest(
             $http_mock,
             $refinery,
             $get,

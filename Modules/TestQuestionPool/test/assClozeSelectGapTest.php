@@ -1,7 +1,10 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once __DIR__ . "/assBaseTestCase.php";
+
+use ILIAS\Refinery\Transformation;
 
 /**
 * Unit tests
@@ -15,18 +18,13 @@ class assClozeSelectGapTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -37,7 +35,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertInstanceOf('assClozeSelectGap', $instance);
     }
 
-    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle()
+    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -49,18 +47,20 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_arrayShuffle_shouldShuffleArray()
+    public function test_arrayShuffle_shouldShuffleArray(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
-        $expected = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+        $expected = ['shfksdfs', 'sfsdf', 'sdfsdfdf'];
 
-        $actual = $instance->getItems(new ilArrayElementShuffler());
-        $this->assertNotEquals($expected, $actual);
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::once())->method('transform')->willReturn($expected);
+        $actual = $instance->getItems($transformationMock);
+        $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItemswithShuffle_shouldReturnShuffledItems()
+    public function test_getItemswithShuffle_shouldReturnShuffledItems(): void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
@@ -89,9 +89,9 @@ class assClozeSelectGapTest extends assBaseTestCase
         $sequence = [$item1, $item3, $item2, $item4, $item5, $item6, $item7, $item8];
         $expectedSequence = array_reverse($sequence);
 
-        $randomElmProvider = $this->getMockBuilder(ilRandomArrayElementProvider::class)->getMock();
+        $randomElmProvider = $this->getMockBuilder(Transformation::class)->getMock();
         $randomElmProvider->expects($this->once())
-                          ->method('shuffle')
+                          ->method('transform')
                           ->with($sequence)
                           ->willReturn($expectedSequence);
 
@@ -99,7 +99,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($actual, $expectedSequence);
     }
 
-    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder()
+    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder(): void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
@@ -118,7 +118,11 @@ class assClozeSelectGapTest extends assBaseTestCase
         $instance->setType(false);
 
         $expected = array($item1, $item2, $item3, $item4);
-        $actual = $instance->getItems(new ilDeterministicArrayElementProvider());
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::once())->method('transform')->willReturnCallback(function ($value) {
+            return $value;
+        });
+        $actual = $instance->getItems($transformationMock);
 
         $this->assertEquals($expected, $actual);
     }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -15,13 +31,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
 {
     private GlobalHttpState $http;
     protected array $_folderNode = [];
-    protected ilMailFolderGUI $_parentObject;
-    protected int $_currentFolderId = 0;
     protected int $_number_of_mails = 0;
     protected array $_selectedItems = [];
-    protected bool $_isTrashFolder = false;
-    protected bool $_isDraftsFolder = false;
-    protected bool $_isSentFolder = false;
     protected ilObjUser $user;
     protected array $filter = [];
     protected array $sub_filter = [];
@@ -33,9 +44,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
     private ?array $column_definition = null;
 
     public function __construct(
-        ilMailFolderGUI $a_parent_obj,
-        int $a_current_folder_id,
-        string $a_parent_cmd = '',
+        protected ilMailFolderGUI $_parentObject,
+        protected int $_currentFolderId,
+        string $a_parent_cmd,
+        protected bool $_isTrashFolder,
+        protected bool $_isSentFolder,
+        protected bool $_isDraftsFolder,
         Factory $uiFactory = null,
         Renderer $uiRenderer = null
     ) {
@@ -45,10 +59,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
         $this->http = $DIC->http();
 
-        $this->_currentFolderId = $a_current_folder_id;
-        $this->_parentObject = $a_parent_obj;
-
-        $this->setId('mail_folder_tbl_' . $a_current_folder_id);
+        $this->setId('mail_folder_tbl_' . $_currentFolderId);
         $this->setPrefix('mtable');
 
         $this->setExternalSorting(true);
@@ -56,7 +67,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->setDefaultOrderField('send_time');
         $this->setDefaultOrderDirection('desc');
 
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($_parentObject, $a_parent_cmd);
 
         $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showFolder'));
@@ -69,22 +80,22 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->setFilterCommand('applyFilter');
         $this->setResetCommand('resetFilter');
     }
-    
-    public function getSelectableColumns() : array
+
+    public function getSelectableColumns(): array
     {
-        $optionalColumns = array_filter($this->getColumnDefinition(), static function (array $column) : bool {
+        $optionalColumns = array_filter($this->getColumnDefinition(), static function (array $column): bool {
             return isset($column['optional']) && $column['optional'];
         });
 
         $columns = [];
-        foreach ($optionalColumns as $index => $column) {
+        foreach ($optionalColumns as $column) {
             $columns[$column['field']] = $column;
         }
 
         return $columns;
     }
-    
-    protected function isColumnVisible(int $index) : bool
+
+    protected function isColumnVisible(int $index): bool
     {
         $columnDefinition = $this->getColumnDefinition();
         if (array_key_exists($index, $columnDefinition)) {
@@ -92,10 +103,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             if (isset($column['optional']) && !$column['optional']) {
                 return true;
             }
-            if (
-                is_array($this->visibleOptionalColumns) &&
-                array_key_exists($column['field'], $this->visibleOptionalColumns)
-            ) {
+            if (array_key_exists($column['field'], $this->visibleOptionalColumns)) {
                 return true;
             }
         }
@@ -103,29 +111,27 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow($a_set) : void
+    final protected function fillRow(array $a_set): void
     {
         foreach ($this->removeInvisibleFields($a_set) as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);
         }
     }
 
-    protected function removeInvisibleFields(array $row) : array
+    protected function removeInvisibleFields(array $row): array
     {
-        if (is_array($this->visibleOptionalColumns)) {
-            if (!array_key_exists('attachments', $this->visibleOptionalColumns)) {
-                unset($row['attachment_indicator']);
-            }
+        if (!array_key_exists('attachments', $this->visibleOptionalColumns)) {
+            unset($row['attachment_indicator']);
+        }
 
-            if (!array_key_exists('personal_picture', $this->visibleOptionalColumns)) {
-                unset($row['img_sender'], $row['alt_sender']);
-            }
+        if (!array_key_exists('personal_picture', $this->visibleOptionalColumns)) {
+            unset($row['img_sender'], $row['alt_sender']);
         }
 
         return $row;
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         if ($this->column_definition !== null) {
             return $this->column_definition;
@@ -230,7 +236,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * @throws Exception
      */
-    final public function prepareHTML() : self
+    final public function prepareHTML(): self
     {
         $columns = $this->getColumnDefinition();
         $this->optionalColumns = $this->getSelectableColumns();
@@ -241,7 +247,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) ? (bool) $column['is_checkbox'] : false
+                    isset($column['is_checkbox']) && $column['is_checkbox']
                 );
             }
         }
@@ -258,49 +264,22 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * @return bool|ilMailFolderTableGUI
-     */
-    public function isDraftFolder(bool $a_bool = null)
+    public function isDraftFolder(): bool
     {
-        if (null === $a_bool) {
-            return $this->_isDraftsFolder;
-        }
-
-        $this->_isDraftsFolder = $a_bool;
-
-        return $this;
+        return $this->_isDraftsFolder;
     }
 
-    /**
-     * @return bool|ilMailFolderTableGUI
-     */
-    public function isSentFolder(bool $a_bool = null)
+    public function isSentFolder(): bool
     {
-        if (null === $a_bool) {
-            return $this->_isSentFolder;
-        }
-
-        $this->_isSentFolder = $a_bool;
-
-        return $this;
+        return $this->_isSentFolder;
     }
 
-    /**
-     * @return bool|ilMailFolderTableGUI
-     */
-    public function isTrashFolder(bool $a_bool = null)
+    public function isTrashFolder(): bool
     {
-        if (null === $a_bool) {
-            return $this->_isTrashFolder;
-        }
-
-        $this->_isTrashFolder = $a_bool;
-
-        return $this;
+        return $this->_isTrashFolder;
     }
 
-    private function initCommandButtons() : self
+    private function initCommandButtons(): self
     {
         if ($this->_folderNode['m_type'] === 'trash' && $this->getNumberOfMails() > 0) {
             $this->addCommandButton('confirmEmptyTrash', $this->lng->txt('mail_empty_trash'));
@@ -309,7 +288,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    private function initMultiCommands(array $actions) : self
+    private function initMultiCommands(array $actions): self
     {
         foreach ($actions as $key => $action) {
             if ($key === 'moveMails') {
@@ -336,19 +315,19 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    public function setSelectedItems(array $a_selected_items) : self
+    public function setSelectedItems(array $a_selected_items): self
     {
         $this->_selectedItems = $a_selected_items;
 
         return $this;
     }
 
-    public function getSelectedItems() : array
+    public function getSelectedItems(): array
     {
         return $this->_selectedItems;
     }
-    
-    protected function shouldUseLuceneSearch() : bool
+
+    protected function shouldUseLuceneSearch(): bool
     {
         return isset($this->filter['mail_filter']) &&
             is_string($this->filter['mail_filter']) &&
@@ -356,7 +335,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->isLuceneEnabled();
     }
 
-    private function isLuceneEnabled() : bool
+    private function isLuceneEnabled(): bool
     {
         return ilSearchSettings::getInstance()->enabledLucene();
     }
@@ -364,7 +343,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * @throws Exception
      */
-    protected function fetchTableData() : self
+    protected function fetchTableData(): self
     {
         if ($this->_folderNode['m_type'] === 'user_folder') {
             $txt_folder = $this->_folderNode['title'];
@@ -393,7 +372,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $searcher->search($this->user->getId(), $this->_currentFolderId);
 
                 if (!$result->getIds()) {
-                    throw new ilException('mail_search_empty_result');
+                    throw new ilMailException('mail_search_empty_result');
                 }
 
                 ilMailBoxQuery::$filtered_ids = $result->getIds();
@@ -420,13 +399,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             ilMailBoxQuery::$folderId = $this->_currentFolderId;
             ilMailBoxQuery::$userId = $this->user->getId();
-            ilMailBoxQuery::$limit = (int) $this->getLimit(); // TODO: returns strings
+            ilMailBoxQuery::$limit = $this->getLimit();
             ilMailBoxQuery::$offset = $this->getOffset();
             ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
             ilMailBoxQuery::$orderColumn = $this->getOrderField();
             $data = ilMailBoxQuery::_getMailBoxListData();
 
-            if (!count($data['set']) && $this->getOffset() > 0) {
+            if ($data['set'] === [] && $this->getOffset() > 0) {
                 $this->resetOffset();
 
                 ilMailBoxQuery::$limit = $this->getLimit();
@@ -476,7 +455,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             } else {
                 $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-                if ($user) {
+                if ($user !== null) {
                     $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
                     $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(
                         $user->getPublicName()
@@ -525,7 +504,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                         $search_result[] = $content[1];
                     }
                 }
-                $mail['msr_data'] = implode('', array_map(static function ($value) : string {
+                $mail['msr_data'] = implode('', array_map(static function ($value): string {
                     return '<p>' . $value . '</p>';
                 }, $search_result));
 
@@ -534,14 +513,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['msr_subject_mailclass'] = $css_class;
                     $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
                 }
+                $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
                 if ($mail['m_subject']) {
                     $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
                 } else {
-                    $mail['mail_subject'] = htmlspecialchars("No title");
+                    $mail['mail_subject'] = $this->lng->txt('mail_no_subject');
                 }
+                $mail['mail_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             }
 
             $mail['mail_date'] = ilDatePresentation::formatDate(
@@ -549,7 +530,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             );
 
             $mail['attachment_indicator'] = '';
-            if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
+            if (is_array($mail['attachments']) && $mail['attachments'] !== []) {
                 $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
                 if ($this->isDraftFolder()) {
                     $this->ctrl->setParameter($this->getParentObject(), 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
@@ -580,7 +561,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * @throws ilTemplateException
      */
-    protected function setTitleData(string $folderLabel, int $mailCount, int $unreadCount, string $imgFolder) : self
+    protected function setTitleData(string $folderLabel, int $mailCount, int $unreadCount, string $imgFolder): self
     {
         $titleTemplate = new ilTemplate(
             'tpl.mail_folder_title.html',
@@ -599,19 +580,19 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    public function setNumberOfMails(int $a_number_of_mails) : self
+    public function setNumberOfMails(int $a_number_of_mails): self
     {
         $this->_number_of_mails = $a_number_of_mails;
 
         return $this;
     }
 
-    public function getNumberOfMails() : int
+    public function getNumberOfMails(): int
     {
         return $this->_number_of_mails;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->filter = [];
 
@@ -629,7 +610,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $subFilterInRecipients->setOptionTitle($this->lng->txt('mail_filter_recipients'));
             $subFilterInRecipients->setValue('1');
             $quickFilter->addSubItem($subFilterInRecipients);
-            $subFilterInRecipients->setParent($this);
+            $subFilterInRecipients->setParentTable($this);
             $subFilterInRecipients->readFromSession();
             $this->filter['mail_filter_recipients'] = (int) $subFilterInRecipients->getChecked();
         } else {
@@ -640,7 +621,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $subFilterInSender->setOptionTitle($this->lng->txt('mail_filter_sender'));
             $subFilterInSender->setValue('1');
             $quickFilter->addSubItem($subFilterInSender);
-            $subFilterInSender->setParent($this);
+            $subFilterInSender->setParentTable($this);
             $subFilterInSender->readFromSession();
             $this->filter['mail_filter_sender'] = (int) $subFilterInSender->getChecked();
         }
@@ -652,7 +633,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $subFilterInSubject->setOptionTitle($this->lng->txt('mail_filter_subject'));
         $subFilterInSubject->setValue('1');
         $quickFilter->addSubItem($subFilterInSubject);
-        $subFilterInSubject->setParent($this);
+        $subFilterInSubject->setParentTable($this);
         $subFilterInSubject->readFromSession();
         $this->filter['mail_filter_subject'] = (int) $subFilterInSubject->getChecked();
 
@@ -663,7 +644,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $subFilterInBody->setOptionTitle($this->lng->txt('mail_filter_body'));
         $subFilterInBody->setValue('1');
         $quickFilter->addSubItem($subFilterInBody);
-        $subFilterInBody->setParent($this);
+        $subFilterInBody->setParentTable($this);
         $subFilterInBody->readFromSession();
         $this->filter['mail_filter_body'] = (int) $subFilterInBody->getChecked();
 
@@ -675,7 +656,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
             $subFilterInAttachments->setValue('1');
             $quickFilter->addSubItem($subFilterInAttachments);
-            $subFilterInAttachments->setParent($this);
+            $subFilterInAttachments->setParentTable($this);
             $subFilterInAttachments->readFromSession();
             $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
         }
@@ -689,6 +670,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->addFilterItem($onlyUnread);
             $onlyUnread->readFromSession();
             $this->filter['mail_filter_only_unread'] = (int) $onlyUnread->getChecked();
+
+            $onlyUserMails = new ilCheckboxInputGUI(
+                $this->lng->txt('mail_filter_only_user_mails'),
+                'mail_filter_only_user_mails'
+            );
+            $onlyUserMails->setValue('1');
+            $this->addFilterItem($onlyUserMails);
+            $onlyUserMails->readFromSession();
+            $this->filter['mail_filter_only_user_mails'] = (int) $onlyUserMails->getChecked();
         }
 
         if (!$this->isDraftFolder()) {
@@ -714,7 +704,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->filter['period'] = $duration->getValue();
     }
 
-    public function writeFilterToSession() : void
+    public function writeFilterToSession(): void
     {
         parent::writeFilterToSession();
 
@@ -726,7 +716,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    public function resetFilter() : void
+    public function resetFilter(): void
     {
         parent::resetFilter();
 
@@ -738,7 +728,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    protected function formatActionsDropDown(array $mail) : string
+    protected function formatActionsDropDown(array $mail): string
     {
         $buttons = [];
 
@@ -755,7 +745,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    protected function addViewRowAction(array $mail, array &$buttons) : void
+    protected function addViewRowAction(array $mail, array &$buttons): void
     {
         if ($this->isDraftFolder()) {
             $this->ctrl->setParameterByClass(
@@ -795,39 +785,40 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $buttons[] = $viewButton;
     }
 
-    protected function addReplyRowAction(array $mail, array &$buttons) : void
+    protected function addReplyRowAction(array $mail, array &$buttons): void
     {
-        if (!$this->isDraftFolder()) {
-            if (isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] !== ANONYMOUS_USER_ID) {
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'mobj_id',
-                    $this->_currentFolderId
+        if (
+            isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] !== ANONYMOUS_USER_ID &&
+            !$this->isDraftFolder()
+        ) {
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'mobj_id',
+                $this->_currentFolderId
+            );
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'mail_id',
+                (int) $mail['mail_id']
+            );
+            $this->ctrl->setParameterByClass(
+                ilMailFormGUI::class,
+                'type',
+                ilMailFormGUI::MAIL_FORM_TYPE_REPLY
+            );
+            $replyButton = $this->uiFactory
+                ->link()
+                ->standard(
+                    $this->lng->txt('reply'),
+                    $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
                 );
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'mail_id',
-                    (int) $mail['mail_id']
-                );
-                $this->ctrl->setParameterByClass(
-                    ilMailFormGUI::class,
-                    'type',
-                    ilMailFormGUI::MAIL_FORM_TYPE_REPLY
-                );
-                $replyButton = $this->uiFactory
-                    ->link()
-                    ->standard(
-                        $this->lng->txt('reply'),
-                        $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
-                    );
-                $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-                $buttons[] = $replyButton;
-            }
+            $buttons[] = $replyButton;
         }
     }
 
-    protected function addForwardRowAction(array $mail, array &$buttons) : void
+    protected function addForwardRowAction(array $mail, array &$buttons): void
     {
         if (!$this->isDraftFolder()) {
             $this->ctrl->setParameterByClass(
@@ -857,7 +848,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    protected function addPrintRowAction(array $mail, array &$buttons) : void
+    protected function addPrintRowAction(array $mail, array &$buttons): void
     {
         if (!$this->isDraftFolder()) {
             $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
@@ -874,7 +865,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
         $html = parent::getHTML();

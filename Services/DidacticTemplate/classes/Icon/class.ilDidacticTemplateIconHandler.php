@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\IOException;
@@ -13,32 +14,17 @@ use ILIAS\FileUpload\Location;
 
 /**
  * Icon handler for didactic template custom icons
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
-
 class ilDidacticTemplateIconHandler
 {
     protected const WEBDIR_PREFIX = 'ilDidacticTemplateIcons';
 
-    /**
-     * @var ilDidacticTemplateSetting
-     */
     protected ilDidacticTemplateSetting $settings;
-
     protected ilLogger $logger;
-
-    /**
-     * @var Filesystem
-     */
     protected Filesystem $webDirectory;
 
-
-    /**
-     * ilDidacticTemplateIconHandler constructor.
-     * @param ilDidacticTemplateSetting $setting
-     */
     public function __construct(ilDidacticTemplateSetting $setting)
     {
         global $DIC;
@@ -48,7 +34,7 @@ class ilDidacticTemplateIconHandler
         $this->logger = $DIC->logger()->otpl();
     }
 
-    public function handleUpload(FileUpload $upload, string $tmpname) : void
+    public function handleUpload(FileUpload $upload, string $tmpname): void
     {
         if ($upload->hasUploads() && !$upload->hasBeenProcessed()) {
             try {
@@ -58,7 +44,7 @@ class ilDidacticTemplateIconHandler
             }
         }
         $this->initWebDir();
-        $result = isset($upload->getResults()[$tmpname]) ? $upload->getResults()[$tmpname] : false;
+        $result = $upload->getResults()[$tmpname] ?? false;
         if ($result instanceof UploadResult && $result->isOK() && $result->getSize()) {
             $this->delete();
             $upload->moveOneFileTo(
@@ -73,10 +59,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    /**
-     * @param string $svg
-     */
-    public function writeSvg(string $svg) : void
+    public function writeSvg(string $svg): void
     {
         try {
             $this->webDirectory->write(
@@ -85,46 +68,39 @@ class ilDidacticTemplateIconHandler
             );
             $this->settings->setIconIdentifier((string) $this->settings->getId());
             $this->settings->update();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->warning('Error writing svg image from xml: ' . $e->getMessage());
         }
     }
 
-    public function getAbsolutePath() : string
+    public function getAbsolutePath(): string
     {
         if ($this->webDirectory->has(self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg')) {
-            return \ilUtil::getWebspaceDir() . '/' . self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg';
+            return ilFileUtils::getWebspaceDir() . '/' . self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg';
         }
+
         return '';
     }
 
-    /**
-     * @param ilDidacticTemplateSetting $original
-     */
-    public function copy(ilDidacticTemplateSetting $original) : void
+    public function copy(ilDidacticTemplateSetting $original): void
     {
         if ($original->getIconHandler()->getAbsolutePath()) {
-
             try {
                 $this->webDirectory->copy(
                     self::WEBDIR_PREFIX . '/' . $original->getIconIdentifier() . '.svg',
                     self::WEBDIR_PREFIX . '/' . $this->settings->getId() . '.svg'
                 );
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->warning('Copying icon failed with message: ' . $e->getMessage());
             }
             $this->settings->setIconIdentifier((string) $this->settings->getId());
-            $this->settings->update();
         } else {
-            $this->settings->setIconIdentifier((string) 0 );
-            $this->settings->update();
+            $this->settings->setIconIdentifier("0");
         }
+        $this->settings->update();
     }
 
-    /**
-     *
-     */
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->webDirectory->has(self::WEBDIR_PREFIX . '/' . $this->settings->getIconIdentifier() . '.svg')) {
             try {
@@ -137,10 +113,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    /**
-     * Init web directory
-     */
-    private function initWebDir() : void
+    private function initWebDir(): void
     {
         if (!$this->webDirectory->has(self::WEBDIR_PREFIX)) {
             try {
@@ -153,7 +126,7 @@ class ilDidacticTemplateIconHandler
         }
     }
 
-    public function toXml(ilXmlWriter $writer) : \ilXmlWriter
+    public function toXml(ilXmlWriter $writer): ilXmlWriter
     {
         if ($this->settings->getIconIdentifier()) {
             try {
@@ -168,5 +141,4 @@ class ilDidacticTemplateIconHandler
         }
         return $writer;
     }
-
 }

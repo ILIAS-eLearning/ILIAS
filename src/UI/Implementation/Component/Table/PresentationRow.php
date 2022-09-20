@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Table;
 
@@ -21,17 +37,17 @@ class PresentationRow implements T\PresentationRow
     /**
      * @var	Button|Dropdown|null
      */
-    private $action;
+    private $action = null;
 
     protected Signal $show_signal;
     protected Signal $close_signal;
     protected Signal $toggle_signal;
-    private ?string $headline;
-    private ?string $subheadline;
-    private array $important_fields;
+    private ?string $headline = null;
+    private ?string $subheadline = null;
+    private array $important_fields = [];
     private Descriptive $content;
-    private string $further_fields_headline;
-    private array $further_fields;
+    private ?string $further_fields_headline = null;
+    private array $further_fields = [];
     private array $data;
     protected SignalGeneratorInterface $signal_generator;
 
@@ -44,7 +60,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : T\PresentationRow
+    public function withResetSignals(): T\PresentationRow
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -54,7 +70,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * Set the signals for this component.
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->show_signal = $this->signal_generator->create();
         $this->close_signal = $this->signal_generator->create();
@@ -64,7 +80,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getShowSignal() : Signal
+    public function getShowSignal(): Signal
     {
         return $this->show_signal;
     }
@@ -72,7 +88,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getCloseSignal() : Signal
+    public function getCloseSignal(): Signal
     {
         return $this->close_signal;
     }
@@ -81,7 +97,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getToggleSignal() : Signal
+    public function getToggleSignal(): Signal
     {
         return $this->toggle_signal;
     }
@@ -90,7 +106,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withHeadline($headline) : T\PresentationRow
+    public function withHeadline($headline): T\PresentationRow
     {
         $this->checkStringArg("string", $headline);
         $clone = clone $this;
@@ -101,7 +117,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getHeadline() : ?string
+    public function getHeadline(): ?string
     {
         return $this->headline;
     }
@@ -109,7 +125,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withSubheadline($subheadline) : T\PresentationRow
+    public function withSubheadline($subheadline): T\PresentationRow
     {
         $this->checkStringArg("string", $subheadline);
         $clone = clone $this;
@@ -120,7 +136,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getSubheadline() : ?string
+    public function getSubheadline(): ?string
     {
         return $this->subheadline;
     }
@@ -128,7 +144,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withImportantFields(array $fields) : T\PresentationRow
+    public function withImportantFields(array $fields): T\PresentationRow
     {
         $clone = clone $this;
         $clone->important_fields = $fields;
@@ -138,7 +154,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getImportantFields() : array
+    public function getImportantFields(): array
     {
         return $this->important_fields;
     }
@@ -147,7 +163,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withContent(Descriptive $content) : T\PresentationRow
+    public function withContent(Descriptive $content): T\PresentationRow
     {
         $clone = clone $this;
         $clone->content = $content;
@@ -157,7 +173,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getContent() : Descriptive
+    public function getContent(): Descriptive
     {
         return $this->content;
     }
@@ -166,7 +182,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withFurtherFieldsHeadline($headline) : T\PresentationRow
+    public function withFurtherFieldsHeadline($headline): T\PresentationRow
     {
         $this->checkStringArg("string", $headline);
         $clone = clone $this;
@@ -177,7 +193,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getFurtherFieldsHeadline() : string
+    public function getFurtherFieldsHeadline(): ?string
     {
         return $this->further_fields_headline;
     }
@@ -185,7 +201,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withFurtherFields(array $fields) : T\PresentationRow
+    public function withFurtherFields(array $fields): T\PresentationRow
     {
         $clone = clone $this;
         $clone->further_fields = $fields;
@@ -195,7 +211,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function getFurtherFields() : array
+    public function getFurtherFields(): array
     {
         return $this->further_fields;
     }
@@ -204,7 +220,7 @@ class PresentationRow implements T\PresentationRow
     /**
      * @inheritdoc
      */
-    public function withAction($action) : T\PresentationRow
+    public function withAction($action): T\PresentationRow
     {
         $check =
             is_null($action)

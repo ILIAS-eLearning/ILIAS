@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -12,7 +28,7 @@ use ILIAS\DI\Container;
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
     private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
@@ -25,7 +41,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         ?ilTemplate $template = null,
         ?Container $dic = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?ilCtrl $ctrl = null,
+        ?ilCtrlInterface $ctrl = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
@@ -73,18 +89,16 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         $this->utilHelper = $utilHelper;
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return (bool) $this->certificateSettings->get('active', '0');
     }
 
     /**
      * Get entries
-     * @param int $ts_start
-     * @param int $ts_end
      * @return ilLearningHistoryEntry[]
      */
-    public function getEntries($ts_start, $ts_end) : array
+    public function getEntries(int $ts_start, int $ts_end): array
     {
         $entries = [];
 
@@ -137,7 +151,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         return $entries;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->lng->txt('certificates');
     }

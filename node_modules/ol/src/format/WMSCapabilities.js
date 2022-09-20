@@ -13,11 +13,11 @@ import {
   readBooleanString,
   readDecimal,
   readDecimalString,
-  readNonNegativeInteger,
   readNonNegativeIntegerString,
+  readPositiveInteger,
   readString,
 } from './xsd.js';
-import {readHref} from './XLink.js';
+import {readHref} from './xlink.js';
 
 /**
  * @const
@@ -94,9 +94,9 @@ const SERVICE_PARSERS = makeStructureNS(NAMESPACE_URIS, {
   'ContactInformation': makeObjectPropertySetter(readContactInformation),
   'Fees': makeObjectPropertySetter(readString),
   'AccessConstraints': makeObjectPropertySetter(readString),
-  'LayerLimit': makeObjectPropertySetter(readNonNegativeInteger),
-  'MaxWidth': makeObjectPropertySetter(readNonNegativeInteger),
-  'MaxHeight': makeObjectPropertySetter(readNonNegativeInteger),
+  'LayerLimit': makeObjectPropertySetter(readPositiveInteger),
+  'MaxWidth': makeObjectPropertySetter(readPositiveInteger),
+  'MaxHeight': makeObjectPropertySetter(readPositiveInteger),
 });
 
 /**
@@ -422,9 +422,9 @@ function readCapabilityLayer(node, objectStack) {
  * @return {Object|undefined} Layer object.
  */
 function readLayer(node, objectStack) {
-  const parentLayerObject = /**  @type {!Object<string,*>} */ (objectStack[
-    objectStack.length - 1
-  ]);
+  const parentLayerObject = /**  @type {!Object<string,*>} */ (
+    objectStack[objectStack.length - 1]
+  );
 
   const layerObject = pushParseAndPop({}, LAYER_PARSERS, node, objectStack);
 

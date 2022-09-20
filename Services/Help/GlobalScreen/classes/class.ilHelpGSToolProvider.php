@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -9,26 +25,21 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
 
 /**
  * Class ilHelpGSToolProvider
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_HELP_TOOL = 'show_help_tool';
     use ilHelpDisplayed;
     use Hasher;
 
-    /**
-     * @inheritDoc
-     */
-    public function isInterestedInContexts() : ContextCollection
+    public const SHOW_HELP_TOOL = 'show_help_tool';
+
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         global $DIC;
 
@@ -44,7 +55,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $hidden = !$help_gui->isHelpPageActive();
 
         $title = $lng->txt("help");
-        $icon = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
+        $icon = $f->symbol()->icon()->standard("hlps", $title);
 
         if ($this->showHelpTool()) {
             $iff = function ($id) {
@@ -57,10 +68,10 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $identification = $iff("help");
             $hashed = $this->hash($identification->serialize());
             $tools[] = $this->factory->tool($identification)
-                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden) : ILIAS\UI\Component\Component {
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden): ILIAS\UI\Component\Component {
                                                 if ($c instanceof LegacySlate) {
                                                     $signal_id = $c->getToggleSignal()->getId();
-                                                    return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $hidden) {
+                                                    return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed) {
                                                         return "
                                                  $('body').on('il-help-toggle-slate', function(){
                                                     if (!$('#$id').hasClass('disengaged')) {
@@ -68,6 +79,11 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                                         il.UI.maincontrols.mainbar.removeTool('$hashed');
                                                     } else {
                                                         il.UI.maincontrols.mainbar.engageTool('$hashed');
+                                                        const panel = document.getElementById('ilHelpPanel');
+                                                        const firstFocusElement = panel.querySelector('a,input,[role=\'button\'],button');
+                                                        if (firstFocusElement) {
+                                                            firstFocusElement.focus();
+                                                        }
                                                     }
                                                  });";
                                                     });
@@ -86,12 +102,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    /**
-     * help
-     * @param int $ref_id
-     * @return string
-     */
-    private function getHelpContent() : string
+    private function getHelpContent(): string
     {
         global $DIC;
 
@@ -104,7 +115,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $help_gui->initHelp($main_tpl, $ctrl->getLinkTargetByClass("ilhelpgui", "", "", true));
 
         $html = "";
-        if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1) {
+        if ((defined("OH_REF_ID") && (int) OH_REF_ID > 0) || (defined('DEVMODE') && (int) DEVMODE === 1)) {
             $html = "<div class='ilHighlighted small'>Screen ID: " . $help_gui->getScreenId() . "</div>";
         }
 

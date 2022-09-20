@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,33 +29,14 @@
 * Performs Mysql Like search
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 *
 */
-include_once 'Services/Search/classes/class.ilMediaCastSearch.php';
 
 class ilLikeMediaCastSearch extends ilMediaCastSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        /*
-        $concat  = " CONCAT(";
-        $concat .= 'title,content';
-        $concat .= ") ";
-        */
-        
-        /*
-        $concat = $ilDB->concat(
-            array(
-                'title'	=> 'text',
-                'content'	=> 'clob'));
-        */
-
         $and = "  WHERE context_obj_type='mcst' AND (  ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
@@ -62,9 +45,9 @@ class ilLikeMediaCastSearch extends ilMediaCastSearch
             }
             #$and .= $concat;
             #$and .= ("LIKE ('%".$word."%')");
-            $and .= $ilDB->like('title', 'text', '%' . $word . '%');
+            $and .= $this->db->like('title', 'text', '%' . $word . '%');
             $and .= ' OR ';
-            $and .= $ilDB->like('content', 'clob', '%' . $word . '%');
+            $and .= $this->db->like('content', 'clob', '%' . $word . '%');
         }
         return $and . ") ";
     }

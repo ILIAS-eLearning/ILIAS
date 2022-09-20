@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Trigger activity badges from events
@@ -9,7 +23,7 @@
  */
 class ilBadgeAppEventListener implements ilAppEventListener
 {
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         switch ($a_component) {
             case 'Services/User':
@@ -23,21 +37,20 @@ class ilBadgeAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-            
+
             case 'Services/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
-                        if ($a_parameter['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                        if ((int) $a_parameter['status'] === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                             ilBadgeHandler::getInstance()->triggerEvaluation(
                                 'crs/course_lp',
-                                $a_parameter['usr_id'],
-                                array('obj_id' => $a_parameter['obj_id'])
+                                (int) $a_parameter['usr_id'],
+                                ['obj_id' => (int) $a_parameter['obj_id']]
                             );
                         }
                         break;
                 }
                 break;
-                        
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
@@ -13,17 +14,14 @@ include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 */
 class ilECSTestSettings extends ilECSObjectSettings
 {
-    protected function getECSObjectType()
+    protected function getECSObjectType(): string
     {
         return '/campusconnect/tests';
     }
-    
+
+    /** @return object|stdClass */
     protected function buildJson(ilECSSetting $a_server)
     {
-        $json = $this->getJsonCore('application/ecs-test');
-        
-        // $json->status = $this->content_obj->isActivated() ? 'online' : 'offline';
-        
-        return $json;
+        return $this->getJsonCore('application/ecs-test');
     }
 }

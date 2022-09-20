@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Stakeholder;
 
@@ -10,43 +27,27 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 interface ResourceStakeholder
 {
-
     /**
-     * @return string
+     * @return string not longer than 64 characters
      */
-    public function getId() : string;
+    public function getId(): string;
+
+    public function getConsumerNameForPresentation(): string;
 
     /**
-     * @return string
+     * @return string not longer than 250 characters
      */
-    public function getConsumerNameForPresentation() : string;
+    public function getFullyQualifiedClassName(): string;
+
+    public function isResourceInUse(ResourceIdentification $identification): bool;
 
     /**
-     * @return string
-     */
-    public function getFullyQualifiedClassName() : string;
-
-    /**
-     * @param ResourceIdentification $identification
-     * @return bool
-     */
-    public function isResourceInUse(ResourceIdentification $identification) : bool;
-
-    /**
-     * @param ResourceIdentification $identification
      * @return bool true: if the Stakeholder could handle the deletion; false: if the Stakeholder could not handle
      * the deletion of the resource.
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool;
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool;
 
-    /**
-     * @param ResourceIdentification $identification
-     * @return int
-     */
-    public function getOwnerOfResource(ResourceIdentification $identification) : int;
+    public function getOwnerOfResource(ResourceIdentification $identification): int;
 
-    /**
-     * @return int
-     */
-    public function getOwnerOfNewResources() : int;
+    public function getOwnerOfNewResources(): int;
 }

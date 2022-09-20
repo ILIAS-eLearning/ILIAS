@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Server;
 
@@ -34,6 +37,7 @@ class Server
     protected \ilPageObjectGUI $page_gui;
     protected \ILIAS\DI\UIServices $ui;
     protected Message\ServerRequestInterface $request;
+    protected \ilLogger $log;
 
     public function __construct(
         \ilPageObjectGUI $page_gui,
@@ -43,30 +47,46 @@ class Server
         $this->request = $request;
         $this->ui = $ui;
         $this->page_gui = $page_gui;
+        $this->log = \ilLoggerFactory::getLogger('copg');
     }
 
-    public function reply() : void
+    public function reply(): void
     {
+        $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
+        $post = $this->request->getParsedBody();
 
-        if (is_array($_POST) && count($_POST) > 0) {
-            $body = $this->request->getParsedBody();
-        } else {
-            $body = json_decode($this->request->getBody()->getContents(), true);
+        try {
+            if (isset($post) && is_array($post) && count($post) > 0) {
+                $body = $post;
+            } else {
+                $body = json_decode($this->request->getBody()->getContents(), true);
+            }
+            if (isset($query["component"])) {
+                $action_handler = $this->getActionHandlerForQuery($query);
+                $response = $action_handler->handle($query);
+            } else {
+                //sleep(5);
+                $action_handler = $this->getActionHandlerForCommand($query, $body);
+                $response = $action_handler->handle($query, $body);
+            }
+        } catch (Exception $e) {
+            $data = new \stdClass();
+            $this->log->error($e->getMessage() . "\n" . $e->getTraceAsString());
+            $data->error = $e->getMessage();
+            if (defined('DEVMODE') && DEVMODE) {
+                $data->error .= "<br><br>" . nl2br($e->getTraceAsString());
+            }
+            $response = new Response($data);
         }
-        if (isset($query["component"])) {
-            $action_handler = $this->getActionHandlerForQuery($query);
-            $response = $action_handler->handle($query);
-        } else {
-            $action_handler = $this->getActionHandlerForCommand($query, $body);
-            $response = $action_handler->handle($query, $body);
-        }
+
+        $this->log->debug("... sending response");
         $response->send();
     }
 
     protected function getActionHandlerForQuery(
         array $query
-    ) : QueryActionHandler {
+    ): QueryActionHandler {
         $handler = null;
 
         switch ($query["component"]) {
@@ -76,7 +96,7 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown Action " . ((string) $query));
+            throw new Exception("Unknown Component " . ((string) $query["component"]));
         }
         return $handler;
     }
@@ -84,7 +104,7 @@ class Server
     protected function getActionHandlerForCommand(
         array $query,
         array $body
-    ) : CommandActionHandler {
+    ): CommandActionHandler {
         $handler = null;
 
         switch ($body["component"]) {

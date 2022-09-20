@@ -1,298 +1,266 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjAssessmentFolder
- *
- * @author	Helmut Schottmüller <hschottm@gmx.de>
- * @author	Björn Heyser <bheyser@databay.de>
- *
- * @version	$Id$
- *
- * @ingroup ModulesTest
+ * @author    Helmut Schottmüller <hschottm@gmx.de>
+ * @author    Björn Heyser <bheyser@databay.de>
+ * @ingroup   ModulesTest
  */
 class ilObjAssessmentFolder extends ilObject
 {
-    const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
-    const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_ENABLED = 1;
+    public const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED = 0;
+    public const ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_ENABLED = 1;
 
-    const ASS_PROC_LOCK_MODE_NONE = 'none';
-    const ASS_PROC_LOCK_MODE_FILE = 'file';
-    const ASS_PROC_LOCK_MODE_DB = 'db';
+    public const ASS_PROC_LOCK_MODE_NONE = 'none';
+    public const ASS_PROC_LOCK_MODE_FILE = 'file';
+    public const ASS_PROC_LOCK_MODE_DB = 'db';
 
-    const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
-    const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = 1;
-    
-    public $setting;
-    
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    private const SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER = 'ass_skl_trig_num_answ_barrier';
+    public const DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER = 1;
+
+    public ilSetting $setting;
+
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
-        include_once "./Services/Administration/classes/class.ilSetting.php";
-        $this->setting = new ilSetting("assessment");
-        $this->type = "assf";
+        $this->setting = new ilSetting('assessment');
+        $this->type = 'assf';
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
+    public static function getSkillTriggerAnswerNumberBarrier(): int
     {
-        if (!parent::update()) {
-            return false;
-        }
-
-        // put here object specific stuff
-
-        return true;
-    }
-
-    public static function getSkillTriggerAnswerNumberBarrier()
-    {
-        require_once 'Services/Administration/classes/class.ilSetting.php';
         $assSettings = new ilSetting('assessment');
-        
-        return $assSettings->get(
+
+        return (int) $assSettings->get(
             self::SETTINGS_KEY_SKL_TRIG_NUM_ANSWERS_BARRIER,
-            self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            (string) self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
     }
 
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
+    public function _enableAssessmentLogging(bool $a_enable): void
     {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
+        $setting = new ilSetting('assessment');
 
-        //put here your module specific stuff
+        $setting->set('assessment_logging', (string) ((int) $a_enable));
+    }
 
-        return true;
+    public function _setLogLanguage(string $a_language): void
+    {
+        $setting = new ilSetting('assessment');
+
+        $setting->set('assessment_log_language', $a_language);
+    }
+
+    public static function _enabledAssessmentLogging(): bool
+    {
+        $setting = new ilSetting('assessment');
+
+        return (bool) $setting->get('assessment_logging', '0');
     }
 
     /**
-    * enable assessment logging
-    */
-    public function _enableAssessmentLogging($a_enable)
-    {
-        $setting = new ilSetting("assessment");
-
-        if ($a_enable) {
-            $setting->set("assessment_logging", 1);
-        } else {
-            $setting->set("assessment_logging", 0);
-        }
-    }
-
-    /**
-    * set the log language
-    */
-    public function _setLogLanguage($a_language)
-    {
-        $setting = new ilSetting("assessment");
-
-        $setting->set("assessment_log_language", $a_language);
-    }
-
-    /**
-     * check wether assessment logging is enabled or not
+     * Returns the forbidden questiontypes for ILIAS
+     * @return int[]
      */
-    public static function _enabledAssessmentLogging()
+    public static function _getForbiddenQuestionTypes(): array
     {
-        $setting = new ilSetting("assessment");
+        $setting = new ilSetting('assessment');
+        $types = $setting->get('forbidden_questiontypes', '');
+        $result = [];
 
-        return (boolean) $setting->get("assessment_logging");
-    }
-    
-    /**
-    * Returns the forbidden questiontypes for ILIAS
-    */
-    public static function _getForbiddenQuestionTypes()
-    {
-        $setting = new ilSetting("assessment");
-        $types = $setting->get("forbidden_questiontypes");
-        $result = array();
-        if (strlen(trim($types)) == 0) {
-            $result = array();
+        if ($types === '') {
+            $result = [];
         } else {
-            $result = unserialize($types);
+            $result = unserialize($types, ['allowed_classes' => false]);
         }
-        return $result;
+
+        return array_filter(array_map('intval', $result));
     }
 
     /**
-    * Sets the forbidden questiontypes for ILIAS
-    *
-    * @param array $a_types An array containing the database ID's of the forbidden question types
-    */
-    public function _setForbiddenQuestionTypes($a_types)
+     * Sets the forbidden questiontypes for ILIAS
+     * @param int[] $typeIds An array containing the database ID's of the forbidden question types
+     */
+    public function _setForbiddenQuestionTypes(array $typeIds): void
     {
-        $setting = new ilSetting("assessment");
-        $types = "";
-        if (is_array($a_types) && (count($a_types) > 0)) {
-            $types = serialize($a_types);
-        }
-        $setting->set("forbidden_questiontypes", $types);
-    }
-    
-    /**
-    * retrieve the log language for assessment logging
-    */
-    public static function _getLogLanguage()
-    {
-        $setting = new ilSetting("assessment");
+        $setting = new ilSetting('assessment');
 
-        $lang = $setting->get("assessment_log_language");
-        if (strlen($lang) == 0) {
-            $lang = "en";
+        $types = '';
+        if ($typeIds !== []) {
+            $types = serialize(array_map('intval', $typeIds));
         }
+
+        $setting->set('forbidden_questiontypes', $types);
+    }
+
+    public static function _getLogLanguage(): string
+    {
+        $setting = new ilSetting('assessment');
+
+        $lang = $setting->get('assessment_log_language', '');
+        if ($lang === '') {
+            $lang = 'en';
+        }
+
         return $lang;
     }
-    
+
     /**
      * Returns the fact wether manually scoreable
      * question types exist or not
-     *
-     * @static
-     * @access	public
-     *
-     * @return	boolean		$mananuallyScoreableQuestionTypesExists
      */
-    public static function _mananuallyScoreableQuestionTypesExists()
+    public static function _mananuallyScoreableQuestionTypesExists(): bool
     {
-        if (count(self::_getManualScoring()) > 0) {
-            return true;
-        }
-        
-        return false;
+        return count(self::_getManualScoring()) > 0;
     }
 
     /**
-    * Retrieve the manual scoring settings
-    */
-    public static function _getManualScoring()
+     * Retrieve the manual scoring settings
+     * @return int[]
+     */
+    public static function _getManualScoring(): array
     {
-        $setting = new ilSetting("assessment");
+        $setting = new ilSetting('assessment');
 
-        $types = $setting->get("assessment_manual_scoring");
-        return explode(",", $types);
+        $types = $setting->get('assessment_manual_scoring', '');
+        return array_filter(array_map('intval', explode(',', $types)));
     }
 
     /**
-    * Retrieve the manual scoring settings as type strings
-    */
-    public static function _getManualScoringTypes()
+     * Retrieve the manual scoring settings as type strings
+     * @return string[]
+     */
+    public static function _getManualScoringTypes(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
-        $result = $ilDB->query("SELECT * FROM qpl_qst_type");
-        $dbtypes = array();
+
+        $setting = new ilSetting('assessment');
+        $typeIds = array_filter(array_map('intval', explode(',', $setting->get('assessment_manual_scoring', ''))));
+        $manualScoringTypes = [];
+
+        $result = $ilDB->query('SELECT question_type_id, type_tag FROM qpl_qst_type');
         while ($row = $ilDB->fetchAssoc($result)) {
-            $dbtypes[$row["question_type_id"]] = $row["type_tag"];
+            if (in_array((int) $row['question_type_id'], $typeIds, true)) {
+                $manualScoringTypes[] = $row['type_tag'];
+            }
         }
-        $setting = new ilSetting("assessment");
-        $types = $setting->get("assessment_manual_scoring");
-        $ids = explode(",", $types);
-        foreach ($ids as $key => $value) {
-            $ids[$key] = $dbtypes[$value];
-        }
-        return $ids;
+        return array_filter($manualScoringTypes);
     }
 
     /**
-    * Set the manual scoring settings
-    *
-    * @param array $type_ids An array containing the database ids of the question types which could be scored manually
-    */
-    public function _setManualScoring($type_ids)
-    {
-        $setting = new ilSetting("assessment");
-        if ((!is_array($type_ids)) || (count($type_ids) == 0)) {
-            $setting->delete("assessment_manual_scoring");
-        } else {
-            $setting->set("assessment_manual_scoring", implode(",", $type_ids));
-        }
-    }
-
-    public static function getScoringAdjustableQuestions()
-    {
-        $setting = new ilSetting("assessment");
-
-        $types = $setting->get("assessment_scoring_adjustment");
-        return explode(",", $types);
-    }
-    
-    public static function setScoringAdjustableQuestions($type_ids)
-    {
-        $setting = new ilSetting("assessment");
-        if ((!is_array($type_ids)) || (count($type_ids) == 0)) {
-            $setting->delete("assessment_scoring_adjustment");
-        } else {
-            $setting->set("assessment_scoring_adjustment", implode(",", $type_ids));
-        }
-    }
-
-    public static function getScoringAdjustmentEnabled()
-    {
-        $setting = new ilSetting("assessment");
-        return $setting->get('assessment_adjustments_enabled');
-    }
-
-    public static function setScoringAdjustmentEnabled($active)
+     * Set the manual scoring settings
+     * @param int[] $type_ids An array containing the database ids of the question types which could be scored manually
+     */
+    public function _setManualScoring(array $type_ids): void
     {
         $setting = new ilSetting('assessment');
-        $setting->set('assessment_adjustments_enabled', (bool) $active);
+        if ($type_ids === []) {
+            $setting->delete('assessment_manual_scoring');
+        } else {
+            $setting->set('assessment_manual_scoring', implode(',', $type_ids));
+        }
     }
 
     /**
-    * Add an assessment log entry
-    *
-    * @param integer $user_id The user id of the acting user
-    * @param integer $object_id The database id of the modified test object
-    * @param string $logtext The textual description for the log entry
-    * @param integer $question_id The database id of a modified question (optional)
-    * @param integer $original_id The database id of the original of a modified question (optional)
-    * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
-    */
-    public static function _addLog($user_id, $object_id, $logtext, $question_id = "", $original_id = "", $test_only = false, $test_ref_id = null)
+     * @return int[]
+     */
+    public static function getScoringAdjustableQuestions(): array
     {
+        $setting = new ilSetting('assessment');
+
+        $types = $setting->get('assessment_scoring_adjustment', '');
+        return array_filter(array_map('intval', explode(',', $types)));
+    }
+
+    /**
+     * @param int[] $type_ids
+     * @return void
+     */
+    public static function setScoringAdjustableQuestions(array $type_ids): void
+    {
+        $setting = new ilSetting('assessment');
+        if ($type_ids === []) {
+            $setting->delete('assessment_scoring_adjustment');
+        } else {
+            $setting->set('assessment_scoring_adjustment', implode(',', $type_ids));
+        }
+    }
+
+    public static function getScoringAdjustmentEnabled(): bool
+    {
+        $setting = new ilSetting('assessment');
+        return (bool) $setting->get('assessment_adjustments_enabled', '0');
+    }
+
+    public static function setScoringAdjustmentEnabled(bool $active): void
+    {
+        $setting = new ilSetting('assessment');
+        $setting->set('assessment_adjustments_enabled', (string) ((int) $active));
+    }
+
+    /**
+     * Add an assessment log entry
+     * @param int    $user_id     The user id of the acting user
+     * @param int    $object_id   The database id of the modified test object
+     * @param string $logtext     The textual description for the log entry
+     * @param int    $question_id The database id of a modified question (optional)
+     * @param int    $original_id The database id of the original of a modified question (optional)
+     * @param bool   $test_only
+     * @param int    $test_ref_id
+     */
+    public static function _addLog(
+        $user_id,
+        $object_id,
+        $logtext,
+        $question_id = 0,
+        $original_id = 0,
+        $test_only = false,
+        $test_ref_id = 0
+    ): void {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-        if (strlen($question_id) == 0) {
-            $question_id = null;
+
+        $question_id = 0;
+        if (is_numeric($question_id)) {
+            $question_id = (int) $question_id;
         }
-        if (strlen($original_id) == 0) {
-            $original_id = null;
+
+        $original_id = 0;
+        if (is_numeric($original_id)) {
+            $original_id = (int) $original_id;
         }
-        if (strlen($test_ref_id) == 0) {
-            $test_ref_id = null;
+
+        $test_ref_id = 0;
+        if (is_numeric($test_ref_id)) {
+            $test_ref_id = (int) $test_ref_id;
         }
-        $only = ($test_only == true) ? 1 : 0;
+
+        $only = ($test_only === true) ? 1 : 0;
         $next_id = $ilDB->nextId('ass_log');
         $affectedRows = $ilDB->manipulateF(
             "INSERT INTO ass_log (ass_log_id, user_fi, obj_fi, logtext, question_fi, original_fi, test_only, ref_id, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-            array('integer', 'integer', 'integer', 'text', 'integer', 'integer', 'text', 'integer', 'integer'),
-            array(
+            ['integer', 'integer', 'integer', 'text', 'integer', 'integer', 'text', 'integer', 'integer'],
+            [
                 $next_id,
                 $user_id,
                 $object_id,
@@ -302,269 +270,250 @@ class ilObjAssessmentFolder extends ilObject
                 $only,
                 $test_ref_id,
                 time()
-            )
+            ]
         );
     }
-    
+
     /**
-    * Retrieve assessment log datasets from the database
-    *
-    * @param string $ts_from Timestamp of the starting date/time period
-    * @param string $ts_to Timestamp of the ending date/time period
-    * @param integer $test_id Database id of the ILIAS test object
-    * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
-    */
-    public static function getLog($ts_from, $ts_to, $test_id, $test_only = false)
+     * Retrieve assessment log datasets from the database
+     * @param int $ts_from Timestamp of the starting date/time period
+     * @param int $ts_to   Timestamp of the ending date/time period
+     * @param int $test_id Database id of the ILIAS test object
+     * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
+     */
+    public static function getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
-        $log = array();
-        if ($test_only == true) {
+
+        $log = [];
+        if ($test_only === true) {
             $result = $ilDB->queryF(
                 "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
-                array('integer','integer','integer','text'),
-                array(
+                ['integer', 'integer', 'integer', 'text'],
+                [
                     $test_id,
                     $ts_from,
                     $ts_to,
                     1
-                )
+                ]
             );
         } else {
             $result = $ilDB->queryF(
                 "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
-                array('integer','integer','integer'),
-                array(
+                ['integer', 'integer', 'integer'],
+                [
                     $test_id,
                     $ts_from,
                     $ts_to
-                )
+                ]
             );
         }
         while ($row = $ilDB->fetchAssoc($result)) {
             if (!array_key_exists($row["tstamp"], $log)) {
-                $log[$row["tstamp"]] = array();
+                $log[$row["tstamp"]] = [];
             }
-            array_push($log[$row["tstamp"]], $row);
+            $log[$row["tstamp"]][] = $row;
         }
         krsort($log);
         // flatten array
-        $log_array = array();
+        $log_array = [];
         foreach ($log as $key => $value) {
             foreach ($value as $index => $row) {
-                array_push($log_array, $row);
+                $log_array[] = $row;
             }
         }
         return $log_array;
     }
-    
+
     /**
-    * Retrieve assessment log datasets from the database
-    *
-    * @param string $ts_from Timestamp of the starting date/time period
-    * @param string $ts_to Timestamp of the ending date/time period
-    * @param integer $test_id Database id of the ILIAS test object
-    * @return array Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
-    */
-    public static function _getLog($ts_from, $ts_to, $test_id, $test_only = false)
+     * Retrieve assessment log datasets from the database
+     * @param int $ts_from Timestamp of the starting date/time period
+     * @param int $ts_to   Timestamp of the ending date/time period
+     * @param integer $test_id Database id of the ILIAS test object
+     * @return array<string, mixed>[] Array containing the datasets between $ts_from and $ts_to for the test with the id $test_id
+     */
+    public static function _getLog(int $ts_from, int $ts_to, int $test_id, bool $test_only = false): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
-        $log = array();
-        if ($test_only == true) {
+
+        $log = [];
+        if ($test_only === true) {
             $result = $ilDB->queryF(
                 "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s AND test_only = %s ORDER BY tstamp",
-                array('integer', 'integer', 'integer', 'text'),
-                array($test_id, $ts_from, $ts_to, 1)
+                ['integer', 'integer', 'integer', 'text'],
+                [$test_id, $ts_from, $ts_to, 1]
             );
         } else {
             $result = $ilDB->queryF(
                 "SELECT * FROM ass_log WHERE obj_fi = %s AND tstamp > %s AND tstamp < %s ORDER BY tstamp",
-                array('integer', 'integer', 'integer'),
-                array($test_id, $ts_from, $ts_to)
+                ['integer', 'integer', 'integer'],
+                [$test_id, $ts_from, $ts_to]
             );
         }
         while ($row = $ilDB->fetchAssoc($result)) {
             if (!array_key_exists($row["tstamp"], $log)) {
-                $log[$row["tstamp"]] = array();
+                $log[$row["tstamp"]] = [];
             }
             $type_href = "";
-            if (array_key_exists("ref_id", $row)) {
-                if ($row["ref_id"] > 0) {
-                    $type = ilObject::_lookupType($row['ref_id'], true);
-                    switch ($type) {
-                        case "tst":
-                            $type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-                            break;
-                        case "cat":
-                            $type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
-                            break;
-                    }
+            if (array_key_exists("ref_id", $row) && $row["ref_id"] > 0) {
+                $type = ilObject::_lookupType((int) $row['ref_id'], true);
+                switch ($type) {
+                    case "tst":
+                        $type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
+                        break;
+                    case "cat":
+                        $type_href = sprintf("goto.php?target=cat_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);
+                        break;
                 }
             }
             $row["href"] = $type_href;
-            array_push($log[$row["tstamp"]], $row);
+            $log[$row["tstamp"]][] = $row;
         }
         krsort($log);
         // flatten array
-        $log_array = array();
+        $log_array = [];
         foreach ($log as $key => $value) {
             foreach ($value as $index => $row) {
-                array_push($log_array, $row);
+                $log_array[] = $row;
             }
         }
         return $log_array;
     }
-    
+
     /**
-    * Returns the number of log entries for a given test id
-    *
-    * @param integer $test_obj_id Database id of the ILIAS test object
-    * @return integer The number of log entries for the test object
-    */
-    public function getNrOfLogEntries($test_obj_id)
+     * Returns the number of log entries for a given test id
+     * @param int $test_obj_id Database id of the ILIAS test object
+     * @return int The number of log entries for the test object
+     */
+    public function getNrOfLogEntries(int $test_obj_id): int
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+
         $result = $ilDB->queryF(
             "SELECT COUNT(obj_fi) logcount FROM ass_log WHERE obj_fi = %s",
-            array('integer'),
-            array($test_obj_id)
+            ['integer'],
+            [$test_obj_id]
         );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
-            return $row["logcount"];
-        } else {
-            return 0;
+            return (int) $row["logcount"];
         }
+
+        return 0;
     }
-    
+
     /**
-    * Returns the full path output of an object
-    *
-    * @param integer $ref_id The reference id of the object
-    * @return string The full path with hyperlinks to the path elements
-    */
-    public function getFullPath($ref_id)
+     * Deletes the log entries for a given array of test object IDs
+     * @param int[] $a_array An array containing the object IDs of the tests
+     */
+    public function deleteLogEntries(array $a_array): void
     {
         global $DIC;
-        $tree = $DIC['tree'];
-        $path = $tree->getPathFull($ref_id);
-        $pathelements = array();
-        foreach ($path as $id => $data) {
-            if ($id == 0) {
-                array_push($pathelements, ilUtil::prepareFormOutput($this->lng->txt("repository")));
-            } else {
-                array_push($pathelements, "<a href=\"./goto.php?target=" . $data["type"] . "_" . $data["ref_id"] . "&amp;client=" . CLIENT_ID . "\">" .
-                    ilUtil::prepareFormOutput($data["title"]) . "</a>");
-            }
-        }
-        return implode("&nbsp;&gt;&nbsp;", $pathelements);
-    }
-    
-    /**
-    * Deletes the log entries for a given array of test object IDs
-    *
-    * @param array $a_array An array containing the object IDs of the tests
-    */
-    public function deleteLogEntries($a_array)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-        
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
+
         foreach ($a_array as $object_id) {
             $affectedRows = $ilDB->manipulateF(
                 "DELETE FROM ass_log WHERE obj_fi = %s",
-                array('integer'),
-                array($object_id)
+                ['integer'],
+                [$object_id]
             );
             self::_addLog($ilUser->getId(), $object_id, $this->lng->txt("assessment_log_deleted"));
         }
     }
-    
+
     /**
-     * returns the fact wether content editing with ilias page editor is enabled for questions or not
-     *
-     * @global ilSetting $ilSetting
-     * @return bool $isPageEditorEnabled
+     * Returns the fact wether content editing with ilias page editor is enabled for questions or not
      */
-    public static function isAdditionalQuestionContentEditingModePageObjectEnabled()
+    public static function isAdditionalQuestionContentEditingModePageObjectEnabled(): bool
     {
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-        
         global $DIC;
-        $ilSetting = $DIC['ilSetting'];
-        
+        $ilSetting = $DIC->settings();
+
         $isPageEditorEnabled = $ilSetting->get(
             'enable_tst_page_edit',
-            self::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED
+            (string) self::ADDITIONAL_QUESTION_CONTENT_EDITING_MODE_PAGE_OBJECT_DISABLED
         );
-        
-        return $isPageEditorEnabled;
+
+        return (bool) $isPageEditorEnabled;
     }
-    
-    public function getAssessmentProcessLockMode()
+
+    public function getAssessmentProcessLockMode(): string
     {
         return $this->setting->get('ass_process_lock_mode', self::ASS_PROC_LOCK_MODE_NONE);
     }
 
-    public function setAssessmentProcessLockMode($lockMode)
+    public function setAssessmentProcessLockMode(string $lockMode): void
     {
         $this->setting->set('ass_process_lock_mode', $lockMode);
     }
-    
-    public static function getValidAssessmentProcessLockModes()
+
+    /**
+     * @return string[]
+     */
+    public static function getValidAssessmentProcessLockModes(): array
     {
-        return array(self::ASS_PROC_LOCK_MODE_NONE, self::ASS_PROC_LOCK_MODE_FILE, self::ASS_PROC_LOCK_MODE_DB);
+        return [
+            self::ASS_PROC_LOCK_MODE_NONE,
+            self::ASS_PROC_LOCK_MODE_FILE,
+            self::ASS_PROC_LOCK_MODE_DB
+        ];
     }
-    
-    public function getSkillTriggeringNumAnswersBarrier()
+
+    public function getSkillTriggeringNumAnswersBarrier(): string
     {
         return $this->setting->get(
             'ass_skl_trig_num_answ_barrier',
-            self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
+            (string) self::DEFAULT_SKL_TRIG_NUM_ANSWERS_BARRIER
         );
     }
-    
-    public function setSkillTriggeringNumAnswersBarrier($skillTriggeringNumAnswersBarrier)
+
+    public function setSkillTriggeringNumAnswersBarrier(int $skillTriggeringNumAnswersBarrier): void
     {
-        $this->setting->set('ass_skl_trig_num_answ_barrier', $skillTriggeringNumAnswersBarrier);
+        $this->setting->set('ass_skl_trig_num_answ_barrier', (string) $skillTriggeringNumAnswersBarrier);
     }
 
-    public function setExportEssayQuestionsWithHtml($value)
+    public function setExportEssayQuestionsWithHtml(bool $value): void
     {
-        $this->setting->set('export_essay_qst_with_html', $value);
+        $this->setting->set('export_essay_qst_with_html', (string) ((int) $value));
     }
 
-    public function getExportEssayQuestionsWithHtml()
+    public function getExportEssayQuestionsWithHtml(): bool
     {
-        return $this->setting->get('export_essay_qst_with_html');
+        return (bool) $this->setting->get('export_essay_qst_with_html', '0');
     }
-    
-    public function fetchScoringAdjustableTypes($allQuestionTypes)
+
+    /**
+     * @param array<string, array{question_type_id: int, type_tag: string, plugin: int, plugin_name: string|null}> $allQuestionTypes
+     * @return array<string, array{question_type_id: int, type_tag: string, plugin: int, plugin_name: string|null}>
+     * @throws ilTestQuestionPoolInvalidArgumentException
+     */
+    public function fetchScoringAdjustableTypes(array $allQuestionTypes): array
     {
-        require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-        $scoringAdjustableQuestionTypes = array();
-        
+        $scoringAdjustableQuestionTypes = [];
+
         foreach ($allQuestionTypes as $type => $typeData) {
             $questionGui = assQuestionGUI::_getQuestionGUI($typeData['type_tag']);
-            
+
             if ($this->questionSupportsScoringAdjustment($questionGui)) {
                 $scoringAdjustableQuestionTypes[$type] = $typeData;
             }
         }
-        
+
         return $scoringAdjustableQuestionTypes;
     }
-    
-    private function questionSupportsScoringAdjustment(\assQuestionGUI $question_object)
+
+    private function questionSupportsScoringAdjustment(assQuestionGUI $question_object): bool
     {
-        return ($question_object instanceof ilGuiQuestionScoringAdjustable
-            || $question_object instanceof ilGuiAnswerScoringAdjustable)
-        && ($question_object->object instanceof ilObjQuestionScoringAdjustable
-            || $question_object->object instanceof ilObjAnswerScoringAdjustable);
+        return (
+            $question_object instanceof ilGuiQuestionScoringAdjustable ||
+            $question_object instanceof ilGuiAnswerScoringAdjustable
+        ) && (
+            $question_object->object instanceof ilObjQuestionScoringAdjustable ||
+            $question_object->object instanceof ilObjAnswerScoringAdjustable
+        );
     }
 }

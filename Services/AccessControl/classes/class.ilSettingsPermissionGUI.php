@@ -1,70 +1,75 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * UI class for handling permissions that can be configured
  * having the write permission for an object
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ServicesAccessControl
  */
 class ilSettingsPermissionGUI
 {
-    protected $permissions = array();			// permissions selected by context
-    protected $base_permissions = array();		// base permissions of the object type (ops_id -> permission)
-    protected $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
-    protected $role_required_permissions = array();
-    protected $role_prohibited_permissions = array();
+    protected array $permissions = array();            // permissions selected by context
+    protected array $base_permissions = array();        // base permissions of the object type (ops_id -> permission)
+    protected array $base_permissions_by_op = array();// base permissions of the object type (permission -> ops_id)
+    protected array $role_required_permissions = array();
+    protected array $role_prohibited_permissions = array();
+    protected array $base_roles = [];
 
-    /**
-     * Constructor
-     *
-     * @param ilObjectGUI $a_gui_obj object gui object
-     */
-    public function __construct($a_gui_obj)
+    private object $obj;
+
+    protected ilRbacReview $review;
+    protected ilRbacAdmin $admin;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+
+    public function __construct(object $a_gui_obj)
     {
         global $DIC;
 
-        $objDefinition = $DIC['objDefinition'];
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-
-        $this->objDefinition = $objDefinition;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("rbac");
-
-        $this->ctrl = $ilCtrl;
-
-        $this->gui_obj = $a_gui_obj;
-        $this->obj = $a_gui_obj->object;
-        $this->red_id = $this->obj->getRefId();
-
+        $this->ctrl = $DIC->ctrl();
+        $this->obj = $a_gui_obj->getObject();
+        $this->review = $DIC->rbac()->review();
+        $this->admin = $DIC->rbac()->admin();
+        $this->tpl = $DIC->ui()->mainTemplate();
 
         foreach (ilRbacReview::_getOperationList($this->obj->getType()) as $p) {
             $this->base_permissions[$p["ops_id"]] = $p["operation"];
             $this->base_permissions_by_op[$p["operation"]] = $p["ops_id"];
         }
 
-        $this->base_roles = $rbacreview->getParentRoleIds($this->obj->getRefId());
+        $this->base_roles = $this->review->getParentRoleIds($this->obj->getRefId());
     }
 
     /**
      * Determine roles
      */
-    public function determineRoles()
+    public function determineRoles(): array
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
         $roles = array();
         foreach ($this->base_roles as $k => $r) {
-            $ops = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
             $use = true;
             foreach ($this->getRoleRequiredPermissions() as $o) {
                 if (!in_array($o, $ops)) {
@@ -83,13 +88,10 @@ class ilSettingsPermissionGUI
         return $roles;
     }
 
-
     /**
      * Set role required permissions (this permissions are required for a role to be listed)
-     *
-     * @param array $a_val permissions required to be listed
      */
-    public function setRoleRequiredPermissions($a_val)
+    public function setRoleRequiredPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -102,20 +104,18 @@ class ilSettingsPermissionGUI
 
     /**
      * Get role required permissions
-     *
      * @return array permissions required to be listed
      */
-    public function getRoleRequiredPermissions()
+    public function getRoleRequiredPermissions(): array
     {
         return $this->role_required_permissions;
     }
 
     /**
      * Set role prohibited permissions (this permissions are prohibited for a role to be listed)
-     *
      * @param array $a_val permissions prohibited to be listed
      */
-    public function setRoleProhibitedPermissions($a_val)
+    public function setRoleProhibitedPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -128,20 +128,18 @@ class ilSettingsPermissionGUI
 
     /**
      * Get role prohibited permissions
-     *
      * @return array permissions prohibited to be listed
      */
-    public function getRoleProhibitedPermissions()
+    public function getRoleProhibitedPermissions(): array
     {
         return $this->role_prohibited_permissions;
     }
 
     /**
      * Set permissions
-     *
      * @param array $a_val array of operations (string) that should be offered
      */
-    public function setPermissions($a_val)
+    public function setPermissions(array $a_val): void
     {
         if (is_array($a_val)) {
             foreach ($a_val as $p) {
@@ -154,10 +152,9 @@ class ilSettingsPermissionGUI
 
     /**
      * Get permissions
-     *
      * @return array array of operations (string) that should be offered
      */
-    public function getPermissions()
+    public function getPermissions(): array
     {
         return $this->permissions;
     }
@@ -165,7 +162,7 @@ class ilSettingsPermissionGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd("showForm");
         if (in_array($cmd, array("showForm", "save"))) {
@@ -176,29 +173,22 @@ class ilSettingsPermissionGUI
     /**
      * Show form
      */
-    public function showForm()
+    public function showForm(): void
     {
         $form = $this->initPermissionForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * Init permission form
      */
-    public function initPermissionForm()
+    public function initPermissionForm(): ilPropertyFormGUI
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
-
         $roles = $this->determineRoles();
         $ops = array();
         foreach ($roles as $r) {
-            $ops[$r["rol_id"]] = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops[(int) $r["rol_id"]] = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
         }
 
         // for each permission, collect all roles that have the permission activated
@@ -210,16 +200,15 @@ class ilSettingsPermissionGUI
         }
 
         // for each permission
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
         foreach ($this->getPermissions() as $p) {
             // roles
             $cb = new ilCheckboxGroupInputGUI($this->lng->txt($p), $p);
             reset($roles);
             foreach ($roles as $k => $r) {
-                $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), $k);
+                $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), (string) $k);
                 $cb->addOption($option);
             }
-            if (is_array($perm_roles[$this->base_permissions_by_op[$p]])) {
+            if (isset($perm_roles[$this->base_permissions_by_op[$p]])) {
                 $cb->setValue($perm_roles[$this->base_permissions_by_op[$p]]);
             }
             $form->addItem($cb);
@@ -229,28 +218,22 @@ class ilSettingsPermissionGUI
 
         $form->setTitle($this->lng->txt("rbac_permissions"));
         $form->setFormAction($this->ctrl->getFormAction($this));
-
         return $form;
     }
 
     /**
      * Save  form
      */
-    public function save()
+    public function save(): void
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         $form = $this->initPermissionForm();
         if ($form->checkInput()) {
             foreach ($this->determineRoles() as $r) {
                 // get active operations for role
-                $ops = $rbacreview->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+                $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
 
                 // revode all permissions for the role
-                $rbacadmin->revokePermission($this->obj->getRefId(), $r["rol_id"]);
+                $this->admin->revokePermission($this->obj->getRefId(), $r["rol_id"]);
 
                 // for all permissions of the form...
                 foreach ($this->getPermissions() as $p) {
@@ -272,20 +255,19 @@ class ilSettingsPermissionGUI
                         $ops[] = $o;
                     }
                 }
-
                 // now grant resulting permissions
-                $rbacadmin->grantPermission(
+                $this->admin->grantPermission(
                     $r["rol_id"],
                     array_unique($ops),
                     $this->obj->getRefId()
                 );
             }
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
-            $this->tpl->setContent($form->getHtml());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 }

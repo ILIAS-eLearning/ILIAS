@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 use Psr\Http\Message\ServerRequestInterface;
@@ -9,38 +26,26 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
 {
-    /** @var ilObjUser */
-    private $user;
-    /** @var ilCtrl */
-    private $ctrl;
-    /** @var ServerRequestInterface */
-    private $request;
+    private ilObjUser $user;
+    private ilCtrl $ctrl;
+    private ServerRequestInterface $request;
 
-    /**
-     * ilForcedUserPasswordChangeStartUpStep constructor.
-     * @param ilObjUser $user
-     * @param ilCtrl $ctrl
-     * @param ServerRequestInterface $request
-     */
-    public function __construct(ilObjUser $user, ilCtrl $ctrl, ServerRequestInterface $request)
-    {
+    public function __construct(
+        ilObjUser $user,
+        ilCtrl $ctrl,
+        ServerRequestInterface $request
+    ) {
         $this->user = $user;
         $this->ctrl = $ctrl;
         $this->request = $request;
     }
 
-    /**
-     * @return boolean
-     */
-    public function shouldStoreRequestTarget() : bool
+    public function shouldStoreRequestTarget(): bool
     {
         return true;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isInFulfillment() : bool
+    public function isInFulfillment(): bool
     {
         if (
             !isset($this->request->getQueryParams()['baseClass']) ||
@@ -55,10 +60,7 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         );
     }
 
-    /**
-     * @return boolean
-     */
-    public function shouldInterceptRequest() : bool
+    public function shouldInterceptRequest(): bool
     {
         if (ilSession::get('used_external_auth')) {
             return false;
@@ -71,12 +73,8 @@ class ilForcedUserPasswordChangeStartUpStep extends StartUpSequenceStep
         return false;
     }
 
-    /**
-     * @return void
-     */
-    public function execute() : void
+    public function execute(): void
     {
-        $this->ctrl->initBaseClass('ildashboardgui');
         $this->ctrl->redirectByClass(
             ['ildashboardgui', 'ilpersonalsettingsgui'],
             'showPassword'

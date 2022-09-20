@@ -1,35 +1,44 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBiblLibrary
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
 {
-    const TABLE_NAME = 'il_bibl_settings';
+    public const TABLE_NAME = 'il_bibl_settings';
 
 
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
+    {
+        return self::TABLE_NAME;
+    }
+
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
 
 
     /**
-     * @return string
-     */
-    public function getConnectorContainerName() : string
-    {
-        return self::TABLE_NAME;
-    }
-
-
-    /**
-     * @var int
      *
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -39,128 +48,94 @@ class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var string
      *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     50
      * @con_is_notnull true
      */
-    protected $name;
+    protected ?string $name = null;
     /**
-     * @var string
      *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     128
      * @con_is_notnull true
      */
-    protected $url;
+    protected ?string $url = null;
     /**
-     * @var string
      *
      * @con_has_field true
      * @con_fieldtype text
      * @con_length    128
      */
-    protected $img;
+    protected ?string $img = null;
     /**
-     * @var bool
      *
      * @con_has_field true
      * @con_fieldtype integer
      * @con_length    1
      */
-    protected $show_in_list;
+    protected ?bool $show_in_list = null;
 
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getImg()
+    public function getImg(): ?string
     {
         return $this->img;
     }
 
 
-    /**
-     * @param string $img
-     */
-    public function setImg($img)
+    public function setImg(string $img): void
     {
         $this->img = $img;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
 
-    /**
-     * @return bool
-     */
-    public function getShowInList()
+    public function isShownInList(): bool
     {
         return $this->show_in_list;
     }
 
 
-    /**
-     * @param bool $show_in_list
-     */
-    public function setShowInList($show_in_list)
+    public function setShowInList(bool $show_in_list): void
     {
         $this->show_in_list = $show_in_list;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getUrl()
+    public function getUrl(): string
     {
         return $this->url;
     }
 
 
-    /**
-     * @param string $url
-     */
-    public function setUrl($url)
+    public function setUrl(string $url): void
     {
         $this->url = $url;
     }

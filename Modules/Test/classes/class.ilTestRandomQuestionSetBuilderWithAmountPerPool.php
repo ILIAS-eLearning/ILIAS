@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
@@ -15,49 +16,49 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildableNewer()
+    public function checkBuildableNewer(): bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
-            
+
         $isBuildable = true;
-        
+
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
         $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
         $quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
         $quantitiesDistribution->initialise();
-        
+
         // perhaps not every with every BUT every with any next ??!
         // perhaps exactly like this !!? I dont know :-)
         // it should be about vice versa rule conflict reporting
-        
+
         foreach ($this->sourcePoolDefinitionList as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            
+
             $quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
-            
+
             if ($quantityCalculation->isRequiredAmountGuaranteedAvailable()) {
                 continue;
             }
-            
+
             $isBuildable = false;
-            
+
             $this->checkMessages[] = $quantityCalculation->getDistributionReport($lng);
         }
-        
+
         return $isBuildable;
     }
     // hey.
-    
+
     /**
      * @return bool
      */
-    public function checkBuildable()
+    public function checkBuildable(): bool
     {
         // hey: fixRandomTestBuildable - improved the buildable check improvement
         return $this->checkBuildableNewer();
         // hey.
-        
+
         $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
         if ($questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount())) {

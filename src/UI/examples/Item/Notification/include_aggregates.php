@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Item\Notification;
 
@@ -7,11 +9,16 @@ function include_aggregates()
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     $close_url = $_SERVER['REQUEST_URI'] . '&aggregate_closed=true';
 
     //If closed, an ajax request is fired to the set close_url
-    if (isset($_GET['aggregate_closed']) && $_GET['aggregate_closed']) {
+    if (
+        $request_wrapper->has('aggregate_closed') &&
+        $request_wrapper->retrieve('aggregate_closed', $refinery->kindlyTo()->bool())
+    ) {
         //Do Some Magic needed to be done, when this item is closed.
         exit;
     }

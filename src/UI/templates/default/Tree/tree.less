@@ -1,6 +1,6 @@
 .il-tree {
 	list-style-type: none;
-	padding: 0 @padding-small-vertical 0 @padding-small-vertical;
+	padding: 0 @il-padding-small-vertical 0 calc(@il-padding-small-vertical + @il-tree-node-horizontal-spacing);
 	margin-left: 0;
 	ul {
 		padding-left: @il-tree-node-indentation;
@@ -14,10 +14,21 @@
 			cursor: pointer;
 			display: flex;
 			flex-wrap: wrap;
-			> .node-label .icon{
-				vertical-align: text-bottom;
+			align-items: baseline;
+			> .node-label {
+				padding-left: @il-tree-node-horizontal-spacing;
+				.icon {
+					vertical-align: text-bottom;
+				}
+			}
+			> .node-value {
+				font-style: italic;
+				font-size: @il-font-size-small;
+				color: @il-text-light-color;
+				padding-left: @il-tree-node-horizontal-spacing;
 			}
 			> .node-byline {
+				padding-left: @il-tree-node-horizontal-spacing;
 				width: 100%;
 			}
 		}

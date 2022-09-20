@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -10,7 +27,7 @@ abstract class ilMailSearchObjectGUI
     protected Refinery $refinery;
     protected ?string $view = null;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilErrorHandling $error;
@@ -20,10 +37,12 @@ abstract class ilMailSearchObjectGUI
     protected ilObjectDataCache $cache;
     protected ilFormatMail $umail;
     protected bool $mailing_allowed;
-    protected ?ilWorkspaceAccessHandler $wsp_access_handler = null;
-    protected ?int $wsp_node_id = null;
 
-    public function __construct(?ilWorkspaceAccessHandler $wsp_access_handler = null, ?int $wsp_node_id = null)
+    /**
+     * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null $wsp_access_handler
+     * @throws ilCtrlException
+     */
+    public function __construct(protected $wsp_access_handler = null, protected ?int $wsp_node_id = null)
     {
         global $DIC;
 
@@ -39,9 +58,6 @@ abstract class ilMailSearchObjectGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->wsp_access_handler = $wsp_access_handler;
-        $this->wsp_node_id = $wsp_node_id;
-
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
 
@@ -51,15 +67,15 @@ abstract class ilMailSearchObjectGUI
         $this->umail = new ilFormatMail($this->user->getId());
     }
 
-    private function isDefaultRequestContext() : bool
+    private function isDefaultRequestContext(): bool
     {
         return (
             !$this->http->wrapper()->query()->has('ref') ||
             $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) !== 'wsp'
         );
     }
-    
-    private function getContext() : string
+
+    private function getContext(): string
     {
         $context = 'mail';
         if ($this->http->wrapper()->query()->has('ref')) {
@@ -69,10 +85,10 @@ abstract class ilMailSearchObjectGUI
         return $context;
     }
 
-    private function isLocalRoleTitle(string $title) : bool
+    private function isLocalRoleTitle(string $title): bool
     {
         foreach ($this->getLocalDefaultRolePrefixes() as $local_role_prefix) {
-            if (strpos($title, $local_role_prefix) === 0) {
+            if (str_starts_with($title, $local_role_prefix)) {
                 return true;
             }
         }
@@ -80,12 +96,12 @@ abstract class ilMailSearchObjectGUI
         return false;
     }
 
-    abstract protected function getObjectType() : string;
+    abstract protected function getObjectType(): string;
 
     /**
      * @return string[] Returns an array like ['il_crs_member_', 'il_crs_tutor', ...]
      */
-    abstract protected function getLocalDefaultRolePrefixes() : array;
+    abstract protected function getLocalDefaultRolePrefixes(): array;
 
     protected function getRequestValue(string $key, \ILIAS\Refinery\Transformation $trafo, $default = null)
     {
@@ -104,7 +120,7 @@ abstract class ilMailSearchObjectGUI
     /**
      * @param int[] $a_obj_ids
      */
-    protected function addPermission(array $a_obj_ids) : void
+    protected function addPermission(array $a_obj_ids): void
     {
         $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
         $added = false;
@@ -115,12 +131,12 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($added) {
-            ilUtil::sendSuccess($this->lng->txt('wsp_share_success'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('wsp_share_success'), true);
         }
         $this->ctrl->redirectByClass(ilWorkspaceAccessGUI::class, 'share');
     }
 
-    protected function share() : void
+    protected function share(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -146,7 +162,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->addPermission($obj_ids);
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -168,7 +184,7 @@ abstract class ilMailSearchObjectGUI
             if ($usr_ids !== []) {
                 $this->addPermission($usr_ids);
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
                 $this->showMembers();
             }
         } else {
@@ -176,7 +192,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    protected function mail() : void
+    protected function mail(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -202,7 +218,7 @@ abstract class ilMailSearchObjectGUI
             if ($obj_ids !== []) {
                 $this->mailObjects();
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
                 $this->showMyObjects();
             }
         } elseif ($view === $this->getObjectType() . '_members') {
@@ -224,7 +240,7 @@ abstract class ilMailSearchObjectGUI
             if ($usr_ids !== []) {
                 $this->mailMembers();
             } else {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
                 $this->showMembers();
             }
         } else {
@@ -232,22 +248,10 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    protected function mailObjects() : void
+    protected function mailObjects(): void
     {
         $members = [];
-
-        if (!is_array($old_mail_data = $this->umail->getSavedData())) {
-            $this->umail->savePostData(
-                $this->user->getId(),
-                [],
-                '',
-                '',
-                '',
-                '',
-                '',
-                false
-            );
-        }
+        $mail_data = $this->umail->getSavedData();
 
         $obj_ids = [];
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
@@ -270,28 +274,16 @@ abstract class ilMailSearchObjectGUI
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
                     if ($this->isLocalRoleTitle($role['title'])) {
-                        if (
-                            isset($old_mail_data['rcp_to']) &&
-                            is_string($old_mail_data['rcp_to']) &&
-                            trim($old_mail_data['rcp_to']) !== ''
-                        ) {
-                            $recipient = (new ilRoleMailboxAddress($role['obj_id']))->value();
-                            if (!$this->umail->existsRecipient($recipient, $old_mail_data['rcp_to'])) {
-                                $members[] = $recipient;
-                            }
-                        } else {
-                            $members[] = (new ilRoleMailboxAddress($role['obj_id']))->value();
+                        $recipient = (new ilRoleMailboxAddress($role['obj_id']))->value();
+                        if (!$this->umail->existsRecipient($recipient, (string) $mail_data['rcp_to'])) {
+                            $members[] = $recipient;
                         }
                     }
                 }
             }
         }
 
-        if ($members !== []) {
-            $mail_data = $this->umail->appendSearchResult($members, 'to');
-        } else {
-            $mail_data = $this->umail->getSavedData();
-        }
+        $mail_data = $members !== [] ? $this->umail->appendSearchResult(array_unique($members), 'to') : $this->umail->getSavedData();
 
         $this->umail->savePostData(
             (int) $mail_data['user_id'],
@@ -309,23 +301,9 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
     }
 
-    public function mailMembers() : void
+    public function mailMembers(): void
     {
         $members = [];
-
-        if (!is_array($this->umail->getSavedData())) {
-            $this->umail->savePostData(
-                $this->user->getId(),
-                [],
-                '',
-                '',
-                '',
-                '',
-                '',
-                false
-            );
-        }
-
         $usr_ids = [];
         if ($this->http->wrapper()->query()->has('search_members')) {
             $usr_ids = [
@@ -341,11 +319,14 @@ abstract class ilMailSearchObjectGUI
             );
         }
 
+        $mail_data = $this->umail->getSavedData();
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
-            $members[] = $login;
+            if (!$this->umail->existsRecipient($login, (string) $mail_data['rcp_to'])) {
+                $members[] = $login;
+            }
         }
-        $mail_data = $this->umail->appendSearchResult($members, 'to');
+        $mail_data = $this->umail->appendSearchResult(array_unique($members), 'to');
 
         $this->umail->savePostData(
             (int) $mail_data['user_id'],
@@ -363,7 +344,7 @@ abstract class ilMailSearchObjectGUI
         $this->ctrl->redirectToURL('ilias.php?baseClass=ilMailGUI&type=search_res');
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $view = '';
         if ($this->http->wrapper()->query()->has('view')) {
@@ -377,7 +358,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    public function showMembers() : void
+    public function showMembers(): void
     {
         $obj_ids = [];
         if ($this->http->wrapper()->query()->has('search_' . $this->getObjectType())) {
@@ -387,6 +368,13 @@ abstract class ilMailSearchObjectGUI
                 'search_' . $this->getObjectType(),
                 $this->refinery->kindlyTo()->string()
             )));
+        } elseif ($this->http->wrapper()->post()->has('search_' . $this->getObjectType())) {
+            $obj_ids = $this->http->wrapper()->post()->retrieve(
+                'search_' . $this->getObjectType(),
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         } elseif (ilSession::get('search_' . $this->getObjectType())) {
             $obj_ids = $this->refinery->kindlyTo()->listOf(
                 $this->refinery->kindlyTo()->int()
@@ -395,7 +383,7 @@ abstract class ilMailSearchObjectGUI
         }
 
         if ($obj_ids === []) {
-            ilUtil::sendInfo($this->lng->txt('mail_select_course'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_course'));
             $this->showMyObjects();
             return;
         }
@@ -403,8 +391,8 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             /** @var ilObjGroup|ilObjCourse $object */
             $object = ilObjectFactory::getInstanceByObjId($obj_id);
-            if ((int) $object->getShowMembers() === $object->SHOW_MEMBERS_DISABLED) {
-                ilUtil::sendInfo($this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
+            if (!$object->getShowMembers()) {
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                 $this->showMyObjects();
                 return;
             }
@@ -434,7 +422,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
         foreach ($obj_ids as $obj_id) {
             $members_obj = ilParticipants::getInstanceByObjId($obj_id);
-            $usr_ids = ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id');
+            $usr_ids = array_map('intval', ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id'));
             foreach ($usr_ids as $usr_id) {
                 $user = new ilObjUser($usr_id);
                 if (!$user->getActive()) {
@@ -450,7 +438,7 @@ abstract class ilMailSearchObjectGUI
                     'members_id' => $user->getId(),
                     'members_login' => $user->getLogin(),
                     'members_name' => $fullname,
-                    'members_crs_grp' => $this->cache->lookupTitle($obj_id),
+                    'members_crs_grp' => $this->cache->lookupTitle((int) $obj_id),
                     'search_' . $this->getObjectType() => $obj_id
                 ];
 
@@ -472,11 +460,11 @@ abstract class ilMailSearchObjectGUI
         }
         $table->setData($tableData);
 
-        if (count($tableData)) {
+        if ($tableData !== []) {
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -484,7 +472,9 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    public function showMyObjects() : void
+    abstract protected function doesExposeMembers(ilObject $object): bool;
+
+    public function showMyObjects(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
@@ -499,29 +489,27 @@ abstract class ilMailSearchObjectGUI
         );
         $table->setId('search_' . $this->getObjectType() . '_tbl');
 
-        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), $this->getObjectType());
+        $objs_ids = ilParticipants::_getMembershipByType($this->user->getId(), [$this->getObjectType()]);
         $counter = 0;
         $tableData = [];
         if ($objs_ids !== []) {
             $num_courses_hidden_members = 0;
             foreach ($objs_ids as $obj_id) {
-                /** @var $object ilObjCourse|ilObjGroup */
+                /** @var ilObjCourse|ilObjGroup $object */
                 $object = ilObjectFactory::getInstanceByObjId($obj_id);
 
-                $isOffline = !$object->isActivated();
-                $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());
-                $showMemberListEnabled = (bool) $object->getShowMembers();
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
-                $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_id);
+                $object->setRefId($ref_id);
+                $showMemberListEnabled = $object->getShowMembers();
 
-                if ($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser)) {
+                if ($this->doesExposeMembers($object)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
                     $usr_ids = $participants->getParticipants();
 
                     foreach ($usr_ids as $key => $usr_id) {
-                        $user = new ilObjUser($usr_id);
-                        if (!$user->getActive()) {
+                        $is_active = ilObjUser::_lookupActive($usr_id);
+                        if (!$is_active) {
                             unset($usr_ids[$key]);
                         }
                     }
@@ -533,7 +521,7 @@ abstract class ilMailSearchObjectGUI
                         $hiddenMembers = true;
                     }
 
-                    $path_arr = $this->tree->getPathFull($ref_id, $this->tree->getRootId());
+                    $path_arr = $this->tree->getPathFull($object->getRefId(), $this->tree->getRootId());
                     $path = '';
                     foreach ($path_arr as $data) {
                         if ($path !== '') {
@@ -541,7 +529,6 @@ abstract class ilMailSearchObjectGUI
                         }
                         $path .= $data['title'];
                     }
-                    $path = $this->lng->txt('path') . ': ' . $path;
 
                     $current_selection_list = new ilAdvancedSelectionListGUI();
                     $current_selection_list->setListTitle($this->lng->txt('actions'));
@@ -596,7 +583,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
 
         $table->setData($tableData);
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -604,7 +591,7 @@ abstract class ilMailSearchObjectGUI
         }
     }
 
-    public function executeCommand() : bool
+    public function executeCommand(): bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch (strtolower($forward_class)) {

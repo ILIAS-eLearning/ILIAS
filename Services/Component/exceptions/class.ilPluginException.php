@@ -1,6 +1,6 @@
 <?php
 
-include_once('Services/Exceptions/classes/class.ilException.php');
+declare(strict_types=1);
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -10,8 +10,4 @@ include_once('Services/Exceptions/classes/class.ilException.php');
 */
 class ilPluginException extends ilException
 {
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

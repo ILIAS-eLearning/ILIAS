@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Stakeholder;
 
@@ -10,16 +27,12 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
 {
-
-    /**
-     * @var string
-     */
-    private $provider_name_cache = '';
+    private string $provider_name_cache = '';
 
     /**
      * @inheritDoc
      */
-    public function getFullyQualifiedClassName() : string
+    public function getFullyQualifiedClassName(): string
     {
         return static::class;
     }
@@ -27,7 +40,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function isResourceInUse(ResourceIdentification $identification) : bool
+    public function isResourceInUse(ResourceIdentification $identification): bool
     {
         return false;
     }
@@ -35,7 +48,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool
+    public function resourceHasBeenDeleted(ResourceIdentification $identification): bool
     {
         return true;
     }
@@ -43,7 +56,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getOwnerOfResource(ResourceIdentification $identification) : int
+    public function getOwnerOfResource(ResourceIdentification $identification): int
     {
         return 6;
     }
@@ -51,7 +64,7 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function getConsumerNameForPresentation() : string
+    public function getConsumerNameForPresentation(): string
     {
         if ($this->provider_name_cache !== '' && is_string($this->provider_name_cache)) {
             return $this->provider_name_cache;

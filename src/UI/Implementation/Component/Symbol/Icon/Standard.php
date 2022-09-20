@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
@@ -151,10 +167,12 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::PETMP,
         self::PEUSR,
         self::LSO,
-        self::ADN
+        self::LSOS,
+        self::ADN,
+        self::NOTA,
+        self::GCON,
+        self::CON
     ];
-
-    protected bool $is_outlined = false;
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
     {
@@ -175,20 +193,8 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     * get all defined constants
      * @return string[]
     */
-    public function getAllStandardHandles() : array
+    public function getAllStandardHandles(): array
     {
         return self::$standard_icons;
-    }
-
-    public function isOutlined() : bool
-    {
-        return $this->is_outlined;
-    }
-
-    public function withIsOutlined(bool $is_outlined) : C\Symbol\Icon\Standard
-    {
-        $clone = clone $this;
-        $clone->is_outlined = $is_outlined;
-        return $clone;
     }
 }

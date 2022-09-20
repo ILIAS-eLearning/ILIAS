@@ -1,16 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Utilities for didactic templates
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilDidacticTemplateUtils
 {
-    public static function switchTemplate(int $a_ref_id, int $a_new_tpl_id) : bool
+    public static function switchTemplate(int $a_ref_id, int $a_new_tpl_id): bool
     {
         global $DIC;
 
@@ -27,11 +27,12 @@ class ilDidacticTemplateUtils
                 $action->revert();
             }
         }
-        $factory = new ilObjectFactory();
-        $obj = $factory->getInstanceByRefId($a_ref_id, false);
+
+        $obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
         if ($obj instanceof ilObject) {
             $obj->applyDidacticTemplate($a_new_tpl_id);
         }
+
         return true;
     }
 }

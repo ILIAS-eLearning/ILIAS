@@ -1,40 +1,38 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Global orgunit settings GUI
- *
  * @author            Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ilCtrl_IsCalledBy ilOrgUnitGlobalSettingsGUI: ilObjOrgUnitGUI
- *
  */
 class ilOrgUnitGlobalSettingsGUI
 {
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-
-    /**
-     * Default constructor
-     *
-     * @global type $DIC
-     */
     public function __construct()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -42,16 +40,12 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         if (!ilObjOrgUnitAccess::_checkAccessSettings((int) $_GET['ref_id'])) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+            $main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
     }
 
-
-    /**
-     * Ctrl execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);
@@ -63,13 +57,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-
-    /**
-     * Show settings
-     *
-     * @param ilPropertyFormGUI $form
-     */
-    protected function settings(ilPropertyFormGUI $form = null)
+    private function settings(ilPropertyFormGUI $form = null): void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initSettingsForm();
@@ -77,11 +65,7 @@ class ilOrgUnitGlobalSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
-    /**
-     * Init settings form
-     */
-    protected function initSettingsForm()
+    private function initSettingsForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -113,7 +97,7 @@ class ilOrgUnitGlobalSettingsGUI
             if ($objDefinition->isPlugin($object_type)) {
                 $label = ilObjectPlugin::lookupTxtById($object_type, 'objs_' . $object_type);
             } else {
-                $is_multi = !$objDefinition->isSystemObject($object_type);
+                $is_multi = !$objDefinition->isSystemObject($object_type) && $object_type != ilOrgUnitOperationContext::CONTEXT_ETAL;
                 $lang_prefix = $is_multi ? 'objs_' : 'obj_';
                 $label = $this->lng->txt($lang_prefix . $object_type);
             }
@@ -125,14 +109,20 @@ class ilOrgUnitGlobalSettingsGUI
             $type->setValue(1);
             $type->setChecked($setting->isActive());
             if ($is_multi) {
-                $scope = new ilRadioGroupInputGUI($this->lng->txt('orgu_global_set_type_changeable'), $object_type . '_changeable');
+                $scope = new ilRadioGroupInputGUI(
+                    $this->lng->txt('orgu_global_set_type_changeable'),
+                    $object_type . '_changeable'
+                );
                 $scope->setValue((int) $setting->isChangeableForObject());
 
                 $scope_object = new ilRadioOption(
                     $this->lng->txt('orgu_global_set_type_changeable_object'),
                     1
                 );
-                $default = new ilCheckboxInputGUI($this->lng->txt('orgu_global_set_type_default'), $object_type . '_default');
+                $default = new ilCheckboxInputGUI(
+                    $this->lng->txt('orgu_global_set_type_default'),
+                    $object_type . '_default'
+                );
                 $default->setInfo($this->lng->txt('orgu_global_set_type_default_info'));
                 $default->setValue(ilOrgUnitObjectTypePositionSetting::DEFAULT_ON);
                 $default->setChecked($setting->getActivationDefault());
@@ -155,12 +145,8 @@ class ilOrgUnitGlobalSettingsGUI
         return $form;
     }
 
-
-    protected function saveSettings()
+    private function saveSettings(): void
     {
-        /**
-         * @var $objDefinition \ilObjectDefinition
-         */
         global $DIC;
         $objDefinition = $DIC['objDefinition'];
         $form = $this->initSettingsForm();
@@ -179,11 +165,11 @@ class ilOrgUnitGlobalSettingsGUI
             // MyStaff
             $DIC->settings()->set("enable_my_staff", (int) ($_POST["enable_my_staff"] ? 1 : 0));
 
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'settings');
         } else {
             $form->setValuesByPost();
-            ilUtil::sendFailure($this->lng->txt('err_check_input'), false);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'), false);
             $this->settings($form);
         }
     }

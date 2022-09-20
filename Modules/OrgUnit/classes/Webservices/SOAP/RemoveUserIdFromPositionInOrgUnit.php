@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
@@ -6,22 +22,18 @@ use ilObject2;
 use ilObjUser;
 use ilOrgUnitPosition;
 use LogicException;
+use SoapFault;
 
 /**
  * Class AddUserIdToPositionInOrgUnit
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class RemoveUserIdFromPositionInOrgUnit extends Base
 {
-
     /**
-     * @param array $params
-     *
-     * @return mixed|void
-     * @throws \ilSoapPluginException
+     * @throws SoapFault
      */
-    protected function run(array $params)
+    protected function run(array $params): bool
     {
         $position_id = $params[self::POSITION_ID];
         $user_id = $params[self::USR_ID];
@@ -46,43 +58,35 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
             if ($inst instanceof \ilOrgUnitUserAssignment) {
                 $inst->delete();
             } else {
-                $this->error("No assignment found");
+                $this->addError("No assignment found");
             }
         }
-    }
 
+        return true;
+    }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return "removeUserFromPositionInOrgUnit";
     }
 
-
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    protected function getAdditionalInputParams(): array
     {
-        return array(self::POSITION_ID => Base::TYPE_INT, self::USR_ID => Base::TYPE_INT, self::ORGU_REF_ID => Base::TYPE_INT);
+        return array(self::POSITION_ID => Base::TYPE_INT,
+                     self::USR_ID => Base::TYPE_INT,
+                     self::ORGU_REF_ID => Base::TYPE_INT
+        );
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getOutputParams()
+    public function getOutputParams(): array
     {
         return [];
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getDocumentation()
+    public function getDocumentation(): string
     {
         return "Removes a user from a position in a orgunit";
     }

@@ -1,12 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
-use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -29,19 +44,19 @@ class AgentCollection implements Agent
         $this->agents = $agents;
     }
 
-    public function getAgent(string $key) : ?Agent
+    public function getAgent(string $key): ?Agent
     {
         return $this->agents[$key] ?? null;
     }
 
-    public function withRemovedAgent(string $key) : AgentCollection
+    public function withRemovedAgent(string $key): AgentCollection
     {
         $clone = clone $this;
         unset($clone->agents[$key]);
         return $clone;
     }
 
-    public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
+    public function withAdditionalAgent(string $key, Agent $agent): AgentCollection
     {
         if (isset($this->agents[$key])) {
             throw new \LogicException("An agent with the name '$key' already exists.");
@@ -54,7 +69,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         foreach ($this->agents as $c) {
             if ($c->hasConfig()) {
@@ -67,10 +82,10 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         return $this->refinery->in()->series([
-            $this->refinery->custom()->transformation(function ($in) {
+            $this->refinery->custom()->transformation(function ($in): array {
                 $out = [];
                 foreach ($this->agents as $key => $agent) {
                     if (!$agent->hasConfig()) {
@@ -82,9 +97,7 @@ class AgentCollection implements Agent
                 }
                 return $out;
             }),
-            $this->refinery->custom()->transformation(function ($v) {
-                return [$v];
-            }),
+            $this->refinery->custom()->transformation(fn ($v): array => [$v]),
             $this->refinery->to()->toNew(ConfigCollection::class)
         ]);
     }
@@ -92,7 +105,7 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         if (!is_null($config)) {
             $this->checkConfig($config);
@@ -118,9 +131,9 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
-        if ($config) {
+        if ($config !== null) {
             $this->checkConfig($config);
         }
 
@@ -128,8 +141,8 @@ class AgentCollection implements Agent
             "Collected Update Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($config) {
-                    if ($config) {
+                function (string $k, Agent $v) use ($config): \ILIAS\Setup\Objective {
+                    if ($config !== null) {
                         return $v->getUpdateObjective($config->maybeGetConfig($k));
                     }
                     return $v->getUpdateObjective();
@@ -143,15 +156,13 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new ObjectiveCollection(
             "Collected Build Artifact Objectives",
             false,
             ...array_values(array_map(
-                function (Agent $v) {
-                    return $v->getBuildArtifactObjective();
-                },
+                fn (Agent $v): \ILIAS\Setup\Objective => $v->getBuildArtifactObjective(),
                 $this->agents
             ))
         );
@@ -160,17 +171,15 @@ class AgentCollection implements Agent
     /**
      * @inheritdocs
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new ObjectiveCollection(
             "Collected Status Objectives",
             false,
             ...array_values(array_map(
-                function (string $k, Agent $v) use ($storage) {
-                    return $v->getStatusObjective(
-                        new Metrics\StorageOnPathWrapper($k, $storage)
-                    );
-                },
+                fn (string $k, Agent $v): \ILIAS\Setup\Objective => $v->getStatusObjective(
+                    new Metrics\StorageOnPathWrapper($k, $storage)
+                ),
                 array_keys($this->agents),
                 array_values($this->agents)
             ))
@@ -180,7 +189,7 @@ class AgentCollection implements Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         $migrations = [];
         foreach ($this->agents as $agent_key => $agent) {
@@ -196,48 +205,51 @@ class AgentCollection implements Agent
         return $migrations;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
-    {
-        $names = explode(".", $name);
-        $front = array_shift($names);
-        if (!isset($this->agents[$front])) {
-            throw new \InvalidArgumentException(
-                "Can't find named objective '$name'."
-            );
-        }
-
-        if ($config) {
-            $this->checkConfig($config);
-            $config = $config->maybeGetConfig($front);
-        }
-
-        try {
-            return $this->agents[$front]->getNamedObjective(implode(".", $names), $config);
-        }
-        catch (\InvalidArgumentException $e) {
-            throw new \InvalidArgumentException(
-                "Can't find named objective '$name'.",
-                0,
-                $e
-            );
-        }
-    }
-
-    protected function getKey(Migration $migration) : string
+    protected function getKey(Migration $migration): string
     {
         $names = explode("\\", get_class($migration));
         return array_pop($names);
     }
 
-    protected function checkConfig(Config $config)
+    protected function checkConfig(Config $config): void
     {
         if (!($config instanceof ConfigCollection)) {
             throw new \InvalidArgumentException(
                 "Expected ConfigCollection for configuration."
             );
         }
+    }
+
+    /**
+     * @return Agent[]
+     */
+    public function getAgents(): array
+    {
+        return $this->agents;
+    }
+
+    /** @inheritDoc */
+    public function getNamedObjectives(?Config $config = null): array
+    {
+        if (!is_null($config)) {
+            $this->checkConfig($config);
+        }
+
+        $agents = $this->agents;
+        $namedObjectives = [];
+
+        foreach ($agents as $k => $agent) {
+            if ($config) {
+                $objectives = $agent->getNamedObjectives($config->maybeGetConfig($k));
+            } else {
+                $objectives = $agent->getNamedObjectives();
+            }
+            foreach ($objectives as $name => $constructor) {
+                $namedObjectives["$k.$name"] = $constructor;
+            }
+        }
+
+        ksort($namedObjectives);
+        return $namedObjectives;
     }
 }

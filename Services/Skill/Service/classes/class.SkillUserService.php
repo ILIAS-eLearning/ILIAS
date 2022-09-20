@@ -26,7 +26,7 @@ namespace ILIAS\Skill\Service;
 class SkillUserService
 {
     protected SkillInternalManagerService $manager_service;
-    protected int $user_id;
+    protected int $user_id = 0;
 
     public function __construct(int $user_id, SkillInternalManagerService $manager_service = null)
     {
@@ -44,7 +44,7 @@ class SkillUserService
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    ) : void {
+    ): void {
         $user_id = $this->user_id;
         $this->manager_service->getUserLevelManager()->writeSkillLevel(
             $user_id,

@@ -1,10 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+declare(strict_types=1);
 
 /**
-* class ilEventMembers
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+/**
+* class ilEventParticipants
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilEventParticipants.php 15697 2008-01-08 20:04:33Z hschottm $
@@ -12,127 +28,141 @@
 */
 class ilEventParticipants
 {
-    public $ilErr;
-    public $ilDB;
-    public $tree;
-    public $lng;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected int $contact = 0;
+    protected bool $registered = false;
+    protected bool $participated = false;
+    protected bool $excused = false;
+    protected int $event_id = 0;
+    protected bool $notificationEnabled = false;
+    protected int $user_id = 0;
+    protected string $mark = "";
+    protected string $comment = "";
+    protected array $participants = [];
+    protected array $participants_registered = [];
+    protected array $participants_participated = [];
 
-    protected $contact = 0;
-
-    /**
-     * @var int[]
-     */
-    protected $registered = [];
-
-    /**
-     * @var int[]
-     */
-    protected $participated = [];
-
-    /**
-     * @var bool
-     */
-    protected $excused = [];
-
-    /**
-     * @var int[]
-     */
-    protected $contacts = [];
-
-    public $event_id = null;
-
-    /**
-     * @var boolean
-     */
-    private $notificationEnabled;
-
-    /**
-     * Constructor
-     * @param int $a_event_id
-     */
-    public function __construct($a_event_id)
+    public function __construct(int $a_event_id)
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-        $tree = $DIC->repositoryTree();
-
-        $this->ilErr = $ilErr;
-        $this->db = $ilDB;
-        $this->lng = $lng;
-
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
         $this->event_id = $a_event_id;
         $this->__read();
     }
 
-    public function setUserId($a_usr_id)
+    public function setUserId(int $a_usr_id): void
     {
         $this->user_id = $a_usr_id;
     }
-    public function getUserId()
+
+    public function getUserId(): int
     {
         return $this->user_id;
     }
-    public function setMark($a_mark)
+
+    public function setMark(string $a_mark): void
     {
         $this->mark = $a_mark;
     }
-    public function getMark()
+
+    public function getMark(): string
     {
         return $this->mark;
     }
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment): void
     {
         $this->comment = $a_comment;
     }
-    public function getComment()
+
+    public function getComment(): string
     {
         return $this->comment;
     }
-    public function setParticipated($a_status)
+
+    public function setParticipated(bool $a_status)
     {
         $this->participated = $a_status;
     }
-    public function getParticipated()
+
+    public function getParticipated(): bool
     {
         return $this->participated;
     }
-    public function setRegistered($a_status)
+
+    public function setRegistered(bool $a_status): void
     {
         $this->registered = $a_status;
     }
-    public function getRegistered()
+
+    public function getRegistered(): bool
     {
         return $this->registered;
     }
 
-    /**
-     * @param bool $a_stat
-     */
-    public function setExcused(bool $a_stat)
+    public function setExcused(bool $a_stat): void
     {
         $this->excused = $a_stat;
     }
 
-    /**
-     * @return bool
-     */
-    public function getExcused() : bool
+    public function getExcused(): bool
     {
         return $this->excused;
     }
 
-
-    /**
-     * Update excused status
-     * @param int $a_usr_id
-     * @param bool $a_status
-     */
-    public function updateExcusedForUser(int $a_usr_id, bool $a_status)
+    public function getEventId(): int
     {
-        if (!is_array($this->participants) || !array_key_exists($a_usr_id, $this->participants)) {
+        return $this->event_id;
+    }
+
+    public function setEventId(int $a_event_id): void
+    {
+        $this->event_id = $a_event_id;
+    }
+
+    public function setContact(bool $a_status): void
+    {
+        $this->contact = (int) $a_status;
+    }
+
+    public function getContact(): int
+    {
+        return $this->contact;
+    }
+
+    public function isNotificationEnabled(): bool
+    {
+        return $this->notificationEnabled;
+    }
+
+    public function setNotificationEnabled(bool $value): void
+    {
+        $this->notificationEnabled = $value;
+    }
+
+    public function setParticipatedParticipants(array $participants_participated): void
+    {
+        $this->participants_participated = $participants_participated;
+    }
+    public function getParticipatedParticipants(): array
+    {
+        return $this->participants_participated;
+    }
+    public function setRegisteredParticipants(array $registered_participants): void
+    {
+        $this->participants_registered = $registered_participants;
+    }
+    public function getRegisteredParticipants(): array
+    {
+        return $this->participants_registered;
+    }
+
+    public function updateExcusedForUser(int $a_usr_id, bool $a_status): void
+    {
+        if (!array_key_exists($a_usr_id, $this->participants)) {
             $event_part = new \ilEventParticipants($this->event_id);
             $event_part->setUserId($a_usr_id);
             $event_part->setMark('');
@@ -150,47 +180,12 @@ class ilEventParticipants
             'where event_id = ' . $this->db->quote($this->event_id, \ilDBConstants::T_INTEGER) . ' and ' .
             'usr_id = ' . $this->db->quote($a_usr_id, \ilDBConstants::T_INTEGER);
         $this->db->manipulate($query);
-        return;
     }
 
-    /**
-     * @param bool $a_status
-     */
-    public function setContact($a_status)
+    public function updateUser(): bool
     {
-        $this->contact = (int) $a_status;
-    }
+        $ilDB = $this->db;
 
-    /**
-     * @return int
-     */
-    public function getContact()
-    {
-        return $this->contact;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isNotificationEnabled()
-    {
-        return (bool) $this->notificationEnabled;
-    }
-
-    /**
-     * @param boolean $value
-     */
-    public function setNotificationEnabled($value)
-    {
-        $this->notificationEnabled = (bool) $value;
-    }
-
-    public function updateUser()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($this->getEventId(), 'integer') . " " .
             "AND usr_id = " . $ilDB->quote($this->getUserId(), 'integer') . " ";
@@ -200,24 +195,22 @@ class ilEventParticipants
             ") VALUES( " .
             $ilDB->quote($this->getEventId(), 'integer') . ", " .
             $ilDB->quote($this->getUserId(), 'integer') . ", " .
-            $ilDB->quote($this->getRegistered(), 'integer') . ", " .
-            $ilDB->quote($this->getParticipated(), 'integer') . ', ' .
+            $ilDB->quote((int) $this->getRegistered(), 'integer') . ", " .
+            $ilDB->quote((int) $this->getParticipated(), 'integer') . ', ' .
             $ilDB->quote($this->getContact(), 'integer') . ', ' .
-            $ilDB->quote($this->isNotificationEnabled(), 'integer') . ', ' .
+            $ilDB->quote((int) $this->isNotificationEnabled(), 'integer') . ', ' .
             $ilDB->quote((int) $this->getExcused(), 'integer') .
             ")";
         $res = $ilDB->manipulate($query);
 
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         $lp_mark = new ilLPMarks($this->getEventId(), $this->getUserId());
         $lp_mark->setComment($this->getComment());
         $lp_mark->setMark($this->getMark());
         $lp_mark->update();
-        
+
         // refresh learning progress status after updating participant
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus($this->getEventId(), $this->getUserId());
-        
+
         if (!$this->getRegistered()) {
             self::handleAutoFill($this->getEventId());
         }
@@ -225,57 +218,47 @@ class ilEventParticipants
         return true;
     }
 
-    public function getUser($a_usr_id)
+    public function getUser(int $a_usr_id): array
     {
-        return $this->participants[$a_usr_id] ? $this->participants[$a_usr_id] : array();
+        return $this->participants[$a_usr_id] ?? [];
     }
 
-    public function getParticipants()
+    public function getParticipants(): array
     {
-        return $this->participants ? $this->participants : array();
+        return $this->participants;
     }
 
-    public function isRegistered($a_usr_id)
+    public function isRegistered(int $a_usr_id): bool
     {
-        return $this->participants[$a_usr_id]['registered'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['registered'] ?? false);
     }
 
-    public function hasParticipated($a_usr_id)
+    public function hasParticipated(int $a_usr_id): bool
     {
-        return $this->participants[$a_usr_id]['participated'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['participated'] ?? false);
     }
 
-    /**
-     * @param int $a_usr_id
-     * @return bool
-     */
-    public function isExcused(int $a_usr_id) : bool
+    public function isExcused(int $a_usr_id): bool
     {
-        return $this->participants[$a_usr_id]['excused'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['excused'] ?? false);
     }
 
-    /**
-     * Check if user is contact
-     *
-     * @param $a_usr_id
-     * @return bool
-     */
-    public function isContact($a_usr_id)
+    public function isContact(int $a_usr_id): bool
     {
-        return $this->participants[$a_usr_id]['contact'] ? true : false;
+        return (bool) ($this->participants[$a_usr_id]['contact'] ?? false);
     }
 
 
-    public function updateParticipation($a_usr_id, $a_status)
+    public function updateParticipation(int $a_usr_id, bool $a_status): bool
     {
-        ilEventParticipants::_updateParticipation($a_usr_id, $this->getEventId(), $a_status);
+        return self::_updateParticipation($a_usr_id, $this->getEventId(), $a_status);
     }
 
-    public static function _updateParticipation($a_usr_id, $a_event_id, $a_status)
+    public static function _updateParticipation(int $a_usr_id, int $a_event_id, bool $a_status): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
@@ -283,65 +266,65 @@ class ilEventParticipants
         $res = $ilDB->query($query);
         if ($res->numRows()) {
             $query = "UPDATE event_participants " .
-                "SET participated = " . $ilDB->quote($a_status, 'integer') . " " .
+                "SET participated = " . $ilDB->quote((int) $a_status, 'integer') . " " .
                 "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
                 "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
-            $res = $ilDB->manipulate($query);
         } else {
             $query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) " .
                 "VALUES( " .
                 $ilDB->quote(0, 'integer') . ", " .
-                $ilDB->quote($a_status, 'integer') . ", " .
+                $ilDB->quote((int) $a_status, 'integer') . ", " .
                 $ilDB->quote($a_event_id, 'integer') . ", " .
                 $ilDB->quote($a_usr_id, 'integer') . " " .
                 ")";
-            $res = $ilDB->manipulate($query);
         }
-        
+        $res = $ilDB->manipulate($query);
+
         // refresh learning progress status after updating participant
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
 
         return true;
     }
 
-    public static function _getRegistered($a_event_id)
+    public static function _getRegistered(int $a_event_id): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
             "AND registered = " . $ilDB->quote(1, 'integer');
         $res = $ilDB->query($query);
+        $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $user_ids[] = $row->usr_id;
         }
-        return $user_ids ? $user_ids : array();
+        return $user_ids;
     }
 
-    public static function _getParticipated($a_event_id)
+    public static function _getParticipated(int $a_event_id): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
             "AND participated = 1";
         $res = $ilDB->query($query);
+        $user_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_ids[] = $row->usr_id;
+            $user_ids[$row->usr_id] = $row->usr_id;
         }
-        return $user_ids ? $user_ids : array();
+        return $user_ids;
     }
-    
-    public static function _hasParticipated($a_usr_id, $a_event_id)
+
+    public static function _hasParticipated(int $a_usr_id, int $a_event_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT participated FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
@@ -353,11 +336,11 @@ class ilEventParticipants
         return false;
     }
 
-    public static function _isRegistered($a_usr_id, $a_event_id)
+    public static function _isRegistered(int $a_usr_id, int $a_event_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
@@ -369,11 +352,11 @@ class ilEventParticipants
         return false;
     }
 
-    public static function _register($a_usr_id, $a_event_id)
+    public static function _register(int $a_usr_id, int $a_event_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
@@ -384,7 +367,6 @@ class ilEventParticipants
                 "SET registered = '1' " .
                 "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
                 "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
-            $res = $ilDB->manipulate($query);
         } else {
             $query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) " .
                 "VALUES( " .
@@ -393,25 +375,25 @@ class ilEventParticipants
                 $ilDB->quote($a_event_id, 'integer') . ", " .
                 $ilDB->quote($a_usr_id, 'integer') . " " .
                 ")";
-            $res = $ilDB->manipulate($query);
         }
-        
+        $res = $ilDB->manipulate($query);
+
         // refresh learning progress status after updating participant
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
-        
+
         return true;
     }
-    public function register($a_usr_id)
+
+    public function register(int $a_usr_id): bool
     {
         return ilEventParticipants::_register($a_usr_id, $this->getEventId());
     }
-            
-    public static function _unregister($a_usr_id, $a_event_id)
+
+    public static function _unregister(int $a_usr_id, int $a_event_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT * FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
@@ -422,7 +404,6 @@ class ilEventParticipants
                 "SET registered = 0 " .
                 "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " " .
                 "AND usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
-            $res = $ilDB->manipulate($query);
         } else {
             $query = "INSERT INTO event_participants (registered,participated,event_id,usr_id) " .
                 "VALUES( " .
@@ -431,87 +412,72 @@ class ilEventParticipants
                 $ilDB->quote($a_event_id, 'integer') . ", " .
                 $ilDB->quote($a_usr_id, 'integer') . " " .
                 ")";
-            $res = $ilDB->manipulate($query);
         }
-        
+        $res = $ilDB->manipulate($query);
+
         // refresh learning progress status after updating participant
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_updateStatus($a_event_id, $a_usr_id);
-        
+
         self::handleAutoFill($a_event_id);
-        
+
         return true;
     }
-    public function unregister($a_usr_id)
+
+    public function unregister(int $a_usr_id): bool
     {
-        return ilEventParticipants::_unregister($a_usr_id, $this->getEventId());
+        return self::_unregister($a_usr_id, $this->getEventId());
     }
 
-    public static function _lookupMark($a_event_id, $a_usr_id)
+    public static function _lookupMark(int $a_event_id, int $a_usr_id): string
     {
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         $lp_mark = new ilLPMarks($a_event_id, $a_usr_id);
         return $lp_mark->getMark();
     }
-    
-    public function _lookupComment($a_event_id, $a_usr_id)
+
+    public function _lookupComment(int $a_event_id, int $a_usr_id): string
     {
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         $lp_mark = new ilLPMarks($a_event_id, $a_usr_id);
         return $lp_mark->getComment();
     }
 
-
-    public function getEventId()
-    {
-        return $this->event_id;
-    }
-    public function setEventId($a_event_id)
-    {
-        $this->event_id = $a_event_id;
-    }
-
-    public static function _deleteByEvent($a_event_id)
+    public static function _deleteByEvent(int $a_event_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "DELETE FROM event_participants " .
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
 
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         ilLPMarks::deleteObject($a_event_id);
 
         return true;
     }
-    public static function _deleteByUser($a_usr_id)
+
+    public static function _deleteByUser(int $a_usr_id): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $query = "DELETE FROM event_participants " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
+
         return true;
     }
 
-
-    // Private
-    public function __read()
+    protected function __read(): void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $this->db;
+        $tree = $this->tree;
 
         $query = "SELECT * FROM event_participants " .
-            "WHERE event_id = " . $ilDB->quote($this->getEventId()) . " ";
+            "WHERE event_id = " . $ilDB->quote($this->getEventId(), 'integer') . " ";
         $res = $this->db->query($query);
-
-        global $DIC;
-        $tree = $DIC->repositoryTree();
 
         $parentRecipients = [];
         $parentParticipants = [];
@@ -531,25 +497,31 @@ class ilEventParticipants
             }
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
-            $this->participants[$row->usr_id]['registered'] = $row->registered;
-            $this->participants[$row->usr_id]['participated'] = $row->participated;
-            $this->participants[$row->usr_id]['excused'] = $row->excused;
-            $this->participants[$row->usr_id]['contact'] = $row->contact;
+            $this->participants[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
+            $this->participants[(int) $row->usr_id]['registered'] = (bool) $row->registered;
+            $this->participants[(int) $row->usr_id]['participated'] = (bool) $row->participated;
+            $this->participants[(int) $row->usr_id]['excused'] = (bool) $row->excused;
+            $this->participants[(int) $row->usr_id]['contact'] = (bool) $row->contact;
 
-            $lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
-            $this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
-            $this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
-            $this->participants[$row->usr_id]['notification_enabled'] = false;
-            if (in_array($row->usr_id, $parentRecipients)) {
-                $this->participants[$row->usr_id]['notification_enabled'] = true;
+            $lp_mark = new ilLPMarks($this->getEventId(), (int) $row->usr_id);
+            $this->participants[(int) $row->usr_id]['mark'] = $lp_mark->getMark();
+            $this->participants[(int) $row->usr_id]['comment'] = $lp_mark->getComment();
+
+            if (
+                $session->isRegistrationNotificationEnabled() &&
+                $session->getRegistrationNotificationOption() === ilSessionConstants::NOTIFICATION_MANUAL_OPTION
+            ) {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
+            } elseif (in_array((int) $row->usr_id, $parentRecipients)) {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = true;
+            } else {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = false;
             }
-
             if ($row->registered) {
-                $this->registered[] = $row->usr_id;
+                $this->participants_registered[] = (int) $row->usr_id;
             }
             if ($row->participated) {
-                $this->participated[] = $row->usr_id;
+                $this->participants_participated[] = (int) $row->usr_id;
             }
         }
         // add defaults for parent participants
@@ -557,7 +529,7 @@ class ilEventParticipants
             if (isset($this->participants[$usr_id])) {
                 continue;
             }
-            $this->participants[$usr_id]['usr_id'] = $usr_id;
+            $this->participants[$usr_id]['usr_id'] = (int) $usr_id;
             $this->participants[$usr_id]['registered'] = false;
             $this->participants[$usr_id]['participated'] = false;
             $this->participants[$usr_id]['excused'] = false;
@@ -571,13 +543,11 @@ class ilEventParticipants
             }
         }
     }
-    
+
     /**
      * Trigger auto-fill from waiting list
-     *
-     * @param int $a_obj_id
      */
-    protected static function handleAutoFill($a_obj_id)
+    protected static function handleAutoFill(int $a_obj_id): void
     {
         $sess = new ilObjSession($a_obj_id, false);
         $sess->handleAutoFill();

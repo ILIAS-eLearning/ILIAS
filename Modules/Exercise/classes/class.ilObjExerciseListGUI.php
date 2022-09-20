@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ListGUI class for exercise objects.
@@ -9,7 +23,7 @@
  */
 class ilObjExerciseListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -25,7 +39,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
-        
+
         // general commands array
         $this->commands = ilObjExerciseAccess::_getCommands();
     }
@@ -33,7 +47,7 @@ class ilObjExerciseListGUI extends ilObjectListGUI
     /**
      * @throws ilDateTimeException
      */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         $props = array();
         $rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);
@@ -49,14 +63,8 @@ class ilObjExerciseListGUI extends ilObjectListGUI
         return $props;
     }
 
-
-    /**
-     * Get command link url.
-     * @param string $a_cmd command
-     * @return string command url
-     */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd): string
     {
-        return "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
+        return "ilias.php?baseClass=ilExerciseHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$cmd";
     }
 }

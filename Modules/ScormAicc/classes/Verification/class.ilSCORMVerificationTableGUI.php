@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * List all completed learning modules for current user
@@ -10,6 +26,9 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
     private ilUserCertificateRepository $userCertificateRepository;
 
+    /**
+     * @throws ilCtrlException
+     */
     public function __construct(
         ilObjSCORMVerificationGUI $a_parent_obj,
         string $a_parent_cmd = '',
@@ -41,7 +60,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         global $DIC;
 
@@ -56,20 +75,26 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
         $data = [];
         foreach ($certificateArray as $certificate) {
-            $data[] = [
-                'id' => $certificate->getUserCertificate()->getObjId(),
-                'title' => $certificate->getObjectTitle(),
-                'passed' => true
-            ];
+            $user_cert = $certificate->getUserCertificate();
+            if ($user_cert !== null) {
+                $data[] = [
+                    'id' => $user_cert->getObjId(),
+                    'title' => $certificate->getObjectTitle(),
+                    'passed' => true
+                ];
+            }
         }
 
         $this->setData($data);
     }
 
-    protected function fillRow($a_set) : void
+    /**
+     * @throws ilCtrlException
+     */
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable(

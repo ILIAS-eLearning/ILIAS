@@ -1,6 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
 /**
  * Class ilObjSCORMLearningModuleGUI
@@ -17,40 +35,17 @@
  */
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected \ILIAS\DI\Container $dic;
+    protected ilTabsGUI $tabs;
+    protected ilRbacSystem $rbacsystem;
+    protected ilHelpGUI $help;
+    protected ilErrorHandling $error;
+    protected ContextServices $tool_context;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected $tool_context;
-
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, ?bool $a_prepare_output = true)
     {
         global $DIC;
-
+        $this->dic = $DIC;
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -75,170 +70,24 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         #$this->tabs_gui = new ilTabsGUI();
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
-        $ilAccess = $this->access;
+//        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
+//        $tpl = $this->tpl;
+//        $ilTabs = $this->tabs;
+//        $lng = $this->lng;
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-        
-        if ($this->object->getEditable() && $cmd != "showEditTree") {	// show editing frameset
-            $this->showEditTree();
-        }
-
-        // update expander
-        $form_gui = new ilSCORM2004OrganizationHFormGUI();
-        $form_gui->setTree($this->getEditTree());
-        $form_gui->updateExpanded();
-        switch ($next_class) {
-            // notes
-            case "ilnotegui":
-                $this->getTemplate();
-                $this->setLocator();
-                $this->setTabs();
-                switch ($_GET["notes_mode"]) {
-                    default:
-                        $ilTabs->setTabActive("sahs_organization");
-                        return $this->showOrganization();
-                }
-                break;
-
-            // chapters
-            case "ilscorm2004chaptergui":
-                $chap_gui = new ilSCORM2004ChapterGUI($this->object, $_GET["obj_id"]);
-                $chap_gui->setParentGUI($this);
-                return $ilCtrl->forwardCommand($chap_gui);
-
-                // sequencing chapters
-            case "ilscorm2004seqchaptergui":
-                $chap_gui = new ilSCORM2004SeqChapterGUI($this->object, $_GET["obj_id"]);
-                $chap_gui->setParentGUI($this);
-                return $ilCtrl->forwardCommand($chap_gui);
-
-                // scos
-            case "ilscorm2004scogui":
-                $sco_gui = new ilSCORM2004ScoGUI($this->object, $_GET["obj_id"]);
-                $sco_gui->setParentGUI($this);
-                return $ilCtrl->forwardCommand($sco_gui);
-
-            // assets
-            case "ilscorm2004assetgui":
-                $ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
-                $ass_gui->setParentGUI($this);
-                return $ilCtrl->forwardCommand($ass_gui);
-
-                // pages
-            case "ilscorm2004pagenodegui":
-                $page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
-                $page_gui->setParentGUI($this);
-                $ilCtrl->forwardCommand($page_gui);
-                break;
-
-            default:
-                parent::executeCommand();
-                $this->addHeaderAction();
-                break;
-        }
-    }
-
-    /**
-     * Show tree
-     */
-    public function showEditTree()
-    {
-        $this->tool_context->current()->addAdditionalData(ilSAHSEditGSToolProvider::SHOW_SCORM_EDIT_TREE, true);
-        $exp = new ilSCORM2004EditorExplorerGUI($this, "showEditTree", $this->object);
-        $exp->handleCommand();
-    }
-    
-    
-    /**
-     * Edit organization (called from listgui, must setup frameset)
-     *
-     * @param
-     * @return
-     */
-    public function editOrganization($a_to_organization = true)
-    {
-        if ($_GET["obj_id"] > 0) {
-            $type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
-        }
-        if (in_array($type, array("sco", "chap", "seqc", "page"))) {
-            $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-            $this->ctrl->redirect($this, "jumpToNode");
-        } else {
-            if ($a_to_organization) {
-                $this->ctrl->redirect($this, "showOrganization");
-            } else {
-                $this->ctrl->redirect($this, "properties");
-            }
-        }
-    }
-
-    /**
-     * output main frameset of media pool
-     * left frame: explorer tree of folders
-     * right frame: media pool content
-     */
-    // UK change possible
-    public function frameset($a_to_organization = false)
-    {
-        if ($this->object->getEditable()) {	// show editing frameset
-            $this->ctrl->redirect($this, "properties");
-        } else {						// otherwise show standard frameset
-            $this->tpl = new ilGlobalTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
-            $this->tpl->setVariable(
-                "SRC",
-                $this->ctrl->getLinkTarget($this, "properties")
-            );
-            $this->tpl->printToStdout("DEFAULT", false);
-        }
-        exit;
-    }
-
-    public function jumpToNode($a_anchor_node = "", $a_highlight_ids = "")
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $anchor = ($a_anchor_node != "")
-            ? "node_" . $a_anchor_node
-            : "";
-
-        $type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-        switch ($type) {
-            case "sco":
-                $ilCtrl->setParameterByClass("ilscorm2004scogui", "highlight", $a_highlight_ids);
-                $ilCtrl->redirectByClass("ilscorm2004scogui", "showOrganization", $anchor);
-                // no break
-            case "ass":
-                $ilCtrl->setParameterByClass("ilscorm2004assetgui", "highlight", $a_highlight_ids);
-                $ilCtrl->redirectByClass("ilscorm2004assetgui", "showOrganization", $anchor);
-                // no break
-            case "chap":
-                $ilCtrl->setParameterByClass("ilscorm2004chaptergui", "highlight", $a_highlight_ids);
-                $ilCtrl->redirectByClass("ilscorm2004chaptergui", "showOrganization", $anchor);
-                // no break
-            case "seqc":
-                $ilCtrl->setParameterByClass("ilscorm2004seqchaptergui", "highlight", $a_highlight_ids);
-                $ilCtrl->redirectByClass("ilscorm2004seqchaptergui", "showOrganization", $anchor);
-                // no break
-            case "page":
-                $ilCtrl->redirectByClass("ilscorm2004pagenodegui", "edit");
-        }
+        parent::executeCommand();
+        $this->addHeaderAction();
     }
 
     /**
      * Scorm 2004 module properties
      */
-    public function properties()
+    public function properties(): void
     {
         $rbacsystem = $this->rbacsystem;
         $tree = $this->tree;
@@ -249,99 +98,21 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilSetting = $this->settings;
         $ilTabs = $this->tabs;
 
-        $this->setSubTabs("settings", "general_settings");
-        
-        $lng->loadLanguageModule("style");
+        $this->setSettingsSubTabs();
+        $ilTabs->setSubTabActive('cont_settings');
+        // view
+        $ilToolbar->addButtonInstance($this->object->getViewButton());
 
-        // not editable
-        if ($this->object->editable != 1) {
-            ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
-            $ilTabs->setSubTabActive('cont_settings');
-            // view
-            $ilToolbar->addButtonInstance($this->object->getViewButton());
-        } else {  	// editable
-            // glossary buttons to toolbar
-            $sep = false;
-            if (ilObject::_lookupType($this->object->getAssignedGlossary()) != "glo") {
-                $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
-                if ($rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
-                    $ilToolbar->addButton(
-                        $this->lng->txt("cont_glo_create"),
-                        $ilCtrl->getLinkTarget($this, "createGlossary")
-                    );
-                }
-                $ilToolbar->addButton(
-                    $this->lng->txt("cont_glo_assign"),
-                    $ilCtrl->getLinkTarget($this, "assignGlossary")
-                );
-            } else {
-                $ilToolbar->addButton(
-                    $this->lng->txt("cont_glo_detach"),
-                    $ilCtrl->getLinkTarget($this, "detachGlossary")
-                );
-            }
-
-            // style buttons to toolbar
-            $fixed_style = $ilSetting->get("fixed_content_style_id");
-            $style_id = $this->object->getStyleSheetId();
-
-            if ($fixed_style == 0) {
-                $st_styles = ilObjStyleSheet::_getStandardStyles(
-                    true,
-                    false,
-                    $_GET["ref_id"]
-                );
-    
-                $st_styles[0] = $this->lng->txt("default");
-                ksort($st_styles);
-    
-                if ($style_id > 0) {
-                    // individual style
-                    if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                        $ilToolbar->addSeparator();
-                        
-                        // delete command
-                        $ilToolbar->addButton(
-                            $this->lng->txt("cont_edit_style"),
-                            $ilCtrl->getLinkTarget($this, "editStyle")
-                        );
-                        $ilToolbar->addButton(
-                            $this->lng->txt("cont_delete_style"),
-                            $ilCtrl->getLinkTarget($this, "deleteStyle")
-                        );
-                    }
-                }
-    
-                if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $ilToolbar->addSeparator();
-                    
-                    $ilToolbar->addButton(
-                        $this->lng->txt("sty_create_ind_style"),
-                        $ilCtrl->getLinkTarget($this, "createStyle")
-                    );
-                }
-            }
-        }
-        
         // output forms
-        if ($this->object->editable != 1) {
-            $this->initPropertiesForm();
-            $this->getPropertiesFormValues();
-            $tpl->setContent($this->form->getHTML());
-        } else {
-            $this->initPropertiesEditableForm();
-            $this->getPropertiesEditableValues();
-            $tpl->setContent($this->form->getHTML());
-        }
+        $this->initPropertiesForm();
+        $this->getPropertiesFormValues();
+        $tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * Initialize properties form
-     *
-     * @param
-     * @return
      */
-    public function initPropertiesForm()
+    public function initPropertiesForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -355,7 +126,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ti = new ilTextInputGUI($this->lng->txt("title"), "Fobject_title");
         $ti->setMaxLength(200);
         $this->form->addItem($ti);
-        
+
         //description
         $ti = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject_description");
         $this->form->addItem($ti);
@@ -377,23 +148,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("activation"));
         $this->form->addItem($sh);
-        
+
         // online
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_online"), "cobj_online");
         $cb->setInfo($this->lng->txt("cont_online_info"));
         $this->form->addItem($cb);
-        
-        // offline Mode
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
-        $cb->setValue("y");
-        include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
-        if ($this->object->getOfflineMode() == true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
-            $cb->setDisabled(true);
-            $cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
-        } else {
-            $cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
-        }
-        $this->form->addItem($cb);
+
 
         //
         // presentation
@@ -401,7 +161,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("cont_presentation"));
         $this->form->addItem($sh);
-        
+
         // display mode (open)
         // $options = array(
         // "0" => $this->lng->txt("cont_open_normal"),
@@ -442,7 +202,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ni->setSize(4);
         $ni->setInfo($this->lng->txt("cont_width_height_info"));
         $op2->addSubItem($ni);
-        
+
         // force IE to render again
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_force_render"), "cobj_ie_force_render");
         $cb->setValue("y");
@@ -451,21 +211,21 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $this->form->addItem($radg);
 
-        
+
         // disable top menu
         //Hide Top Navigation Bar
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_nomenu"), "cobj_nomenu");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_nomenu_info"));
         $this->form->addItem($cb);
-        
+
         // disable left-side navigation
         // Hide Left Navigation Tree
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_hidenavig"), "cobj_hidenavig");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_hidenavig_info"));
         $this->form->addItem($cb);
-        
+
         // auto navigation to last visited item
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_last_visited"), "cobj_auto_last_visited");
         $cb->setValue("y");
@@ -512,7 +272,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $op0->addSubItem($si);
         // end lesson mode
         $this->form->addItem($radg);
-        
+
 
         // mastery_score
         if ($this->object->getMasteryScoreValues() != "") {
@@ -529,31 +289,31 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt("cont_rte_settings"));
         $this->form->addItem($sh);
-        
+
         // unlimited session timeout
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_usession"), "cobj_session");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_sc_usession_info"));
         $this->form->addItem($cb);
-        
+
         // SCORM 2004 fourth edition features
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_fourth_edition"), "cobj_fourth_edition");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_fourth_edition_info"));
         $this->form->addItem($cb);
-        
+
         // sequencing
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_sequencing"), "cobj_sequencing");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_sequencing_info"));
         $this->form->addItem($cb);
-        
+
         // storage of interactions
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_interactions"), "cobj_interactions");
         $cb->setValue("y");
         $cb->setInfo($this->lng->txt("cont_interactions_info"));
         $this->form->addItem($cb);
-        
+
         // objectives
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_objectives"), "cobj_objectives");
         $cb->setValue("y");
@@ -636,7 +396,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * Get values for properties form
      */
-    public function getPropertiesFormValues()
+    public function getPropertiesFormValues(): void
     {
         //check/select only once
         $this->object->checkMasteryScoreValues();
@@ -647,7 +407,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         if (!$this->object->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-        $values["cobj_offline_mode"] = $this->object->getOfflineMode();
         $values["open_mode"] = $this->object->getOpenMode();
         $values["width_0"] = $this->object->getWidth();
         $values["width_1"] = $this->object->getWidth();
@@ -677,2183 +436,179 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     }
 
     /**
-     * Init properties (editable) form.
-     */
-    public function initPropertiesEditableForm()
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-
-        $this->form = new ilPropertyFormGUI();
-    
-        // localization
-        $options = array(
-            "" => $lng->txt("please_select"),
-            );
-        $langs = $lng->getInstalledLanguages();
-        $lng->loadLanguageModule("meta");
-        foreach ($langs as $l) {
-            $options[$l] = $lng->txt("meta_l_" . $l);
-        }
-        $loc = new ilSelectInputGUI($this->lng->txt("cont_localization"), "localization");
-        $loc->setOptions($options);
-        $loc->setInfo($this->lng->txt("cont_localization_info"));
-        $this->form->addItem($loc);
-
-        // glossary
-        $ne = new ilNonEditableValueGUI($lng->txt("obj_glo"), "glossary");
-        $ne->setInfo($lng->txt("sahs_glo_info"));
-        $this->form->addItem($ne);
-        
-        // style
-        $lng->loadLanguageModule("style");
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $_GET["ref_id"]
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-            }
-        }
-        
-        // number of tries
-        $ni = new ilNumberInputGUI($lng->txt("cont_qtries"), "q_tries");
-        $ni->setInfo($lng->txt("cont_qtries_info")); // #15133
-        $ni->setMaxLength(3);
-        $ni->setSize(3);
-        $this->form->addItem($ni);
-        
-
-        $this->form->addCommandButton("saveProperties", $lng->txt("save"));
-
-        $this->form->setTitle($lng->txt("cont_scorm_ed_properties"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-
-    /**
-     * Get current values for properties (editable) from
-     */
-    public function getPropertiesEditableValues()
-    {
-        $values = array();
-    
-        if (ilObject::_lookupType($this->object->getAssignedGlossary()) == "glo") {
-            $values["glossary"] = ilObject::_lookupTitle($this->object->getAssignedGlossary());
-        } else {
-            $values["glossary"] = $this->lng->txt("cont_no_glossary");
-        }
-        $values["q_tries"] = $this->object->getTries();
-        $values["localization"] = $this->object->getLocalization();
-        $values["style_id"] = $this->object->getStyleSheetId();
-    
-        $this->form->setValuesByArray($values);
-    }
-    
-    /**
     * save scorm 2004 module properties
     */
-    public function saveProperties()
+    public function saveProperties(): void
     {
         $ilSetting = $this->settings;
         $obj_service = $this->getObjectService();
         $this->initPropertiesForm();
         $this->form->checkInput();
 
-        if ($this->object->editable != 1) {
-            //check if OfflineMode-Zip has to be created
-            $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
-            $tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
-            $tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
-            if ($tmpOfflineMode == true) {
-                //				$tmpSequencing = false; //actually no sequencing for offline_mode
-                $tmpFourth_edition = false; //4th edition is not possible
-                if ($this->object->getOfflineMode() == false) {
-                    $this->object->zipLmForOfflineMode();
-                }
-            }
-
-            if (isset($_POST["mastery_score"])) {
-                $this->object->setMasteryScore($_POST["mastery_score"]);
-                // $this->object->updateMasteryScoreValues();
-            }
-            
-            $t_auto_review = $_POST["auto_review"];
-            $t_auto_suspend = ilUtil::yn2tf($_POST["cobj_auto_suspend"]);
-            $t_session = ilUtil::yn2tf($_POST["cobj_session"]);
-            if ($t_auto_review == "s") {
-                $t_auto_suspend = true;
-                //if not storing without session
-                $t_session = true;
-            }
-            
-            $t_height = $this->object->getHeight();
-            if ($_POST["height_0"] != $this->object->getHeight()) {
-                $t_height = $_POST["height_0"];
-            }
-            if ($_POST["height_1"] != $this->object->getHeight()) {
-                $t_height = $_POST["height_1"];
-            }
-
-            $t_width = $this->object->getWidth();
-            if ($_POST["width_0"] != $this->object->getWidth()) {
-                $t_width = $_POST["width_0"];
-            }
-            if ($_POST["width_1"] != $this->object->getWidth()) {
-                $t_width = $_POST["width_1"];
-            }
-
-            $this->object->setOfflineStatus(!($_POST['cobj_online']));
-            $this->object->setOpenMode($_POST["open_mode"]);
-            $this->object->setWidth($t_width);
-            $this->object->setHeight($t_height);
-            $this->object->setCreditMode($_POST["credit_mode"]);
-            $this->object->setMaxAttempt($_POST["max_attempt"]);
-            $this->object->setAutoReviewChar($t_auto_review);
-            $this->object->setDefaultLessonMode($_POST["lesson_mode"]);
-            $this->object->setSession($t_session);
-            $this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
-            $this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
-            $this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
-            $this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
-            $this->object->setFourth_edition($tmpFourth_edition);
-            $this->object->setSequencing($tmpSequencing);
-            $this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
-            $this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
-            $this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
-            $this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
-            $this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
-            $this->object->setAutoSuspend($t_auto_suspend);
-            $this->object->setOfflineMode($tmpOfflineMode);
-            $this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
-            $this->object->setIdSetting($_POST["id_setting"]);
-            $this->object->setNameSetting($_POST["name_setting"]);
-            $this->object->setTitle($_POST["Fobject_title"]);
-            $this->object->setDescription($_POST["Fobject_description"]);
-
-            // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
-        } else {
-            $this->initPropertiesEditableForm();
-            if ($this->form->checkInput()) {
-                $this->object->setTries($_POST["q_tries"]);
-                $this->object->setLocalization($_POST["localization"]);
-                
-                if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-                    (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-                    || $this->object->getStyleSheetId() == 0)) {
-                    $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-                }
-            }
+        if ($this->dic->http()->wrapper()->post()->has('mastery_score')) {
+            $this->object->setMasteryScore($this->dic->http()->wrapper()->post()->retrieve('mastery_score', $this->dic->refinery()->kindlyTo()->int()));
+            // $this->object->updateMasteryScoreValues();
         }
+
+        $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string());
+        $t_auto_suspend = $this->dic->http()->wrapper()->post()->has('cobj_auto_suspend');
+        $t_session = $this->dic->http()->wrapper()->post()->has('cobj_session');
+        if ($t_auto_review === "s") {
+            $t_auto_suspend = true;
+            //if not storing without session
+            $t_session = true;
+        }
+
+        $t_height = $this->object->getHeight();
+        if ($this->dic->http()->wrapper()->post()->retrieve('height_0', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
+            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_0', $this->dic->refinery()->kindlyTo()->int());
+        }
+        if ($this->dic->http()->wrapper()->post()->retrieve('height_1', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getHeight()) {
+            $t_height = $this->dic->http()->wrapper()->post()->retrieve('height_1', $this->dic->refinery()->kindlyTo()->int());
+        }
+
+        $t_width = $this->object->getWidth();
+        if ($this->dic->http()->wrapper()->post()->retrieve('width_0', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
+            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_0', $this->dic->refinery()->kindlyTo()->int());
+        }
+        if ($this->dic->http()->wrapper()->post()->retrieve('width_1', $this->dic->refinery()->kindlyTo()->int()) != $this->object->getWidth()) {
+            $t_width = $this->dic->http()->wrapper()->post()->retrieve('width_1', $this->dic->refinery()->kindlyTo()->int());
+        }
+
+        $this->object->setOfflineStatus(!($this->dic->http()->wrapper()->post()->has('cobj_online')));
+        $this->object->setOpenMode($this->dic->http()->wrapper()->post()->retrieve('open_mode', $this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setWidth($t_width);
+        $this->object->setHeight($t_height);
+        $this->object->setCreditMode($this->dic->http()->wrapper()->post()->retrieve('credit_mode', $this->dic->refinery()->kindlyTo()->string()));
+//        $this->object->setMaxAttempt($this->dic->http()->wrapper()->post()->retrieve('max_attempt',$this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setAutoReviewChar($t_auto_review);
+        $this->object->setDefaultLessonMode($this->dic->http()->wrapper()->post()->retrieve('lesson_mode', $this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setSession($t_session);
+        $this->object->setNoMenu($this->dic->http()->wrapper()->post()->has('cobj_nomenu'));
+        $this->object->setHideNavig($this->dic->http()->wrapper()->post()->has('cobj_hidenavig'));
+        $this->object->setAuto_last_visited($this->dic->http()->wrapper()->post()->has('cobj_auto_last_visited'));
+        $this->object->setIe_force_render($this->dic->http()->wrapper()->post()->has('cobj_ie_force_render'));
+        $this->object->setFourth_edition($this->dic->http()->wrapper()->post()->has('cobj_fourth_edition'));
+        $this->object->setSequencing($this->dic->http()->wrapper()->post()->has('cobj_sequencing'));
+        $this->object->setInteractions($this->dic->http()->wrapper()->post()->has('cobj_interactions'));
+        $this->object->setObjectives($this->dic->http()->wrapper()->post()->has('cobj_objectives'));
+        $this->object->setComments($this->dic->http()->wrapper()->post()->has('cobj_comments'));
+        $this->object->setTime_from_lms($this->dic->http()->wrapper()->post()->has('cobj_time_from_lms'));
+        $this->object->setCheck_values($this->dic->http()->wrapper()->post()->has('cobj_check_values'));
+        $this->object->setAutoSuspend($t_auto_suspend);
+//            $this->object->setOfflineMode($tmpOfflineMode);
+        $this->object->setDebug($this->dic->http()->wrapper()->post()->has('cobj_debug'));//ilUtil::yn2tf($this->dic->http()->wrapper()->post()->retrieve('cobj_debug',$this->dic->refinery()->kindlyTo()->string())));
+        $this->object->setIdSetting($this->dic->http()->wrapper()->post()->retrieve('id_setting', $this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setNameSetting($this->dic->http()->wrapper()->post()->retrieve('name_setting', $this->dic->refinery()->kindlyTo()->int()));
+        $this->object->setTitle($this->dic->http()->wrapper()->post()->retrieve('Fobject_title', $this->dic->refinery()->kindlyTo()->string()));
+        $this->object->setDescription($this->dic->http()->wrapper()->post()->retrieve('Fobject_description', $this->dic->refinery()->kindlyTo()->string()));
+
+        // tile image
+        $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
         $this->object->update();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "properties");
     }
 
     /**
-     * Detach glossary
-     */
-    public function detachGlossary()
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $this->object->setAssignedGlossary(0);
-        $this->object->update();
-        $ilCtrl->redirect($this, "properties");
-    }
-    
-    /**
-     * Create glossary
-     */
-    public function createGlossary()
-    {
-        $tpl = $this->tpl;
-    
-        $this->initGlossaryCreationForm();
-        $tpl->setContent($this->form->getHTML());
-    }
-    
-    /**
-     * Init glossary creation form.
-     */
-    public function initGlossaryCreationForm()
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $this->form = new ilPropertyFormGUI();
-    
-        // title
-        $ti = new ilTextInputGUI($lng->txt("title"), "title");
-        $ti->setRequired(true);
-        $this->form->addItem($ti);
-        
-        // description
-        $ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
-        $this->form->addItem($ta);
-        
-        $this->form->addCommandButton("saveGlossary", $lng->txt("save"));
-        $this->form->addCommandButton("properties", $lng->txt("cancel"));
-                    
-        $this->form->setTitle($lng->txt("cont_glo_create"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-    
-    /**
-     * Save glossary form
-     */
-    public function saveGlossary()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
-    
-        $parent_ref_id = $tree->getParentId((int) $_GET["ref_id"]);
-        if (!$rbacsystem->checkAccess("create", $parent_ref_id, "glo")) {
-            ilUtil::sendFailure($lng->txt("no_permission"), true);
-            $ilCtrl->redirect($this, "properties");
-        }
-        
-        $this->initGlossaryCreationForm();
-        if ($this->form->checkInput()) {
-            $newObj = new ilObjGlossary();
-            $newObj->setType("glo");
-            $newObj->setTitle($_POST["title"]);
-            $newObj->setDescription($_POST["description"]);
-            $newObj->setVirtualMode("none");
-            $newObj->create();
-            $newObj->createReference();
-            $newObj->putInTree($parent_ref_id);
-            $newObj->setPermissions($parent_ref_id);
-            
-            // perform save
-            $this->object->setAssignedGlossary($newObj->getId());
-            $this->object->update();
-            
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "properties");
-        }
-        
-        $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
-    }
-    
-    /**
-     * Assign glossary
-     */
-    public function assignGlossary()
-    {
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        $tree = $this->tree;
-
-        $exp = new ilGlossarySelectorGUI(
-            $ilCtrl->getLinkTarget($this, "selectGlossary"),
-            "ilobjscorm2004learningmodulegui"
-        );
-        $exp->setSelectableTypes(array("glo"));
-        
-        if ($_GET["expand"] == "") {
-            $expanded = $tree->readRootId();
-        } else {
-            $expanded = $_GET["expand"];
-        }
-        $exp->setExpand($expanded);
-        
-        $exp->setTargetGet("glo_id");
-        //$this->ctrl->setParameter($this, "target_type", $a_type);
-        //$ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
-        $exp->setParamsGet($this->ctrl->getParameterArray($this, "assignGlossary"));
-        
-        // filter
-        $exp->setFiltered(true);
-        $exp->setFilterMode(IL_FM_POSITIVE);
-        $exp->addFilter("root");
-        $exp->addFilter("cat");
-        $exp->addFilter("grp");
-        $exp->addFilter("fold");
-        $exp->addFilter("crs");
-        $exp->addFilter("glo");
-
-        $exp->setOutput(0);
-
-        $tpl->setContent($exp->getOutput());
-    }
-
-    /**
-     * Select glossary
-     */
-    public function selectGlossary()
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $this->object->setAssignedGlossary(ilObject::_lookupObjId((int) $_GET["glo_ref_id"]));
-        $this->object->update();
-        $ilCtrl->redirect($this, "properties");
-    }
-    
-    /**
-    * assign scorm object to scorm gui object
-    */
-    public function assignObject()
-    {
-        if ($this->id != 0) {
-            if ($this->call_by_reference) {
-                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
-            } else {
-                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
-            }
-        }
-    }
-
-    /**
-     * Edit Stlye Properties
-     */
-    public function editStyleProperties()
-    {
-        $tpl = $this->tpl;
-        
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form->getHTML());
-    }
-    
-    /**
-     * Init style properties form
-     */
-    public function initStylePropertiesForm()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("style");
-        $this->setSubTabs("settings", "style");
-        $ilTabs->setTabActive("settings");
-
-        $this->form = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $_GET["ref_id"]
-            );
-
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
-
-                    // delete command
-                    $this->form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("cont_edit_style")
-                    );
-                    $this->form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("cont_delete_style")
-                    );
-                    //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = ilUtil::formSelect(
-                    $style_id,
-                    "style_id",
-                    $st_styles,
-                    false,
-                    true
-                );
-                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-                //$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
-                $this->form->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form->setTitle($lng->txt("cont_style"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-    
-    /**
-     * Create Style
-     */
-    public function createStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-    
-    /**
-     * Edit Style
-     */
-    public function editStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    /**
-     * Delete Style
-     */
-    public function deleteStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-    
-    /**
-     * Save style settings
-     */
-    public function saveStyleSettings()
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
-    }
-    
-    /**
     * show tracking data
     */
-    protected function showTrackingItemsBySco()
+    protected function showTrackingItemsBySco(): bool
     {
         $ilTabs = $this->tabs;
 
-
-        ilObjSCORMLearningModuleGUI::setSubTabs();
+        $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_bysco");
 
         $reports = array('exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers');
 
         $scoSelected = "all";
-        if (isset($_GET["scoSelected"])) {
-            $scoSelected = ilUtil::stripSlashes($_GET["scoSelected"]);
+        if ($this->dic->http()->wrapper()->post()->has('scoSelected')) {
+            $scoSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('scoSelected', $this->dic->refinery()->kindlyTo()->string()));
         }
-        if (isset($_POST["scoSelected"])) {
-            $scoSelected = ilUtil::stripSlashes($_POST["scoSelected"]);
-        }
+
         $this->ctrl->setParameter($this, 'scoSelected', $scoSelected);
 
         $report = "choose";
-        if (isset($_GET["report"])) {
-            $report = ilUtil::stripSlashes($_GET["report"]);
-        }
-        if (isset($_POST["report"])) {
-            $report = ilUtil::stripSlashes($_POST["report"]);
+        if ($this->dic->http()->wrapper()->post()->has('report')) {
+            $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
         }
         $this->ctrl->setParameter($this, 'report', $report);
-
-        include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php';
         $filter = new ilSCORM2004TrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
         $filter->parse($scoSelected, $report, $reports);
-        if ($report == "choose") {
+        if ($report === "choose") {
             $this->tpl->setContent($filter->form->getHTML());
         } else {
             $scosSelected = array();
-            if ($scoSelected != "all") {
+            if ($scoSelected !== "all") {
                 $scosSelected[] = $scoSelected;
             } else {
                 $tmpscos = $this->object->getTrackedItems();
-                for ($i = 0; $i < count($tmpscos); $i++) {
-                    $scosSelected[] = $tmpscos[$i]["id"];
+                foreach ($tmpscos as $i => $value) {
+                    $scosSelected[] = $value["id"];
                 }
             }
-            //with check for course ...
-            include_once "Services/Tracking/classes/class.ilTrQuery.php";
             $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
-            //			var_dump($this->object->getTrackedUsers(""));
-            include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
             $tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
             $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
         }
         return true;
     }
-    public function showTrackingItems()
+
+    public function showTrackingItems(): bool
     {
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
 
         $ilTabs->setTabActive('cont_tracking_data');
 
-        if ($ilAccess->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
-            ilObjSCORMLearningModuleGUI::setSubTabs();
+        if ($ilAccess->checkAccess("read_learning_progress", "", $this->object->getRefId())) {
+            $this->setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
 
             $userSelected = "all";
-            if (isset($_GET["userSelected"])) {
-                $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
-            }
-            if (isset($_POST["userSelected"])) {
-                $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
+            if ($this->dic->http()->wrapper()->post()->has('userSelected')) {
+                $userSelected = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('userSelected', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'userSelected', $userSelected);
 
             $report = "choose";
-            if (isset($_GET["report"])) {
-                $report = ilUtil::stripSlashes($_GET["report"]);
-            }
-            if (isset($_POST["report"])) {
-                $report = ilUtil::stripSlashes($_POST["report"]);
+            if ($this->dic->http()->wrapper()->post()->has('report')) {
+                $report = ilUtil::stripSlashes($this->dic->http()->wrapper()->post()->retrieve('report', $this->dic->refinery()->kindlyTo()->string()));
             }
             $this->ctrl->setParameter($this, 'report', $report);
-
-            include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php';
             $filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
             $filter->parse($userSelected, $report, $reports);
-            if ($report == "choose") {
+            if ($report === "choose") {
                 $this->tpl->setContent($filter->form->getHTML());
             } else {
                 $usersSelected = array();
-                if ($userSelected != "all") {
+                if ($userSelected !== "all") {
                     $usersSelected[] = $userSelected;
                 } else {
-                    include_once "Services/Tracking/classes/class.ilTrQuery.php";
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
-                    foreach ($users as $user) {
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+                    foreach ($users as $usr) {
+                        $user = (int) $usr;
+                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
                             $usersSelected[] = $user;
                         }
                     }
                 }
                 $scosSelected = array();
                 $tmpscos = $this->object->getTrackedItems();
-                for ($i = 0; $i < count($tmpscos); $i++) {
-                    $scosSelected[] = $tmpscos[$i]["id"];
+                foreach ($tmpscos as $i => $value) {
+                    $scosSelected[] = $value["id"];
                 }
-                //with check for course ...
-                // include_once "Services/Tracking/classes/class.ilTrQuery.php";
-                // $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
-                //			var_dump($this->object->getTrackedUsers(""));
-                include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php';
                 $tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
                 $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());
             }
-        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
+        } elseif ($ilAccess->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
             $this->modifyTrackingItems();
         }
         return true;
-    }
-
-    
-
-    /**
-     * Show Editing Tree
-     */
-    public function showTree()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $mtree = new ilTree($this->object->getId());
-        $mtree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $mtree->setTreeTablePK("slm_id");
-
-        if ($_POST["expandAll"] != "") {
-            $_GET["scexpand"] = "";
-            $stree = $mtree->getSubTree($mtree->getNodeData($mtree->readRootId()));
-            $n_arr = array();
-            foreach ($stree as $n) {
-                $n_arr[] = $n["child"];
-            }
-            $_SESSION["scexpand"] = $n_arr;
-        }
-
-        if ($_POST["collapseAll"] != "") {
-            $_GET["scexpand"] = "";
-            $_SESSION["scexpand"] = array($mtree->readRootId());
-        }
-        
-        $this->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-        $ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
-
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-        
-        $this->tpl->setCurrentBlock("exp2_button");
-        $this->tpl->setVariable("CMD_EXP2_BTN", "expandAll");
-        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("expand_all"));
-        $this->tpl->parseCurrentBlock();
-
-        $this->tpl->setCurrentBlock("exp2_button");
-        $this->tpl->setVariable("CMD_EXP2_BTN", "collapseAll");
-        $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("collapse_all"));
-        $this->tpl->parseCurrentBlock();
-
-        $exp = new ilSCORM2004EditorExplorer(
-            $this->ctrl->getLinkTarget($this, "edit"),
-            $this->object
-        );
-        $exp->setFrameUpdater("content", "ilHierarchyFormUpdater");
-        $exp->setTargetGet("obj_id");
-        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, "showTree"));
-        
-        if ($_GET["scexpand"] == "") {
-            $expanded = $mtree->readRootId();
-        } else {
-            $expanded = $_GET["scexpand"];
-        }
-
-        //echo "-".$_GET["active_node"]."-";
-        if ($_GET["active_node"] != "") {
-            $path = $mtree->getPathId($_GET["active_node"]);
-            $exp->setForceOpenPath($path);
-
-            $exp->highlightNode($_GET["active_node"]);
-        }
-        $exp->setExpand($expanded);
-
-        // build html-output
-        $exp->setOutput(0);
-        $output = $exp->getOutput();
-
-        // asynchronous output
-        if ($ilCtrl->isAsynch()) {
-            echo $output;
-            exit;
-        }
-        
-        $this->tpl->setCurrentBlock("content");
-        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("sahs_organization"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
-        $this->ctrl->setParameter($this, "scexpand", $_GET["scexpand"]);
-        $this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
-        $this->tpl->parseCurrentBlock();
-
-        iljQueryUtil::initjQuery($this->tpl);
-
-        $this->tpl->printToStdout(false);
-        
-        
-        exit;
-    }
-
-    /**
-     * Show Sequencing
-     */
-    public function showSequencing()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilToolbar = $this->toolbar;
-        $ilCtrl = $this->ctrl;
-        
-        $ilTabs->setTabActive("sahs_sequencing");
-        
-        if (!$this->object->getSequencingExpertMode()) {
-            $ilToolbar->addButton(
-                $lng->txt("sahs_activate_expert_mode"),
-                $ilCtrl->getLinkTarget($this, "confirmExpertMode")
-            );
-        } else {
-            $list = new ilNestedList();
-            $t = $this->object->getTree();
-            $root_node = $t->getNodeData($t->getRootId());
-            $nodes = $this->object->getTree()->getSubtree($root_node);
-            foreach ($nodes as $node) {
-                if (in_array($node["type"], array("", "chap", "sco"))) {
-                    $ntpl = new ilTemplate("tpl.seq_node.html", true, true, "Modules/Scorm2004");
-                    $ntpl->setVariable("NODE_ID", $node["child"]);
-                    if ($node["type"] == "") {
-                        $ntpl->setVariable("TITLE", $this->object->getTitle());
-                        $item = new ilSCORM2004Item($this->object->getId(), true);
-                    } else {
-                        $ntpl->setVariable("TITLE", $node["title"]);
-                        $item = new ilSCORM2004Item($node["child"]);
-                    }
-                    $ntpl->setVariable(
-                        "SEQ_INFO",
-                        ilUtil::prepareFormOutput($item->exportAsXML(false))
-                    );
-                    $list->addListNode($ntpl->get(), $node["child"], $node["parent"]);
-                }
-            }
-            
-            $tb = new ilToolbarGUI();
-            $tb->addFormButton($lng->txt("save"), "saveSequencing");
-            $ftpl = new ilTemplate("tpl.sequencing.html", true, true, "Modules/Scorm2004");
-            $ftpl->setVariable("CONTENT", $list->getHTML());
-            $ftpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
-            $ftpl->setVariable("TB", $tb->getHTML());
-            $tpl->setContent($ftpl->get());
-        }
-    }
-    
-    /**
-     * Confirm activation of expert mode
-     */
-    public function confirmExpertMode()
-    {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        
-        $ilTabs->setTabActive("sahs_sequencing");
-            
-        $cgui = new ilConfirmationGUI();
-        $cgui->setFormAction($ilCtrl->getFormAction($this));
-        $cgui->setHeaderText($lng->txt("sahs_activate_expert_mode_info"));
-        $cgui->setCancel($lng->txt("cancel"), "showSequencing");
-        $cgui->setConfirm($lng->txt("sahs_activate_expert_mode"), "activateExpertMode");
-        
-        $tpl->setContent($cgui->getHTML());
-    }
-    
-    /**
-     * Activate expert mode
-     *
-     * @param
-     * @return
-     */
-    public function activateExpertMode()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        $this->object->setSequencingExpertMode(true);
-        $this->object->update();
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        $ilCtrl->redirect($this, "showSequencing");
-    }
-    
-
-    /**
-     * Save sequencing
-     */
-    public function saveSequencing()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        $t = $this->object->getTree();
-        $root_node = $t->getNodeData($t->getRootId());
-        $nodes = $this->object->getTree()->getSubtree($root_node);
-        foreach ($nodes as $node) {
-            if (in_array($node["type"], array("", "chap", "sco"))) {
-                if ($node["type"] == "") {
-                    $item = new ilSCORM2004Item($this->object->getId(), true);
-                } else {
-                    $item = new ilSCORM2004Item($node["child"]);
-                }
-                $xml = '<?xml version="1.0"?>' . ilUtil::stripSlashes($_POST["seq"][$node["child"]], false);
-                
-                $ob_texts = array();
-                if ($node["type"] == "sco") {
-                    $sco = new ilSCORM2004Sco($this->object, $node["child"]);
-                    $objectives = $sco->getObjectives();
-                    foreach ($objectives as $o) {
-                        $ob_texts[$o->getId()] = $o->getObjectiveId();
-                    }
-                }
-                
-                $item->setSeqXml($xml);
-                $item->initDom();
-                $item->update();
-
-                if ($node["type"] == "sco") {
-                    foreach ($ob_texts as $id => $t) {
-                        $objective = new ilScorm2004Objective($node["child"], $id);
-                        $objective->setObjectiveId($t);
-                        $objective->updateObjective();
-                    }
-                }
-            }
-        }
-
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        
-        $ilCtrl->redirect($this, "showSequencing");
-    }
-
-    /**
-     * Show Learning Objectives Alignment
-     */
-    public function showLearningObjectivesAlignment()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilToolbar = $this->toolbar;
-
-        $chaps = $this->object->getTree()->getChilds(
-            $this->object->getTree()->getRootId()
-        );
-        $s_chaps = array();
-        foreach ($chaps as $chap) {
-            if ($chap["type"] == "chap") {
-                $s_chaps[$chap["child"]] = $chap["title"];
-            }
-        }
-        $cur_chap = $_SESSION["sahs_cur_chap"]
-            ? $_SESSION["sahs_cur_chap"]
-            : 0;
-
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-        $options = array(
-            "0" => $lng->txt("all")
-        );
-        $options = $options + $s_chaps;
-        $si = new ilSelectInputGUI($lng->txt("chapter"), "chapter");
-        $si->setOptions($options);
-        $si->setValue($cur_chap);
-        $ilToolbar->addInputItem($si, true);
-        $ilToolbar->addFormButton($lng->txt("change"), "selectLObjChapter");
-
-        $obj_table = new ilObjectivesAlignmentTableGUI(
-            $this,
-            "showLearningObjectivesAlignment",
-            $this->getEditTree(),
-            $this->object,
-            $cur_chap
-        );
-        $tpl->setContent($obj_table->getHTML());
-    }
-
-    public function selectLObjChapter()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $_SESSION["sahs_cur_chap"] = (int) $_POST["chapter"];
-        $ilCtrl->redirect($this, "showLearningObjectivesAlignment");
-    }
-    
-    /**
-    * Select the export type of the SCORM 2004 module
-    */
-    public function selectExport()
-    {
-        switch ($_POST['select_export']) {
-            case "exportScorm12":
-            case "exportScorm2004_3rd":
-            case "exportScorm2004_4th":
-            case "exportPDF":
-            case "exportHTML":
-            case "exportHTMLOne":
-                $this->ctrl->redirect($this, $_POST['select_export']);
-                break;
-            default:
-                $this->ctrl->redirect($this, 'showExportList');
-                break;
-        }
-    }
-    
-    /**
-     * Show Export List
-     */
-    public function showExportList()
-    {
-        $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
-
-        $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'selectExport'));
-        $ilToolbar->setId("scorm2004export");
-
-        //$template = new ilTemplate("tpl.scorm2004_export_buttons.html", true, true, 'Modules/Scorm2004');
-
-        /*		$buttons = array(
-                    "exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
-                    "exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004_4th"),
-                    "exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
-                    "exportPDF" => $this->lng->txt("scorm_create_export_file_pdf"),
-                    "exportISO" => $this->lng->txt("scorm_create_export_file_iso"),
-                    "exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
-                    "exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
-                );*/
-        $buttons = array(
-            "exportScorm2004_3rd" => $this->lng->txt("scorm_create_export_file_scrom2004"),
-            "exportScorm2004_4th" => $this->lng->txt("scorm_create_export_file_scrom2004_4th"),
-            "exportScorm12" => $this->lng->txt("scorm_create_export_file_scrom12"),
-            "exportHTML" => $this->lng->txt("scorm_create_export_file_html"),
-            "exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
-        );
-
-        $si = new ilSelectInputGUI($this->lng->txt('type'), "select_export");
-        $si->setOptions($buttons);
-        $ilToolbar->addInputItem($si, true);
-
-        $ilToolbar->addFormButton($this->lng->txt('export'), "selectExport");
-
-        $export_files = $this->object->getExportFiles();
-
-        $table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList');
-        $data = array();
-        foreach ($export_files as $exp_file) {
-            $filetype = $exp_file['type'];
-            $public_str = ($exp_file["file"] == $this->object->getPublicExportFile($filetype))
-                ? " <b>(" . $this->lng->txt("public") . ")<b>"
-                : "";
-            $file_arr = explode("__", $exp_file["file"]);
-            array_push($data, array('file' => $exp_file['file'], 'filetype' => $filetype, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'] . $public_str));
-        }
-        $table_gui->setData($data);
-
-        $this->tpl->setContent($table_gui->getHTML());
-    }
-
-    /**
-     * Adds tabs to tab gui object
-     *
-     * @param	object		$tabs_gui		ilTabsGUI object
-     */
-    public function getTabs()
-    {
-        $ilAccess = $this->access;
-        $ilHelp = $this->help;
-
-        if ($this->ctrl->getCmd() == "delete") {
-            return;
-        }
-
-        if (!$this->object->getEditable()) {
-            return parent::getTabs();
-        }
-        
-        $ilHelp->setScreenIdComponent("sahsed");
-
-        // organization
-        $this->tabs_gui->addTarget(
-            "sahs_organization",
-            $this->ctrl->getLinkTarget($this, "showOrganization"),
-            "showOrganization",
-            get_class($this)
-        );
-
-        // info screen
-        $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
-        ? true
-        : false;
-        $this->tabs_gui->addTarget(
-            "info_short",
-            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"),
-            "",
-            "ilinfoscreengui",
-            "",
-            $force_active
-        );
-            
-        // settings
-        $this->tabs_gui->addTarget(
-            "settings",
-            $this->ctrl->getLinkTarget($this, "properties"),
-            "properties",
-            get_class($this)
-        );
-
-        // tracking data
-        /*	Later, only if tracking data exists
-         $tabs_gui->addTarget("cont_tracking_data",
-            $this->ctrl->getLinkTarget($this, "showTrackingItems"), "showTrackingItems",
-            get_class($this));
-            */
-        
-        // objective alignment
-        $this->tabs_gui->addTarget(
-            "sahs_objectives_alignment",
-            $this->ctrl->getLinkTarget($this, "showLearningObjectivesAlignment"),
-            "showLearningObjectivesAlignment",
-            get_class($this)
-        );
-
-        // sequencing
-        $this->tabs_gui->addTarget(
-            "sahs_sequencing",
-            $this->ctrl->getLinkTarget($this, "showSequencing"),
-            "showSequencing",
-            get_class($this)
-        );
-
-        // edit meta
-        $mdgui = new ilObjectMetaDataGUI($this->object);
-        $mdtab = $mdgui->getTab();
-        if ($mdtab) {
-            $this->tabs_gui->addTarget(
-                "meta_data",
-                $mdtab,
-                "",
-                "ilmdeditorgui"
-            );
-        }
-
-        // export
-        $this->tabs_gui->addTarget(
-            "export",
-            $this->ctrl->getLinkTarget($this, "showExportList"),
-            array("showExportList", 'confirmDeleteExportFile'),
-            get_class($this)
-        );
-
-        // perm
-        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget(
-                "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
-                'ilpermissiongui'
-            );
-        }
-        
-        if ($this->object->editable == 1) {
-            // preview
-            $this->tabs_gui->addNonTabbedLink(
-                "preview",
-                $this->lng->txt("cont_sc_preview"),
-                $this->ctrl->getLinkTarget($this, "preview"),
-                "_blank"
-            );
-        }
-    }
-
-    /**
-     * Set sub tabs
-     */
-    public function setSubTabs($a_main_tab = "", $a_active = "")
-    {
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        if ($a_main_tab == "settings" &&
-            $this->object->editable == 1) {
-            /*			// general properties
-                        $ilTabs->addSubTab("general_settings",
-                            $lng->txt("general_settings"),
-                            $ilCtrl->getLinkTarget($this, 'properties'));
-
-                        // style properties
-                        $ilTabs->addSubTab("style",
-                            $lng->txt("cont_style"),
-                            $ilCtrl->getLinkTarget($this, 'editStyleProperties'));
-            */
-            $ilTabs->activateSubTab($a_active);
-        }
-    }
-    
-    
-    /**
-    * Get editing tree object
-    */
-    public function getEditTree()
-    {
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        return $slm_tree;
-    }
-    
-    /**
-     * Show subhiearchy of chapters, scos and pages
-     */
-    public function showOrganization(
-        $a_top_node = 0,
-        $a_form_action = "",
-        $a_title = "",
-        $a_icon = "",
-        $a_gui_obj = null,
-        $a_gui_cmd = ""
-    ) {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-
-        if ($a_form_action == "") {
-            $a_form_action = $ilCtrl->getFormAction($this);
-        }
-
-        if ($a_icon == "") {
-            $a_title = $this->object->getTitle();
-            $a_icon = ilUtil::getImagePath("icon_lm.svg");
-        }
-
-        $slm_tree = $this->getEditTree();
-
-        if ($a_top_node == 0) {
-            $a_top_node = $slm_tree->getRootId();
-        }
-        
-        if (is_null($a_gui_obj)) {
-            $a_gui_obj = $this;
-            $a_gui_cmd = "showOrganization";
-        }
-
-        $ilCtrl->setParameter($this, "backcmd", "showOrganization");
-        $form_gui = new ilSCORM2004OrganizationHFormGUI();
-        $form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
-        $form_gui->setFormAction($a_form_action);
-        //		$form_gui->setTitle($a_title);
-        //		$form_gui->setIcon($a_icon);
-        $form_gui->setTree($slm_tree);
-        $form_gui->setCurrentTopNodeId($a_top_node);
-        $form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
-        $form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-        $form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-        $form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
-        $form_gui->addCommand($lng->txt("expand_all"), "expandAll");
-        $form_gui->addCommand($lng->txt("collapse_all"), "collapseAll");
-        $form_gui->setTriggeredUpdateCommand("saveAllTitles");
-        
-        // highlighted nodes
-        if ($_GET["highlight"] != "") {
-            $hl = explode(":", $_GET["highlight"]);
-            $form_gui->setHighlightedNodes($hl);
-            $form_gui->setFocusId($hl[0]);
-        }
-
-        $ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
-        $sc_tpl = new ilTemplate("tpl.scormeditor_orga_screen.html", true, true, "Modules/Scorm2004");
-        $sc_tpl->setVariable("ORGANIZATION", $form_gui->getHTML());
-        $sc_tpl->setVariable("NOTES", $this->getNotesHTML());
-        
-        $tpl->setContent($sc_tpl->get());
-    }
-
-    /**
-    * Get notes HTML
-    */
-    public function getNotesHTML($a_mode = "")
-    {
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $ilSetting = $this->settings;
-
-        // notes
-        $ilCtrl->setParameter($this, "nodes_mode", $a_mode);
-        $node_id = $_GET["obj_id"];
-        $node_type = ($node_id > 0)
-            ? ilSCORM2004Node::_lookupType($node_id)
-            : "sahs";
-
-        $notes_gui = new ilNoteGUI(
-            $this->object->getId(),
-            (int) $node_id,
-            $node_type
-        );
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $ilSetting->get("comments_del_tutor", 1)) {
-            $notes_gui->enablePublicNotesDeletion(true);
-        }
-        $notes_gui->enablePrivateNotes();
-        $notes_gui->enablePublicNotes();
-        
-        $next_class = $ilCtrl->getNextClass($this);
-        if ($next_class == "ilnotegui") {
-            $html = $this->ctrl->forwardCommand($notes_gui);
-        } else {
-            $html = $notes_gui->getNotesHTML();
-        }
-        return $html;
-    }
-
-    /**
-     * Insert (multiple) chapters at node
-     */
-    public function insertChapter($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-        $chap_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $chap = new ilSCORM2004Chapter($this->object);
-            $chap->setTitle($lng->txt("sahs_new_chapter"));
-            $chap->setSLMId($this->object->getId());
-            $chap->create();
-            ilSCORM2004Node::putInTree($chap, $parent_id, $target);
-            $chap_ids[] = $chap->getId();
-        }
-        $chap_ids = array_reverse($chap_ids);
-        $chap_ids = implode(":", $chap_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $chap_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $chap_ids);
-    }
-
-    /**
-     * Insert (multiple) scos at node
-     */
-    public function insertSco($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        $sco_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $sco = new ilSCORM2004Sco($this->object);
-            $sco->setTitle($lng->txt("sahs_new_sco"));
-            $sco->setSLMId($this->object->getId());
-            $sco->create();
-            ilSCORM2004Node::putInTree($sco, $parent_id, $target);
-            $sco_ids[] = $sco->getId();
-        }
-        $sco_ids = array_reverse($sco_ids);
-        $sco_ids = implode(":", $sco_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $sco_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $sco_ids);
-    }
-
-    /**
-     * Insert (multiple) assets at node
-     */
-    public function insertAsset($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        $ass_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $ass = new ilSCORM2004Asset($this->object);
-            $ass->setTitle($lng->txt("sahs_new_asset"));
-            $ass->setSLMId($this->object->getId());
-            $ass->create();
-            ilSCORM2004Node::putInTree($ass, $parent_id, $target);
-            $ass_ids[] = $ass->getId();
-        }
-        $ass_ids = array_reverse($ass_ids);
-        $ass_ids = implode(":", $ass_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $ass_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $ass_ids);
-    }
-
-    /**
-     * Insert (multiple) pages at node
-     */
-    public function insertPage($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {													// insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        $page_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $page = new ilSCORM2004PageNode($this->object);
-            $page->setTitle($lng->txt("sahs_new_page"));
-            $page->setSLMId($this->object->getId());
-            $page->create();
-            ilSCORM2004Node::putInTree($page, $parent_id, $target);
-            $page_ids[] = $page->getId();
-        }
-        $page_ids = array_reverse($page_ids);
-        $page_ids = implode(":", $page_ids);
-
-        if ($a_redirect) {
-            $ilCtrl->setParameter($this, "highlight", $page_ids);
-            $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-        }
-        return array("node_id" => $node_id, "items" => $page_ids);
-    }
-
-
-    /**
-     * Insert sequencing scenario at node
-     */
-    public function insertScenarioGUI()
-    {
-        $templates = array();
-        $description = null;
-        $image = null;
-
-        $default_identifier = $_POST["identifier"];
-
-        //get available templates
-        $arr_templates = ilSCORM2004SeqTemplate::availableTemplates();
-
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_seq_chooser.html", "Modules/Scorm2004");
-
-        $this->tpl->setCurrentBlock("option_item");
-
-        $active = null;
-        foreach ($arr_templates as $templ) {
-            $sel = "";
-            $item_data = $templ->getMetadataProperties();
-            $item_data['identifier'] = $templ->getIdentifier();
-            array_push($templates, $item_data);
-            if ($default_identifier == $item_data['identifier']) {
-                $sel = 'selected';
-                $active = $item_data;
-            }
-            $this->tpl->setVariable("VAL_SELECTED", $sel);
-            $this->tpl->setVariable("VAL_IDENTIFIER", $item_data['identifier']);
-            $this->tpl->setVariable("VAL_TITLE", $item_data['title']);
-            $this->tpl->parseCurrentBlock();
-        }
-
-        //default
-        if ($active == null) {
-            $this->saveAllTitles(false);
-            $description = $templates[0]['description'];
-            $image = $templates[0]['thumbnail'];
-        } else {
-            $description = $active['description'];
-            $image = $active['thumbnail'];
-        }
-            
-        $this->tpl->setVariable("VAL_DESCRIPTION", $description);
-        $this->tpl->setVariable("VAL_IMAGE", ilSCORM2004SeqTemplate::SEQ_TEMPLATE_DIR . "/images/" . $image);
-
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("BTN_NAME", "insertScenario");
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
-        $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-
-        $this->tpl->setVariable("TXT_TITLE", "Choose Sequencing Template");
-
-        $node_id = $_POST["node_id"];
-        $first_child = $_POST["first_child"];
-
-        if (!$node_id) {
-            $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        }
-        if (!$first_child) {
-            $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-        }
-
-        $this->tpl->setVariable("VAL_NODE_ID", $node_id);
-        $this->tpl->setVariable("VAL_FIRST_CHILD", $first_child);
-    }
-
-
-    /**
-     * Insert sequencing scenario at node
-     */
-    public function insertScenario()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $node_id = $_POST["node_id"];
-
-        if (!$_POST["first_child"]) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {     // insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        $template = new ilSCORM2004SeqTemplate($_POST["identifier"]);
-        $id = $template->insertTemplateForObjectAtParent($this->object, $parent_id, $target);
-        $ilCtrl->setParameter($this, "highlight", $id);
-        $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-    }
-
-    /**
-     * Insert special page
-     */
-    public function insertSpecialPage($a_redirect = true)
-    {
-        $this->insertTemplateGUI($a_redirect, true);
-    }
-    
-    
-    /**
-     * Displays GUI to select template for page
-     */
-    public function insertTemplateGUI($a_redirect = true, $a_special_page = false)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $arr_templates = ilPageLayout::activeLayouts($a_special_page, ilPageLayout::MODULE_SCORM);
-
-        //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_page_layout_chooser.html",
-        //"Modules/Scorm2004");
-
-        $ftpl = new ilTemplate("tpl.scormeditor_page_layout_chooser.html", true, true, "Modules/Scorm2004");
-
-        $count = 0;
-        foreach ($arr_templates as $templ) {
-            $count++;
-            $sel = "";
-            $templ->readObject();
-            $ftpl->setCurrentBlock("option_item2");
-            $ftpl->setVariable("VAL_LAYOUT_TITLE", $templ->getTitle());
-            $ftpl->setVariable("VAL_LAYOUT_IMAGE", $templ->getPreview());
-            $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
-            $ftpl->setVariable("VAL_DISPLAY", "inline");
-            if ($count == 1) {
-                $ftpl->setVariable("VAL_CHECKED", "checked");
-            }
-            if ($count % 4 == 0) {
-                $ftpl->setVariable("END_ROW", "</tr>");
-            }
-            if ($count == 1 || ($count - 1) % 4 == 0) {
-                $ftpl->setVariable("BEGIN_ROW", "<tr>");
-            }
-            $ftpl->parseCurrentBlock();
-        }
-        
-        //matrix table
-        if ($count % 4 != 0) {
-            $rest = 4 - ($count % 4);
-        } else {
-            $rest = 0;
-        }
-        
-        for ($i = 1;$i <= $rest;$i++) {
-            $ftpl->setVariable("VAL_DISPLAY", "none");
-            $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
-            
-            if ($i == $rest) {
-                $ftpl->setVariable("END_ROW", "</tr>");
-            }
-            $this->tpl->parseCurrentBlock();
-        }
-        
-        //empty cells and closing <tr>
-
-        $ftpl->setVariable("VAL_NODE_ID", ilSCORM2004OrganizationHFormGUI::getPostNodeId());
-        $ftpl->setVariable("VAL_MULTI", ilSCORM2004OrganizationHFormGUI::getPostMulti());
-        $ftpl->setVariable("VAL_FIRST_CHILD", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
-        $ftpl->setVariable("VAL_OBJ_ID", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
-    
-        $ilCtrl->saveParameter($this, "obj_id");
-
-        $ftpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        $ftpl->setVariable("BTN_NAME", "insertTemplate");
-        $ftpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $ftpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
-        $ftpl->setVariable("CMD_CANCEL", "showOrganization");
-
-        $ftpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $ftpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
-        $ftpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
-        if ($a_special_page) {
-            $ftpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_special_page"));
-        } else {
-            $ftpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_page_template"));
-        }
-
-        $this->tpl->setContent($ftpl->get());
-    }
-    
-    
-    
-    /**
-     * Insert (multiple) pages at node
-     */
-    public function insertTemplate($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $slm_tree = new ilTree($this->object->getId());
-        $slm_tree->setTreeTablePK("slm_id");
-        $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-
-        $num = $_POST["multi"];
-        $node_id = $_POST["node_id"];
-        $layout_id = $_POST["layout_id"];
-        
-        if (!$_POST["first_child"]) {	// insert after node id
-            $parent_id = $slm_tree->getParentId($node_id);
-            $target = $node_id;
-        } else {           // insert as first child
-            $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
-        }
-
-        $page_ids = array();
-        for ($i = 1; $i <= $num; $i++) {
-            $page = new ilSCORM2004PageNode($this->object);
-            $page->setTitle($lng->txt("sahs_new_page"));
-            $page->setSLMId($this->object->getId());
-            $page->create(false, $layout_id);
-            ilSCORM2004Node::putInTree($page, $parent_id, $target);
-            $page_ids[] = $page->getId();
-        }
-        $page_ids = array_reverse($page_ids);
-        $page_ids = implode(":", $page_ids);
-
-        if ($a_redirect) {
-            if ($_GET["obj_id"] != "") {
-                $this->jumpToNode($node_id, $page_ids);
-            } else {
-                $ilCtrl->setParameter($this, "highlight", $page_ids);
-                $ilCtrl->redirect($this, "showOrganization", "node_" . $node_id);
-            }
-        }
-    }
-    
-    /**
-    * Expand all
-    */
-    public function expandAll($a_redirect = true)
-    {
-        $_GET["scexpand"] = "";
-        $mtree = $this->object->getTree();
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
-            : $mtree->readRootId();
-        $stree = $mtree->getSubTree($mtree->getNodeData($n_id));
-        $n_arr = array();
-        foreach ($stree as $n) {
-            $n_arr[] = $n["child"];
-            $_SESSION["scexpand"] = $n_arr;
-        }
-        $this->saveAllTitles($a_redirect);
-    }
-    
-    /**
-    * Collapse all
-    */
-    public function collapseAll($a_redirect = true)
-    {
-        $_GET["scexpand"] = "";
-        $mtree = $this->object->getTree();
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
-            : $mtree->readRootId();
-        $stree = $mtree->getSubTree($mtree->getNodeData($n_id));
-        $old = $_SESSION["scexpand"];
-        foreach ($stree as $n) {
-            if (in_array($n["child"], $old) && $n["child"] != $n_id) {
-                $k = array_search($n["child"], $old);
-                unset($old[$k]);
-            }
-        }
-        $_SESSION["scexpand"] = $old;
-        $this->saveAllTitles($a_redirect);
-    }
-    
-    /**
-     * Save all titles of chapters/scos/pages
-     */
-    public function saveAllTitles($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $id => $title) {
-                $node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
-                if (is_object($node_obj)) {
-                    // Update Title and description
-                    $md = new ilMD($this->object->getId(), $id, $node_obj->getType());
-                    $md_gen = $md->getGeneral();
-                    $md_gen->setTitle(ilUtil::stripSlashes($title));
-                    $md_gen->update();
-                    $md->update();
-                    ilSCORM2004Node::_writeTitle($id, ilUtil::stripSlashes($title));
-                }
-            }
-        }
-        if ($a_redirect) {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "showOrganization");
-        }
-    }
-
-    /**
-     * confirm deletion screen of chapters/scos/pages
-     *
-     * @param	string		form action
-     */
-    public function deleteNodes($a_form_action = "")
-    {
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilErr = $this->error;
-
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
-        }
-
-        // SAVE POST VALUES
-        $_SESSION["saved_post"] = $_POST["id"];
-
-        $confirmation_gui = new ilConfirmationGUI();
-
-        if ($a_form_action == "") {
-            $cmd = ($_GET["backcmd"] == "")
-                ? "showOrganization"
-                : $_GET["backcmd"];
-            $this->ctrl->setParameter($this, "backcmd", $cmd);
-            $a_form_action = $this->ctrl->getFormAction($this);
-        }
-        $confirmation_gui->setFormAction($a_form_action);
-        $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
-
-        // Add items to delete
-        foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
-                $node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
-                $confirmation_gui->addItem(
-                    "id[]",
-                    $node_obj->getId(),
-                    $node_obj->getTitle(),
-                    ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
-                );
-            }
-        }
-
-        $confirmation_gui->setCancel($lng->txt("cancel"), "cancelDelete");
-        $confirmation_gui->setConfirm($lng->txt("confirm"), "confirmedDelete");
-
-        $tpl->setContent($confirmation_gui->getHTML());
-    }
-
-    /**
-     * cancel delete
-     */
-    public function cancelDelete()
-    {
-        $this->ctrl->redirect($this, $_GET["backcmd"]);
-    }
-
-    /**
-     * Delete chapters/scos/pages
-     */
-    public function confirmedDelete($a_redirect = true)
-    {
-        $ilCtrl = $this->ctrl;
-
-        $tree = new ilTree($this->object->getId());
-        $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $tree->setTreeTablePK("slm_id");
-
-        // delete all selected objects
-        foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
-                $obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
-                $node_data = $tree->getNodeData($id);
-                if (is_object($obj)) {
-                    $obj->setSLMId($this->object->getId());
-
-                    $obj->delete();
-                }
-                if ($tree->isInTree($id)) {
-                    $tree->deleteTree($node_data);
-                }
-            }
-        }
-
-        // check the tree
-        //		$this->object->checkTree();
-
-        // feedback
-        ilUtil::sendInfo($this->lng->txt("info_deleted"), true);
-
-        if ($a_redirect) {
-            $ilCtrl->redirect($this, "showOrganization");
-        }
-    }
-    
-    /**
-    * Perform drag and drop action
-    */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $this->object->executeDragDrop(
-            $_POST["il_hform_source_id"],
-            $_POST["il_hform_target_id"],
-            $_POST["il_hform_fc"],
-            $_POST["il_hform_as_subitem"]
-        );
-        $ilCtrl->redirect($this, "showOrganization");
-    }
-
-    /**
-    * Copy items to clipboard
-    */
-    public function copyItems($a_return = "showOrganization")
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        $todel = array();				// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
-            if ($item < 0) {
-                $todel[] = $k;
-            }
-        }
-        foreach ($todel as $k) {
-            unset($items[$k]);
-        }
-        if (!ilSCORM2004Node::uniqueTypesCheck($items)) {
-            ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
-            $ilCtrl->redirect($this, $a_return);
-        }
-        ilSCORM2004Node::clipboardCopy($this->object->getId(), $items);
-
-        // @todo: move this to a service since it can be used here, too
-        ilEditClipboard::setAction("copy");
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
-
-        $ilCtrl->redirect($this, $a_return);
-    }
-
-    /**
-    * Copy items to clipboard, then cut them from the current tree
-    */
-    public function cutItems($a_return = "showOrganization")
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        $todel = array();			// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
-            if ($item < 0) {
-                $todel[] = $k;
-            }
-        }
-        foreach ($todel as $k) {
-            unset($items[$k]);
-        }
-        
-        if (!ilSCORM2004Node::uniqueTypesCheck($items)) {
-            ilUtil::sendFailure($lng->txt("sahs_choose_pages_chap_scos_ass_only"), true);
-            $ilCtrl->redirect($this, $a_return);
-        }
-
-        ilSCORM2004Node::clipboardCut($this->object->getId(), $items);
-        
-        ilEditClipboard::setAction("cut");
-
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
-
-        $ilCtrl->redirect($this, $a_return);
-    }
-
-    /**
-    * Insert pages from clipboard
-    */
-    public function insertPageClip()
-    {
-        $ilCtrl = $this->ctrl;
-
-        ilSCORM2004Node::insertPageClip($this->object);
-        
-        $ilCtrl->redirect(
-            $this,
-            "showOrganization",
-            "node_" . ilSCORM2004OrganizationHFormGUI::getPostNodeId()
-        );
-    }
-
-    /**
-     * Insert scos from clipboard
-     */
-    public function insertScoClip()
-    {
-        $ilCtrl = $this->ctrl;
-        ilSCORM2004Node::insertScoClip($this->object);
-        
-        $ilCtrl->redirect(
-            $this,
-            "showOrganization",
-            "node_" . ilSCORM2004OrganizationHFormGUI::getPostNodeId()
-        );
-    }
-
-    /**
-     * Insert assets from clipboard
-     */
-    public function insertAssetClip()
-    {
-        $ilCtrl = $this->ctrl;
-        ilSCORM2004Node::insertAssetClip($this->object);
-        
-        $ilCtrl->redirect(
-            $this,
-            "showOrganization",
-            "node_" . ilSCORM2004OrganizationHFormGUI::getPostNodeId()
-        );
-    }
-
-    /**
-    * Insert chapter from clipboard
-    */
-    public function insertChapterClip()
-    {
-        $ilCtrl = $this->ctrl;
-        ilSCORM2004Node::insertChapterClip($this->object);
-        
-        $ilCtrl->redirect(
-            $this,
-            "showOrganization",
-            "node_" . ilSCORM2004OrganizationHFormGUI::getPostNodeId()
-        );
-    }
-
-    /**
-     * Insert chapter from clipboard
-     */
-    public function insertLMChapterClip($a_confirm = false, $a_perform = false)
-    {
-        $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
-        $pf = "";
-        foreach (ilSCORM2004OrganizationHFormGUI::getPostFields() as $f => $v) {
-            $pf .= '<input type="hidden" name="' . $f . '" value="' . $v . '" />';
-        }
-        if ($a_confirm && is_array($_POST["node"])) {
-            foreach ($_POST["node"] as $f => $v) {
-                $pf .= '<input type="hidden" name="node[' . $f . ']" value="' . $v . '" />';
-            }
-        }
-
-
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-
-        $form = new ilLMChapterImportForm($this->object, $node_id, $first_child, $a_confirm);
-        $tpl->setContent($form->getHTML() . $pf . "</form>");
-
-        $ilTabs->clearTargets();
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-        if ($a_confirm) {
-            if ($form->isCorrect()) {
-                $ilToolbar->addFormButton($lng->txt("insert"), "performLMChapterInsert");
-            }
-            $ilToolbar->addFormButton($lng->txt("back"), "insertLMChapterClip");
-        } else {
-            $ilToolbar->addFormButton($lng->txt("check"), "confirmLMChapterInsert");
-        }
-        $ilToolbar->addFormButton($lng->txt("cancel"), "showOrganization");
-        $ilToolbar->setCloseFormTag(false);
-    }
-
-    /**
-     * Confirm lm chapter insert
-     */
-    public function confirmLMChapterInsert()
-    {
-        $this->insertLMChapterClip(true);
-    }
-
-    /**
-     * Perform lm chapter insert
-     */
-    public function performLMChapterInsert()
-    {
-        $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-        $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
-
-        $form = new ilLMChapterImportForm($this->object, $node_id, $first_child);
-        $form->performInserts();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        $this->ctrl->redirect($this, "showOrganization");
-    }
-
-    public function exportScorm2004_4th()
-    {
-        $export = new ilScorm2004Export($this->object, 'SCORM 2004 4th');
-        $export->buildExportFile();
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    public function exportScorm2004_3rd()
-    {
-        $export = new ilScorm2004Export($this->object, 'SCORM 2004 3rd');
-        $export->buildExportFile();
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    public function exportScorm12()
-    {
-        $export = new ilScorm2004Export($this->object, 'SCORM 1.2');
-        $export->buildExportFile();
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    public function exportHTML()
-    {
-        $export = new ilScorm2004Export($this->object, 'HTML');
-        $export->buildExportFile();
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-
-    public function exportHTMLOne()
-    {
-        $export = new ilScorm2004Export($this->object, 'HTMLOne');
-        $export->buildExportFile();
-        ilUtil::sendSuccess($this->lng->txt("exp_file_created"), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-
-    public function exportPDF()
-    {
-        $export = new ilScorm2004Export($this->object, 'PDF');
-        $export->buildExportFile();
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    public function downloadExportFile()
-    {
-        $export = new ilScorm2004Export($this->object);
-
-        $export_dir = $export->getExportDirectoryForType($_GET['type']);
-        ilUtil::deliverFile($export_dir . "/" . $_GET['file'], $_GET['file']);
-    }
-    
-    /**
-    * confirmation screen for export file deletion
-    */
-    public function confirmDeleteExportFile()
-    {
-        if (!isset($_POST["file"])) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-            $this->ctrl->redirect($this, "showExportList");
-        }
-
-        ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-        $export_files = $this->object->getExportFiles();
-
-        $table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList', true);
-        $data = array();
-        foreach ($export_files as $exp_file) {
-            foreach ($_POST['file'] as $delete_file) {
-                if (strcmp($delete_file, $exp_file['file']) == 0) {
-                    $public_str = ($exp_file["file"] == $this->object->getPublicExportFile($exp_file["type"]))
-                        ? " <b>(" . $this->lng->txt("public") . ")<b>"
-                        : "";
-                    $file_arr = explode("__", $exp_file["file"]);
-                    array_push($data, array('file' => $exp_file['file'], 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => $exp_file['size'], 'type' => $exp_file['type'] . $public_str));
-                }
-            }
-        }
-        $table_gui->setData($data);
-        $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
-    }
-
-    /**
-    * cancel deletion of export files
-    */
-    public function cancelDeleteExportFile()
-    {
-        ilSession::clear("ilExportFiles");
-        $this->ctrl->redirect($this, "showExportList");
-    }
-
-
-    /**
-    * delete export files
-    */
-    public function deleteExportFile()
-    {
-        $export = new ilScorm2004Export($this->object);
-        foreach ($_POST['file'] as $idx => $file) {
-            $export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
-            $exp_file = $export_dir . "/" . $file;
-            if (@is_file($exp_file)) {
-                unlink($exp_file);
-            }
-        }
-        ilUtil::sendSuccess($this->lng->txt('msg_deleted_export_files'), true);
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    /*
-    * download export file
-    */
-    public function publishExportFile()
-    {
-        $ilErr = $this->error;
-
-        if (!isset($_POST["file"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
-        }
-        if (count($_POST["file"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
-        }
-
-        $export = new ilScorm2004Export($this->object);
-        $file = $_POST['file'][0];
-        $type = $_POST['type'][$_POST['file'][0]];
-
-        if ($this->object->getPublicExportFile($type) == $file) {
-            $this->object->setPublicExportFile($type, "");
-        } else {
-            $this->object->setPublicExportFile($type, $file);
-        }
-        $this->object->update();
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
-    /*
-     * perform silent scorm 2004 export and import for view player
-     */
-    public function preview()
-    {
-        global $DIC;
-
-        $export = new ilScorm2004Export($this->object, 'SCORM 2004 3rd');
-        $zipfile = $export->buildExportFile();
-        $zipPathinfo = pathinfo($zipfile);
-        $file_path = $this->object->getDataDirectory() . "/" . ($zipPathinfo["basename"]);
-        copy($zipfile, $file_path);
-        unlink($zipfile);
-        
-        ilUtil::unzip($file_path, true);
-        ilUtil::renameExecutables($this->object->getDataDirectory());
-        unlink($file_path);
-        
-        $rte_pkg = new ilSCORM13Package();
-        $rte_pkg->il_import($this->object->getDataDirectory(), $this->object->getId(), $DIC["ilias"], false, true);
-
-        //redirect to view player
-        ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=" . $this->object->getRefID() . "&envEditor=1");
     }
 }

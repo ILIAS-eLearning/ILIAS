@@ -1,92 +1,93 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\Tasks;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
-use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Task;
+use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class AbstractTask
- *
  * @package ILIAS\BackgroundTasks\Implementation\Tasks
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 abstract class AbstractTask implements Task
 {
     use BasicScalarValueFactory;
-    const MAIN_REMOVE = 'bt_main_remove';
-    const MAIN_ABORT = 'bt_main_abort';
+
+    public const MAIN_REMOVE = 'bt_main_remove';
+    public const MAIN_ABORT = 'bt_main_abort';
     /**
      * @var Value[]
      */
-    protected $input = [];
-    /**
-     * @var Value
-     */
-    protected $output;
-
+    protected array $input = [];
+    protected \ILIAS\BackgroundTasks\Value $output;
 
     /**
-     * @param $values (Value|Task)[]
-     *
-     * @return void
+     * @param Value[]|Task[] $values
      */
-    public function setInput(array $values)
+    public function setInput(array $values): void
     {
         $this->input = $this->getValues($values);
         $this->checkTypes($this->input);
     }
 
-
     protected function checkTypes($values)
     {
         $expectedTypes = $this->getInputTypes();
 
-        for ($i = 0; $i < count($expectedTypes); $i++) {
-            $expectedType = $expectedTypes[$i];
+        foreach ($expectedTypes as $i => $expectedType) {
             $givenType = $this->extractType($values[$i]);
             if (!$givenType->isExtensionOf($expectedType)) {
                 throw new InvalidArgumentException("Types did not match when setting input for "
-                    . get_called_class()
+                    . static::class
                     . ". Expected type $expectedType given type $givenType.");
             }
         }
     }
 
-
     /**
-     * @param $value Value
-     *
-     * @return mixed
+     * @param $value Value|Task
      * @throws InvalidArgumentException
      */
-    protected function extractType($value)
+    protected function extractType($value): Type
     {
         if (is_a($value, Value::class)) {
             return $value->getType();
         }
         if (is_a($value, Task::class)) {
-            ;
+            return $value->getOutputType();
         }
 
-        return $value->getOutputType();
-
-        throw new InvalidArgumentException("Input values must be tasks or Values (extend BT\\Task or BT\\Value).");
+        throw new InvalidArgumentException("Input values must be Tasks or Values (extend BT\\Task or BT\\Value).");
     }
-
 
     /**
      * @return Value Returns a thunk value (yet to be calculated). It's used for task composition
      *               and type checks.
-     *
      */
-    public function getOutput()
+    public function getOutput(): Value
     {
         $thunk = new ThunkValue($this->getOutputType());
         $thunk->setParentTask($this);
@@ -94,13 +95,11 @@ abstract class AbstractTask implements Task
         return $thunk;
     }
 
-
     /**
      * @param $values (Value|Task)[]
-     *
      * @return Value[]
      */
-    private function getValues($values)
+    private function getValues($values): array
     {
         $inputs = [];
 
@@ -117,32 +116,25 @@ abstract class AbstractTask implements Task
         return $inputs;
     }
 
-
     /**
      * @return Value[]
      */
-    public function getInput()
+    public function getInput(): array
     {
         return $this->input;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
-        return get_called_class();
+        return static::class;
     }
-
 
     /**
      * Unfold the task. If task A has dependency B and B' and B has dependency C, the resulting
      * list will be [A, B, C, B'].
-     *
      * @return Task[]
      */
-    public function unfoldTask()
+    public function unfoldTask(): array
     {
         $list = [$this];
         foreach ($this->getInput() as $input) {
@@ -154,20 +146,18 @@ abstract class AbstractTask implements Task
         return $list;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getRemoveOption()
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('remove', self::MAIN_REMOVE);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getAbortOption()
+    public function getAbortOption(): Option
     {
         return new UserInteractionOption('abort', self::MAIN_ABORT);
     }

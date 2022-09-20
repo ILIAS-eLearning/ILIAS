@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * class for editing lm menu
@@ -9,12 +23,14 @@
  */
 class ilLMMenuEditor
 {
-    protected $active = "n";
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected string $target = "";
+    protected string $title = "";
+    protected int $entry_id = 0;
+    protected int $lm_id = 0;
+    protected ?int $link_ref_id;
+    protected string $link_type;
+    protected string $active = "n";
+    protected ilDBInterface $db;
 
     public function __construct()
     {
@@ -27,124 +43,114 @@ class ilLMMenuEditor
         $this->link_ref_id = null;
     }
 
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id): void
     {
         $this->lm_id = $a_obj_id;
     }
 
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->lm_id;
     }
 
-    public function setEntryId($a_id)
+    public function setEntryId(int $a_id): void
     {
         $this->entry_id = $a_id;
     }
 
-    public function getEntryId()
+    public function getEntryId(): int
     {
         return $this->entry_id;
     }
 
-    public function setLinkType($a_link_type)
+    public function setLinkType(string $a_link_type): void
     {
         $this->link_type = $a_link_type;
     }
-    
-    public function getLinkType()
+
+    public function getLinkType(): string
     {
         return $this->link_type;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTarget($a_target)
+
+    public function setTarget(string $a_target): void
     {
         $this->target = $a_target;
     }
-    
-    public function getTarget()
+
+    public function getTarget(): string
     {
         return $this->target;
     }
-    
-    public function setLinkRefId($a_link_ref_id)
+
+    public function setLinkRefId(int $a_link_ref_id): void
     {
         $this->link_ref_id = $a_link_ref_id;
     }
 
-    public function getLinkRefId()
+    public function getLinkRefId(): int
     {
         return $this->link_ref_id;
     }
-    
-    /**
-     * Set active
-     *
-     * @param string $a_val
-     */
-    public function setActive($a_val)
+
+    public function setActive(string $a_val): void
     {
         $this->active = $a_val;
     }
-    
-    /**
-     * Get active
-     *
-     * @return string
-     */
-    public function getActive()
+
+    public function getActive(): string
     {
         return $this->active;
     }
-    
 
-    public function create()
+
+    public function create(): void
     {
         $ilDB = $this->db;
-        
+
         $id = $ilDB->nextId("lm_menu");
         $q = "INSERT INTO lm_menu (id, lm_id,link_type,title,target,link_ref_id, active) " .
              "VALUES " .
              "(" .
              $ilDB->quote($id, "integer") . "," .
-             $ilDB->quote((int) $this->getObjId(), "integer") . "," .
+             $ilDB->quote($this->getObjId(), "integer") . "," .
              $ilDB->quote($this->getLinkType(), "text") . "," .
              $ilDB->quote($this->getTitle(), "text") . "," .
              $ilDB->quote($this->getTarget(), "text") . "," .
-             $ilDB->quote((int) $this->getLinkRefId(), "integer") . "," .
+             $ilDB->quote($this->getLinkRefId(), "integer") . "," .
              $ilDB->quote($this->getActive(), "text") .
             ")";
-        $r = $ilDB->manipulate($q);
-
+        $ilDB->manipulate($q);
         $this->entry_id = $id;
-
-        return true;
     }
-    
-    public function getMenuEntries($a_only_active = false)
-    {
+
+    public function getMenuEntries(
+        bool $a_only_active = false
+    ): array {
         $ilDB = $this->db;
-        
+
+        $and = "";
+
         $entries = array();
-        
+
         if ($a_only_active === true) {
             $and = " AND active = " . $ilDB->quote("y", "text");
         }
-        
+
         $q = "SELECT * FROM lm_menu " .
              "WHERE lm_id = " . $ilDB->quote($this->lm_id, "integer") .
              $and;
-             
+
         $r = $ilDB->query($q);
 
         while ($row = $ilDB->fetchObject($r)) {
@@ -159,76 +165,58 @@ class ilLMMenuEditor
 
         return $entries;
     }
-    
-    /**
-     * delete menu entry
-     *
-     */
-    public function delete($a_id)
+
+    public function delete(int $a_id): void
     {
         $ilDB = $this->db;
-        
-        if (!$a_id) {
-            return false;
-        }
-        
+
         $q = "DELETE FROM lm_menu WHERE id = " .
             $ilDB->quote($a_id, "integer");
         $ilDB->manipulate($q);
-        
-        return true;
     }
-    
-    /**
-     * update menu entry
-     *
-     */
-    public function update()
+
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         $q = "UPDATE lm_menu SET " .
             " link_type = " . $ilDB->quote($this->getLinkType(), "text") . "," .
             " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
             " target = " . $ilDB->quote($this->getTarget(), "text") . "," .
-            " link_ref_id = " . $ilDB->quote((int) $this->getLinkRefId(), "integer") .
+            " link_ref_id = " . $ilDB->quote($this->getLinkRefId(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getEntryId(), "integer");
-        $r = $ilDB->manipulate($q);
-        
-        return true;
+        $ilDB->manipulate($q);
     }
-    
-    public function readEntry($a_id)
+
+    public function readEntry(int $a_id): void
     {
         $ilDB = $this->db;
-        
+
         if (!$a_id) {
-            return false;
+            return;
         }
-        
+
         $q = "SELECT * FROM lm_menu WHERE id = " .
             $ilDB->quote($a_id, "integer");
         $r = $ilDB->query($q);
 
         $row = $ilDB->fetchObject($r);
-        
+
         $this->setTitle($row->title);
         $this->setTarget($row->target);
         $this->setLinkType($row->link_type);
         $this->setLinkRefId($row->link_ref_id);
-        $this->setEntryid($a_id);
+        $this->setEntryId($a_id);
         $this->setActive($row->active);
     }
-    
+
     /**
      * update active status of all menu entries of lm
-     * @param	array	entry ids
-     *
      */
-    public function updateActiveStatus($a_entries)
+    public function updateActiveStatus(array $a_entries): void
     {
         $ilDB = $this->db;
-        
+
         // update active status
         $q = "UPDATE lm_menu SET " .
              "active = CASE " .
@@ -241,14 +229,10 @@ class ilLMMenuEditor
         $ilDB->manipulate($q);
     }
 
-    /**
-     * Fix ref ids on import
-     *
-     * @param int $new_lm_id
-     * @param array $ref_mapping
-     */
-    public static function fixImportMenuItems(int $new_lm_id, array $ref_mapping)
-    {
+    public static function fixImportMenuItems(
+        int $new_lm_id,
+        array $ref_mapping
+    ): void {
         global $DIC;
 
         $db = $DIC->database();
@@ -286,14 +270,10 @@ class ilLMMenuEditor
         }
     }
 
-    /**
-     * Write status for entry id
-     *
-     * @param $entry_id
-     * @param $active
-     */
-    public static function writeActive($entry_id, $active)
-    {
+    public static function writeActive(
+        int $entry_id,
+        bool $active
+    ): void {
         global $DIC;
 
         $db = $DIC->database();

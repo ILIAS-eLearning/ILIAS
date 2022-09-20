@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,12 +16,11 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 class ilContentPagePageCollector implements ilCOPageCollectorInterface, ilContentPageObjectConstants
 {
-    public function getAllPageIds(int $obj_id) : array
+    public function getAllPageIds(int $obj_id): array
     {
         $pages = [];
 

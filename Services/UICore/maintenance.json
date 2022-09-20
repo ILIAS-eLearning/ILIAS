@@ -1,15 +1,15 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
-    "implicit_maintainers": [
-    ],
-    "coordinator": [
-        ""
-    ],
-    "tester": "",
-    "testcase_writer": "",
-    "path": "Services/UICore",
-    "belong_to_component": "None",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "tfuhrer(81947)",
+  "second_maintainer": "fschmid(21087)",
+  "implicit_maintainers": [
+  ],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/UICore",
+  "belong_to_component": "None",
+  "used_in_components": []
 }

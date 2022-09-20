@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,20 +12,15 @@
  */
 class ilOerHarvesterObjectStatus
 {
-    private $obj_id = 0;
+    private int $obj_id;
 
-    private $harvest_ref_id = 0;
+    private int $harvest_ref_id;
 
-    private $blocked = false;
+    private bool $blocked = false;
 
-    private $db = null;
+    protected ilDBInterface $db;
 
-
-    /**
-     * ilOerHarvesterObjectStatus constructor.
-     * @param int $obj_id
-     */
-    public function __construct($obj_id = 0)
+    public function __construct(int $obj_id = 0)
     {
         global $DIC;
 
@@ -37,9 +34,8 @@ class ilOerHarvesterObjectStatus
 
     /**
      * @return int[]
-     * @throws ilDatabaseException
      */
-    public static function lookupHarvested()
+    public static function lookupHarvested(): array
     {
         global $DIC;
 
@@ -55,10 +51,7 @@ class ilOerHarvesterObjectStatus
         return $hids;
     }
 
-    /**
-     * @param $a_href_id
-     */
-    public static function lookupObjIdByHarvestingId($a_href_id)
+    public static function lookupObjIdByHarvestingId(int $a_href_id): int
     {
         global $DIC;
 
@@ -69,47 +62,45 @@ class ilOerHarvesterObjectStatus
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->obj_id;
         }
+        return 0;
     }
 
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setHarvestRefId($a_ref_id)
+    public function setHarvestRefId(int $a_ref_id): void
     {
         $this->harvest_ref_id = $a_ref_id;
     }
 
-    public function getHarvestRefId()
+    public function getHarvestRefId(): int
     {
         return $this->harvest_ref_id;
     }
 
-    public function setBlocked($a_stat)
+    public function setBlocked(bool $a_stat): void
     {
         $this->blocked = $a_stat;
     }
 
-    public function isBlocked()
+    public function isBlocked(): bool
     {
         return $this->blocked;
     }
 
-    public function isCreated()
+    public function isCreated(): bool
     {
         return (bool) $this->harvest_ref_id;
     }
 
-    /**
-     * @return bool
-     */
-    public function save()
+    public function save(): bool
     {
         $this->delete();
         $query = 'INSERT INTO il_meta_oer_stat ' .
@@ -123,10 +114,7 @@ class ilOerHarvesterObjectStatus
         return true;
     }
 
-    /**
-     * Delete by obj_id
-     */
-    public function delete()
+    public function delete(): bool
     {
         $query = 'DELETE FROM il_meta_oer_stat ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');
@@ -134,11 +122,7 @@ class ilOerHarvesterObjectStatus
         return true;
     }
 
-
-    /**
-     * @throws ilDatabaseException
-     */
-    public function read()
+    public function read(): void
     {
         $query = 'SELECT * FROM il_meta_oer_stat ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');

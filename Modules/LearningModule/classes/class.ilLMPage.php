@@ -1,43 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Extension of ilPageObject for learning modules
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPage extends ilPageObject
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
-    public function getParentType() : string
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $lm_reading_time_manager;
+
+    public function getParentType(): string
     {
         return "lm";
     }
-    
-    /**
-     * After constructor
-     * @param
-     * @return void
-     */
-    public function afterConstructor() : void
+
+    public function afterConstructor(): void
     {
         $this->getPageConfig()->configureByObjectId($this->getParentId());
+        $this->lm_reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
-
-    /**
-     * Before page content update
-     * Note: This one is "work in progress", currently only text paragraphs call this hook
-     * It is called before the page content object invokes the update procedure of
-     * ilPageObject
-     * @param
-     * @return void
-     */
-    public function beforePageContentUpdate(ilPageContent $a_page_content) : void
+    public function beforePageContentUpdate(ilPageContent $a_page_content): void
     {
         if ($a_page_content->getType() == "par") {
             $glos = ilObjContentObject::lookupAutoGlossaries($this->getParentId());
@@ -45,13 +43,9 @@ class ilLMPage extends ilPageObject
         }
     }
 
-    /**
-     * After update content send notifications.
-     * @param DOMDocument $domdoc
-     * @param string      $xml
-     */
-    public function afterUpdate(DOMDocument $domdoc, string $xml) : void
+    public function afterUpdate(DOMDocument $domdoc, string $xml): void
     {
+        // send notifications
         $references = ilObject::_getAllReferences($this->getParentId());
         $notification = new ilLearningModuleNotification(
             ilLearningModuleNotification::ACTION_UPDATE,
@@ -59,20 +53,25 @@ class ilLMPage extends ilPageObject
             new ilObjLearningModule(reset($references)),
             $this->getId()
         );
-
         $notification->send();
+
+        // update lm reading time
+        if ((int) $this->getParentId() > 0) {
+            $this->lm_reading_time_manager->updateReadingTime($this->getParentId());
+        }
     }
 
-    /**
-     * Create page with layout
-     * @param int $a_layout_id
-     */
-    public function createWithLayoutId(int $a_layout_id)
+    protected function afterDelete(): void
     {
+        if ((int) $this->getParentId() > 0) {
+            $this->lm_reading_time_manager->updateReadingTime($this->getParentId());
+        }
+    }
 
+    public function createWithLayoutId(int $a_layout_id): void
+    {
         //get XML Data for Layout
         $layout_obj = new ilPageLayout($a_layout_id);
-
         parent::setXMLContent($layout_obj->getXMLContent());
         parent::create(false);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestSession.php';
@@ -20,22 +21,22 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
      * @var ilTestDynamicQuestionSetFilterSelection
      */
     private $questionSetFilterSelection = null;
-    
+
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->questionSetFilterSelection = new ilTestDynamicQuestionSetFilterSelection();
     }
 
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getQuestionSetFilterSelection()
+    public function getQuestionSetFilterSelection(): ilTestDynamicQuestionSetFilterSelection
     {
         return $this->questionSetFilterSelection;
     }
-    
+
     public function loadFromDb($active_id)
     {
         global $DIC;
@@ -52,7 +53,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -62,8 +62,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
         }
     }
-    
-    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
+
+    public function loadTestSession($test_id, $user_id = "", $anonymous_id = ""): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -86,7 +86,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
-                return null;
+                return;
             }
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
@@ -105,7 +105,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -117,13 +116,13 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->unsetAccessCodeInSession();
         }
     }
-    
-    public function saveToDb()
+
+    public function saveToDb(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        
+
         $submitted = ($this->isSubmitted()) ? 1 : 0;
         if ($this->active_id > 0) {
             $affectedRows = $ilDB->update(
@@ -151,7 +150,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if (!$this->activeIDExists($this->getUserId(), $this->getTestId())) {
-                $anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : null;
+                $anonymous_id = ($this->getAnonymousId()) ?: null;
 
                 $next_id = $ilDB->nextId('tst_active');
                 $affectedRows = $ilDB->insert(
@@ -181,7 +180,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                 );
             }
         }
-        
+
         include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
         ilLearningProgress::_tracProgress(
             $this->getUserId(),
@@ -190,8 +189,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             'tst'
         );
     }
-    
-    public function getCurrentQuestionId()
+
+    public function getCurrentQuestionId(): int
     {
         return $this->getLastSequence();
     }

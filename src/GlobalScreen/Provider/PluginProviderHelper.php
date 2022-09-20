@@ -1,5 +1,22 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\Provider;
 
 use ILIAS\DI\Container;
@@ -8,21 +25,11 @@ use ilPlugin;
 
 /**
  * Class PluginProviderHelper
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait PluginProviderHelper
 {
-
-    /**
-     * @var ilPlugin
-     */
-    protected $plugin;
-    /**
-     * @var PluginIdentificationProvider
-     */
-    protected $if;
-
+    protected ilPlugin $plugin;
 
     /**
      * @inheritDoc
@@ -34,29 +41,17 @@ trait PluginProviderHelper
         $this->if = $this->globalScreen()->identification()->plugin($plugin->getId(), $this);
     }
 
-
-    /**
-     * @return string
-     */
-    final public function getProviderNameForPresentation() : string
+    final public function getProviderNameForPresentation(): string
     {
         return $this->plugin->getPluginName();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    final public function getPluginID() : string
+    final public function getPluginID(): string
     {
         return $this->plugin->getId();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    final public function id() : PluginIdentificationProvider
+    final public function id(): PluginIdentificationProvider
     {
         return $this->if;
     }

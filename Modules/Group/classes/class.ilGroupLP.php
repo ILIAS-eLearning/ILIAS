@@ -1,19 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-include_once "Services/Object/classes/class.ilObjectLP.php";
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Group to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
  * @package ModulesGroup
  */
 class ilGroupLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         if (!$a_lp_active) {
             return array(
@@ -26,13 +25,13 @@ class ilGroupLP extends ilObjectLP
             );
         }
     }
-    
-    public function getDefaultMode()
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
-    
-    public function getValidModes()
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -40,20 +39,19 @@ class ilGroupLP extends ilObjectLP
             ilLPObjSettings::LP_MODE_COLLECTION
         );
     }
-    
-    public function getMembers($a_search = true)
+
+    public function getMembers(bool $a_search = true): array
     {
-        include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
         $member_obj = ilGroupParticipants::_getInstanceByObjId($this->obj_id);
         return $member_obj->getMembers();
     }
-    
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+
+    protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-            
+        $ilDB = $DIC->database();
+
         // will only find objects with roles for user!
         // see ilParticipants::_getMembershipByType()
         $query = " SELECT DISTINCT obd.obj_id, obd.type, obd2.title" .
@@ -65,7 +63,7 @@ class ilGroupLP extends ilObjectLP
             " WHERE obd.type = " . $ilDB->quote("grp", "text") .
             " AND fa.assign = " . $ilDB->quote("y", "text") .
             " AND ua.usr_id = " . $ilDB->quote($a_usr_id, "integer") .
-            " AND " . $ilDB->in("obd.obj_id", $a_obj_ids, "", "integer");
+            " AND " . $ilDB->in("obd.obj_id", $a_obj_ids, false, "integer");
         $set = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($set)) {
             $role = $row["title"];
@@ -74,7 +72,6 @@ class ilGroupLP extends ilObjectLP
                 $a_res[$row["obj_id"]] = true;
             }
         }
-        
         return true;
     }
 }

@@ -65,17 +65,17 @@ Rector is defined as dev-dependecy and you can install it with composer:
 composer install
 ```
 Rector provide 450+ rules and sets of rules which can be applied in the 
-rector.php definition file located in `./CI/Rector/rector.php`. A full list 
+rector.php definition file located in `./CI/Rector/basic_rector.php`. A full list 
 of available rules can be found [here](https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md).
 
 The current configuration applied rules and rulesets will help you to 
-maintain your code and update it für PHP 7.4 and PHP 8.
+maintain your code and update it für PHP 8.0 and PHP 8.1.
 
 The rules will be applied to your code using the following command (the 
 example applies the ule so Services/GlobalCache): 
 
 ```bash
-./libs/composer/vendor/bin/rector process --config ./CI/Rector/rector.php --no-diffs Services/GlobalCache
+./libs/composer/vendor/bin/rector process --config ./CI/Rector/basic_rector.php --no-diffs Services/GlobalCache
 ```
 There also is a composer script for the same command:
 

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
@@ -59,7 +75,7 @@ class ComponentEntryDescriptionTest extends TestCase
     protected Crawler\EntriesYamlParser $parser;
     protected ProperEntryFixture $proper_entry;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->parser = new Crawler\EntriesYamlParser();
         $this->proper_entry = new ProperEntryFixture();
@@ -68,7 +84,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testEmptyDescription() : void
+    public function testEmptyDescription(): void
     {
         $description = new Entry\ComponentEntryDescription();
         $this->assertEquals($this->empty_description_array, $description->getDescription());
@@ -79,7 +95,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidDescription() : void
+    public function testInvalidDescription(): void
     {
         $this->expectException(TypeError::class);
         new Entry\ComponentEntryDescription(null);
@@ -90,7 +106,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories1() : void
+    public function testInvalidCategories1(): void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_categories1_array);
@@ -102,7 +118,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategories2() : void
+    public function testInvalidCategories2(): void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_categories2_array);
@@ -114,7 +130,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryItem() : void
+    public function testInvalidCategoryItem(): void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_category_item_array);
@@ -126,7 +142,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidCategoryValue() : void
+    public function testInvalidCategoryValue(): void
     {
         try {
             new Entry\ComponentEntryDescription($this->invalid_category_value_array);
@@ -138,7 +154,7 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectDescription1() : void
+    public function testCorrectDescription1(): void
     {
         $description = new Entry\ComponentEntryDescription($this->correct_description1_array);
         $this->assertEquals($this->correct_description1_array, $description->getDescription());
@@ -147,13 +163,13 @@ class ComponentEntryDescriptionTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testCorrectDescription2() : void
+    public function testCorrectDescription2(): void
     {
         $description = new Entry\ComponentEntryDescription($this->correct_description2_array);
         $this->assertEquals($this->correct_description2_array_return, $description->getDescription());
     }
 
-    public function testParseProperEntryToArray() : void
+    public function testParseProperEntryToArray(): void
     {
         $entry = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php")[0];
 

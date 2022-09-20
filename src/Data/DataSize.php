@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -9,36 +11,36 @@ namespace ILIAS\Data;
  * remove the work to calculate the size to different unit like GiB, GB usw.
  *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  */
 final class DataSize
 {
-    const Byte = 1;
+    public const Byte = 1;
 
     //binary
-    const KiB = 1024;
-    const MiB = 1048576;      //pow(1024, 2)
-    const GiB = 1073741824;
-    const TiB = 1099511627776;
-    const PiB = 1125899906842624;
-    const EiB = 1152921504606846976;
-    const ZiB = 1180591620717411303424;
-    const YiB = 1208925819614629174706176;
+    public const KiB = 1024;
+    public const MiB = 1048576;      //pow(1024, 2)
+    public const GiB = 1073741824;
+    public const TiB = 1099511627776;
+    public const PiB = 1125899906842624;
+    public const EiB = 1152921504606846976;
+    public const ZiB = 1180591620717411303424;
+    public const YiB = 1208925819614629174706176;
 
     //decimal
-    const KB = 1000;                            //kilobyte
-    const MB = 1000000;                         //megabyte
-    const GB = 1000000000;                      //gigabyte
-    const TB = 1000000000000;                   //terabyte
-    const PB = 1000000000000000;                //petabyte
-    const EB = 1000000000000000000;             //exabyte
-    const ZB = 1000000000000000000000;          //zettabyte
-    const YB = 1000000000000000000000000;       //yottabyte
+    public const KB = 1000;                            //kilobyte
+    public const MB = 1000000;                         //megabyte
+    public const GB = 1000000000;                      //gigabyte
+    public const TB = 1000000000000;                   //terabyte
+    public const PB = 1000000000000000;                //petabyte
+    public const EB = 1000000000000000000;             //exabyte
+    public const ZB = 1000000000000000000000;          //zettabyte
+    public const YB = 1000000000000000000000000;       //yottabyte
     /**
-     * @var string[] $suffixMap
+     * @var array<int, string>
      */
-    private static $suffixMap = [
+    private static array $suffixMap = [
         self::Byte => 'B',
 
         self::KB => 'KB',
@@ -66,7 +68,10 @@ final class DataSize
         self::YiB => 'YiB'
     ];
 
-    public static $abbreviations = [
+    /**
+     * @var array<string, int>
+     */
+    public static array $abbreviations = [
         'B' => self::Byte,
 
         'KB' => self::KB,
@@ -130,7 +135,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function getSize() : float
+    public function getSize(): float
     {
         return $this->size;
     }
@@ -140,7 +145,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function getUnit() : int
+    public function getUnit(): int
     {
         return $this->unit;
     }
@@ -148,7 +153,7 @@ final class DataSize
     /**
      * Get the size in bytes.
      */
-    public function inBytes() : float
+    public function inBytes(): float
     {
         return $this->size * $this->unit;
     }
@@ -162,7 +167,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return "$this->size $this->suffix";
     }

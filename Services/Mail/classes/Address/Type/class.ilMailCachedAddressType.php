@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailCachedAddressType
@@ -10,28 +27,24 @@ class ilMailCachedAddressType implements ilMailAddressType
     protected static array $usrIdsByAddressCache = [];
     /** @var array<string, bool> */
     protected static array $isValidCache = [];
-    protected ilMailAddressType $inner;
-    protected bool $useCache = true;
 
-    public function __construct(ilMailAddressType $inner, bool $useCache)
+    public function __construct(protected ilMailAddressType $inner, protected bool $useCache)
     {
-        $this->inner = $inner;
-        $this->useCache = $useCache;
     }
-    
-    public static function clearCache() : void
+
+    public static function clearCache(): void
     {
         self::$isValidCache = [];
         self::$usrIdsByAddressCache = [];
     }
 
-    private function getCacheKey() : string
+    private function getCacheKey(): string
     {
         $address = $this->getAddress();
         return (string) $address;
     }
 
-    public function validate(int $senderId) : bool
+    public function validate(int $senderId): bool
     {
         $cacheKey = $this->getCacheKey();
 
@@ -42,17 +55,17 @@ class ilMailCachedAddressType implements ilMailAddressType
         return self::$isValidCache[$cacheKey];
     }
 
-    public function getErrors() : array
+    public function getErrors(): array
     {
         return $this->inner->getErrors();
     }
 
-    public function getAddress() : ilMailAddress
+    public function getAddress(): ilMailAddress
     {
         return $this->inner->getAddress();
     }
 
-    public function resolve() : array
+    public function resolve(): array
     {
         $cacheKey = $this->getCacheKey();
 

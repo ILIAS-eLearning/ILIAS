@@ -1,36 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Class ilMMTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTabHandling
 {
+    private int $ref_id;
 
-    /**
-     * @var int
-     */
-    private $ref_id;
-    /**
-     * @var ilRbacSystem
-     */
-    private $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilHelpGUI
-     */
-    private $help;
+    private ilRbacSystem $rbacsystem;
+
+    private ilTabsGUI $tabs;
+
+    private ilLanguage $lng;
+
+    protected ilCtrl $ctrl;
+
+    private ilHelpGUI $help;
 
     /**
      * ilMMTabHandling constructor.
@@ -41,28 +45,30 @@ class ilMMTabHandling
         global $DIC;
 
         $this->ref_id = $ref_id;
-        $this->tabs   = $DIC['ilTabs'];
-        $this->lng    = $DIC->language();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('mme');
-        $this->ctrl       = $DIC['ilCtrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->help       = $DIC->help();
+        $this->help = $DIC->help();
     }
 
-    /**
-     * @param string      $tab
-     * @param string|null $subtab
-     * @param bool        $backtab
-     * @param string|null $calling_class
-     */
-    public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "")
-    {
+    public function initTabs(
+        ?string $tab,
+        ?string $subtab = null,
+        bool $backtab = false,
+        ?string $calling_class = ""
+    ): void {
         $this->tabs->clearTargets(); // clears Help-ID
 
         // Help Screen-ID
         $this->help->setScreenIdComponent('mme');
-        $this->help->setScreenId($tab);
-        $this->help->setSubScreenId($subtab);
+        if ($tab !== null) {
+            $this->help->setScreenId($tab);
+        }
+        if ($subtab !== null) {
+            $this->help->setSubScreenId($subtab);
+        }
 
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
@@ -70,6 +76,7 @@ class ilMMTabHandling
                 $this->lng->txt(ilObjMainMenuGUI::TAB_MAIN),
                 $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, ilObjMainMenuGUI::TAB_MAIN)
             );
+            /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
             switch ($tab) {
                 case ilObjMainMenuGUI::TAB_MAIN:
                     $this->tabs->addSubTab(

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -68,17 +84,17 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     private string $type;
     private ?string $action;
-    private string $aria_label;
+    private string $label;
     private array $counters;
     private bool $highlighted;
     private bool $active = true;
 
-    public function __construct(string $type, string $aria_label, string $action = null)
+    public function __construct(string $type, string $label, string $action = null)
     {
         $this->checkArgIsElement("type", $type, self::$types, "glyph type");
 
         $this->type = $type;
-        $this->aria_label = $aria_label;
+        $this->label = $label;
         $this->action = $action;
         $this->counters = array();
         $this->highlighted = false;
@@ -87,7 +103,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -95,15 +111,15 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getAriaLabel() : string
+    public function getLabel(): string
     {
-        return $this->aria_label;
+        return $this->label;
     }
 
     /**
      * @inheritdoc
      */
-    public function getAction() : ?string
+    public function getAction(): ?string
     {
         return $this->action;
     }
@@ -111,7 +127,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getCounters() : array
+    public function getCounters(): array
     {
         return array_values($this->counters);
     }
@@ -119,7 +135,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withCounter(Counter $counter) : C\Symbol\Glyph\Glyph
+    public function withCounter(Counter $counter): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->counters[$counter->getType()] = $counter;
@@ -129,7 +145,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return $this->highlighted;
     }
@@ -137,7 +153,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withHighlight() : C\Symbol\Glyph\Glyph
+    public function withHighlight(): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->highlighted = true;
@@ -147,7 +163,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }
@@ -155,7 +171,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withUnavailableAction() : C\Symbol\Glyph\Glyph
+    public function withUnavailableAction(): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->active = false;
@@ -165,7 +181,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -173,7 +189,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }
@@ -181,7 +197,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
     * @inheritdoc
     */
-    public function withAction($action) : C\Symbol\Glyph\Glyph
+    public function withAction($action): C\Symbol\Glyph\Glyph
     {
         $clone = clone $this;
         $clone->action = $action;

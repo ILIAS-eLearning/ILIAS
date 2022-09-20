@@ -24,7 +24,7 @@ class ilAssLacQuestionProvider
     /**
      * @param integer $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId): void
     {
         $this->questionId = $questionId;
     }
@@ -32,21 +32,18 @@ class ilAssLacQuestionProvider
     /**
      * @param iQuestionCondition $question
      */
-    public function setQuestion(iQuestionCondition $question)
+    public function setQuestion(iQuestionCondition $question): void
     {
         $this->question = $question;
     }
 
-    /**
-     * @return iQuestionCondition
-     */
-    public function getQuestion()
+    public function getQuestion(): assQuestion
     {
         if ($this->question === null && $this->questionId) {
             require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
             $this->question = assQuestion::_instantiateQuestion($this->questionId);
         }
-        
+
         return $this->question;
     }
 }

@@ -1,57 +1,39 @@
 <?php
 /**
- * Interface ilBiblAttributeInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblAttributeInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 interface ilBiblAttributeInterface
 {
+    public function getEntryId(): int;
 
-    /**
-     * @return int
-     */
-    public function getEntryId();
+    public function setEntryId(int $entry_id): void;
 
+    public function getName(): string;
 
-    /**
-     * @param int $entry_id
-     */
-    public function setEntryId($entry_id);
+    public function setName(string $name): void;
 
+    public function getValue(): string;
 
-    /**
-     * @return string
-     */
-    public function getName();
+    public function setValue(string $value): void;
 
+    public function getId(): ?int;
 
-    /**
-     * @param string $name
-     */
-    public function setName($name);
-
-
-    /**
-     * @return string
-     */
-    public function getValue();
-
-
-    /**
-     * @param string $value
-     */
-    public function setValue($value);
-
-
-    /**
-     * @return int
-     */
-    public function getId();
-
-
-    /**
-     * @param int $id
-     */
-    public function setId($id);
+    public function setId(int $id): void;
 }

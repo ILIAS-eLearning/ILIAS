@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,15 +15,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestHistoryTableGUI extends ilTable2GUI
 {
-    protected $tstObject;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
+    protected ?object $tstObject;
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -33,7 +27,7 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-    
+
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
 
@@ -45,31 +39,24 @@ class ilTestHistoryTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("datetime");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->enable('header');
     }
 
-    public function setTestObject($obj)
+    public function setTestObject($obj): void
     {
         $this->tstObject = $obj;
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
 
-        $username = $this->tstObject->userLookupFullName($data["user_fi"], true);
-        $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($data["tstamp"], IL_CAL_UNIX)));
+        $username = $this->tstObject->userLookupFullName($a_set["user_fi"], true);
+        $this->tpl->setVariable("DATETIME", ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX)));
         $this->tpl->setVariable("USER", $username);
-        $this->tpl->setVariable("LOG", trim(ilUtil::prepareFormOutput($data["logtext"])));
+        $this->tpl->setVariable("LOG", trim(ilLegacyFormElementsUtil::prepareFormOutput($a_set["logtext"])));
     }
 }

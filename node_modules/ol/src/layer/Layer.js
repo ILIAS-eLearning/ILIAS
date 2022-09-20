@@ -8,14 +8,24 @@ import RenderEventType from '../render/EventType.js';
 import SourceState from '../source/State.js';
 import {assert} from '../asserts.js';
 import {assign} from '../obj.js';
-import {getChangeEventType} from '../Object.js';
 import {listen, unlistenByKey} from '../events.js';
 
 /**
  * @typedef {function(import("../PluggableMap.js").FrameState):HTMLElement} RenderFunction
  */
 
+/***
+ * @template Return
+ * @typedef {import("../Observable").OnSignature<import("../Observable").EventTypes, import("../events/Event.js").default, Return> &
+ *   import("../Observable").OnSignature<import("./Base").BaseLayerObjectEventTypes|
+ *     'change:source', import("../Object").ObjectEvent, Return> &
+ *   import("../Observable").OnSignature<import("../render/EventType").LayerRenderEventTypes, import("../render/Event").default, Return> &
+ *   import("../Observable").CombinedOnSignature<import("../Observable").EventTypes|import("./Base").BaseLayerObjectEventTypes|'change:source'|
+ *     import("../render/EventType").LayerRenderEventTypes, Return>} LayerOnSignature
+ */
+
 /**
+ * @template {import("../source/Source.js").default} SourceType
  * @typedef {Object} Options
  * @property {string} [className='ol-layer'] A CSS class name to set to the layer element.
  * @property {number} [opacity=1] Opacity (0, 1).
@@ -34,27 +44,28 @@ import {listen, unlistenByKey} from '../events.js';
  * visible.
  * @property {number} [maxZoom] The maximum view zoom level (inclusive) at which this layer will
  * be visible.
- * @property {import("../source/Source.js").default} [source] Source for this layer.  If not provided to the constructor,
- * the source can be set by calling {@link module:ol/layer/Layer#setSource layer.setSource(source)} after
+ * @property {SourceType} [source] Source for this layer.  If not provided to the constructor,
+ * the source can be set by calling {@link module:ol/layer/Layer~Layer#setSource layer.setSource(source)} after
  * construction.
  * @property {import("../PluggableMap.js").default} [map] Map.
  * @property {RenderFunction} [render] Render function. Takes the frame state as input and is expected to return an
  * HTML element. Will overwrite the default rendering for the layer.
+ * @property {Object<string, *>} [properties] Arbitrary observable properties. Can be accessed with `#get()` and `#set()`.
  */
 
 /**
  * @typedef {Object} State
- * @property {import("./Layer.js").default} layer
+ * @property {import("./Layer.js").default} layer Layer.
  * @property {number} opacity Opacity, the value is rounded to two digits to appear after the decimal point.
- * @property {import("../source/State.js").default} sourceState
- * @property {boolean} visible
- * @property {boolean} managed
- * @property {import("../extent.js").Extent} [extent]
- * @property {number} zIndex
- * @property {number} maxResolution
- * @property {number} minResolution
- * @property {number} minZoom
- * @property {number} maxZoom
+ * @property {import("../source/State.js").default} sourceState SourceState.
+ * @property {boolean} visible Visible.
+ * @property {boolean} managed Managed.
+ * @property {import("../extent.js").Extent} [extent] Extent.
+ * @property {number} zIndex ZIndex.
+ * @property {number} maxResolution Maximum resolution.
+ * @property {number} minResolution Minimum resolution.
+ * @property {number} minZoom Minimum zoom.
+ * @property {number} maxZoom Maximum zoom.
  */
 
 /**
@@ -67,15 +78,15 @@ import {listen, unlistenByKey} from '../events.js';
  * Layers group together those properties that pertain to how the data is to be
  * displayed, irrespective of the source of that data.
  *
- * Layers are usually added to a map with {@link module:ol/Map#addLayer}. Components
- * like {@link module:ol/interaction/Select~Select} use unmanaged layers
+ * Layers are usually added to a map with {@link import("../PluggableMap.js").default#addLayer map.addLayer()}. Components
+ * like {@link module:ol/interaction/Draw~Draw} use unmanaged layers
  * internally. These unmanaged layers are associated with the map using
  * {@link module:ol/layer/Layer~Layer#setMap} instead.
  *
  * A generic `change` event is fired when the state of the source changes.
  *
  * Please note that for performance reasons several layers might get rendered to
- * the same HTML element, which will cause {@link module:ol/Map~Map#forEachLayerAtPixel} to
+ * the same HTML element, which will cause {@link import("../PluggableMap.js").default#forEachLayerAtPixel map.forEachLayerAtPixel()} to
  * give false positives. To avoid this, apply different `className` properties to the
  * layers at creation time.
  *
@@ -87,13 +98,28 @@ import {listen, unlistenByKey} from '../events.js';
  */
 class Layer extends BaseLayer {
   /**
-   * @param {Options} options Layer options.
+   * @param {Options<SourceType>} options Layer options.
    */
   constructor(options) {
     const baseOptions = assign({}, options);
     delete baseOptions.source;
 
     super(baseOptions);
+
+    /***
+     * @type {LayerOnSignature<import("../events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {LayerOnSignature<import("../events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {LayerOnSignature<void>}
+     */
+    this.un;
 
     /**
      * @private
@@ -128,8 +154,8 @@ class Layer extends BaseLayer {
       this.setMap(options.map);
     }
 
-    this.addEventListener(
-      getChangeEventType(LayerProperty.SOURCE),
+    this.addChangeListener(
+      LayerProperty.SOURCE,
       this.handleSourcePropertyChange_
     );
 
@@ -140,7 +166,7 @@ class Layer extends BaseLayer {
   }
 
   /**
-   * @param {Array<import("./Layer.js").default>=} opt_array Array of layers (to be modified in place).
+   * @param {Array<import("./Layer.js").default>} [opt_array] Array of layers (to be modified in place).
    * @return {Array<import("./Layer.js").default>} Array of layers.
    */
   getLayersArray(opt_array) {
@@ -150,7 +176,7 @@ class Layer extends BaseLayer {
   }
 
   /**
-   * @param {Array<import("./Layer.js").State>=} opt_states Optional list of layer states (to be modified in place).
+   * @param {Array<import("./Layer.js").State>} [opt_states] Optional list of layer states (to be modified in place).
    * @return {Array<import("./Layer.js").State>} List of layer states.
    */
   getLayerStatesArray(opt_states) {
@@ -210,6 +236,9 @@ class Layer extends BaseLayer {
    * an array of features.
    */
   getFeatures(pixel) {
+    if (!this.renderer_) {
+      return new Promise((resolve) => resolve([]));
+    }
     return this.renderer_.getFeatures(pixel);
   }
 
@@ -232,12 +261,12 @@ class Layer extends BaseLayer {
   /**
    * Sets the layer to be rendered on top of other layers on a map. The map will
    * not manage this layer in its layers collection, and the callback in
-   * {@link module:ol/Map#forEachLayerAtPixel} will receive `null` as layer. This
+   * {@link module:ol/Map~Map#forEachLayerAtPixel} will receive `null` as layer. This
    * is useful for temporary layers. To remove an unmanaged layer from the map,
    * use `#setMap(null)`.
    *
    * To add the layer to a map and have it managed by the map, use
-   * {@link module:ol/Map#addLayer} instead.
+   * {@link module:ol/Map~Map#addLayer} instead.
    * @param {import("../PluggableMap.js").default} map Map.
    * @api
    */
@@ -258,7 +287,8 @@ class Layer extends BaseLayer {
         map,
         RenderEventType.PRECOMPOSE,
         function (evt) {
-          const renderEvent = /** @type {import("../render/Event.js").default} */ (evt);
+          const renderEvent =
+            /** @type {import("../render/Event.js").default} */ (evt);
           const layerStatesArray = renderEvent.frameState.layerStatesArray;
           const layerState = this.getLayerState(false);
           // A layer can only be added to the map once. Use either `layer.setMap()` or `map.addLayer()`, not both.
@@ -318,6 +348,11 @@ class Layer extends BaseLayer {
    * Clean up.
    */
   disposeInternal() {
+    if (this.renderer_) {
+      this.renderer_.dispose();
+      delete this.renderer_;
+    }
+
     this.setSource(null);
     super.disposeInternal();
   }

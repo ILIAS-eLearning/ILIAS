@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceHelper
@@ -42,21 +59,20 @@ class ilTermsOfServiceHelper
         $this->tos = $tos;
     }
 
-    public static function isEnabled() : bool
+    public static function isEnabled(): bool
     {
-        return (new static())->tos->getStatus();
+        return (new self())->tos->getStatus();
     }
 
-    public function isGloballyEnabled() : bool
+    public function isGloballyEnabled(): bool
     {
         return $this->tos->getStatus();
     }
 
     /**
-     * @param int $userId
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function deleteAcceptanceHistoryByUser(int $userId) : void
+    public function deleteAcceptanceHistoryByUser(int $userId): void
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -65,11 +81,9 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getCurrentAcceptanceForUser(ilObjUser $user) : ilTermsOfServiceAcceptanceEntity
+    public function getCurrentAcceptanceForUser(ilObjUser $user): ilTermsOfServiceAcceptanceEntity
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -78,11 +92,9 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param int $id
-     * @return ilTermsOfServiceAcceptanceEntity
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
-    public function getById(int $id) : ilTermsOfServiceAcceptanceEntity
+    public function getById(int $id): ilTermsOfServiceAcceptanceEntity
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -91,12 +103,10 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param ilObjUser $user
-     * @param ilTermsOfServiceSignableDocument $document
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    public function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document) : void
+    public function trackAcceptance(ilObjUser $user, ilTermsOfServiceSignableDocument $document): void
     {
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
@@ -119,23 +129,31 @@ class ilTermsOfServiceHelper
         $user->hasToAcceptTermsOfServiceInSession(false);
     }
 
-    public function resetAcceptance(ilObjUser $user) : void
+    public function resetAcceptance(ilObjUser $user): void
     {
         $user->setAgreeDate(null);
         $user->update();
     }
 
-    public function isIncludedUser(ilObjUser $user) : bool
+    public function isIncludedUser(ilObjUser $user): bool
     {
+        $excluded_roles = [];
+        if (defined('ANONYMOUS_USER_ID')) {
+            $excluded_roles[] = ANONYMOUS_USER_ID;
+        }
+        if (defined('SYSTEM_USER_ID')) {
+            $excluded_roles[] = SYSTEM_USER_ID;
+        }
+
         return (
             'root' !== $user->getLogin() &&
-            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true) &&
+            !in_array($user->getId(), $excluded_roles, true) &&
             !$user->isAnonymous() &&
             $user->getId() > 0
         );
     }
 
-    public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger) : bool
+    public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger): bool
     {
         $logger->debug(sprintf(
             'Checking reevaluation of Terms of Service for user "%s" (id: %s) ...',
@@ -170,15 +188,14 @@ class ilTermsOfServiceHelper
         }
 
         $entity = $this->getCurrentAcceptanceForUser($user);
-        if (!($entity->getId() > 0)) {
+        if ($entity->getId() <= 0) {
             $logger->debug('No signed Terms of Service document found, resigning not required ...');
             return false;
         }
 
         $historizedDocument = new ilTermsOfServiceHistorizedDocument(
             $entity,
-            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria()),
-            $this->criterionTypeFactory
+            new ilTermsOfServiceAcceptanceHistoryCriteriaBag($entity->getSerializedCriteria())
         );
 
         if ($evaluator->evaluateDocument($historizedDocument)) {
@@ -190,12 +207,12 @@ class ilTermsOfServiceHelper
         return true;
     }
 
-    private function getEntityFactory() : ilTermsOfServiceEntityFactory
+    private function getEntityFactory(): ilTermsOfServiceEntityFactory
     {
         return new ilTermsOfServiceEntityFactory();
     }
 
-    private function getDataGatewayFactory() : ilTermsOfServiceDataGatewayFactory
+    private function getDataGatewayFactory(): ilTermsOfServiceDataGatewayFactory
     {
         return $this->dataGatewayFactory;
     }

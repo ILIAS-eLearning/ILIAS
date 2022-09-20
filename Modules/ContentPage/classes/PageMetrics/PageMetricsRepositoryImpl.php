@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\ContentPage\PageMetrics;
 
@@ -21,7 +38,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
         $this->db = $db;
     }
 
-    public function store(PageMetrics $pageMetrics) : void
+    public function store(PageMetrics $pageMetrics): void
     {
         $this->db->replace(
             'content_page_metrics',
@@ -36,7 +53,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
         );
     }
 
-    public function delete(PageMetrics $pageMetrics) : void
+    public function delete(PageMetrics $pageMetrics): void
     {
         $this->db->queryF(
             'DELETE FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',
@@ -48,7 +65,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
     /**
      * @inheritDoc
      */
-    public function findBy(int $contentPageId, int $pageId, string $language) : PageMetrics
+    public function findBy(int $contentPageId, int $pageId, string $language): PageMetrics
     {
         $res = $this->db->queryF(
             'SELECT * FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',

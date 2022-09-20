@@ -1,140 +1,67 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
-*
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls
-* @ingroup ServicesWebServicesECS
 */
 class ilECSAuth
 {
-    protected $log;
-    protected $mids = array();
+    protected ilLogger $log;
+    protected array $mids = array();
 
-    //public $url;
-    public $realm;
-    #	public $hash;
-    #	public $sov;
-    #	public $eov;
-    #	public $url;
-    #	public $abbr;
-    #	public $pid;
-    
+    private string $realm = '';
+    private string $url = '';
+    private ?int $pid = null;
 
-    /**
-     * constuctor
-     *
-     * @access public
-     * @param
-     *
-     */
     public function __construct()
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
-        
-        $this->log = $ilLog;
+        $this->log = $DIC->logger()->wsrv();
     }
-    
-    public function setPid($a_pid)
+
+    public function setPid(int $a_pid): void
     {
         $this->pid = $a_pid;
     }
-    
-    public function getPid()
+
+    public function getPid(): int
     {
         return $this->pid;
     }
 
-    /**
-     * URL
-     * @param string $a_url
-     */
-    public function setUrl($a_url)
+    public function setUrl(string $a_url): void
     {
         $this->url = $a_url;
     }
-    
-    /**
-     * get Url
-     * @return <type>
-     */
-    public function getUrl()
+
+    public function getUrl(): string
     {
         return $this->url;
     }
-    
-    public function setRealm($a_realm)
+
+    public function setRealm(string $a_realm): void
     {
         $this->realm = $a_realm;
     }
-    
-    public function getRealm()
+
+    public function getRealm(): string
     {
         return $this->realm;
-    }
-    
-    /**
-     * get hash
-     *
-     * @access public
-     *
-     */
-    public function getHash()
-    {
-        return $this->hash;
-    }
-    
-    /**
-     * set SOV
-     *
-     * @access public
-     * @param int start of verification
-     *
-     */
-    public function setSOV($a_sov)
-    {
-        include_once './Services/Calendar/classes/class.ilDateTime.php';
-        $dt = new ilDateTime($a_sov, IL_CAL_UNIX);
-        $this->sov = $dt->get(IL_CAL_ISO_8601);
-    }
-
-    /**
-     * set EOV
-     *
-     * @access public
-     * @param int eov of verification
-     *
-     */
-    public function setEOV($a_eov)
-    {
-        include_once './Services/Calendar/classes/class.ilDateTime.php';
-        $dt = new ilDateTime($a_eov, IL_CAL_UNIX);
-        $this->sov = $dt->get(IL_CAL_ISO_8601);
     }
 }

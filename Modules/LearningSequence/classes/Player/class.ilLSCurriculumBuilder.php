@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Builds the overview (curriculum) of a LearningSequence.
@@ -27,7 +43,7 @@ class ilLSCurriculumBuilder
         $this->url_builder = $url_builder;
     }
 
-    public function getLearnerCurriculum(bool $with_action = false) : ILIAS\UI\Component\Listing\Workflow\Linear
+    public function getLearnerCurriculum(bool $with_action = false): ILIAS\UI\Component\Listing\Workflow\Linear
     {
         $steps = [];
         foreach ($this->ls_items->getItems() as $item) {
@@ -54,7 +70,7 @@ class ilLSCurriculumBuilder
             $steps
         );
 
-        if (count($steps) > 0) {
+        if ($steps !== []) {
             $current_position = max(0, $this->ls_items->getCurrentItemPosition());
             $workflow = $workflow->withActive($current_position);
         }
@@ -75,7 +91,7 @@ class ilLSCurriculumBuilder
             const LP_STATUS_COMPLETED_NUM = 2;
             const LP_STATUS_FAILED_NUM = 3;
     */
-    protected function translateLPStatus(int $il_lp_status) : int
+    protected function translateLPStatus(int $il_lp_status): int
     {
         switch ($il_lp_status) {
             case \ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:

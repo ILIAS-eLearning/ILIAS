@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\PC;
 
@@ -35,72 +38,72 @@ class MapEditorSessionRepository
     {
     }
 
-    public function setMode(string $mode) : void
+    public function setMode(string $mode): void
     {
         \ilSession::set(self::MODE_KEY, $mode);
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return \ilSession::get(self::MODE_KEY) ?? "";
     }
 
-    public function setAreaNr(string $area_nr) : void
+    public function setAreaNr(string $area_nr): void
     {
         \ilSession::set(self::AREA_NR_KEY, $area_nr);
     }
 
-    public function getAreaNr() : string
+    public function getAreaNr(): string
     {
         return \ilSession::get(self::AREA_NR_KEY) ?? "";
     }
 
-    public function setAreaType(string $area_type) : void
+    public function setAreaType(string $area_type): void
     {
         \ilSession::set(self::AREA_TYPE_KEY, $area_type);
     }
 
-    public function getAreaType() : string
+    public function getAreaType(): string
     {
         return \ilSession::get(self::AREA_TYPE_KEY) ?? "";
     }
 
-    public function setCoords(string $coords) : void
+    public function setCoords(string $coords): void
     {
         \ilSession::set(self::COORDS_KEY, $coords);
     }
 
-    public function getCoords() : string
+    public function getCoords(): string
     {
         return \ilSession::get(self::COORDS_KEY) ?? "";
     }
 
-    public function setLinkType(string $link_type) : void
+    public function setLinkType(string $link_type): void
     {
         \ilSession::set(self::LINK_TYPE_KEY, $link_type);
     }
 
-    public function getLinkType() : string
+    public function getLinkType(): string
     {
         return \ilSession::get(self::LINK_TYPE_KEY) ?? "";
     }
 
-    public function setLinkTarget(string $link_target) : void
+    public function setLinkTarget(string $link_target): void
     {
         \ilSession::set(self::LINK_TARGET_KEY, $link_target);
     }
 
-    public function getLinkTarget() : string
+    public function getLinkTarget(): string
     {
         return \ilSession::get(self::LINK_TARGET_KEY) ?? "";
     }
 
-    public function setLinkFrame(string $link_frame) : void
+    public function setLinkFrame(string $link_frame): void
     {
         \ilSession::set(self::LINK_FRAME_KEY, $link_frame);
     }
 
-    public function getLinkFrame() : string
+    public function getLinkFrame(): string
     {
         return \ilSession::get(self::LINK_FRAME_KEY) ?? "";
     }

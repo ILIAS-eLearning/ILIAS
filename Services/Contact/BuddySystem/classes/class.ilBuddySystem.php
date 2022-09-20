@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddySystem
@@ -21,7 +38,7 @@ class ilBuddySystem
         $this->user = $DIC['ilUser'];
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         if (!(self::$instance instanceof self)) {
             self::$instance = new self();
@@ -34,7 +51,7 @@ class ilBuddySystem
      * @param string $keyword
      * @param string $value
      */
-    public function setSetting(string $keyword, string $value) : void
+    public function setSetting(string $keyword, string $value): void
     {
         $this->settings->set($keyword, $value);
     }
@@ -44,12 +61,12 @@ class ilBuddySystem
      * @param string|null $default
      * @return string|null
      */
-    public function getSetting(string $keyword, ?string $default = null) : ?string
+    public function getSetting(string $keyword, ?string $default = null): ?string
     {
         return $this->settings->get($keyword, $default);
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         if (self::$isEnabled !== null) {
             return self::$isEnabled;

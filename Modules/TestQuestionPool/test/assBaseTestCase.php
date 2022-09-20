@@ -1,89 +1,107 @@
 <?php
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\DI\Container;
 
 /**
  * Class assBaseTestCase
  */
 abstract class assBaseTestCase extends TestCase
 {
+    protected ?Container $dic = null;
+
     /**
      * @inheritdoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
-        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
 
-        require_once './Services/Language/classes/class.ilLanguage.php';
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
-        unset($DIC['lng']);
-        $DIC['lng'] = $lng_mock;
-        $GLOBALS['lng'] = $DIC['lng'];
+        $DIC = new Container();
 
-        $dataCache_mock = $this->createMock('ilObjectDataCache', array(), array(), '', false);
-        $DIC['ilObjDataCache'] = $dataCache_mock;
-        $GLOBALS['ilObjDataCache'] = $DIC['ilObjDataCache'];
+        $lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->onlyMethods(['txt'])->getMock();
+        $lng_mock->expects($this->any())->method('txt')->willReturn('Test');
+        $this->setGlobalVariable('lng', $lng_mock);
 
-        $access_mock = $this->createMock('ilAccess', array(), array(), '', false);
-        $DIC['ilAccess'] = $access_mock;
-        $GLOBALS['ilAccess'] = $DIC['ilAccess'];
+        $dataCache_mock = $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('ilObjDataCache', $dataCache_mock);
 
-        $help_mock = $this->createMock('ilHelpGUI', array(), array(), '', false);
-        $DIC['ilHelp'] = $help_mock;
-        $GLOBALS['ilHelp'] = $help_mock;
+        $access_mock = $this->createMock(ilAccessHandler::class);
+        $this->setGlobalVariable('ilAccess', $access_mock);
 
-        $user_mock = $this->createMock('ilObjUser', array(), array(), '', false);
-        $DIC['ilUser'] = $user_mock;
-        $GLOBALS['ilUser'] = $user_mock;
+        $help_mock = $this->getMockBuilder(ilHelpGUI::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('ilHelp', $help_mock);
 
-        $tabs_mock = $this->createMock('ilTabsGUI', array(), array(), '', false);
-        $DIC['ilTabs'] = $tabs_mock;
-        $GLOBALS['ilTabs'] = $tabs_mock;
+        $user_mock = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('ilUser', $user_mock);
 
-        $rbacsystem_mock = $this->createMock('ilRbacSystem', array(), array(), '', false);
-        $DIC['rbacsystem'] = $rbacsystem_mock;
-        $GLOBALS['rbacsystem'] = $rbacsystem_mock;
+        $tabs_mock = $this->getMockBuilder(ilTabsGUI::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('ilTabs', $tabs_mock);
+
+        $rbacsystem_mock = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('rbacsystem', $rbacsystem_mock);
+
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $this->setGlobalVariable('refinery', $refineryMock);
+
+        $dbMock = $this->createMock(ilDBInterface::class);
+        $this->setGlobalVariable('ilDB', $dbMock);
+
+        $treeMock = $this->createMock(ilTree::class);
+        $this->setGlobalVariable('tree', $treeMock);
+
+        $repository_mock = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable('component.repository', $repository_mock);
+
+        $this->setGlobalVariable('http', $this->getMockBuilder(ILIAS\HTTP\Services::class)->disableOriginalConstructor()->getMock());
+
+        $this->setGlobalVariable('upload', $this->createMock(ILIAS\FileUpload\FileUpload::class));
 
         parent::setUp();
+    }
+
+    protected function tearDown(): void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     /**
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable($name, $value)
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = $GLOBALS[$name];
+        $DIC[$name] = static function (Container $c) use ($value) {
+            return $value;
+        };
     }
 
-    /**
-     * @return \ilTemplate|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(\ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ilDBInterface|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getDatabaseMock()
     {
         return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \ILIAS|PHPUnit_Framework_MockObject_MockObject
-     */
     protected function getIliasMock()
     {
         $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();

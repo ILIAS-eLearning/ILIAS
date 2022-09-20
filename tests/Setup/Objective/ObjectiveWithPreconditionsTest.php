@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup\Objective;
 
@@ -17,7 +33,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
     protected Setup\Objective $precondition;
     protected Objective\ObjectiveWithPreconditions $with_precondition;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->objective = $this->newObjective();
         $this->precondition = $this->newObjective();
@@ -28,12 +44,12 @@ class ObjectiveWithPreconditionsTest extends TestCase
         );
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertEquals($this->objective->getHash(), $this->with_precondition->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $label = "some_label";
 
@@ -45,7 +61,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
         $this->assertEquals($label, $this->with_precondition->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $notable = true;
 
@@ -57,7 +73,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
         $this->assertEquals($notable, $this->with_precondition->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $another = $this->newObjective();
 
@@ -74,7 +90,7 @@ class ObjectiveWithPreconditionsTest extends TestCase
     }
 
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 

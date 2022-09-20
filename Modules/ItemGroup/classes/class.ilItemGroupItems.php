@@ -1,71 +1,54 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group items.
- *
  * This class is used to store the materials (items) that are assigned
  * to an item group. Main table used is item_group_item
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilItemGroupItems
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilObjectDefinition $obj_def;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilLogger $log;
+    public ilTree $tree;
+    public ilLanguage $lng;
+    public int $item_group_id = 0;
+    public int $item_group_ref_id = 0;
+    public array $items = array();
 
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_def;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    /**
-     * @var Logger
-     */
-    protected $log;
-
-    public $ilDB;
-    public $tree;
-    public $lng;
-
-    public $item_group_id = 0;
-    public $item_group_ref_id = 0;
-    public $items = array();
-
-    /**
-     * Constructor
-     *
-     * @param int $a_item_group_ref_id ref id of item group
-     */
-    public function __construct($a_item_group_ref_id = 0)
-    {
+    public function __construct(
+        int $a_item_group_ref_id = 0
+    ) {
         global $DIC;
 
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $this->log = $DIC["ilLog"];
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-        $tree = $DIC->repositoryTree();
-        $objDefinition = $DIC["objDefinition"];
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
+        $this->obj_def = $DIC["objDefinition"];
 
-        $this->db = $ilDB;
-        $this->lng = $lng;
-        $this->tree = $tree;
-        $this->obj_def = $objDefinition;
-
-        $this->setItemGroupRefId((int) $a_item_group_ref_id);
+        $this->setItemGroupRefId($a_item_group_ref_id);
         if ($this->getItemGroupRefId() > 0) {
-            $this->setItemGroupId((int) ilObject::_lookupObjId($a_item_group_ref_id));
+            $this->setItemGroupId(ilObject::_lookupObjId($a_item_group_ref_id));
         }
 
         if ($this->getItemGroupId() > 0) {
@@ -73,95 +56,57 @@ class ilItemGroupItems
         }
     }
 
-    /**
-     * Set item group id
-     *
-     * @param int $a_val item group id
-     */
-    public function setItemGroupId($a_val)
+    public function setItemGroupId(int $a_val): void
     {
         $this->item_group_id = $a_val;
     }
-    
-    /**
-     * Get item group id
-     *
-     * @return int item group id
-     */
-    public function getItemGroupId()
+
+    public function getItemGroupId(): int
     {
         return $this->item_group_id;
     }
-    
-    /**
-     * Set item group ref id
-     *
-     * @param int $a_val item group ref id
-     */
-    public function setItemGroupRefId($a_val)
+
+    public function setItemGroupRefId(int $a_val): void
     {
         $this->item_group_ref_id = $a_val;
     }
-    
-    /**
-     * Get item group ref id
-     *
-     * @return int item group ref id
-     */
-    public function getItemGroupRefId()
+
+    public function getItemGroupRefId(): int
     {
         return $this->item_group_ref_id;
     }
-    
+
     /**
-     * Set items
-     *
-     * @param array $a_val items (array of ref ids)
+     * @param int[] $a_val items (array of ref ids)
      */
-    public function setItems($a_val)
+    public function setItems(array $a_val): void
     {
         $this->items = $a_val;
     }
-    
-    /**
-     * Get items
-     *
-     * @return array items (array of ref ids)
-     */
-    public function getItems()
+
+    public function getItems(): array
     {
         return $this->items;
     }
-    
-    /**
-     * Add one item
-     *
-     * @param int $a_item_ref_id item ref id
-     */
-    public function addItem($a_item_ref_id)
+
+    public function addItem(int $a_item_ref_id): void
     {
         if (!in_array($a_item_ref_id, $this->items)) {
-            $this->items[] = (int) $a_item_ref_id;
+            $this->items[] = $a_item_ref_id;
         }
     }
-    
-    /**
-     * Delete items of item group
-     */
-    public function delete()
+
+    public function delete(): void
     {
         $query = "DELETE FROM item_group_item " .
             "WHERE item_group_id = " . $this->db->quote($this->getItemGroupId(), 'integer');
         $this->db->manipulate($query);
     }
 
-    /**
-     * Update item group items
-     */
-    public function update()
+    public function update(): void
     {
         $this->delete();
-        
+
         foreach ($this->items as $item) {
             $query = "INSERT INTO item_group_item (item_group_id,item_ref_id) " .
                 "VALUES( " .
@@ -172,10 +117,7 @@ class ilItemGroupItems
         }
     }
 
-    /**
-     * Read item group items
-     */
-    public function read()
+    public function read(): void
     {
         $this->items = array();
         $set = $this->db->query(
@@ -187,24 +129,18 @@ class ilItemGroupItems
         }
     }
 
-    /**
-     * Get assignable items
-     *
-     * @param
-     * @return
-     */
-    public function getAssignableItems()
+    public function getAssignableItems(): array
     {
         $objDefinition = $this->obj_def;
-    
+
         if ($this->getItemGroupRefId() <= 0) {
             return array();
         }
-        
+
         $parent_node = $this->tree->getNodeData(
             $this->tree->getParentId($this->getItemGroupRefId())
         );
-        
+
         $materials = array();
         $nodes = $this->tree->getChilds($parent_node["child"]);
 
@@ -215,34 +151,27 @@ class ilItemGroupItems
                 in_array($node['type'], array('sess', 'itgr', 'rolf', 'adm'))) {
                 continue;
             }
-            
+
             // filter hidden files
             // see http://www.ilias.de/mantis/view.php?id=10269
             if ($node['type'] == "file" &&
                 ilObjFileAccess::_isFileHidden($node['title'])) {
                 continue;
             }
-                        
+
             if ($objDefinition->isInactivePlugin($node['type'])) {
                 continue;
             }
 
             $materials[] = $node;
         }
-        
-        $materials = ilUtil::sortArray($materials, "title", "asc");
-        
+
+        $materials = ilArrayUtil::sortArray($materials, "title", "asc");
+
         return $materials;
     }
 
-    
-    /**
-     * Get valid items
-     *
-     * @param
-     * @return
-     */
-    public function getValidItems()
+    public function getValidItems(): array
     {
         $items = $this->getItems();
         $ass_items = $this->getAssignableItems();
@@ -255,23 +184,17 @@ class ilItemGroupItems
         return $valid_items;
     }
 
-    /**
-     * Clone items
-     *
-     * @access public
-     *
-     * @param int source event id
-     * @param int copy id
-     */
-    public function cloneItems($a_source_id, $a_copy_id)
-    {
+    public function cloneItems(
+        int $a_source_id,
+        int $a_copy_id
+    ): void {
         $ilLog = $this->log;
-        
+
         $ilLog->write(__METHOD__ . ': Begin cloning item group materials ... -' . $a_source_id . '-');
 
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
-        
+
         $new_items = array();
         // check: is this a ref id!?
         $source_ig = new ilItemGroupItems($a_source_id);
@@ -286,28 +209,29 @@ class ilItemGroupItems
         $this->setItems($new_items);
         $this->update();
         $ilLog->write(__METHOD__ . ': Finished cloning item group items ...');
-        return true;
     }
-    
-    public static function _getItemsOfContainer($a_ref_id)
+
+    public static function _getItemsOfContainer(int $a_ref_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
-        
+
+        $itgr_ids = [];
         $itgr_nodes = $tree->getChildsByType($a_ref_id, 'itgr');
         foreach ($itgr_nodes as $node) {
             $itgr_ids[] = $node['obj_id'];
         }
         $query = "SELECT item_ref_id FROM item_group_item " .
             "WHERE " . $ilDB->in('item_group_id', $itgr_ids, false, 'integer');
-            
+
 
         $res = $ilDB->query($query);
+        $items = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $items[] = $row->item_ref_id;
         }
-        return $items ? $items : array();
+        return $items;
     }
 }

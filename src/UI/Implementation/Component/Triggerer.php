@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component;
 
@@ -54,7 +72,7 @@ trait Triggerer
      * ATTENTION: This mutates the original object and should only be used when there
      * is no other possibility.
      */
-    protected function setTriggeredSignal(C\Signal $signal, string $event) : void
+    protected function setTriggeredSignal(C\Signal $signal, string $event): void
     {
         $this->triggered_signals[$event] = array();
         $this->triggered_signals[$event][] = new TriggeredSignal($signal, $event);
@@ -63,7 +81,7 @@ trait Triggerer
     /**
      * @return TriggeredSignal[]
      */
-    public function getTriggeredSignals() : array
+    public function getTriggeredSignals(): array
     {
         return $this->flattenArray($this->triggered_signals);
     }
@@ -73,20 +91,18 @@ trait Triggerer
      *
      * @return C\Signal[]
      */
-    public function getTriggeredSignalsFor(string $event) : array
+    public function getTriggeredSignalsFor(string $event): array
     {
         if (!isset($this->triggered_signals[$event])) {
             return [];
         }
         return array_map(
-            function ($ts) {
-                return $ts->getSignal();
-            },
+            fn ($ts) => $ts->getSignal(),
             $this->triggered_signals[$event]
         );
     }
 
-    public function withResetTriggeredSignals() : C\Triggerer
+    public function withResetTriggeredSignals(): C\Triggerer
     {
         $clone = clone $this;
         $clone->triggered_signals = array();
@@ -96,7 +112,7 @@ trait Triggerer
     /**
      * Flatten a multidimensional array to a single dimension
      */
-    private function flattenArray(array $array) : array
+    private function flattenArray(array $array): array
     {
         $flatten = array();
         array_walk_recursive($array, function ($a) use (&$flatten) {

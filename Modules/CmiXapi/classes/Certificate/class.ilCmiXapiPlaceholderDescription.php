@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCmiXapiPlaceholderDescription
@@ -13,20 +29,11 @@
  */
 class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
+    private \ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ?\ilLanguage $language;
 
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private array $placeholder;
 
     /**
      * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
@@ -53,17 +60,26 @@ class ilCmiXapiPlaceholderDescription implements ilCertificatePlaceholderDescrip
 
         $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->placeholder['OBJECT_TITLE'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_object_title'));
-        $this->placeholder['OBJECT_DESCRIPTION'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_object_description'));
-        $this->placeholder['REACHED_SCORE'] = ilUtil::prepareFormOutput($this->language->txt('cmix_cert_ph_reached_score'));
+        $this->placeholder['OBJECT_TITLE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_object_title')
+        );
+        $this->placeholder['OBJECT_DESCRIPTION'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_object_description')
+        );
+        $this->placeholder['REACHED_SCORE'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $this->language->txt('cmix_cert_ph_reached_score')
+        );
     }
 
-    public function getPlaceholderDescriptions() : array
+    /**
+     * @return mixed[]
+     */
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }
 
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');

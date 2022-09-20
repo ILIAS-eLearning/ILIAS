@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailTemplateContextService
@@ -7,25 +24,23 @@
 class ilMailTemplateContextService
 {
     /**
-     * @param string $a_component
      * @param string[] $a_new_templates
      */
-    public static function clearFromXml(string $a_component, array $a_new_templates) : void
+    public static function clearFromXml(string $a_component, array $a_new_templates): void
     {
         global $DIC;
         if (!$DIC->database()->tableExists('mail_tpl_ctx')) {
             return;
         }
         $persisted_templates = [];
-        $query = 'SELECT id FROM mail_tpl_ctx WHERE component = '
-            . $DIC->database()->quote($a_component, 'text');
+        $query = 'SELECT id FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote($a_component, 'text');
         $set = $DIC->database()->query($query);
         while ($row = $DIC->database()->fetchAssoc($set)) {
             $persisted_templates[] = $row['id'];
         }
 
-        if (count($persisted_templates)) {
-            if (count($a_new_templates)) {
+        if ($persisted_templates !== []) {
+            if ($a_new_templates !== []) {
                 foreach ($persisted_templates as $id) {
                     if (!in_array($id, $a_new_templates, true)) {
                         $DIC->database()->manipulate(
@@ -38,8 +53,7 @@ class ilMailTemplateContextService
                 }
             } else {
                 $DIC->database()->manipulate(
-                    'DELETE FROM mail_tpl_ctx WHERE component = '
-                    . $DIC->database()->quote(
+                    'DELETE FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote(
                         $a_component,
                         'text'
                     )
@@ -48,7 +62,7 @@ class ilMailTemplateContextService
         }
     }
 
-    public static function insertFromXML(string $a_component, string $a_id, string $a_class, ?string $a_path) : void
+    public static function insertFromXML(string $a_component, string $a_id, string $a_class, ?string $a_path): void
     {
         global $DIC;
 
@@ -63,17 +77,16 @@ class ilMailTemplateContextService
     }
 
     /**
-     * @param string $a_id
-     * @return ilMailTemplateContext
      * @throws ilMailException
      */
-    public static function getTemplateContextById(string $a_id) : ilMailTemplateContext
+    public static function getTemplateContextById(string $a_id): ilMailTemplateContext
     {
         $contexts = self::getTemplateContexts([$a_id]);
         $first_context = current($contexts);
         if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
             throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
         }
+
         return $first_context;
     }
 
@@ -82,17 +95,17 @@ class ilMailTemplateContextService
      * @param string[] $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts(array $a_id = null) : array
+    public static function getTemplateContexts(?array $a_id = null): array
     {
         global $DIC;
         $templates = [];
 
         $query = 'SELECT * FROM mail_tpl_ctx';
         $where = [];
-        if (count($a_id)) {
+        if (is_array($a_id) && count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
-        if (count($where)) {
+        if ($where !== []) {
             $query .= ' WHERE ' . implode(' AND ', $where);
         }
 
@@ -113,18 +126,13 @@ class ilMailTemplateContextService
         string $a_class,
         ?string $a_path,
         bool $isCreationContext = false
-    ) : ?ilMailTemplateContext {
-        global $DIC;
-
-        $mess = '';
-
+    ): ?ilMailTemplateContext {
         if (!$a_path) {
             $a_path = $a_component . '/classes/';
         }
         $class_file = $a_path . 'class.' . $a_class . '.php';
 
-
-        if (file_exists($class_file) && class_exists($a_class)) {
+        if (class_exists($a_class) && file_exists($class_file)) {
             if ($isCreationContext) {
                 $reflClass = new ReflectionClass($a_class);
                 $context = $reflClass->newInstanceWithoutConstructor();
@@ -144,7 +152,7 @@ class ilMailTemplateContextService
         string $a_component,
         string $a_class,
         ?string $a_path
-    ) : void {
+    ): void {
         global $DIC;
 
         $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";

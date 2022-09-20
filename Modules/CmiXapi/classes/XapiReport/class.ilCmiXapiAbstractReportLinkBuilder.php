@@ -1,7 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilCmiXapiAbstractReportLinkBuilder
@@ -14,86 +29,57 @@
  */
 abstract class ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @var int
-     */
-    protected $objId;
-    
-    /**
-     * @var string
-     */
-    protected $aggregateEndPoint;
+    protected int $objId;
+    protected string $aggregateEndPoint;
+    protected ilCmiXapiStatementsReportFilter $filter;
 
     /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
-    protected $filter;
-    
-    /**
      * ilCmiXapiAbstractReportLinkBuilder constructor.
-     * @param $objId
-     * @param $userIdentMode
-     * @param $aggregateEndPoint
-     * @param ilCmiXapiStatementsReportFilter $filter
      */
     public function __construct(
-        $objId,
-        $aggregateEndPoint,
+        int $objId,
+        string $aggregateEndPoint,
         ilCmiXapiStatementsReportFilter $filter
     ) {
         $this->objId = $objId;
         $this->aggregateEndPoint = $aggregateEndPoint;
         $this->filter = $filter;
     }
-    
-    /**
-     * @return string
-     */
-    public function getUrl()
+
+    public function getUrl(): string
     {
-        $url = $this->aggregateEndPoint;
-        $url = $this->appendRequestParameters($url);
-        return $url;
+        return $this->appendRequestParameters($this->aggregateEndPoint);
     }
-    
-    /**
-     * @param string $link
-     * @return string
-     */
-    protected function appendRequestParameters($url)
+
+    //todo ilUtil
+    protected function appendRequestParameters(string $url): string
     {
-        $url = ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
-        
-        return $url;
+        return ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
     }
-    
-    /**
-     * @return string
-     */
-    protected function buildPipelineParameter()
+
+    protected function buildPipelineParameter(): string
     {
         $pipeline = urlencode(json_encode($this->buildPipeline()));
         return "pipeline={$pipeline}";
     }
-    
+
     /**
-     * @return array
+     * @return mixed[]
      */
-    abstract protected function buildPipeline() : array;
-    
-    /**
-     * @return int
-     */
-    public function getObjId()
+    abstract protected function buildPipeline(): array;
+
+    public function getObjId(): int
     {
         return $this->objId;
     }
-    
-    /**
-     * @return string
-     */
-    public function getAggregateEndPoint()
+
+    public function getAggregateEndPoint(): string
     {
         return $this->aggregateEndPoint;
+    }
+
+    public function getObj(): \ilObjCmiXapi
+    {
+        return ilObjCmiXapi::getInstance($this->getObjId(), false);
     }
 }

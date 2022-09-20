@@ -1,39 +1,34 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilFileObjectToStorageVersion
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileObjectToStorageVersion
 {
-    /**
-     * @var int
-     */
-    protected $version;
-    /**
-     * @var string
-     */
-    protected $path;
-    /**
-     * @var string
-     */
-    protected $file_name;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $action;
-    /**
-     * @var int
-     */
-    protected $owner = 6;
-    /**
-     * @var int
-     */
-    protected $creation_date_timestamp = 0;
+    protected int $version;
+    protected string $path;
+    protected string  $file_name;
+    protected string  $title;
+    protected string $action;
+    protected int $owner = 6;
+    protected int $creation_date_timestamp = 0;
 
     /**
      * ilFileObjectToStorageVersion constructor.
@@ -66,7 +61,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getVersion() : int
+    public function getVersion(): int
     {
         return $this->version;
     }
@@ -74,7 +69,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -82,7 +77,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getFileName() : string
+    public function getFileName(): string
     {
         return $this->file_name;
     }
@@ -90,7 +85,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -98,7 +93,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -106,7 +101,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getOwner() : int
+    public function getOwner(): int
     {
         return $this->owner;
     }
@@ -114,7 +109,7 @@ class ilFileObjectToStorageVersion
     /**
      * @return int
      */
-    public function getCreationDateTimestamp() : int
+    public function getCreationDateTimestamp(): int
     {
         return $this->creation_date_timestamp;
     }

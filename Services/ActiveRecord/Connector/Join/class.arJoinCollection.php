@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arJoinCollection
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -7,13 +20,12 @@
  */
 class arJoinCollection extends arStatementCollection
 {
-
     protected array $table_names = array();
 
     /**
      * @param arJoin $statement
      */
-    public function getSaveTableName(arStatement $statement) : string
+    public function getSaveTableName(arStatement $statement): string
     {
         $table_name = $statement->getTableName();
         if (in_array($table_name, $this->table_names, true)) {
@@ -27,14 +39,14 @@ class arJoinCollection extends arStatementCollection
         return $table_name;
     }
 
-    public function add(arStatement $statement) : void
+    public function add(arStatement $statement): void
     {
         $statement->setTableNameAs($this->getSaveTableName($statement));
         $this->table_names[] = $statement->getTableName();
         parent::add($statement);
     }
 
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -49,7 +61,7 @@ class arJoinCollection extends arStatementCollection
     /**
      * @return arJoin[]
      */
-    public function getJoins() : array
+    public function getJoins(): array
     {
         return $this->statements;
     }

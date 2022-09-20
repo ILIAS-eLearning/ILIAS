@@ -1,82 +1,54 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
+declare(strict_types=0);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends Object
-*/
-
-
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends Object
+ */
 class ilCourseFile
 {
-    public $ilErr;
-    public $ilDB;
-    public $tree;
-    public $lng;
+    private int $course_id = 0;
+    private int $file_id = 0;
+    private string $file_name = '';
+    private string $file_type = '';
+    private int $file_size = 0;
+    private string $tmp_name = '';
+    private int $error_code = 0;
 
-    public $course_id = null;
-    public $file_id = null;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+    protected ilErrorHandling $error;
+    protected ?ilFSStorageCourse $fss_storage = null;
 
-    /**
-     * @var \ilFSStorageCourse|null
-     */
-    private $fss_storage = null;
-
-    /**
-     * Constructor
-     * @param int $a_file_id
-     */
-    public function __construct($a_file_id = null)
+    public function __construct(int $a_file_id = 0)
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
-
-        $this->ilErr = $ilErr;
-        $this->db = $ilDB;
-        $this->lng = $lng;
-
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        $this->error = $DIC['ilErr'];
         $this->file_id = $a_file_id;
         $this->__read();
     }
-    
-    /**
-     * Clone course files
-     *
-     * @access public
-     * @static
-     *
-     * @param int source id
-     * @param int target_id
-     */
-    public static function _cloneFiles($a_source_id, $a_target_id)
+
+    public static function _cloneFiles(int $a_source_id, int $a_target_id): void
     {
         $source = new ilFSStorageCourse($a_source_id);
 
@@ -90,77 +62,88 @@ class ilCourseFile
 
             $target = new ilFSStorageCourse($a_target_id);
             $target->initInfoDirectory();
-            $source->copyFile($file_obj->getAbsolutePath(), $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId());
+            $source->copyFile(
+                $file_obj->getAbsolutePath(),
+                $new_file->fss_storage->getInfoDirectory() . '/' . $new_file->getFileId()
+            );
         }
     }
 
-    public function setFileId($a_id)
+    public function setFileId(int $a_id): void
     {
         $this->file_id = $a_id;
     }
-    public function getFileId()
+
+    public function getFileId(): int
     {
         return $this->file_id;
     }
 
-    public function getCourseId()
+    public function getCourseId(): int
     {
         return $this->course_id;
     }
-    public function setCourseId($a_course_id)
+
+    public function setCourseId(int $a_course_id): void
     {
         $this->course_id = $a_course_id;
     }
 
-    public function setFileName($a_name)
+    public function setFileName(string $a_name): void
     {
         $this->file_name = $a_name;
     }
-    public function getFileName()
+
+    public function getFileName(): string
     {
         return $this->file_name;
     }
-    public function setFileType($a_type)
+
+    public function setFileType(string $a_type): void
     {
         $this->file_type = $a_type;
     }
-    public function getFileType()
+
+    public function getFileType(): string
     {
         return $this->file_type;
     }
-    public function setFileSize($a_size)
+
+    public function setFileSize(int $a_size): void
     {
         $this->file_size = $a_size;
     }
-    public function getFileSize()
+
+    public function getFileSize(): int
     {
         return $this->file_size;
     }
-    public function setTemporaryName($a_name)
+
+    public function setTemporaryName(string $a_name): void
     {
         $this->tmp_name = $a_name;
     }
-    public function getTemporaryName()
+
+    public function getTemporaryName(): string
     {
         return $this->tmp_name;
     }
-    public function setErrorCode($a_code)
+
+    public function setErrorCode(int $a_code): void
     {
         $this->error_code = $a_code;
     }
-    public function getErrorCode()
+
+    public function getErrorCode(): int
     {
         return $this->error_code;
     }
 
-    /**
-     * @return bool|string
-     */
-    public function getAbsolutePath()
+    public function getAbsolutePath(): string
     {
         // workaround for "secured" files.
         if (!$this->fss_storage instanceof \ilFSStorageCourse) {
-            return false;
+            return '';
         }
 
         $file = $this->fss_storage->getInfoDirectory() . '/' . $this->getFileId();
@@ -170,66 +153,59 @@ class ilCourseFile
         if (file_exists($file)) {
             return $file;
         }
-        return false;
+        return '';
     }
 
-    public function getInfoDirectory()
+    public function getInfoDirectory(): string
     {
         if (is_object($this->fss_storage)) {
             return $this->fss_storage->getInfoDirectory();
         }
+        return '';
     }
 
-    public function validate()
+    public function validate(): bool
     {
         switch ($this->getErrorCode()) {
             case UPLOAD_ERR_INI_SIZE:
-                $this->ilErr->appendMessage($this->lng->txt('file_upload_ini_size'));
-                break;
+                $this->error->appendMessage($this->lng->txt('file_upload_ini_size'));
+                return false;
             case UPLOAD_ERR_FORM_SIZE:
-                $this->ilErr->appendMessage($this->lng->txt('file_upload_form_size'));
-                break;
+                $this->error->appendMessage($this->lng->txt('file_upload_form_size'));
+                return false;
 
             case UPLOAD_ERR_PARTIAL:
-                $this->ilErr->appendMessage($this->lng->txt('file_upload_only_partial'));
-                break;
+                $this->error->appendMessage($this->lng->txt('file_upload_only_partial'));
+                return false;
 
             case UPLOAD_ERR_NO_TMP_DIR:
-                $this->ilErr->appendMessage($this->lng->txt('file_upload_no_tmp_dir'));
-                break;
+                $this->error->appendMessage($this->lng->txt('file_upload_no_tmp_dir'));
+                return false;
 
-                // not possible with php 4
-            #case UPLOAD_ERR_CANT_WRITE:
-            #	$this->ilErr->appendMessage($this->lng->txt('file_upload_no_write'));
-            #	break;
+            case UPLOAD_ERR_NO_FILE:
+                return false;
 
             case UPLOAD_ERR_OK:
-            case UPLOAD_ERR_NO_FILE:
             default:
                 return true;
         }
     }
 
-    public function create($a_upload = true)
+    public function create(bool $a_upload = true): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if ($this->getErrorCode() != 0) {
             return false;
         }
-
-        $next_id = $ilDB->nextId('crs_file');
+        $next_id = $this->db->nextId('crs_file');
         $query = "INSERT INTO crs_file (file_id,course_id,file_name,file_size,file_type) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
-            $ilDB->quote($this->getCourseId(), 'integer') . ", " .
-            $ilDB->quote($this->getFileName(), 'text') . ", " .
-            $ilDB->quote($this->getFileSize(), 'integer') . ", " .
-            $ilDB->quote($this->getFileType(), 'text') . " " .
+            $this->db->quote($next_id, 'integer') . ", " .
+            $this->db->quote($this->getCourseId(), 'integer') . ", " .
+            $this->db->quote($this->getFileName(), 'text') . ", " .
+            $this->db->quote($this->getFileSize(), 'integer') . ", " .
+            $this->db->quote($this->getFileType(), 'text') . " " .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         $this->setFileId($next_id);
 
         $this->fss_storage = new ilFSStorageCourse($this->getCourseId());
@@ -237,7 +213,7 @@ class ilCourseFile
 
         if ($a_upload) {
             // now create file
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $this->getTemporaryName(),
                 $this->getFileName(),
                 $this->fss_storage->getInfoDirectory() . '/' . $this->getFileId()
@@ -246,26 +222,20 @@ class ilCourseFile
         return true;
     }
 
-    public function delete()
+    public function delete(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         // Delete db entry
         $query = "DELETE FROM crs_file " .
-            "WHERE file_id = " . $ilDB->quote($this->getFileId(), 'integer') . "";
-        $res = $ilDB->manipulate($query);
+            "WHERE file_id = " . $this->db->quote($this->getFileId(), 'integer') . "";
+        $res = $this->db->manipulate($query);
 
         // Delete file
         if (file_exists($this->getAbsolutePath())) {
             unlink($this->getAbsolutePath());
         }
-
-        return true;
     }
-        
-    public static function _deleteByCourse($a_course_id)
+
+    public static function _deleteByCourse(int $a_course_id): void
     {
         global $DIC;
 
@@ -275,51 +245,43 @@ class ilCourseFile
         $query = "DELETE FROM crs_file " .
             "WHERE course_id = " . $ilDB->quote($a_course_id, 'integer') . "";
         $res = $ilDB->manipulate($query);
-
-        return true;
     }
-
 
     /**
      * @param int $a_course_id obj_id of course
      * @return ilCourseFile[]
      */
-    public static function _readFilesByCourse($a_course_id)
+    public static function _readFilesByCourse(int $a_course_id): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $ilDB = $DIC->database();
         $query = "SELECT * FROM crs_file " .
             "WHERE course_id = " . $ilDB->quote($a_course_id, 'integer') . "";
 
         $res = $ilDB->query($query);
+        $files = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $files[] = new ilCourseFile($row->file_id);
+            $files[] = new ilCourseFile((int) $row->file_id);
         }
-        return is_array($files) ? $files : array();
+        return $files;
     }
 
-    public function __read()
+    public function __read(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if (!$this->file_id) {
-            return true;
+            return;
         }
 
         // read file data
-        $query = "SELECT * FROM crs_file WHERE file_id = " . $ilDB->quote($this->file_id, 'integer');
+        $query = "SELECT * FROM crs_file WHERE file_id = " . $this->db->quote($this->file_id, 'integer');
         $res = $this->db->query($query);
-        while ($row = $ilDB->fetchObject($res)) {
-            $this->setFileName($row->file_name);
-            $this->setFileSize($row->file_size);
-            $this->setFileType($row->file_type);
-            $this->setCourseId($row->course_id);
+        while ($row = $this->db->fetchObject($res)) {
+            $this->setFileName((string) $row->file_name);
+            $this->setFileSize((int) $row->file_size);
+            $this->setFileType((string) $row->file_type);
+            $this->setCourseId((int) $row->course_id);
         }
         $this->fss_storage = new ilFSStorageCourse($this->getCourseId());
-        return true;
     }
 }

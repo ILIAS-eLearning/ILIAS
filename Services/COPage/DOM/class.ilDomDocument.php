@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Dom document wrapper.
@@ -44,36 +47,18 @@ class ilDomDocument
         }
     }
 
-    /**
-     * Get
-     */
-    public function __get(string $a_mem)
+    public function getErrors(): array
     {
-        if ($a_mem == "errors") {
-            return $this->errors;
-        } else {
-            return $this->doc->$a_mem;
-        }
+        return $this->errors;
     }
 
-    /**
-     *  Set
-     */
-    public function __set(string $a_mem, $a_val) : void
-    {
-        $this->_delegate->$a_mem = $a_val;
-    }
-
-    /**
-     * Handle error
-     */
     public function handleError(
         int $a_no,
         string $a_string,
         string $a_file = null,
         int $a_line = null,
         array $a_context = null
-    ) {
+    ): void {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

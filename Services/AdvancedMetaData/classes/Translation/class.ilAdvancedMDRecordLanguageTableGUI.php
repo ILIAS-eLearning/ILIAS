@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
- * Class ilAdvancedMDRecordLanguageTableGUI
  * @ingroup ServicesAdvancedMetaData
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 {
@@ -19,30 +21,12 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 
     private const CMD_SAVE_ACTION = 'saveTranslations';
 
-    /**
-     * @var
-     */
-    private $ui_factory;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
+    private ilAdvancedMDRecord $record;
+    private ilAdvancedMDRecordTranslations $record_translation;
 
-    private $ui_renderer;
-
-    /**
-     * @var ilAdvancedMDRecord
-     */
-    private $record;
-
-    /**
-     * @var ilAdvancedMDRecordTranslations
-     */
-    private $record_translation;
-
-    /**
-     * ilAdvancedMDRecordLanguageTableGUI constructor.
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param string $a_template_context
-     */
-    public function __construct(ilAdvancedMDRecord $record, $a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilAdvancedMDRecord $record, object $a_parent_obj, string $a_parent_cmd = "")
     {
         global $DIC;
 
@@ -52,13 +36,15 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->record = $record;
         $this->record_translation = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setId(self::RECORD_LANGUAGE_TABLE_ID_PREFIX . (string) $this->record->getRecordId());
+        $this->setId(
+            self::RECORD_LANGUAGE_TABLE_ID_PREFIX . $this->record->getRecordId()
+        );
     }
 
     /**
      * Init table
      */
-    public function init()
+    public function init(): void
     {
         $this->lng->loadLanguageModule('meta');
         $this->setTitle($this->lng->txt('md_adv_record_lng_table'));
@@ -83,7 +69,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * Parse content
      */
-    public function parse()
+    public function parse(): void
     {
         $all_languages = $this->readLanguages();
         $installed_languages = ilLanguage::_getInstalledLanguages();
@@ -108,20 +94,19 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-
-    public function fillRow($row)
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('VAL_ID', $row[self::COL_LANGUAGE_CODE]);
+        $this->tpl->setVariable('VAL_ID', $a_set[self::COL_LANGUAGE_CODE]);
 
-        if ($row[self::COL_ACTIVE]) {
+        if ($a_set[self::COL_ACTIVE]) {
             $this->tpl->setVariable('ACTIVATION_CHECKED', 'checked="checked"');
         }
 
-        $this->tpl->setVariable('TXT_LANGUAGE', $row[self::COL_LANGUAGE]);
-        if ($row[self::COL_DEFAULT]) {
+        $this->tpl->setVariable('TXT_LANGUAGE', $a_set[self::COL_LANGUAGE]);
+        if ($a_set[self::COL_DEFAULT]) {
             $this->tpl->setVariable('DEFAULT_CHECKED', 'checked="checked"');
         }
-        if ($row[self::COL_ACTIVE]) {
+        if ($a_set[self::COL_ACTIVE]) {
             $this->tpl->setVariable(
                 'GLYPH_ACTIVE',
                 $this->ui_renderer->render(
@@ -129,7 +114,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
                 )
             );
         }
-        if ($row[self::COL_INSTALLED]) {
+        if ($a_set[self::COL_INSTALLED]) {
             $this->tpl->setVariable(
                 'GLYPH_INSTALLED',
                 $this->ui_renderer->render(
@@ -140,9 +125,9 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
-    private function readLanguages() : array
+    private function readLanguages(): array
     {
         $languages = ilObject::_getObjectsByType('lng');
         $parsed_languages = [];

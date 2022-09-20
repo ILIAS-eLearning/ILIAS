@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
@@ -16,7 +32,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -26,9 +42,8 @@ class Renderer extends AbstractComponentRenderer
         return $this->renderDropdown($component, $default_renderer);
     }
 
-    protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer) : string
+    protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer): string
     {
-
         // get template
         $tpl_name = "tpl.standard.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
@@ -64,7 +79,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderItems(array $items, Template $tpl, RendererInterface $default_renderer) : void
+    protected function renderItems(array $items, Template $tpl, RendererInterface $default_renderer): void
     {
         foreach ($items as $item) {
             $tpl->setCurrentBlock("item");
@@ -79,7 +94,7 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl,
         string $block,
         string $template_var
-    ) : void {
+    ): void {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
             $tpl->setCurrentBlock($block);
@@ -91,7 +106,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Dropdown/dropdown.js');
@@ -100,7 +115,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Dropdown\Standard::class);
     }

@@ -1,190 +1,83 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilWkhtmlToPdfConfig
 {
-    const ENABLE_QUIET = true;
-    /**
-     * @var bool
-     */
-    protected $phpunit = false;
-    /**
-     * @var array
-     */
-    protected $config = array();
-    /**
-     * @var float
-     */
-    protected $zoom;
-    /**
-     * @var bool
-     */
-    protected $external_links;
-    /**
-     * @var bool
-     */
-    protected $enabled_forms;
-    /**
-     * @var string
-     */
-    protected $user_stylesheet;
-    /**
-     * @var bool
-     */
-    protected $greyscale;
-    /**
-     * @var bool
-     */
-    protected $low_quality;
-    /**
-     * @var string
-     */
-    protected $orientation;
-    /**
-     * @var bool
-     */
-    protected $print_media_type;
-    /**
-     * @var string
-     */
-    protected $page_size;
-    /**
-     * @var int
-     */
-    protected $javascript_delay;
-    /**
-     * @var string
-     */
-    protected $margin_left;
-    /**
-     * @var string
-     */
-    protected $margin_right;
-    /**
-     * @var string
-     */
-    protected $margin_top;
-    /**
-     * @var string
-     */
-    protected $margin_bottom;
-    /**
-     * @var int
-     */
-    protected $header_type;
-    /**
-     * @var string
-     */
-    protected $header_text_left;
-    /**
-     * @var string
-     */
-    protected $header_text_center;
-    /**
-     * @var string
-     */
-    protected $header_text_right;
-    /**
-     * @var int
-     */
-    protected $header_text_spacing;
-    /**
-     * @var bool
-     */
-    protected $header_text_line;
-    /**
-     * @var string
-     */
-    protected $header_html;
-    /**
-     * @var int
-     */
-    protected $header_html_spacing;
-    /**
-     * @var bool
-     */
-    protected $header_html_line;
-    /**
-     * @var int
-     */
-    protected $footer_type;
-    /**
-     * @var string
-     */
-    protected $footer_text_left;
-    /**
-     * @var string
-     */
-    protected $footer_text_center;
-    /**
-     * @var string
-     */
-    protected $footer_text_right;
-    /**
-     * @var int
-     */
-    protected $footer_text_spacing;
-    /**
-     * @var bool
-     */
-    protected $footer_text_line;
-    /**
-     * @var string
-     */
-    protected $footer_html;
-    /**
-     * @var int
-     */
-    protected $footer_html_spacing;
-    /**
-     * @var bool
-     */
-    protected $footer_html_line;
-    /**
-     * @var string
-     */
-    protected $checkbox_svg;
-    /**
-     * @var string
-     */
-    protected $checkbox_checked_svg;
-    /**
-     * @var string
-     */
-    protected $radio_button_svg;
-    /**
-     * @var string
-     */
-    protected $radio_button_checked_svg;
-    /**
-     * @var string
-     */
-    protected $path;
-    /**
-     * @var string
-     */
-    protected $overwrite_default_font = '';
+    private const ENABLE_QUIET = true;
+
+    protected bool $phpunit = false;
+    protected array $config = [];
+    protected float $zoom = 1.0;
+    protected bool $external_links = false;
+    protected bool $enabled_forms = false;
+    protected string $user_stylesheet = '';
+    protected bool $greyscale = false;
+    protected bool $low_quality = false;
+    protected string $orientation = 'Portrait';
+    protected bool $print_media_type = false;
+    protected string $page_size = 'A4';
+    protected int $javascript_delay = 100;
+    protected string $margin_left = '';
+    protected string $margin_right = '';
+    protected string $margin_top = '';
+    protected string $margin_bottom = '';
+    protected int $header_type = 0;
+    protected string $header_text_left = '';
+    protected string $header_text_center = '';
+    protected string $header_text_right = '';
+    protected int $header_text_spacing = 0;
+    protected bool $header_text_line = false;
+    protected string $header_html = '';
+    protected int $header_html_spacing = 0;
+    protected bool $header_html_line = false;
+    protected int $footer_type = 0;
+    protected string $footer_text_left = '';
+    protected string $footer_text_center = '';
+    protected string $footer_text_right = '';
+    protected int $footer_text_spacing = 0;
+    protected bool $footer_text_line = false;
+    protected string $footer_html = '';
+    protected int $footer_html_spacing = 0;
+    protected bool $footer_html_line = false;
+    protected string $checkbox_svg = '';
+    protected string $checkbox_checked_svg = '';
+    protected string $radio_button_svg = '';
+    protected string $radio_button_checked_svg = '';
+    protected string $path = '';
+    protected string $overwrite_default_font = 'arial';
 
     /**
-     * ilWkhtmlToPdfConfig constructor.
-     * @param null $config
+     * @param array|null|self $config
      */
     public function __construct($config = null)
     {
-        if ($config != null && !$config instanceof ilWkhtmlToPdfConfig) {
+        if (is_array($config)) {
             $this->readConfigFromArray($config);
+        } elseif ($config instanceof self) {
+            $this->readConfigFromObject($config);
         } else {
-            if ($config instanceof ilWkhtmlToPdfConfig) {
-                $this->readConfigFromObject($config);
-            } else {
-                $this->useDefaultConfig();
-            }
+            $this->useDefaultConfig();
         }
     }
 
-    /**
-     * @param $config
-     */
-    protected function readConfigFromArray($config)
+    protected function readConfigFromArray(array $config): void
     {
         $this->setKeyIfExists('setZoom', 'zoom', $config);
         $this->setKeyIfExists('setEnabledForms', 'enable_forms', $config);
@@ -226,21 +119,30 @@ class ilWkhtmlToPdfConfig
     }
 
     /**
-     * @param $function
-     * @param $key
-     * @param $config
+     * @param string $function
+     * @param string $key
+     * @param array<string, mixed> $config
+     * @return void
      */
-    protected function setKeyIfExists($function, $key, $config)
+    protected function setKeyIfExists(string $function, string $key, array $config): void
     {
         if (array_key_exists($key, $config)) {
-            $this->{$function}($config[$key]);
+            $value = $config[$key];
+
+            if (is_scalar($value)) {
+                $reflMethod = new ReflectionMethod($this, $function);
+                $type = $reflMethod->getParameters()[0]->getType();
+                if ($type instanceof ReflectionNamedType && $type->isBuiltin()) {
+                    settype($value, $type->getName());
+                }
+            }
+            if ($value != null) {
+                $this->{$function}($value);
+            }
         }
     }
 
-    /**
-     * @param ilWkhtmlToPdfConfig $config
-     */
-    protected function readConfigFromObject($config)
+    protected function readConfigFromObject(ilWkhtmlToPdfConfig $config): void
     {
         $this->setZoom($config->getZoom());
         $this->setEnabledForms($config->getEnabledForms());
@@ -282,560 +184,358 @@ class ilWkhtmlToPdfConfig
         $this->setOverwriteDefaultFont($config->getOverwriteDefaultFont());
     }
 
-    /**
-     * @return float
-     */
-    public function getZoom()
+    public function getZoom(): float
     {
         return $this->zoom;
     }
 
-    /**
-     * @param float $zoom
-     */
-    public function setZoom($zoom)
+    public function setZoom(float $zoom): void
     {
         $this->zoom = $zoom;
     }
 
-    /**
-     * @return bool
-     */
-    public function getEnabledForms()
+    public function getEnabledForms(): bool
     {
         return $this->enabled_forms;
     }
 
-    /**
-     * @param boolean $enabled_forms
-     */
-    public function setEnabledForms($enabled_forms)
+    public function setEnabledForms(?bool $enabled_forms): void
     {
         $this->enabled_forms = $enabled_forms;
     }
 
-    /**
-     * @return bool
-     */
-    public function getExternalLinks()
+    public function getExternalLinks(): bool
     {
         return $this->external_links;
     }
 
-    /**
-     * @param boolean $external_links
-     */
-    public function setExternalLinks($external_links)
+    public function setExternalLinks(bool $external_links): void
     {
         $this->external_links = $external_links;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserStylesheet()
+    public function getUserStylesheet(): string
     {
         return $this->user_stylesheet;
     }
 
-    /**
-     * @param string $user_stylesheet
-     */
-    public function setUserStylesheet($user_stylesheet)
+    public function setUserStylesheet(string $user_stylesheet): void
     {
         $this->user_stylesheet = $user_stylesheet;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLowQuality()
+    public function getLowQuality(): bool
     {
         return $this->low_quality;
     }
 
-    /**
-     * @param boolean $low_quality
-     */
-    public function setLowQuality($low_quality)
+    public function setLowQuality(bool $low_quality): void
     {
         $this->low_quality = $low_quality;
     }
 
-    /**
-     * @return bool
-     */
-    public function getGreyscale()
+    public function getGreyscale(): bool
     {
         return $this->greyscale;
     }
 
-    /**
-     * @param boolean $greyscale
-     */
-    public function setGreyscale($greyscale)
+    public function setGreyscale(bool $greyscale): void
     {
         $this->greyscale = $greyscale;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrientation()
+    public function getOrientation(): string
     {
         return $this->orientation;
     }
 
-    /**
-     * @param string $orientation
-     */
-    public function setOrientation($orientation)
+    public function setOrientation(string $orientation): void
     {
         $this->orientation = $orientation;
     }
 
-    /**
-     * @return string
-     */
-    public function getPageSize()
+    public function getPageSize(): string
     {
         return $this->page_size;
     }
 
-    /**
-     * @param string $page_size
-     */
-    public function setPageSize($page_size)
+    public function setPageSize(string $page_size): void
     {
         $this->page_size = $page_size;
     }
 
-    /**
-     * @return string
-     */
-    public function getMarginLeft()
+    public function getMarginLeft(): string
     {
         return $this->margin_left;
     }
 
-    /**
-     * @param string $margin_left
-     */
-    public function setMarginLeft($margin_left)
+    public function setMarginLeft(string $margin_left): void
     {
         $this->margin_left = $margin_left;
     }
 
-    /**
-     * @return string
-     */
-    public function getMarginRight()
+    public function getMarginRight(): string
     {
         return $this->margin_right;
     }
 
-    /**
-     * @param string $margin_right
-     */
-    public function setMarginRight($margin_right)
+    public function setMarginRight(string $margin_right): void
     {
         $this->margin_right = $margin_right;
     }
 
-    /**
-     * @return int
-     */
-    public function getFooterHtmlSpacing()
+    public function getFooterHtmlSpacing(): int
     {
         return $this->footer_html_spacing;
     }
 
-    /**
-     * @param int $footer_html_spacing
-     */
-    public function setFooterHtmlSpacing($footer_html_spacing)
+    public function setFooterHtmlSpacing(int $footer_html_spacing): void
     {
         $this->footer_html_spacing = $footer_html_spacing;
     }
 
-    /**
-     * @return string
-     */
-    public function getFooterHtml()
+    public function getFooterHtml(): string
     {
         return $this->footer_html;
     }
 
-    /**
-     * @param string $footer_html
-     */
-    public function setFooterHtml($footer_html)
+    public function setFooterHtml(string $footer_html): void
     {
         $this->footer_html = $footer_html;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isFooterTextLine()
+    public function isFooterTextLine(): bool
     {
         return $this->footer_text_line;
     }
 
-    /**
-     * @param boolean $footer_text_line
-     */
-    public function setFooterTextLine($footer_text_line)
+    public function setFooterTextLine(bool $footer_text_line): void
     {
         $this->footer_text_line = $footer_text_line;
     }
 
-    /**
-     * @return string
-     */
-    public function getFooterTextCenter()
+    public function getFooterTextCenter(): string
     {
         return $this->footer_text_center;
     }
 
-    /**
-     * @param string $footer_text_center
-     */
-    public function setFooterTextCenter($footer_text_center)
+    public function setFooterTextCenter(string $footer_text_center): void
     {
         $this->footer_text_center = $footer_text_center;
     }
 
-    /**
-     * @return int
-     */
-    public function getFooterTextSpacing()
+    public function getFooterTextSpacing(): int
     {
         return $this->footer_text_spacing;
     }
 
-    /**
-     * @param int $footer_text_spacing
-     */
-    public function setFooterTextSpacing($footer_text_spacing)
+    public function setFooterTextSpacing(int $footer_text_spacing): void
     {
         $this->footer_text_spacing = $footer_text_spacing;
     }
 
-    /**
-     * @return string
-     */
-    public function getFooterTextRight()
+    public function getFooterTextRight(): string
     {
         return $this->footer_text_right;
     }
 
-    /**
-     * @param string $footer_text_right
-     */
-    public function setFooterTextRight($footer_text_right)
+    public function setFooterTextRight(string $footer_text_right): void
     {
         $this->footer_text_right = $footer_text_right;
     }
 
-    /**
-     * @return string
-     */
-    public function getFooterTextLeft()
+    public function getFooterTextLeft(): string
     {
         return $this->footer_text_left;
     }
 
-    /**
-     * @param string $footer_text_left
-     */
-    public function setFooterTextLeft($footer_text_left)
+    public function setFooterTextLeft(string $footer_text_left): void
     {
         $this->footer_text_left = $footer_text_left;
     }
 
-    /**
-     * @return int
-     */
-    public function getFooterType()
+    public function getFooterType(): int
     {
         return $this->footer_type;
     }
 
-    /**
-     * @param int $footer_type
-     */
-    public function setFooterType($footer_type)
+    public function setFooterType(int $footer_type): void
     {
         $this->footer_type = $footer_type;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isFooterHtmlLine()
+    public function isFooterHtmlLine(): bool
     {
         return $this->footer_html_line;
     }
 
-    /**
-     * @param boolean $footer_html_line
-     */
-    public function setFooterHtmlLine($footer_html_line)
+    public function setFooterHtmlLine(bool $footer_html_line): void
     {
         $this->footer_html_line = $footer_html_line;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isHeaderTextLine()
+    public function isHeaderTextLine(): bool
     {
         return $this->header_text_line;
     }
 
-    /**
-     * @param boolean $header_text_line
-     */
-    public function setHeaderTextLine($header_text_line)
+    public function setHeaderTextLine(bool $header_text_line): void
     {
         $this->header_text_line = $header_text_line;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeaderTextSpacing()
+    public function getHeaderTextSpacing(): int
     {
         return $this->header_text_spacing;
     }
 
-    /**
-     * @param int $header_text_spacing
-     */
-    public function setHeaderTextSpacing($header_text_spacing)
+    public function setHeaderTextSpacing(int $header_text_spacing): void
     {
         $this->header_text_spacing = $header_text_spacing;
     }
 
-    /**
-     * @return string
-     */
-    public function getHeaderTextRight()
+    public function getHeaderTextRight(): string
     {
         return $this->header_text_right;
     }
 
-    /**
-     * @param string $header_text_right
-     */
-    public function setHeaderTextRight($header_text_right)
+    public function setHeaderTextRight(string $header_text_right): void
     {
         $this->header_text_right = $header_text_right;
     }
 
-    /**
-     * @return string
-     */
-    public function getHeaderTextCenter()
+    public function getHeaderTextCenter(): string
     {
         return $this->header_text_center;
     }
 
-    /**
-     * @param string $header_text_center
-     */
-    public function setHeaderTextCenter($header_text_center)
+    public function setHeaderTextCenter(string $header_text_center): void
     {
         $this->header_text_center = $header_text_center;
     }
 
-    /**
-     * @return string
-     */
-    public function getHeaderTextLeft()
+    public function getHeaderTextLeft(): string
     {
         return $this->header_text_left;
     }
 
-    /**
-     * @param string $header_text_left
-     */
-    public function setHeaderTextLeft($header_text_left)
+    public function setHeaderTextLeft(string $header_text_left): void
     {
         $this->header_text_left = $header_text_left;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeaderType()
+    public function getHeaderType(): int
     {
         return $this->header_type;
     }
 
-    /**
-     * @param int $header_type
-     */
-    public function setHeaderType($header_type)
+    public function setHeaderType(int $header_type): void
     {
         $this->header_type = $header_type;
     }
 
-    /**
-     * @return string
-     */
-    public function getRadioButtonCheckedSvg()
+    public function getRadioButtonCheckedSvg(): string
     {
         return $this->radio_button_checked_svg;
     }
 
-    /**
-     * @param string $radio_button_checked_svg
-     */
-    public function setRadioButtonCheckedSvg($radio_button_checked_svg)
+    public function setRadioButtonCheckedSvg(string $radio_button_checked_svg): void
     {
         $this->radio_button_checked_svg = $radio_button_checked_svg;
     }
 
-    /**
-     * @return string
-     */
-    public function getRadioButtonSvg()
+    public function getRadioButtonSvg(): string
     {
         return $this->radio_button_svg;
     }
 
-    /**
-     * @param string $radio_button_svg
-     */
-    public function setRadioButtonSvg($radio_button_svg)
+    public function setRadioButtonSvg(string $radio_button_svg): void
     {
         $this->radio_button_svg = $radio_button_svg;
     }
 
-    /**
-     * @return string
-     */
-    public function getCheckboxCheckedSvg()
+    public function getCheckboxCheckedSvg(): string
     {
         return $this->checkbox_checked_svg;
     }
 
-    /**
-     * @param string $checkbox_checked_svg
-     */
-    public function setCheckboxCheckedSvg($checkbox_checked_svg)
+    public function setCheckboxCheckedSvg(string $checkbox_checked_svg): void
     {
         $this->checkbox_checked_svg = $checkbox_checked_svg;
     }
 
-    /**
-     * @return string
-     */
-    public function getCheckboxSvg()
+    public function getCheckboxSvg(): string
     {
         return $this->checkbox_svg;
     }
 
-    /**
-     * @param string $checkbox_svg
-     */
-    public function setCheckboxSvg($checkbox_svg)
+    public function setCheckboxSvg(string $checkbox_svg): void
     {
         $this->checkbox_svg = $checkbox_svg;
     }
 
-    /**
-     * @return string
-     */
-    public function getJavascriptDelay()
+    public function getJavascriptDelay(): int
     {
         return $this->javascript_delay;
     }
 
-    /**
-     * @param int $javascript_delay
-     */
-    public function setJavascriptDelay($javascript_delay)
+    public function setJavascriptDelay(int $javascript_delay): void
     {
         $this->javascript_delay = $javascript_delay;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPrintMediaType()
+    public function getPrintMediaType(): bool
     {
         return $this->print_media_type;
     }
 
-    /**
-     * @param boolean $print_media_type
-     */
-    public function setPrintMediaType($print_media_type)
+    public function setPrintMediaType(bool $print_media_type): void
     {
         $this->print_media_type = $print_media_type;
     }
 
-    /**
-     * @return string
-     */
-    public function getMarginTop()
+    public function getMarginTop(): string
     {
         return $this->margin_top;
     }
 
-    /**
-     * @param string $margin_top
-     */
-    public function setMarginTop($margin_top)
+    public function setMarginTop(string $margin_top): void
     {
         $this->margin_top = $margin_top;
     }
 
-    /**
-     * @return string
-     */
-    public function getMarginBottom()
+    public function getMarginBottom(): string
     {
         return $this->margin_bottom;
     }
 
-    /**
-     * @param string $margin_bottom
-     */
-    public function setMarginBottom($margin_bottom)
+    public function setMarginBottom(string $margin_bottom): void
     {
         $this->margin_bottom = $margin_bottom;
     }
 
-    /**
-     * @param bool $renderStyle
-     * @return string
-     */
-    public function getOverwriteDefaultFont($renderStyle = false)
+    public function getOverwriteDefaultFont(bool $renderStyle = false): string
     {
         if ($renderStyle) {
-            if (strlen($this->overwrite_default_font) > 0) {
+            if ($this->overwrite_default_font !== '') {
                 return '<style>body{font-family: ' . $this->overwrite_default_font . ';}</style>';
             }
-        } else {
-            return $this->overwrite_default_font;
+
+            return '';
+        }
+        if ($this->overwrite_default_font === '') {
+            return 'arial';
         }
 
-        return '';
+        return $this->overwrite_default_font;
     }
 
-    /**
-     * @param string $overwrite_default_font
-     */
-    public function setOverwriteDefaultFont($overwrite_default_font)
+    public function setOverwriteDefaultFont(string $overwrite_default_font): void
     {
         $this->overwrite_default_font = $overwrite_default_font;
     }
 
-    protected function useDefaultConfig()
+    protected function useDefaultConfig(): void
     {
         $this->setExternalLinks(true);
         $this->setEnabledForms(false);
@@ -849,61 +549,49 @@ class ilWkhtmlToPdfConfig
         $this->setMarginTop('2cm');
     }
 
-    /**
-     * @return bool
-     */
-    public static function supportMultiSourcesFiles()
+    public static function supportMultiSourcesFiles(): bool
     {
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
 
-    /**
-     * @return string
-     */
-    public function getWKHTMLToPdfDefaultPath()
+    public function getWKHTMLToPdfDefaultPath(): string
     {
         $path = $this->getSavedDefaultBinaryPath();
-        if($path !== ''){
+        if ($path !== '') {
             return $path;
         }
+
         return '/usr/local/bin/wkhtmltopdf';
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config;
     }
 
-    /**
-     * @return string
-     */
-    public function getCommandLineConfig()
+    public function getCommandLineConfig(): string
     {
         $this->generateCommandLineConfig();
+
         $settings = ' ';
         foreach ($this->config as $value) {
             $settings .= '--' . $value . ' ';
         }
+
         return $settings;
     }
 
-    protected function generateCommandLineConfig()
+    protected function generateCommandLineConfig(): void
     {
         $this->getZoomArgument();
         $this->getExternalLinksArgument();
@@ -926,14 +614,14 @@ class ilWkhtmlToPdfConfig
         $this->getSessionObject();
     }
 
-    protected function getZoomArgument()
+    protected function getZoomArgument(): void
     {
-        if ($this->getZoom() != '') {
+        if ($this->getZoom()) {
             $this->config[] = 'zoom ' . $this->getZoom();
         }
     }
 
-    protected function getExternalLinksArgument()
+    protected function getExternalLinksArgument(): void
     {
         if ($this->getExternalLinks()) {
             $this->config[] = 'enable-external-links';
@@ -942,7 +630,7 @@ class ilWkhtmlToPdfConfig
         }
     }
 
-    protected function getEnabledFormsArgument()
+    protected function getEnabledFormsArgument(): void
     {
         if ($this->getEnabledForms()) {
             $this->config[] = 'enable-forms';
@@ -951,233 +639,212 @@ class ilWkhtmlToPdfConfig
         }
     }
 
-    protected function getUserStylesheetArgument()
+    protected function getUserStylesheetArgument(): void
     {
         $stylesheet = $this->getUserStylesheet();
-        if ($stylesheet != '') {
+        if ($stylesheet !== '') {
             $this->config[] = 'user-style-sheet "' . $stylesheet . '"';
         }
     }
 
-    protected function getGreyscaleArgument()
+    protected function getGreyscaleArgument(): void
     {
         if ($this->getGreyscale()) {
             $this->config[] = 'grayscale';
         }
     }
 
-    protected function getLowQualityArgument()
+    protected function getLowQualityArgument(): void
     {
-        if ($this->getLowQuality() == 1 || $this->getLowQuality() == true) {
+        if ($this->getLowQuality()) {
             $this->config[] = 'lowquality';
         }
     }
 
-    protected function getOrientationArgument()
+    protected function getOrientationArgument(): void
     {
         $orientation = $this->getOrientation();
-        if ($orientation == '' || $orientation == 'Portrait') {
+        if ($orientation === '' || $orientation === 'Portrait') {
             $this->config[] = 'orientation Portrait';
         } else {
             $this->config[] = 'orientation Landscape';
         }
     }
 
-    protected function getPrintMediaTypeArgument()
+    protected function getPrintMediaTypeArgument(): void
     {
-        if ($this->getPrintMediaType() == 1) {
+        if ($this->getPrintMediaType()) {
             $this->config[] = 'print-media-type';
         }
     }
 
-    protected function getPageSizeArgument()
+    protected function getPageSizeArgument(): void
     {
-        if ($this->getPageSize() != '') {
+        if ($this->getPageSize() !== '') {
             $this->config[] = 'page-size ' . $this->getPageSize();
         }
     }
 
-    protected function getJavascriptDelayArgument()
+    protected function getJavascriptDelayArgument(): void
     {
-        if ($this->getJavascriptDelay() != '') {
+        if ($this->getJavascriptDelay() > 0) {
             $this->config[] = 'javascript-delay ' . $this->getJavascriptDelay();
         }
     }
 
-    protected function getCheckboxSvgArgument()
+    protected function getCheckboxSvgArgument(): void
     {
         $checkbox_svg = $this->getCheckboxSvg();
-        if ($checkbox_svg != '') {
+        if ($checkbox_svg !== '') {
             $this->config[] = 'checkbox-svg "' . $checkbox_svg . '"';
         }
     }
 
-    protected function getCheckboxCheckedSvgArgument()
+    protected function getCheckboxCheckedSvgArgument(): void
     {
         $checkbox_svg = $this->getCheckboxCheckedSvg();
-        if ($checkbox_svg != '') {
+        if ($checkbox_svg !== '') {
             $this->config[] = 'checkbox-checked-svg "' . $checkbox_svg . '"';
         }
     }
 
-    protected function getRadioButtonSvgArgument()
+    protected function getRadioButtonSvgArgument(): void
     {
         $radio_button_svg = $this->getRadioButtonSvg();
-        if ($radio_button_svg != '') {
+        if ($radio_button_svg !== '') {
             $this->config[] = 'radiobutton-svg "' . $radio_button_svg . '"';
         }
     }
 
-    protected function getRadioButtonCheckedSvgArgument()
+    protected function getRadioButtonCheckedSvgArgument(): void
     {
         $radio_button_svg = $this->getRadioButtonCheckedSvg();
-        if ($radio_button_svg != '') {
+        if ($radio_button_svg !== '') {
             $this->config[] = 'radiobutton-checked-svg "' . $radio_button_svg . '"';
         }
     }
 
-    protected function getMarginArgument()
+    protected function getMarginArgument(): void
     {
-        if ($this->getMarginBottom() != '') {
+        if ($this->getMarginBottom() !== '') {
             $this->config[] = 'margin-bottom ' . $this->getMarginBottom();
         }
-        if ($this->getMarginLeft() != '') {
+        if ($this->getMarginLeft() !== '') {
             $this->config[] = 'margin-left ' . $this->getMarginLeft();
         }
-        if ($this->getMarginRight() != '') {
+        if ($this->getMarginRight() !== '') {
             $this->config[] = 'margin-right ' . $this->getMarginRight();
         }
-        if ($this->getMarginTop() != '') {
+        if ($this->getMarginTop() !== '') {
             $this->config[] = 'margin-top ' . $this->getMarginTop();
         }
     }
 
-    protected function getHeaderArgument()
+    protected function getHeaderArgument(): void
     {
         $header_value = $this->getHeaderType();
-        if ($header_value == ilPDFGenerationConstants::HEADER_TEXT) {
+        if ($header_value === ilPDFGenerationConstants::HEADER_TEXT) {
             $this->config[] = 'header-left "' . $this->getHeaderTextLeft() . '"';
             $this->config[] = 'header-center "' . $this->getHeaderTextCenter() . '"';
             $this->config[] = 'header-right "' . $this->getHeaderTextRight() . '"';
-            if ($this->getHeaderTextSpacing() != '') {
+            if ($this->getHeaderTextSpacing() > 0) {
                 $this->config[] = 'header-spacing ' . $this->getHeaderTextSpacing();
             }
 
             if ($this->isHeaderTextLine()) {
                 $this->config[] = 'header-line';
             }
-        } else {
-            if ($header_value == ilPDFGenerationConstants::HEADER_HTML) {
-                $this->config[] = 'header-html "' . $this->getHeaderHtml() . '"';
+        } elseif ($header_value === ilPDFGenerationConstants::HEADER_HTML) {
+            $this->config[] = 'header-html "' . $this->getHeaderHtml() . '"';
 
-                if ($this->getHeaderHtmlSpacing() != '') {
-                    $this->config[] = 'header-spacing ' . $this->getHeaderHtmlSpacing();
-                }
-                if ($this->isHeaderHtmlLine()) {
-                    $this->config[] = 'header-line';
-                }
+            if ($this->getHeaderHtmlSpacing() > 0) {
+                $this->config[] = 'header-spacing ' . $this->getHeaderHtmlSpacing();
+            }
+            if ($this->isHeaderHtmlLine()) {
+                $this->config[] = 'header-line';
             }
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getHeaderHtml()
+    public function getHeaderHtml(): string
     {
         return $this->header_html;
     }
 
-    /**
-     * @param string $header_html
-     */
-    public function setHeaderHtml($header_html)
+    public function setHeaderHtml(string $header_html): void
     {
         $this->header_html = $header_html;
     }
 
-    /**
-     * @return int
-     */
-    public function getHeaderHtmlSpacing()
+    public function getHeaderHtmlSpacing(): int
     {
         return $this->header_html_spacing;
     }
 
-    /**
-     * @param int $header_html_spacing
-     */
-    public function setHeaderHtmlSpacing($header_html_spacing)
+    public function setHeaderHtmlSpacing(int $header_html_spacing): void
     {
         $this->header_html_spacing = $header_html_spacing;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isHeaderHtmlLine()
+    public function isHeaderHtmlLine(): bool
     {
         return $this->header_html_line;
     }
 
-    /**
-     * @param boolean $header_html_line
-     */
-    public function setHeaderHtmlLine($header_html_line)
+    public function setHeaderHtmlLine(bool $header_html_line): void
     {
         $this->header_html_line = $header_html_line;
     }
 
-    protected function getFooterArgument()
+    protected function getFooterArgument(): void
     {
         $footer_value = $this->getFooterType();
-        if ($footer_value == ilPDFGenerationConstants::FOOTER_TEXT) {
+        if ($footer_value === ilPDFGenerationConstants::FOOTER_TEXT) {
             $this->config[] = 'footer-left "' . $this->getFooterTextLeft() . '"';
             $this->config[] = 'footer-center "' . $this->getFooterTextCenter() . '"';
             $this->config[] = 'footer-right "' . $this->getFooterTextRight() . '"';
-            if ($this->getFooterTextSpacing() != '') {
+            if ($this->getFooterTextSpacing() > 0) {
                 $this->config[] = 'footer-spacing ' . $this->getFooterTextSpacing();
             }
 
             if ($this->isFooterTextLine()) {
                 $this->config[] = 'footer-line';
             }
-        } else {
-            if ($footer_value == ilPDFGenerationConstants::FOOTER_HTML) {
-                $this->config[] = 'footer-html "' . $this->getFooterHtml() . '"';
+        } elseif ($footer_value === ilPDFGenerationConstants::FOOTER_HTML) {
+            $this->config[] = 'footer-html "' . $this->getFooterHtml() . '"';
 
-                if ($this->getFooterHtmlSpacing() != '') {
-                    $this->config[] = 'footer-spacing ' . $this->getFooterHtmlSpacing();
-                }
-                if ($this->isFooterHtmlLine()) {
-                    $this->config[] = 'footer-line';
-                }
+            if ($this->getFooterHtmlSpacing() > 0) {
+                $this->config[] = 'footer-spacing ' . $this->getFooterHtmlSpacing();
+            }
+            if ($this->isFooterHtmlLine()) {
+                $this->config[] = 'footer-line';
             }
         }
     }
 
-    protected function getDebugArgument()
+    protected function getDebugArgument(): void
     {
         if (self::ENABLE_QUIET) {
             $this->config[] = 'quiet';
         }
     }
 
-    protected function getSessionObject()
+    protected function getSessionObject(): void
     {
         $this->config[] = 'cookie "PHPSESSID" "' . session_id() . '"';
-        $this->config[] = 'cookie "ilClientId" "' . CLIENT_ID . '"';
+        if (defined('CLIENT_ID')) {
+            $this->config[] = 'cookie "ilClientId" "' . CLIENT_ID . '"';
+        }
     }
 
-    /**
-     * @return string
-     */
-    protected function getSavedDefaultBinaryPath(){
+    protected function getSavedDefaultBinaryPath(): string
+    {
         $settings = new ilSetting('wkhtmltopdfrenderer');
         $path = $settings->get('path');
-        if( ! is_bool($path) && $path != null && $path != ''){
+        if ($path !== null && $path !== '') {
             return $path;
         }
+
         return '';
     }
 }

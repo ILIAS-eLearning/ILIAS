@@ -1,5 +1,19 @@
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /*
    Please note that this file should only contain common Javascript code
@@ -976,38 +990,6 @@ il.Language = {
 ////
 //// The following methods should be moved to the corresponding components
 ////
-
-/**
- * Opens a chat window
- *
- * @param   object	the link which was clicked
- * @param   int		desired width of the new window
- * @param   int		desired height of the new window
- */
-function openChatWindow(oLink, width, height)
-{
-	if(width == null)
-	{
-		width = screen.availWidth;
-	}
-	leftPos = (screen.availWidth / 2)- (width / 2);	
-	
-	if(height == null)
-	{
-		height = screen.availHeight;
-	}
-	topPos = (screen.availHeight / 2)- (height / 2);				
-
-	oChatWindow = window.open(
-		oLink.href, 
-		oLink.target, 
-		'width=' + width + ',height=' + height + ',left=' + leftPos + ',top=' + topPos +
-		',resizable=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,location=yes'
-	);
-
-	oChatWindow.focus();
-}
-
 
 function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 {

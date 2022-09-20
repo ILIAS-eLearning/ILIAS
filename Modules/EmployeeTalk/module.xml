@@ -1,0 +1,37 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id$" id="etal">
+    <objectgroups>
+        <objectgroup id="tala" name="Employee Talk Templates" default_pres_pos="10"/>
+    </objectgroups>
+    <objects>
+        <object id="tala" class_name="TalkTemplateAdministration" dir="classes" group="tala" checkbox="0" inherit="0"
+                translate="sys" rbac="1" system="1" administration="1" repository="0" force_active="1" allow_copy="0">
+            <parent id="adm" max="1">adm</parent>
+        </object>
+        <object id="talt" class_name="TalkTemplate" dir="classes" checkbox="1" inherit="1" translate="db"
+                allow_copy="0" export="0" import="0" rbac="1" default_pres_pos="10" default_pos="10" administration="1"
+                group="tala" amet="0" orgunit_permissions="0" lti_provider="0"
+                offline_handling="1" force_active="1" repository="0">
+            <parent id="tala">tala</parent>
+            <sub_type id="etal" amet="1" />
+        </object>
+        <object id="tals" class_name="EmployeeTalkSeries" dir="classes/TalkSeries" checkbox="1" inherit="1" translate="db"
+                allow_copy="0" export="0" import="0" rbac="0" default_pres_pos="10" default_pos="10" administration="1"
+                group="tala" amet="0" orgunit_permissions="0" lti_provider="0"
+                offline_handling="0" force_active="1" repository="0">
+            <parent id="tala">tala</parent>
+            <sub_type id="etal" amet="1" />
+        </object>
+        <object id="etal" class_name="EmployeeTalk" dir="classes/Talk" checkbox="1" inherit="1" translate="db"
+                allow_copy="0" export="0" import="0" rbac="0" default_pres_pos="10" default_pos="10" administration="1"
+                group="tala" amet="0" orgunit_permissions="1" lti_provider="0"
+                offline_handling="0" force_active="1" repository="0">
+            <parent id="tals">tals</parent>
+        </object>
+    </objects>
+    <events>
+        <event type="raise" id="create" />
+        <event type="raise" id="update" />
+        <event type="raise" id="delete" />
+    </events>
+</module>

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -19,7 +21,7 @@ class Factory
     /**
      * Get the ISO 8601 date format (YYYY-MM-DD)
      */
-    public function standard() : DateFormat
+    public function standard(): DateFormat
     {
         return $this->builder->year()->dash()->month()->dash()->day()->get();
     }
@@ -27,19 +29,19 @@ class Factory
     /**
      * Get the builder to define a custom DateFormat
      */
-    public function custom() : FormatBuilder
+    public function custom(): FormatBuilder
     {
         return $this->builder;
     }
 
-    public function germanShort() : DateFormat
+    public function germanShort(): DateFormat
     {
         return $this->builder->day()->dot()->month()->dot()->year()->get();
     }
 
-    public function germanLong() : DateFormat
+    public function germanLong(): DateFormat
     {
         return $this->builder->weekday()->comma()->space()
-            ->day()->dot()->month()->dot()->year()->get();
+                             ->day()->dot()->month()->dot()->year()->get();
     }
 }

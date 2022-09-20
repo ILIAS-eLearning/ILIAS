@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -6,53 +22,39 @@ use ILIAS\MyStaff\ListCompetences\Skills\ilMStListCompetencesSkillsTableGUI;
 
 /**
  * Class ilMStListCompetencesSkillsGUI
- *
  * @package ILIAS\MyStaff\ListCompetences
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilMStListCompetencesSkillsGUI
 {
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_RESET_FILTER = 'resetFilter';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-    /**
-     * @var Container
-     */
-    private $dic;
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_RESET_FILTER = 'resetFilter';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private Container $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
         $this->dic = $dic;
     }
 
-
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
 
-
-    public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
@@ -73,14 +75,12 @@ class ilMStListCompetencesSkillsGUI
         }
     }
 
-
-    public function index() : void
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-
-    public function listUsers() : void
+    final public function listUsers(): void
     {
         $this->checkAccessOrFail();
 
@@ -89,8 +89,7 @@ class ilMStListCompetencesSkillsGUI
         $this->dic->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-
-    public function applyFilter() : void
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_APPLY_FILTER, $this->dic);
         $this->table->writeFilterToSession();
@@ -98,8 +97,7 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-
-    public function resetFilter() : void
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_RESET_FILTER, $this->dic);
         $this->table->resetOffset();
@@ -107,25 +105,19 @@ class ilMStListCompetencesSkillsGUI
         $this->index();
     }
 
-
-    /**
-     * @return string
-     */
-    public function getId() : string
+    final public function getId(): string
     {
         $this->table = new ilMStListCompetencesSkillsTableGUI($this, self::CMD_INDEX, $this->dic);
 
         return $this->table->getId();
     }
 
-
-    public function cancel() : void
+    final public function cancel(): void
     {
         $this->dic->ctrl()->redirect($this);
     }
 
-
-    protected function getActions() : void
+    protected function getActions(): void
     {
         global $DIC;
 
@@ -134,8 +126,12 @@ class ilMStListCompetencesSkillsGUI
         if ($mst_co_usr_id > 0) {
             $selection = new ilAdvancedSelectionListGUI();
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
+                $selection,
+                $mst_co_usr_id,
+                rawurlencode($DIC->ctrl()
+                                 ->getLinkTarget($this, self::CMD_INDEX))
+            );
 
             echo $selection->getHTML(true);
         }

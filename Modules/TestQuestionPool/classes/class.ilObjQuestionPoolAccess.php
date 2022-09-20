@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
@@ -27,7 +28,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
@@ -37,43 +38,31 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
             array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",
                 "default" => true)
         );
-        
+
         return $commands;
     }
 
-    /**
-     * @param string $a_cmd
-     * @param string $a_permission
-     * @param int $a_ref_id
-     * @param int $a_obj_id
-     * @param string $a_user_id
-     * @return bool
-     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($a_user_id == "") {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id)) {
+            $user_id = $ilUser->getId();
         }
 
-        if ($rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+        if ($rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
             return true;
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'visible':
             case 'read':
-                if (!self::isOnline($a_obj_id)) {
-                    $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
+                if (!self::isOnline($obj_id)) {
+                    $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_pool_offline"));
                     return false;
                 }
                 break;
@@ -88,7 +77,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
      * @param integer $a_obj_id
      * @return boolean $online
      */
-    public static function isOnline($a_obj_id)
+    public static function isOnline($a_obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -102,7 +91,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 
         $res = $ilDB->queryF($query, array('integer'), array($a_obj_id));
         $row = $ilDB->fetchAssoc($res);
-        
+
         return $row['cnt'] > 0;
     }
 }

@@ -1,72 +1,63 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilUnitConfigurationGUI.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 /**
  * Class ilGlobalUnitConfigurationGUI
  */
 class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 {
-    const REQUEST_PARAM_SUB_CONTEXT = 'context';
+    public const REQUEST_PARAM_SUB_CONTEXT = 'context';
 
-    /**
-     * @return string
-     */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    /**
-     * @return string
-     */
-    public function getUnitCategoryOverviewCommand()
+    public function getUnitCategoryOverviewCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    /**
-     * @return boolean
-     */
-    public function isCRUDContext()
+    public function isCRUDContext(): bool
     {
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function getUniqueId()
+    public function getUniqueId(): string
     {
         return $this->repository->getConsumerId() . '_global';
     }
 
-    /**
-     *
-     */
-    protected function showGlobalUnitCategories()
+    protected function showGlobalUnitCategories(): void
     {
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
         global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
+
+        $ilToolbar = $DIC->toolbar();
         $rbacsystem = $DIC->rbac()->system();
 
-        if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $ilToolbar->addButton($this->lng->txt('un_add_category'), $this->ctrl->getLinkTarget($this, 'showUnitCategoryCreationForm'));
         }
 
         parent::showGlobalUnitCategories();
     }
 
-    /**
-     * @param array $categories
-     */
-    protected function showUnitCategories(array $categories)
+    protected function showUnitCategories(array $categories): void
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php';
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);
 

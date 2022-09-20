@@ -1,5 +1,25 @@
 <?php
-require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
 
 /**
  * Class ilCachedLanguage
@@ -9,35 +29,18 @@ require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
  */
 class ilCachedLanguage
 {
-    protected $global_cache;
-    /**
-     * @var bool
-     */
-    protected $loaded = false;
-    /**
-     * @var string
-     */
-    protected $language_key = 'en';
-    /**
-     * @var array
-     */
-    protected $translations = array();
-    /**
-     * @var ilCachedLanguage[]
-     */
-    protected static $instances = array();
-
+    protected \ilGlobalCache $global_cache;
+    protected bool $loaded = false;
+    protected string $language_key = "en";
+    protected array $translations = array();
+    protected static array $instances = array();
 
     /**
-     * @param $language_key
+     * ilCachedLanguage constructor.
      */
-    protected function __construct($language_key)
+    protected function __construct(string $language_key)
     {
         $this->setLanguageKey($language_key);
-        /**
-         * @var $ilUser         ilObjUser
-         * @var $ilLog          ilLog
-         */
         $this->global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_CLNG);
         $this->readFromCache();
         if (!$this->getLoaded()) {
@@ -47,20 +50,21 @@ class ilCachedLanguage
         }
     }
 
-
     /**
-     * @return bool
+     * Return whether the global cache is active
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->global_cache->isActive();
     }
 
-
-    protected function readFromCache()
+    /**
+     * Read from cache
+     */
+    protected function readFromCache(): void
     {
         if ($this->global_cache->isActive()) {
-            $translations = $this->global_cache->get('translations_' . $this->getLanguageKey());
+            $translations = $this->global_cache->get("translations_" . $this->getLanguageKey());
             if (is_array($translations)) {
                 $this->setTranslations($translations);
                 $this->setLoaded(true);
@@ -68,37 +72,47 @@ class ilCachedLanguage
         }
     }
 
-
-    public function writeToCache()
+    /**
+     * Write to global cache
+     */
+    public function writeToCache(): void
     {
         if ($this->global_cache->isActive()) {
-            $this->global_cache->set('translations_' . $this->getLanguageKey(), $this->getTranslations());
+            $this->global_cache->set("translations_" . $this->getLanguageKey(), $this->getTranslations());
         }
     }
 
-	/**
-	 * Delete the cache entry for this language without flushing the whole global cache
-	 * Using this function avoids a flush loop when languages are updated
-	 * A missing entry will cause the next request to refill the cache in the constructor of this class
-	 * @see mantis #28818
-	 */
-	public function deleteInCache() {
-		if ($this->global_cache->isActive()) {
-			$this->global_cache->delete('translations_' . $this->getLanguageKey());
-			$this->setLoaded(false);
-		}
-	}
+    /**
+     * Delete the cache entry for this language without flushing the whole global cache
+     * Using this function avoids a flush loop when languages are updated
+     * A missing entry will cause the next request to refill the cache in the constructor of this class
+     * @see mantis #28818
+     */
+    public function deleteInCache(): void
+    {
+        if ($this->global_cache->isActive()) {
+            $this->global_cache->delete("translations_" . $this->getLanguageKey());
+            $this->setLoaded(false);
+        }
+    }
 
-	protected function readFromDB()
+    /**
+    * Read data from table lng_module from DB
+    */
+    protected function readFromDB(): void
     {
         global $DIC;
         $ilDB = $DIC->database();
 
         $q = 'SELECT module, lang_array FROM lng_modules WHERE lang_key = %s';
-        $res = $ilDB->queryF($q, array( 'text' ), array( $this->getLanguageKey() ));
+        $res = $ilDB->queryF($q, array( "text" ), array( $this->getLanguageKey() ));
         $translations = array();
         while ($set = $ilDB->fetchObject($res)) {
-            $lang_array = unserialize($set->lang_array);
+            try {
+                $lang_array = unserialize($set->lang_array, ['allowed_classes' => false]);
+            } catch (Throwable $t) {
+                continue;
+            }
             if (is_array($lang_array)) {
                 $translations[$set->module] = $lang_array;
             }
@@ -106,13 +120,7 @@ class ilCachedLanguage
         $this->setTranslations($translations);
     }
 
-
-    /**
-     * @param $key
-     *
-     * @return ilCachedLanguage
-     */
-    public static function getInstance($key)
+    public static function getInstance($key): self
     {
         if (!isset(self::$instances[$key])) {
             self::$instances[$key] = new self($key);
@@ -121,8 +129,7 @@ class ilCachedLanguage
         return self::$instances[$key];
     }
 
-
-    public function flush()
+    public function flush(): void
     {
         if ($this->global_cache->isActive()) {
             $this->global_cache->flush();
@@ -131,56 +138,44 @@ class ilCachedLanguage
         $this->writeToCache();
     }
 
-
     /**
-     * @param string $language_key
+     * Set language key
      */
-    public function setLanguageKey($language_key)
+    public function setLanguageKey(string $language_key): void
     {
         $this->language_key = $language_key;
     }
 
-
     /**
-     * @return string
+     * Return language key
      */
-    public function getLanguageKey()
+    public function getLanguageKey(): string
     {
         return $this->language_key;
     }
 
-
-    /**
-     * @param boolean $loaded
-     */
-    public function setLoaded($loaded)
+    public function setLoaded(bool $loaded): void
     {
         $this->loaded = $loaded;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getLoaded()
+    public function getLoaded(): bool
     {
         return $this->loaded;
     }
 
-
     /**
-     * @param array $translations
+     * Set translations
      */
-    public function setTranslations($translations)
+    public function setTranslations(array $translations): void
     {
         $this->translations = $translations;
     }
 
-
     /**
-     * @return array
+     * Return translations as array
      */
-    public function getTranslations()
+    public function getTranslations(): array
     {
         return $this->translations;
     }

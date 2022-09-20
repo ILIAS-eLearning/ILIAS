@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Menu;
 
@@ -44,11 +62,11 @@ interface Factory
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
      * ---
-     * @param 	string		$label
-     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal| Divider\Horizontal> $items
-     * @return 	\ILIAS\UI\Component\Menu\Drilldown
+     * @param 	string $label
+     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
+     * @return \ILIAS\UI\Component\Menu\Drilldown
      */
-    public function drilldown(string $label, array $items) : Drilldown;
+    public function drilldown(string $label, array $items): Drilldown;
 
     /**
      * ---
@@ -80,9 +98,8 @@ interface Factory
      *          or purpose of contained entries.
      *
      * ---
-     * @param 	string $label
      * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Sub
      */
-    public function sub(string $label, array $items) : Sub;
+    public function sub(string $label, array $items): Sub;
 }

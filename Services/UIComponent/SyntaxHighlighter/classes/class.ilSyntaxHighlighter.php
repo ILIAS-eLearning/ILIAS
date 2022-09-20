@@ -3,20 +3,25 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Syntax highlighter wrapper class
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilSyntaxHighlighter
 {
@@ -60,7 +65,7 @@ class ilSyntaxHighlighter
         $this->lang = $a_lang;
     }
 
-    public static function getInstance(string $a_lang) : self
+    public static function getInstance(string $a_lang): self
     {
         return new self($a_lang);
     }
@@ -69,7 +74,7 @@ class ilSyntaxHighlighter
      * Get supported languages (keys are internal values, values are for representation)
      * @return string[]
      */
-    public static function getSupportedLanguages() : array
+    public static function getSupportedLanguages(): array
     {
         return self::$langs;
     }
@@ -77,7 +82,7 @@ class ilSyntaxHighlighter
     /**
      * Is language supported?
      */
-    public static function isSupported(string $a_lang) : bool
+    public static function isSupported(string $a_lang): bool
     {
         return isset(self::$langs[$a_lang]);
     }
@@ -85,19 +90,16 @@ class ilSyntaxHighlighter
     /**
      * Get new language id (for an old one)
      */
-    public static function getNewLanguageId(string $a_old_lang_id) : string
+    public static function getNewLanguageId(string $a_old_lang_id): string
     {
-        if (isset(self::$v51_map[$a_old_lang_id])) {
-            return self::$v51_map[$a_old_lang_id];
-        }
-        return $a_old_lang_id;
+        return self::$v51_map[$a_old_lang_id] ?? $a_old_lang_id;
     }
 
 
     /**
      * Get supported languages (keys are ILIAS <= 5.1 internal values, values are for representation)
      */
-    public static function getSupportedLanguagesV51() : array
+    public static function getSupportedLanguagesV51(): array
     {
         $langs = array();
         $map = array_flip(self::$v51_map);
@@ -110,7 +112,7 @@ class ilSyntaxHighlighter
         return $langs;
     }
 
-    public function highlight(string $a_code) : string
+    public function highlight(string $a_code): string
     {
         include_once("./libs/composer/vendor/geshi/geshi/src/geshi.php");
         $geshi = new Geshi(html_entity_decode($a_code), $this->lang);

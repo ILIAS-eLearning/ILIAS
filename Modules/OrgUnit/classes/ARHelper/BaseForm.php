@@ -1,63 +1,64 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\Modules\OrgUnit\ARHelper;
 
 /**
  * Class BaseForm
- *
  * @package ILIAS\Modules\OrgUnit\CtrlHelper
  */
 abstract class BaseForm extends \ilPropertyFormGUI
 {
+    protected BaseCommands $parent_gui;
+    protected \ILIAS\DI\Container $DIC;
+    protected \ActiveRecord $object;
+    protected \ilLanguage $lng;
+    protected \ilCtrl $ctrl;
 
     /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_gui;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $DIC;
-    /**
-     * @var \ActiveRecord
-     */
-    protected $object;
-
-
-    /**
-     * BaseForm constructor.
-     *
-     * @param \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands $parent_gui
-     * @param \ActiveRecord                                $object
+     * @throws \ilCtrlException
      */
     public function __construct(BaseCommands $parent_gui, \ActiveRecord $object)
     {
+        global $DIC;
+
         $this->parent_gui = $parent_gui;
         $this->object = $object;
-        $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
-        $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
+        $this->lng = $DIC->language();
+
+        $this->ctrl = $DIC->ctrl();
+        $this->ctrl->saveParameter($parent_gui, 'arid');
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->initFormElements();
         $this->initButtons();
         $this->setTarget('_top');
         parent::__construct();
     }
 
+    abstract protected function initFormElements(): void;
 
-    abstract protected function initFormElements();
+    abstract public function fillForm(): void;
 
+    abstract protected function fillObject(): bool;
 
-    abstract public function fillForm();
-
-
-    abstract protected function fillObject();
-
-
-    /**
-     * @return int ID of the object
-     */
-    public function saveObject()
+    public function saveObject(): bool
     {
-        if (!$this->fillObject()) {
+        if ($this->fillObject() === false) {
             return false;
         }
         if ($this->object->getId()) {
@@ -69,8 +70,7 @@ abstract class BaseForm extends \ilPropertyFormGUI
         return $this->object->getId();
     }
 
-
-    protected function initButtons()
+    private function initButtons(): void
     {
         if (!$this->object->getId()) {
             $this->setTitle($this->txt('create'));
@@ -84,33 +84,13 @@ abstract class BaseForm extends \ilPropertyFormGUI
     }
 
 
-    /**
-     * @param $key
-     *
-     * @return string
-     */
-    protected function txt($key)
+    private function txt(string $key): string
     {
-        return $this->parent_gui->txt($key);
+        return $this->lng->txt($key);
     }
 
-
-    /**
-     * @param $key
-     *
-     * @return string
-     */
-    protected function infoTxt($key)
+    private function infoTxt(string $key): string
     {
-        return $this->parent_gui->txt($key . '_info');
-    }
-
-
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    protected function dic()
-    {
-        return $GLOBALS["DIC"];
+        return $this->lng->txt($key . '_info');
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -38,12 +54,12 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -52,7 +68,7 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_submit_reminder_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -61,7 +77,7 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_submit_reminder_info');
     }
 
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule('exc');
@@ -90,14 +106,14 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         $ilObjDataCache = $this->obj_data_cache;
 
         if ($placeholder_id == 'ass_title') {
-            return ilExAssignment::lookupTitle($context_parameters["ass_id"]);
+            return ilExAssignment::lookupTitle((int) $context_parameters["ass_id"]);
         } else {
             if ($placeholder_id == 'exc_title') {
-                return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
+                return $ilObjDataCache->lookupTitle((int) $context_parameters["exc_id"]);
             } else {
                 if ($placeholder_id == 'ass_link') {
                     return ilLink::_getLink(

@@ -1,64 +1,57 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/Calendar/classes/class.ilDate.php');
-include_once('./Services/Calendar/interfaces/interface.ilDatePeriod.php');
-
-define('IL_CAL_TRANSLATION_NONE', 0);
-define('IL_CAL_TRANSLATION_SYSTEM', 1);
-
+const IL_CAL_TRANSLATION_NONE = 0;
+const IL_CAL_TRANSLATION_SYSTEM = 1;
 
 /**
-* Model for a calendar entry.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesCalendar
-*/
+ * Model for a calendar entry.
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarEntry implements ilDatePeriod
 {
-    protected $log;
-    protected $db;
-    
-    
-    protected $entry_id;
-    protected $last_update;
-    protected $title;
-    protected $subtitle;
-    protected $description;
-    protected $location;
-    protected $further_informations;
-    protected $start = null;
-    protected $fullday;
-    protected $end = null;
-    protected $is_auto_generated = false;
-    protected $context_id = 0;
-    protected $context_info = '';
-    protected $translation_type = IL_CAL_TRANSLATION_NONE;
-    protected $is_milestone = false;
-    protected $completion = 0;
+    public const TRANSLATION_NONE = 0;
+    public const TRANSLATION_SYSTEM = 1;
 
-    protected $notification = false;
+    protected ilLogger $log;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+    protected ilErrorHandling $error;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int cal_entry id
-     *
-     */
-    public function __construct($a_id = 0)
+    protected int $entry_id = 0;
+    protected ?ilDateTime $last_update = null;
+    protected string $title = '';
+    protected string $presentation_style = '';
+    protected string $subtitle = '';
+    protected string $description = '';
+    protected string $location = '';
+    protected string $further_informations = '';
+    protected ?ilDateTime $start = null;
+    protected bool $fullday = false;
+    protected ?ilDateTime $end = null;
+    protected bool $is_auto_generated = false;
+    protected int $context_id = 0;
+    protected string $context_info = '';
+    protected int $translation_type = ilCalendarEntry::TRANSLATION_NONE;
+    protected bool $is_milestone = false;
+    protected int $completion = 0;
+    protected bool $notification = false;
+    protected array $responsible_users = [];
+
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
         $this->log = $DIC->logger()->cal();
-        
-        $this->db = $ilDB;
-        
-        if ($this->entry_id = $a_id) {
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        $this->error = $DIC['ilErr'];
+        $this->entry_id = $a_id;
+        if ($this->entry_id > 0) {
             $this->read();
         }
     }
@@ -68,213 +61,117 @@ class ilCalendarEntry implements ilDatePeriod
      */
     public function __clone()
     {
-        $this->entry_id = null;
+        $this->entry_id = 0;
     }
-    
-    /**
-     * delete entry
-     *
-     * @access public
-     * @static
-     *
-     */
-    public static function _delete($a_entry_id)
+
+    public static function _delete(int $a_entry_id): void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
         ilCalendarRecurrence::_delete($a_entry_id);
-        
+
         $query = "DELETE FROM cal_entries " .
             "WHERE cal_id = " . $ilDB->quote($a_entry_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
-        return true;
     }
 
-    /**
-     * Set context info
-     * @param $a_info
-     */
-    public function setContextInfo($a_info)
+    public function setContextInfo(string $a_info): void
     {
         $this->context_info = $a_info;
     }
 
-    /**
-     * @return string
-     */
-    public function getContextInfo()
+    public function getContextInfo(): string
     {
         return $this->context_info;
     }
 
-    /**
-     * get entry id
-     *
-     * @access public
-     *
-     */
-    public function getEntryId()
+    public function getEntryId(): int
     {
         return $this->entry_id;
     }
-    
-    /**
-     * get last update
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function getLastUpdate()
+
+    public function getLastUpdate(): ilDateTime
     {
-        return $this->last_update ? $this->last_update : new ilDateTime(time(), IL_CAL_UNIX);
+        return $this->last_update ?: new ilDateTime(time(), IL_CAL_UNIX);
     }
-    
-    /**
-     * set last update
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setLastUpdate($a_date)
+
+    public function setLastUpdate(ilDateTime $a_date): void
     {
         $this->last_update = $a_date;
     }
-    
-    
-    /**
-     * get start
-     *
-     * @access public
-     * @return
-     */
-    public function getStart()
+
+    public function getStart(): ?ilDateTime
     {
         return $this->start;
     }
-    
-    /**
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setStart($a_start)
+
+    public function setStart(ilDateTime $a_start): void
     {
         $this->start = $a_start;
     }
-    
-    /**
-     * get end
-     * @access public
-     * @return ilDateTime end
-     */
-    public function getEnd()
+
+    public function getEnd(): ?ilDateTime
     {
         return $this->end;
     }
-    
-    /**
-     * set end
-     * @access public
-     * @param
-     */
-    public function setEnd($a_end)
+
+    public function setEnd(ilDateTime $a_end): void
     {
         $this->end = $a_end;
     }
-    
-    /**
-     * set title
-     *
-     * @access public
-     * @param string title
-     *
-     */
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
-    
-    /**
-     * get title
-     *
-     * @access public
-     *
-     */
-    public function getTitle()
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    /**
-     * get title for presentation.
-     * Special handling for auto generated appointments
-     *
-     * @access public
-     * @return
-     */
-    public function getPresentationTitle($a_shorten = true)
-    {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        
-        if ($this->getTranslationType() == IL_CAL_TRANSLATION_NONE) {
+    public function getPresentationTitle(bool $a_shorten = true): string
+    {
+        if ($this->getTranslationType() == ilCalendarEntry::TRANSLATION_NONE) {
             $title = $this->getTitle();
         } elseif (strlen($this->getSubtitle())) {
             // parse dynamic title?
             if (preg_match("/#([a-z]+)#/", $this->getSubtitle(), $matches)) {
                 $subtitle = $this->parseDynamicTitle($matches[1]);
             } else {
-                $subtitle = $lng->txt($this->getSubtitle());
+                $subtitle = $this->lng->txt($this->getSubtitle());
             }
             $title = $this->getTitle() .
                 (strlen($subtitle)
-                ? ' (' . $subtitle . ')'
-                : '');
+                    ? ' (' . $subtitle . ')'
+                    : '');
         } else {
-            $title = $lng->txt($this->getTitle());
+            $title = $this->lng->txt($this->getTitle());
         }
 
         if ($a_shorten) {
-            return ilUtil::shortenText(ilUtil::shortenWords($title, 20), 40, true);
+            return ilStr::shortenTextExtended(ilStr::shortenWords($title, 20), 40, true);
         }
         return $title;
     }
-    
-    public function getPresentationStyle()
-    {
-        // see parseDynamicTitle()
-        return $this->presentation_style;
-    }
-    
-    protected function parseDynamicTitle($a_type)
-    {
-        global $DIC;
 
-        $lng = $DIC['lng'];
-        
+    protected function parseDynamicTitle(string $a_type): string
+    {
         $title = $style = "";
         switch ($a_type) {
             case "consultationhour":
-                include_once 'Services/Booking/classes/class.ilBookingEntry.php';
                 $entry = new ilBookingEntry($this->getContextId());
                 if ($entry) {
                     if ($entry->isOwner()) {
-                        $max = (int) $entry->getNumberOfBookings();
-                        $current = (int) $entry->getCurrentNumberOfBookings($this->getEntryId());
+                        $max = $entry->getNumberOfBookings();
+                        $current = $entry->getCurrentNumberOfBookings($this->getEntryId());
                         if (!$current) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
-                            $title = $lng->txt('cal_book_free');
+                            $title = $this->lng->txt('cal_book_free');
                         } elseif ($current >= $max) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: red';
-                            $title = $lng->txt('cal_booked_out');
+                            $title = $this->lng->txt('cal_booked_out');
                         } else {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: yellow';
                             $title = $current . '/' . $max;
@@ -283,294 +180,163 @@ class ilCalendarEntry implements ilDatePeriod
                         /*
                          * if($entry->hasBooked($this->getEntryId()))
                          */
-                        include_once 'Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
-                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(), $this->getContextId(), $this->getStart());
+                        $apps = ilConsultationHourAppointments::getAppointmentIds(
+                            $entry->getObjId(),
+                            $this->getContextId(),
+                            $this->getStart()
+                        );
                         $orig_event = $apps[0];
                         if ($entry->hasBooked($orig_event)) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';
-                            $title = $lng->txt('cal_date_booked');
+                            $title = $this->lng->txt('cal_date_booked');
                         }
                     }
                 }
                 break;
         }
-        
-        if ($style) {
+        if (strlen($style)) {
             $this->presentation_style = $style;
         }
+
         return $title;
     }
-    
+
+    public function getPresentationStyle(): string
+    {
+        return $this->presentation_style;
+    }
+
     /**
      * set subtitle
      * Used for automatic generated appointments.
      * Will be appended to the title.
-     *
-     * @access public
-     * @param string subtitle
-     * @return
      */
-    public function setSubtitle($a_subtitle)
+    public function setSubtitle(string $a_subtitle): void
     {
         $this->subtitle = $a_subtitle;
     }
-    
-    /**
-     * get subtitle
-     *
-     * @access public
-     * @return
-     */
-    public function getSubtitle()
+
+    public function getSubtitle(): string
     {
         return $this->subtitle;
     }
-    
-    /**
-     * set description
-     *
-     * @access public
-     * @param string description
-     *
-     */
-    public function setDescription($a_description)
+
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
-    
-    /**
-     * get description
-     *
-     * @access public
-     */
-    public function getDescription()
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    /**
-     * set location
-     *
-     * @access public
-     * @param string location
-     *
-     */
-    public function setLocation($a_location)
+
+    public function setLocation(string $a_location): void
     {
         $this->location = $a_location;
     }
-    
-    /**
-     * get location
-     *
-     * @access public
-     */
-    public function getLocation()
+
+    public function getLocation(): string
     {
         return $this->location;
     }
-    
-    /**
-     * set further informations
-     *
-     * @access public
-     * @param string further informations
-     *
-     */
-    public function setFurtherInformations($a_informations)
+
+    public function setFurtherInformations(string $a_informations): void
     {
         $this->further_informations = $a_informations;
     }
-    
-    /**
-     * get further informations
-     *
-     * @access public
-     */
-    public function getFurtherInformations()
+
+    public function getFurtherInformations(): string
     {
         return $this->further_informations;
     }
-    
+
     /**
      * set fullday event
      * Fullday events do not change their time in different timezones.
      * It is possible to create fullday events with a duration of more than one day.
-     *
-     * @access public
-     * @param bool fullday
-     *
      */
-    public function setFullday($a_fullday)
+    public function setFullday(bool $a_fullday): void
     {
-        $this->fullday = (bool) $a_fullday;
+        $this->fullday = $a_fullday;
     }
-    
-    /**
-     * is fullday
-     *
-     * @access public
-     */
-    public function isFullday()
+
+    public function isFullday(): bool
     {
-        return (bool) $this->fullday;
+        return $this->fullday;
     }
-    
-    /**
-     * is auto generated
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function isAutoGenerated()
+
+    public function isAutoGenerated(): bool
     {
-        return (bool) $this->is_auto_generated;
+        return $this->is_auto_generated;
     }
-    
-    /**
-     * set auto generated
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setAutoGenerated($a_status)
+
+    public function setAutoGenerated(bool $a_status): void
     {
         $this->is_auto_generated = $a_status;
     }
-    
-    /**
-     * is milestone
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function isMilestone()
+
+    public function isMilestone(): bool
     {
-        return (bool) $this->is_milestone;
+        return $this->is_milestone;
     }
-    
-    /**
-     * set milestone
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setMilestone($a_status)
+
+    public function setMilestone(bool $a_status): void
     {
         $this->is_milestone = $a_status;
     }
 
-    /**
-    * Set Completion.
-    *
-    * @param	int	$a_completion	Completion
-    */
-    public function setCompletion($a_completion)
+    public function setCompletion(int $a_completion): void
     {
         $this->completion = $a_completion;
     }
 
-    /**
-    * Get Completion.
-    *
-    * @return	int	Completion
-    */
-    public function getCompletion()
+    public function getCompletion(): int
     {
         return $this->completion;
     }
 
-    /**
-     * set context id
-     *
-     * @access public
-     * @param int context id
-     * @return
-     */
-    public function setContextId($a_context_id)
+    public function setContextId(int $a_context_id): void
     {
         $this->context_id = $a_context_id;
     }
-    
-    /**
-     * get context id
-     *
-     * @access public
-     * @return
-     */
-    public function getContextId()
+
+    public function getContextId(): int
     {
         return $this->context_id;
     }
-    
-    /**
-     *
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function setTranslationType($a_type)
+
+    public function setTranslationType(int $a_type): void
     {
         $this->translation_type = $a_type;
     }
-    
-    /**
-     * get translation type
-     *
-     * @access public
-     * @return int translation type
-     */
-    public function getTranslationType()
+
+    public function getTranslationType(): int
     {
         return $this->translation_type;
     }
-    
-    /**
-     * Enable course group notification
-     * @param bool $a_status
-     */
-    public function enableNotification($a_status)
+
+    public function enableNotification(bool $a_status): void
     {
         $this->notification = $a_status;
     }
-    
-    /**
-     * Check if course group notification is enabled
-     * @return bool
-     */
-    public function isNotificationEnabled()
+
+    public function isNotificationEnabled(): bool
     {
-        return (bool) $this->notification;
+        return $this->notification;
     }
-    
-    /**
-     * update
-     *
-     * @access public
-     *
-     */
-    public function update()
+
+    public function update(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $now = new ilDateTime(time(), IL_CAL_UNIX);
         $utc_timestamp = $now->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
-
-
         $query = "UPDATE cal_entries " .
             "SET title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
-            "last_update = " . $ilDB->quote($utc_timestamp, 'timestamp') . ", " .
+            "last_update = " . $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             "subtitle = " . $this->db->quote($this->getSubtitle(), 'text') . ", " .
             "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
             "location = " . $this->db->quote($this->getLocation(), 'text') . ", " .
-            "fullday = " . $ilDB->quote($this->isFullday() ? 1 : 0, 'integer') . ", " .
+            "fullday = " . $this->db->quote($this->isFullday() ? 1 : 0, 'integer') . ", " .
             "starta = " . $this->db->quote($this->getStart()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             "enda = " . $this->db->quote($this->getEnd()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             "informations = " . $this->db->quote($this->getFurtherInformations(), 'text') . ", " .
@@ -582,37 +348,25 @@ class ilCalendarEntry implements ilDatePeriod
             "is_milestone = " . $this->db->quote($this->isMilestone() ? 1 : 0, 'integer') . ", " .
             'notification = ' . $this->db->quote($this->isNotificationEnabled() ? 1 : 0, 'integer') . ' ' .
             "WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+        $res = $this->db->manipulate($query);
     }
-    
-    /**
-     * save one entry
-     *
-     * @access public
-     *
-     */
-    public function save()
+
+    public function save(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $next_id = $ilDB->nextId('cal_entries');
+        $next_id = $this->db->nextId('cal_entries');
         $now = new ilDateTime(time(), IL_CAL_UNIX);
         $utc_timestamp = $now->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
 
         $query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, " .
             "informations,auto_generated,context_id,context_info,translation_type, completion, is_milestone, notification) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
+            $this->db->quote($next_id, 'integer') . ", " .
             $this->db->quote($this->getTitle(), 'text') . ", " .
-            $ilDB->quote($utc_timestamp, 'timestamp') . ", " .
+            $this->db->quote($utc_timestamp, 'timestamp') . ", " .
             $this->db->quote($this->getSubtitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .
             $this->db->quote($this->getLocation(), 'text') . ", " .
-            $ilDB->quote($this->isFullday() ? 1 : 0, 'integer') . ", " .
+            $this->db->quote($this->isFullday() ? 1 : 0, 'integer') . ", " .
             $this->db->quote($this->getStart()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             $this->db->quote($this->getEnd()->get(IL_CAL_DATETIME, '', 'UTC'), 'timestamp') . ", " .
             $this->db->quote($this->getFurtherInformations(), 'text') . ", " .
@@ -624,150 +378,100 @@ class ilCalendarEntry implements ilDatePeriod
             $this->db->quote($this->isMilestone() ? 1 : 0, 'integer') . ", " .
             $this->db->quote($this->isNotificationEnabled() ? 1 : 0, 'integer') . ' ' .
             ")";
-        $res = $ilDB->manipulate($query);
-        
-        $this->entry_id = $next_id;
-        return true;
-    }
-    
-    /**
-     * delete
-     *
-     * @access public
-     * @return
-     */
-    public function delete()
-    {
-        global $DIC;
+        $res = $this->db->manipulate($query);
 
-        $ilDB = $DIC['ilDB'];
-        
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
+        $this->entry_id = $next_id;
+    }
+
+    public function delete(): void
+    {
         ilCalendarRecurrence::_delete($this->getEntryId());
-        
+
         $query = "DELETE FROM cal_entries " .
             "WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
-        $res = $ilDB->manipulate($query);
-        
-        include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
-        ilCalendarCategoryAssignments::_deleteByAppointmentId($this->getEntryId());
-        
-        return true;
-    }
-    
-    /**
-     * validate
-     *
-     * @access public
-     * @return
-     */
-    public function validate()
-    {
-        global $DIC;
+        $res = $this->db->manipulate($query);
 
-        $ilErr = $DIC['ilErr'];
-        $lng = $DIC['lng'];
-        
+        ilCalendarCategoryAssignments::_deleteByAppointmentId($this->getEntryId());
+    }
+
+    public function validate(): bool
+    {
         $success = true;
-        $ilErr->setMessage('');
+        $this->error->setMessage('');
         if (!strlen($this->getTitle())) {
             $success = false;
-            $ilErr->appendMessage($lng->txt('err_missing_title'));
+            $this->error->appendMessage($this->lng->txt('err_missing_title'));
         }
         if (!$this->getStart() || !$this->getEnd()) {
             $success = false;
         } elseif (ilDateTime::_before($this->getEnd(), $this->getStart(), '')) {
             $success = false;
-            $ilErr->appendMessage($lng->txt('err_end_before_start'));
+            $this->error->appendMessage($this->lng->txt('err_end_before_start'));
         }
         return $success;
     }
-    
-    
-    
-    /**
-     * @access protected
-     * @param
-     *
-     */
-    protected function read()
+
+    protected function read(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT * FROM cal_entries WHERE cal_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setLastUpdate(new ilDateTime($row->last_update, IL_CAL_DATETIME, 'UTC'));
-            $this->setTitle($row->title);
-            $this->setSubtitle($row->subtitle);
-            $this->setDescription($row->description);
-            $this->setLocation($row->location);
-            $this->setFurtherInformations($row->informations);
+            $this->setLastUpdate(new ilDateTime((string) $row->last_update, IL_CAL_DATETIME, 'UTC'));
+            $this->setTitle((string) $row->title);
+            $this->setSubtitle((string) $row->subtitle);
+            $this->setDescription((string) $row->description);
+            $this->setLocation((string) $row->location);
+            $this->setFurtherInformations((string) $row->informations);
             $this->setFullday((bool) $row->fullday);
-            $this->setAutoGenerated($row->auto_generated);
-            $this->setContextId($row->context_id);
-            $this->setContextInfo($row->context_info);
-            $this->setTranslationType($row->translation_type);
-            $this->setCompletion($row->completion);
-            $this->setMilestone($row->is_milestone);
+            $this->setAutoGenerated((bool) $row->auto_generated);
+            $this->setContextId((int) $row->context_id);
+            $this->setContextInfo((string) $row->context_info);
+            $this->setTranslationType((int) $row->translation_type);
+            $this->setCompletion((int) $row->completion);
+            $this->setMilestone((bool) $row->is_milestone);
             $this->enableNotification((bool) $row->notification);
-            
+
             if ($this->isFullday()) {
-                $this->start = new ilDate($row->starta, IL_CAL_DATETIME);
-                $this->end = new ilDate($row->enda, IL_CAL_DATETIME);
+                $this->start = new ilDate((string) $row->starta, IL_CAL_DATETIME);
+                $this->end = new ilDate((string) $row->enda, IL_CAL_DATETIME);
             } else {
-                $this->start = new ilDateTime($row->starta, IL_CAL_DATETIME, 'UTC');
-                $this->end = new ilDateTime($row->enda, IL_CAL_DATETIME, 'UTC');
+                $this->start = new ilDateTime((string) $row->starta, IL_CAL_DATETIME, 'UTC');
+                $this->end = new ilDateTime((string) $row->enda, IL_CAL_DATETIME, 'UTC');
             }
         }
     }
-    
-    /**
-     *
-     * @param ilLanguage $lng
-     * @return
-     */
-    public function appointmentToMailString($lng)
+
+    public function appointmentToMailString(ilLanguage $lng): string
     {
         $body = $lng->txt('cal_details');
         $body .= "\n\n";
         $body .= $lng->txt('title') . ': ' . $this->getTitle() . "\n";
-        
+
         ilDatePresentation::setUseRelativeDates(false);
         $body .= $lng->txt('date') . ': ' . ilDatePresentation::formatPeriod($this->getStart(), $this->getEnd()) . "\n";
         ilDatePresentation::setUseRelativeDates(true);
-        
+
         if (strlen($this->getLocation())) {
             $body .= $lng->txt('cal_where') . ': ' . $this->getLocation() . "\n";
         }
-    
+
         if (strlen($this->getDescription())) {
             $body .= $lng->txt('description') . ': ' . $this->getDescription() . "\n";
         }
         return $body;
     }
-    
-    
-    /**
-    * Write users responsible for a milestone
-    */
-    public function writeResponsibleUsers($a_users)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $ilDB->manipulateF(
+    public function writeResponsibleUsers(array $a_users): void
+    {
+        $this->db->manipulateF(
             "DELETE FROM cal_entry_responsible WHERE cal_id = %s",
             array("integer"),
             array($this->getEntryId())
         );
-        
+
         if (is_array($a_users)) {
             foreach ($a_users as $user_id) {
-                $ilDB->manipulateF(
+                $this->db->manipulateF(
                     "INSERT INTO cal_entry_responsible (cal_id, user_id) " .
                     " VALUES (%s,%s)",
                     array("integer", "integer"),
@@ -775,34 +479,29 @@ class ilCalendarEntry implements ilDatePeriod
                 );
             }
         }
-        
+
         $this->responsible_users = $a_users;
     }
-    
-    /**
-    * Read responsible users
-    */
-    public function readResponsibleUsers()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $set = $ilDB->queryF(
+    /**
+     * Read responsible users
+     */
+    public function readResponsibleUsers(): array
+    {
+        $set = $this->db->queryF(
             "SELECT * FROM cal_entry_responsible WHERE cal_id = %s",
             array("integer"),
             array($this->getEntryId())
         );
 
         $return = array();
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $n = ilObjUser::_lookupName($rec["user_id"]);
+        while ($rec = $this->db->fetchAssoc($set)) {
+            $n = ilObjUser::_lookupName((int) $rec["user_id"]);
             $return[] = array_merge(
                 $n,
                 array("login" => ilObjUser::_lookupLogin($rec["user_id"]))
             );
         }
-
         return $return;
     }
 }

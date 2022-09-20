@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -27,15 +43,13 @@ class Text extends Input implements C\Input\Field\Text
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(function ($v) {
-            return strip_tags($v);
-        }));
+        $this->setAdditionalTransformation($refinery->custom()->transformation(fn ($v) => strip_tags($v)));
     }
 
     /**
      * @inheritDoc
      */
-    public function withMaxLength(int $max_length) : C\Input\Field\Input
+    public function withMaxLength(int $max_length): C\Input\Field\Text
     {
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_length)
@@ -48,7 +62,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritDoc
      */
-    public function getMaxLength() : ?int
+    public function getMaxLength(): ?int
     {
         return $this->max_length;
     }
@@ -56,7 +70,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_string($value)) {
             return false;
@@ -73,7 +87,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
@@ -81,20 +95,18 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-        };
     }
 
     /**
      * @inheritdoc
      */
-    public function isComplex() : bool
+    public function isComplex(): bool
     {
         return $this->complex;
     }

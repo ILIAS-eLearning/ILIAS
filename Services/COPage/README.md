@@ -1,22 +1,17 @@
-# COPage
+# COPage (ILIAS Page Editor)
 
-Be warned. This component is one of the oldest in ILIAS with lots of complexity and little to none modern concepts. Dealing with it will be not the top software development experience for you.
-
-Feel free to make any pull requests to the ROADMAP.md to document pain points you would like to have being addressed in the future.
+This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers.
 
 ## Business Rules
 
 Copying content
 - Media objects are referenced when pages are copied. This behaviour is relevant for almost all copy processes that include COPage content.
 
+## Browser support
 
-## Consumer Documentation
+Since ILIAS 7 the browser makes extensive use of ES6 features. For ILIAS 7 the current maintainer accepts issues for the latest Firefox, Chrome, Safari and Edge versions. However please note that issues that appear only on specific browsers
 
-This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers.
-
-Unfortunately the component does not offering a well defined API, instead using it mainly depends on extending a set of base classes.
-
-### [WIP] Using the page component in another component 
+### [WIP] Using the page editor in another components
 
 In order to use the page component in your component you first need to extend your `modules.xml` or `service.xml`.
 
@@ -91,6 +86,70 @@ public function init()
 Depending on where you want to use the presentation or editing features of the component, you will need to init and embed your {BASIC_CLASS_NAME}GUI in your `executeCommand()` methods.
 
 A good example for how this can be done is `Modules/ContentPage/classes/class.ilContentPagePageCommandForwarder.php`.
+
+### Implementing new page components
+
+Please replace the string `BaseName` and `typeid` with your individual class base name and component type id in the following code.
+
+Add the definition for the new page component to your `module.xml` or `service.xml` file.
+
+```
+<copage>
+    ...
+    <pagecontent pc_type="typeid" name="BaseName" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="300"/>
+</copage>
+```
+
+Provide a class derived from `ilPageContent`.
+
+```
+class ilPCBaseName extends ilPageContent
+{
+    /**
+     * Init page content component.
+     */
+    public function init()
+    {
+        ...
+        $this->setType("typeid");
+        ...
+    }
+    ...
+}
+```
+
+Provide a class derived from `ilPageContentGUI`.
+
+```
+/**
+ * @ilCtrl_isCalledBy ilPCBaseNameGUI: ilPageEditorGUI
+ */
+class ilPCBaseNameGUI extends ilPageContentGUI
+{
+    /**
+     * Constructor
+     */
+    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+    {
+        ...
+        parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+    }
+    ...
+}
+
+```
+
+If your `module.xml` or `service.xml` does not enable the component per default `def_enabled="0"`, you will need to enable it in the PageConfig class of your target context.
+
+```
+class ilMyPageConfig extends ilPageConfig
+{
+    public function init()
+    {
+        $this->setEnablePCType("BaseName", true);
+    }
+}
+```
 
 
 ## [WIP] Internal Documentation

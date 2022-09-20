@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumUtil
@@ -7,7 +24,7 @@
  */
 class ilForumUtil
 {
-    public static function getPublicUserAlias(string $user_alias, bool $is_anonymized) : string
+    public static function getPublicUserAlias(string $user_alias, bool $is_anonymized): string
     {
         global $DIC;
 
@@ -32,7 +49,7 @@ class ilForumUtil
         string $target_type,
         int $target_id,
         int $direction = 0
-    ) : void {
+    ): void {
         $mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
         $myMediaObjects = ilObjMediaObject::_getMobsOfObject($source_type, $source_id);
         foreach ($mediaObjects as $mob) {
@@ -51,7 +68,7 @@ class ilForumUtil
         string $target_type,
         int $target_id,
         int $direction = 0
-    ) : void {
+    ): void {
         $mediaObjects = ilRTE::_getMediaObjects($post_message, $direction);
 
         foreach ($mediaObjects as $mob) {

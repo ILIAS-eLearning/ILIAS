@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\DI\UIServices;
 
 /**
  * Task service dependencies
@@ -9,15 +25,15 @@
  */
 class ilTaskServiceDependencies
 {
-    protected \ilLanguage $lng;
+    protected ilLanguage $lng;
 
-    protected \ILIAS\DI\UIServices $ui;
+    protected UIServices $ui;
 
-    protected \ilObjUser $user;
+    protected ilObjUser $user;
 
-    protected \ilAccessHandler $access;
+    protected ilAccessHandler $access;
 
-    protected \ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory;
+    protected ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory;
 
     /**
      * Constructor
@@ -25,9 +41,9 @@ class ilTaskServiceDependencies
     public function __construct(
         ilObjUser $user,
         ilLanguage $lng,
-        \ILIAS\DI\UIServices $ui,
-        \ilAccessHandler $access,
-        \ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory
+        UIServices $ui,
+        ilAccessHandler $access,
+        ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory
     ) {
         $this->lng = $lng;
         $this->ui = $ui;
@@ -39,7 +55,7 @@ class ilTaskServiceDependencies
     /**
      * Get derived task provider master factory
      */
-    public function getDerivedTaskProviderMasterFactory() : \ilDerivedTaskProviderMasterFactory
+    public function getDerivedTaskProviderMasterFactory(): ilDerivedTaskProviderMasterFactory
     {
         return $this->derived_task_provider_master_factory;
     }
@@ -47,7 +63,7 @@ class ilTaskServiceDependencies
     /**
      * Get language object
      */
-    public function language() : \ilLanguage
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
@@ -55,7 +71,7 @@ class ilTaskServiceDependencies
     /**
      * Get current user
      */
-    public function user() : \ilObjUser
+    public function user(): ilObjUser
     {
         return $this->user;
     }
@@ -63,7 +79,7 @@ class ilTaskServiceDependencies
     /**
      * Get ui service
      */
-    public function ui() : \ILIAS\DI\UIServices
+    public function ui(): UIServices
     {
         return $this->ui;
     }
@@ -71,7 +87,7 @@ class ilTaskServiceDependencies
     /**
      * Get access
      */
-    protected function getAccess() : \ilAccessHandler
+    protected function getAccess(): ilAccessHandler
     {
         return $this->access;
     }

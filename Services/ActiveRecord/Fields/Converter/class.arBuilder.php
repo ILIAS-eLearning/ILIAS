@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arBuilder
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -7,7 +20,6 @@
  */
 class arBuilder
 {
-
     protected ActiveRecord $ar;
     protected ?int $step = null;
 
@@ -17,7 +29,7 @@ class arBuilder
         $this->setStep($step ?? 0);
     }
 
-    public function generateDBUpdateForInstallation() : void
+    public function generateDBUpdateForInstallation(): void
     {
         $tpl = new ilTemplate(__DIR__ . '/templates/dbupdate.txt', true, true);
         $ar = $this->getAr();
@@ -51,22 +63,22 @@ class arBuilder
         exit;
     }
 
-    public function setAr(\ActiveRecord $ar) : void
+    public function setAr(\ActiveRecord $ar): void
     {
         $this->ar = $ar;
     }
 
-    public function getAr() : \ActiveRecord
+    public function getAr(): \ActiveRecord
     {
         return $this->ar;
     }
 
-    public function setStep(int $step) : void
+    public function setStep(int $step): void
     {
         $this->step = $step;
     }
 
-    public function getStep() : int
+    public function getStep(): int
     {
         return $this->step;
     }

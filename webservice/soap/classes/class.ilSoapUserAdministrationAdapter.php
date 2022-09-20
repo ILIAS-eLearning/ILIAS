@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=0);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,40 +23,28 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* adapter class for nusoap server
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @package ilias
-*/
-
+ * adapter class for nusoap server
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilSoapUserAdministrationAdapter
 {
-    /*
-     * @var object Nusoap-Server
-     */
-    public $server = null;
+    public SoapServer $server;
 
-    
-    public function __construct($a_use_wsdl = true)
+    public function __construct()
     {
-        $this->server = new SoapServer();
-
-        $this->__registerMethods();
+        $this->server = new SoapServer(null);
+        $this->registerMethods();
     }
 
-    public function start()
+    public function start(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->server->handle();
         }
     }
 
-    // PRIVATE
-    public function __registerMethods()
+    private function registerMethods(): void
     {
         include_once './webservice/soap/include/inc.soap_functions.php';
 

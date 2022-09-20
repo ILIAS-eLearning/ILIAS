@@ -1,34 +1,35 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjWorkflowEngine
- *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilObjWorkflowEngine extends ilObject
 {
-    /**
-     * ilObjWorkflowEngine constructor.
-     *
-     * @param int  $id
-     * @param bool $call_by_reference
-     */
-    public function __construct($id = 0, $call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
         $this->type = "wfe";
         parent::__construct($id, $call_by_reference);
     }
 
-    /**
-     * @param bool $relative
-     * @return string
-     */
-    public static function getTempDir($relative = false)
+    public static function getTempDir(bool $relative): string
     {
         $relativeTempPath = 'wfe/upload_temp/';
 
@@ -39,11 +40,7 @@ class ilObjWorkflowEngine extends ilObject
         return ILIAS_DATA_DIR . '/' . CLIENT_ID . '/' . $relativeTempPath;
     }
 
-    /**
-     * @param bool $relative
-     * @return string
-     */
-    public static function getRepositoryDir($relative = false)
+    public static function getRepositoryDir(bool $relative = false): string
     {
         $relativeRepositoryPath = 'wfe/repository/';
 

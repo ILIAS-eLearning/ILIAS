@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Table;
 
@@ -12,7 +28,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface Data extends Table
 {
-    public function getNumberOfRows() : ?int;
+    public function getNumberOfRows(): ?int;
 
     /**
      * Configure the Table to retrieve data with an instance of DataRetrieval;
@@ -23,19 +39,19 @@ interface Data extends Table
      * actually shown rows.
      * Those parameters are being provided to DataRetrieval::getRows.
      */
-    public function withData(DataRetrieval $data_retrieval) : Data;
+    public function withData(DataRetrieval $data_retrieval): Data;
 
-    public function getData() : DataRetrieval;
+    public function getData(): DataRetrieval;
 
     /**
      * @param array <string, Column>
      */
-    public function withColumns(array $columns) : Data;
+    public function withColumns(array $columns): Data;
 
     /**
      * @return array <string, Column>
      */
-    public function getColumns() : array;
+    public function getColumns(): array;
 
     /**
      * The Data Table brings some View Controls along - it is common enough to
@@ -45,12 +61,12 @@ interface Data extends Table
      * Since there must be but one View Control of a kind, e.g. a Pagination added here
      * will substitute the default one.
      */
-    public function withAdditionalViewControl(ViewControl $view_control) : Data;
+    public function withAdditionalViewControl(ViewControl $view_control): Data;
 
     /**
      * @return ViewControl[]
      */
-    public function getViewControls() : array;
+    public function getViewControls(): array;
 
     /**
      * Rendering the Table must be done using the current Request:

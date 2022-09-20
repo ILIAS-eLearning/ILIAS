@@ -1,27 +1,23 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
 
-include_once './Services/Object/classes/class.ilObjectAccess.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 *
@@ -30,25 +26,21 @@ include_once './Services/Object/classes/class.ilObjectAccess.php';
 *
 * @ingroup ModulesSession
 */
-
 class ilObjSessionAccess extends ilObjectAccess
 {
-    protected static $registrations = null;
-    protected static $registered = null;
+    protected ilObjUser $user;
+    protected static ?array $registrations = null;
+    protected static ?array $registered = null;
+    protected static ?ilBookingReservationDBRepository $booking_repo = null;
 
-    /**
-     * @var ilBookingReservationDBRepository
-     */
-    protected static $booking_repo = null;
+    public function __construct()
+    {
+        global $DIC;
 
-    /**
-     * get list of command/permission combinations
-     *
-     * @access public
-     * @return array
-     * @static
-     */
-    public static function _getCommands()
+        $this->user = $DIC->user();
+    }
+
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "info_short", "default" => true),
@@ -58,38 +50,23 @@ class ilObjSessionAccess extends ilObjectAccess
             array("permission" => "manage_materials", "cmd" => "materials", "lang_var" => "crs_objective_add_mat"),
             array('permission' => 'manage_members', 'cmd' => 'members', 'lang_var' => 'event_edit_members')
         );
-        
+
         return $commands;
     }
 
-    /**
-     * checks wether a user may invoke a command or not
-     * (this method is called by ilAccessHandler::checkAccess)
-     *
-     * @param	string		$a_cmd		command (not permission!)
-     * @param	string		$a_permission	permission
-     * @param	int			$a_ref_id	reference id
-     * @param	int			$a_obj_id	object id
-     * @param	int			$a_user_id	user id (if not provided, current user is taken)
-     *
-     * @return	boolean		true, if everything is ok
-     */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = ""): bool
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilAccess = $DIC['ilAccess'];
-        
+        $ilUser = $this->user;
+
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         switch ($a_cmd) {
             case 'register':
-                
+
                 if (!self::_lookupRegistration($a_obj_id)) {
                     return false;
                 }
@@ -102,12 +79,14 @@ class ilObjSessionAccess extends ilObjectAccess
                 if (\ilSessionParticipants::_isSubscriber($a_obj_id, $a_user_id)) {
                     return false;
                 }
-                include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
                 if (ilSessionWaitingList::_isOnList($a_user_id, $a_obj_id)) {
                     return false;
                 }
+                if ($this->isRegistrationLimitExceeded($a_ref_id, $a_obj_id)) {
+                    return false;
+                }
                 break;
-                
+
             case 'unregister':
                 if (self::_lookupRegistration($a_obj_id) && $a_user_id != ANONYMOUS_USER_ID) {
                     return self::_lookupRegistered($a_user_id, $a_obj_id);
@@ -116,102 +95,88 @@ class ilObjSessionAccess extends ilObjectAccess
         }
         return true;
     }
-    
-    
-    /**
-    * check whether goto script will succeed
-    */
-    public static function _checkGoto($a_target)
+
+    public function isRegistrationLimitExceeded(int $ref_id, int $obj_id): bool
+    {
+        $session_data = new ilObjSession($obj_id, false);
+        if (!$session_data->isRegistrationUserLimitEnabled()) {
+            return false;
+        }
+        $part = ilSessionParticipants::getInstance($ref_id);
+        if ($part->getCountMembers() >= $session_data->getRegistrationMaxUsers()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function _checkGoto($a_target): bool
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
-        
+        $ilAccess = $DIC->access();
+
         $t_arr = explode("_", $a_target);
 
         if ($t_arr[0] != "sess" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", (int) $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", (int) $t_arr[1])) {
             return true;
         }
         return false;
     }
-    
-    /**
-     * lookup registrations
-     *
-     * @access public
-     * @param
-     * @return
-     * @static
-     */
-    public static function _lookupRegistration($a_obj_id)
+
+    public static function _lookupRegistration(int $a_obj_id): bool
     {
-        if (!is_null(self::$registrations)) {
-            return self::$registrations[$a_obj_id];
-        }
-        
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
+        if (!is_null(self::$registrations)) {
+            return (bool) self::$registrations[$a_obj_id];
+        }
+
         $query = "SELECT registration,obj_id FROM event ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             self::$registrations[$row->obj_id] = (bool) $row->registration;
         }
-        return self::$registrations[$a_obj_id];
+        return (bool) self::$registrations[$a_obj_id];
     }
-    
-    /**
-     * lookup if user has registered
-     *
-     * @access public
-     * @param int usr_id
-     * @param int obj_id
-     * @return
-     * @static
-     */
-    public static function _lookupRegistered($a_usr_id, $a_obj_id)
+
+    public static function _lookupRegistered(int $a_usr_id, int $a_obj_id): bool
     {
-        if (isset(self::$registered[$a_usr_id])) {
-            return (bool) self::$registered[$a_usr_id][$a_obj_id];
-        }
-        
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-        
+        $ilDB = $DIC->database();
+        $ilUser = $DIC->user();
+
+        if (isset(self::$registered[$a_usr_id][$a_obj_id])) {
+            return (bool) self::$registered[$a_usr_id][$a_obj_id];
+        }
+
         $query = "SELECT event_id, registered FROM event_participants WHERE usr_id = " . $ilDB->quote($ilUser->getId(), 'integer');
         $res = $ilDB->query($query);
-        self::$registered[$a_usr_id] = array();
+        self::$registered[$a_usr_id] = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             self::$registered[$a_usr_id][$row->event_id] = (bool) $row->registered;
         }
-        return (bool) self::$registered[$a_usr_id][$a_obj_id];
+        return (bool) (self::$registered[$a_usr_id][$a_obj_id] ?? false);
     }
 
-    /**
-     * Preload data
-     *
-     * @param array $a_obj_ids array of object ids
-     */
-    public static function _preloadData($a_obj_ids, $a_ref_ids)
+    public static function _preloadData($a_obj_ids, $a_ref_ids): void
     {
         $f = new ilBookingReservationDBRepositoryFactory();
         self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
     }
 
-    /**
-     * Get booking info repo
-     * @return ilBookingReservationDBRepository
-     */
-    public static function getBookingInfoRepo()
+    public static function getBookingInfoRepo(): ?ilBookingReservationDBRepository
     {
-        return self::$booking_repo;
+        if (self::$booking_repo instanceof ilBookingReservationDBRepository) {
+            return self::$booking_repo;
+        }
+        return null;
     }
 }

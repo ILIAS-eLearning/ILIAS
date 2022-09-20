@@ -6,61 +6,73 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentDefinitionInfoProcessorTest extends TestCase
 {
-    protected ilDBInterface $db;
-    protected ilComponentDefinitionInfoProcessor $processor1;
+    protected ilComponentInfoDefinitionProcessor $processor;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->db = $this->createMock(\ilDBInterface::class);
-        $this->processor = new ilComponentInfoDefinitionProcessor($this->db);
+        $this->processor = new ilComponentInfoDefinitionProcessor();
     }
 
-    public function testPurge() : void
-    {
-        $this->db->expects($this->once())
-            ->method("manipulate")
-            ->with("DELETE FROM il_component");
-
-        $this->processor->purge();
-    }
-
-    public function testBeginTagModule() : void
+    public function testPurge(): void
     {
         $type = "Modules";
         $name = "NAME";
         $id = "ID";
 
-        $this->db->expects($this->once())
-            ->method("manipulateF")
-            ->with(
-                "INSERT INTO il_component (type, name, id) VALUES (%s,%s,%s)",
-                ["text", "text", "text"],
-                [$type, $name, $id]
-            );
-
         $this->processor->beginComponent($name, $type);
         $this->processor->beginTag("module", ["id" => $id]);
+        $this->processor->purge();
+
+        $this->assertEquals([], $this->processor->getData());
     }
 
-    public function testBeginTagService() : void
+    public function testBeginTag(): void
     {
-        $type = "Services";
-        $name = "NAME";
-        $id = "ID";
+        $type1 = "Modules";
+        $name1 = "NAME1";
+        $id1 = "ID1";
+        $name2 = "NAME2";
+        $id2 = "ID2";
 
-        $this->db->expects($this->once())
-            ->method("manipulateF")
-            ->with(
-                "INSERT INTO il_component (type, name, id) VALUES (%s,%s,%s)",
-                ["text", "text", "text"],
-                [$type, $name, $id]
-            );
+        $type2 = "Services";
+        $name3 = "NAME3";
+        $id3 = "ID3";
+        $name4 = "NAME4";
+        $id4 = "ID4";
 
-        $this->processor->beginComponent($name, $type);
-        $this->processor->beginTag("service", ["id" => $id]);
+        $id5 = "id5";
+        $name5 = "name5";
+        $id6 = "id6";
+        $name6 = "name6";
+        $id7 = "id7";
+        $name7 = "name7";
+
+        $this->processor->beginComponent($name1, $type1);
+        $this->processor->beginTag("module", ["id" => $id1]);
+
+        $this->processor->beginComponent($name2, $type1);
+        $this->processor->beginTag("module", ["id" => $id2]);
+        $this->processor->beginTag("pluginslot", ["id" => $id5, "name" => $name5]);
+
+        $this->processor->beginComponent($name3, $type2);
+        $this->processor->beginTag("service", ["id" => $id3]);
+        $this->processor->beginTag("pluginslot", ["id" => $id6, "name" => $name6]);
+        $this->processor->beginTag("pluginslot", ["id" => $id7, "name" => $name7]);
+
+        $this->processor->beginComponent($name4, $type2);
+        $this->processor->beginTag("service", ["id" => $id4]);
+
+        $expected = [
+            $id1 => [$type1, $name1, []],
+            $id2 => [$type1, $name2, [[$id5, $name5]]],
+            $id3 => [$type2, $name3, [[$id6, $name6], [$id7, $name7]]],
+            $id4 => [$type2, $name4, []]
+        ];
+
+        $this->assertEquals($expected, $this->processor->getData());
     }
 
-    public function testTagComponentTypeMismatch() : void
+    public function testTagComponentTypeMismatch(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -72,7 +84,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => $id]);
     }
 
-    public function testMissingId() : void
+    public function testMissingId(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -81,5 +93,29 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 
         $this->processor->beginComponent($name, $type);
         $this->processor->beginTag("service", []);
+    }
+
+    public function testDuplicateComponentId(): void
+    {
+        $this->expectException(\LogicException::class);
+
+        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginTag("module", ["id" => "id"]);
+
+        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginTag("module", ["id" => "id"]);
+    }
+
+    public function testDuplicatePluginId(): void
+    {
+        $this->expectException(\LogicException::class);
+
+        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginTag("module", ["id" => "id1"]);
+        $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
+
+        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginTag("module", ["id" => "id2"]);
+        $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
     }
 }

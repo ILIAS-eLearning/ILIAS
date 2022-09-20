@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Factory;
 
@@ -9,60 +25,22 @@ use ILIAS\UI\Factory;
  */
 class ilUserAvatarResolver
 {
-    /**
-     * @var int
-     */
-    private $user_id;
-    /**
-     * @var string
-     */
-    private $login;
-    /**
-     * @var string
-     */
-    private $firstname;
-    /**
-     * @var string
-     */
-    private $lastname;
-    /**
-     * @var bool
-     */
-    private $has_public_profile = false;
-    /**
-     * @var bool
-     */
-    private $has_public_upload = false;
-    /**
-     * @var string
-     */
-    private $uploaded_file;
-    /**
-     * @var string
-     */
-    private $abbreviation;
-    /**
-     * @var bool
-     */
-    private $force_image = false;
-    /**
-     * @var string
-     */
-    private $size = 'small';
-    /**
-     * @var Factory
-     */
-    protected $ui;
+    private int $user_id = 0;
+    private string $login = "";
+    private string $firstname = "";
+    private string $lastname = "";
+    private bool $has_public_profile = false;
+    private bool $has_public_upload = false;
+    private string $uploaded_file = "";
+    private string $abbreviation = "";
+    private bool $force_image = false;
+    private string $size = 'small';
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected Factory $ui;
+    protected bool $letter_avatars_activated;
 
-    /**
-     * @var bool
-     */
-    protected $letter_avatars_activated;
-    
-    /**
-     *  constructor.
-     * @param int $user_id
-     */
     public function __construct(int $user_id)
     {
         global $DIC;
@@ -76,11 +54,8 @@ class ilUserAvatarResolver
         $this->init();
     }
 
-    private function init() : void
+    private function init(): void
     {
-        if ($this->letter_avatars_activated === false) {
-            return;
-        }
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
@@ -91,7 +66,7 @@ class ilUserAvatarResolver
             array($this->user_id)
         );
 
-        while ($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) { // MUST be loop
             $this->login = $row['login'];
             $this->firstname = $row['firstname'];
             $this->lastname = $row['lastname'];
@@ -111,7 +86,7 @@ class ilUserAvatarResolver
         if (defined('ILIAS_MODULE')) {
             $webspace_dir = ('.' . $webspace_dir);
         }
-        $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
+        $webspace_dir .= ('./' . ltrim(ilFileUtils::getWebspaceDir(), "./"));
 
         $image_dir = $webspace_dir . '/usr_images';
         $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
@@ -123,18 +98,17 @@ class ilUserAvatarResolver
         }
     }
 
-    private function useUploadedFile() : bool
+    private function useUploadedFile(): bool
     {
         return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
     }
 
     /**
-     * @param bool $name_as_text_visible_closely if the name is set as text close to the Avatar, the alternative
+     * @param bool $name_as_set_as_text_closely if the name is set as text close to the Avatar, the alternative
      *                                           text for screenreaders will be set differently, to reduce redundancy
      *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
-     * @return Avatar
      */
-    public function getAvatar(bool $name_as_set_as_text_closely = false) : Avatar
+    public function getAvatar(bool $name_as_set_as_text_closely = false): Avatar
     {
         if ($name_as_set_as_text_closely) {
             $alternative_text = $this->lng->txt("user_avatar");
@@ -145,10 +119,11 @@ class ilUserAvatarResolver
         }
 
         if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
-                            ->withAlternativeText($alternative_text);
+            $picture = ilWACSignedPath::signFile($this->uploaded_file);
+            return $this->ui->symbol()->avatar()->picture($picture, $this->login)
+                            ->withLabel($alternative_text);
         }
-    
+
         if ($this->letter_avatars_activated === false) {
             return $this->ui->symbol()->avatar()->picture(
                 \ilUtil::getImagePath('no_photo_xsmall.jpg'),
@@ -156,14 +131,14 @@ class ilUserAvatarResolver
             );
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
+        return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
-    public function getLegacyPictureURL() : string
+    public function getLegacyPictureURL(): string
     {
         global $DIC;
         if ($this->useUploadedFile()) {
-            return $this->uploaded_file . '?t=' . rand(1, 99999);
+            return $this->uploaded_file . '?t=' . random_int(1, 99999);
         }
         /** @var $avatar ilUserAvatarBase */
 
@@ -174,18 +149,12 @@ class ilUserAvatarResolver
         return $avatar->getUrl();
     }
 
-    /**
-     * @param bool $force_image
-     */
-    public function setForcePicture(bool $force_image) : void
+    public function setForcePicture(bool $force_image): void
     {
         $this->force_image = $force_image;
     }
 
-    /**
-     * @param string $size
-     */
-    public function setSize(string $size) : void
+    public function setSize(string $size): void
     {
         if ($size === 'small' || $size === 'big') {
             $size = 'xsmall';

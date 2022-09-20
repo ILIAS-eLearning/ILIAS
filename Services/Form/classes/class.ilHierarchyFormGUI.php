@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP;
 use ILIAS\Refinery;
@@ -31,16 +36,16 @@ class ilHierarchyFormGUI extends ilFormGUI
     protected ilCtrl $ctrl;
     protected string $expand_variable = "";
     protected ?array $white_list = null;
-    protected ?array $highlighted_nodes = null;
+    protected array $highlighted_nodes = [];
     protected string $focus_id = "";
     protected string $exp_frame = "";
-    protected string $triggered_update_command;
+    protected string $triggered_update_command = "";
     protected array $drag_target = [];
     protected array $drag_content = [];
     protected object $parent_obj;
     protected string $parent_cmd = "";
     protected ilTree $tree;
-    protected string $currenttopnodeid = "";
+    protected int $currenttopnodeid = 0;
     protected string $title = "";
     protected string $checkboxname = "";
     protected string $dragicon = "";
@@ -56,14 +61,13 @@ class ilHierarchyFormGUI extends ilFormGUI
 
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->maxdepth = -1;
         $this->multi_commands = array();
         $this->commands = array();
@@ -72,7 +76,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         $lng->loadLanguageModule("form");
         $this->setCheckboxName("cbox");
         $this->help_items = array();
-        
+
         ilYuiUtil::initDragDrop();
         $tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
 
@@ -83,17 +87,17 @@ class ilHierarchyFormGUI extends ilFormGUI
     public function setParentCommand(
         object $a_parent_obj,
         string $a_parent_cmd
-    ) : void {
+    ): void {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
     }
-    
-    public function getParentObject() : object
+
+    public function getParentObject(): object
     {
         return $this->parent_obj;
     }
-    
-    public function getParentCommand() : string
+
+    public function getParentCommand(): string
     {
         return $this->parent_cmd;
     }
@@ -101,82 +105,82 @@ class ilHierarchyFormGUI extends ilFormGUI
     /**
      * @throws ilException
      */
-    public function setId(string $a_id) : void
+    public function setId(string $a_id): void
     {
         throw new ilException("ilHierarchyFormGUI does currently not support multiple forms (multiple IDs). ID is always hform.");
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "hform";
     }
 
-    public function setTree(ilTree $a_tree) : void
+    public function setTree(ilTree $a_tree): void
     {
         $this->tree = $a_tree;
     }
 
-    public function getTree() : ilTree
+    public function getTree(): ilTree
     {
         return $this->tree;
     }
 
-    public function setCurrentTopNodeId(string $a_currenttopnodeid) : void
+    public function setCurrentTopNodeId(int $a_currenttopnodeid): void
     {
         $this->currenttopnodeid = $a_currenttopnodeid;
     }
 
-    public function getCurrentTopNodeId() : string
+    public function getCurrentTopNodeId(): int
     {
         return $this->currenttopnodeid;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setIcon(string $a_icon) : void
+    public function setIcon(string $a_icon): void
     {
         $this->icon = $a_icon;
     }
 
-    public function getIcon() : string
+    public function getIcon(): string
     {
         return $this->icon;
     }
 
-    public function setCheckboxName(string $a_checkboxname) : void
+    public function setCheckboxName(string $a_checkboxname): void
     {
         $this->checkboxname = $a_checkboxname;
     }
 
-    public function getCheckboxName() : string
+    public function getCheckboxName(): string
     {
         return $this->checkboxname;
     }
 
-    public function setDragIcon(string $a_dragicon) : void
+    public function setDragIcon(string $a_dragicon): void
     {
         $this->dragicon = $a_dragicon;
     }
 
-    public function getDragIcon() : string
+    public function getDragIcon(): string
     {
         return $this->dragicon;
     }
 
-    public function setMaxDepth(int $a_maxdepth) : void
+    public function setMaxDepth(int $a_maxdepth): void
     {
         $this->maxdepth = $a_maxdepth;
     }
 
-    public function getMaxDepth() : int
+    public function getMaxDepth(): int
     {
         return $this->maxdepth;
     }
@@ -185,31 +189,31 @@ class ilHierarchyFormGUI extends ilFormGUI
         string $a_exp_frame,
         string $a_exp_id,
         string $a_exp_target_script
-    ) : void {
+    ): void {
         $this->exp_frame = $a_exp_frame;
         $this->exp_id = $a_exp_id;
         $this->exp_target_script = $a_exp_target_script;
     }
-    
+
     public function setTriggeredUpdateCommand(
         string $a_triggered_update_command
-    ) : void {
+    ): void {
         $this->triggered_update_command = $a_triggered_update_command;
     }
 
     public function addHelpItem(
         string $a_text,
         string $a_image = ""
-    ) : void {
+    ): void {
         $this->help_items[] = array("text" => $a_text,
             "image" => $a_image);
     }
 
-    public function getHelpItems() : array
+    public function getHelpItems(): array
     {
         return $this->help_items;
     }
-    
+
     // Makes a nodes (following droparea) a drag target
     public function makeDragTarget(
         string $a_id,
@@ -217,26 +221,26 @@ class ilHierarchyFormGUI extends ilFormGUI
         bool $a_first_child_drop_area = false,
         bool $a_as_subitem = false,
         string $a_diss_text = ""
-    ) : void {
+    ): void {
         if ($a_first_child_drop_area == true) {		// first child drop areas only insert as subitems
             $a_as_subitem = true;
         }
-        
+
         if ($a_id != "") {
             if ($a_first_child_drop_area) {
                 $a_id .= "fc";
             }
-            
+
             $this->drag_target[] = array("id" => $a_id, "group" => $a_group);
             $this->diss_menues[$a_id][$a_group][] = array("subitem" => $a_as_subitem, "text" => $a_diss_text);
         }
     }
-    
+
     // Makes a node a drag content
     public function makeDragContent(
         string $a_id,
         string $a_group
-    ) : void {
+    ): void {
         if ($a_id != "") {
             $this->drag_content[] = array("id" => $a_id, "group" => $a_group);
         }
@@ -246,66 +250,65 @@ class ilHierarchyFormGUI extends ilFormGUI
     public function addMultiCommand(
         string $a_txt,
         string $a_cmd
-    ) : void {
+    ): void {
         $this->multi_commands[] = array("text" => $a_txt, "cmd" => $a_cmd);
     }
 
     public function addCommand(
         string $a_txt,
         string $a_cmd
-    ) : void {
+    ): void {
         $this->commands[] = array("text" => $a_txt, "cmd" => $a_cmd);
     }
-    
+
     public function setHighlightedNodes(
         array $a_val
-    ) : void {
+    ): void {
         $this->highlighted_nodes = $a_val;
     }
-    
-    public function getHighlightedNodes() : array
+
+    public function getHighlightedNodes(): array
     {
         return $this->highlighted_nodes;
     }
 
-    public function setFocusId(string $a_val) : void
+    public function setFocusId(string $a_val): void
     {
         $this->focus_id = $a_val;
     }
-    
-    public function getFocusId() : string
+
+    public function getFocusId(): string
     {
         return $this->focus_id;
     }
 
-    public function setExpandVariable(string $a_val) : void
+    public function setExpandVariable(string $a_val): void
     {
         $this->expand_variable = $a_val;
     }
 
-    public function getExpandVariable() : string
+    public function getExpandVariable(): string
     {
         return $this->expand_variable;
     }
-    
-    public function setExpanded(array $a_val) : void
+
+    public function setExpanded(array $a_val): void
     {
         $this->expanded = $a_val;
     }
-    
-    public function getExpanded() : array
+
+    public function getExpanded(): array
     {
         return $this->expanded;
     }
 
-    protected function str($key) : string
+    protected function str($key): string
     {
         return self::_str($key);
     }
 
-    protected static function _str($key) : string
+    protected static function _str($key): string
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $w = $DIC->http()->wrapper();
@@ -324,14 +327,14 @@ class ilHierarchyFormGUI extends ilFormGUI
     }
 
 
-    public function updateExpanded() : void
+    public function updateExpanded(): void
     {
         $ev = $this->getExpandVariable();
         $node_id = 0;
         if ($ev == "") {
             return;
         }
-        
+
         // init empty session
         if (!is_array(ilSession::get($ev))) {
             ilSession::set($ev, array($this->getTree()->getRootId()));
@@ -343,7 +346,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         if ($this->str($ev) != "") {
             $node_id = $this->str($ev);
         }
-        
+
         // if positive => expand this node
         if ($node_id > 0 && !in_array($node_id, ilSession::get($ev))) {
             $nodes = ilSession::get($ev);
@@ -360,12 +363,12 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->setExpanded(ilSession::get($ev));
     }
 
-    public function setTypeWhiteList(array $a_val) : void
+    public function setTypeWhiteList(array $a_val): void
     {
         $this->white_list = $a_val;
     }
-    
-    public function getTypeWhiteList() : array
+
+    public function getTypeWhiteList(): array
     {
         return $this->white_list;
     }
@@ -374,12 +377,12 @@ class ilHierarchyFormGUI extends ilFormGUI
      * Get all childs of current node. Standard implementation uses
      * tree object.
      */
-    public function getChilds(?string $a_node_id = null) : array
+    public function getChilds(?int $a_node_id = null): array
     {
         if ($a_node_id == null) {
             $a_node_id = $this->getCurrentTopNodeId();
         }
-        
+
         $tree_childs = $this->getTree()->getChilds($a_node_id);
         $childs = array();
         foreach ($tree_childs as $tree_child) {
@@ -391,11 +394,11 @@ class ilHierarchyFormGUI extends ilFormGUI
                     );
             }
         }
-        
+
         return $childs;
     }
-    
-    public function getContent() : string
+
+    public function getContent(): string
     {
         $lng = $this->lng;
         $single = false;
@@ -404,15 +407,15 @@ class ilHierarchyFormGUI extends ilFormGUI
         if ($this->getExpandVariable() != "") {
             $this->updateExpanded();
         }
-        
+
         $ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
         $ttpl->setVariable("TXT_SAVING", $lng->txt("saving"));
         $top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
-        $top_node = array("node_id" => $top_node_data["child"],
-                "title" => $top_node_data["title"],
-                "type" => $top_node_data["type"]);
+        $top_node = array("node_id" => $top_node_data["child"] ?? 0,
+                "title" => $top_node_data["title"] ?? "",
+                "type" => $top_node_data["type"] ?? "");
 
-        $childs = null;
+        $childs = [];
         $nodes_html = $this->getLevelHTML($top_node, 0, $childs);
 
 
@@ -431,7 +434,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $ttpl->parseCurrentBlock();
                         $single = true;
                     }
-    
+
                     $multi = false;
                     foreach ($this->multi_commands as $cmd) {
                         $ttpl->setCurrentBlock("multi_cmd" . $sec);
@@ -451,7 +454,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $ttpl->parseCurrentBlock();
                     }
                 }
-                
+
                 if ($single || $multi) {
                     $ttpl->setCurrentBlock("commands" . $sec);
                     $ttpl->parseCurrentBlock();
@@ -482,7 +485,7 @@ class ilHierarchyFormGUI extends ilFormGUI
             $ttpl->setVariable("GROUP", $drag_content["group"] ?? "");
             $ttpl->parseCurrentBlock();
         }
-        
+
         // disambiguation menues and "insert as first child" flags
         if (is_array($this->diss_menues)) {
             foreach ($this->diss_menues as $node_id => $d_menu) {
@@ -494,7 +497,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                             $ttpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
                             $ttpl->parseCurrentBlock();
                         }
-                        
+
                         $ttpl->setCurrentBlock("disambiguation_menu");
                         $ttpl->setVariable("DNODE_ID", $node_id);
                         $ttpl->setVariable("GRP", $group);
@@ -530,7 +533,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                             $ttpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
                             $ttpl->parseCurrentBlock();
                         }
-                        
+
                         $ttpl->setCurrentBlock("disambiguation_menu");
                         $ttpl->setVariable("DNODE_ID", $node_id);
                         $ttpl->setVariable("GRP", $group);
@@ -547,19 +550,19 @@ class ilHierarchyFormGUI extends ilFormGUI
             }
         }
         //$this->diss_menues[$a_id][$a_group][] = array("type" => $a_type, "text" => $a_diss_text);
-        
+
         // nodes
         $ttpl->setVariable("NODES", $nodes_html);
-        
+
         // title
         //echo "<br>".htmlentities($this->getTitle())." --- ".htmlentities(ilUtil::prepareFormOutput($this->getTitle()));
         $ttpl->setVariable("TITLE", $this->getTitle());
-        
-        
+
+
         return $ttpl->get();
     }
 
-    public function getLegend() : string
+    public function getLegend(): string
     {
         $lng = $this->lng;
 
@@ -604,17 +607,15 @@ class ilHierarchyFormGUI extends ilFormGUI
         array $a_par_node,
         int $a_depth,
         array &$a_childs
-    ) : string {
+    ): string {
         $lng = $this->lng;
-        
+
         if ($this->getMaxDepth() > -1 && $this->getMaxDepth() < $a_depth) {
             return "";
         }
 
-        $childs = $this->getChilds($a_par_node["node_id"]);
+        $childs = $this->getChilds((int) $a_par_node["node_id"]);
         $a_childs = $childs;
-        $html = "";
-        $last_child = null;
         $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
 
         // prepended drop area
@@ -627,7 +628,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                 $ttpl->setVariable("NO_CONTENT_TXT", " &nbsp;" . $lng->txt("form_hier_click_to_add"));
             }
             $ttpl->parseCurrentBlock();
-    
+
             $this->manageDragAndDrop($a_par_node, $a_depth, true, null, $childs);
             $menu_items = $this->getMenuItems($a_par_node, $a_depth, true, null, $childs);
             //var_dump($menu_items);
@@ -639,7 +640,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $max = $menu_item["multi"];
                     }
                 }
-                
+
                 reset($menu_items);
                 $mcnt = 1;
                 foreach ($menu_items as $menu_item) {
@@ -654,7 +655,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                             $ttpl->parseCurrentBlock();
                         }
                     }
-                    
+
                     // buffer td for lower multis
                     if ($max > $menu_item["multi"]) {
                         $ttpl->setCurrentBlock("multi_buffer");
@@ -673,17 +674,17 @@ class ilHierarchyFormGUI extends ilFormGUI
                 $ttpl->setCurrentBlock("drop_area_menu");
                 $ttpl->setVariable("MNODE_ID", $a_par_node["node_id"] . "fc");
                 $ttpl->parseCurrentBlock();
-    
+
                 $ttpl->setCurrentBlock("element");
                 $ttpl->parseCurrentBlock();
             }
         }
-        
+
         // insert childs
         if (count($childs) > 0) {
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $next_sibling = ($i < (count($childs) - 1))
-                    ? $next_sibling = $childs[$i + 1]
+                    ? $childs[$i + 1]
                     : null;
 
                 $this->renderChild($ttpl, $childs[$i], $a_depth, $next_sibling);
@@ -692,10 +693,10 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         $html = $ttpl->get();
         unset($ttpl);
-        
+
         return $html;
     }
-    
+
     /**
      * Render a single child (including grandchilds)
      */
@@ -706,7 +707,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         ?array $next_sibling = null
     ) {
         $ilCtrl = $this->ctrl;
-        
+
         // image
         $a_tpl->setCurrentBlock("img");
         $a_tpl->setVariable("IMGPATH", $this->getChildIcon($a_child));
@@ -715,20 +716,20 @@ class ilHierarchyFormGUI extends ilFormGUI
         $a_tpl->setVariable("NODE_ID", $a_child["node_id"]);
         $a_tpl->setVariable("TYPE", $a_child["type"]);
         $a_tpl->parseCurrentBlock();
-        
+
         // checkbox
         $a_tpl->setCurrentBlock("cbox");
         $a_tpl->setVariable("CNODE_ID", $a_child["node_id"]);
         $a_tpl->setVariable("CBOX_NAME", $this->getCheckboxName());
         $a_tpl->parseCurrentBlock();
-        
+
         // node info
         if (($info = $this->getChildInfo($a_child)) != "") {
             $a_tpl->setCurrentBlock("node_info");
             $a_tpl->setVariable("NODE_INFO", $info);
             $a_tpl->parseCurrentBlock();
         }
-        
+
         // commands of child node
         $child_commands = $this->getChildCommands($a_child);
         if (is_array($child_commands)) {
@@ -739,26 +740,26 @@ class ilHierarchyFormGUI extends ilFormGUI
                 $a_tpl->parseCurrentBlock();
             }
         }
-        
+
         // title
         $a_tpl->setCurrentBlock("text");
         $hl = $this->getHighlightedNodes();
         if (is_array($hl) && in_array($a_child["node_id"], $hl)) {
             $a_tpl->setVariable("CLASS", ' class="ilHFormHighlighted" ');
         }
-        $a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
+        $a_tpl->setVariable("VAL_TITLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getChildTitle($a_child)));
         $a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
         $a_tpl->parseCurrentBlock();
-        $grandchilds = null;
+        $grandchilds = [];
         $grandchilds_html = $this->getLevelHTML($a_child, $a_depth + 1, $grandchilds);
-        
+
         // focus
         if ($this->getFocusId() == $a_child["node_id"]) {
             $a_tpl->setCurrentBlock("focus");
             $a_tpl->setVariable("FNODE_ID", $a_child["node_id"]);
             $a_tpl->parseCurrentBlock();
         }
-        
+
         // expander
         if ($this->getExpandVariable() != "") {
             $a_tpl->setCurrentBlock("expand_icon");
@@ -787,15 +788,15 @@ class ilHierarchyFormGUI extends ilFormGUI
             }
             $a_tpl->parseCurrentBlock();
         }
-        
+
         // childs
         $a_tpl->setCurrentBlock("list_item");
         $a_tpl->setVariable("CHILDS", $grandchilds_html);
         $a_tpl->parseCurrentBlock();
-        
+
         $a_tpl->setCurrentBlock("element");
         $a_tpl->parseCurrentBlock();
-        
+
         // drop area after child
         $a_tpl->setCurrentBlock("drop_area");
         $a_tpl->setVariable("DNODE_ID", $a_child["node_id"]);
@@ -804,7 +805,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         // manage drag and drop areas
         $this->manageDragAndDrop($a_child, $a_depth, false, $next_sibling, $grandchilds);
-        
+
         // drop area menu
         $menu_items = $this->getMenuItems($a_child, $a_depth, false, $next_sibling, $grandchilds);
         if (count($menu_items) > 0) {
@@ -815,7 +816,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                     $max = $menu_item["multi"];
                 }
             }
-            
+
             reset($menu_items);
             $mcnt = 1;
             foreach ($menu_items as $menu_item) {
@@ -835,14 +836,14 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $a_tpl->parseCurrentBlock();
                     }
                 }
-                
+
                 // buffer td for lower multis
                 if ($max > $menu_item["multi"]) {
                     $a_tpl->setCurrentBlock("multi_buffer");
                     $a_tpl->setVariable("BUF_SPAN", $max - $menu_item["multi"]);
                     $a_tpl->parseCurrentBlock();
                 }
-                
+
                 $a_tpl->setCurrentBlock("menu_cmd");
                 $a_tpl->setVariable("TXT_MENU_CMD", $menu_item["text"]);
                 $a_tpl->setVariable("MENU_CMD", $menu_item["cmd"]);
@@ -861,38 +862,38 @@ class ilHierarchyFormGUI extends ilFormGUI
             $a_tpl->setVariable("MNODE_ID", $a_child["node_id"]);
             $a_tpl->parseCurrentBlock();
         }
-        
+
         $a_tpl->setCurrentBlock("element");
         $a_tpl->parseCurrentBlock();
     }
-    
-    public function getChildIcon(array $a_item) : string
+
+    public function getChildIcon(array $a_item): string
     {
         return ilUtil::getImagePath("icon_" . $a_item["type"] . ".svg");
     }
-    
-    public function getChildIconAlt(array $a_item) : string
+
+    public function getChildIconAlt(array $a_item): string
     {
         $lng = $this->lng;
-        
+
         return $lng->txt($a_item["type"]);
     }
 
-    public function getChildCommands(array $a_item) : array
+    public function getChildCommands(array $a_item): array
     {
         return [];
     }
 
-    public function getChildTitle(array $a_child) : string
+    public function getChildTitle(array $a_child): string
     {
         return $a_child["title"];
     }
-    
-    public function getChildInfo(array $a_child) : string
+
+    public function getChildInfo(array $a_child): string
     {
         return "";
     }
-    
+
     /**
      * Get menu items for drop area of node.
      * This function will be most likely overwritten by sub class
@@ -909,19 +910,19 @@ class ilHierarchyFormGUI extends ilFormGUI
         bool $a_first_child = false,
         ?array $a_next_sibling = null,
         ?array $a_childs = null
-    ) : array {
+    ): array {
         return array();
     }
-    
+
     /**
      * Checks, whether current nodes allows childs at all.
      * Should be overwritten.
      */
-    public function nodeAllowsChilds(array $a_node) : bool
+    public function nodeAllowsChilds(array $a_node): bool
     {
         return true;
     }
-    
+
     /**
     * Makes nodes drag and drop content and targets.
     * Must be overwritten to support drag and drop.
@@ -933,7 +934,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         bool $a_first_child = false,
         ?array $a_next_sibling = null,
         ?array $a_childs = null
-    ) : void {
+    ): void {
         //$this->makeDragTarget($a_node["id"], $a_group);
         //$this->makeDragTarget($a_node["id"], $a_group);
     }
@@ -941,15 +942,15 @@ class ilHierarchyFormGUI extends ilFormGUI
     /**
      * Get multi number of _POST input
      */
-    public static function getPostMulti() : int
+    public static function getPostMulti(): int
     {
         return max(1, (int) self::_str("il_hform_multi"));
     }
-    
+
     /**
      * Get node ID of _POST input
      */
-    public static function getPostNodeId() : string
+    public static function getPostNodeId(): string
     {
         return self::_str("il_hform_node");
     }
@@ -957,17 +958,17 @@ class ilHierarchyFormGUI extends ilFormGUI
     /**
      * Should node be inserted as first child of target node (true) or as successor (false)
      */
-    public static function getPostFirstChild() : bool
+    public static function getPostFirstChild(): bool
     {
         return ((int) self::_str("il_hform_fc") == 1);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->getLegend();
     }
 
-    public static function getPostFields() : array
+    public static function getPostFields(): array
     {
         return array(
             "il_hform_node" => self::_str("il_hform_node"),

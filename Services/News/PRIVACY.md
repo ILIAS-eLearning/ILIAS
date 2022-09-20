@@ -2,21 +2,30 @@
 
 This documentation does not warrant completeness or correctness. Please report any
 missing or wrong information using the [ILIAS issue tracker](https://mantis.ilias.de)
-or contribute a fix via [Pull Request](docs/development/contributing.md#pull-request-to-the-repositories).
+or contribute a fix via [Pull Request](../../docs/development/contributing.md#pull-request-to-the-repositories).
 
 
-## General Information 
+## Configuration 
 
-- The News service can be activated in the global administration. The RSS service
-  can be activated in the global administration and it can be configured, if the
-  feed is presented to the internet or only to registered users.
+**Global**
+
+- The **News** service can be **activated** in the global administration.
+- The **RSS** service can be **activated** in the global administration and it can be configured, if the feed is presented to the internet or only to registered users.
+- A global setting controls the **default access** of single news entries, authenticated users or public via RSS.
+
+**Repository Objects**
+
+- The News service can be **activated** on the level of repository objects using the service, e.g. courses.
+- The **default access** of single news entries, authenticated users or public via RSS, can be set on the repository object level. This overwrites the global setting.
+
+**Single New Entries**
+
+- The **access** of single news entries, authenticated users or public via RSS, can be set for each entry.
 
 
 ## Data being stored
 
-- Each **news entry** stores the **user ID** of the account that originally created
-  the news entry along with a **creation timestamp**, the **user ID** of the account
-  that last updated the news entry  along with the **timestamp of the last update**.
+- Each **news entry** stores the **user ID** of the account that originally created the news entry along with a **creation timestamp**, the **user ID** of the account that last updated the news entry  along with the **timestamp of the last update**.
   These are not neccessarily the same and could be different accounts.  _Reason_:
   This data is required to be able to list news only after a specific date or to be
   able to adress authors of news for collaboration or reference.

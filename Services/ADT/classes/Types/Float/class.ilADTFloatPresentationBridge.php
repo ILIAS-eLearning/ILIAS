@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTFloat);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             $def = $this->getADT()->getCopyOfDefinition();
@@ -15,11 +17,11 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 
             // :TODO: language specific?
             $presentation_value = number_format(
-                    $this->getADT()->getNumber(),
-                    $this->getADT()->getCopyOfDefinition()->getDecimals(),
-                    ",",
-                    "."
-                ) .
+                $this->getADT()->getNumber(),
+                $this->getADT()->getCopyOfDefinition()->getDecimals(),
+                ",",
+                "."
+            ) .
                 $suffix;
 
             return $this->decorate($presentation_value);
@@ -27,7 +29,7 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getNumber();

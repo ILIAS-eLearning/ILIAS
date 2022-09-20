@@ -1,8 +1,7 @@
 <?php
+
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Logging/classes/public/class.ilLogLevel.php';
-include_once './Services/Administration/classes/class.ilSetting.php';
 
 /**
 *
@@ -14,25 +13,25 @@ include_once './Services/Administration/classes/class.ilSetting.php';
 */
 interface ilLoggingSettings
 {
-    public function isEnabled();
-    
-    public function getLogDir();
+    public function isEnabled(): bool;
 
-    public function getLogFile();
-    
-    public function getLevel();
-    
-    public function getLevelByComponent($a_component_id);
-    
-    public function getCacheLevel();
-    
-    public function isCacheEnabled();
-    
-    public function isMemoryUsageEnabled();
-    
-    public function isBrowserLogEnabled();
-    
-    public function isBrowserLogEnabledForUser($a_login);
-    
-    public function getBrowserLogUsers();
+    public function getLogDir(): string;
+
+    public function getLogFile(): string;
+
+    public function getLevel(): int;
+
+    public function getLevelByComponent(string $a_component_id): int;
+
+    public function getCacheLevel(): int;
+
+    public function isCacheEnabled(): bool;
+
+    public function isMemoryUsageEnabled(): bool;
+
+    public function isBrowserLogEnabled(): bool;
+
+    public function isBrowserLogEnabledForUser(string $a_login): bool;
+
+    public function getBrowserLogUsers(): array;
 }

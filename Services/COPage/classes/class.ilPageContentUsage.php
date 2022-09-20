@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Saves usages of page content elements in pages
@@ -26,11 +29,11 @@ class ilPageContentUsage
         int $a_usage_id,
         int $a_usage_hist_nr = 0,
         string $a_lang = "-"
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->replace("page_pc_usage", array(
             "pc_type" => array("text", $a_pc_type),
             "pc_id" => array("integer", $a_pc_id),
@@ -47,15 +50,15 @@ class ilPageContentUsage
         int $a_usage_id,
         int $a_usage_hist_nr = 0,
         string $a_lang = "-"
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $and_hist = ($a_usage_hist_nr !== 0)
             ? " AND usage_hist_nr = " . $ilDB->quote($a_usage_hist_nr, "integer")
             : "";
-        
+
         $ilDB->manipulate($q = "DELETE FROM page_pc_usage WHERE usage_type = " .
             $ilDB->quote($a_usage_type, "text") .
             " AND usage_id = " . $ilDB->quote($a_usage_id, "integer") .
@@ -63,7 +66,7 @@ class ilPageContentUsage
             $and_hist .
             " AND pc_type = " . $ilDB->quote($a_pc_type, "text"));
     }
-    
+
     /**
      * Get usages
      */
@@ -71,19 +74,19 @@ class ilPageContentUsage
         string $a_pc_type,
         int $a_pc_id,
         bool $a_incl_hist = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT * FROM page_pc_usage " .
             " WHERE pc_type = " . $ilDB->quote($a_pc_type, "text") .
             " AND pc_id = " . $ilDB->quote($a_pc_id, "integer");
-            
+
         if (!$a_incl_hist) {
             $q .= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
         }
-            
+
         $set = $ilDB->query($q);
         $usages = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -101,7 +104,7 @@ class ilPageContentUsage
         int $a_hist_nr = 0,
         bool $a_all_hist_nrs = false,
         string $a_lang = "-"
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -126,7 +129,6 @@ class ilPageContentUsage
                 "id" => $rec["pc_id"]
             );
         }
-
         return $usages;
     }
 }

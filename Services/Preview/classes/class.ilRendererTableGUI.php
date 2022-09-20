@@ -1,9 +1,19 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("Services/Table/classes/class.ilTable2GUI.php");
-require_once("Services/Preview/classes/class.ilPreviewRenderer.php");
-require_once("Services/Preview/classes/class.ilFilePreviewRenderer.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Displays an overview of all loaded preview renderers.
@@ -15,21 +25,12 @@ require_once("Services/Preview/classes/class.ilFilePreviewRenderer.php");
  */
 class ilRendererTableGUI extends ilTable2GUI
 {
-    /**
-     * Creates a new ilRendererTableGUI instance.
-     *
-     * @param ilObjFileGUI $a_parent_obj The parent object.
-     * @param string $a_parent_cmd The parent command.
-     * @param int $a_file_id The id of the file object
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjFileAccessSettingsGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         // general properties
         $this->setRowTemplate("tpl.renderer_row.html", "Services/Preview");
         $this->setLimit(9999);
@@ -37,39 +38,34 @@ class ilRendererTableGUI extends ilTable2GUI
         $this->disable("footer");
         $this->setExternalSorting(true);
         $this->setEnableTitle(true);
-        $this->setTitle($lng->txt("loaded_preview_renderers"));
-        
-        $this->addColumn($lng->txt("name"));
-        $this->addColumn($lng->txt("type"));
-        $this->addColumn($lng->txt("renderer_supported_repo_types"));
-        $this->addColumn($lng->txt("renderer_supported_file_types"));
+        $this->setTitle($this->lng->txt("loaded_preview_renderers"));
+
+        $this->addColumn($this->lng->txt("name"));
+        $this->addColumn($this->lng->txt("type"));
+        $this->addColumn($this->lng->txt("renderer_supported_repo_types"));
+        $this->addColumn($this->lng->txt("renderer_supported_file_types"));
     }
 
     /**
      * Standard Version of Fill Row. Most likely to
      * be overwritten by derived class.
      */
-    protected function fillRow($renderer)
+    protected function fillRow(array $a_set): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-        
-        $name = $renderer->getName();
-        $type = $lng->txt("renderer_type_" . ($renderer->isPlugin() ? "plugin" : "builtin"));
-        
-        $repo_types = array();
-        foreach ($renderer->getSupportedRepositoryTypes() as $repo_type) {
-            $repo_types[] = $lng->txt($repo_type);
+        $name = $a_set['name'] ?? '-';
+        $type = $this->lng->txt("renderer_type_" . (($a_set['s_plugin'] ?? false) ? "plugin" : "builtin"));
+
+        $repo_types = [];
+        foreach ($a_set['supported_repo_types'] as $repo_type) {
+            $repo_types[] = $this->lng->txt($repo_type);
         }
-        
+
         // supports files?
         $file_types = "";
-        if ($renderer instanceof ilFilePreviewRenderer) {
-            $file_types = implode(", ", $renderer->getSupportedFileFormats());
+        if (isset($a_set['object']) && $a_set['object'] instanceof ilFilePreviewRenderer) {
+            $file_types = implode(", ", $a_set['supported_file_formats'] ?? []);
         }
-        
+
         // fill template
         $this->tpl->setVariable("TXT_NAME", $name);
         $this->tpl->setVariable("TXT_TYPE", $type);

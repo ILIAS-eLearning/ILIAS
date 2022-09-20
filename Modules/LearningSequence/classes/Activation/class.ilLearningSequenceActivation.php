@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Activation-Settings for an LSO
@@ -27,46 +43,46 @@ class ilLearningSequenceActivation
         $this->activation_end = $activation_end;
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function getIsOnline() : bool
+    public function getIsOnline(): bool
     {
         return $this->online;
     }
 
-    public function withIsOnline(bool $online) : ilLearningSequenceActivation
+    public function withIsOnline(bool $online): ilLearningSequenceActivation
     {
         $clone = clone $this;
         $clone->online = $online;
         return $clone;
     }
 
-    public function getEffectiveOnlineStatus() : bool
+    public function getEffectiveOnlineStatus(): bool
     {
         return $this->effective_online;
     }
 
-    public function getActivationStart() : ?\DateTime
+    public function getActivationStart(): ?\DateTime
     {
         return $this->activation_start;
     }
 
-    public function withActivationStart(\DateTime $activation_start = null) : ilLearningSequenceActivation
+    public function withActivationStart(\DateTime $activation_start = null): ilLearningSequenceActivation
     {
         $clone = clone $this;
         $clone->activation_start = $activation_start;
         return $clone;
     }
 
-    public function getActivationEnd() : ?\DateTime
+    public function getActivationEnd(): ?\DateTime
     {
         return $this->activation_end;
     }
 
-    public function withActivationEnd(\DateTime $activation_end = null) : ilLearningSequenceActivation
+    public function withActivationEnd(\DateTime $activation_end = null): ilLearningSequenceActivation
     {
         $clone = clone $this;
         $clone->activation_end = $activation_end;

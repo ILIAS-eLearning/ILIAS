@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,25 +15,26 @@
  */
 class ilActivationEmitterTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp(): void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-        
+
         require_once './Services/WorkflowEngine/classes/emitters/class.ilActivationEmitter.php';
     }
-    
-    public function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -41,12 +43,12 @@ class ilActivationEmitterTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext()
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $emitter = new ilActivationEmitter($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -55,55 +57,55 @@ class ilActivationEmitterTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext()
+    public function testGetContext(): void
     {
         // Arrange
         $emitter = new ilActivationEmitter($this->node);
-        
+
         // Act
         $actual = $emitter->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
-    
-    public function testSetGetTargetDetector()
+
+    public function testSetGetTargetDetector(): void
     {
         // Arrange
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
         $target_node = new ilBasicNode($this->workflow);
         $target_detector = new ilSimpleDetector($target_node);
         $target_node->addDetector($target_detector);
-        
+
         $emitter = new ilActivationEmitter($this->node);
-        
+
         // Act
         $emitter->setTargetDetector($target_detector);
-        
+
         // Assert
         $actual = $emitter->getTargetDetector();
         $this->assertEquals($target_detector, $actual);
     }
-    
-    public function testEmitValidState()
+
+    public function testEmitValidState(): void
     {
         // Arrange
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
         $target_node = new ilBasicNode($this->workflow);
         $target_detector = new ilSimpleDetector($target_node);
         $target_node->addDetector($target_detector);
-        
+
         // Blocking detector to keep node from transitting and resetting state.
         $foo_detector = new ilSimpleDetector($target_node);
         $target_node->addDetector($foo_detector);
-        
+
         $emitter = new ilActivationEmitter($this->node);
         $emitter->setTargetDetector($target_detector);
-        
+
         // Act
         $emitter->emit();
         // Assert
@@ -111,7 +113,7 @@ class ilActivationEmitterTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual);
     }
 
-    public function testEmitActivationValidState()
+    public function testEmitActivationValidState(): void
     {
         // Arrange
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
@@ -120,16 +122,16 @@ class ilActivationEmitterTest extends ilWorkflowEngineBaseTest
         $foo_detector = new ilSimpleDetector($target_node);
         $target_node->addDetector($foo_detector);
         $target_node->addDetector($target_detector);
-        
+
         /* We want to see if the target node gets activated. To achieve
          * that, we need a second detector, so the node won't transit
          * and deactivate on receiving the emit to $target_detector.
          * Thought you wondered.
          */
-        
+
         $emitter = new ilActivationEmitter($this->node);
         $emitter->setTargetDetector($target_detector);
-        
+
         // Act
         $emitter->emit();
         // Assert

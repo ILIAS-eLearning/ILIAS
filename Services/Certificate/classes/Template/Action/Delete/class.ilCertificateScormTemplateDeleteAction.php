@@ -1,31 +1,39 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateTemplateDeleteAction $deleteAction;
     private ilSetting $setting;
 
-    public function __construct(ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
+    public function __construct(private ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
     {
-        $this->deleteAction = $deleteAction;
-
         if (null === $setting) {
             $setting = new ilSetting('scorm');
         }
         $this->setting = $setting;
     }
 
-    /**
-     * @param $templateId
-     * @param $objectId
-     * @return void
-     * @throws ilDatabaseException
-     */
-    public function delete($templateId, $objectId) : void
+    public function delete(int $templateId, int $objectId): void
     {
         $this->deleteAction->delete($templateId, $objectId);
 

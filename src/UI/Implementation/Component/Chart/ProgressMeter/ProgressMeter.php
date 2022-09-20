@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
@@ -56,7 +72,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get required value as percent
      */
-    public function getRequiredAsPercent() : int
+    public function getRequiredAsPercent(): int
     {
         return $this->getAsPercentage($this->required);
     }
@@ -72,7 +88,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get main value as percent
      */
-    public function getMainValueAsPercent() : int
+    public function getMainValueAsPercent(): int
     {
         return $this->getAsPercentage($this->main);
     }
@@ -80,7 +96,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * Get integer value "1" if a value is negative or "maximum" if value is more than maximum
      */
-    protected function getSafe(int $int) : int
+    protected function getSafe(int $int): int
     {
         return (($int < 0) ? 0 : ($int > $this->getMaximum() ? $this->getMaximum() : $int));
     }
@@ -88,7 +104,7 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
     /**
      * get an integer value as percent value
      */
-    protected function getAsPercentage(int $int) : int
+    protected function getAsPercentage(int $int): int
     {
         return (int) round(100 / $this->getMaximum() * $this->getSafe($int), 0, PHP_ROUND_HALF_UP);
     }

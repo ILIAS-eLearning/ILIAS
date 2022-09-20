@@ -1,18 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-
 
 /**
  * Description of ilDidacticTemplateImport
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateImport
 {
-    const IMPORT_FILE = 1;
+    public const IMPORT_FILE = 1;
 
     private int $type = 0;
     private string $xmlfile = '';
@@ -20,7 +18,6 @@ class ilDidacticTemplateImport
     private ilLogger $logger;
     protected ilObjectDefinition $objDefinition;
     protected ilSetting $settings;
-
 
     public function __construct(int $a_type)
     {
@@ -32,17 +29,17 @@ class ilDidacticTemplateImport
         $this->settings = $DIC->settings();
     }
 
-    public function setInputFile(string $a_file) : void
+    public function setInputFile(string $a_file): void
     {
         $this->xmlfile = $a_file;
     }
 
-    public function getInputFile() : string
+    public function getInputFile(): string
     {
         return $this->xmlfile;
     }
 
-    public function getInputType() : int
+    public function getInputType(): int
     {
         return $this->type;
     }
@@ -50,15 +47,16 @@ class ilDidacticTemplateImport
     /**
      * Do import
      */
-    public function import(int $a_dtpl_id = 0) : ilDidacticTemplateSetting
+    public function import(int $a_dtpl_id = 0): ilDidacticTemplateSetting
     {
         $root = null;
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         switch ($this->getInputType()) {
             case self::IMPORT_FILE:
-                $root = simplexml_load_file($this->getInputFile());
+                $root = simplexml_load_string(file_get_contents($this->getInputFile()));
                 break;
         }
+        libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             throw new ilDidacticTemplateImportException(
                 $this->parseXmlErrors()
@@ -72,7 +70,7 @@ class ilDidacticTemplateImport
     /**
      * Parse settings
      */
-    protected function parseSettings(SimpleXMLElement $root) : ilDidacticTemplateSetting
+    protected function parseSettings(SimpleXMLElement $root): ilDidacticTemplateSetting
     {
         $icon = '';
         $setting = new ilDidacticTemplateSetting();
@@ -90,7 +88,7 @@ class ilDidacticTemplateImport
 
             $info = '';
             foreach ((array) $tpl->info->p as $paragraph) {
-                if (strlen($info)) {
+                if ($info !== '') {
                     $info .= "\n";
                 }
                 $info .= trim((string) $paragraph);
@@ -102,7 +100,7 @@ class ilDidacticTemplateImport
                 foreach ($tpl->effectiveFrom->node as $element) {
                     $node[] = (int) $element;
                 }
-                
+
                 $setting->setEffectiveFrom($node);
             }
 
@@ -116,7 +114,7 @@ class ilDidacticTemplateImport
         }
         $setting->save();
 
-        if (strlen($icon) && $this->canUseIcons($setting)) {
+        if ($icon !== '' && $this->canUseIcons($setting)) {
             $setting->getIconHandler()->writeSvg($icon);
         }
         $trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
@@ -124,23 +122,25 @@ class ilDidacticTemplateImport
             $trans->fromXML($root->didacticTemplate->translations);
         }
         $trans->save();
+
         return $setting;
     }
 
-    protected function canUseIcons(ilDidacticTemplateSetting $setting) : bool
+    protected function canUseIcons(ilDidacticTemplateSetting $setting): bool
     {
         foreach ($setting->getAssignments() as $assignment) {
             if (!$this->objDefinition->isContainer($assignment)) {
                 return false;
             }
         }
+
         return true;
     }
 
     /**
      * Parse template action from xml
      */
-    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null) : void
+    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null): void
     {
         if ($actions === null) {
             return;
@@ -149,16 +149,12 @@ class ilDidacticTemplateImport
         // Local role action
         ///////////////////////////////////////////////
         foreach ($actions->localRoleAction as $ele) {
-            
-
             $act = new ilDidacticTemplateLocalRoleAction();
             $act->setTemplateId($set->getId());
 
             foreach ($ele->roleTemplate as $tpl) {
                 // extract role
                 foreach ($tpl->role as $roleDef) {
-                    
-
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);
@@ -171,14 +167,11 @@ class ilDidacticTemplateImport
         // Block role action
         //////////////////////////////////////////////
         foreach ($actions->blockRoleAction as $ele) {
-            
-
             $act = new ilDidacticTemplateBlockRoleAction();
             $act->setTemplateId($set->getId());
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':
                         $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
@@ -194,7 +187,6 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
-                    
 
                     $pattern = new ilDidacticTemplateIncludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
@@ -203,7 +195,6 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->excludePattern as $pat) {
                     // @TODO other subtypes
-                    
 
                     $pattern = new ilDidacticTemplateExcludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
@@ -215,22 +206,19 @@ class ilDidacticTemplateImport
             $act->save();
         }
 
-
-
         ////////////////////////////////////////////
         // Local policy action
         /////////////////////////////////////////////
         foreach ($actions->localPolicyAction as $ele) {
-            
-
             $act = new ilDidacticTemplateLocalPolicyAction();
             $act->setTemplateId($set->getId());
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
-                $this->logger->debug('Current filter source: ' . (string) $rfi->attributes()->source);
+                $this->logger->debug(
+                    'Current filter source: ' . $rfi->attributes()->source
+                );
 
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':
@@ -251,7 +239,6 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
-                    
 
                     $pattern = new ilDidacticTemplateIncludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
@@ -260,7 +247,6 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->excludePattern as $pat) {
                     // @TODO other subtypes
-                    
 
                     $pattern = new ilDidacticTemplateExcludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
@@ -287,8 +273,6 @@ class ilDidacticTemplateImport
 
                 // extract role
                 foreach ($lpo->role as $roleDef) {
-                    
-
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);
@@ -303,7 +287,7 @@ class ilDidacticTemplateImport
     /**
      * Parse xml errors from libxml_get_errors
      */
-    protected function parseXmlErrors() : string
+    protected function parseXmlErrors(): string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {

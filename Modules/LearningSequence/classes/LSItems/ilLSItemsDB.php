@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilLSItemsDB
@@ -28,7 +43,7 @@ class ilLSItemsDB
     /**
      * @return LSItem[]
      */
-    public function getLSItems(int $ref_id) : array
+    public function getLSItems(int $ref_id): array
     {
         $children = $this->tree->getChilds($ref_id);
 
@@ -57,21 +72,19 @@ class ilLSItemsDB
         return $items;
     }
 
-    protected function getIconPathForType(string $type) : string
+    protected function getIconPathForType(string $type): string
     {
-        return ilObject2::_getIcon("", "big", $type);
+        return ilObject2::_getIcon(0, "big", $type);
     }
 
     /**
      * Collect all conditions at once.
      * @return array <int,ilLSPostCondition>
      */
-    protected function getConditionsForChildren(array $children) : array
+    protected function getConditionsForChildren(array $children): array
     {
         $ref_ids = array_map(
-            function ($i) {
-                return (int) $i['child'];
-            },
+            fn ($i) => (int) $i['child'],
             $children
         );
 
@@ -83,7 +96,7 @@ class ilLSItemsDB
         return $conditions;
     }
 
-    protected function storeItemsOrder(array $ls_items) : void
+    protected function storeItemsOrder(array $ls_items): void
     {
         $type_positions = [];
         foreach ($ls_items as $item) {
@@ -92,7 +105,7 @@ class ilLSItemsDB
         $this->container_sorting->savePost($type_positions);
     }
 
-    protected function storeOnlineStatus(array $ls_items) : void
+    protected function storeOnlineStatus(array $ls_items): void
     {
         foreach ($ls_items as $item) {
             $this->ls_item_online_status->setOnlineStatus(
@@ -102,7 +115,7 @@ class ilLSItemsDB
         }
     }
 
-    protected function storePostconditions(array $ls_items) : void
+    protected function storePostconditions(array $ls_items): void
     {
         $conditions = [];
         foreach ($ls_items as $item) {
@@ -114,14 +127,16 @@ class ilLSItemsDB
     /**
      * Use this to apply settings made in ContentGUI
      */
-    public function storeItems(array $ls_items) : void
+    public function storeItems(array $ls_items): void
     {
         $this->storeOnlineStatus($ls_items);
         $this->storeItemsOrder($ls_items);
         $this->storePostconditions($ls_items);
     }
 
-    protected function getObjectFor(int $ref_id) : ilObject
+    // The typehint on ilObject is intentional, we expect this to return some object
+    // or need to error instead.
+    protected function getObjectFor(int $ref_id): \ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id);
     }

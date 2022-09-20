@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -27,7 +41,7 @@ class ilExAssignmentInfo
         $this->user_id = $user_id;
     }
 
-    public function getInstructionInfo() : array
+    public function getInstructionInfo(): array
     {
         if ($this->state->areInstructionsVisible()) {
             $inst = $this->ass->getInstructionPresentation();
@@ -43,7 +57,7 @@ class ilExAssignmentInfo
         return [];
     }
 
-    public function getInstructionFileInfo(int $readable_ref_id = 0) : array
+    public function getInstructionFileInfo(int $readable_ref_id = 0): array
     {
         $ctrl = $this->ctrl;
         $ass_files = $this->ass->getFiles();
@@ -74,7 +88,7 @@ class ilExAssignmentInfo
     /**
      * @throws ilDateTimeException
      */
-    public function getScheduleInfo() : array
+    public function getScheduleInfo(): array
     {
         $lng = $this->lng;
         $ret = [];
@@ -140,7 +154,7 @@ class ilExAssignmentInfo
     /**
      * @throws ilDateTimeException
      */
-    public function getSubmissionInfo() : array
+    public function getSubmissionInfo(): array
     {
         // submitted files
         $submission = new ilExSubmission($this->ass, $this->user_id);

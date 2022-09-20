@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -18,12 +36,12 @@ class ViewControlTest extends ILIAS_UI_TestBase
     protected string $role = "group";
     protected string $active = "Github";
 
-    public function getViewControlFactory() : I\Component\ViewControl\Factory
+    public function getViewControlFactory(): I\Component\ViewControl\Factory
     {
         return new I\Component\ViewControl\Factory(new SignalGenerator());
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $view_control_f = $this->getViewControlFactory();
 
@@ -40,7 +58,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Section", $section);
     }
 
-    public function test_viewcontrol_section_get_previous_actions() : void
+    public function test_viewcontrol_section_get_previous_actions(): void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -53,7 +71,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_viewcontrol_section_get_next_actions() : void
+    public function test_viewcontrol_section_get_next_actions(): void
     {
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
 
@@ -66,7 +84,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Button\\Button", $action);
     }
 
-    public function test_render_viewcontrol_section() : void
+    public function test_render_viewcontrol_section(): void
     {
         $view_control_f = $this->getViewControlFactory();
         $button_f = new ILIAS\UI\Implementation\Component\Button\Factory();
@@ -92,7 +110,7 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\ViewControl\\Factory", $f);
     }
 
-    public function test_viewcontrol_with_active() : void
+    public function test_viewcontrol_with_active(): void
     {
         $f = $this->getViewControlFactory();
 
@@ -100,14 +118,14 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertNotEquals($this->active, $f->mode($this->actions, $this->aria_label)->withActive("Dummy text")->getActive());
     }
 
-    public function test_viewcontrol_get_actions() : void
+    public function test_viewcontrol_get_actions(): void
     {
         $f = $this->getViewControlFactory();
 
         $this->assertIsArray($f->mode($this->actions, $this->aria_label)->getLabelledActions());
     }
 
-    public function test_render_viewcontrol_mode() : void
+    public function test_render_viewcontrol_mode(): void
     {
         $f = $this->getViewControlFactory();
         $r = $this->getDefaultRenderer();
@@ -137,21 +155,21 @@ class ViewControlTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function counter() : C\Counter\Factory
+        return new class () extends NoUIFactory {
+            public function counter(): C\Counter\Factory
             {
                 return new I\Component\Counter\Factory();
             }
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
         };
     }
 
-    protected function getSectionExpectedHTML() : string
+    protected function getSectionExpectedHTML(): string
     {
         return <<<EOT
 <div class="il-viewcontrol-section">

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestParticipantListTest
@@ -10,26 +26,26 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
 {
     private ilTestParticipantList $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestParticipantList($this->createMock(ilObjTest::class));
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestParticipantList::class, $this->testObj);
     }
 
-    public function testTestObj() : void
+    public function testTestObj(): void
     {
         $objTest_mock = $this->createMock(ilObjTest::class);
         $this->testObj->setTestObj($objTest_mock);
         $this->assertEquals($objTest_mock, $this->testObj->getTestObj());
     }
 
-    public function testAddParticipant() : void
+    public function testAddParticipant(): void
     {
         $participant = new ilTestParticipant();
         $participant->setActiveId(22);
@@ -37,15 +53,16 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertEquals($participant, $this->testObj->getParticipantByActiveId(22));
     }
 
-    public function testGetParticipantByUsrId() : void
+    public function testGetParticipantByUsrId(): void
     {
         $participant = new ilTestParticipant();
         $participant->setUsrId(125);
+        $participant->setActiveId(123);
         $this->testObj->addParticipant($participant);
         $this->assertEquals($participant, $this->testObj->getParticipantByUsrId(125));
     }
 
-    public function testHasUnfinishedPasses() : void
+    public function testHasUnfinishedPasses(): void
     {
         $participant = new ilTestParticipant();
         $participant->setUnfinishedPasses(false);
@@ -60,7 +77,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->hasUnfinishedPasses());
     }
 
-    public function testGetAllUserIds() : void
+    public function testGetAllUserIds(): void
     {
         $ids = [
             12,
@@ -78,7 +95,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertEquals($ids, $this->testObj->getAllUserIds());
     }
 
-    public function testGetAllActiveIds() : void
+    public function testGetAllActiveIds(): void
     {
         $ids = [
             12,
@@ -96,7 +113,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertEquals($ids, $this->testObj->getAllActiveIds());
     }
 
-    public function testIsActiveIdInList() : void
+    public function testIsActiveIdInList(): void
     {
         $ids = [
             12,
@@ -115,7 +132,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertFalse($this->testObj->isActiveIdInList(222222));
     }
 
-    public function testGetAccessFilteredList() : void
+    public function testGetAccessFilteredList(): void
     {
         $ids = [
             12,
@@ -134,6 +151,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -146,10 +164,12 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertNotNull($result->getParticipantByUsrId(12));
         $this->assertNotNull($result->getParticipantByUsrId(125));
         $this->assertNotNull($result->getParticipantByUsrId(176));
+
+        $this->expectException(OutOfBoundsException::class);
         $this->assertNull($result->getParticipantByUsrId(212121));
     }
 
-    public function testCurrent() : void
+    public function testCurrent(): void
     {
         $ids = [
             12,
@@ -160,6 +180,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -169,7 +190,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertEquals($ids[1], $this->testObj->current()->getUsrId());
     }
 
-    public function testNext() : void
+    public function testNext(): void
     {
         $ids = [
             12,
@@ -180,6 +201,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -189,7 +211,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertEquals($ids[2], $this->testObj->current()->getUsrId());
     }
 
-    public function testKey() : void
+    public function testKey(): void
     {
         $ids = [
             12,
@@ -200,16 +222,17 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
         $this->testObj->next();
         $this->testObj->next();
 
-        $this->assertEquals(2, $this->testObj->key());
+        $this->assertEquals(1176, $this->testObj->key());
     }
 
-    public function testValid() : void
+    public function testValid(): void
     {
         $ids = [
             12,
@@ -220,6 +243,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 
@@ -231,7 +255,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         $this->assertFalse($this->testObj->valid());
     }
 
-    public function testRewind() : void
+    public function testRewind(): void
     {
         $ids = [
             12,
@@ -242,6 +266,7 @@ class ilTestParticipantListTest extends ilTestBaseTestCase
         foreach ($ids as $id) {
             $participant = new ilTestParticipant();
             $participant->setUsrId($id);
+            $participant->setActiveId($id + 1000);
             $this->testObj->addParticipant($participant);
         }
 

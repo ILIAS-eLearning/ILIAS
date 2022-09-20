@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilObjAdministrativeNotificationGUI
  * @ilCtrl_IsCalledBy ilObjAdministrativeNotificationGUI: ilAdministrationGUI
  * @ilCtrl_Calls      ilObjAdministrativeNotificationGUI: ilPermissionGUI
@@ -8,41 +24,11 @@
  */
 class ilObjAdministrativeNotificationGUI extends ilObject2GUI
 {
+    public const TAB_PERMISSIONS = 'perm_settings';
+    public const TAB_MAIN = 'main';
 
-    /**
-     * @var ilADNTabHandling
-     */
-    private $tab_handling;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    const TAB_PERMISSIONS = 'perm_settings';
-    const TAB_MAIN = 'main';
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error_handling;
+    private ilADNTabHandling $tab_handling;
+    private ilObjAdministrativeNotificationAccess $admin_notification_access;
 
     /**
      * ilObjAdministrativeNotificationGUI constructor.
@@ -51,26 +37,22 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $ref_id = (int) $_GET['ref_id'];
-        parent::__construct($ref_id);
+        $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
+            ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
+            : null;
 
-        $this->tabs = $DIC['ilTabs'];
-        $this->lng  = $DIC->language();
+        parent::__construct($this->ref_id);
+
         $this->lng->loadLanguageModule('adn');
-        $this->ctrl         = $DIC['ilCtrl'];
-        $this->tpl          = $DIC['tpl'];
-        $this->tree         = $DIC['tree'];
-        $this->rbacsystem   = $DIC['rbacsystem'];
-        $this->tab_handling = new ilADNTabHandling($ref_id);
-        $this->error_handling = $DIC["ilErr"];
-        $this->access = new ilObjAdministrativeNotificationAccess();
+        $this->tab_handling = new ilADNTabHandling($this->ref_id);
+        $this->admin_notification_access = new ilObjAdministrativeNotificationAccess();
 
         $this->assignObject();
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
-        $this->access->checkAccessAndThrowException("visible,read");
+        $this->admin_notification_access->checkAccessAndThrowException("visible,read");
 
         $next_class = $this->ctrl->getNextClass();
 
@@ -85,7 +67,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
                 $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
-                $this->tabs->activateTab(self::TAB_PERMISSIONS);
+                $this->tabs_gui->activateTab(self::TAB_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -98,11 +80,8 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getType()
+    public function getType(): string
     {
-        return null;
+        return ilObjAdministrativeNotification::TYPE_ADN;
     }
 }

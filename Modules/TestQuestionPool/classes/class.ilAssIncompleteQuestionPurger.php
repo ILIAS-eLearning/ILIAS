@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,15 +15,15 @@ class ilAssIncompleteQuestionPurger
      * @var ilDBInterface
      */
     protected $db;
-    
+
     protected $ownerId;
-    
+
     private $ignoredContainerObjectTypes;
-    
+
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
-        
+
         $this->ignoredContainerObjectTypes = array('lm');
     }
 
@@ -31,21 +32,21 @@ class ilAssIncompleteQuestionPurger
         return $this->ownerId;
     }
 
-    public function setOwnerId($ownerId)
+    public function setOwnerId($ownerId): void
     {
         $this->ownerId = $ownerId;
     }
-    
-    public function purge()
+
+    public function purge(): void
     {
         $questionIds = $this->getPurgableQuestionIds();
         $this->purgeQuestionIds($questionIds);
     }
-    
-    private function getPurgableQuestionIds()
+
+    private function getPurgableQuestionIds(): array
     {
         $INtypes = $this->db->in('object_data.type', $this->getIgnoredContainerObjectTypes(), true, 'text');
-        
+
         $query = "
 			SELECT qpl_questions.question_id
 			FROM qpl_questions
@@ -55,34 +56,34 @@ class ilAssIncompleteQuestionPurger
 			WHERE qpl_questions.owner = %s
 			AND qpl_questions.tstamp = %s
 		";
-        
+
         $res = $this->db->queryF($query, array('integer', 'integer'), array($this->getOwnerId(), 0));
-        
+
         $questionIds = array();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $questionIds[] = $row['question_id'];
         }
-        
+
         return $questionIds;
     }
-    
-    private function purgeQuestionIds($questionIds)
+
+    private function purgeQuestionIds($questionIds): void
     {
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-        
+
         foreach ($questionIds as $questionId) {
             $question = assQuestion::_instantiateQuestion($questionId);
             $question->delete($questionId);
         }
     }
-    
-    protected function setIgnoredContainerObjectTypes($ignoredContainerObjectTypes)
+
+    protected function setIgnoredContainerObjectTypes($ignoredContainerObjectTypes): void
     {
         $this->ignoredContainerObjectTypes = $ignoredContainerObjectTypes;
     }
-    
-    protected function getIgnoredContainerObjectTypes()
+
+    protected function getIgnoredContainerObjectTypes(): array
     {
         return $this->ignoredContainerObjectTypes;
     }

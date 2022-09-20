@@ -9,18 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class AdveStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\AdvancedEditing\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\AdvancedEditing\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -37,7 +30,7 @@ class AdveStandardGUIRequestTest extends TestCase
     /**
      * Test group
      */
-    public function testGroup()
+    public function testGroup(): void
     {
         $request = $this->getRequest(
             [

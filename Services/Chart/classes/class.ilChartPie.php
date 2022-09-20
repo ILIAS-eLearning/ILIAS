@@ -1,36 +1,42 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChart.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Generator for pie charts
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartPie extends ilChart
 {
-    public function getDataInstance($a_type = null)
+    public function getDataInstance(int $a_type = null): ilChartData
     {
-        include_once "Services/Chart/classes/class.ilChartDataPie.php";
         return new ilChartDataPie();
     }
-    
-    protected function isValidDataType(ilChartData $a_series)
+
+    protected function isValidDataType(ilChartData $a_series): bool
     {
         return ($a_series instanceof ilChartDataPie);
     }
-    
-    protected function addCustomJS()
+
+    protected function addCustomJS(): void
     {
         $tpl = $this->tpl;
-        
-        $tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
+
+        $tpl->addJavaScript("Services/Chart/js/flot/jquery.flot.pie.js");
     }
-    
-    public function parseGlobalOptions(stdClass $a_options)
+
+    public function parseGlobalOptions(stdClass $a_options): void
     {
         // if no inner labels set, use legend
         if (!isset($a_options->series->pie->label) &&

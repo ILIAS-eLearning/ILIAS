@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text area property in a property form.
@@ -37,8 +42,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $disabled_buttons = array();
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
-    protected ?string $root_block_element = null;
-    
+    protected ?string $root_block_element = "";
+
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
         "standard" => array("strong", "em", "u", "ol", "li", "ul", "p", "div",
@@ -85,12 +90,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         $this->rteSupport = array();
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -98,76 +103,76 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @deprecated
      */
-    public function setCols(int $a_cols) : void
+    public function setCols(int $a_cols): void
     {
         // obsolete because of bootstrap
         $this->cols = $a_cols;
     }
 
-    public function getCols() : int
+    public function getCols(): int
     {
         return $this->cols;
     }
 
-    public function setRows(int $a_rows) : void
+    public function setRows(int $a_rows): void
     {
         $this->rows = $a_rows;
     }
 
-    public function getRows() : int
+    public function getRows(): int
     {
         return $this->rows;
     }
 
     // Set Maximum number of characters allowed.
-    public function setMaxNumOfChars(int $a_number) : void
+    public function setMaxNumOfChars(int $a_number): void
     {
         $this->max_num_chars = $a_number;
     }
 
-    public function getMaxNumOfChars() : int
+    public function getMaxNumOfChars(): int
     {
         return $this->max_num_chars;
     }
 
-    public function setMinNumOfChars(int $a_number) : void
+    public function setMinNumOfChars(int $a_number): void
     {
         $this->min_num_chars = $a_number;
     }
 
-    public function getMinNumOfChars() : int
+    public function getMinNumOfChars(): int
     {
         return $this->min_num_chars;
     }
 
-    public function setUseRte(bool $a_usert, string $version = '') : void
+    public function setUseRte(bool $a_usert, string $version = ''): void
     {
         $this->usert = $a_usert;
         $this->rteSupport['version'] = $version;
     }
 
-    public function getUseRte() : bool
+    public function getUseRte(): bool
     {
         return $this->usert;
     }
-    
-    public function addPlugin(string $a_plugin) : void
+
+    public function addPlugin(string $a_plugin): void
     {
         $this->plugins[$a_plugin] = $a_plugin;
     }
-    
-    public function removePlugin(string $a_plugin) : void
+
+    public function removePlugin(string $a_plugin): void
     {
         $this->removeplugins[$a_plugin] = $a_plugin;
     }
 
     // Add RTE button.
-    public function addButton(string $a_button) : void
+    public function addButton(string $a_button): void
     {
         $this->buttons[$a_button] = $a_button;
     }
-    
-    public function removeButton(string $a_button) : void
+
+    public function removeButton(string $a_button): void
     {
         unset($this->buttons[$a_button]);
     }
@@ -182,40 +187,47 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         ?string $cfg_template = null,
         bool $hide_switch = false,
         ?string $version = null
-    ) {
-        $this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch, 'version' => $version);
+    ): void {
+        $this->rteSupport = array(
+            "obj_id" => $obj_id,
+            "obj_type" => $obj_type,
+            "module" => $module,
+            'cfg_template' => $cfg_template,
+            'hide_switch' => $hide_switch,
+            'version' => $version
+        );
     }
-    
-    public function removeRTESupport() : void
+
+    public function removeRTESupport(): void
     {
         $this->rteSupport = array();
     }
 
-    public function setRteTags(array $a_rtetags) : void
+    public function setRteTags(array $a_rtetags): void
     {
         $this->rtetags = $a_rtetags;
     }
 
-    public function getRteTags() : array
+    public function getRteTags(): array
     {
         return $this->rtetags;
     }
-    
+
     /**
      * @param string $a_set_name Set name "standard", "extended", "extended_img",
      *					"extended_table", "extended_table_img", "full"
      */
-    public function setRteTagSet(string $a_set_name) : void
+    public function setRteTagSet(string $a_set_name): void
     {
         $this->setRteTags($this->rte_tag_set[$a_set_name]);
     }
 
-    public function getRteTagSet($a_set_name) : array
+    public function getRteTagSet($a_set_name): array
     {
         return $this->rte_tag_set[$a_set_name];
     }
 
-    public function getRteTagString() : string
+    public function getRteTagString(): string
     {
         $result = "";
         foreach ($this->getRteTags() as $tag) {
@@ -227,26 +239,26 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * Set use tags for RTE only (default is true)
      */
-    public function setUseTagsForRteOnly(bool $a_val) : void
+    public function setUseTagsForRteOnly(bool $a_val): void
     {
         $this->use_tags_for_rte_only = $a_val;
     }
-    
-    public function getUseTagsForRteOnly() : bool
+
+    public function getUseTagsForRteOnly(): bool
     {
         return $this->use_tags_for_rte_only;
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
-        
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
+
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -279,10 +291,10 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         if ($this->usePurifier() && $this->getPurifier()) {
-            $value = $this->getPurifier()->purify($this->str($this->getPostVar()));
+            $value = $this->getPurifier()->purify($this->raw($this->getPostVar()));
         } else {
             $allowed = $this->getRteTagString();
             if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
@@ -297,12 +309,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         return $value;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
 
         $ttpl = new ilTemplate("tpl.prop_textarea.html", true, true, "Services/Form");
-        
+
         // disabled rte
         if ($this->getUseRte() && $this->getDisabled()) {
             $ttpl->setCurrentBlock("disabled_rte");
@@ -310,10 +322,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                $rte = new $rtestring($this->rteSupport['version']);
-
+                $rte = new $rtestring((string) $this->rteSupport['version']);
                 $rte->setInitialWidth($this->getInitialRteWidth());
-                
+
                 // @todo: Check this.
                 $rte->addPlugin("emoticons");
                 foreach ($this->plugins as $plugin) {
@@ -326,26 +337,26 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         $rte->removePlugin($plugin);
                     }
                 }
-    
+
                 foreach ($this->buttons as $button) {
                     if (strlen($button)) {
                         $rte->addButton($button);
                     }
                 }
-                
+
                 $rte->disableButtons($this->getDisabledButtons());
-                
+
                 if ($this->getRTERootBlockElement() !== null) {
                     $rte->setRTERootBlockElement($this->getRTERootBlockElement());
                 }
-                
+
                 if (count($this->rteSupport) >= 3) {
                     $rte->addRTESupport($this->rteSupport["obj_id"], $this->rteSupport["obj_type"], $this->rteSupport["module"], false, $this->rteSupport['cfg_template'], $this->rteSupport['hide_switch']);
                 } else {
                     // disable all plugins for mini-tagset
                     if (!array_diff($this->getRteTags(), $this->getRteTagSet("mini"))) {
                         $rte->removeAllPlugins();
-                        
+
                         // #13603 - "paste from word" is essential
                         $rte->addPlugin("paste");
                         //Add plugins 'lists', 'code' and 'link': in tinymce 3 it wasnt necessary to configure these plugins
@@ -356,7 +367,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         if (method_exists($rte, 'removeAllContextMenuItems')) {
                             $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
                         }
-                        
+
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
                         $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
                             "alignright", "alignjustify", "formatselect", "removeformat",
@@ -364,11 +375,11 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                     }
                     $rte->addCustomRTESupport(0, "", $this->getRteTags());
                 }
-                
+
                 $ttpl->touchBlock("prop_ta_w");
             } else {
                 $ttpl->touchBlock("no_rteditor");
-    
+
                 if ($this->getCols() > 5) {
                     $ttpl->setCurrentBlock("prop_ta_c");
                     $ttpl->setVariable("COLS", $this->getCols());
@@ -379,18 +390,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             }
             $ttpl->setCurrentBlock("prop_textarea");
             $ttpl->setVariable("ROWS", $this->getRows());
-            if (!$this->getDisabled()) {
-                $ttpl->setVariable(
-                    "POST_VAR",
-                    $this->getPostVar()
-                );
-            }
+            $ttpl->setVariable("POST_VAR", $this->getPostVar());
             $ttpl->setVariable("ID", $this->getFieldId());
             if ($this->getDisabled()) {
                 $ttpl->setVariable('DISABLED', 'disabled="disabled" ');
             }
-            $ttpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
-        
+            $ttpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
+
             if ($this->getRequired()) {
                 $ttpl->setVariable("REQUIRED", "required=\"required\"");
             }
@@ -431,42 +437,42 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         if (null === $a_flag) {
             return $this->usePurifier;
         }
-        
+
         $this->usePurifier = $a_flag;
         return $this;
     }
-    
+
     /**
      * Setter for the html purifier
      */
-    public function setPurifier(ilHtmlPurifierInterface $Purifier) : self
+    public function setPurifier(ilHtmlPurifierInterface $Purifier): self
     {
         $this->Purifier = $Purifier;
         return $this;
     }
-    
-    public function getPurifier() : ilHtmlPurifierInterface
+
+    public function getPurifier(): ilHtmlPurifierInterface
     {
         return $this->Purifier;
     }
-    
-    public function setRTERootBlockElement(string $a_root_block_element) : self
+
+    public function setRTERootBlockElement(string $a_root_block_element): self
     {
         $this->root_block_element = $a_root_block_element;
         return $this;
     }
-    
-    public function getRTERootBlockElement() : string
+
+    public function getRTERootBlockElement(): string
     {
         return $this->root_block_element;
     }
-    
+
     /**
      * Sets buttons which should be disabled in TinyMCE
      *
      * @param string|string[] $a_button	Either a button string or an array of button strings
      */
-    public function disableButtons($a_button) : self
+    public function disableButtons($a_button): self
     {
         if (is_array($a_button)) {
             $this->disabled_buttons = array_unique(array_merge($this->disabled_buttons, $a_button));
@@ -475,7 +481,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         }
         return $this;
     }
-    
+
     /**
      * @return	string|array	Array of disabled buttons
      */
@@ -488,17 +494,17 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function getInitialRteWidth() : int
+    public function getInitialRteWidth(): int
     {
         return $this->initial_rte_width;
     }
 
-    public function setInitialRteWidth(int $initial_rte_width) : void
+    public function setInitialRteWidth(int $initial_rte_width): void
     {
         $this->initial_rte_width = $initial_rte_width;
     }
 
-    public function isCharLimited() : bool
+    public function isCharLimited(): bool
     {
         if ($this->getMaxNumOfChars() || $this->getMinNumOfChars()) {
             return true;

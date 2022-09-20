@@ -1,33 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Profile prompt data gateway
- *
- * @author killing@leifos.de
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserProfilePromptDataGateway
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilSetting $user_settings;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilSetting
-     */
-    protected $user_settings;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -37,12 +35,7 @@ class ilUserProfilePromptDataGateway
         $this->db = $DIC->database();
     }
 
-    /**
-     * Save settings
-     *
-     * @param ilProfilePromptSettings $settings
-     */
-    public function saveSettings(ilProfilePromptSettings $settings)
+    public function saveSettings(ilProfilePromptSettings $settings): void
     {
         $user_settings = $this->user_settings;
 
@@ -53,16 +46,11 @@ class ilUserProfilePromptDataGateway
             $user_settings->set("user_profile_prompt_" . $l, $text);
         }
 
-        $user_settings->set("user_profile_prompt_mode", (int) $settings->getMode());
-        $user_settings->set("user_profile_prompt_days", (int) $settings->getDays());
+        $user_settings->set("user_profile_prompt_mode", $settings->getMode());
+        $user_settings->set("user_profile_prompt_days", $settings->getDays());
     }
 
-    /**
-     * Get settings
-     *
-     * @return ilProfilePromptSettings
-     */
-    public function getSettings() : ilProfilePromptSettings
+    public function getSettings(): ilProfilePromptSettings
     {
         $user_settings = $this->user_settings;
         $lng = $this->lng;
@@ -81,13 +69,7 @@ class ilUserProfilePromptDataGateway
         );
     }
 
-    /**
-     * Get user prompt data
-     *
-     * @param $user_id
-     * @return ilProfileUserPrompt
-     */
-    public function getUserPrompt($user_id) : ilProfileUserPrompt
+    public function getUserPrompt(int $user_id): ilProfileUserPrompt
     {
         $db = $this->db;
 
@@ -103,13 +85,7 @@ class ilUserProfilePromptDataGateway
         return new ilProfileUserPrompt($user_id, "", "");
     }
 
-    /**
-     * Save user prompt
-     *
-     * @param int $user_id
-     * @param string $last_profile_prompt
-     */
-    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = "")
+    public function saveLastUserPrompt(int $user_id, string $last_profile_prompt = ""): void
     {
         $db = $this->db;
 

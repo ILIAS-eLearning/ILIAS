@@ -1,38 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilNotification
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilNotification:
  */
 class ilNotification
 {
-    const TYPE_EXERCISE_SUBMISSION = 1;
-    const TYPE_WIKI = 2;
-    const TYPE_WIKI_PAGE = 3;
-    const TYPE_BLOG = 4;
-    const TYPE_DATA_COLLECTION = 5;
-    const TYPE_POLL = 6;
-    const TYPE_LM_BLOCKED_USERS = 7;
-    const TYPE_BOOK = 8;
-    const TYPE_LM = 9;
-    const TYPE_LM_PAGE = 10;
-
-    const THRESHOLD = 180; // time between mails in minutes
+    public const THRESHOLD = 180; // time between mails in minutes
+    public const TYPE_EXERCISE_SUBMISSION = 1;
+    public const TYPE_WIKI = 2;
+    public const TYPE_WIKI_PAGE = 3;
+    public const TYPE_BLOG = 4;
+    public const TYPE_DATA_COLLECTION = 5;
+    public const TYPE_POLL = 6;
+    public const TYPE_LM_BLOCKED_USERS = 7;
+    public const TYPE_BOOK = 8;
+    public const TYPE_LM = 9;
+    public const TYPE_LM_PAGE = 10;
 
     /**
      * Check notification status for object and user
-     *
-     * @param	int		$type
-     * @param	int		$user_id
-     * @param	int		$id
-     * @return	bool
      */
-    public static function hasNotification($type, $user_id, $id)
-    {
+    public static function hasNotification(
+        int $type,
+        int $user_id,
+        int $id
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -41,24 +46,20 @@ class ilNotification
         $notification = false;
 
         $setting = new ilObjNotificationSettings($id);
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
             // check membership, members should be notidifed...
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
-                if ($grp_ref_id > 0) {
-                    if (ilGroupParticipants::_isParticipant($grp_ref_id, $user_id)) {
-                        $notification = true;
-                    }
+                if (($grp_ref_id > 0) && ilGroupParticipants::_isParticipant($grp_ref_id, $user_id)) {
+                    $notification = true;
                 }
                 $crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
-                if ($crs_ref_id > 0) {
-                    if (ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)) {
-                        $notification = true;
-                    }
+                if (($crs_ref_id > 0) && ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)) {
+                    $notification = true;
                 }
             }
 
-            if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
+            if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
                 $set = $ilDB->query("SELECT user_id FROM notification" .
                     " WHERE type = " . $ilDB->quote($type, "integer") .
                     " AND user_id = " . $ilDB->quote($user_id, "integer") .
@@ -66,13 +67,10 @@ class ilNotification
                     " AND activated = " . $ilDB->quote(0, "integer"));
                 $rec = $ilDB->fetchAssoc($set);
                 // ... except when the opted out
-                if ($rec["user_id"] == $user_id) {
-                    return false;
-                }
-                return true;
+                return isset($rec["user_id"]) && $rec["user_id"] !== $user_id;
             }
 
-            if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
+            if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
                 return true;
             }
         }
@@ -89,30 +87,22 @@ class ilNotification
 
     /**
      * Is opt out (disable notification) allowed?
-     *
-     * @param	int		$obj_id
-     * @return	bool
      */
-    public static function hasOptOut($obj_id)
+    public static function hasOptOut(int $obj_id): bool
     {
         $setting = new ilObjNotificationSettings($obj_id);
-        if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
-            return false;
-        }
-        return true;
+        return $setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT;
     }
 
     /**
-     * Get all users for given object
-     *
-     * @param	int		$type
-     * @param	int		$id
-     * @param	int		$page_id
-     * @param	bool	$ignore_threshold
-     * @return	array
+     * Get all users/recipients for given object
      */
-    public static function getNotificationsForObject($type, $id, $page_id = null, $ignore_threshold = false)
-    {
+    public static function getNotificationsForObject(
+        int $type,
+        int $id,
+        ?int $page_id = null,
+        bool $ignore_threshold = false
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -121,7 +111,7 @@ class ilNotification
         // currently done for blog
         $recipients = array();
         $setting = new ilObjNotificationSettings($id);
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
                 if ($grp_ref_id > 0) {
@@ -145,7 +135,7 @@ class ilNotification
         }
 
         // remove all users that deactivated the feature
-        if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
+        if ($setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
@@ -158,7 +148,7 @@ class ilNotification
         }
 
         // remove all users that got a mail
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
@@ -180,7 +170,7 @@ class ilNotification
         }
 
         // get single subscriptions
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
@@ -207,14 +197,13 @@ class ilNotification
 
     /**
      * Set notification status for object and user
-     *
-     * @param	int		$type
-     * @param	int		$user_id
-     * @param	int		$id
-     * @param	bool	$status
      */
-    public static function setNotification($type, $user_id, $id, $status = true)
-    {
+    public static function setNotification(
+        int $type,
+        int $user_id,
+        int $id,
+        bool $status = true
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -229,14 +218,13 @@ class ilNotification
 
     /**
      * Update the last mail timestamp for given object and users
-     *
-     * @param	int		$type
-     * @param	int		$id
-     * @param	array	$user_ids
-     * @param	int		$page_id
      */
-    public static function updateNotificationTime($type, $id, array $user_ids, $page_id = false)
-    {
+    public static function updateNotificationTime(
+        int $type,
+        int $id,
+        array $user_ids,
+        ?int $page_id = null
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -257,12 +245,11 @@ class ilNotification
 
     /**
      * Remove all notifications for given object
-     *
-     * @param	int		$type
-     * @param	int		$id
      */
-    public static function removeForObject($type, $id)
-    {
+    public static function removeForObject(
+        int $type,
+        int $id
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -274,11 +261,10 @@ class ilNotification
 
     /**
      * Remove all notifications for given user
-     *
-     * @param	int		$user_id
      */
-    public static function removeForUser($user_id)
-    {
+    public static function removeForUser(
+        int $user_id
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -289,13 +275,12 @@ class ilNotification
 
     /**
      * Get activated notifications of give type for user
-     *
-     * @param int $type
-     * @param int $user_id
      * @return int[]
      */
-    public static function getActivatedNotifications(int $type, int $user_id) : array
-    {
+    public static function getActivatedNotifications(
+        int $type,
+        int $user_id
+    ): array {
         global $DIC;
 
         $db = $DIC->database();

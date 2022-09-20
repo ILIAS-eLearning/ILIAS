@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,183 +28,153 @@
 * Do access checks, create ref_ids from obj_ids...
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneSearchResultFilter
 {
-    protected static $instance = null;
-    
-    protected $user_id = null;
-    protected $result = array();
-    protected $checked = array();
-    protected $settings;
-    protected $cache;
-    protected $required_permission = 'visible';
-    protected $limit_reached = false;
-    protected $offset = 0;
-    
-    protected $filters = array();
+    protected static ?ilLuceneSearchResultFilter $instance = null;
+
+    protected int $user_id;
+    protected ?ilLuceneSearchResult $result = null;
+    protected array $checked = [];
+    protected ilSearchSettings $settings;
+    protected ilUserSearchCache $cache;
+    protected string $required_permission = 'visible';
+    protected bool $limit_reached = false;
+    protected int $offset = 0;
+
+    protected array $filters = array();
+
+    protected ilAccess $access;
 
 
     /**
      * Singleton constructor
-     * @param int $a_usr_id user id
-     * @return
      */
-    protected function __construct($a_user_id)
+    protected function __construct(int $a_user_id)
     {
+        global $DIC;
+
+        $this->access = $DIC->access();
         $this->user_id = $a_user_id;
         $this->settings = ilSearchSettings::getInstance();
-
-        include_once('Services/Search/classes/class.ilUserSearchCache.php');
         $this->cache = ilUserSearchCache::_getInstance($this->getUserId());
-        
         $this->offset = $this->settings->getMaxHits() * ($this->cache->getResultPageNumber() - 1);
     }
-    
-    /**
-     *
-     * @param int $a_user_id user_id
-     * @return
-     * @static
-     */
-    public static function getInstance($a_user_id)
+
+    public static function getInstance(int $a_user_id): ilLuceneSearchResultFilter
     {
         if (self::$instance == null) {
             return self::$instance = new ilLuceneSearchResultFilter($a_user_id);
         }
         return self::$instance;
     }
-    
-    /**
-     * add filter
-     * @param
-     * @return
-     */
-    public function addFilter(ilLuceneResultFilter $filter)
+
+    public function addFilter(ilLuceneResultFilter $filter): void
     {
         $this->filters[] = $filter;
     }
-    
+
     /**
      * Set result ids
-     * @param mixed $a_ids Lucene result ids or instance of Iterator
-     * @return void
      */
-    public function setCandidates($a_ids)
+    public function setCandidates(ilLuceneSearchResult $a_ids): void
     {
         $this->result = $a_ids;
     }
-    
+
     /**
      * get result ids
-     * @return array result ids
      */
-    public function getCandidates()
+    public function getCandidates(): ?ilLuceneSearchResult
     {
-        return $this->result ? $this->result : array();
+        return $this->result;
     }
-    
+
     /**
      * Get user id
-     * @return int user_id
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
-    
+
     /**
      * Get required permission
-     * @return string required rbac permission
      */
-    public function getRequiredPermission()
+    public function getRequiredPermission(): string
     {
         return $this->required_permission;
     }
-    
+
     /**
      * Check if search max hits is reached
      * @return bool max hits reached
      */
-    public function isLimitReached()
+    public function isLimitReached(): bool
     {
-        return (bool) $this->limit_reached;
+        return $this->limit_reached;
     }
-    
+
     /**
      * get filtered ids
-     * @return array array of filtered ref_ids
+     * @return int[] array of filtered ref_ids
      */
-    public function getResultIds()
+    public function getResultIds(): array
     {
-        return $this->checked ? $this->checked : array();
+        return $this->checked;
     }
-    
+
     /**
      * get filtered ids
-     * @return array array of filtered ref_ids
+     * @return int[] array of filtered obj_ids
      */
-    public function getResultObjIds()
+    public function getResultObjIds(): array
     {
+        $obj_ids = [];
         foreach ($this->checked as $obj_id) {
             $obj_ids[] = $obj_id;
         }
-        return $obj_ids ? $obj_ids : array();
+        return $obj_ids;
     }
-    
+
     /**
      * get results
-     * @return array array of ref_ids
+     * @return int[] array of ids
      */
     public function getResults()
     {
-        return $this->checked ? $this->checked : array();
+        return $this->checked;
     }
-    
+
     /**
      * get max hits
-     * @return int max hits per page
      */
-    public function getMaxHits()
+    public function getMaxHits(): int
     {
         return $this->settings->getMaxHits();
     }
-    
+
     /**
      * Load results from db
-     * @return
      */
-    public function loadFromDb()
+    public function loadFromDb(): void
     {
         $this->checked = $this->cache->getResults();
     }
-    
+
     /**
      * Filter search results.
      * Do RBAC checks.
-     *
-     *
-     * @access public
-     * @param int root node id
-     * @param bool check and boolean search
-     * @return bool success status
-     *
      */
-    public function filter()
+    public function filter(): bool
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
-        $tree = $DIC['tree'];
-
         // get ref_ids and check access
         $counter = 0;
         $offset_counter = 0;
-        
+
         foreach ($this->getCandidates() as $obj_id) {
             // Check referenced objects
             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
@@ -222,9 +194,9 @@ class ilLuceneSearchResultFilter
                     $offset_counter++;
                     break;
                 }
-                
+
                 // RBAC check
-                if ($ilAccess->checkAccessOfUser(
+                if ($this->access->checkAccessOfUser(
                     $this->getUserId(),
                     $this->getRequiredPermission(),
                     '',
@@ -252,13 +224,11 @@ class ilLuceneSearchResultFilter
         $this->cache->save();
         return true;
     }
-    
+
     /**
      * check appended filter
-     * @param int $a_ref_id reference id
-     * @return bool
      */
-    protected function checkFilter($a_ref_id)
+    protected function checkFilter(int $a_ref_id): bool
     {
         foreach ($this->filters as $filter) {
             if (!$filter->filter($a_ref_id)) {
@@ -267,24 +237,22 @@ class ilLuceneSearchResultFilter
         }
         return true;
     }
-    
+
     /**
      * Append to filtered results
-     * @param int ref_id
-     * @param int obj_id
      */
-    protected function append($a_ref_id, $a_obj_id)
+    protected function append(int $a_ref_id, int $a_obj_id): void
     {
         $this->checked[$a_ref_id] = $a_obj_id;
     }
-    
+
     /**
      * Check if offset is reached
      * @param int $a_current_nr Current result number
      * @return bool
      */
-    protected function isOffsetReached($a_current_nr)
+    protected function isOffsetReached(int $a_current_nr): bool
     {
-        return $a_current_nr < $this->offset ? false : true;
+        return !($a_current_nr < $this->offset);
     }
 }

@@ -1,169 +1,103 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
 
 /**
- * XML checker
- * @author  Helmut Schottmüller <ilias@aurealis.de>
- * @version $Id$
- * @extends ilSaxParser
- * @ingroup ModulesTest
- */
-class ilXMLChecker extends ilSaxParser
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\Result;
+use ILIAS\Data\Factory as DataTypeFactory;
+
+final class ilXMLChecker
 {
-    public int $error_code;
-    public int $error_line;
-    public int $error_col;
-    public string $error_msg;
-    public bool $has_error;
-    public int $size;
-    public int $elements;
-    public int $attributes;
-    public int $texts;
-    public int $text_size;
+    private Result $result;
+    private bool $xmlErrorState = false;
+    /** @var array<int, LibXMLError[]> */
+    private array $errorStack = [];
 
-    public function __construct(string $a_xml_file = '', bool $throwException = false)
+    public function __construct(private DataTypeFactory $dataFactory)
     {
-        parent::__construct($a_xml_file, $throwException);
-        $this->has_error = false;
+        $this->result = new Result\Error('No XML parsed, yet');
     }
 
-    /**
-     * @param XmlParser|resource $a_xml_parser
-     */
-    public function setHandlers($a_xml_parser) : void
+    private function beginLogging(): void
     {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-    }
-
-    /**
-     * @param XmlParser|resource $a_xml_parser
-     */
-    public function parse($a_xml_parser, $a_fp = null) : bool
-    {
-        $parseOk = false;
-        switch ($this->getInputType()) {
-            case 'file':
-                while ($data = fread($a_fp, 4096)) {
-                    $parseOk = xml_parse($a_xml_parser, $data, feof($a_fp));
-                }
-                break;
-
-            case 'string':
-                $parseOk = xml_parse($a_xml_parser, $this->getXMLContent());
-                break;
+        if ([] === $this->errorStack) {
+            $this->xmlErrorState = libxml_use_internal_errors(true);
+            libxml_clear_errors();
+        } else {
+            $this->addErrors();
         }
 
-        if (!$parseOk && (xml_get_error_code($a_xml_parser) !== XML_ERROR_NONE)) {
-            $this->error_code = xml_get_error_code($a_xml_parser);
-            $this->error_line = xml_get_current_line_number($a_xml_parser);
-            $this->error_col = xml_get_current_column_number($a_xml_parser);
-            $this->error_msg = xml_error_string($this->error_code);
-            $this->has_error = true;
-            return false;
+        $this->errorStack[] = [];
+    }
+
+    private function addErrors(): void
+    {
+        $currentErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        $level = count($this->errorStack) - 1;
+        $this->errorStack[$level] = array_merge($this->errorStack[$level], $currentErrors);
+    }
+
+    /**
+     * @return LibXMLError[] An array with the LibXMLErrors which has occurred since beginLogging() was called.
+     */
+    private function endLogging(): array
+    {
+        $this->addErrors();
+
+        $errors = array_pop($this->errorStack);
+
+        if ([] === $this->errorStack) {
+            libxml_use_internal_errors($this->xmlErrorState);
         }
 
-        return true;
+        return $errors;
     }
 
-    /**
-     * @param XmlParser|resource $a_xml_parser
-     */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function parse(string $xmlString): void
     {
-        $this->elements++;
-        $this->attributes += count($a_attribs);
+        try {
+            $this->beginLogging();
+
+            /** @noinspection PhpExpressionResultUnusedInspection */
+            new SimpleXMLElement($xmlString);
+
+            $this->result = $this->dataFactory->ok($xmlString);
+            $this->endLogging();
+        } catch (Exception) {
+            $this->result = $this->dataFactory->error(implode(
+                "\n",
+                array_map(static function (LibXMLError $error): string {
+                    return implode(',', [
+                        'level=' . $error->level,
+                        'code=' . $error->code,
+                        'line=' . $error->line,
+                        'col=' . $error->column,
+                        'msg=' . trim($error->message)
+                    ]);
+                }, $this->endLogging())
+            ));
+        }
     }
 
-    /**
-     * @param XmlParser|resource $a_xml_parser
-     */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function result(): Result
     {
-    }
-
-    /**
-     * @param XmlParser|resource $a_xml_parser
-     */
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
-    {
-        $this->texts++;
-        $this->text_size += strlen($a_data);
-    }
-
-    public function getErrorCode() : int
-    {
-        return $this->error_code;
-    }
-
-    public function getErrorLine() : int
-    {
-        return $this->error_line;
-    }
-
-    public function getErrorColumn() : int
-    {
-        return $this->error_col;
-    }
-
-    public function getErrorMessage() : string
-    {
-        return $this->error_msg;
-    }
-
-    public function getFullError() : string
-    {
-        return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
-    }
-
-    public function getXMLSize() : int
-    {
-        return $this->size;
-    }
-
-    public function getXMLElements() : int
-    {
-        return $this->elements;
-    }
-
-    public function getXMLAttributes() : int
-    {
-        return $this->attributes;
-    }
-
-    public function getXMLTextSections() : int
-    {
-        return $this->texts;
-    }
-
-    public function getXMLTextSize() : int
-    {
-        return $this->text_size;
-    }
-
-    public function hasError() : bool
-    {
-        return $this->has_error;
+        return $this->result;
     }
 }

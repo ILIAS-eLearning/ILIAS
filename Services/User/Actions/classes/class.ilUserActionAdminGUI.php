@@ -1,79 +1,63 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User action administration GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserActionAdminGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilRbacSystem $rbabsystem;
+    protected int $ref_id;
+    protected \ILIAS\User\StandardGUIRequest $request;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilUserActionContext $action_context;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilUserActionContext
-     */
-    protected $action_context;
-
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
-    public function __construct()
+    public function __construct(int $ref_id)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $ref_id;
         $this->rbabsystem = $DIC->rbac()->system();
 
         $this->lng->loadLanguageModule("usr");
+        $this->request = new \ILIAS\User\StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
     }
-    
-    /**
-     * Set action context
-     *
-     * @param ilUserActionContext $a_val action context
-     */
-    public function setActionContext(ilUserActionContext $a_val = null)
+
+    public function setActionContext(ilUserActionContext $a_val = null): void
     {
         $this->action_context = $a_val;
     }
-    
-    /**
-     * Get action context
-     *
-     * @return ilUserActionContext action context
-     */
-    public function getActionContext()
+
+    public function getActionContext(): ilUserActionContext
     {
         return $this->action_context;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -86,17 +70,10 @@ class ilUserActionAdminGUI
         }
     }
 
-    /**
-     * Show
-     *
-     * @param
-     * @return
-     */
-    public function show()
+    public function show(): void
     {
-        ilUtil::sendInfo($this->lng->txt("user_actions_activation_info"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_actions_activation_info"));
 
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdminTableGUI.php");
         $tab = new ilUserActionAdminTableGUI(
             $this,
             "show",
@@ -109,37 +86,32 @@ class ilUserActionAdminGUI
     /**
      * Save !!!! note in the future this must depend on the context, currently we only have one
      */
-    public function save()
+    public function save(): void
     {
         if (!$this->rbabsystem->checkAccess("write", $this->ref_id)) {
             $this->ctrl->redirect($this, "show");
         }
 
-        //var_dump($_POST); exit;
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
+        $active = $this->request->getActionActive();
         foreach ($this->getActions() as $a) {
             ilUserActionAdmin::activateAction(
                 $this->action_context->getComponentId(),
                 $this->action_context->getContextId(),
                 $a["action_comp_id"],
                 $a["action_type_id"],
-                (int) $_POST["active"][$a["action_comp_id"] . ":" . $a["action_type_id"]]
+                (bool) $active[$a["action_comp_id"] . ":" . $a["action_type_id"]]
             );
         }
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "show");
     }
 
     /**
      * Get actions, !!!! note in the future this must depend on the context, currently we only have one
-     *
-     * @param
-     * @return
+     * @return array[]
      */
-    public function getActions()
+    public function getActions(): array
     {
-        include_once("./Services/User/Actions/classes/class.ilUserActionProviderFactory.php");
-        include_once("./Services/User/Actions/classes/class.ilUserActionAdmin.php");
         $data = array();
         foreach (ilUserActionProviderFactory::getAllProviders() as $p) {
             foreach ($p->getActionTypes() as $id => $name) {
@@ -156,7 +128,6 @@ class ilUserActionAdminGUI
                 );
             }
         }
-        //var_dump($data); exit;
         return $data;
     }
 }

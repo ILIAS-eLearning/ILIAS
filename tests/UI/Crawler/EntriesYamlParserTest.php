@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 include_once("tests/UI/Crawler/Fixture/Fixture.php");
@@ -13,7 +29,7 @@ class CrawlerTest extends TestCase
     protected Crawler\EntriesYamlParser $parser;
     protected ProperEntryFixture $proper_entry;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->parser = new Crawler\EntriesYamlParser();
         $this->proper_entry = new ProperEntryFixture();
@@ -22,7 +38,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testParseInvalidFile() : void
+    public function testParseInvalidFile(): void
     {
         try {
             $this->parser->parseYamlStringArrayFromFile("Invalid Path");
@@ -35,7 +51,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testParseProperEntryToYamlEntries() : void
+    public function testParseProperEntryToYamlEntries(): void
     {
         $yaml_entries = $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
 
@@ -43,7 +59,7 @@ class CrawlerTest extends TestCase
         $this->assertEquals($this->proper_entry->properEntryYamlString, $yaml_entries[0]);
     }
 
-    public function testParseProperEntryToArray()
+    public function testParseProperEntryToArray(): void
     {
         $entries = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
         $this->assertEquals($this->proper_entry->properEntryYamlArray, $entries);
@@ -52,7 +68,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testNoDescriptionEntry() : void
+    public function testNoDescriptionEntry(): void
     {
         try {
             $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoDescriptionEntry.php");
@@ -64,7 +80,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testNoReturnValueEntry() : void
+    public function testNoReturnValueEntry(): void
     {
         try {
             $this->parser->parseYamlStringArrayFromFile("tests/UI/Crawler/Fixture/NoReturnValueEntry.php");
@@ -77,7 +93,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testInvalidYamlEntry() : void
+    public function testInvalidYamlEntry(): void
     {
         try {
             $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/InvalidYamlEntry.php");
@@ -87,7 +103,7 @@ class CrawlerTest extends TestCase
         }
     }
 
-    public function testCamelCase() : void
+    public function testCamelCase(): void
     {
         $test_string = "Hello Camel Case";
 
@@ -98,7 +114,7 @@ class CrawlerTest extends TestCase
     /**
      * @throws Crawler\Exception\CrawlerException
      */
-    public function testGenerateEntry() : void
+    public function testGenerateEntry(): void
     {
         $entries = $this->parser->parseEntriesFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
 

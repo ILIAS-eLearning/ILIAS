@@ -1,43 +1,44 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStShowUserCompetencesGUI
- *
  * @author            Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStShowUserCompetencesGUI: ilMStShowUserGUI
  */
 class ilMStShowUserCompetencesGUI
 {
-    const CMD_SHOW_SKILLS = 'showSkills';
-    const CMD_INDEX = self::CMD_SHOW_SKILLS;
-    const SUB_TAB_SKILLS = 'skills';
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-    /**
-     * @var Container
-     */
-    private $dic;
+    public const CMD_SHOW_SKILLS = 'showSkills';
+    public const CMD_INDEX = self::CMD_SHOW_SKILLS;
+    public const SUB_TAB_SKILLS = 'skills';
+    private int $usr_id;
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private Container $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
 
@@ -45,14 +46,10 @@ class ilMStShowUserCompetencesGUI
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
 
-
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail(): void
     {
         if (!$this->usr_id) {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
 
@@ -61,16 +58,12 @@ class ilMStShowUserCompetencesGUI
         ) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
 
-
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         $this->checkAccessOrFail();
 
@@ -90,11 +83,7 @@ class ilMStShowUserCompetencesGUI
         }
     }
 
-
-    /**
-     * @param string $active_sub_tab
-     */
-    protected function addSubTabs(string $active_sub_tab)
+    protected function addSubTabs(string $active_sub_tab): void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -106,11 +95,7 @@ class ilMStShowUserCompetencesGUI
         $this->dic->tabs()->activateSubTab($active_sub_tab);
     }
 
-
-    /**
-     *
-     */
-    protected function showSkills()
+    protected function showSkills(): void
     {
         $skills_gui = new ilPersonalSkillsGUI();
         $skills = ilPersonalSkill::getSelectedUserSkills($this->usr_id);

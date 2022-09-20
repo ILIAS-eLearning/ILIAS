@@ -1,9 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Item;
 
-use ILIAS\UI\Component\Button\Shy;
-use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
@@ -18,9 +34,9 @@ interface Factory
      *       This is a standard item to be used in lists or similar contexts.
      *   composition: >
      *       A list item consists of a title and the following optional elements:
-     *       description, action drop down, properties (name/value), a text or
-     *       image or icon lead, a progress meter chart and a color. Property values
-     *       MAY be interactive by using a Shy Buttons or a Link.
+     *       description, action drop down, audio player element, properties (name/value),
+     *       a text, image, icon or avatar lead, a progress meter chart and a color.
+     *       Property values MAY be interactive by using a Shy Buttons or a Link.
      * rules:
      *    accessibility:
      *      1: >
@@ -30,7 +46,29 @@ interface Factory
      * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @return \ILIAS\UI\Component\Item\Standard
      */
-    public function standard($title) : Standard;
+    public function standard($title): Standard;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Shy Items are used to list more decent items which don't acquire much space.
+     *   composition: >
+     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon as a
+     *     lead.
+     * rules:
+     *   interaction:
+     *     1: >
+     *        Clicking on the Close Button MUST remove the Shy Item permanently.
+     *   accessibility:
+     *     1: >
+     *       All interactions offered by a Shy Item MUST be accessible by only using the keyboard.
+     * ---
+     *
+     * @param string      $title
+     * @return \ILIAS\UI\Component\Item\Shy
+     */
+    public function shy(string $title): Shy;
 
     /**
      * ---
@@ -45,7 +83,7 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Item[] $items items
      * @return \ILIAS\UI\Component\Item\Group
      */
-    public function group(string $title, array $items) : Group;
+    public function group(string $title, array $items): Group;
 
     /**
      * ---
@@ -99,5 +137,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $lead
      * @return \ILIAS\UI\Component\Item\Notification
      */
-    public function notification($title, Icon $lead) : Notification;
+    public function notification($title, Icon $lead): Notification;
 }

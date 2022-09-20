@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 
@@ -24,7 +27,7 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 {
     protected StandardGUIRequest $request;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -46,15 +49,14 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 
     /**
      * Get command link url.
-     * @param	string		$a_cmd			command
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
 
         // does this make any sense!?
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
 
         return $cmd_link;

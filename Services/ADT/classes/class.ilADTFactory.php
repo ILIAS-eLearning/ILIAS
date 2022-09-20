@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTFactory
@@ -9,7 +11,7 @@ class ilADTFactory
 
     protected static ?ilADTFactory $instance = null;
 
-    public static function getInstance() : ilADTFactory
+    public static function getInstance(): ilADTFactory
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -21,7 +23,7 @@ class ilADTFactory
      * Get all ADT types
      * @return string[]
      */
-    public function getValidTypes() : array
+    public function getValidTypes(): array
     {
         return array(
             "Float",
@@ -41,12 +43,12 @@ class ilADTFactory
         );
     }
 
-    public function isValidType(string $a_type) : bool
+    public function isValidType(string $a_type): bool
     {
         return in_array($a_type, $this->getValidTypes());
     }
 
-    public function initTypeClass(string $a_type, string $a_class = null) : string
+    public function initTypeClass(string $a_type, string $a_class = null): string
     {
         $class = '';
         if ($this->isValidType($a_type)) {
@@ -62,7 +64,7 @@ class ilADTFactory
      * @return ilADTDefinition
      * @throws InvalidArgumentException
      */
-    public function getDefinitionInstanceByType(string $a_type) : ilADTDefinition
+    public function getDefinitionInstanceByType(string $a_type): ilADTDefinition
     {
         $class = $this->initTypeClass($a_type, "Definition");
         return new $class();
@@ -74,7 +76,7 @@ class ilADTFactory
      * @return ilADT
      * @throws Exception
      */
-    public function getInstanceByDefinition(ilADTDefinition $a_def) : ilADT
+    public function getInstanceByDefinition(ilADTDefinition $a_def): ilADT
     {
         if (!method_exists($a_def, "getADTInstance")) {
             $class = $this->initTypeClass($a_def->getType());
@@ -90,7 +92,7 @@ class ilADTFactory
      * @return ilADTFormBridge
      * @throws InvalidArgumentException
      */
-    public function getFormBridgeForInstance(ilADT $a_adt) : ilADTFormBridge
+    public function getFormBridgeForInstance(ilADT $a_adt): ilADTFormBridge
     {
         $class = $this->initTypeClass($a_adt->getType(), "FormBridge");
         return new $class($a_adt);
@@ -102,7 +104,7 @@ class ilADTFactory
      * @return ilADTDBBridge
      * @throws InvalidArgumentException
      */
-    public function getDBBridgeForInstance(ilADT $a_adt) : ilADTDBBridge
+    public function getDBBridgeForInstance(ilADT $a_adt): ilADTDBBridge
     {
         $class = $this->initTypeClass($a_adt->getType(), "DBBridge");
         return new $class($a_adt);
@@ -114,7 +116,7 @@ class ilADTFactory
      * @return ilADTPresentationBridge
      * @throws InvalidArgumentException
      */
-    public function getPresentationBridgeForInstance(ilADT $a_adt) : ilADTPresentationBridge
+    public function getPresentationBridgeForInstance(ilADT $a_adt): ilADTPresentationBridge
     {
         $class = $this->initTypeClass($a_adt->getType(), "PresentationBridge");
         return new $class($a_adt);
@@ -132,11 +134,13 @@ class ilADTFactory
         ilADTDefinition $a_adt_def,
         bool $a_range = true,
         bool $a_multi = true
-    ) : ilADTSearchBridge {
+    ): ilADTSearchBridge {
         if ($a_range) {
             try {
                 $class = $this->initTypeClass($a_adt_def->getType(), "SearchBridgeRange");
-                return new $class($a_adt_def);
+                if (class_exists($class)) {
+                    return new $class($a_adt_def);
+                }
             } catch (Exception $e) {
             }
         }
@@ -169,7 +173,7 @@ class ilADTFactory
      * @return ilADTActiveRecordBridge
      * @throws InvalidArgumentException
      */
-    public function getActiveRecordBridgeForInstance(ilADT $a_adt) : ilADTActiveRecordBridge
+    public function getActiveRecordBridgeForInstance(ilADT $a_adt): ilADTActiveRecordBridge
     {
         $class = $this->initTypeClass($a_adt->getType(), "ActiveRecordBridge");
         return new $class($a_adt);
@@ -185,7 +189,7 @@ class ilADTFactory
      * @param ilADTGroupDBBridge $a_properties
      * @return ilADTActiveRecord
      */
-    public static function getActiveRecordInstance(ilADTGroupDBBridge $a_properties) : ilADTActiveRecord
+    public static function getActiveRecordInstance(ilADTGroupDBBridge $a_properties): ilADTActiveRecord
     {
         return new ilADTActiveRecord($a_properties);
     }
@@ -193,16 +197,14 @@ class ilADTFactory
     /**
      * Init active record by type
      */
-    public static function initActiveRecordByType() : void
+    public static function initActiveRecordByType(): void
     {
     }
 
     /**
      * Get active record by type instance
-     * @param ilADTGroupDBBridge $a_properties
-     * @return ilADTActiveRecordByType
      */
-    public static function getActiveRecordByTypeInstance(ilADTGroupDBBridge $a_properties) : ilADTActiveRecordByType
+    public static function getActiveRecordByTypeInstance(ilADTDBBridge $a_properties): ilADTActiveRecordByType
     {
         self::initActiveRecordByType();
         return new ilADTActiveRecordByType($a_properties);

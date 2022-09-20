@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilWorkflowEngine is part of the petri net based workflow engine.
@@ -9,55 +24,30 @@
  * and so on.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowEngine
 {
-    /**
-     * True, if this instance is made to handle a lot of requests.
-     * @var boolean
-     */
-    private $mass_action;
-
-    /**
-     * ilWorkflowEngine constructor.
-     *
-     * @param bool $a_mass_action
-     */
-    public function __construct($a_mass_action = false)
+    public function __construct()
     {
-        $this->mass_action = (bool) $a_mass_action;
     }
 
-    /**
-     * @param string  $type
-     * @param string  $content
-     * @param string  $subject_type
-     * @param integer $subject_id
-     * @param string  $context_type
-     * @param integer $context_id
-     */
     public function processEvent(
-        $type,
-        $content,
-        $subject_type,
-        $subject_id,
-        $context_type,
-        $context_id
-    ) {
+        string $type,
+        string $content,
+        string $subject_type,
+        int $subject_id,
+        string $context_type,
+        int $context_id
+    ): void {
         global $DIC;
-        /** @var ilSetting $ilSetting */
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
 
-        if (0 == $ilSetting->get('wfe_activation', 0)) {
+        if (0 === (int) $ilSetting->get('wfe_activation', '0')) {
             return;
         }
 
         // Get listening event-detectors.
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         $workflows = ilWorkflowDbHelper::getDetectors(
             $type,
             $content,
@@ -67,22 +57,22 @@ class ilWorkflowEngine
             $context_id
         );
 
-        if (count($workflows) != 0) {
+        if (count($workflows) !== 0) {
             foreach ($workflows as $workflow_id) {
                 $wf_instance = ilWorkflowDbHelper::wakeupWorkflow($workflow_id);
-                if ($wf_instance == null) {
+                if ($wf_instance === null) {
                     continue;
                 }
 
                 $wf_instance->handleEvent(
-                    array(
+                    [
                         $type,
                         $content,
                         $subject_type,
                         $subject_id,
                         $context_type,
                         $context_id
-                    )
+                    ]
                 );
                 ilWorkflowDbHelper::writeWorkflow($wf_instance);
             }
@@ -93,23 +83,19 @@ class ilWorkflowEngine
      * @param string $component
      * @param string $event
      * @param array  $parameter
+     * @noinspection PhpUndefinedMethodInspection
      */
-    public function handleEvent($component, $event, $parameter)
+    public function handleEvent(string $component, string $event, array $parameter): void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
         $ilSetting = $DIC['ilSetting'];
 
-        if (0 == $ilSetting->get('wfe_activation', 0)) {
+        if (0 === (int) $ilSetting->get('wfe_activation', '0')) {
             return;
         }
 
         // Event incoming, check ServiceDisco (TODO, for now we're using a non-disco factory), call appropriate extractors.
-
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractorFactory.php';
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/interfaces/ilExtractor.php';
 
         $extractor = ilExtractorFactory::getExtractorByEventDescriptor($component);
 
@@ -117,7 +103,12 @@ class ilWorkflowEngine
             $extracted_params = $extractor->extract($event, $parameter);
 
             $ilLocalSetting = new ilSetting('wfe');
-            $mappers = json_decode($ilLocalSetting->get('custom_mapper', json_encode(array())), true);
+            $mappers = json_decode(
+                $ilLocalSetting->get('custom_mapper', json_encode([], JSON_THROW_ON_ERROR)),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
             foreach ((array) $mappers as $mapper) {
                 if (!is_file($mapper['location'])) {
                     continue;
@@ -129,6 +120,7 @@ class ilWorkflowEngine
                 }
 
                 $mapper_class = $mapper['class'];
+                /** @noinspection PhpUndefinedMethodInspection */
                 $extracted_params = $mapper_class::mapParams($component, $event, $parameter, $extracted_params);
                 $component = $mapper_class::mapComponent($component, $event, $parameter, $extracted_params);
                 $event = $mapper_class::mapEvent($component, $event, $parameter, $extracted_params);
@@ -147,16 +139,13 @@ class ilWorkflowEngine
         }
     }
 
-    /**
-     * @param \ilExtractedParams $extractedParams
-     */
-    public function launchArmedWorkflows($component, $event, $extractedParams)
+    public function launchArmedWorkflows(string $component, string $event, ilExtractedParams $extractedParams): void
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
         $ilSetting = $DIC['ilSetting'];
 
-        if (0 == $ilSetting->get('wfe_activation', 0)) {
+        if (0 === (int) $ilSetting->get('wfe_activation', '0')) {
             return;
         }
 
@@ -165,9 +154,6 @@ class ilWorkflowEngine
         foreach ($workflows as $workflow) {
             $data = ilWorkflowDbHelper::getStaticInputDataForEvent($workflow['event']);
 
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/classes/class.ilObjWorkflowEngine.php';
-
             if (!is_file(ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php')) {
                 continue;
             }
@@ -175,7 +161,7 @@ class ilWorkflowEngine
             require_once ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php';
             $class = substr($workflow['workflow'], 4);
             /** @var ilBaseWorkflow $workflow_instance */
-            $workflow_instance = new $class;
+            $workflow_instance = new $class();
 
             $workflow_instance->setWorkflowClass('wfd.' . $class . '.php');
             $workflow_instance->setWorkflowLocation(ilObjWorkflowEngine::getRepositoryDir());
@@ -189,19 +175,18 @@ class ilWorkflowEngine
             $workflow_instance->setInstanceVarByRole($extractedParams->getContextType(), $extractedParams->getContextId());
             $workflow_instance->setInstanceVarByRole($extractedParams->getSubjectType(), $extractedParams->getSubjectId());
 
-            require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
             ilWorkflowDbHelper::writeWorkflow($workflow_instance);
 
             $workflow_instance->startWorkflow();
             $workflow_instance->handleEvent(
-                array(
+                [
                     'time_passed',
                     'time_passed',
                     'none',
                     0,
                     'none',
                     0
-                )
+                ]
             );
 
             ilWorkflowDbHelper::writeWorkflow($workflow_instance);

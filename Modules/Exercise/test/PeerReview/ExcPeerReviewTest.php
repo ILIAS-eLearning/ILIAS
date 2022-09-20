@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,18 +25,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ExcPeerReviewTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getDistribution($user_ids, $num_assignments)
+    protected function getDistribution($user_ids, $num_assignments): \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution
     {
         return new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $num_assignments);
     }
@@ -28,7 +37,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if each rater has $num_assignments peers
      */
-    public function testDistributionNumberOfPeers()
+    public function testDistributionNumberOfPeers(): void
     {
         $user_ids = [100,200,300,400,500];
         $num_assignments = 3;
@@ -43,7 +52,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if each peer is assigned to $num_assignments raters
      */
-    public function testDistributionNumberOfRaters()
+    public function testDistributionNumberOfRaters(): void
     {
         $user_ids = [10,20,30,40,50];
         $num_assignments = 4;
@@ -59,7 +68,7 @@ class ExcPeerReviewTest extends TestCase
 
         $this->assertSameSize($peer_raters, $user_ids);
 
-        foreach ($peer_raters as $peer => $raters) {
+        foreach ($peer_raters as $raters) {
             $this->assertEquals(count($raters), $num_assignments);
         }
     }
@@ -67,7 +76,7 @@ class ExcPeerReviewTest extends TestCase
     /**
      * Test if raters are not assigned as peers to themselves
      */
-    public function testDistributionNoSelfAssignment()
+    public function testDistributionNoSelfAssignment(): void
     {
         $user_ids = [10,20,30,40,50];
         $num_assignments = 4;

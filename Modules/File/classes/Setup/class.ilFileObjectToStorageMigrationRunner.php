@@ -1,14 +1,27 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
+use ILIAS\ResourceStorage\Collection\CollectionBuilder;
 use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
@@ -16,50 +29,30 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandlerV2;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
+use ILIAS\ResourceStorage\Resource\Repository\CollectionDBRepository;
 
 class ilFileObjectToStorageMigrationRunner
 {
-    /**
-     * @var string
-     */
-    protected $movement_implementation;
+    protected string $movement_implementation;
 
-    /**
-     * @var ConsumerFactory
-     */
-    protected $consumer_factory;
-    /**
-     * @var Manager
-     */
-    protected $storage_manager;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected ConsumerFactory $consumer_factory;
+    protected Manager $storage_manager;
+    protected ResourceBuilder $resource_builder;
     /**
      * @var false|resource
      */
     protected $migration_log_handle;
-    /**
-     * @var Filesystem
-     */
-    protected $file_system;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
-    /**
-     * @var bool
-     */
-    protected $keep_originals = false;
-    /**
-     * @var null|int
-     */
-    protected $migrate_to_new_object_id = null;
-    /**
-     * @var ilObjFileStakeholder
-     */
-    protected $stakeholder;
+    protected Filesystem $file_system;
+    protected ilDBInterface $database;
+    protected bool $keep_originals = false;
+    protected ?int $migrate_to_new_object_id = null;
+    protected ilObjFileStakeholder $stakeholder;
+    protected CollectionBuilder $collection_builder;
 
     /**
      * ilFileObjectToStorageMigration constructor.
@@ -79,16 +72,32 @@ class ilFileObjectToStorageMigrationRunner
 
         $this->movement_implementation = $storage_handler->movementImplementation();
 
-        $builder = new ResourceBuilder(
+        $revisionDBRepository = new RevisionDBRepository($database);
+        $resourceDBRepository = new ResourceDBRepository($database);
+        $informationDBRepository = new InformationDBRepository($database);
+        $stakeholderDBRepository = new StakeholderDBRepository($database);
+        $collectionDBRepository = new CollectionDBRepository($database);
+        $this->resource_builder  = new ResourceBuilder(
             $storage_handler_factory,
-            new RevisionARRepository(),
-            new ResourceARRepository(),
-            new InformationARRepository(),
-            new StakeholderARRepository(),
+            $revisionDBRepository,
+            $resourceDBRepository,
+            $informationDBRepository,
+            $stakeholderDBRepository,
             new LockHandlerilDB($database)
         );
-        $this->resource_builder = $builder;
-        $this->storage_manager = new Manager($builder);
+        $this->collection_builder = new CollectionBuilder(
+            $collectionDBRepository
+        );
+        $this->storage_manager = new Manager(
+            $this->resource_builder,
+            $this->collection_builder,
+            new StandardRepositoryPreloader(
+                $resourceDBRepository,
+                $revisionDBRepository,
+                $informationDBRepository,
+                $stakeholderDBRepository
+            )
+        );
         $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
         $this->stakeholder = new ilObjFileStakeholder();
     }
@@ -96,7 +105,7 @@ class ilFileObjectToStorageMigrationRunner
     /**
      * @inheritDoc
      */
-    public function migrate(ilFileObjectToStorageDirectory $item) : void
+    public function migrate(ilFileObjectToStorageDirectory $item): void
     {
         $resource = $this->getResource($item);
 
@@ -162,7 +171,7 @@ class ilFileObjectToStorageMigrationRunner
         string $status,
         string $movement_implementation,
         string $aditional_info = null
-    ) : void {
+    ): void {
         fputcsv($this->migration_log_handle, [
             $object_id,
             $old_path,
@@ -181,7 +190,7 @@ class ilFileObjectToStorageMigrationRunner
      */
     private function getResource(
         ilFileObjectToStorageDirectory $item
-    ) : StorableResource {
+    ): StorableResource {
         $r = $this->database->queryF(
             "SELECT rid FROM file_data WHERE file_id = %s",
             ['integer'],
@@ -200,7 +209,7 @@ class ilFileObjectToStorageMigrationRunner
     /**
      * @return int|null
      */
-    public function getMigrateToNewObjectId() : ?int
+    public function getMigrateToNewObjectId(): ?int
     {
         return $this->migrate_to_new_object_id;
     }
@@ -209,7 +218,7 @@ class ilFileObjectToStorageMigrationRunner
      * @param int|null $migrate_to_new_object_id
      * @return ilFileObjectToStorageMigrationRunner
      */
-    public function setMigrateToNewObjectId(?int $migrate_to_new_object_id) : ilFileObjectToStorageMigrationRunner
+    public function setMigrateToNewObjectId(?int $migrate_to_new_object_id): ilFileObjectToStorageMigrationRunner
     {
         $this->migrate_to_new_object_id = $migrate_to_new_object_id;
         $this->keep_originals = true;

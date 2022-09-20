@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
 {
     private ilCronFinishUnfinishedTestPasses $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -21,17 +23,17 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         $this->testObj = new ilCronFinishUnfinishedTestPasses();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilCronFinishUnfinishedTestPasses::class, $this->testObj);
     }
 
-    public function testGetId() : void
+    public function testGetId(): void
     {
         $this->assertEquals("finish_unfinished_passes", $this->testObj->getId());
     }
 
-    public function testGetTitle() : void
+    public function testGetTitle(): void
     {
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
@@ -45,7 +47,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $this->testObj->getTitle());
     }
 
-    public function testGetDescription() : void
+    public function testGetDescription(): void
     {
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock
@@ -59,7 +61,7 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         $this->assertEquals("testString", $this->testObj->getDescription());
     }
 
-    public function testGetDefaultScheduleType() : void
+    public function testGetDefaultScheduleType(): void
     {
         $this->assertEquals(
             ilCronFinishUnfinishedTestPasses::SCHEDULE_TYPE_DAILY,
@@ -67,22 +69,22 @@ class ilCronFinishUnfinishedTestPassesTest extends ilTestBaseTestCase
         );
     }
 
-    public function testHasAutoActivation() : void
+    public function testHasAutoActivation(): void
     {
         $this->assertFalse($this->testObj->hasAutoActivation());
     }
 
-    public function testHasFlexibleSchedule() : void
+    public function testHasFlexibleSchedule(): void
     {
         $this->assertTrue($this->testObj->hasFlexibleSchedule());
     }
 
-    public function testHasCustomSettings() : void
+    public function testHasCustomSettings(): void
     {
         $this->assertTrue($this->testObj->hasCustomSettings());
     }
 
-    public function testRun() : void
+    public function testRun(): void
     {
         $this->assertInstanceOf(ilCronJobResult::class, $this->testObj->run());
     }

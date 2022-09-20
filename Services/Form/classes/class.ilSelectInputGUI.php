@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a selection list property in a property form.
@@ -27,7 +32,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
      */
     protected $value;
     protected bool $hide_sub = false;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -39,12 +44,12 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         $this->setType("select");
     }
 
-    public function setOptions(array $a_options) : void
+    public function setOptions(array $a_options): void
     {
         $this->options = $a_options;
     }
 
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options ?: array();
     }
@@ -54,7 +59,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
      *
      * @param string|array $a_value Value
      */
-    public function setValue($a_value)
+    public function setValue($a_value): void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -72,9 +77,9 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     {
         return $this->value;
     }
-    
-    
-    public function setValueByArray(array $a_values) : void
+
+
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
         foreach ($this->getSubItems() as $item) {
@@ -82,7 +87,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         }
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -96,7 +101,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             }
         } else {
             $values = $this->strArray($this->getPostVar());
-            foreach ($values as $idx => $value) {
+            foreach ($values as $value) {
                 if (!array_key_exists($value, $this->getOptions())) {
                     $this->setAlert($lng->txt('msg_invalid_post_input'));
                     return false;
@@ -124,28 +129,28 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         return $this->strArray($this->getPostVar());
     }
 
-    public function addCustomAttribute(string $a_attr) : void
+    public function addCustomAttribute(string $a_attr): void
     {
         $this->cust_attr[] = $a_attr;
     }
-    
-    public function getCustomAttributes() : array
+
+    public function getCustomAttributes(): array
     {
         return $this->cust_attr;
     }
 
-    public function render($a_mode = "") : string
+    public function render($a_mode = ""): string
     {
         $sel_value = "";
         $tpl = new ilTemplate("tpl.prop_select.html", true, true, "Services/Form");
-        
+
         foreach ($this->getCustomAttributes() as $attr) {
             $tpl->setCurrentBlock('cust_attr');
             $tpl->setVariable('CUSTOM_ATTR', $attr);
             $tpl->parseCurrentBlock();
         }
-        
-        // determin value to select. Due to accessibility reasons we
+
+        // determine value to select. Due to accessibility reasons we
         // should always select a value (per default the first one)
         $first = true;
         foreach ($this->getOptions() as $option_value => $option_text) {
@@ -159,7 +164,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         }
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
-            $tpl->setVariable("VAL_SELECT_OPTION", ilUtil::prepareFormOutput($option_value));
+            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput((string) $option_value));
             if ((string) $sel_value == (string) $option_value) {
                 $tpl->setVariable(
                     "CHK_SEL_OPTION",
@@ -170,12 +175,13 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             $tpl->parseCurrentBlock();
         }
         $tpl->setVariable("ID", $this->getFieldId());
-        
+
         $postvar = $this->getPostVar();
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -186,55 +192,53 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
                     }
                 }
             } else {
-                $hidden = $this->getHiddenTag($postvar, $this->getValue());
+                $hidden = $this->getHiddenTag($postvar, (string) $this->getValue());
             }
             if ($hidden) {
                 $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
-        
+
         // multi icons
         if ($this->getMulti() && !$a_mode && !$this->getDisabled()) {
             $tpl->touchBlock("inline_in_bl");
             $tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
         }
 
-        $tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
+        $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
 
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;
     }
 
-    public function getToolbarHTML() : string
+    public function getToolbarHTML(): string
     {
         $html = $this->render("toolbar");
         return $html;
     }
-    
+
     /**
      * Set initial sub form visibility, optionally add dynamic value-based condition
      */
     public function setHideSubForm(
         bool $a_value,
         ?string $a_condition = null
-    ) : void {
+    ): void {
         $this->hide_sub = $a_value;
-        
+
         if ($a_condition) {
             $this->addCustomAttribute('onchange="if(this.value ' . $a_condition . ')' .
                 ' { il.Form.showSubForm(\'subform_' . $this->getFieldId() . '\', \'il_prop_cont_' . $this->getFieldId() . '\'); }' .
@@ -242,7 +246,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         }
     }
 
-    public function hideSubForm() : bool
+    public function hideSubForm(): bool
     {
         return $this->hide_sub;
     }

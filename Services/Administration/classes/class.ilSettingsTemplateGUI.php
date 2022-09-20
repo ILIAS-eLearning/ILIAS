@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Administration\SettingsTemplateGUIRequest;
 
@@ -22,8 +27,8 @@ use ILIAS\Administration\SettingsTemplateGUIRequest;
  */
 class ilSettingsTemplateGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilCtrlInterface $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
 
@@ -32,7 +37,7 @@ class ilSettingsTemplateGUI
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
     protected ilSettingsTemplate $settings_template;
-    protected SettingsTemplateGUIRequest $request;
+    protected SettingsTemplateGUIRequest $request ;
 
     public function __construct(ilSettingsTemplateConfig $a_config)
     {
@@ -47,19 +52,17 @@ class ilSettingsTemplateGUI
         $this->lng = $this->dic->language();
         $ilCtrl = $this->dic->ctrl();
 
-        $ilCtrl->saveParameter($this, array("templ_id"));
-        $this->setConfig($a_config);
-        $this->readSettingsTemplate();
         $this->request = new SettingsTemplateGUIRequest(
             $DIC->http(),
             $DIC->refinery()
         );
+
+        $ilCtrl->saveParameter($this, array("templ_id"));
+        $this->setConfig($a_config);
+        $this->readSettingsTemplate();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -67,17 +70,17 @@ class ilSettingsTemplateGUI
         $this->$cmd();
     }
 
-    public function setConfig(ilSettingsTemplateConfig $a_val)
+    public function setConfig(ilSettingsTemplateConfig $a_val): void
     {
         $this->config = $a_val;
     }
 
-    public function getConfig() : ilSettingsTemplateConfig
+    public function getConfig(): ilSettingsTemplateConfig
     {
         return $this->config;
     }
 
-    public function readSettingsTemplate() : void
+    public function readSettingsTemplate(): void
     {
         if ($this->getConfig()) {
             $this->settings_template = new ilSettingsTemplate(
@@ -91,7 +94,7 @@ class ilSettingsTemplateGUI
         }
     }
 
-    public function listSettingsTemplates() : void
+    public function listSettingsTemplates(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -114,7 +117,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($table->getHTML());
     }
 
-    public function addSettingsTemplate() : void
+    public function addSettingsTemplate(): void
     {
         $tpl = $this->tpl;
 
@@ -122,7 +125,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function editSettingsTemplate() : void
+    public function editSettingsTemplate(): void
     {
         $tpl = $this->tpl;
 
@@ -131,7 +134,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSettingsTemplateForm($a_mode = "edit") : void
+    public function initSettingsTemplateForm(string $a_mode = "edit"): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -203,14 +206,14 @@ class ilSettingsTemplateGUI
                         $cb->addSubItem($si);
                         break;
 
-                                        case ilSettingsTemplateConfig::CHECKBOX:
-                                                $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_" . $s["id"]);
-                                                foreach ($s['options'] as $key => $value) {
-                                                    $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
-                                                    $c->setValue($key);
-                                                }
-                                                $cb->addSubItem($chbs);
-                                                break;
+                    case ilSettingsTemplateConfig::CHECKBOX:
+                        $chbs = new ilCheckboxGroupInputGUI($lng->txt("adm_value"), "value_" . $s["id"]);
+                        foreach ($s['options'] as $key => $value) {
+                            $chbs->addOption($c = new ilCheckboxInputGUI($value, $key));
+                            $c->setValue($key);
+                        }
+                        $cb->addSubItem($chbs);
+                        break;
                 }
 
                 if ($s['hidable']) {
@@ -223,7 +226,7 @@ class ilSettingsTemplateGUI
 
         if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             // save and cancel commands
-            if ($a_mode == "create") {
+            if ($a_mode === "create") {
                 $this->form->addCommandButton("saveSettingsTemplate", $lng->txt("save"));
                 $this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
                 $this->form->setTitle($lng->txt("adm_add_settings_template"));
@@ -237,10 +240,7 @@ class ilSettingsTemplateGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Get current values for settings template from
-     */
-    public function getSettingsTemplateValues() : void
+    public function getSettingsTemplateValues(): void
     {
         $values = array();
 
@@ -259,9 +259,9 @@ class ilSettingsTemplateGUI
             if (isset($set[$s["id"]])) {
                 $values["set_" . $s["id"]] = true;
 
-                if ($s['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+                if ($s['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                     if (!is_array($set[$s["id"]]["value"])) {
-                        $ar = unserialize($set[$s["id"]]["value"]);
+                        $ar = unserialize($set[$s["id"]]["value"], ['allowed_classes' => false]);
                     } else {
                         $ar = $set[$s["id"]]["value"];
                     }
@@ -269,17 +269,14 @@ class ilSettingsTemplateGUI
                 } else {
                     $values["value_" . $s["id"]] = $set[$s["id"]]["value"];
                 }
-                                
+
                 $values["hide_" . $s["id"]] = $set[$s["id"]]["hide"];
             }
         }
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Save settings template form
-     */
-    public function saveSettingsTemplate() : void
+    public function saveSettingsTemplate(): void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -293,7 +290,7 @@ class ilSettingsTemplateGUI
             $this->setValuesFromForm($settings_template);
             $settings_template->create();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         }
 
@@ -301,10 +298,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Update settings template
-     */
-    public function updateSettingsTemplate()
+    public function updateSettingsTemplate(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -315,7 +309,7 @@ class ilSettingsTemplateGUI
             $this->setValuesFromForm($this->settings_template);
             $this->settings_template->update();
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         }
 
@@ -323,10 +317,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Set values from form
-     */
-    public function setValuesFromForm(ilSettingsTemplate $a_set_templ) : void
+    public function setValuesFromForm(ilSettingsTemplate $a_set_templ): void
     {
         // perform update
         $a_set_templ->setTitle($this->form->getInput("title"));
@@ -353,17 +344,14 @@ class ilSettingsTemplateGUI
         }
     }
 
-    /**
-     * Confirm settings template deletion
-     */
-    public function confirmSettingsTemplateDeletion() : void
+    public function confirmSettingsTemplateDeletion(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (count($this->request->getTemplateIds()) == 0) {
-            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+        if (count($this->request->getTemplateIds()) === 0) {
+            $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -373,14 +361,14 @@ class ilSettingsTemplateGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSettingsTemplate");
 
             foreach ($this->request->getTemplateIds() as $i) {
-                $cgui->addItem("tid[]", $i, ilSettingsTemplate::lookupTitle($i));
+                $cgui->addItem("tid[]", (string) $i, ilSettingsTemplate::lookupTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
         }
     }
 
-    public function deleteSettingsTemplate() : void
+    public function deleteSettingsTemplate(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -388,7 +376,7 @@ class ilSettingsTemplateGUI
             $templ = new ilSettingsTemplate($i);
             $templ->delete();
         }
-        ilUtil::sendSuccess("msg_obj_modified");
+        $this->tpl->setOnScreenMessage('success', "msg_obj_modified");
         $ilCtrl->redirect($this, "listSettingsTemplates");
     }
 }

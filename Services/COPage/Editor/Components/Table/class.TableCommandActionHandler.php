@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Table;
 
@@ -41,7 +44,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "update.data":
@@ -55,7 +58,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function updateDataCommand(array $body) : Server\Response
+    protected function updateDataCommand(array $body): Server\Response
     {
         $updated = $this->updateData($body["data"]["pcid"], $body["data"]["content"]);
         if ($body["data"]["redirect"]) {
@@ -73,7 +76,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
 
         $last_change = null;
@@ -107,37 +110,35 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      */
     protected function updateData(
         string $pcid,
-        string $content
+        array $content
     ) {
         $page = $this->page_gui->getPageObject();
         $table = $page->getContentObjectForPcId($pcid);
 
         $data = [];
         $updated = true;
-        if (is_array($content)) {
-            foreach ($content as $i => $row) {
-                if (is_array($row)) {
-                    foreach ($row as $j => $cell) {
-                        $text = "<div>" . $cell . "</div>";
-                        if ($updated) {
-                            // determine cell content
-                            $text = \ilPCParagraph::handleAjaxContent($text);
-                            $data[$i][$j] = $text;
-                            $updated = ($text !== false);
-                            $text = $text["text"];
-                        }
+        foreach ($content as $i => $row) {
+            if (is_array($row)) {
+                foreach ($row as $j => $cell) {
+                    $text = "<div>" . $cell . "</div>";
+                    if ($updated) {
+                        // determine cell content
+                        $text = \ilPCParagraph::handleAjaxContent($text);
+                        $data[$i][$j] = $text;
+                        $updated = ($text !== false);
+                        $text = $text["text"];
+                    }
 
-                        if ($updated) {
-                            $text = \ilPCParagraph::_input2xml(
-                                $text,
-                                $table->getLanguage(),
-                                true,
-                                false
-                            );
-                            $text = \ilPCParagraph::handleAjaxContentPost($text);
+                    if ($updated) {
+                        $text = \ilPCParagraph::_input2xml(
+                            $text,
+                            $table->getLanguage(),
+                            true,
+                            false
+                        );
+                        $text = \ilPCParagraph::handleAjaxContentPost($text);
 
-                            $data[$i][$j] = $text;
-                        }
+                        $data[$i][$j] = $text;
                     }
                 }
             }
@@ -152,7 +153,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     }
 
 
-    protected function modifyTableCommand(array $body) : Server\Response
+    protected function modifyTableCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
         $page->addHierIDs();
@@ -215,16 +216,25 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     public function sendTable(
         \ilPageObjectGUI $page_gui,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $page = $page_gui->getPageObject();
         $page->addHierIDs();
         $table = $page->getContentObjectForPcId($pcid);
-        $table_gui = new \ilPCDataTableGUI(
-            $page_gui->getPageObject(),
-            $table,
-            $page->getHierIdForPcId($pcid),
-            $pcid
-        );
+        if ($table->getType() == "dtab") {
+            $table_gui = new \ilPCDataTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        } else {
+            $table_gui = new \ilPCTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        }
 
         $data = new \stdClass();
         $data->renderedContent = $table_gui->getEditDataTable();

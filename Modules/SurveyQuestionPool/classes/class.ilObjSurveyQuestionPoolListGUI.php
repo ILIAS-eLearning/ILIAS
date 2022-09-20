@@ -1,19 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSurveyQuestionPoolListGUI
  *
  * @author Helmut Schottmueller <helmut.schottmueller@mac.com>
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    */
-    public function init()
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -28,18 +39,10 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         $this->commands = ilObjSurveyQuestionPoolAccess::_getCommands();
     }
 
-
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
+    public function getCommandFrame(string $cmd): string
     {
-        switch ($a_cmd) {
+        $frame = "";
+        switch ($cmd) {
             case "":
             case "questions":
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
@@ -51,20 +54,9 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $frame;
     }
 
-
-
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
-    public function getProperties()
+    public function getProperties(): array
     {
         $lng = $this->lng;
-        $ilUser = $this->user;
 
         $props = array();
 
@@ -75,19 +67,8 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
         return $props;
     }
 
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
-        // separate method for this line
-        $cmd_link = "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=$a_cmd";
-
-        return $cmd_link;
+        return "ilias.php?baseClass=ilObjSurveyQuestionPoolGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=$cmd";
     }
-} // END class.ilObjTestListGUI
+}

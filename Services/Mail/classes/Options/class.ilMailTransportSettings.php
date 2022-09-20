@@ -1,19 +1,33 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Niels Theen <ntheen@databay.de>
  */
 class ilMailTransportSettings
 {
-    private ilMailOptions $mailOptions;
-
-    public function __construct(ilMailOptions $mailOptions)
+    public function __construct(private ilMailOptions $mailOptions)
     {
-        $this->mailOptions = $mailOptions;
     }
 
-    public function adjust(string $firstMail, string $secondMail) : void
+    public function adjust(string $firstMail, string $secondMail): void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
@@ -37,7 +51,6 @@ class ilMailTransportSettings
         if (!$hasSecondEmail && $this->mailOptions->getEmailAddressMode() !== ilMailOptions::FIRST_EMAIL) {
             $this->mailOptions->setEmailAddressMode(ilMailOptions::FIRST_EMAIL);
             $this->mailOptions->updateOptions();
-            return;
         }
     }
 }

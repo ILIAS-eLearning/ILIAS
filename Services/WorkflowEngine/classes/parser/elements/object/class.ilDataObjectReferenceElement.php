@@ -1,26 +1,32 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilDataObjectReferenceElement
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilDataObjectReferenceElement extends ilBaseElement
 {
-    /** @var string $element_varname */
-    public $element_varname;
+    public string $element_varname;
 
-    /**
-     * @param                     $element
-     * @param \ilWorkflowScaffold $class_object
-     *
-     * @return string
-     */
-    public function getPHP($element, ilWorkflowScaffold $class_object)
+    public function getPHP(array $element, ilWorkflowScaffold $class_object): string
     {
         // We need to register an instance var that is a reference.
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
@@ -31,9 +37,8 @@ class ilDataObjectReferenceElement extends ilBaseElement
             $name = $ext_name;
         }
 
-        $code = "";
-        $code .= '
-			$this->defineInstanceVar("' . $element_id . '","' . $name . '", true, "' . $element['attributes']['dataObjectRef'] . '" );
+        $code = '
+			$this->defineInstanceVar("' . $element_id . '","' . $name . '");
 		';
 
         return $code;

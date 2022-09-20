@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -9,19 +10,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * ASS_AnswerSimple is a class for matching question answers
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */
 class ASS_AnswerMatching
 {
-    /**
-    * Points for selected matching pair
-    *
-    * The number of points given for the selected matching pair
-    *
-    * @var double
-    */
-    public $points;
+    public float $points;
 
     /**
     * Picture or definition
@@ -40,7 +33,7 @@ class ASS_AnswerMatching
     * @var integer
     */
     public $term_id;
-  
+
     /**
     * Term index
     *
@@ -49,7 +42,7 @@ class ASS_AnswerMatching
     * @var integer
     */
     public $picture_or_definition_id;
-  
+
     /**
     * ASS_AnswerMatching constructor
     *
@@ -81,7 +74,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $points
     */
-    public function getPoints()
+    public function getPoints(): float
     {
         return $this->points;
     }
@@ -94,7 +87,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $term_id
     */
-    public function getTermId()
+    public function getTermId(): int
     {
         return $this->term_id;
     }
@@ -107,7 +100,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition
     */
-    public function getPicture()
+    public function getPicture(): string
     {
         return $this->picture_or_definition;
     }
@@ -120,11 +113,11 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition
     */
-    public function getDefinition()
+    public function getDefinition(): string
     {
         return $this->picture_or_definition;
     }
-  
+
     /**
     * Gets the picture identifier
     *
@@ -133,7 +126,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition_id
     */
-    public function getPictureId()
+    public function getPictureId(): int
     {
         return $this->picture_or_definition_id;
     }
@@ -146,11 +139,11 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition_id
     */
-    public function getDefinitionId()
+    public function getDefinitionId(): int
     {
         return $this->picture_or_definition_id;
     }
-  
+
     /**
     * Sets the term id
     *
@@ -160,7 +153,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $term_id
     */
-    public function setTermId($term_id = 0)
+    public function setTermId($term_id = 0): void
     {
         if ($term_id >= 0) {
             $this->term_id = $term_id;
@@ -169,14 +162,12 @@ class ASS_AnswerMatching
 
     /**
     * Sets the picture id
-    *
     * Sets the nonnegative picture identifier which can be used for sorting or displaying matching pairs
-    *
     * @param integer $picture_id A nonnegative integer
     * @access public
     * @see $picture_or_definition_id
     */
-    public function setPictureId($picture_id = 0)
+    public function setPictureId(int $picture_id = 0): void
     {
         if ($picture_id >= 0) {
             $this->picture_or_definition_id = $picture_id;
@@ -185,14 +176,12 @@ class ASS_AnswerMatching
 
     /**
     * Sets the definition id
-    *
     * Sets the nonnegative definition identifier which can be used for sorting or displaying matching pairs
-    *
     * @param integer $definition_id A nonnegative integer
     * @access public
     * @see $picture_or_definition_id
     */
-    public function setDefinitionId($definition_id = 0)
+    public function setDefinitionId(int $definition_id = 0): void
     {
         if ($definition_id >= 0) {
             $this->picture_or_definition_id = $definition_id;
@@ -201,28 +190,24 @@ class ASS_AnswerMatching
 
     /**
     * Sets the picture
-    *
     * Sets the picture
-    *
     * @param string $picture Picture
     * @access public
     * @see $picture_or_definition
     */
-    public function setPicture($picture = "")
+    public function setPicture(string $picture = ""): void
     {
         $this->picture_or_definition = $picture;
     }
 
     /**
     * Sets the definition
-    *
     * Sets the definition
-    *
     * @param string $definition Definition
     * @access public
     * @see $picture_or_definition
     */
-    public function setDefinition($definition = "")
+    public function setDefinition(string $definition = ""): void
     {
         $this->picture_or_definition = $definition;
     }
@@ -230,14 +215,12 @@ class ASS_AnswerMatching
 
     /**
     * Sets the points
-    *
     * Sets the points given for selecting the answer.
-    *
     * @param double $points The points given for the answer
     * @access public
     * @see $points
     */
-    public function setPoints($points = 0.0)
+    public function setPoints(float $points = 0.0): void
     {
         $this->points = $points;
     }

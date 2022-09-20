@@ -16,42 +16,42 @@ class ilTestParticipantScoring
      * @var integer
      */
     protected $activeId;
-    
+
     /**
      * @var integer
      */
     protected $scoredPass;
-    
+
     /**
      * @var integer
      */
     protected $answeredQuestions;
-    
+
     /**
      * @var integer
      */
     protected $totalQuestions;
-    
+
     /**
      * @var float
      */
     protected $reachedPoints;
-    
+
     /**
      * @var float
      */
     protected $maxPoints;
-    
+
     /**
      * @var bool
      */
     protected $passed;
-    
+
     /**
      * @var string
      */
     protected $finalMark;
-    
+
     /**
      * ilTestParticipantScoring constructor.
      */
@@ -66,16 +66,16 @@ class ilTestParticipantScoring
         $this->passed = false;
         $this->finalMark = '';
     }
-    
-    
+
+
     /**
      * @return int
      */
-    public function getActiveId() : int
+    public function getActiveId(): int
     {
         return $this->activeId;
     }
-    
+
     /**
      * @param int $activeId
      */
@@ -83,15 +83,15 @@ class ilTestParticipantScoring
     {
         $this->activeId = $activeId;
     }
-    
+
     /**
      * @return int
      */
-    public function getScoredPass() : int
+    public function getScoredPass(): int
     {
         return $this->scoredPass;
     }
-    
+
     /**
      * @param int $scoredPass
      */
@@ -99,15 +99,15 @@ class ilTestParticipantScoring
     {
         $this->scoredPass = $scoredPass;
     }
-    
+
     /**
      * @return int
      */
-    public function getAnsweredQuestions() : int
+    public function getAnsweredQuestions(): int
     {
         return $this->answeredQuestions;
     }
-    
+
     /**
      * @param int $answeredQuestions
      */
@@ -115,15 +115,15 @@ class ilTestParticipantScoring
     {
         $this->answeredQuestions = $answeredQuestions;
     }
-    
+
     /**
      * @return int
      */
-    public function getTotalQuestions() : int
+    public function getTotalQuestions(): int
     {
         return $this->totalQuestions;
     }
-    
+
     /**
      * @param int $totalQuestions
      */
@@ -131,15 +131,15 @@ class ilTestParticipantScoring
     {
         $this->totalQuestions = $totalQuestions;
     }
-    
+
     /**
      * @return float
      */
-    public function getReachedPoints() : float
+    public function getReachedPoints(): float
     {
         return $this->reachedPoints;
     }
-    
+
     /**
      * @param float $reachedPoints
      */
@@ -147,15 +147,15 @@ class ilTestParticipantScoring
     {
         $this->reachedPoints = $reachedPoints;
     }
-    
+
     /**
      * @return float
      */
-    public function getMaxPoints() : float
+    public function getMaxPoints(): float
     {
         return $this->maxPoints;
     }
-    
+
     /**
      * @param float $maxPoints
      */
@@ -163,15 +163,15 @@ class ilTestParticipantScoring
     {
         $this->maxPoints = $maxPoints;
     }
-    
+
     /**
      * @return bool
      */
-    public function isPassed() : bool
+    public function isPassed(): bool
     {
         return $this->passed;
     }
-    
+
     /**
      * @param bool $passed
      */
@@ -179,15 +179,15 @@ class ilTestParticipantScoring
     {
         $this->passed = $passed;
     }
-    
+
     /**
      * @return string
      */
-    public function getFinalMark() : string
+    public function getFinalMark(): string
     {
         return $this->finalMark;
     }
-    
+
     /**
      * @param string $finalMark
      */
@@ -195,7 +195,7 @@ class ilTestParticipantScoring
     {
         $this->finalMark = $finalMark;
     }
-    
+
     /**
      * @return int
      */
@@ -204,7 +204,7 @@ class ilTestParticipantScoring
         if ($this->getMaxPoints() > 0) {
             return $this->getReachedPoints() / $this->getMaxPoints();
         }
-        
+
         return 0;
     }
 }

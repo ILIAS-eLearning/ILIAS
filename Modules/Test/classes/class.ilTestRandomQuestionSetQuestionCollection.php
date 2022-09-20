@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestion.php';
@@ -12,7 +13,7 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestion.php';
 // hey: fixRandomTestBuildable - iterator interface for collection
 class ilTestRandomQuestionSetQuestionCollection implements
     Iterator
-// hey.
+    // hey.
 {
     private $questions = array();
 
@@ -21,7 +22,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
         $this->questions = $questions;
     }
 
-    public function getQuestions()
+    public function getQuestions(): array
     {
         return $this->questions;
     }
@@ -33,47 +34,47 @@ class ilTestRandomQuestionSetQuestionCollection implements
 
     // hey: fixRandomTestBuildable - iterator interface for collection
     /* @return ilTestRandomQuestionSetQuestion */
-    public function current()
+    public function current(): ilTestRandomQuestionSetQuestion
     {
         return current($this->questions);
     }
     /* @return ilTestRandomQuestionSetQuestion */
-    public function next()
+    public function next(): ilTestRandomQuestionSetQuestion
     {
         return next($this->questions);
     }
     /* @return string */
-    public function key()
+    public function key(): string
     {
         return key($this->questions);
     }
     /* @return bool */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->questions) !== null;
     }
-    /* @return ilTestRandomQuestionSetQuestion */
+
     public function rewind()
     {
         return reset($this->questions);
     }
     // hey.
-    
-    public function isGreaterThan($amount)
+
+    public function isGreaterThan($amount): bool
     {
         return count($this->questions) > $amount;
     }
 
-    public function isSmallerThan($amount)
+    public function isSmallerThan($amount): bool
     {
         return count($this->questions) < $amount;
     }
-    
+
     /**
      * @param int $requiredAmount
      * @return int
      */
-    public function getMissingCount($requiredAmount)
+    public function getMissingCount($requiredAmount): int
     {
         // hey: fixRandomTestBuildable - fix returning missing count instead of difference (neg values!)
         $difference = $requiredAmount - count($this->questions);
@@ -92,7 +93,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
         $this->questions = array_merge($this->questions, $questionCollection->getQuestions());
     }
 
-    public function getUniqueQuestionCollection()
+    public function getUniqueQuestionCollection(): ilTestRandomQuestionSetQuestionCollection
     {
         $uniqueQuestions = array();
 
@@ -110,7 +111,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
         return $uniqueQuestionCollection;
     }
 
-    public function getRelativeComplementCollection(self $questionCollection)
+    public function getRelativeComplementCollection(self $questionCollection): ilTestRandomQuestionSetQuestionCollection
     {
         // hey: fixRandomTestBuildable - comment for refactoring
         /**
@@ -123,7 +124,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
          * when changing, do not forget to switch caller and param for all usages (!)
          */
         // hey.
-        
+
         $questionIds = array_flip($questionCollection->getInvolvedQuestionIds());
 
         $relativeComplementCollection = new self();
@@ -136,39 +137,39 @@ class ilTestRandomQuestionSetQuestionCollection implements
 
         return $relativeComplementCollection;
     }
-    
+
     // hey: fixRandomTestBuildable - advanced need for quantity tools
     /**
      * @param ilTestRandomQuestionSetQuestionCollection $questionCollection
      * @return ilTestRandomQuestionSetQuestionCollection
      */
-    public function getIntersectionCollection(self $questionCollection)
+    public function getIntersectionCollection(self $questionCollection): ilTestRandomQuestionSetQuestionCollection
     {
         $questionIds = array_flip($questionCollection->getInvolvedQuestionIds());
-        
+
         $intersectionCollection = new self();
-        
+
         foreach ($this->getQuestions() as $question) {
             if (!isset($questionIds[$question->getQuestionId()])) {
                 continue;
             }
-            
+
             $intersectionCollection->addQuestion($question);
         }
-        
+
         return $intersectionCollection;
     }
-    
+
     /**
      * @return int
      */
-    public function getQuestionAmount()
+    public function getQuestionAmount(): int
     {
         return count($this->getQuestions());
     }
     // hey.
 
-    public function getInvolvedQuestionIds()
+    public function getInvolvedQuestionIds(): array
     {
         $questionIds = array();
 
@@ -179,7 +180,7 @@ class ilTestRandomQuestionSetQuestionCollection implements
         return $questionIds;
     }
 
-    public function getRandomQuestionCollection($requiredAmount)
+    public function getRandomQuestionCollection($requiredAmount): ilTestRandomQuestionSetQuestionCollection
     {
         $randomKeys = $this->getRandomArrayKeys($this->questions, $requiredAmount);
 

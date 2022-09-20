@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph;
 
@@ -11,7 +27,7 @@ use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
-    protected function getTemplateFilename() : string
+    protected function getTemplateFilename(): string
     {
         return "tpl.glyph.standard.html";
     }
@@ -19,7 +35,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var $component Glyph
@@ -29,7 +45,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
 
-        $tpl = $this->renderAction($component,$tpl);
+        $tpl = $this->renderAction($component, $tpl);
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
@@ -43,7 +59,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
+        $tpl = $this->renderLabel($component, $tpl);
 
         $id = $this->bindJavaScript($component);
 
@@ -57,7 +73,13 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderAction(Component\Component $component, Template $tpl)
+    protected function renderLabel(Component\Component $component, Template $tpl): Template
+    {
+        $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
+        return $tpl;
+    }
+
+    protected function renderAction(Component\Component $component, Template $tpl): Template
     {
         $action = $component->getAction();
         if ($component->isActive() && $action !== null) {
@@ -68,7 +90,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl;
     }
 
-    protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer) : string
+    protected function getInnerGlyphHTML(Component\Component $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate('tpl.glyph.html', true, true);
 
@@ -96,7 +118,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Symbol\Glyph\Glyph::class);
     }

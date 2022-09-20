@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=0);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,16 +23,10 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesTracking
-*/
-
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesTracking
+ */
 class ilObjUserTrackingAccess extends ilObjectAccess
 {
 }

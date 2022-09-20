@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
@@ -30,7 +46,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withRelevance(string $relevance) : Tag
+    public function withRelevance(string $relevance): Tag
     {
         $this->checkArgIsElement('relevance', $relevance, self::$relevance_levels, 'relevance');
         $clone = clone $this;
@@ -41,12 +57,12 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getRelevance() : string
+    public function getRelevance(): string
     {
         return $this->relevance;
     }
 
-    public function getRelevanceClass() : string
+    public function getRelevanceClass(): string
     {
         return self::$relevance_levels[$this->relevance - 1];
     }
@@ -54,7 +70,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withBackgroundColor(Color $col) : C\Button\Tag
+    public function withBackgroundColor(Color $col): C\Button\Tag
     {
         $clone = clone $this;
         $clone->bgcol = $col;
@@ -64,7 +80,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getBackgroundColor() : ?Color
+    public function getBackgroundColor(): ?Color
     {
         return $this->bgcol;
     }
@@ -72,7 +88,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withForegroundColor(Color $col) : C\Button\Tag
+    public function withForegroundColor(Color $col): C\Button\Tag
     {
         $clone = clone $this;
         $clone->forecol = $col;
@@ -82,7 +98,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getForegroundColor() : ?Color
+    public function getForegroundColor(): ?Color
     {
         if (is_null($this->forecol) && is_null($this->bgcol) === false) {
             $col_val = $this->bgcol->isDark() ? '#fff' : '#000';
@@ -95,7 +111,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withClasses(array $classes) : C\Button\Tag
+    public function withClasses(array $classes): C\Button\Tag
     {
         $classes = $this->toArray($classes);
         foreach ($classes as $class) {
@@ -109,7 +125,7 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function getClasses() : array
+    public function getClasses(): array
     {
         if (!$this->additional_classes) {
             return array();

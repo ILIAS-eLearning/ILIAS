@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\CLI;
 
@@ -43,7 +59,7 @@ class UpdateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription("Updates an existing ILIAS installation");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the update");
@@ -53,7 +69,7 @@ class UpdateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.
@@ -74,7 +90,7 @@ class UpdateCommand extends Command
         }
 
         $objective = $agent->getUpdateObjective($config);
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions
@@ -84,7 +100,7 @@ class UpdateCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        if ($config) {
+        if ($config !== null) {
             $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
         }
 
@@ -94,5 +110,7 @@ class UpdateCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborting Update, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
+
+        return 0;
     }
 }

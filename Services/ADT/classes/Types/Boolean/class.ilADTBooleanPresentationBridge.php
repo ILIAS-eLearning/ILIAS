@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTBoolean);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: force icon?
@@ -20,7 +22,7 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: cast to int ?

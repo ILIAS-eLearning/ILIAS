@@ -8,6 +8,19 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Stream\FileStream;
 use Psr\Http\Message\StreamInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface FileStreamWriteAccess
  *
@@ -23,7 +36,6 @@ use Psr\Http\Message\StreamInterface;
  */
 interface FileStreamWriteAccess
 {
-
     /**
      * Writes the stream to a new file.
      * The directory path to the file will be created.
@@ -40,7 +52,7 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function writeStream(string $path, FileStream $stream);
+    public function writeStream(string $path, FileStream $stream): void;
 
 
     /**
@@ -59,7 +71,7 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function putStream(string $path, FileStream $stream);
+    public function putStream(string $path, FileStream $stream): void;
 
 
     /**
@@ -78,5 +90,5 @@ interface FileStreamWriteAccess
      *
      * @see     FileStream::detach()
      */
-    public function updateStream(string $path, FileStream $stream);
+    public function updateStream(string $path, FileStream $stream): void;
 }

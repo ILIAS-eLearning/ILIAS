@@ -1,4 +1,5 @@
 <?php
+
 namespace OrgUnit\PublicApi;
 
 use OrgUnit\User\ilOrgUnitUser;
@@ -10,15 +11,11 @@ class OrgUnitUserService
     {
     }
 
-
     /**
-     * @param array $user_ids
-     * @param bool  $with_superios
-     * @param bool  $with_positions
-     *
+     * @param int[] $user_ids
      * @return ilOrgUnitUser[]
      */
-    public function getUsers(array $user_ids, $with_superios = false, $with_positions = false)
+    public function getUsers(array $user_ids, bool $with_superios = false, bool $with_positions = false): array
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
 
@@ -32,7 +29,11 @@ class OrgUnitUserService
         return $org_unit_user_repository->getOrgUnitUsers($user_ids);
     }
 
-    public function getEmailAdressesOfSuperiors(array $user_ids) : array
+    /**
+     * @param int[] $user_ids
+     * @return string[]
+     */
+    public function getEmailAdressesOfSuperiors(array $user_ids): array
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->withSuperiors();

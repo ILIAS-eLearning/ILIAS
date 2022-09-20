@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Crawler\Entry;
 
@@ -25,14 +43,14 @@ class ComponentEntryDescription extends AbstractEntryPart implements JsonSeriali
         $this->setDescription($description);
     }
 
-    public function withDescription(array $description = array()) : ComponentEntryDescription
+    public function withDescription(array $description = array()): ComponentEntryDescription
     {
         $clone = clone $this;
         $clone->setDescription($description);
         return $clone;
     }
 
-    protected function setDescription(array $descriptionElements) : void
+    protected function setDescription(array $descriptionElements): void
     {
         if (!$descriptionElements) {
             return;
@@ -67,12 +85,12 @@ class ComponentEntryDescription extends AbstractEntryPart implements JsonSeriali
         return $this->description[$key];
     }
 
-    public function getDescription() : array
+    public function getDescription(): array
     {
         return $this->description;
     }
 
-    public function jsonSerialize() : array
+    public function jsonSerialize(): array
     {
         return $this->getDescription();
     }

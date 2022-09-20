@@ -1,19 +1,30 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Mail/classes/class.ilMailNotification.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This checks if a mail has to be send after a certain INACTIVITY period
  * @author  Guido Vollbach <gvollbach@databay.de>
- * @version $Id$
- * @package Services/User
  */
 class ilCronDeleteInactiveUserReminderMail
 {
-    const TABLE_NAME = "usr_cron_mail_reminder";
+    public const TABLE_NAME = "usr_cron_mail_reminder";
 
-    private static function mailSent($usr_id)
+    private static function mailSent(int $usr_id): void
     {
         global $DIC;
 
@@ -31,9 +42,11 @@ class ilCronDeleteInactiveUserReminderMail
         );
     }
 
-    private static function sendReminder(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
-    {
-        include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMailNotification.php';
+    private static function sendReminder(
+        ilObjUser $user,
+        int $reminderTime,
+        int $time_frame_for_deletion
+    ): void {
         $mail = new ilCronDeleteInactiveUserReminderMailNotification();
         $mail->setRecipients(array($user));
         $mail->setAdditionalInformation(
@@ -47,7 +60,7 @@ class ilCronDeleteInactiveUserReminderMail
         self::mailSent($user->getId());
     }
 
-    public static function removeEntriesFromTableIfLastLoginIsNewer()
+    public static function removeEntriesFromTableIfLastLoginIsNewer(): void
     {
         global $DIC;
 
@@ -69,8 +82,11 @@ class ilCronDeleteInactiveUserReminderMail
         }
     }
 
-    public static function checkIfReminderMailShouldBeSend(ilObjUser $user, $reminderTime, $time_frame_for_deletion)
-    {
+    public static function checkIfReminderMailShouldBeSend(
+        ilObjUser $user,
+        int $reminderTime,
+        int $time_frame_for_deletion
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -84,7 +100,7 @@ class ilCronDeleteInactiveUserReminderMail
         return false;
     }
 
-    public static function flushDataTable()
+    public static function flushDataTable(): void
     {
         global $DIC;
 
@@ -92,7 +108,7 @@ class ilCronDeleteInactiveUserReminderMail
         $ilDB->manipulate("DELETE FROM " . self::TABLE_NAME);
     }
 
-    public static function removeSingleUserFromTable($usr_id)
+    public static function removeSingleUserFromTable(int $usr_id): void
     {
         global $DIC;
 

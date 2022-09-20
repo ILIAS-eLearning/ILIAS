@@ -1,25 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Upload dir files table
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilUploadDirFilesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected string $upload_dir;
+    protected ilAccessHandler $access;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_files)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        array $a_files
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -27,16 +37,11 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-
-        $mset = new ilSetting("mobs");
 
         $import_directory_factory = new ilImportDirectoryFactory();
         $mob_import_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
         $this->upload_dir = $mob_import_directory->getAbsolutePath();
 
-        //var_dump($_POST);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getFiles($a_files));
         $this->setTitle($lng->txt("mep_upload_dir_files"));
@@ -54,22 +59,21 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("file[]");
 
         $this->addMultiCommand("createMediaFromUploadDir", $lng->txt("mep_create_media_files"));
-        //$this->addCommandButton("", $lng->txt(""));
     }
 
     /**
      * Get files
      */
-    public function getFiles($a_files)
+    public function getFiles(array $a_files): array
     {
         $files = array();
         foreach ($a_files as $f) {
             if (is_file($this->upload_dir . "/" . $f)) {
                 $files[] = $f;
             } elseif (is_dir($this->upload_dir . "/" . $f)) {
-                $dir = ilUtil::getDir($this->upload_dir . "/" . $f, true);
+                $dir = ilFileUtils::getDir($this->upload_dir . "/" . $f, true);
                 foreach ($dir as $d) {
-                    if ($d["type"] == "file") {
+                    if ($d["type"] === "file") {
                         $files[] = $f . $d["subdir"] . "/" . $d["entry"];
                     }
                 }
@@ -79,13 +83,8 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         return $files;
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
-        $lng = $this->lng;
-
         $this->tpl->setVariable("TXT_FILE", $a_set);
         $this->tpl->setVariable("VAL_FILE", $a_set);
     }

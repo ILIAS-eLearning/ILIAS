@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 
 /**
  * Class ilMMTypeHandlerLink
@@ -11,16 +14,16 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
  */
 class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements TypeHandler
 {
-    public function matchesForType() : string
+    public function matchesForType(): string
     {
-        return \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link::class;
+        return Link::class;
     }
 
 
     /**
      * @inheritdoc
      */
-    public function enrichItem(isItem $item) : isItem
+    public function enrichItem(isItem $item): isItem
     {
         if ($item instanceof hasAction && isset($this->links[$item->getProviderIdentification()->serialize()])) {
             $action = (string) $this->links[$item->getProviderIdentification()->serialize()][self::F_ACTION];
@@ -35,7 +38,7 @@ class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements T
     /**
      * @inheritDoc
      */
-    protected function getFieldTranslation() : string
+    protected function getFieldTranslation(): string
     {
         global $DIC;
 
@@ -46,7 +49,7 @@ class ilMMTypeHandlerLink extends ilMMAbstractBaseTypeHandlerAction implements T
     /**
      * @inheritDoc
      */
-    protected function getFieldInfoTranslation() : string
+    protected function getFieldInfoTranslation(): string
     {
         global $DIC;
 

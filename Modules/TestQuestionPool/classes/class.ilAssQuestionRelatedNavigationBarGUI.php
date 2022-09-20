@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -29,11 +30,11 @@ class ilAssQuestionRelatedNavigationBarGUI
     protected $hintRequestsPossible;
 
     protected $hintRequestsExist;
-    
+
     protected $hintRequestCmd;
-    
+
     protected $hintListCmd;
-    
+
     public function __construct(ilCtrl $ctrl, ilLanguage $lng)
     {
         $this->ctrl = $ctrl;
@@ -45,7 +46,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintListCmd;
     }
 
-    public function setHintListCmd($hintListCmd)
+    public function setHintListCmd($hintListCmd): void
     {
         $this->hintListCmd = $hintListCmd;
     }
@@ -55,12 +56,12 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestCmd;
     }
 
-    public function setHintRequestCmd($hintRequestCmd)
+    public function setHintRequestCmd($hintRequestCmd): void
     {
         $this->hintRequestCmd = $hintRequestCmd;
     }
 
-    public function setHintRequestsExist($hintRequestsExist)
+    public function setHintRequestsExist($hintRequestsExist): void
     {
         $this->hintRequestsExist = $hintRequestsExist;
     }
@@ -70,7 +71,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestsExist;
     }
 
-    public function setHintRequestsPossible($hintRequestsPossible)
+    public function setHintRequestsPossible($hintRequestsPossible): void
     {
         $this->hintRequestsPossible = $hintRequestsPossible;
     }
@@ -80,7 +81,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintRequestsPossible;
     }
 
-    public function setHintProvidingEnabled($hintProvidingEnabled)
+    public function setHintProvidingEnabled($hintProvidingEnabled): void
     {
         $this->hintProvidingEnabled = $hintProvidingEnabled;
     }
@@ -90,7 +91,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->hintProvidingEnabled;
     }
 
-    public function setInstantResponseEnabled($instantFeedbackEnabled)
+    public function setInstantResponseEnabled($instantFeedbackEnabled): void
     {
         $this->instantResponseEnabled = $instantFeedbackEnabled;
     }
@@ -100,7 +101,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->instantResponseEnabled;
     }
 
-    public function setInstantResponseCmd($instantResponseCmd)
+    public function setInstantResponseCmd($instantResponseCmd): void
     {
         $this->instantResponseCmd = $instantResponseCmd;
     }
@@ -110,7 +111,7 @@ class ilAssQuestionRelatedNavigationBarGUI
         return $this->instantResponseCmd;
     }
 
-    public function getHTML()
+    public function getHTML(): string
     {
         $navTpl = new ilTemplate('tpl.qst_question_related_navigation.html', true, true, 'Modules/TestQuestionPool');
 
@@ -135,7 +136,7 @@ class ilAssQuestionRelatedNavigationBarGUI
                 } else {
                     $buttonText = $this->lng->txt("button_request_question_hint");
                 }
-                
+
                 $navTpl->setCurrentBlock("button_request_next_question_hint");
                 $navTpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", $this->getHintRequestCmd());
                 $navTpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
@@ -158,7 +159,7 @@ class ilAssQuestionRelatedNavigationBarGUI
             $navTpl->setCurrentBlock("question_related_navigation");
             $navTpl->parseCurrentBlock();
         }
-        
+
         return $navTpl->get();
     }
 }

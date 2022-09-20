@@ -1,260 +1,163 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Services/Notifications/classes/class.ilObjNotificationAdmin.php";
-require_once "./Services/Notifications/classes/class.ilObjNotificationAdminAccess.php";
+declare(strict_types=1);
 
 /**
-* GUI class for notification objects.
-*
-* @author Jan Posselt <jposselt@databay.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjNotificationAdminGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
-*
-* @ingroup ServicesNotifications
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\DI\Container;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+
+/**
+ * @author Ingmar Szmais <iszmais@databay.de>
+ *
+ * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
+ * @ilCtrl_Calls      ilObjNotificationAdminGUI: ilPermissionGUI
+ */
 class ilObjNotificationAdminGUI extends ilObjectGUI
 {
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    protected Container $dic;
+
+    public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
-        $this->type = "nota";
+        global $DIC;
+        $this->dic = $DIC;
+
+        $this->type = 'nota';
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
-        $this->lng->loadLanguageModule('notification');
+        $this->lng->loadLanguageModule('notification_adm');
     }
-    
-    public static function _forwards()
+
+    public function executeCommand(): void
     {
-        return array();
-    }
-    
-    public function executeCommand()
-    {
-        $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
-    
+        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $this->prepareOutput();
 
-        switch ($next_class) {
-            case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+        switch (strtolower($this->ctrl->getNextClass())) {
+            case strtolower(ilPermissionGUI::class):
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
-
-                        default:
-                $this->__initSubTabs();
-                $this->tabs_gui->activateTab("view");
-                            
-                if (empty($cmd) || $cmd == 'view') {
-                    $cmd = 'showTypes';
+            default:
+                switch ($this->ctrl->getCmd()) {
+                    case 'saveGeneralSettings':
+                        $this->saveGeneralSettings();
+                        break;
+                    default:
+                        $this->showGeneralSettings();
                 }
-
-                $cmd .= "Object";
-                $this->$cmd();
-                break;
         }
     }
 
     /**
-    * save object
-    *
-    * @access	public
-    */
-    public static function saveObject2($params = array())
+     * @throws ilCtrlException
+     */
+    public function showGeneralSettings(?Form $form = null): void
     {
-        global $objDefinition, $ilUser;
-
-        // create and insert file in grp_tree
-        require_once 'Services/Notifications/classes/class.ilObjNotificationAdmin.php';
-        $fileObj = new ilObjNotificationAdmin();
-        $fileObj->setTitle('notification admin');
-        $fileObj->create();
-        $fileObj->createReference();
-        $fileObj->putInTree(SYSTEM_FOLDER_ID);
-        //$fileObj->setPermissions($params['ref_id']);
-                // upload file to filesystem
-    }
-
-    public function setTabs()
-    {
-        $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-
-        if ($this->access->checkAccess("visible", "", $this->ref_id)) {
-            $this->ilTabs->addTab(
-                "id_info",
-                $this->lng->txt("info_short"),
-                $this->ctrl->getLinkTargetByClass(array("ilobjfilegui", "ilinfoscreengui"), "showSummary")
-            );
-        }
-
-        if ($this->access->checkAccess("edit_permission", "", $this->ref_id)) {
-            $this->tabs_gui->addTab(
-                "id_permissions",
-                $this->lng->txt("perm_settings"),
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
-                );
-        }
-    }
-
-    // init sub tabs
-    public function __initSubTabs()
-    {
-        $this->tabs_gui->addSubTabTarget(
-            "notification_general",
-            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showGeneralSettings")
-        );
-
-        $this->tabs_gui->addSubTabTarget(
-            "notification_admin_types",
-            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showTypes")
-        );
-
-        $this->tabs_gui->addSubTabTarget(
-            "notification_admin_matrix",
-            $this->ctrl->getLinkTargetByClass('ilObjNotificationAdminGUI', "showConfigMatrix")
-        );
-    }
-
-    public function addLocatorItems()
-    {
-        if (is_object($this->object)) {
-            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
-        }
-    }
-
-    public function showGeneralSettingsObject($form = null)
-    {
-        require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-
-        if ($form == null) {
-            $form = ilNotificationAdminSettingsForm::getGeneralSettingsForm();
+        if ($form === null) {
             $settings = new ilSetting('notifications');
-
-            /**
-             * @todo dirty...
-             *
-             * push all notifiation settings to the form to enable custom
-             * settings per channel
-             */
-            $form->setValuesByArray(array_merge($settings->getAll(), $form->restored_values));
+            $values = [];
+            if ($settings->get('enable_osd') === '0' || $settings->get('enable_osd') === null) {
+                $values['enable_osd'] = null;
+            } else {
+                $values['enable_osd'] = [
+                    'osd_interval' => (int) $settings->get('osd_interval'),
+                    'osd_vanish' => (int) $settings->get('osd_vanish'),
+                    'osd_delay' => (int) $settings->get('osd_delay'),
+                    'play_sound' => (bool) $settings->get('play_sound'),
+                ];
+            }
+            $form = $this->getForm($values);
         }
 
-        $form->setFormAction($this->ctrl->getFormAction($this, 'saveGeneralSettings'));
-        $form->addCommandButton('saveGeneralSettings', 'save');
-        $form->addCommandButton('showGeneralSettings', 'cancel');
-
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($this->dic->ui()->renderer()->render($form));
     }
 
-    public function saveGeneralSettingsObject()
+    /**
+     * @throws ilCtrlException
+     */
+    public function saveGeneralSettings(): void
     {
-        require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
         $settings = new ilSetting('notifications');
 
-        $form = ilNotificationAdminSettingsForm::getGeneralSettingsForm();
-        $form->setValuesByPost();
-        if (!$form->checkInput()) {
-            $this->showGeneralSettingsObject($form);
-        } else {
-            /**
-             * @todo dirty...
-             *
-             * push all notifiation settings to the form to enable custom
-             * settings per channel
-             */
-            $values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
-                
-            // handle custom channel settings
-            foreach ($values as $v) {
-                $settings->set($v, $_POST[$v]);
+        $form = $this->getForm()->withRequest($this->dic->http()->request());
+        $data = $form->getData();
+        if (isset($data['osd']) && is_array($data['osd'])) {
+            if (!isset($data['osd']['enable_osd'])) {
+                $settings->deleteAll();
+                $settings->set('enable_osd', '0');
+            } else {
+                $settings->set('enable_osd', '1');
+                $settings->set('osd_interval', ((string) $data['osd']['enable_osd']['osd_interval']));
+                $settings->set('osd_vanish', ((string) $data['osd']['enable_osd']['osd_vanish']));
+                $settings->set('osd_delay', ((string) $data['osd']['enable_osd']['osd_delay']));
+                $settings->set('play_sound', ($data['osd']['enable_osd']['play_sound']) ? '1' : '0');
             }
-
-            foreach ($_REQUEST['notifications'] as $type => $value) {
-                ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
-            }
-
-            $this->showGeneralSettingsObject();
         }
+        $this->showGeneralSettings($form);
     }
 
-    public function showTypesObject()
+    /**
+     * @throws ilCtrlException
+     */
+    protected function getForm(array $values = null): Form
     {
-        $this->tabs_gui->activateSubTab('notification_admin_types');
+        $enable_osd = $this->dic->ui()->factory()->input()->field()->optionalGroup(
+            [
+                'osd_interval' => $this->dic->ui()->factory()->input()->field()->numeric(
+                    $this->lng->txt('osd_interval'),
+                    $this->lng->txt('osd_interval_desc')
+                )->withRequired(true),
+                'osd_vanish' => $this->dic->ui()->factory()->input()->field()->numeric(
+                    $this->lng->txt('osd_vanish'),
+                    $this->lng->txt('osd_vanish_desc')
+                )->withRequired(true),
+                'osd_delay' => $this->dic->ui()->factory()->input()->field()->numeric(
+                    $this->lng->txt('osd_delay'),
+                    $this->lng->txt('osd_delay_desc')
+                )->withRequired(true),
+                'play_sound' => $this->dic->ui()->factory()->input()->field()->checkbox(
+                    $this->lng->txt('play_sound'),
+                    $this->lng->txt('play_sound_desc')
+                )
+            ],
+            $this->lng->txt('enable_osd')
+        )->withByline(
+            $this->lng->txt('enable_osd_desc')
+        );
 
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-            
-        $form = ilNotificationAdminSettingsForm::getTypeForm(ilNotificationDatabaseHandler::getAvailableTypes());
-        $form->setFormAction($this->ctrl->getFormAction($this, 'showTypes'));
-        $form->addCommandButton('saveTypes', $this->lng->txt('save'));
-        $form->addCommandButton('showTypes', $this->lng->txt('cancel'));
-        $this->tpl->setContent($form->getHtml());
-    }
-
-    public function showChannelsObject()
-    {
-        $this->tabs_gui->activateSubTab('notification_admin_channels');
-
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationAdminSettingsForm.php';
-
-        $form = ilNotificationAdminSettingsForm::getChannelForm(ilNotificationDatabaseHandler::getAvailableChannels());
-        $form->setFormAction($this->ctrl->getFormAction($this, 'showChannels'));
-        $form->addCommandButton('saveChannels', $this->lng->txt('save'));
-        $form->addCommandButton('showChannels', $this->lng->txt('cancel'));
-        $this->tpl->setContent($form->getHtml());
-    }
-
-    public function saveTypesObject()
-    {
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-        foreach ($_REQUEST['notifications'] as $type => $value) {
-            ilNotificationDatabaseHandler::setConfigTypeForType($type, $value);
+        if ($values !== null) {
+            $enable_osd = $enable_osd->withValue($values['enable_osd'] ?? null);
         }
-        $this->showTypesObject();
+
+        return $this->dic->ui()->factory()->input()->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'saveGeneralSettings'),
+            [
+                'osd' => $this->dic->ui()->factory()->input()->field()->section(
+                    ['enable_osd' => $enable_osd],
+                    $this->lng->txt('general_settings')
+                )
+            ]
+        );
     }
-
-    public function saveChannelsObject()
-    {
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-        foreach ($_REQUEST['notifications'] as $type => $value) {
-            ilNotificationDatabaseHandler::setConfigTypeForChannel($type, $value);
-        }
-        $this->showChannelsObject();
-    }
-
-    public function showConfigMatrixObject()
-    {
-        $this->tabs_gui->activateSubTab('notification_admin_matrix');
-
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-        require_once 'Services/Notifications/classes/class.ilNotificationSettingsTable.php';
-
-        $userdata = ilNotificationDatabaseHandler::loadUserConfig(-1);
-
-        $table = new ilNotificationSettingsTable($this, 'a title', ilNotificationDatabaseHandler::getAvailableChannels(), $userdata, true);
-        $table->setFormAction($this->ctrl->getFormAction($this, 'saveConfigMatrix'));
-        $table->setData(ilNotificationDatabaseHandler::getAvailableTypes());
-        $table->setDescription($this->lng->txt('notification_admin_matrix_settings_table_desc'));
-        $table->addCommandButton('saveConfigMatrix', $this->lng->txt('save'));
-        $table->addCommandButton('showConfigMatrix', $this->lng->txt('cancel'));
-
-        $this->tpl->setContent($table->getHtml());
-    }
-
-    private function saveConfigMatrixObject()
-    {
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-
-        ilNotificationDatabaseHandler::setUserConfig(-1, $_REQUEST['notification'] ? $_REQUEST['notification'] : array());
-        $this->showConfigMatrixObject();
-    }
-} // END class.ilObjFileGUI
+}

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -49,7 +65,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         $registry->register('./src/UI/templates/js/Core/ui.js');
     }
@@ -59,12 +75,12 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      *
      * This could be used to create and render subcomponents like close buttons, etc.
      */
-    final protected function getUIFactory() : Factory
+    final protected function getUIFactory(): Factory
     {
         return $this->ui_factory;
     }
 
-    final protected function getRefinery() : \ILIAS\Refinery\Factory
+    final protected function getRefinery(): \ILIAS\Refinery\Factory
     {
         return $this->refinery;
     }
@@ -72,7 +88,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * Get a text from the language file.
      */
-    final public function txt(string $id) : string
+    final public function txt(string $id): string
     {
         return $this->lng->txt($id);
     }
@@ -81,7 +97,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      * Add language var to client side (il.Language)
      * @param mixed $key
      */
-    final public function toJS($key) : void
+    final public function toJS($key): void
     {
         $this->lng->toJS($key);
     }
@@ -89,12 +105,12 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * Get current language key
      */
-    public function getLangKey() : string
+    public function getLangKey(): string
     {
         return $this->lng->getLangKey();
     }
 
-    final protected function getJavascriptBinding() : JavaScriptBinding
+    final protected function getJavascriptBinding(): JavaScriptBinding
     {
         return $this->js_binding;
     }
@@ -107,7 +123,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      *
      * @throws	InvalidArgumentException	if there is no such template
      */
-    final protected function getTemplate(string $name, bool $purge_unfilled_vars, bool $purge_unused_blocks) : Template
+    final protected function getTemplate(string $name, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template
     {
         $path = $this->getTemplatePath($name);
         return $this->tpl_factory->getTemplate($path, $purge_unfilled_vars, $purge_unused_blocks);
@@ -116,7 +132,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * Get the path to the template of this component.
      */
-    protected function getTemplatePath(string $name) : string
+    protected function getTemplatePath(string $name): string
     {
         $component = $this->getMyComponent();
         return "src/UI/templates/default/$component/$name";
@@ -128,7 +144,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      * ATTENTION: If this returns an id, the returned id has to be included as id-attribute
      * into the HTML of your component.
      */
-    final protected function bindJavaScript(JavaScriptBindable $component) : ?string
+    final protected function bindJavaScript(JavaScriptBindable $component): ?string
     {
         if ($component instanceof Triggerer) {
             $component = $this->addTriggererOnLoadCode($component);
@@ -148,7 +164,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      * there is no javascript involved (e.g. to connect a label with an option),
      * this is where this method could come in handy.
      */
-    final protected function createId() : string
+    final protected function createId(): string
     {
         return $this->js_binding->createId();
     }
@@ -156,7 +172,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * Bind the JavaScript onload-code.
      */
-    private function bindOnloadCode(JavaScriptBindable $component) : ?string
+    private function bindOnloadCode(JavaScriptBindable $component): ?string
     {
         $binder = $component->getOnLoadCode();
         if ($binder === null) {
@@ -178,13 +194,13 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
     /**
      * Add onload-code for triggerer.
      */
-    private function addTriggererOnLoadCode(Triggerer $triggerer) : JavaScriptBindable
+    private function addTriggererOnLoadCode(Triggerer $triggerer): JavaScriptBindable
     {
         $triggered_signals = $triggerer->getTriggeredSignals();
         if (count($triggered_signals) == 0) {
             return $triggerer;
         }
-        return $triggerer->withAdditionalOnLoadCode(function ($id) use ($triggered_signals) {
+        return $triggerer->withAdditionalOnLoadCode(function ($id) use ($triggered_signals): string {
             $code = "";
             foreach ($triggered_signals as $triggered_signal) {
                 $signal = $triggered_signal->getSignal();
@@ -225,7 +241,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      *
      * @throws	LogicException		if component does not fit.
      */
-    final protected function checkComponent(Component $component) : void
+    final protected function checkComponent(Component $component): void
     {
         $interfaces = $this->getComponentInterfaceName();
         if (!is_array($interfaces)) {
@@ -252,7 +268,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      *
      * @return string[]
      */
-    abstract protected function getComponentInterfaceName() : array;
+    abstract protected function getComponentInterfaceName(): array;
 
     /**
      * @return mixed
@@ -275,7 +291,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
         return self::$component_storage[$class];
     }
 
-    public function getImagePathResolver() : ImagePathResolver
+    public function getImagePathResolver(): ImagePathResolver
     {
         return $this->image_path_resolver;
     }

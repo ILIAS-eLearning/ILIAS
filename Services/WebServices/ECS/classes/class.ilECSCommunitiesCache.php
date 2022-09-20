@@ -1,47 +1,41 @@
 <?php
-/**
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once './Services/WebServices/ECS/classes/class.ilECSCommunityCache.php';
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesWebServicesECS
 */
-
 class ilECSCommunitiesCache
 {
-    private static $instance = null;
+    private static ?\ilECSCommunitiesCache $instance = null;
 
-    private $communities = array();
+    private ilDBInterface $db;
+
+    private array $communities = array();
 
     /**
      * Singleton constructor
      */
     protected function __construct()
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
         $this->read();
     }
 
@@ -49,48 +43,39 @@ class ilECSCommunitiesCache
      * Singleton instance
      * @return ilECSCommunitiesCache
      */
-    public static function getInstance()
+    public static function getInstance(): ilECSCommunitiesCache
     {
-        if (isset(self::$instance)) {
-            return self::$instance;
-        }
-        return self::$instance = new ilECSCommunitiesCache();
+        return self::$instance ?? (self::$instance = new ilECSCommunitiesCache());
     }
 
     /**
      * Delete comunities by server id
-     * @param <type> $a_server_id
      */
-    public static function delete($a_server_id)
+    public function delete(int $a_server_id): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM ecs_community ' .
-            'WHERE sid = ' . $ilDB->quote($a_server_id, 'integer');
-        $ilDB->manipulate($query);
+            'WHERE sid = ' . $this->db->quote($a_server_id, 'integer');
+        $this->db->manipulate($query);
+        $this->read();
     }
-    
+
     /**
      * Get communities
-     * @return array ilECSCommunityCache
+     * @return ilECSCommunityCache[]
      */
-    public function getCommunities()
+    public function getCommunities(): array
     {
-        return (array) $this->communities;
+        return $this->communities;
     }
 
     /**
      * Lookup own mid of the community of a mid
      */
-    public function lookupOwnId($a_server_id, $a_mid)
+    public function lookupOwnId(int $a_server_id, int $a_mid): int
     {
         foreach ($this->getCommunities() as $com) {
-            if ($com->getServerId() == $a_server_id) {
-                if (in_array($a_mid, $com->getMids())) {
-                    return $com->getOwnId();
-                }
+            if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
+                return $com->getOwnId();
             }
         }
         return 0;
@@ -101,13 +86,11 @@ class ilECSCommunitiesCache
      * @param int server_id
      * @param int mid
      */
-    public function lookupTitle($a_server_id, $a_mid)
+    public function lookupTitle(int $a_server_id, int $a_mid): string
     {
         foreach ($this->getCommunities() as $com) {
-            if ($com->getServerId() == $a_server_id) {
-                if (in_array($a_mid, $com->getMids())) {
-                    return $com->getCommunityName();
-                }
+            if (($com->getServerId() === $a_server_id) && in_array($a_mid, $com->getMids(), true)) {
+                return $com->getCommunityName();
             }
         }
         return '';
@@ -116,17 +99,12 @@ class ilECSCommunitiesCache
     /**
      * Read comunities
      */
-    private function read()
+    private function read(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT sid,cid FROM ecs_community ';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->communities[] = ilECSCommunityCache::getInstance($row->sid, $row->cid);
+            $this->communities[] = ilECSCommunityCache::getInstance((int) $row->sid, (int) $row->cid);
         }
-        return true;
     }
 }

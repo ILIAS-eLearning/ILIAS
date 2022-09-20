@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -38,14 +39,14 @@ class ilQuestionInternalLinkSelectionTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('ASC');
 
         $this->addCommandButton('cancelExplorer', $this->lng->txt('cancel'));
-        
+
         $this->initColumns();
     }
 
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');

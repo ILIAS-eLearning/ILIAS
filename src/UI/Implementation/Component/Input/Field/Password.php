@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -45,7 +61,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return is_string($value);
     }
@@ -53,7 +69,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1);
     }
@@ -67,7 +83,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         bool $upper = true,
         bool $numbers = true,
         bool $special = true
-    ) : C\Input\Field\Input {
+    ): C\Input\Field\Input {
         $pw_validation = $this->refinery->password();
         $constraints = [
             $this->refinery->string()->hasMinLength($min_length),
@@ -86,13 +102,14 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
             $constraints[] = $pw_validation->hasSpecialChars();
         }
 
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
     }
 
     /**
      * Get a Password like this with the revelation-option enabled (or disabled).
      */
-    public function withRevelation(bool $revelation) : Password
+    public function withRevelation(bool $revelation): Password
     {
         $clone = clone $this;
         $clone->revelation = $revelation;
@@ -102,7 +119,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Get the status of the revelation-option.
      */
-    public function getRevelation() : ?bool
+    public function getRevelation(): ?bool
     {
         return $this->revelation;
     }
@@ -110,7 +127,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Set the signals for this component.
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->signal_reveal = $this->signal_generator->create();
         $this->signal_mask = $this->signal_generator->create();
@@ -119,7 +136,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Reset all Signals.
      */
-    public function withResetSignals() : Triggerable
+    public function withResetSignals(): Triggerable
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -129,7 +146,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Get the signal for unmasking the input.
      */
-    public function getRevealSignal() : Signal
+    public function getRevealSignal(): Signal
     {
         return $this->signal_reveal;
     }
@@ -137,7 +154,7 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * Get the signal for masking the input.
      */
-    public function getMaskSignal() : Signal
+    public function getMaskSignal(): Signal
     {
         return $this->signal_mask;
     }
@@ -145,13 +162,11 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val().replace(/./g, '*'));";
-        };
     }
 }

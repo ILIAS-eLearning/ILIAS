@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup;
 
@@ -11,7 +27,7 @@ class ConfigCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -22,7 +38,7 @@ class ConfigCollectionTest extends TestCase
         $this->assertInstanceOf(Setup\Config::class, $c);
     }
 
-    public function testGetConfig() : void
+    public function testGetConfig(): void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -35,7 +51,7 @@ class ConfigCollectionTest extends TestCase
         $this->assertEquals($c3, $c->getConfig("c3"));
     }
 
-    public function testGetKeys() : void
+    public function testGetKeys(): void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -46,7 +62,7 @@ class ConfigCollectionTest extends TestCase
         $this->assertEquals(["c1", "c2", "c3"], $c->getKeys());
     }
 
-    public function testMaybeGetConfig() : void
+    public function testMaybeGetConfig(): void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
@@ -42,7 +60,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -50,7 +68,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getContent() : array
+    public function getContent(): array
     {
         return $this->content;
     }
@@ -58,7 +76,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getActionButtons() : array
+    public function getActionButtons(): array
     {
         return $this->action_buttons;
     }
@@ -66,7 +84,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function withActionButtons(array $buttons) : M\RoundTrip
+    public function withActionButtons(array $buttons): M\RoundTrip
     {
         $types = array(Button\Button::class);
         $this->checkArgListElements('buttons', $buttons, $types);
@@ -78,12 +96,12 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel() : string
+    public function getCancelButtonLabel(): string
     {
         return $this->cancel_button_label;
     }
 
-    public function withCancelButtonLabel(string $label) : M\RoundTrip
+    public function withCancelButtonLabel(string $label): M\RoundTrip
     {
         $clone = clone $this;
         $clone->cancel_button_label = $label;
@@ -93,7 +111,7 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * @inheritdoc
      */
-    public function getReplaceSignal() : ReplaceSignal
+    public function getReplaceSignal(): ReplaceSignal
     {
         return $this->replace_signal;
     }
@@ -101,17 +119,18 @@ class RoundTrip extends Modal implements M\RoundTrip
     /**
      * Set the show/close/replace signals for this modal
      */
-    public function initSignals() : void
+    public function initSignals(): void
     {
         parent::initSignals();
         //signal generator from parent class
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $this->replace_signal = $this->signal_generator->create(ReplaceSignal::class);
     }
 
     /**
      * @inheritdoc
      */
-    public function withContent(array $content) : M\RoundTrip
+    public function withContent(array $content): M\RoundTrip
     {
         $clone = clone $this;
         $clone->content = $content;

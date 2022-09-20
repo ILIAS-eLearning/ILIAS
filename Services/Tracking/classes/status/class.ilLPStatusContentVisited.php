@@ -1,12 +1,10 @@
 <?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-require_once 'Services/Tracking/classes/class.ilLPStatus.php';
-require_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-
 /**
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  * @package ServicesTracking
  */
 class ilLPStatusContentVisited extends ilLPStatus
@@ -14,7 +12,7 @@ class ilLPStatusContentVisited extends ilLPStatus
     /**
      * @inheritdoc
      */
-    public static function _getCompleted($a_obj_id)
+    public static function _getCompleted(int $a_obj_id): array
     {
         $userIds = [];
 
@@ -29,8 +27,11 @@ class ilLPStatusContentVisited extends ilLPStatus
     /**
      * @inheritdoc
      */
-    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ): int {
         /**
          * @var $ilObjDataCache ilObjectDataCache
          */
@@ -40,10 +41,11 @@ class ilLPStatusContentVisited extends ilLPStatus
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
-        switch ($ilObjDataCache->lookupType($a_obj_id)) {
+        switch ($this->ilObjDataCache->lookupType($a_obj_id)) {
             case 'file':
             case 'copa':
-                if (\ilChangeEvent::hasAccessed($a_obj_id, $a_user_id)) {
+            case 'htlm':
+                if (\ilChangeEvent::hasAccessed($a_obj_id, $a_usr_id)) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
                 break;

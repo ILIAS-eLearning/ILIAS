@@ -4,6 +4,19 @@ namespace ILIAS\HTTP\Cookies;
 
 use Psr\Http\Message\ResponseInterface;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface CookieJarFactory
  *
@@ -16,23 +29,18 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface CookieJarFactory
 {
-
     /**
      * Create CookieJar from a collection of Cookie header value strings.
      *
      * @param string[] $cookieStrings
-     *
-     * @return CookieJar
      */
-    public function fromCookieStrings(array $cookieStrings) : CookieJar;
+    public function fromCookieStrings(array $cookieStrings): CookieJar;
 
 
     /**
      * Create CookieJar from a Response.
      *
-     * @param ResponseInterface $response
      *
-     * @return CookieJar
      */
-    public function fromResponse(ResponseInterface $response) : CookieJar;
+    public function fromResponse(ResponseInterface $response): CookieJar;
 }

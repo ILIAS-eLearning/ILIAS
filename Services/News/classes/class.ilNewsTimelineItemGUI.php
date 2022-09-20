@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\News\StandardGUIRequest;
 
@@ -29,13 +32,13 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     protected int $news_item_ref_id;
     protected int $ref_id;
     protected ilCtrl $ctrl;
-    protected \ilLikeGUI $like_gui;
+    protected ilLikeGUI $like_gui;
     protected StandardGUIRequest $std_request;
 
     protected function __construct(
         ilNewsItem $a_news_item,
         int $a_news_ref_id,
-        \ilLikeGUI $a_like_gui
+        ilLikeGUI $a_like_gui
     ) {
         global $DIC;
 
@@ -57,17 +60,17 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     public static function getInstance(
         ilNewsItem $a_news_item,
         int $a_news_ref_id,
-        \ilLikeGUI $a_like_gui
-    ) : self {
+        ilLikeGUI $a_like_gui
+    ): self {
         return new self($a_news_item, $a_news_ref_id, $a_like_gui);
     }
 
-    public function setNewsItem(ilNewsItem $a_val) : void
+    public function setNewsItem(ilNewsItem $a_val): void
     {
         $this->news_item = $a_val;
     }
 
-    public function getNewsItem() : ilNewsItem
+    public function getNewsItem(): ilNewsItem
     {
         return $this->news_item;
     }
@@ -75,7 +78,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     /**
      * Set user can edit other users postings
      */
-    public function setUserEditAll(bool $a_val) : void
+    public function setUserEditAll(bool $a_val): void
     {
         $this->user_edit_all = $a_val;
     }
@@ -83,18 +86,18 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
     /**
      * Get user can edit other users postings
      */
-    public function getUserEditAll() : bool
+    public function getUserEditAll(): bool
     {
         return $this->user_edit_all;
     }
 
-    public function getDateTime() : ilDateTime
+    public function getDateTime(): ilDateTime
     {
         $i = $this->getNewsItem();
         return new ilDateTime($i->getCreationDate(), IL_CAL_DATETIME);
     }
 
-    public function render() : string
+    public function render(): string
     {
         $i = $this->getNewsItem();
         $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
@@ -106,11 +109,11 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $obj_id = $i->getContextObjId();
 
         // edited?
-        if ($i->getCreationDate() != $i->getUpdateDate()) {
+        if ($i->getCreationDate() !== $i->getUpdateDate()) {
             $tpl->setCurrentBlock("edited");
             $update_date = new ilDateTime($i->getUpdateDate(), IL_CAL_DATETIME);
             $tpl->setVariable("TXT_EDITED", $this->lng->txt("cont_news_edited"));
-            if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() != $i->getUserId())) {
+            if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() !== $i->getUserId())) {
                 $tpl->setVariable("TXT_USR_EDITED", ilUserUtil::getNamePresentation(
                     $i->getUpdateUserId(),
                     false,
@@ -123,7 +126,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         }
 
         // context object link
-        if ($this->news_item_ref_id > 0 && $this->ref_id != $this->news_item_ref_id) {
+        if ($this->news_item_ref_id > 0 && $this->ref_id !== $this->news_item_ref_id) {
             $tpl->setCurrentBlock("object");
             $tpl->setVariable("OBJ_TITLE", ilObject::_lookupTitle($obj_id));
             $tpl->setVariable("OBJ_IMG", ilObject::_getIcon($obj_id));
@@ -161,13 +164,10 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle("");
         $list->setId("news_tl_act_" . $i->getId());
-        //$list->setSelectionHeaderClass("small");
-        //$list->setItemLinkClass("xsmall");
-        //$list->setLinksMode("il_ContainerItemCommand2");
         $list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $list->setUseImages(false);
 
-        if ($i->getPriority() == 1 && ($i->getUserId() == $this->user->getId() || $this->getUserEditAll())) {
+        if ($i->getPriority() === 1 && ($i->getUserId() === $this->user->getId() || $this->getUserEditAll())) {
             $list->addItem(
                 $this->lng->txt("edit"),
                 "",
@@ -199,7 +199,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    protected function renderMedia(ilNewsItem $i) : string
+    protected function renderMedia(ilNewsItem $i): string
     {
         global $DIC;
 
@@ -209,7 +209,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $ui_factory = $DIC->ui()->factory();
         $ui_renderer = $DIC->ui()->renderer();
 
-        if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+        if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
             $item_id = "il-news-modal-img-" . $i->getId();
             $title = basename($media_path);
             $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
@@ -219,10 +219,12 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $img_tpl->setVariable("IMAGE", $image);
 
             $html = $img_tpl->get();
-        } elseif (in_array($mime, array("audio/mpeg", "audio/ogg", "video/mp4", "video/x-flv", "video/webm"))) {
-            $mp = new ilMediaPlayerGUI();
-            $mp->setFile($media_path);
-            $html = $mp->getMediaPlayerHtml();
+        } elseif (in_array($mime, ["video/mp4"])) {
+            $video = $ui_factory->player()->video($media_path);
+            $html = $ui_renderer->render($video);
+        } elseif (in_array($mime, ["audio/mpeg"])) {
+            $audio = $ui_factory->player()->audio($media_path);
+            $html = $ui_renderer->render($audio);
         } else {
             // download?
             $html = "";
@@ -230,7 +232,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html;
     }
 
-    protected function renderMediaModal(ilNewsItem $i) : string
+    protected function renderMediaModal(ilNewsItem $i): string
     {
         global $DIC;
 
@@ -242,7 +244,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
 
         $modal_html = "";
 
-        if (in_array($mime, array("image/jpeg", "image/svg+xml", "image/gif", "image/png"))) {
+        if (in_array($mime, ["image/jpeg", "image/svg+xml", "image/gif", "image/png"])) {
             $title = basename($media_path);
             $item_id = "il-news-modal-img-" . $i->getId();
             $image = $ui_renderer->render($ui_factory->image()->responsive($media_path, $title));
@@ -256,7 +258,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $modal_html;
     }
 
-    public function renderFooter() : string
+    public function renderFooter(): string
     {
         $i = $this->getNewsItem();
 
@@ -266,7 +268,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $i->getContextObjId(),
             $i->getContextObjType(),
             $i->getContextSubObjId(),
-            $i->getContextSubObjType(),
+            (string) $i->getContextSubObjType(),
             $i->getId()
         );
         $html = $this->ctrl->getHTML($this->like_gui);
@@ -283,8 +285,8 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $i->getId()
         );
         $note_gui->setDefaultCommand("getWidget");
-
-        //ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
+        $note_gui->setShowEmptyListMessage(false);
+        $note_gui->setShowHeader(false);
         $html .= $this->ctrl->getHTML($note_gui);
 
         $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
@@ -292,13 +294,13 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html . $this->renderMediaModal($i);
     }
 
-    protected function getMediaPath(ilNewsItem $i) : string
+    protected function getMediaPath(ilNewsItem $i): string
     {
         $media_path = "";
         if ($i->getMobId() > 0) {
             $mob = new ilObjMediaObject($i->getMobId());
             $med = $mob->getMediaItem("Standard");
-            if (strcasecmp("Reference", $med->getLocationType()) == 0) {
+            if (strcasecmp("Reference", $med->getLocationType()) === 0) {
                 $media_path = $med->getLocation();
             } else {
                 $media_path = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();

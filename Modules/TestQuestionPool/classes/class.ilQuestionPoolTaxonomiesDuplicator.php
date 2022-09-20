@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
@@ -15,11 +16,11 @@ require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolDuplicatedTax
 class ilQuestionPoolTaxonomiesDuplicator
 {
     private $sourceObjId = null;
-    
+
     private $sourceObjType = null;
 
     private $targetObjId = null;
-    
+
     private $targetObjType = null;
 
     /**
@@ -37,7 +38,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         $this->duplicatedTaxonomiesKeysMap = new ilQuestionPoolDuplicatedTaxonomiesKeysMap();
     }
 
-    public function setSourceObjId($sourceObjId)
+    public function setSourceObjId($sourceObjId): void
     {
         $this->sourceObjId = $sourceObjId;
     }
@@ -52,7 +53,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         return $this->sourceObjType;
     }
 
-    public function setSourceObjType($sourceObjType)
+    public function setSourceObjType($sourceObjType): void
     {
         $this->sourceObjType = $sourceObjType;
     }
@@ -62,7 +63,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         return $this->targetObjId;
     }
 
-    public function setTargetObjId($targetObjId)
+    public function setTargetObjId($targetObjId): void
     {
         $this->targetObjId = $targetObjId;
     }
@@ -72,12 +73,12 @@ class ilQuestionPoolTaxonomiesDuplicator
         return $this->targetObjType;
     }
 
-    public function setTargetObjType($targetObjType)
+    public function setTargetObjType($targetObjType): void
     {
         $this->targetObjType = $targetObjType;
     }
 
-    public function setQuestionIdMapping($questionIdMapping)
+    public function setQuestionIdMapping($questionIdMapping): void
     {
         $this->questionIdMapping = $questionIdMapping;
     }
@@ -87,7 +88,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         return $this->questionIdMapping;
     }
 
-    public function duplicate($poolTaxonomyIds)
+    public function duplicate($poolTaxonomyIds): void
     {
         foreach ($poolTaxonomyIds as $poolTaxId) {
             $this->duplicateTaxonomyFromPoolToTest($poolTaxId);
@@ -99,13 +100,13 @@ class ilQuestionPoolTaxonomiesDuplicator
         }
     }
 
-    private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId)
+    private function duplicateTaxonomyFromPoolToTest($poolTaxonomyId): void
     {
         $testTaxonomy = new ilObjTaxonomy();
         $testTaxonomy->create();
 
         $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->doCloneObject($testTaxonomy, null, null);
+        $poolTaxonomy->doCloneObject($testTaxonomy, null, null); // TODO this is no longer possible
 
         $poolTaxonomy->getTree()->readRootId();
         $testTaxonomy->getTree()->readRootId();
@@ -117,7 +118,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         $this->duplicatedTaxonomiesKeysMap->addDuplicatedTaxonomy($poolTaxonomy, $testTaxonomy);
     }
 
-    private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId)
+    private function transferAssignmentsFromOriginalToDuplicatedTaxonomy($originalTaxonomyId, $mappedTaxonomyId): void
     {
         $originalTaxAssignment = new ilTaxNodeAssignment($this->getSourceObjType(), $this->getSourceObjId(), 'quest', $originalTaxonomyId);
 
@@ -137,12 +138,12 @@ class ilQuestionPoolTaxonomiesDuplicator
     /**
      * @return ilQuestionPoolDuplicatedTaxonomiesKeysMap
      */
-    public function getDuplicatedTaxonomiesKeysMap()
+    public function getDuplicatedTaxonomiesKeysMap(): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         return $this->duplicatedTaxonomiesKeysMap;
     }
-    
-    public function getAllTaxonomiesForSourceObject()
+
+    public function getAllTaxonomiesForSourceObject(): array
     {
         return ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
     }

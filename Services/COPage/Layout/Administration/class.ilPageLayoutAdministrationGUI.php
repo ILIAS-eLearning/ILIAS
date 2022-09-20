@@ -3,17 +3,21 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\Layout\AdministrationGUIRequest;
+use ILIAS\DI\UIServices;
 
 /**
  * Administration for page layouts
@@ -57,7 +61,7 @@ class ilPageLayoutAdministrationGUI
         $this->ref_id = $this->admin_request->getRefId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listLayouts");
@@ -89,12 +93,14 @@ class ilPageLayoutAdministrationGUI
                 $layout_gui->setEditPreview(true);
                 $this->ctrl->saveParameter($this, "obj_id");
                 $ret = $this->ctrl->forwardCommand($layout_gui);
-                $this->tpl->setContent($ret);
+                if ($ret != "") {
+                    $this->tpl->setContent($ret);
+                }
                 break;
 
             default:
                 if (in_array($cmd, array("listLayouts", "editPg", "addPageLayout", "cancelCreate", "createPg", "exportLayout",
-                    "savePageLayoutTypes", "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
+                    "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
                     "confirmedDeletePg", "importPageLayout"))) {
                     $this->$cmd();
                 } else {
@@ -110,7 +116,7 @@ class ilPageLayoutAdministrationGUI
     public function checkPermission(
         string $a_perm,
         bool $a_throw_exc = true
-    ) : bool {
+    ): bool {
         if (!$this->rbacsystem->checkAccess($a_perm, $this->ref_id)) {
             if ($a_throw_exc) {
                 throw new ilObjectException($this->lng->txt("permission_denied"));
@@ -120,7 +126,7 @@ class ilPageLayoutAdministrationGUI
         return true;
     }
 
-    public function listLayouts() : void
+    public function listLayouts(): void
     {
         // show toolbar, if write permission is given
         if ($this->checkPermission("sty_write_page_layout", false)) {
@@ -143,12 +149,12 @@ class ilPageLayoutAdministrationGUI
 
     public function activate(
         bool $a_activate = true
-    ) : void {
+    ): void {
         $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
         } else {
-            ilUtil::sendSuccess($this->lng->txt("sty_opt_saved"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("sty_opt_saved"), true);
             foreach ($ids as $item) {
                 $pg_layout = new ilPageLayout($item);
                 $pg_layout->activate($a_activate);
@@ -157,7 +163,7 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirect($this, "listLayouts");
     }
 
-    public function deactivate() : void
+    public function deactivate(): void
     {
         $this->activate(false);
     }
@@ -165,11 +171,11 @@ class ilPageLayoutAdministrationGUI
     /**
      * display deletion confirmation screen
      */
-    public function deletePgl() : void
+    public function deletePgl(): void
     {
         $ids = $this->admin_request->getLayoutIds();
         if (count($ids) == 0) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listLayouts");
         }
 
@@ -186,8 +192,7 @@ class ilPageLayoutAdministrationGUI
             $pg_obj = new ilPageLayout($id);
             $pg_obj->readObject();
 
-            $caption = ilUtil::getImageTagByType("stys", $this->tpl->tplPath) .
-                " " . $pg_obj->getTitle();
+            $caption = $pg_obj->getTitle();
 
             $cgui->addItem("pglayout[]", $id, $caption);
         }
@@ -198,16 +203,16 @@ class ilPageLayoutAdministrationGUI
     /**
      * cancel deletion of Page Layout
      */
-    public function cancelDeletePg() : void
+    public function cancelDeletePg(): void
     {
-        ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "listLayouts");
     }
 
     /**
      * conform deletion of Page Layout
      */
-    public function confirmedDeletePg() : void
+    public function confirmedDeletePg(): void
     {
         $ids = $this->admin_request->getLayoutIds();
         foreach ($ids as $id) {
@@ -218,7 +223,7 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirect($this, "listLayouts");
     }
 
-    public function addPageLayout(ilPropertyFormGUI $a_form = null) : void
+    public function addPageLayout(ilPropertyFormGUI $a_form = null): void
     {
         if (!$a_form) {
             $a_form = $this->initAddPageLayoutForm();
@@ -226,7 +231,7 @@ class ilPageLayoutAdministrationGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function initAddPageLayoutForm() : ilPropertyFormGUI
+    public function initAddPageLayoutForm(): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule("content");
 
@@ -246,13 +251,6 @@ class ilPageLayoutAdministrationGUI
         $desc_input->setRows(3);
         $desc_input->setCols(37);
 
-        // special page?
-        $options = array(
-            "0" => $this->lng->txt("cont_layout_template"),
-            "1" => $this->lng->txt("cont_special_page"),
-        );
-        $si = new ilSelectInputGUI($this->lng->txt("type"), "special_page");
-        $si->setOptions($options);
 
         // modules
         $mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
@@ -289,7 +287,6 @@ class ilPageLayoutAdministrationGUI
 
         $form_gui->addItem($title_input);
         $form_gui->addItem($desc_input);
-        $form_gui->addItem($si);
         $form_gui->addItem($mods);
         $form_gui->addItem($ttype_input);
 
@@ -301,7 +298,7 @@ class ilPageLayoutAdministrationGUI
     }
 
 
-    public function createPg() : void
+    public function createPg(): void
     {
         $form_gui = $this->initAddPageLayoutForm();
         if (!$form_gui->checkInput()) {
@@ -314,7 +311,6 @@ class ilPageLayoutAdministrationGUI
         $pg_object = new ilPageLayout();
         $pg_object->setTitle($form_gui->getInput('pgl_title'));
         $pg_object->setDescription($form_gui->getInput('pgl_desc'));
-        $pg_object->setSpecialPage($form_gui->getInput('special_page'));
         $pg_object->setModules($form_gui->getInput('module'));
         $pg_object->update();
 
@@ -336,12 +332,12 @@ class ilPageLayoutAdministrationGUI
         $this->ctrl->redirectByClass("ilpagelayoutgui", "edit");
     }
 
-    public function cancelCreate() : void
+    public function cancelCreate(): void
     {
         $this->listLayouts();
     }
 
-    public function editPg() : void
+    public function editPg(): void
     {
         $this->checkPermission("sty_write_page_layout");
 
@@ -350,55 +346,27 @@ class ilPageLayoutAdministrationGUI
         $this->executeCommand();
     }
 
-    /**
-     * Save page layout types
-     */
-    public function savePageLayoutTypes() : void
-    {
-        $types = $this->admin_request->getLayoutTypes();
-        $modules = $this->admin_request->getLayoutModules();
-        if (count($types) > 0) {
-            foreach ($types as $id => $t) {
-                if ($id > 0) {
-                    $l = new ilPageLayout($id);
-                    $l->readObject();
-                    $l->setSpecialPage($t);
-                    if (isset($modules[$id])) {
-                        $l->setModules(array_keys($modules[$id]));
-                    } else {
-                        $l->setModules();
-                    }
-                    $l->update();
-                }
-            }
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
-        }
-
-        $this->ctrl->redirect($this, "listLayouts");
-    }
-
 
     /**
      * Export page layout template object
      */
-    public function exportLayout() : void
+    public function exportLayout(): void
     {
         $exp = new ilExport();
 
-        $tmpdir = ilUtil::ilTempnam();
-        ilUtil::makeDir($tmpdir);
-
+        $tmpdir = ilFileUtils::ilTempnam();
+        ilFileUtils::makeDir($tmpdir);
         $succ = $exp->exportEntity(
             "pgtp",
-            $this->admin_request->getLayoutId(),
+            $this->admin_request->getObjId(),
             "4.2.0",
             "Services/COPage",
             "Title",
             $tmpdir
         );
 
-        if ($succ["success"]) {
-            ilUtil::deliverFile(
+        if (is_file($succ["directory"] . "/" . $succ["file"])) {
+            ilFileDelivery::deliverFileLegacy(
                 $succ["directory"] . "/" . $succ["file"],
                 $succ["file"],
                 "",
@@ -411,14 +379,14 @@ class ilPageLayoutAdministrationGUI
             unlink($succ["directory"] . "/" . $succ["file"]);
         }
         if (is_dir($succ["directory"])) {
-            unlink($succ["directory"]);
+            //unlink($succ["directory"]);
         }
     }
 
     /**
      * Import page layout
      */
-    public function importPageLayoutForm() : void
+    public function importPageLayoutForm(): void
     {
         $form = $this->initPageLayoutImportForm();
         $this->tpl->setContent($form->getHTML());
@@ -427,7 +395,7 @@ class ilPageLayoutAdministrationGUI
     /**
      * Init page layout import form.
      */
-    public function initPageLayoutImportForm() : ilPropertyFormGUI
+    public function initPageLayoutImportForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -449,12 +417,12 @@ class ilPageLayoutAdministrationGUI
     /**
      * Import page layout
      */
-    public function importPageLayout() : void
+    public function importPageLayout(): void
     {
         $form = $this->initPageLayoutImportForm();
         if ($form->checkInput()) {
             ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
-            ilUtil::sendSuccess($this->lng->txt("sty_imported_layout"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("sty_imported_layout"), true);
             $this->ctrl->redirect($this, "listLayouts");
         } else {
             $form->setValuesByPost();

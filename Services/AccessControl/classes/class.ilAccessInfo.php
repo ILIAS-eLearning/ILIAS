@@ -1,84 +1,62 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-define("IL_NO_PERMISSION", "no_permission");
-define("IL_MISSING_PRECONDITION", "missing_precondition");
-define("IL_NO_OBJECT_ACCESS", "no_object_access");
-define("IL_NO_PARENT_ACCESS", "no_parent_access");
-define("IL_DELETED", 'object_deleted');
-define("IL_STATUS_INFO", 'object_status');
-define("IL_STATUS_MESSAGE", IL_STATUS_INFO);
+declare(strict_types=1);
 /**
-* class ilAccessInfo
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * class ilAccessInfo
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesAccessControl
+ */
 class ilAccessInfo
 {
-    const IL_STATUS_INFO = 'object_status';
+    public const IL_NO_PERMISSION = 'no_permission';
+    public const IL_MISSING_PRECONDITION = "missing_precondition";
+    public const IL_NO_OBJECT_ACCESS = "no_object_access";
+    public const IL_NO_PARENT_ACCESS = "no_parent_access";
+    public const IL_DELETED = 'object_deleted';
+    public const IL_STATUS_INFO = 'object_status';
+    public const IL_STATUS_MESSAGE = self::IL_STATUS_INFO;
 
+    private array $info_items = [];
 
-    public function __construct()
+    public function clear(): void
     {
-        $this->info_items = array();
-    }
-
-    public function clear()
-    {
-        $this->info_items = array();
+        $this->info_items = [];
     }
 
     /**
-    * add an info item
-    */
-    public function addInfoItem($a_type, $a_text, $a_data = "")
+     * add an info item
+     */
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void
     {
         $this->info_items[] = array(
-                                    "type" => $a_type,
-                                    "text" => $a_text,
-                                    "data" => $a_data
-                                    );
+            "type" => $a_type,
+            "text" => $a_text,
+            "data" => $a_data
+        );
     }
 
     /**
-    * get all info items
-    */
-    public function getInfoItems()
+     * get all info items
+     */
+    public function getInfoItems(): array
     {
         return $this->info_items;
-    }
-    
-    public function setQueryData($a_result)
-    {
-        $this->query = array(
-                            "ref_id" => $a_result[1],
-                            "permission" => $a_result[2],
-                            "cmd" => $a_result[3],
-                            "user_id" => $a_result[4]
-                            );
-        $this->result = $a_result[0];
     }
 }

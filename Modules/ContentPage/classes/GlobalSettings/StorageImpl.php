@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\ContentPage\GlobalSettings;
 
@@ -21,7 +38,7 @@ class StorageImpl implements Storage
         $this->globalSettings = $globalSettings;
     }
 
-    public function getSettings() : Settings
+    public function getSettings(): Settings
     {
         $settings = new Settings();
 
@@ -34,7 +51,7 @@ class StorageImpl implements Storage
         return $settings;
     }
 
-    public function store(Settings $settings) : void
+    public function store(Settings $settings): void
     {
         $this->globalSettings->set(self::P_READING_TIME_STATUS, ((string) (int) $settings->isReadingTimeEnabled()));
     }

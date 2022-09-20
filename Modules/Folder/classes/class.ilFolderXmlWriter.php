@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,43 +31,43 @@ class ilFolderXmlWriter extends ilXmlWriter
         $this->add_header = $a_add_header;
         parent::__construct();
     }
-    
-    public function setObjId(int $a_obj_id) : void
+
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
-    
-    public function write() : void
+
+    public function write(): void
     {
         $this->init();
         if ($this->add_header) {
             $this->buildHeader();
         }
-        $this->xmlStartTag('Folder', array('Id' => $this->folder->getId()));
-        $this->xmlElement('Title', array(), $this->folder->getTitle());
-        $this->xmlElement('Description', array(), $this->folder->getDescription());
+        $this->xmlStartTag('Folder', ['Id' => $this->folder->getId()]);
+        $this->xmlElement('Title', [], $this->folder->getTitle());
+        $this->xmlElement('Description', [], $this->folder->getDescription());
         ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->obj_id);
         $this->xmlEndTag('Folder');
     }
-    
-    protected function buildHeader() : void
+
+    protected function buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_fold_4_5.dtd\">");
         $this->xmlSetGenCmt("Export of a ILIAS Folder");
         $this->xmlHeader();
     }
-    
-    protected function init() : void
+
+    protected function init(): void
     {
         $this->xmlClear();
-        
+
         if (!$this->obj_id) {
             throw new UnexpectedValueException('No obj_id given: ');
         }
         if (!$this->folder = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
             throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
         }
-        if ($this->folder->getType() != 'fold') {
+        if ($this->folder->getType() !== 'fold') {
             throw new UnexpectedValueException('Invalid obj_id given. Object is not of type folder');
         }
     }

@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arObjectCache
  * @version 2.0.7
@@ -7,14 +20,13 @@
  */
 class arObjectCache
 {
-
     protected static array $cache = array();
 
     /**
      * @param $class
      * @param $id
      */
-    public static function isCached($class, $id) : bool
+    public static function isCached($class, $id): bool
     {
         $instance = new $class();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
@@ -33,10 +45,7 @@ class arObjectCache
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
-    public static function store(ActiveRecord $object) : void
+    public static function store(ActiveRecord $object): void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             if ($object->getCache()->set($object->getCacheIdentifier(), $object, $object->getTTL())) {
@@ -48,7 +57,7 @@ class arObjectCache
         }
     }
 
-    public static function printStats() : void
+    public static function printStats(): void
     {
         foreach (self::$cache as $class => $objects) {
             echo $class;
@@ -63,7 +72,7 @@ class arObjectCache
      * @param $id
      * @throws arException
      */
-    public static function get($class, $id) : \ActiveRecord
+    public static function get($class, $id): \ActiveRecord
     {
         $instance = new $class();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
@@ -78,10 +87,7 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    /**
-     * @param ActiveRecord $object
-     */
-    public static function purge(ActiveRecord $object) : void
+    public static function purge(ActiveRecord $object): void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             $object->getCache()->delete($object->getCacheIdentifier());
@@ -92,7 +98,7 @@ class arObjectCache
     /**
      * @param $class_name
      */
-    public static function flush($class_name) : void
+    public static function flush($class_name): void
     {
         $instance = new $class_name();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {

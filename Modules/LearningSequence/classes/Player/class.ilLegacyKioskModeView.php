@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -10,7 +26,7 @@ use ILIAS\UI\Factory;
 
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
-    const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
+    public const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
 
     protected ilObject $object;
     protected ilLanguage $lng;
@@ -26,17 +42,17 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         $this->access = $access;
     }
 
-    protected function getObjectTitle() : string
+    protected function getObjectTitle(): string
     {
         return $this->object->getTitle();
     }
 
-    protected function setObject(\ilObject $object) : void
+    protected function setObject(\ilObject $object): void
     {
         $this->object = $object;
     }
 
-    protected function hasPermissionToAccessKioskMode() : bool
+    protected function hasPermissionToAccessKioskMode(): bool
     {
         return true;
     }
@@ -44,7 +60,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     /**
      * @inheritDoc
      */
-    public function buildInitialState(State $empty_state) : State
+    public function buildInitialState(State $empty_state): State
     {
         return $empty_state;
     }
@@ -52,7 +68,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     /**
      * @inheritDoc
      */
-    public function buildControls(State $state, ControlBuilder $builder) : ControlBuilder
+    public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
     {
         if (!$builder instanceof LSControlBuilder) {
             throw new LogicException("The Legacy Mode in the Learning Sequence requires an LSControlBuilder explicitely.", 1);
@@ -68,13 +84,11 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $url = \ilLink::_getStaticLink(
             $ref_id,
-            $type,
-            true,
-            false
+            $type
         );
 
+        $obj_id = $this->object->getId();
         if (in_array($type, self::GET_VIEW_CMD_FROM_LIST_GUI_FOR)) {
-            $obj_id = $this->object->getId();
             $item_list_gui = \ilObjectListGUIFactory::_getListGUIByType($type);
             $item_list_gui->initItem($ref_id, $obj_id, $type);
             $view_link = $item_list_gui->getCommandLink('view');
@@ -83,7 +97,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $url = $view_link;
         }
 
-        $builder->start($label, $url, 0);
+        $builder->start($label, $url, $obj_id);
 
         return $builder;
     }
@@ -91,7 +105,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     /**
      * @inheritDoc
      */
-    public function updateGet(State $state, string $command, int $parameter = null) : State
+    public function updateGet(State $state, string $command, int $parameter = null): State
     {
         return $state;
     }
@@ -99,7 +113,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     /**
      * @inheritDoc
      */
-    public function updatePost(State $state, string $command, array $post) : State
+    public function updatePost(State $state, string $command, array $post): State
     {
         return $state;
     }
@@ -112,7 +126,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         Factory $factory,
         URLBuilder $url_builder,
         array $post = null
-    ) : Component {
+    ): Component {
         $obj_type = $this->object->getType();
         $obj_type_txt = $this->lng->txt('obj_' . $obj_type);
         $icon = $factory->symbol()->icon()->standard($obj_type, $obj_type_txt, 'large');
@@ -122,19 +136,17 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             $this->getMetadata($this->object->getId(), $obj_type)
         );
 
-        $info = $factory->item()->standard($this->object->getTitle())
+        return $factory->item()->standard($this->object->getTitle())
             ->withLeadIcon($icon)
             ->withDescription($this->object->getDescription())
             ->withProperties($props);
-
-        return $info;
     }
 
     //TODO: enhance metadata
     /**
      * @return array<string, string>|[]
      */
-    private function getMetadata(int $obj_id, string $type) : array
+    private function getMetadata(int $obj_id, string $type): array
     {
         $md = new ilMD($obj_id, 0, $type);
         $meta_data = [];
@@ -155,14 +167,14 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $md_flat = [];
         foreach ($meta_data as $md_label => $values) {
-            if (count($values) > 0) {
+            if ($values !== []) {
                 $md_flat[$this->lng->txt($md_label)] = implode(', ', $values);
             }
         }
         return $md_flat;
     }
 
-    private function getTitleByType(string $type) : string
+    private function getTitleByType(string $type): string
     {
         return $this->lng->txt("obj_" . $type);
     }

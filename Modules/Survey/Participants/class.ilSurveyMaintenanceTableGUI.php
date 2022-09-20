@@ -1,25 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 {
-    protected $counter;
-    protected $confirmdelete;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $confirmdelete = false)
-    {
+    protected int $counter;
+    protected bool $confirmdelete;
+
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        bool $confirmdelete = false
+    ) {
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -31,7 +40,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
         $this->confirmdelete = $confirmdelete;
-        
+
         $this->setFormName('maintenanceform');
         $this->setStyle('table', 'fullwidth');
 
@@ -44,7 +53,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("workingtime"), 'workingtime', '');
         $this->addColumn($this->lng->txt("svy_status"), '', '');
         $this->addColumn($this->lng->txt("survey_results_finished"), 'finished', '');
-    
+
         $this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey/Participants");
 
         if ($confirmdelete) {
@@ -58,9 +67,9 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setShowRowsSelector(true);
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -73,50 +82,42 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function fillRow($data)
+    protected function fillRow(array $a_set): void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
-            if ($data["invited"]) {
-                $this->tpl->setVariable("CB_USER_ID", "inv" . $data['usr_id']);
+            if ($a_set["invited"]) {
+                $this->tpl->setVariable("CB_USER_ID", "inv" . $a_set['usr_id']);
             } else {
-                $this->tpl->setVariable("CB_USER_ID", $data['id']);
+                $this->tpl->setVariable("CB_USER_ID", $a_set['id']);
             }
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            if ($data["invited"]) {
-                $this->tpl->setVariable("HIDDEN_USER_ID", "inv" . $data['usr_id']);
+            if ($a_set["invited"]) {
+                $this->tpl->setVariable("HIDDEN_USER_ID", "inv" . $a_set['usr_id']);
             } else {
-                $this->tpl->setVariable("HIDDEN_USER_ID", $data['id']);
+                $this->tpl->setVariable("HIDDEN_USER_ID", $a_set['id']);
             }
-            $this->tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("USER_ID", $data["id"]);
-        $this->tpl->setVariable("VALUE_USER_NAME", $data['name']);
-        $this->tpl->setVariable("VALUE_USER_LOGIN", $data['login']);
-        $this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['last_access'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+        $this->tpl->parseCurrentBlock();
+        $this->tpl->setVariable("USER_ID", $a_set["id"]);
+        $this->tpl->setVariable("VALUE_USER_NAME", $a_set['name']);
+        $this->tpl->setVariable("VALUE_USER_LOGIN", $a_set['login']);
+        $this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($a_set['last_access'], IL_CAL_UNIX)));
+        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
 
         $state = $this->lng->txt("svy_status_in_progress");
-        if ($data['last_access'] == "" && $data["invited"]) {
+        if ($a_set['last_access'] == "" && $a_set["invited"]) {
             $state = $this->lng->txt("svy_status_invited");
         }
-        if ($data["finished"] !== false) {
+        if ($a_set["finished"] !== false) {
             $state = $this->lng->txt("svy_status_finished");
         }
         $this->tpl->setVariable("STATUS", $state);
-        
-        if ($data["finished"] !== null) {
-            if ($data["finished"] !== false) {
-                $finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+        $finished = "";
+        if ($a_set["finished"] !== null) {
+            if ($a_set["finished"] !== false) {
+                $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
             } else {
                 $finished = "-";
             }
@@ -125,24 +126,25 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
     }
-    
-    protected function formatTime($timeinseconds)
+
+    /**
+     * @param mixed $timeinseconds
+     * @return string
+     */
+    protected function formatTime($timeinseconds): string
     {
         if (is_null($timeinseconds)) {
             return " ";
-        } elseif ($timeinseconds == 0) {
-            return $this->lng->txt('not_available');
-        } else {
-            return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
         }
+
+        if ($timeinseconds == 0) {
+            return $this->lng->txt('not_available');
+        }
+
+        return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
     }
 
-    /**
-     * @access	public
-     * @param	string
-     * @return	boolean	numeric ordering
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'workingtime':

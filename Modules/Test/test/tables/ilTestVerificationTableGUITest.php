@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestVerificationTableGUITest
@@ -9,15 +25,14 @@
 class ilTestVerificationTableGUITest extends ilTestBaseTestCase
 {
     private ilTestVerificationTableGUI $tableGui;
-    private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
-        $ctrl_mock->expects($this->any())
+        $ctrl_mock
                   ->method("getFormAction")
                   ->willReturnCallback(function () {
                       return "testFormAction";
@@ -26,57 +41,60 @@ class ilTestVerificationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
-        $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
+        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
+        $this->setGlobalVariable("component.factory", $this->createMock(ilComponentFactory::class));
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilUser", $this->createMock(ilObjUser::class));
 
-        $this->setGlobalVariable("ilLoggerFactory", new class() extends ilLoggerFactory {
+        $this->setGlobalVariable("ilLoggerFactory", new class () extends ilLoggerFactory {
             public function __construct()
             {
             }
 
-            public static function getRootLogger()
+            public static function getRootLogger(): ilLogger
             {
-                return new class() extends ilLogger {
+                return new class () extends ilLogger {
                     public function __construct()
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, $a_level = ilLogLevel::INFO): void
                     {
                     }
 
-                    public function info($a_message)
+                    public function info(string $a_message): void
                     {
-                        return "testInfo";
+                    }
+
+                    public function debug(string $a_message, array $a_context = array()): void
+                    {
                     }
                 };
             }
 
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id): ilLogger
             {
-                return new class() extends ilLogger {
+                return new class () extends ilLogger {
                     public function __construct()
                     {
                     }
 
-                    public function write($m, $l = ilLogLevel::INFO)
+                    public function write(string $a_message, $a_level = ilLogLevel::INFO): void
+                    {
+                    }
+
+                    public function debug(string $a_message, array $a_context = array()): void
                     {
                     }
                 };
             }
         });
 
-        $this->markTestSkipped(
-            "Failing in GitHub, ilTestVerificationTableGUI wants ilObjTestVerificationGUI as first parameter"
-        );
-
-        $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);
-        $this->parentObj_mock->object = $this->createMock(ilObjTest::class);
-        $this->tableGui = new ilTestVerificationTableGUI($this->parentObj_mock, "");
+        $test_gui = $this->getMockBuilder(ilObjTestVerificationGUI::class)->disableOriginalConstructor()->getMock();
+        $this->tableGui = new ilTestVerificationTableGUI($test_gui);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestVerificationTableGUI::class, $this->tableGui);
     }

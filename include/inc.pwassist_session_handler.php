@@ -158,7 +158,7 @@ function db_pwassist_session_destroy($pwassist_id)
     $q = "DELETE FROM usr_pwassist " .
          "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
     $ilDB->manipulate($q);
-  
+
     return true;
 }
 
@@ -175,6 +175,6 @@ function db_pwassist_session_gc()
     $q = "DELETE FROM usr_pwassist " .
          "WHERE expires < " . $ilDB->quote(time(), "integer");
     $ilDB->manipulate($q);
-    
+
     return true;
 }

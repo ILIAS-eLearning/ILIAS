@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -37,7 +53,7 @@ class ilChatroomTabGUIFactory
      * when calling $this->buildTabs and $this->activateTab.
      * @param string $command
      */
-    public function getAdminTabsForCommand(string $command) : void
+    public function getAdminTabsForCommand(string $command): void
     {
         global $DIC;
 
@@ -153,7 +169,7 @@ class ilChatroomTabGUIFactory
      * @param string $value Value in lower camel case conversion
      * @return string The value in underscore case conversion
      */
-    private static function convertLowerCamelCaseToUnderscoreCaseConversion(string $value) : string
+    private static function convertLowerCamelCaseToUnderscoreCaseConversion(string $value): string
     {
         return strtolower(preg_replace('/(.*?)-(.*?)/', '$1_$2', $value));
     }
@@ -166,7 +182,7 @@ class ilChatroomTabGUIFactory
      * @param array $command
      * @param bool $inRoom
      */
-    private function buildTabs(ilTabsGUI $tabs, array $config, array $command, bool $inRoom = true) : void
+    private function buildTabs(ilTabsGUI $tabs, array $config, array $command, bool $inRoom = true): void
     {
         foreach ($config as $id => $tabDefinition) {
             if (!$inRoom && !$this->rbacSystem->checkAccess($tabDefinition['permission'], $this->gui->getRefId())) {
@@ -225,7 +241,7 @@ class ilChatroomTabGUIFactory
      * @param string $id
      * @return string
      */
-    private function getLabel(array $tabDefinition, string $id) : string
+    private function getLabel(array $tabDefinition, string $id): string
     {
         if (isset($tabDefinition['lng'])) {
             return $this->lng->txt($tabDefinition['lng']);
@@ -241,7 +257,7 @@ class ilChatroomTabGUIFactory
      * @param array $commandParts
      * @param array $config
      */
-    private function activateTab(array $commandParts, array $config) : void
+    private function activateTab(array $commandParts, array $config): void
     {
         global $DIC;
 
@@ -263,7 +279,7 @@ class ilChatroomTabGUIFactory
      * when calling $this->buildTabs and $this->activateTab.
      * @param string $command
      */
-    public function getTabsForCommand(string $command) : void
+    public function getTabsForCommand(string $command): void
     {
         global $DIC;
 
@@ -274,7 +290,7 @@ class ilChatroomTabGUIFactory
             return;
         }
 
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         $config = [
             'view' => [

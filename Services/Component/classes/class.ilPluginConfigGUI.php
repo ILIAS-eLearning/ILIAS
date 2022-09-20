@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -19,24 +20,14 @@
  */
 abstract class ilPluginConfigGUI
 {
-    protected $plugin_object = null;
-    
-    /**
-     * Set plugin object
-     *
-     * @param	object	plugin object
-     */
-    final public function setPluginObject($a_val)
+    protected ?ilPlugin $plugin_object = null;
+
+    final public function setPluginObject(ilPlugin $a_val): void
     {
         $this->plugin_object = $a_val;
     }
 
-    /**
-     * Get plugin object
-     *
-     * @return ilPlugin	 object
-     */
-    final public function getPluginObject()
+    final public function getPluginObject(): ?ilPlugin
     {
         return $this->plugin_object;
     }
@@ -47,26 +38,28 @@ abstract class ilPluginConfigGUI
      * @param
      * @return
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
         $ilTabs = $DIC->tabs();
         $lng = $DIC->language();
         $tpl = $DIC['tpl'];
+        $request_wrapper = $DIC->http()->wrapper()->query();
+        $string_trafo = $DIC["refinery"]->kindlyTo()->string();
 
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "plugin_id", $_GET["plugin_id"]);
-        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "pname", $_GET["pname"]);
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $request_wrapper->retrieve("ctype", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $request_wrapper->retrieve("cname", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $request_wrapper->retrieve("slot_id", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "plugin_id", $request_wrapper->retrieve("plugin_id", $string_trafo));
+        $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "pname", $request_wrapper->retrieve("pname", $string_trafo));
 
-        $tpl->setTitle($lng->txt("cmps_plugin") . ": " . $_GET["pname"]);
+        $tpl->setTitle($lng->txt("cmps_plugin") . ": " . $request_wrapper->retrieve("pname", $string_trafo));
         $tpl->setDescription("");
 
         $ilTabs->clearTargets();
-        
-        if ($_GET["plugin_id"]) {
+
+        if ($request_wrapper->retrieve("plugin_id", $string_trafo)) {
             $ilTabs->setBackTarget(
                 $lng->txt("cmps_plugin"),
                 $ilCtrl->getLinkTargetByClass("ilobjcomponentsettingsgui", "showPlugin")
@@ -81,5 +74,5 @@ abstract class ilPluginConfigGUI
         $this->performCommand($ilCtrl->getCmd("configure"));
     }
 
-    abstract public function performCommand($cmd);
+    abstract public function performCommand(string $cmd): void;
 }

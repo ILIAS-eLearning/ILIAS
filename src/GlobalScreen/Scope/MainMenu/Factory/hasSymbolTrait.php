@@ -1,6 +1,28 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
 
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+
+use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
+use LogicException;
 
 /**
  * Trait hasSymbolTrait
@@ -8,20 +30,17 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 trait hasSymbolTrait
 {
-    /**
-     * @var Symbol
-     */
-    protected $symbol;
+    protected ?Symbol $symbol = null;
 
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
-        if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
-            ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+        if (($symbol instanceof Glyph && $symbol->getAriaLabel() === "") ||
+            ($symbol instanceof Icon && $symbol->getLabel() === "")) {
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
         $clone = clone $this;
@@ -33,7 +52,7 @@ trait hasSymbolTrait
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -41,7 +60,7 @@ trait hasSymbolTrait
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return $this->symbol instanceof Symbol;
     }

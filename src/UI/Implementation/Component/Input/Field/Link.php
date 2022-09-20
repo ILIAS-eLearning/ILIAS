@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -33,12 +49,10 @@ class Link extends Group implements C\Input\Field\Link
         $this->addTransformation();
     }
 
-    protected function addValidation() : void
+    protected function addValidation(): void
     {
         $txt_id = 'label_cannot_be_empty_if_url_is_set';
-        $error = function (callable $txt, $value) use ($txt_id) {
-            return $txt($txt_id, $value);
-        };
+        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             list($label, $url) = $v;
             return (
@@ -56,11 +70,14 @@ class Link extends Group implements C\Input\Field\Link
     }
 
 
-    protected function addTransformation()
+    protected function addTransformation(): void
     {
-        $trafo = $this->refinery->custom()->transformation(function ($v) {
+        $trafo = $this->refinery->custom()->transformation(function ($v): ?\ILIAS\Data\Link {
             list($label, $url) = $v;
-            return $this->data_factory->link($label, $url);
+            if (is_null($url) || $url === "") {
+                return null;
+            }
+            return $this->data_factory->link($label ?? "", $url);
         });
 
         $this->setAdditionalTransformation($trafo);
@@ -69,7 +86,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }
@@ -77,7 +94,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }

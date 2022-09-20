@@ -1,12 +1,29 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeInstantiated() : void
+    public function testEntryCanBeInstantiated(): void
     {
         $timestamp = time();
 
@@ -20,12 +37,12 @@ class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
             20
         );
 
-        $this->assertEquals(20, $queueEntry->getId());
-        $this->assertEquals(10, $queueEntry->getObjId());
-        $this->assertEquals(500, $queueEntry->getUserId());
-        $this->assertEquals(1000, $queueEntry->getTemplateId());
-        $this->assertEquals('SomeClass', $queueEntry->getAdapterClass());
-        $this->assertEquals('SomeState', $queueEntry->getState());
-        $this->assertEquals($timestamp, $queueEntry->getStartedTimestamp());
+        $this->assertSame(20, $queueEntry->getId());
+        $this->assertSame(10, $queueEntry->getObjId());
+        $this->assertSame(500, $queueEntry->getUserId());
+        $this->assertSame(1000, $queueEntry->getTemplateId());
+        $this->assertSame('SomeClass', $queueEntry->getAdapterClass());
+        $this->assertSame('SomeState', $queueEntry->getState());
+        $this->assertSame($timestamp, $queueEntry->getStartedTimestamp());
     }
 }

@@ -1,26 +1,21 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Parent object for all SCORM objects, that are stored in table scorm_object
@@ -32,75 +27,71 @@
 */
 class ilSCORMObject
 {
-    public $id;
-    public $title;
-    public $type;
-    public $slm_id;
-
+    public int $id;
+    public string $title = "";
+    public ?string $type = null;
+    public int $slm_id;
 
     /**
     * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
-        global $DIC;
-        $ilias = $DIC['ilias'];
-
-        $this->ilias = $ilias;
         $this->id = $a_id;
         if ($a_id > 0) {
             $this->read();
         }
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setId($a_id)
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getType()
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType($a_type)
+    public function setType(?string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle($a_title)
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getSLMId()
+    public function getSLMId(): int
     {
         return $this->slm_id;
     }
 
-    public function setSLMId($a_slm_id)
+    public function setSLMId(int $a_slm_id): void
     {
         $this->slm_id = $a_slm_id;
     }
 
-    public function read()
+    /**
+     * @return void
+     */
+    public function read(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $obj_set = $ilDB->queryF(
             'SELECT * FROM scorm_object WHERE obj_id = %s',
             array('integer'),
@@ -109,17 +100,17 @@ class ilSCORMObject
         $obj_rec = $ilDB->fetchAssoc($obj_set);
         $this->setTitle($obj_rec["title"]);
         $this->setType($obj_rec["c_type"]);
-        $this->setSLMId($obj_rec["slm_id"]);
+        $this->setSLMId((int) $obj_rec["slm_id"]);
     }
-    
+
     /**
-    * Count number of presentable SCOs/Assets of SCORM learning module.
-    */
-    public static function _lookupPresentableItems($a_slm_id)
+     * Count number of presentable SCOs/Assets of SCORM learning module.
+     */
+    public static function _lookupPresentableItems(int $a_slm_id): array
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $set = $ilDB->queryF(
             "
 			SELECT sit.obj_id id 
@@ -134,22 +125,21 @@ class ilSCORMObject
         while ($rec = $ilDB->fetchAssoc($set)) {
             $items[] = $rec["id"];
         }
-        
+
         return $items;
     }
 
     /**
      * Create database record for SCORM object.
-     *
      */
-    public function create()
+    public function create(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-      
+        $ilDB = $DIC->database();
+
         $nextId = $ilDB->nextId('scorm_object');
         $this->setId($nextId);
-         
+
         $ilDB->manipulateF(
             '
         INSERT INTO scorm_object (obj_id,title, c_type, slm_id) 
@@ -161,13 +151,12 @@ class ilSCORMObject
 
     /**
      * Updates database record for SCORM object.
-     *
      */
-    public function update()
+    public function update(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         $ilDB->manipulateF(
             '
         UPDATE scorm_object 
@@ -180,10 +169,10 @@ class ilSCORMObject
         );
     }
 
-    public function delete()
+    public function delete(): void
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $ilDB->manipulateF(
             'DELETE FROM scorm_object WHERE obj_id = %s',
             array('integer'),
@@ -192,14 +181,12 @@ class ilSCORMObject
     }
 
     /**
-    * get instance of specialized GUI class
-    *
-    * static
-    */
-    public static function &_getInstance($a_id, $a_slm_id)
+     * @return ilSCORMItem|ilSCORMManifest|ilSCORMOrganization|ilSCORMOrganizations|ilSCORMResource|ilSCORMResources
+     */
+    public static function &_getInstance(int $a_id, int $a_slm_id)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $sc_set = $ilDB->queryF(
             '
@@ -210,43 +197,26 @@ class ilSCORMObject
             array($a_id, $a_slm_id)
         );
         $sc_rec = $ilDB->fetchAssoc($sc_set);
-            
+
         switch ($sc_rec["c_type"]) {
-            case "sit":					// item
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php");
-                $item = new ilSCORMItem($a_id);
+            case "sit":					$item = new ilSCORMItem($a_id);
                 return $item;
-                break;
 
-            case "sos":					// organizations
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizations.php");
-                $sos = new ilSCORMOrganizations($a_id);
+            case "sos":					$sos = new ilSCORMOrganizations($a_id);
                 return $sos;
-                break;
 
-            case "sor":					// organization
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganization.php");
-                $sor = new ilSCORMOrganization($a_id);
+            case "sor":					$sor = new ilSCORMOrganization($a_id);
                 return $sor;
-                break;
 
-            case "sma":					// manifest
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMManifest.php");
-                $sma = new ilSCORMManifest($a_id);
+            case "sma":					$sma = new ilSCORMManifest($a_id);
                 return $sma;
-                break;
 
-            case "srs":					// resources
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResources.php");
-                $srs = new ilSCORMResources($a_id);
+            case "srs":					$srs = new ilSCORMResources($a_id);
                 return $srs;
-                break;
 
-            case "sre":					// resource
-                include_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
-                $sre = new ilSCORMResource($a_id);
+            default:
+            case "sre":					$sre = new ilSCORMResource($a_id);
                 return $sre;
-                break;
         }
     }
 }

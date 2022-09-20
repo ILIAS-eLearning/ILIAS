@@ -1,36 +1,39 @@
 <?php
 /**
- * Class ilBiblOverviewModel
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilBiblOverviewModel
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInterface
 {
-    const TABLE_NAME = 'il_bibl_overview_model';
+    public const TABLE_NAME = 'il_bibl_overview_model';
 
-
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
 
-
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -39,100 +42,62 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $ovm_id;
+    protected ?int $ovm_id = 0;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
-    protected $file_type_id;
+    protected int $file_type_id;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     32
      */
-    protected $literature_type;
+    protected string $literature_type;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     512
      */
-    protected $pattern;
+    protected string $pattern;
 
-
-    /**
-     * @return mixed
-     */
-    public function getOvmId()
+    public function getOvmId(): ?int
     {
         return $this->ovm_id;
     }
 
-
-    /**
-     * @param mixed $ovm_id
-     */
-    public function setOvmId($ovm_id)
+    public function setOvmId(int $ovm_id): void
     {
         $this->ovm_id = $ovm_id;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getFileTypeId()
+    public function getFileTypeId(): int
     {
         return $this->file_type_id;
     }
 
-
-    /**
-     * @param mixed $file_type
-     */
-    public function setFileTypeId($file_type)
+    public function setFileTypeId(int $file_type): void
     {
         $this->file_type_id = $file_type;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getLiteratureType()
+    public function getLiteratureType(): string
     {
         return $this->literature_type;
     }
 
-
-    /**
-     * @param mixed $literature_type
-     */
-    public function setLiteratureType($literature_type)
+    public function setLiteratureType(string $literature_type): void
     {
         $this->literature_type = $literature_type;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
 
-
-    /**
-     * @param mixed $pattern
-     */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern): void
     {
         $this->pattern = $pattern;
     }

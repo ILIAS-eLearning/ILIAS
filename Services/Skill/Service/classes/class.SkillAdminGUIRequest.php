@@ -38,127 +38,163 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         parent::__construct($http, $refinery, $passed_query_params, $passed_post_data);
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getNodeId(): int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
-    public function getRootId() : int
+    public function getRootId(): int
     {
         return $this->int("root_id");
     }
 
-    public function getTrefId() : int
+    public function getTrefId(): int
     {
         return $this->int("tref_id");
     }
 
-    public function getCombinedSkillId() : string
+    public function getCombinedSkillId(): string
     {
         return $this->str("cskill_id");
     }
 
-    public function getTemplateMode() : bool
+    public function getTemplateMode(): bool
     {
         return $this->bool("tmpmode");
     }
 
-    public function getTemplatesTree() : bool
+    public function getTemplatesTree(): int
     {
-        return $this->bool("templates_tree");
+        return $this->int("templates_tree");
     }
 
-    public function getBackCommand() : string
+    public function getBackCommand(): string
     {
         return $this->str("backcmd");
     }
 
-    public function getSkillExpand() : string
+    public function getSkillExpand(): string
     {
         return $this->str("skexpand");
     }
 
-    public function getSkillProfileId() : int
+    public function getSkillProfileId(): int
     {
         return $this->int("sprof_id");
     }
 
-    public function getLocalContext() : bool
+    public function getLocalContext(): bool
     {
         return $this->bool("local_context");
     }
 
-    public function getOrder() : array
+    /**
+     * @return int[]
+     */
+    public function getOrder(): array
     {
         return $this->intArray("order");
     }
 
-    public function getLevelId() : int
+    public function getLevelId(): int
     {
         return $this->int("level_id");
     }
 
-    public function getLevelIds() : array
+    /**
+     * @return int[]
+     */
+    public function getLevelIds(): array
     {
         return $this->getIds();
     }
 
-    public function getAssignedLevelIds() : array
+    /**
+     * @return string[]
+     */
+    public function getAssignedLevelIds(): array
     {
         return $this->strArray("ass_id");
     }
 
-    public function getResourceIds() : array
+    /**
+     * @return int[]
+     */
+    public function getResourceIds(): array
     {
         return $this->getIds();
     }
 
-    public function getSuggested() : array
+    /**
+     * @return bool[]
+     */
+    public function getSuggested(): array
     {
         return $this->boolArray("suggested");
     }
 
-    public function getTrigger() : array
+    /**
+     * @return bool[]
+     */
+    public function getTrigger(): array
     {
         return $this->boolArray("trigger");
     }
 
-    public function getTitles() : array
+    /**
+     * @return string[]
+     */
+    public function getTitles(): array
     {
         return $this->strArray("title");
     }
 
-    public function getNodeIds() : array
+    /**
+     * @return int[]
+     */
+    public function getNodeIds(): array
     {
         return $this->getIds();
     }
 
-    public function getProfileIds() : array
+    /**
+     * @return int[]
+     */
+    public function getProfileIds(): array
     {
         return $this->getIds();
     }
 
-    public function getUserLogin() : string
+    public function getUserLogin(): string
     {
         return $this->str("user_login");
     }
 
-    public function getUsers() : array
+    /**
+     * @return int[]
+     */
+    public function getUsers(): array
     {
         return $this->intArray("user");
     }
 
-    public function getUserIds() : array
+    /**
+     * @return int[]
+     */
+    public function getUserIds(): array
     {
         return $this->getIds();
     }
 
-    public function getSelectedIds(string $post_var) : array
+    /**
+     * @return string[]
+     */
+    public function getSelectedIds(string $post_var): array
     {
         return $this->strArray($post_var);
     }

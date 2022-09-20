@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\DI\Container;
 
 /**
@@ -8,34 +24,15 @@ use ILIAS\DI\Container;
  */
 class ilFileVersionsTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var Container
-     */
-    private $dic;
-    /**
-     * @var int
-     */
-    private $max_version;
-    /**
-     * @var int
-     */
-    private $current_version;
-    /**
-     * @var ilObjFile
-     */
-    private $file;
-    /**
-     * @var bool
-     */
-    protected $has_been_migrated = false;
+    private Container $dic;
+    private int $current_version;
+    private \ilObjFile $file;
+    protected bool $has_been_migrated = false;
 
     /**
      * ilFileVersionsTableGUI constructor.
-     * @param ilFileVersionsGUI $calling_gui_class
-     * @param string            $a_parent_cmd
      */
-    public function __construct(ilFileVersionsGUI $calling_gui_class, $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT)
+    public function __construct(ilFileVersionsGUI $calling_gui_class, string $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT)
     {
         global $DIC;
         $this->dic = $DIC;
@@ -43,9 +40,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setId(self::class);
         parent::__construct($calling_gui_class, $a_parent_cmd, "");
         $this->file = $calling_gui_class->getFile();
-        $this->current_version = (int) $this->file->getVersion();
-        $this->max_version = (int) $this->file->getMaxVersion();
-        $this->has_been_migrated = !is_null($calling_gui_class->getFile()->getResourceId());
+        $this->current_version = $this->file->getVersion();
 
         // General
         $this->setPrefix("versions");
@@ -59,15 +54,14 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setTitle($this->dic->language()->txt("versions"));
 
         // Form
-        if ($this->has_been_migrated) {
-            $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
-            $this->setSelectAllCheckbox("hist_id[]");
-            $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
-            $this->addMultiCommand(
-                ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
-                $this->dic->language()->txt("file_rollback")
-            );
-        }
+
+        $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
+        $this->setSelectAllCheckbox("hist_id[]");
+        $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
+        $this->addMultiCommand(
+            ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
+            $this->dic->language()->txt("file_rollback")
+        );
 
         // Columns
         $this->addColumn("", "", "1", true);
@@ -84,21 +78,19 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-    private function initData() : void
+    private function initData(): void
     {
         $versions = [];
         foreach ($this->file->getVersions() as $version) {
             $versions[] = $version->getArrayCopy();
         }
-        usort($versions, static function (array $i1, array $i2) : bool {
-            return $i1['version'] < $i2['version'];
-        });
+        usort($versions, static fn (array $i1, array $i2): int => $i2['version'] - $i1['version']);
 
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $hist_id = $a_set["hist_entry_id"];
 
@@ -160,11 +152,6 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_FILESIZE", ilUtil::formatSize($filesize));
 
         // columns depending on confirmation
-
-        if (!$this->has_been_migrated) {
-            $this->tpl->setVariable("DISABLED", 'disabled');
-        }
-
         $this->tpl->setCurrentBlock("version_selection");
         $this->tpl->setVariable("OBJ_ID", $hist_id);
         $this->tpl->parseCurrentBlock();
@@ -174,11 +161,9 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("version_actions");
-        if ($this->has_been_migrated) {
-            $this->tpl->setVariable("ACTIONS", $actions->getHTML());
-        } else {
-            $this->tpl->setVariable("ACTIONS", "&nbsp;");
-        }
+
+        $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+
         $this->tpl->parseCurrentBlock();
     }
 }

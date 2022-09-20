@@ -23,7 +23,7 @@ import {hash as tileCoordHash} from '../tilecoord.js';
  * default. `TRANSPARENT` is `true` by default.  `BBOX`, `SIZE`, `BBOXSR`,
  * and `IMAGESR` will be set dynamically. Set `LAYERS` to
  * override the default service layer visibility. See
- * http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Export_Map/02r3000000v7000000/
+ * https://developers.arcgis.com/rest/services-reference/export-map.htm
  * for further reference.
  * @property {boolean} [hidpi=true] Use the `ol/Map#pixelRatio` value when requesting
  * the image from the remote server.
@@ -33,6 +33,8 @@ import {hash as tileCoordHash} from '../tilecoord.js';
  * extent, the grid will be based on that; if not, a grid based on a global
  * extent with origin at 0,0 will be used.
  * @property {import("../proj.js").ProjectionLike} [projection] Projection. Default is the view projection.
+ * The projection code must contain a numeric end portion separated by :
+ * or the entire code must form a valid ArcGIS SpatialReference definition.
  * @property {number} [reprojectionErrorThreshold=0.5] Maximum allowed reprojection error (in pixels).
  * Higher values can increase reprojection performance, but decrease precision.
  * @property {import("../Tile.js").LoadFunction} [tileLoadFunction] Optional function to load a tile given a URL.
@@ -49,6 +51,9 @@ import {hash as tileCoordHash} from '../tilecoord.js';
  * transition, pass `transition: 0`.
  * @property {Array<string>} [urls] ArcGIS Rest service urls. Use this instead of `url` when the ArcGIS
  * Service supports multiple urls for export requests.
+ * @property {number|import("../array.js").NearestDirectionFunction} [zDirection=0]
+ * Choose whether to use tiles with a higher or lower zoom level when between integer
+ * zoom levels. See {@link module:ol/tilegrid/TileGrid~TileGrid#getZForResolution}.
  */
 
 /**
@@ -62,7 +67,7 @@ import {hash as tileCoordHash} from '../tilecoord.js';
  */
 class TileArcGISRest extends TileImage {
   /**
-   * @param {Options=} opt_options Tile ArcGIS Rest options.
+   * @param {Options} [opt_options] Tile ArcGIS Rest options.
    */
   constructor(opt_options) {
     const options = opt_options ? opt_options : {};
@@ -80,6 +85,7 @@ class TileArcGISRest extends TileImage {
       urls: options.urls,
       wrapX: options.wrapX !== undefined ? options.wrapX : true,
       transition: options.transition,
+      zDirection: options.zDirection,
     });
 
     /**
@@ -150,7 +156,12 @@ class TileArcGISRest extends TileImage {
     }
 
     // ArcGIS Server only wants the numeric portion of the projection ID.
-    const srid = projection.getCode().split(':').pop();
+    // (if there is no numeric portion the entire projection code must
+    // form a valid ArcGIS SpatialReference definition).
+    const srid = projection
+      .getCode()
+      .split(/:(?=\d+$)/)
+      .pop();
 
     params['SIZE'] = tileSize[0] + ',' + tileSize[1];
     params['BBOX'] = tileExtent.join(',');

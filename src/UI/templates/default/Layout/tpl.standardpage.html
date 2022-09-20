@@ -3,16 +3,17 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 	<!-- BEGIN for_ui_examples_only -->
-    <!-- ATTENTION: This only exists to provide an example of the complete page.     -->
-    <!-- This won't be included in renderings of ordinary pages. Also have a look    -->
-    <!-- into \ILIAS\UI\Implementation\Component\Layout\Page\Renderer::setHeaderVars -->
+	<!-- ATTENTION: This only exists to provide an example of the complete page.     -->
+	<!-- This won't be included in renderings of ordinary pages. Also have a look    -->
+	<!-- into \ILIAS\UI\Implementation\Component\Layout\Page\Renderer::setHeaderVars -->
 	<base href="{BASE}" />
 	<!-- END for_ui_examples_only -->
 
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
+	<link rel="icon" href="{FAVICON_PATH}" type="image/x-icon">
 
 	<style>
 		{CSS_INLINE}
@@ -21,17 +22,25 @@
 	<!-- BEGIN css_file -->
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
 	<!-- END css_file -->
+    <!-- BEGIN meta_datum -->
+    <meta name="{META_KEY}" content="{META_VALUE}" />
+    <!-- END meta_datum -->
 </head>
 <body>
 	<!-- BEGIN mode_info -->
 	{MODEINFO}
 	<!-- END mode_info -->
 
+	<div class="il-page-overlay">
+		{OVERLAY}
+	</div>
+
 	<div class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
 		<header>
 			<div class="header-inner">
 				<div class="il-logo">
-					{LOGO}
+					<span class="hidden-xs">{LOGO}</span>
+					<span class="visible-xs">{RESPONSIVE_LOGO}</span>
 					<div class="il-pagetitle">
 						{TITLE}
 					</div>
@@ -46,10 +55,6 @@
 			</div>
 		</header>
 
-		<div class="breadcrumbs">
-			{BREADCRUMBS}
-		</div>
-
 		<div class="il-system-infos">
 			{SYSTEMINFOS}
 		</div>
@@ -60,10 +65,13 @@
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
-			<div>
-				{CONTENT}
+			<!-- BEGIN content_breadcrumbs -->
+			<div class="breadcrumbs">
+				{BREADCRUMBS}
 			</div>
+			<!-- END content_breadcrumbs -->
 
+			{CONTENT}
 
 			<!-- BEGIN pagefooter -->
 			<footer role="contentinfo">
@@ -72,13 +80,12 @@
 			<!-- END pagefooter -->
 		</main>
 
-
 	</div>
 
 <!-- BEGIN js_file -->
 <script src="{JS_FILE}"></script>
 <!-- END js_file -->
-	
+
 <!-- BEGIN on_load_code -->
 <script>
 	<!-- BEGIN on_load_code_inner -->

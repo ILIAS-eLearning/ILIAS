@@ -2,27 +2,15 @@
 
 /**
  * Class ilDclTableViewEditFormGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 {
+    protected ilDclTableView $tableview;
+    protected ?ilDclTable $table = null;
+    protected ilDclTableViewEditGUI $parent_gui;
 
-    /**
-     * @var ilDclTableView
-     */
-    protected $tableview;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilDclTableViewEditGUI
-     */
-    protected $parent_gui;
-
-
-    public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
+    public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ?ilDclTable $table = null)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -37,8 +25,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-
-    protected function initForm()
+    protected function initForm(): void
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -59,8 +46,9 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         //roles
         $checkbox_group_input_gui = new ilCheckboxGroupInputGUI($this->lng->txt('roles'), 'roles');
 
-        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
-            $option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title'], $role_array['obj_id']));
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
+            $option = new ilCheckboxOption(ilObjRole::_getTranslation($role_array['title']));
             $option->setValue($role_array['obj_id']);
             $checkbox_group_input_gui->addOption($option);
         }
@@ -77,19 +65,17 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-
-    public function updateTableView()
+    public function updateTableView(): void
     {
         $this->tableview->setTitle($this->getInput('title'));
         $this->tableview->setDescription($this->getInput('description'));
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->update();
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
     }
 
-
-    public function createTableView()
+    public function createTableView(): void
     {
         $this->tableview->setTitle($this->getInput('title'));
         $this->tableview->setDescription($this->getInput('description'));
@@ -105,6 +91,6 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 
         $this->ctrl->setParameterByClass('ilDclTableViewGUI', 'tableview_id', $this->tableview->getId());
 
-        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_created'), true);
+        $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_created'), true);
     }
 }

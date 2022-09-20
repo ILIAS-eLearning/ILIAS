@@ -1,24 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Didactic Template administration gui
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ilCtrl_Calls ilObjObjectTemplateAdministrationGUI: ilPermissionGUI, ilDidacticTemplateSettingsGUI
-* @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
-*
-* @ingroup ServicesPortfolio
-*/
+ * Didactic Template administration gui
+ * @author            Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls      ilObjObjectTemplateAdministrationGUI: ilPermissionGUI, ilDidacticTemplateSettingsGUI
+ * @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
+ * @ingroup           ServicesPortfolio
+ */
 class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         $this->type = "otpl";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -26,23 +20,15 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("didactic");
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
         switch ($next_class) {
-
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ildidactictemplatesettingsgui':
@@ -58,7 +44,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('write')) {
             $this->lng->loadLanguageModule('didactic');
@@ -68,11 +54,11 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }

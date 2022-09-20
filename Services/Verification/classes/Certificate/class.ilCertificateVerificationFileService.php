@@ -1,37 +1,28 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateVerificationFileService
 {
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private ilLanguage $language;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private ilCertificateVerificationClassMap $classMap;
 
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCertificateVerificationClassMap
-     */
-    private $classMap;
-
-    /**
-     * @param ilLanguage $language
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     * @param ilCertificateVerificationClassMap $classMap
-     */
     public function __construct(
         ilLanguage $language,
         ilDBInterface $database,
@@ -44,7 +35,10 @@ class ilCertificateVerificationFileService
         $this->classMap = $classMap;
     }
 
-    public function createFile(ilUserCertificatePresentation $userCertificatePresentation)
+    /**
+     * @throws ilException
+     */
+    public function createFile(ilUserCertificatePresentation $userCertificatePresentation): ?ilCertificateVerificationObject
     {
         $userCertificate = $userCertificatePresentation->getUserCertificate();
         $objectType = $userCertificate->getObjType();
@@ -65,10 +59,9 @@ class ilCertificateVerificationFileService
         $verificationObject->setProperty('issued_on', $issueDate);
 
         $ilUserCertificateRepository = new ilUserCertificateRepository($this->database, $this->logger);
-        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository, $this->logger);
+        $pdfGenerator = new ilPdfGenerator($ilUserCertificateRepository);
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->logger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')
@@ -94,14 +87,10 @@ class ilCertificateVerificationFileService
             $this->logger->info('File could not be created');
             $verificationObject->delete();
         }
+        return null;
     }
 
-    /**
-     * @param int $objectId
-     * @param string $subDirectory
-     * @return string
-     */
-    public function initStorage(int $objectId, string $subDirectory = '')
+    public function initStorage(int $objectId, string $subDirectory = ''): string
     {
         $storage = new ilVerificationStorageFile($objectId);
         $storage->create();

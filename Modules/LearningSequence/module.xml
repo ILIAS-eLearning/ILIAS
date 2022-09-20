@@ -47,6 +47,12 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+
+	<copage>
+		<pagecontent pc_type="lsocurriculum" name="Curriculum" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
+		<pagecontent pc_type="lsostartbutton" name="Launcher" directory="classes/PageEditor" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="127"/>
+	</copage>
+
 	<events>
 		<event type="listen" id="Services/Tracking" />
 		<event type="listen" id="Services/Object" />

@@ -5,6 +5,19 @@ namespace ILIAS\FileUpload\DTO;
 use ILIAS\FileUpload\Collection\ImmutableStringMap;
 use ILIAS\FileUpload\ScalarTypeCheckAware;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class UploadResult
  *
@@ -20,30 +33,12 @@ use ILIAS\FileUpload\ScalarTypeCheckAware;
 final class UploadResult
 {
     use ScalarTypeCheckAware;
-    /**
-     * @var string $name
-     */
-    private $name;
-    /**
-     * @var int $size
-     */
-    private $size;
-    /**
-     * @var string $mimeType
-     */
-    private $mimeType;
-    /**
-     * @var ImmutableStringMap $metaData
-     */
-    private $metaData;
-    /**
-     * @var ProcessingStatus $status
-     */
-    private $status;
-    /**
-     * @var string $path
-     */
-    private $path;
+    private string $name;
+    private int $size;
+    private string $mimeType;
+    private ImmutableStringMap $metaData;
+    private ProcessingStatus $status;
+    private string $path;
 
 
     /**
@@ -59,7 +54,7 @@ final class UploadResult
      *
      * @since 5.3
      */
-    public function __construct($name, $size, $mimeType, ImmutableStringMap $metaData, ProcessingStatus $status, $path)
+    public function __construct(string $name, int $size, string $mimeType, ImmutableStringMap $metaData, ProcessingStatus $status, string $path)
     {
         $this->stringTypeCheck($name, "name");
         $this->stringTypeCheck($mimeType, "mimeType");
@@ -76,69 +71,60 @@ final class UploadResult
 
 
     /**
-     * @return string
      * @since 5.3
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
 
     /**
-     * @return int
      * @since 5.3
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
 
 
     /**
-     * @return string
      * @since 5.3
      */
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
 
     /**
-     * @return ImmutableStringMap
      * @since 5.3
      */
-    public function getMetaData()
+    public function getMetaData(): ImmutableStringMap
     {
         return $this->metaData;
     }
 
 
     /**
-     * @return ProcessingStatus
      * @since 5.3
      */
-    public function getStatus()
+    public function getStatus(): ProcessingStatus
     {
         return $this->status;
     }
 
 
-    /**
-     * @return bool
-     */
-    public function isOK() : bool
+    public function isOK(): bool
     {
         return $this->status->getCode() === ProcessingStatus::OK;
     }
 
 
     /**
-     * @return string
      * @since 5.3
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }

@@ -1,5 +1,22 @@
 <?php
-require_once("./Services/UICore/classes/class.ilTemplate.php");
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAsyncOutputHandler
@@ -10,34 +27,36 @@ require_once("./Services/UICore/classes/class.ilTemplate.php");
  */
 class ilAsyncOutputHandler
 {
-    const OUTPUT_MODAL = "output_modal";
-    const OUTPUT_EMPTY = "output_empty";
+    private const OUTPUT_MODAL = "output_modal";
+    private const OUTPUT_EMPTY = "output_empty";
 
+    /**
+     * @var mixed|null
+     */
     protected $content;
 
+    /**
+     * @var mixed|null
+     */
     protected $heading;
 
-    protected $window_properties;
+    protected array $window_properties;
 
-    public function __construct($content = null, $heading = null, $windows_properties = array())
+    public function __construct($content = null, $heading = null, array $windows_properties = array())
     {
         $this->content = $content;
         $this->heading = $heading;
-
         $this->window_properties = $windows_properties;
     }
-
 
     /**
      * Output content in different ways
      * self::OUTPUT_MODAL: Output as bootstrap modal
      * self::OUTPUT_EMPTY: Only content without ILIAS-layout
-     *
-     * @param string $type
      */
-    public function terminate($type = self::OUTPUT_MODAL)
+    public function terminate(string $type = self::OUTPUT_MODAL): void
     {
-        if ($type == self::OUTPUT_MODAL) {
+        if ($type === self::OUTPUT_MODAL) {
             $tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/StudyProgramme');
             $tpl->setVariable('HEADING', $this->getHeading());
             $tpl->setVariable('BODY', $this->getContent());
@@ -53,56 +72,57 @@ class ilAsyncOutputHandler
 
             echo $tpl->get();
             exit();
-        } elseif ($type == self::OUTPUT_EMPTY) {
-            echo $this->getContent();
+        }
+
+        if ($type === self::OUTPUT_EMPTY) {
+            echo $this->getContent();// TODO PHP8-REVIEW I sugges to use the HTTP service instead of echo/exit
             exit();
         }
     }
 
-
     /**
      * Encode data as json for async output
-     *
-     * @param array $data
-     *
-     * @return string
      */
-    public static function encodeAsyncResponse(array $data = array())
+    public static function encodeAsyncResponse(array $data = array()): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
         $data['cmd'] = $ilCtrl->getCmd();
 
-        return json_encode($data);
+        return json_encode($data, JSON_THROW_ON_ERROR);
     }
-
 
     /**
      * Handles async output
-     * @param      $normal_content
-     * @param null $async_content
-     * @param bool $apply_to_tpl
      *
-     * @return null
+     * @return string|void
      */
-    public static function handleAsyncOutput($normal_content, $async_content = null, $apply_to_tpl = true)
-    {
+    public static function handleAsyncOutput(
+        string $normal_content,
+        string $async_content = null,
+        bool $apply_to_tpl = true
+    ) {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
+        $http = $DIC['http'];
 
-        $content = ($ilCtrl->isAsynch() && $async_content != null)? $async_content : $normal_content;
+        $content = ($ilCtrl->isAsynch() && $async_content !== null) ? $async_content : $normal_content;
 
         if ($ilCtrl->isAsynch()) {
-            echo $content;
+            $http->saveResponse(
+                $http->response()
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html')
+                    ->withBody(Streams::ofString($content))
+            );
+            $http->sendResponse();
+            $http->close();
             exit();
+        } elseif ($apply_to_tpl) {
+            $tpl->setContent($content);
         } else {
-            if ($apply_to_tpl) {
-                $tpl->setContent($content);
-            } else {
-                return $content;
-            }
+            return $content;
         }
     }
 
@@ -116,17 +136,15 @@ class ilAsyncOutputHandler
         return $this->content;
     }
 
-
     /**
      * Sets the content of the modal output
      *
      * @param mixed $content
      */
-    public function setContent($content)
+    public function setContent($content): void
     {
         $this->content = $content;
     }
-
 
     /**
      * Return the heading of a modal
@@ -138,35 +156,28 @@ class ilAsyncOutputHandler
         return $this->heading;
     }
 
-
     /**
      * Sets the heading of a modal-output
      *
      * @param mixed $heading
      */
-    public function setHeading($heading)
+    public function setHeading($heading): void
     {
         $this->heading = $heading;
     }
 
-
     /**
      * Return all window properties
-     *
-     * @return mixed
      */
-    public function getWindowProperties()
+    public function getWindowProperties(): array
     {
         return $this->window_properties;
     }
 
-
     /**
      * Set windows properties
-     *
-     * @param mixed $window_properties
      */
-    public function setWindowProperties($window_properties)
+    public function setWindowProperties(array $window_properties): void
     {
         $this->window_properties = $window_properties;
     }

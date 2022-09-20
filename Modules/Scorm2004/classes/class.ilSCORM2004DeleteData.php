@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class ilSCORM2004DeleteData
@@ -11,7 +27,7 @@
 */
 class ilSCORM2004DeleteData
 {
-    public static function removeCMIDataForPackage($packageId)
+    public static function removeCMIDataForPackage(int $packageId): void
     {
         global $DIC;
 
@@ -54,7 +70,7 @@ class ilSCORM2004DeleteData
         }
     }
 
-    public static function removeCMIDataForUser($user_id)
+    public static function removeCMIDataForUser(int $user_id): void
     {
         global $DIC;
 
@@ -69,7 +85,7 @@ class ilSCORM2004DeleteData
             array('integer'),
             array($user_id)
         );
-        
+
         $cmi_node_values = [];
         while ($data = $ilDB->fetchAssoc($res)) {
             $cmi_node_values[] = $data['cmi_node_id'];
@@ -83,7 +99,7 @@ class ilSCORM2004DeleteData
             array('integer'),
             array($user_id)
         );
-        
+
         //sahs_user
         $ilDB->manipulateF(
             'DELETE FROM sahs_user WHERE user_id = %s',
@@ -98,8 +114,8 @@ class ilSCORM2004DeleteData
             array($user_id)
         );
     }
-    
-    public static function removeCMIDataForUserAndPackage($user_id, $packageId)
+
+    public static function removeCMIDataForUserAndPackage(int $user_id, int $packageId): void
     {
         global $DIC;
 
@@ -127,7 +143,7 @@ class ilSCORM2004DeleteData
             array('integer','integer'),
             array($user_id,$packageId)
         );
-        
+
         //sahs_user
         $ilDB->manipulateF(
             'DELETE FROM sahs_user WHERE user_id = %s AND obj_id = %s',
@@ -151,19 +167,16 @@ class ilSCORM2004DeleteData
             );
         }
     }
-    
-    /**
-     * @param array $cmi_node_values
-     */
-    public static function removeCMIDataForNodes(array $cmi_node_values)
+
+    public static function removeCMIDataForNodes(array $cmi_node_values): void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         //cmi interaction nodes
         $cmi_inode_values = array();
-        
+
         $query = 'SELECT cmi_interaction_id FROM cmi_interaction WHERE '
             . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
         $res = $ilDB->query($query);
@@ -175,39 +188,39 @@ class ilSCORM2004DeleteData
         $query = 'DELETE FROM cmi_correct_response WHERE '
                . $ilDB->in('cmi_correct_response.cmi_interaction_id', $cmi_inode_values, false, 'integer');
         $ilDB->manipulate($query);
-            
+
         //objective interaction
         $query = 'DELETE FROM cmi_objective WHERE '
                . $ilDB->in('cmi_objective.cmi_interaction_id', $cmi_inode_values, false, 'integer');
         $ilDB->manipulate($query);
-            
+
         //objective
         $query = 'DELETE FROM cmi_objective WHERE '
                . $ilDB->in('cmi_objective.cmi_node_id', $cmi_node_values, false, 'integer');
         $ilDB->manipulate($query);
-                
+
         //interaction
         $query = 'DELETE FROM cmi_interaction WHERE '
                . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
         $ilDB->manipulate($query);
-            
+
         //comment
         $query = 'DELETE FROM cmi_comment WHERE '
                . $ilDB->in('cmi_comment.cmi_node_id', $cmi_node_values, false, 'integer');
         $ilDB->manipulate($query);
-                    
+
         //node
         $query = 'DELETE FROM cmi_node WHERE '
                . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
         $ilDB->manipulate($query);
     }
-    
-    public static function getGlobalToSystemObjectiveIdStringForPackage($packageId)
+
+    public static function getGlobalToSystemObjectiveIdStringForPackage(int $packageId): string
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $existing_key_template = "";
         $global_to_system = 1;
 
@@ -237,7 +250,7 @@ class ilSCORM2004DeleteData
             $existing_key_template .= "'" . $data['targetobjectiveid'] . "',";
         }
         //remove trailing ','
-        $existing_key_template = substr($existing_key_template, 0, strlen($existing_key_template) - 1);
+        $existing_key_template = substr($existing_key_template, 0, -1);
 
         return $existing_key_template;
     }

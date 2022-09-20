@@ -6,6 +6,19 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FileUpload
  *
@@ -20,7 +33,6 @@ use ILIAS\FileUpload\Processor\PreProcessor;
  */
 interface FileUpload
 {
-
     /**
      * Moves all uploaded files to the given destination after the processors had processed the
      * files. Only files which got accepted by the processors are moved. Please make sure to
@@ -29,43 +41,42 @@ interface FileUpload
      * Please note that the Location interface defines all valid location.
      *
      * @param string $destination The destination of the uploaded files.
-     *
      * @param int    $location    The filesystem location which should be used.
      *
-     * @return void
      *
-     * @throws IllegalStateException        Thrown if the files are not processed before invoking
-     *                                      the moveFilesTo method.
+     * @throws IllegalStateException        Thrown if the files are not processed before invoking the moveFilesTo method.
      * @throws \InvalidArgumentException    Thrown if the location is invalid.
      * @since 5.3
-     *
      * @see   Location
      */
-    public function moveFilesTo($destination, $location = Location::STORAGE);
+    public function moveFilesTo(string $destination, int $location = Location::STORAGE): void;
 
 
     /**
      * Moves a single File (the attributes, metadata and upload-status of which are contained in UploadResult)
      * to the given destination. The destination is a relative path which refers to the path of the location.
      *
-     * @param UploadResult $UploadResult Which upload result do you want to move?
+     * @param UploadResult $uploadResult Which upload result do you want to move?
      * @param string       $destination  Where do you want to move the file?
      * @param int          $location     Location::[STORAGE|WEB|CUSTOMIZING]
      * @param string       $file_name    Do you want to rename the file?
      * @param bool         $override_existing Override existing file with same name
-     *
-     * @return void
      */
-    public function moveOneFileTo(UploadResult $UploadResult, $destination, $location = Location::STORAGE, $file_name = '', $override_existing = false);
+    public function moveOneFileTo(
+        UploadResult $uploadResult,
+        string $destination,
+        int $location = Location::STORAGE,
+        string $file_name = '',
+        bool $override_existing = false
+    ): bool;
 
 
     /**
      * Returns the current upload size limit in bytes.
      *
-     * @return int
      * @since 5.3
      */
-    public function uploadSizeLimit();
+    public function uploadSizeLimit(): int;
 
 
     /**
@@ -74,13 +85,12 @@ interface FileUpload
      *
      * @param PreProcessor $preProcessor The preprocessor instance which should be registered.
      *
-     * @return void
      *
      * @throws IllegalStateException If the register method is called after the files already got
      *                               processed.
      * @since 5.3
      */
-    public function register(PreProcessor $preProcessor);
+    public function register(PreProcessor $preProcessor): void;
 
 
     /**
@@ -89,12 +99,11 @@ interface FileUpload
      * the file which got processed is automatically rejected to prevent ILIAS from using
      * unprocessed files.
      *
-     * @return void
      *
      * @throws IllegalStateException If the files already got processed.
      * @since 5.3
      */
-    public function process();
+    public function process(): void;
 
 
     /**
@@ -105,24 +114,22 @@ interface FileUpload
      * @throws IllegalStateException If the method is called before the files are processed.
      * @since 5.3
      */
-    public function getResults();
+    public function getResults(): array;
 
 
     /**
      * Return (bool)true if one ore more file-uploads are in the current request, (bool)false if not
      *
-     * @return bool
      *
      * @since 5.3
      */
-    public function hasUploads();
+    public function hasUploads(): bool;
 
     /**
      * Return (bool)true if the current upload has already been processed
      *
-     * @return bool
      *
      * @since 5.3
      */
-    public function hasBeenProcessed();
+    public function hasBeenProcessed(): bool;
 }

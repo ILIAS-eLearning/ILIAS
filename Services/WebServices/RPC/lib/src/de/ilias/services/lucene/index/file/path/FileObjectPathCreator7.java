@@ -5,13 +5,13 @@ package de.ilias.services.lucene.index.file.path;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.apache.log4j.Logger;
-
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 /**
  *
@@ -19,8 +19,8 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class FileObjectPathCreator7  implements PathCreator
 {
-	private static final Logger logger = Logger.getLogger(FileObjectPathCreator.class);
-	
+	private static final Logger logger = LogManager.getLogger(FileObjectPathCreator7.class);
+
 	protected String basePath = "storage";
 	protected static final String BIN_NAME = "data";
 	

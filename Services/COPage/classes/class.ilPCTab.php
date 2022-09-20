@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCTab
@@ -20,12 +23,12 @@
  */
 class ilPCTab extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("tabstab");
     }
 
-    public function newItemAfter() : void
+    public function newItemAfter(): void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
@@ -37,20 +40,20 @@ class ilPCTab extends ilPageContent
         }
     }
 
-    public function newItemBefore() : void
+    public function newItemBefore(): void
     {
         $tab = $this->getNode();
         $new_tab = $this->dom->create_element("Tab");
         $new_tab = $tab->insert_before($new_tab, $tab);
     }
 
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $tab = $this->getNode();
         $tab->unlink($tab);
     }
 
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $tab = $this->getNode();
         $next = $tab->next_sibling();
@@ -59,7 +62,7 @@ class ilPCTab extends ilPageContent
         $next->unlink($next);
     }
 
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $tab = $this->getNode();
         $prev = $tab->previous_sibling();

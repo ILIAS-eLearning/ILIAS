@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Service context for cron
@@ -9,107 +23,57 @@
  */
 class ilContextCron implements ilContextTemplate
 {
-    /**
-     * Are redirects supported?
-     *
-     * @return bool
-     */
-    public static function supportsRedirects()
-    {
-        return false;
-    }
-    
-    /**
-     * Based on user authentication?
-     *
-     * @return bool
-     */
-    public static function hasUser()
-    {
-        return true;
-    }
-    
-    /**
-     * Uses HTTP aka browser
-     *
-     * @return bool
-     */
-    public static function usesHTTP()
-    {
-        return false;
-    }
-    
-    /**
-     * Has HTML output
-     *
-     * @return bool
-     */
-    public static function hasHTML()
-    {
-        return true;
-    }
-    
-    /**
-     * Uses template engine
-     *
-     * @return bool
-     */
-    public static function usesTemplate()
-    {
-        return true;
-    }
-    
-    /**
-     * Init client
-     *
-     * @return bool
-     */
-    public static function initClient()
-    {
-        return true;
-    }
-    
-    /**
-     * Try authentication
-     *
-     * @return bool
-     */
-    public static function doAuthentication()
-    {
-        return true;
-    }
-
-    /**
-     * Check if persistent session handling is supported
-     * @return boolean
-     */
-    public static function supportsPersistentSessions()
+    public static function supportsRedirects(): bool
     {
         return false;
     }
 
-    /**
-     * Supports push messages
-     *
-     * @return bool
-     */
-    public static function supportsPushMessages()
-    {
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function isSessionMainContext()
+    public static function hasUser(): bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public static function modifyHttpPath(string $httpPath) : string
+    public static function usesHTTP(): bool
+    {
+        return false;
+    }
+
+    public static function hasHTML(): bool
+    {
+        return true;
+    }
+
+    public static function usesTemplate(): bool
+    {
+        return true;
+    }
+
+    public static function initClient(): bool
+    {
+        return true;
+    }
+
+    public static function doAuthentication(): bool
+    {
+        return true;
+    }
+
+    public static function supportsPersistentSessions(): bool
+    {
+        return false;
+    }
+
+    public static function supportsPushMessages(): bool
+    {
+        return false;
+    }
+
+    public static function isSessionMainContext(): bool
+    {
+        return true;
+    }
+
+    public static function modifyHttpPath(string $httpPath): string
     {
         return $httpPath;
     }

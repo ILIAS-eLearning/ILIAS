@@ -1,16 +1,19 @@
 <!-- BEGIN parent_item -->
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW}"  data-native-id="{NATIVE_PARENT_ID}" data-hased-id="{PARENT_ID}" >
 	<td class="std small" colspan="8">
 		<strong>{PARENT_TITLE}</strong>
 	</td>
 </tr>
 <!-- END parent_item -->
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW}" data-native-id="{NATIVE_ID}" data-hased-id="{ID}" >
 	<td class="std small">
 		{PARENT}
 	</td>
 	<td class="std small">
 		<input type="text"  name="{IDENTIFIER}[{ID}][position]" value="{POSITION}" size="2">
+		<span class="hidden">{NATIVE_POSITION}</span>
+		<span class="hidden">/</span>
+		<span class="hidden">{SAVED_POSITION}</span>
 	</td>
 	<td class="std small">
 		{TITLE}

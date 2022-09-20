@@ -1,9 +1,27 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\DI\Container;
-use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\HTTP\Agent\AgentDetermination;
 use PHPUnit\Framework\TestCase;
+use ILIAS\HTTP\Services as HttpServiceImpl;
 
 /**
  * Class ilRTEBaseTest
@@ -11,7 +29,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilRTEBaseTest extends TestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $GLOBALS['DIC'] = new Container();
         $this->setMocks();
@@ -23,7 +41,7 @@ abstract class ilRTEBaseTest extends TestCase
      * @param string $name
      * @param mixed $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -35,31 +53,41 @@ abstract class ilRTEBaseTest extends TestCase
         };
     }
 
-    protected function setMocks() : void
+    protected function setMocks(): void
     {
-        $tpl_mock = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+        $tpl_mock = $this->createMock(ilGlobalTemplateInterface::class);
         $this->setGlobalVariable('tpl', $tpl_mock);
+
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
         $this->setGlobalVariable('lng', $lng);
+
         $this->setGlobalVariable(
             'ilCtrl',
-            $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilCtrlInterface::class)->disableOriginalConstructor()->getMock()
         );
-        $this->setGlobalVariable(
-            'ilBrowser',
-            $this->getMockBuilder(ilBrowser::class)->disableOriginalConstructor()->getMock()
-        );
+
         $this->setGlobalVariable(
             'ilClientIniFile',
             $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock()
         );
+
         $this->setGlobalVariable(
             'ilUser',
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
+
+        $http = $this
+            ->getMockBuilder(HttpServiceImpl::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['agent'])
+            ->getMock();
+        $http
+            ->method('agent')
+            ->willReturn(new AgentDetermination());
+        $this->setGlobalVariable('http', $http);
     }
 }

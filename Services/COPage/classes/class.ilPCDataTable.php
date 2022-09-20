@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCDataTable
@@ -23,12 +26,12 @@
  */
 class ilPCDataTable extends ilPCTable
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("dtab");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->tab_node = $a_node->first_child();		// this is the Table node
@@ -38,7 +41,7 @@ class ilPCDataTable extends ilPCTable
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->tab_node = $this->dom->create_element("Table");
@@ -46,19 +49,19 @@ class ilPCDataTable extends ilPCTable
         $this->tab_node->set_attribute("Language", "");
         $this->tab_node->set_attribute("DataTable", "y");
     }
-    
+
 
     /**
      * Make cell empty
      */
-    public function makeEmptyCell(php4DOMElement $td_node) : void
+    public function makeEmptyCell(php4DOMElement $td_node): void
     {
         // delete children of paragraph node
         $children = $td_node->child_nodes();
         for ($i = 0; $i < count($children); $i++) {
             $td_node->remove_child($children[$i]);
         }
-        
+
         // create page content and paragraph node here.
         $pc_node = $this->createPageContentNode(false);
         $pc_node = $td_node->append_child($pc_node);
@@ -88,7 +91,7 @@ class ilPCDataTable extends ilPCTable
                             $error
                         );
 
-                        $par_node = $this->getCellNode($i, $j);
+                        $par_node = $this->getCellNode($i, $j, true);
                         // remove all childs
                         if (empty($error) && is_object($par_node)) {
                             // delete children of paragraph node

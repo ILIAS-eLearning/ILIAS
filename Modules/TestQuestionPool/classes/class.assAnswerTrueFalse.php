@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -41,7 +42,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      */
     public function __construct($answertext = "", $points = 0.0, $order = 0, $correctness = false)
     {
-        parent::__construct($answertext, $points, $order);
+        parent::__construct($answertext, $points, $order, -1, 0);
 
         // force $this->correctness to be a string
         // ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
@@ -74,7 +75,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @return boolean correctness
      */
-    public function isIncorrect()
+    public function isIncorrect(): bool
     {
         return !$this->correctness;
     }
@@ -98,7 +99,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @return boolean correctness
      */
-    public function isFalse()
+    public function isFalse(): bool
     {
         return !$this->correctness;
     }
@@ -108,7 +109,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @param boolean $correctness A boolean value indicating the correctness of the answer
      */
-    public function setCorrectness($correctness = false)
+    public function setCorrectness($correctness = false): void
     {
         // force $this->correctness to be a string
         // ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
@@ -121,7 +122,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @deprecated Use setCorrectness instead.
      */
-    public function setTrue()
+    public function setTrue(): void
     {
         $this->correctness = "1";
     }
@@ -131,7 +132,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      *@deprecated Use setCorrectness instead.
      */
-    public function setFalse()
+    public function setFalse(): void
     {
         $this->correctness = "0";
     }

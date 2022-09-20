@@ -1,19 +1,35 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected ?string $component;
     protected ?string $current_object;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
 
-    public function purge() : void
+    public function purge(): void
     {
         $this->db->manipulate("DELETE FROM il_object_def");
         $this->db->manipulate("DELETE FROM il_object_subobj");
@@ -21,19 +37,19 @@ class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
         $this->db->manipulate("DELETE FROM il_object_sub_type");
     }
 
-    public function beginComponent(string $component, string $type) : void
+    public function beginComponent(string $component, string $type): void
     {
         $this->component = $type . "/" . $component;
         $this->current_object = null;
     }
 
-    public function endComponent(string $component, string $type) : void
+    public function endComponent(string $component, string $type): void
     {
         $this->component = null;
         $this->current_object = null;
     }
 
-    public function beginTag(string $name, array $attributes) : void
+    public function beginTag(string $name, array $attributes): void
     {
         switch ($name) {
             case 'object':
@@ -84,7 +100,7 @@ class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
                     )
                 );
                 break;
-            
+
             case "subobj":
                 $this->db->manipulateF(
                     "INSERT INTO il_object_subobj (parent, subobj, mmax) VALUES (%s,%s,%s)",
@@ -119,7 +135,7 @@ class ilObjectDefinitionProcessor implements ilComponentDefinitionProcessor
         }
     }
 
-    public function endTag(string $name) : void
+    public function endTag(string $name): void
     {
     }
 }

@@ -1,32 +1,37 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Exceptions/classes/class.ilException.php';
+declare(strict_types=1);
+
 /**
-* membership registration exception
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesMembership
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * membership registration exception
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMembership
+ */
 class ilMembershipRegistrationException extends ilException
 {
     //Error Codes
-    const OBJECT_IS_FULL = 123;
-    const ADDED_TO_WAITINGLIST = 124;
-    const ADMISSION_LINK_INVALID = 125;
-    const REGISTRATION_CODE_DISABLED = 456;
-    const OUT_OF_REGISTRATION_PERIOD = 789;
-    const REGISTRATION_INVALID_OFFLINE = 126;
-    const REGISTRATION_INVALID_AVAILABILITY = 127;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
+    public const OBJECT_IS_FULL = 123;
+    public const ADDED_TO_WAITINGLIST = 124;
+    public const ADMISSION_LINK_INVALID = 125;
+    public const REGISTRATION_CODE_DISABLED = 456;
+    public const OUT_OF_REGISTRATION_PERIOD = 789;
+    public const REGISTRATION_INVALID_OFFLINE = 126;
+    public const REGISTRATION_INVALID_AVAILABILITY = 127;
 }

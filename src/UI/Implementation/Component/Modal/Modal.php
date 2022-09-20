@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
@@ -36,7 +54,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function getAsyncRenderUrl() : string
+    public function getAsyncRenderUrl(): string
     {
         return $this->async_render_url;
     }
@@ -44,7 +62,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function withAsyncRenderUrl(string $url) : M\Modal
+    public function withAsyncRenderUrl(string $url): M\Modal
     {
         $clone = clone $this;
         $clone->async_render_url = $url;
@@ -54,7 +72,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function withCloseWithKeyboard(bool $state) : M\Modal
+    public function withCloseWithKeyboard(bool $state): M\Modal
     {
         $clone = clone $this;
         $clone->close_with_keyboard = $state;
@@ -64,7 +82,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function getCloseWithKeyboard() : bool
+    public function getCloseWithKeyboard(): bool
     {
         return $this->close_with_keyboard;
     }
@@ -72,7 +90,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function getShowSignal() : Signal
+    public function getShowSignal(): Signal
     {
         return $this->show_signal;
     }
@@ -80,7 +98,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function getCloseSignal() : Signal
+    public function getCloseSignal(): Signal
     {
         return $this->close_signal;
     }
@@ -88,7 +106,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : Modal
+    public function withResetSignals(): Modal
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -98,7 +116,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function withOnLoad(Signal $signal) : Onloadable
+    public function withOnLoad(Signal $signal): Onloadable
     {
         return $this->withTriggeredSignal($signal, 'ready');
     }
@@ -106,7 +124,7 @@ abstract class Modal implements M\Modal
     /**
      * @inheritdoc
      */
-    public function appendOnLoad(Signal $signal) : Onloadable
+    public function appendOnLoad(Signal $signal): Onloadable
     {
         return $this->appendTriggeredSignal($signal, 'ready');
     }
@@ -114,7 +132,7 @@ abstract class Modal implements M\Modal
     /**
      * Set the show and close signals for this modal
      */
-    public function initSignals() : void
+    public function initSignals(): void
     {
         $this->show_signal = $this->signal_generator->create();
         $this->close_signal = $this->signal_generator->create();

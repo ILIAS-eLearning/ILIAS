@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,28 +21,28 @@
  */
 class ilFolderExporter extends ilXmlExporter
 {
-    public function init() : void
+    public function init(): void
     {
     }
-    
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         // always trigger container because of co-page(s)
-        return array(
-            array(
+        return [
+            [
                 'component' => 'Services/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
-            )
-        );
+            ]
+        ];
     }
-    
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         try {
             $writer = null;
             $writer = new ilFolderXmlWriter(false);
-            $writer->setObjId($a_id);
+            $writer->setObjId((int) $a_id);
             $writer->write();
             return $writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
@@ -48,16 +50,17 @@ class ilFolderExporter extends ilXmlExporter
             return '';
         }
     }
-    
-    public function getValidSchemaVersions(string $a_entity) : array
+
+    public function getValidSchemaVersions(string $a_entity): array
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "4.1.0" => [
                 "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
                 "xsd_file" => "ilias_fold_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 }

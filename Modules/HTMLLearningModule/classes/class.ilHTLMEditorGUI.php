@@ -1,55 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTMLLearningModule\StandardGUIRequest;
 
 /**
  * GUI class for learning module editor
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilHTLMEditorGUI: ilObjFileBasedLMGUI
  */
-class ilHTLMEditorGUI
+class ilHTLMEditorGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected StandardGUIRequest $request;
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
+    protected ilNavigationHistory $nav_history;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public ilObjectDefinition $objDefinition;
+    public int $ref_id;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    public $tpl;
-    public $lng;
-    public $objDefinition;
-    public $ref_id;
-
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->nav_history = $DIC["ilNavigationHistory"];
         $tpl = $DIC["tpl"];
@@ -57,13 +47,16 @@ class ilHTLMEditorGUI
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
         $rbacsystem = $DIC->rbac()->system();
-        $ilErr = $DIC["ilErr"];
-        
+        $this->request = $DIC->htmlLearningModule()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+
         $lng->loadLanguageModule("content");
 
         // check write permission
-        if (!$rbacsystem->checkAccess("write", $_GET["ref_id"])) {
-            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
+        if (!$rbacsystem->checkAccess("write", $this->request->getRefId())) {
+            throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
         $this->ctrl = $ilCtrl;
@@ -75,13 +68,10 @@ class ilHTLMEditorGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->objDefinition = $objDefinition;
-        $this->ref_id = $_GET["ref_id"];
+        $this->ref_id = $this->request->getRefId();
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -92,10 +82,10 @@ class ilHTLMEditorGUI
         $cmd = $this->ctrl->getCmd("");
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-            $ilCtrl->setParameterByClass("ilobjfilebasedlmgui", "ref_id", $_GET["ref_id"]);
+        if ($ilAccess->checkAccess("read", "", $this->ref_id)) {
+            $ilCtrl->setParameterByClass("ilobjfilebasedlmgui", "ref_id", $this->ref_id);
             $ilNavigationHistory->addItem(
-                $_GET["ref_id"],
+                $this->ref_id,
                 $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfilebasedlmgui"), "infoScreen"),
                 "htlm"
             );
@@ -103,7 +93,7 @@ class ilHTLMEditorGUI
 
         switch ($next_class) {
             case "ilobjfilebasedlmgui":
-                $fblm_gui = new ilObjFileBasedLMGUI("", $_GET["ref_id"], true, false);
+                $fblm_gui = new ilObjFileBasedLMGUI("", $this->ref_id, true, false);
                 $ilCtrl->forwardCommand($fblm_gui);
                 $tpl->printToStdout();
                 break;
@@ -111,7 +101,7 @@ class ilHTLMEditorGUI
             default:
                 $this->ctrl->setCmdClass("ilobjfilebasedlmgui");
                 $this->ctrl->setCmd("");
-                return $this->executeCommand();
+                $this->executeCommand();
                 break;
         }
     }

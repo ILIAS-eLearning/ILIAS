@@ -1,14 +1,14 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "smeyer(191)",
-    "second_maintainer": "",
-    "implicit_maintainers": [],
-    "coordinator": [
-        ""
-    ],
-    "tester": "",
-    "testcase_writer": "",
-    "path": "Services/DidacticTemplate",
-    "belong_to_component": "None",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "smeyer(191)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/DidacticTemplate",
+  "belong_to_component": "None",
+  "used_in_components": []
 }

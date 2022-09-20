@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomXMLParser
@@ -43,32 +60,29 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>' . $a_xml_data);
     }
 
-    public function setImportInstallId(?string $id) : void
+    public function setImportInstallId(?string $id): void
     {
         $this->import_install_id = $id;
     }
 
-    public function getImportInstallId() : ?string
+    public function getImportInstallId(): ?string
     {
         return $this->import_install_id;
     }
 
-    private function isSameInstallation() : bool
+    private function isSameInstallation(): bool
     {
         return defined('IL_INST_ID') && IL_INST_ID > 0 && $this->getImportInstallId() == IL_INST_ID;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
+        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
     }
 
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case 'SubRooms':
@@ -81,7 +95,7 @@ class ilChatroomXMLParser extends ilSaxParser
         }
     }
 
-    public function handlerEndTag($a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         $this->cdata = trim($this->cdata);
 
@@ -133,7 +147,7 @@ class ilChatroomXMLParser extends ilSaxParser
             case 'RoomId':
                 $this->exportRoomId = (int) $this->cdata;
                 break;
-                
+
             case 'SubRoomId':
                 $this->exportSubRoomId = (int) $this->cdata;
                 break;
@@ -153,7 +167,7 @@ class ilChatroomXMLParser extends ilSaxParser
             case 'CreatedTimestamp':
                 $this->timestamp = (int) $this->cdata;
                 break;
-                
+
             case 'PrivilegedUserId':
                 $this->userIds[] = (int) $this->cdata;
                 break;
@@ -233,7 +247,7 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    public function handlerCharacterData($a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         if ($a_data !== "\n") {
             $this->cdata .= preg_replace("/\t+/", ' ', $a_data);

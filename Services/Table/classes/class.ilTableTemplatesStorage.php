@@ -1,42 +1,47 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-* @ingroup ServicesTable
-* @ilCtrl_Calls ilTableTemplatesStorage:
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @deprecated 11
+ *
+ */
 class ilTableTemplatesStorage
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
-
         $this->db = $DIC->database();
     }
 
     /**
      * Store table template
-     *
-     * @param	string	$a_context
-     * @param	int		$a_user_id
-     * @param	string	$a_name
-     * @param	array	$a_state
      */
-    public function store($a_context, $a_user_id, $a_name, array $a_state)
-    {
+    public function store(
+        string $a_context,
+        int $a_user_id,
+        string $a_name,
+        array $a_state
+    ): void {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
@@ -57,18 +62,16 @@ class ilTableTemplatesStorage
 
     /**
      * Get table template
-     *
-     * @param	string	$a_context
-     * @param	int		$a_user_id
-     * @param	string	$a_name
-     * @return	array
      */
-    public function load($a_context, $a_user_id, $a_name)
-    {
+    public function load(
+        string $a_context,
+        int $a_user_id,
+        string $a_name
+    ): ?array {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
-            return;
+            return null;
         }
 
         $set = $ilDB->query(
@@ -83,13 +86,12 @@ class ilTableTemplatesStorage
 
     /**
      * Delete table template
-     *
-     * @param	string	$a_context
-     * @param	int		$a_user_id
-     * @param	string	$a_name
      */
-    public function delete($a_context, $a_user_id, $a_name)
-    {
+    public function delete(
+        string $a_context,
+        int $a_user_id,
+        string $a_name
+    ): void {
         $ilDB = $this->db;
 
         if ($a_context == "" || $a_name == "") {
@@ -106,17 +108,15 @@ class ilTableTemplatesStorage
 
     /**
      * List templates
-     *
-     * @param	string	$a_context
-     * @param	int		$a_user_id
-     * @return array
      */
-    public function getNames($a_context, $a_user_id)
-    {
+    public function getNames(
+        string $a_context,
+        int $a_user_id
+    ): array {
         $ilDB = $this->db;
 
         if ($a_context == "") {
-            return;
+            return [];
         }
 
         $set = $ilDB->query(

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilTermsOfServiceDocumentEvaluation
@@ -9,24 +26,19 @@ interface ilTermsOfServiceDocumentEvaluation
 {
     /**
      * Returns an evaluator like this with the passed context user
-     * @param ilObjUser $user
-     * @return ilTermsOfServiceDocumentEvaluation
      */
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation;
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentEvaluation;
 
     /**
      * Determines a document based on the context of the concrete implementation
-     * @return ilTermsOfServiceSignableDocument
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      */
-    public function document() : ilTermsOfServiceSignableDocument;
+    public function document(): ilTermsOfServiceSignableDocument;
 
-    public function hasDocument() : bool;
+    public function hasDocument(): bool;
 
     /**
      * Evaluates the passed document for the context given in the concrete implementation
-     * @param ilTermsOfServiceSignableDocument $document
-     * @return bool
      */
-    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool;
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document): bool;
 }

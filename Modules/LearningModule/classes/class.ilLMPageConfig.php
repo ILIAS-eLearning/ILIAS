@@ -1,28 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Learning module page configuration
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPageConfig extends ilPageConfig
 {
-    /**
-     * Init
-     */
-    public function init() : void
+    public function init(): void
     {
+        global $DIC;
+
+        $req = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
+
         $lm_set = new ilSetting("lm");
-        
+
         $this->setPreventHTMLUnmasking(false);
         $this->setPreventRteUsage(true);
         $this->setUseAttachedContent(true);
         $this->setIntLinkHelpDefaultType("StructureObject");
-        $this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+        $this->setIntLinkHelpDefaultId($req->getRefId());
         $this->removeIntLinkFilter("File");
         $this->setEnableActivation(true);
         $this->setEnableSelfAssessment(true, false);
@@ -43,14 +61,12 @@ class ilLMPageConfig extends ilPageConfig
 
     /**
      * Object specific configuration
-     *
-     * @param int $a_obj_id object id
      */
-    public function configureByObjectId($a_obj_id)
+    public function configureByObjectId(int $a_obj_id): void
     {
         if ($a_obj_id > 0) {
             $this->setDisableDefaultQuestionFeedback(ilObjLearningModule::_lookupDisableDefaultFeedback($a_obj_id));
-            
+
             if (ilObjContentObject::isOnlineHelpModule($a_obj_id, true)) {
                 $this->setEnableSelfAssessment(false, false);
             }

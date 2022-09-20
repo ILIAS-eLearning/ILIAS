@@ -1,26 +1,32 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilIntermediateThrowEventElement
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilIntermediateThrowEventElement extends ilBaseElement
 {
-    /** @var string $element_varname */
-    public $element_varname;
+    public string $element_varname;
 
-    /**
-     * @param                     $element
-     * @param \ilWorkflowScaffold $class_object
-     *
-     * @return string
-     */
-    public function getPHP($element, ilWorkflowScaffold $class_object)
+    public function getPHP(array $element, ilWorkflowScaffold $class_object): string
     {
         $code = "";
         $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
@@ -29,14 +35,14 @@ class ilIntermediateThrowEventElement extends ilBaseElement
         $event_definition = null;
         if (count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if (isset($child['name']) && $child['name'] == 'messageEventDefinition') {
+                if (isset($child['name']) && $child['name'] === 'messageEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['messageRef'] ?? '',
                         'message',
                         $this->bpmn2_array
                     );
                 }
-                if (isset($child['name']) && $child['name'] == 'signalEventDefinition') {
+                if (isset($child['name']) && $child['name'] === 'signalEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['signalRef'] ?? '',
                         'signal',
@@ -53,7 +59,7 @@ class ilIntermediateThrowEventElement extends ilBaseElement
 			' . $this->element_varname . '->setName(\'' . $this->element_varname . '\');
 		';
 
-        if (isset($event_definition['type']) && isset($event_definition['content'])) {
+        if (isset($event_definition['type'], $event_definition['content'])) {
             $class_object->registerRequire('./Services/WorkflowEngine/classes/activities/class.ilEventRaisingActivity.php');
             $code .= '
 				' . $this->element_varname . '_throwEventActivity = new ilEventRaisingActivity(' . $this->element_varname . ');

@@ -2,13 +2,24 @@
 
 namespace ILIAS\Filesystem\Provider\FlySystem;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\FilesystemFacade;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FlySystemLocalFilesystemFactoryTest
  *
@@ -23,17 +34,14 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    /**
-     * @var FlySystemLocalFilesystemFactory $subject
-     */
-    private $subject;
+    private \ILIAS\Filesystem\Provider\FlySystem\FlySystemLocalFilesystemFactory $subject;
 
 
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -44,7 +52,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed()
+    public function testCreationOfFilesystemWithLinkSkipBehaviourWhichShouldSucceed(): void
     {
         $rootPath = __DIR__;
 
@@ -73,7 +81,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail()
+    public function testCreationOfFilesystemWithInvalidLinkBehaviourWhichShouldFail(): void
     {
         $rootPath = __DIR__;
 
@@ -105,7 +113,7 @@ class FlySystemLocalFilesystemFactoryTest extends TestCase
      * @Test
      * @small
      */
-    public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail()
+    public function testCreationOfFilesystemWithInvalidFileLockModeWhichShouldFail(): void
     {
         $rootPath = __DIR__;
 

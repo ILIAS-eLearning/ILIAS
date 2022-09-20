@@ -1,22 +1,34 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /**
  * Export User Interface Class
- *
  * @author       Michael Herren <mh@studer-raimann.ch>
  */
 class ilDclExportTableGUI extends ilExportTableGUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
+    public function __construct(ilDclExportGUI $a_parent_obj, string $a_parent_cmd, ilObject $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
 
         $this->addCustomColumn($this->lng->txt('status'), $this, 'parseExportStatus');
     }
 
-
-    public function getExportFiles()
+    public function getExportFiles(): array
     {
         $types = array();
         foreach ($this->parent_obj->getFormats() as $f) {
@@ -58,15 +70,11 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
         // sort files
         ksort($file);
-        reset($file);
 
         return $file;
-
-        return $files;
     }
 
-
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -85,11 +93,18 @@ class ilDclExportTableGUI extends ilExportTableGUI
             : $a_set['type'];
         $this->tpl->setVariable('VAL_TYPE', $type);
 
-        $filename = ($this->isExportInProgress($a_set['file'])) ? substr($a_set['file'], 0, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)) . ".xlsx" : $a_set['file'];
+        $filename = ($this->isExportInProgress($a_set['file'])) ? substr(
+            $a_set['file'],
+            0,
+            -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX)
+        ) . ".xlsx" : $a_set['file'];
         $this->tpl->setVariable('VAL_FILE', $filename);
 
         $this->tpl->setVariable('VAL_SIZE', ilUtil::formatSize($a_set['size']));
-        $this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));
+        $this->tpl->setVariable(
+            'VAL_DATE',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX))
+        );
 
         if (!$this->isExportInProgress($a_set['file'])) {
             $this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
@@ -101,8 +116,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-
-    public function parseExportStatus($type, $file)
+    public function parseExportStatus(string $type, string $file): string
     {
         if ($type == 'xlsx') {
             if ($this->isExportInProgress($file)) {
@@ -110,15 +124,12 @@ class ilDclExportTableGUI extends ilExportTableGUI
             } else {
                 return $this->lng->txt('dcl_export_finished');
             }
-
-            return $file;
         } else {
             return $this->lng->txt('dcl_export_finished');
         }
     }
 
-
-    protected function isExportInProgress($file)
+    protected function isExportInProgress(string $file): string
     {
         $ending = substr($file, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX));
 

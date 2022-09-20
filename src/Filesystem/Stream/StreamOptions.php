@@ -1,8 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Stream;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StreamOptions
  *
@@ -18,16 +32,13 @@ namespace ILIAS\Filesystem\Stream;
  */
 final class StreamOptions
 {
-    const UNKNOWN_STREAM_SIZE = -1;
+    public const UNKNOWN_STREAM_SIZE = -1;
 
-    /**
-     * @var int $size
-     */
-    private $size;
+    private int $size;
     /**
      * @var string[] $metadata
      */
-    private $metadata;
+    private array $metadata;
 
 
     /**
@@ -46,7 +57,7 @@ final class StreamOptions
     /**
      * @return int
      */
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
@@ -55,7 +66,7 @@ final class StreamOptions
     /**
      * @return \string[]
      */
-    public function getMetadata() : array
+    public function getMetadata(): array
     {
         return $this->metadata;
     }

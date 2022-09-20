@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * BlockGUI class for wiki functions block
@@ -11,62 +25,50 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 {
     public static $block_type = "wikiside";
     public static $st_data;
+    protected int $ref_id;
+    protected ilWikiPage $pageob;
+    protected ilObjWiki $wiki;
 
-    /**
-     * @var ilObjWiki
-     */
-    protected $wiki;
-    
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         global $DIC;
+
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct();
-        
+
         $lng->loadLanguageModule("wiki");
         $this->setEnableNumInfo(false);
-        
+
         $this->setTitle($lng->txt("wiki_functions"));
         $this->allow_moving = false;
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $request->getRefId();
 
         $this->wiki = new ilObjWiki($this->ref_id);
 
         $this->setPresentation(self::PRES_SEC_LEG);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
-    }
-    
-    /**
-    * Get Screen Mode for current command.
-    */
-    public static function getScreenMode() : string
-    {
-        return IL_SCREEN_SIDE;
     }
 
     /**
@@ -85,42 +87,17 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         }
     }
 
-    /**
-    * Set Page Object
-    *
-    * @param	int	$a_pageob	Page Object
-    */
-    public function setPageObject($a_pageob)
+    public function setPageObject(ilWikiPage $a_pageob): void
     {
         $this->pageob = $a_pageob;
     }
 
-    /**
-    * Get Page Object
-    *
-    * @return	int	Page Object
-    */
-    public function getPageObject()
+    public function getPageObject(): ilWikiPage
     {
         return $this->pageob;
     }
 
-    /**
-    * Get bloch HTML code.
-    */
-    public function getHTML() : string
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilUser = $this->user;
-        
-        return parent::getHTML();
-    }
-
-    /**
-    * Fill data section
-    */
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->setDataSection($this->getLegacyContent());
     }
@@ -129,20 +106,17 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
-    /**
-     * @inheritdoc
-     */
-    protected function getLegacyContent() : string
+    protected function getLegacyContent(): string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
+
         $tpl = new ilTemplate("tpl.wiki_side_block_content.html", true, true, "Modules/Wiki");
-        
+
         $wp = $this->getPageObject();
 
         // info
@@ -168,7 +142,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 
 
         $actions = array();
-        
+
         // all pages
         $actions[] = array(
             "txt" => $lng->txt("wiki_all_pages"),
@@ -212,7 +186,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("item");
 
-        
+
         // page actions
         $list = new ilAdvancedSelectionListGUI();
         $list->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK);
@@ -241,7 +215,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
             $ilAccess->checkAccess("edit_page_meta", "", $this->ref_id)) {
             // unhide advmd?
-            if ((bool) sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
+            if (count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
                 ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId())) {
                 $list->addItem(
                     $lng->txt("wiki_unhide_meta_adv_records"),
@@ -281,7 +255,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if (ilWikiPerm::check("delete_wiki_pages", $this->ref_id)) {
             // delete page
             $st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
-            if ($st_page != $this->getPageObject()->getTitle()) {
+            if ($st_page !== $this->getPageObject()->getTitle()) {
                 $list->addItem(
                     $lng->txt("wiki_delete_page"),
                     "",
@@ -289,7 +263,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
                 );
             }
         }
-        
+
         if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
             $wpt = new ilWikiPageTemplate($this->getPageObject()->getParentId());
             if (!$wpt->isPageTemplate($this->getPageObject()->getId())) {
@@ -325,7 +299,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         //		}
 
         $actions = array();
-        
+
         // settings
         if ($ilAccess->checkAccess('write', "", $this->ref_id)) {
             $actions[] = array(
@@ -375,7 +349,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $modal_html = "";
         foreach ($actions as $a) {
             $tpl->setCurrentBlock("action");
-            if ($a["modal"] != "") {
+            if (($a["modal"] ?? "") != "") {
                 $signal = $a["modal"]->getShowSignal();
                 $onclick = "$(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;";
                 $tpl->setVariable("ONCLICK", ' onclick="' . $onclick . '" ');
@@ -385,7 +359,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
                 $tpl->setVariable("HREF", $a["href"]);
             }
             $tpl->setVariable("TXT", $a["txt"]);
-            if ($a["id"] != "") {
+            if (($a["id"] ?? "") != "") {
                 $tpl->setVariable("ACT_ID", "id='" . $a["id"] . "'");
             }
             $tpl->parseCurrentBlock();

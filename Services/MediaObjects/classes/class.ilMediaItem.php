@@ -1,51 +1,59 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMediaItem
  * Media Item, component of a media object (file or reference)
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaItem
 {
+    protected string $tried_thumb = "";
+    protected string $text_representation = "";
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+
+    public int $id = 0;
+    public string $purpose = "";
+    public string $location = "";
+    public string $location_type = "";
+    public string $format = "";
+    public string $width = "";
+    public string $height = "";
+    public string $caption = "";
+    public string $halign = "";
+    public array $parameters = [];
+    public int $mob_id = 0;
+    public int $nr = 0;
+    public array $mapareas = [];
+    public int $map_cnt = 0;
     /**
-     * @var ilDB
+     * @var ?GdImage|resource
      */
-    protected $db;
+    public $map_image = null;            // image map work copy image
+    public int $color1;            // map area line color 1
+    public int $color2;            // map area line color 2
+    protected int $duration = 0;
+    protected string $upload_hash = '';
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $id;
-    public $purpose;
-    public $location;
-    public $location_type;
-    public $format;
-    public $width;
-    public $height;
-    public $caption;
-    public $halign;
-    public $parameters;
-    public $mob_id;
-    public $nr;
-    public $mapareas;
-    public $map_cnt;
-    public $map_image;            // image map work copy image
-    public $color1;            // map area line color 1
-    public $color2;            // map area line color 2
-
-    protected $duration = 0;
-
-    /**
-     * @var string
-     */
-    protected $upload_hash;
-
-    public function __construct($a_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -62,36 +70,26 @@ class ilMediaItem
 
     /**
      * set media item id
-     * @param int $a_id media item id
      */
-    public function setId($a_id)
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    /**
-     * get media item id
-     * @return    int        media item id
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
      * set id of parent media object
-     * @param int $a_mob_id media object id
      */
-    public function setMobId($a_mob_id)
+    public function setMobId(int $a_mob_id): void
     {
         $this->mob_id = $a_mob_id;
     }
 
-    /**
-     * get id of parent media object
-     * @return    int        media object id
-     */
-    public function getMobId()
+    public function getMobId(): int
     {
         return $this->mob_id;
     }
@@ -99,74 +97,103 @@ class ilMediaItem
     /**
      * set number of media item within media object
      */
-    public function setNr($a_nr)
+    public function setNr(int $a_nr): void
     {
         $this->nr = $a_nr;
     }
 
-    public function getNr()
+    public function getNr(): int
     {
         return $this->nr;
     }
 
     /**
-     * Set duration
-     * @param int $a_val duration
+     * returns the best supported image type by this PHP build
+     *
+     * @param string $a_desired_type
+     * @return string supported image type ("jpg" | "gif" | "png" | "")
+     * @static
      */
-    public function setDuration($a_val)
+    private static function getGDSupportedImageType(string $a_desired_type): string
+    {
+        $a_desired_type = strtolower($a_desired_type);
+        // get supported Image Types
+        $im_types = ImageTypes();
+
+        switch ($a_desired_type) {
+            case "jpg":
+            case "jpeg":
+                if ($im_types & IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types & IMG_GIF) {
+                    return "gif";
+                }
+                if ($im_types & IMG_PNG) {
+                    return "png";
+                }
+                break;
+
+            case "gif":
+                if ($im_types & IMG_GIF) {
+                    return "gif";
+                }
+                if ($im_types & IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types & IMG_PNG) {
+                    return "png";
+                }
+                break;
+
+            case "svg":
+            case "png":
+                if ($im_types & IMG_PNG) {
+                    return "png";
+                }
+                if ($im_types & IMG_JPG) {
+                    return "jpg";
+                }
+                if ($im_types & IMG_GIF) {
+                    return "gif";
+                }
+                break;
+        }
+
+        return "";
+    }
+
+    public function setDuration(int $a_val): void
     {
         $this->duration = $a_val;
     }
 
-    /**
-     * Get duration
-     * @return int duration
-     */
-    public function getDuration()
+    public function getDuration(): int
     {
         return $this->duration;
     }
 
-    /**
-     * Set text representation
-     * @param string    text representation
-     */
-    public function setTextRepresentation($a_val)
+    public function setTextRepresentation(string $a_val): void
     {
         $this->text_representation = $a_val;
     }
 
-    /**
-     * Get text representation
-     * @return    string    text representation
-     */
-    public function getTextRepresentation()
+    public function getTextRepresentation(): string
     {
         return $this->text_representation;
     }
 
-    /**
-     * Set upload hash
-     * @param string $a_val upload hash
-     */
-    public function setUploadHash($a_val)
+    public function setUploadHash(string $a_val): void
     {
         $this->upload_hash = $a_val;
     }
 
-    /**
-     * Get upload hash
-     * @return string upload hash
-     */
-    public function getUploadHash()
+    public function getUploadHash(): string
     {
         return $this->upload_hash;
     }
 
-    /**
-     * create persistent media item
-     */
-    public function create()
+    public function create(): void
     {
         $ilDB = $this->db;
 
@@ -214,10 +241,7 @@ class ilMediaItem
         }
     }
 
-    /**
-     * update media item data (without map areas!)
-     */
-    public function update()
+    public function update(): void
     {
         $ilDB = $this->db;
 
@@ -241,6 +265,7 @@ class ilMediaItem
         // delete mob parameters
         $query = "DELETE FROM mob_parameter WHERE med_item_id = " .
             $ilDB->quote($this->getId(), "integer");
+        $ilDB->manipulate($query);
 
         // create mob parameters
         $params = $this->getParameters();
@@ -253,13 +278,10 @@ class ilMediaItem
         }
     }
 
-    /**
-     * Write parameter
-     * @param
-     * @return
-     */
-    public function writeParameter($a_name, $a_value)
-    {
+    public function writeParameter(
+        string $a_name,
+        string $a_value
+    ): void {
         $ilDB = $this->db;
 
         $query = "INSERT INTO mob_parameter (med_item_id, name, value) VALUES " .
@@ -272,7 +294,7 @@ class ilMediaItem
     /**
      * read media item data (item id or (mob_id and nr) must be set)
      */
-    public function read()
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -292,20 +314,20 @@ class ilMediaItem
             $item_set = $ilDB->query($query);
             $item_rec = $ilDB->fetchAssoc($item_set);
 
-            $this->setLocation($item_rec["location"]);
-            $this->setLocationType($item_rec["location_type"]);
-            $this->setFormat($item_rec["format"]);
-            $this->setWidth($item_rec["width"]);
-            $this->setHeight($item_rec["height"]);
-            $this->setHAlign($item_rec["halign"]);
-            $this->setCaption($item_rec["caption"]);
-            $this->setPurpose($item_rec["purpose"]);
-            $this->setNr($item_rec["nr"]);
-            $this->setMobId($item_rec["mob_id"]);
-            $this->setId($item_rec["id"]);
-            $this->setThumbTried($item_rec["tried_thumb"]);
-            $this->setTextRepresentation($item_rec["text_representation"]);
-            $this->setUploadHash($item_rec["upload_hash"]);
+            $this->setLocation((string) $item_rec["location"]);
+            $this->setLocationType((string) $item_rec["location_type"]);
+            $this->setFormat((string) $item_rec["format"]);
+            $this->setWidth((string) $item_rec["width"]);
+            $this->setHeight((string) $item_rec["height"]);
+            $this->setHAlign((string) $item_rec["halign"]);
+            $this->setCaption((string) $item_rec["caption"]);
+            $this->setPurpose((string) $item_rec["purpose"]);
+            $this->setNr((int) $item_rec["nr"]);
+            $this->setMobId((int) $item_rec["mob_id"]);
+            $this->setId((int) $item_rec["id"]);
+            $this->setThumbTried((string) $item_rec["tried_thumb"]);
+            $this->setTextRepresentation((string) $item_rec["text_representation"]);
+            $this->setUploadHash((string) $item_rec["upload_hash"]);
             $this->setDuration((int) $item_rec["duration"]);
 
             // get item parameter
@@ -328,7 +350,7 @@ class ilMediaItem
     /**
      * write thumbnail creation try data ("y"/"n")
      */
-    public function writeThumbTried($a_tried)
+    public function writeThumbTried(string $a_tried): void
     {
         $ilDB = $this->db;
 
@@ -339,13 +361,10 @@ class ilMediaItem
         $ilDB->manipulate($q);
     }
 
-    /**
-     * Lookup location for mob id
-     * @param int    $a_mob_id  media object id
-     * @param string $a_purpose purpose
-     */
-    public static function _lookupLocationForMobId($a_mob_id, $a_purpose)
-    {
+    public static function _lookupLocationForMobId(
+        int $a_mob_id,
+        string $a_purpose
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -362,12 +381,9 @@ class ilMediaItem
         return "";
     }
 
-    /**
-     * Lookup Mob ID
-     * @param int $a_med_id media item id
-     */
-    public static function _lookupMobId($a_med_id)
-    {
+    public static function _lookupMobId(
+        int $a_med_id
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -377,20 +393,22 @@ class ilMediaItem
             $ilDB->quote($a_med_id, "integer");
         $set = $ilDB->query($query);
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["mob_id"];
+            return (int) $rec["mob_id"];
         }
 
-        return "";
+        return 0;
     }
 
-    /* read media item with specific purpose and mobId
-    *
-    * @param	integer		$a_mobId	 	media object id
-    * @param	string		$a_purpose	 	media object purpose
-    * @return 	array		$mob			media object
-    */
-    public static function _getMediaItemsOfMObId($a_mobId, $a_purpose)
-    {
+    /**
+     * read media item with specific purpose and mobId
+     * @param int    $a_mobId
+     * @param string $a_purpose
+     * @return ?ilMediaItem[]
+     */
+    public static function _getMediaItemsOfMObId(
+        int $a_mobId,
+        string $a_purpose
+    ): ?array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -404,15 +422,15 @@ class ilMediaItem
         while ($item_rec = $ilDB->fetchAssoc($item_set)) {
             return $item_rec;
         }
-        return false;
+        return null;
     }
 
     /**
-     * read media items into media objects (static)
-     * @param object $a_mob media object
+     * Read media items into(!) media object (static)
      */
-    public static function _getMediaItemsOfMOb(&$a_mob)
-    {
+    public static function _getMediaItemsOfMOb(
+        ilObjMediaObject $a_mob
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -424,20 +442,20 @@ class ilMediaItem
         $item_set = $ilDB->query($query);
         while ($item_rec = $ilDB->fetchAssoc($item_set)) {
             $media_item = new ilMediaItem();
-            $media_item->setNr($item_rec["nr"]);
-            $media_item->setId($item_rec["id"]);
-            $media_item->setLocation($item_rec["location"]);
-            $media_item->setLocationType($item_rec["location_type"]);
-            $media_item->setFormat($item_rec["format"]);
-            $media_item->setWidth($item_rec["width"]);
-            $media_item->setHeight($item_rec["height"]);
-            $media_item->setHAlign($item_rec["halign"]);
-            $media_item->setCaption($item_rec["caption"]);
-            $media_item->setPurpose($item_rec["purpose"]);
-            $media_item->setMobId($item_rec["mob_id"]);
-            $media_item->setThumbTried($item_rec["tried_thumb"]);
-            $media_item->setTextRepresentation($item_rec["text_representation"]);
-            $media_item->setUploadHash($item_rec["upload_hash"]);
+            $media_item->setNr((int) $item_rec["nr"]);
+            $media_item->setId((int) $item_rec["id"]);
+            $media_item->setLocation((string) $item_rec["location"]);
+            $media_item->setLocationType((string) $item_rec["location_type"]);
+            $media_item->setFormat((string) $item_rec["format"]);
+            $media_item->setWidth((string) $item_rec["width"]);
+            $media_item->setHeight((string) $item_rec["height"]);
+            $media_item->setHAlign((string) $item_rec["halign"]);
+            $media_item->setCaption((string) $item_rec["caption"]);
+            $media_item->setPurpose((string) $item_rec["purpose"]);
+            $media_item->setMobId((int) $item_rec["mob_id"]);
+            $media_item->setThumbTried((string) $item_rec["tried_thumb"]);
+            $media_item->setTextRepresentation((string) $item_rec["text_representation"]);
+            $media_item->setUploadHash((string) $item_rec["upload_hash"]);
             $media_item->setDuration((int) $item_rec["duration"]);
 
             // get item parameter
@@ -460,11 +478,7 @@ class ilMediaItem
         }
     }
 
-    /**
-     * Delete all items of a mob
-     * @param int $a_mob_id media object id
-     */
-    public static function deleteAllItemsOfMob($a_mob_id)
+    public static function deleteAllItemsOfMob(int $a_mob_id): void
     {
         global $DIC;
 
@@ -492,66 +506,63 @@ class ilMediaItem
         $ilDB->manipulate($query);
     }
 
-    public function setPurpose($a_purpose)
+    public function setPurpose(string $a_purpose): void
     {
         $this->purpose = $a_purpose;
     }
 
-    public function getPurpose()
+    public function getPurpose(): string
     {
         return $this->purpose;
     }
 
-    public function setLocation($a_location)
+    public function setLocation(string $a_location): void
     {
         $this->location = $a_location;
     }
 
-    public function getLocation()
+    public function getLocation(): string
     {
         return $this->location;
     }
 
-    public function setLocationType($a_type)
+    public function setLocationType(string $a_type): void
     {
         $this->location_type = $a_type;
     }
 
-    public function getLocationType()
+    public function getLocationType(): string
     {
         return $this->location_type;
     }
 
-    public function setFormat($a_format)
+    public function setFormat(string $a_format): void
     {
         $this->format = $a_format;
     }
 
-    public function getFormat()
+    public function getFormat(): string
     {
         return $this->format;
     }
 
-    public function setThumbTried($a_tried)
+    public function setThumbTried(string $a_tried): void
     {
         $this->tried_thumb = $a_tried;
     }
 
-    public function getThumbTried()
+    public function getThumbTried(): string
     {
         return $this->tried_thumb;
     }
 
-    public function addMapArea(&$a_map_area)
+    public function addMapArea(ilMapArea $a_map_area): void
     {
         $this->mapareas[$this->map_cnt] = $a_map_area;
         $this->map_cnt++;
     }
 
-    /**
-     * delete map area
-     */
-    public function deleteMapArea($nr)
+    public function deleteMapArea(int $nr): void
     {
         for ($i = 1; $i <= $this->map_cnt; $i++) {
             if ($i > $nr) {
@@ -565,58 +576,37 @@ class ilMediaItem
         }
     }
 
-    /**
-     * get map area
-     */
-    public function &getMapArea($nr)
+    public function getMapArea(int $nr): ?ilMapArea
     {
-        return $this->mapareas[$nr - 1];
+        return $this->mapareas[$nr - 1] ?? null;
     }
 
-    /**
-     * get map areas
-     */
-    public function getMapAreas()
+    public function getMapAreas(): array
     {
         return $this->mapareas;
     }
 
-    /**
-     * get width
-     */
-    public function getWidth()
+    public function getWidth(): string
     {
         return $this->width;
     }
 
-    /**
-     * set width
-     */
-    public function setWidth($a_width)
+    public function setWidth(string $a_width): void
     {
         $this->width = $a_width;
     }
 
-    /**
-     * get height
-     */
-    public function getHeight()
+    public function getHeight(): string
     {
         return $this->height;
     }
 
-    /**
-     * set height
-     */
-    public function setHeight($a_height)
+    public function setHeight(string $a_height): void
     {
         $this->height = $a_height;
     }
 
-    /**
-     * get original size
-     */
-    public function getOriginalSize()
+    public function getOriginalSize(): ?array
     {
         $mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
 
@@ -633,21 +623,15 @@ class ilMediaItem
             }
         }
 
-        return false;
+        return null;
     }
 
-    /**
-     * set caption
-     */
-    public function setCaption($a_caption)
+    public function setCaption(string $a_caption): void
     {
         $this->caption = $a_caption;
     }
 
-    /**
-     * get caption
-     */
-    public function getCaption()
+    public function getCaption(): string
     {
         return $this->caption;
     }
@@ -655,44 +639,34 @@ class ilMediaItem
     /**
      * set horizontal align
      */
-    public function setHAlign($a_halign)
+    public function setHAlign(string $a_halign): void
     {
         $this->halign = $a_halign;
     }
 
-    /**
-     * get horizontal align
-     */
-    public function getHAlign()
+    public function getHAlign(): string
     {
         return $this->halign;
     }
 
-    /**
-     * set parameter
-     * @param string $a_name  parameter name
-     * @param string $a_value parameter value
-     */
-    public function setParameter($a_name, $a_value)
-    {
+    public function setParameter(
+        string $a_name,
+        string $a_value
+    ): void {
         if (self::checkParameter($a_name, $a_value)) {
             $this->parameters[$a_name] = $a_value;
         }
     }
 
-    /**
-     * reset parameters
-     */
-    public function resetParameters()
+    public function resetParameters(): void
     {
-        $this->parameters = array();
+        $this->parameters = [];
     }
 
     /**
-     * set alle parameters via parameter string (format: par1="value1", par2="value2", ...)
-     * @param string $a_par parameter string
+     * set all parameters via parameter string (format: par1="value1", par2="value2", ...)
      */
-    public function setParameters($a_par)
+    public function setParameters(string $a_par): void
     {
         $this->resetParameters();
         $par_arr = ilUtil::extractParameterString($a_par);
@@ -705,12 +679,11 @@ class ilMediaItem
 
     /**
      * Check parameter (filter javascript related and other unsafe parameters/values)
-     * @param string $a_par parameter
-     * @param string $a_val value
-     * @return bool
      */
-    public static function checkParameter($a_par, $a_val)
-    {
+    public static function checkParameter(
+        string $a_par,
+        string $a_val
+    ): bool {
         // do not allow event attributes
         if (substr(strtolower(trim($a_par)), 0, 2) == "on") {
             return false;
@@ -720,63 +693,61 @@ class ilMediaItem
             return false;
         }
         // do not allow to change the src attribute
-        if (in_array(strtolower(trim($a_par)), array("src"))) {
+        if (strtolower(trim($a_par)) == "src") {
             return false;
         }
 
         return true;
     }
 
-    /**
-     * get all parameters (in array)
-     */
-    public function getParameters()
+    public function getParameters(): array
     {
         return $this->parameters;
     }
 
-    /**
-     * get all parameters (as string)
-     */
-    public function getParameterString()
+    public function getParameterString(): string
     {
-        return ilUtil::assembleParameterString($this->parameters);
+        if (is_array($this->parameters)) {
+            $target_arr = [];
+            foreach ($this->parameters as $par => $val) {
+                $target_arr[] = "$par=\"$val\"";
+            }
+            return implode(", ", $target_arr);
+        }
+        return "";
     }
 
-    /**
-     * get a single parameter
-     */
-    public function getParameter($a_name)
+    public function getParameter(string $a_name): string
     {
-        return $this->parameters[$a_name];
+        return (string) ($this->parameters[$a_name] ?? "");
     }
 
     /**
      * get work directory for image map editing
      */
-    public function getWorkDirectory()
+    public function getWorkDirectory(): string
     {
-        return ilUtil::getDataDir() . "/map_workfiles/item_" . $this->getId();
+        return ilFileUtils::getDataDir() . "/map_workfiles/item_" . $this->getId();
     }
 
     /**
      * create work directory for image map editing
      */
-    public function createWorkDirectory()
+    public function createWorkDirectory(): void
     {
-        if (!@is_dir(ilUtil::getDataDir() . "/map_workfiles")) {
-            ilUtil::createDirectory(ilUtil::getDataDir() . "/map_workfiles");
+        if (!is_dir(ilFileUtils::getDataDir() . "/map_workfiles")) {
+            ilFileUtils::createDirectory(ilFileUtils::getDataDir() . "/map_workfiles");
         }
         $work_dir = $this->getWorkDirectory();
-        if (!@is_dir($work_dir)) {
-            ilUtil::createDirectory($work_dir);
+        if (!is_dir($work_dir)) {
+            ilFileUtils::createDirectory($work_dir);
         }
     }
 
     /**
      * get location suffix
      */
-    public function getSuffix()
+    public function getSuffix(): string
     {
         $loc_arr = explode(".", $this->getLocation());
 
@@ -786,17 +757,18 @@ class ilMediaItem
     /**
      * get image type of image map work copy
      */
-    public function getMapWorkCopyType()
+    public function getMapWorkCopyType(): string
     {
-        return ilUtil::getGDSupportedImageType($this->getSuffix());
+        return self::getGDSupportedImageType($this->getSuffix());
     }
 
     /**
      * Get name of image map work copy file
-     * @param string        Get name, for copy of external referenced image
+     * @param bool $a_reference_copy get name for copy of external referenced image
      */
-    public function getMapWorkCopyName($a_reference_copy = false)
-    {
+    public function getMapWorkCopyName(
+        bool $a_reference_copy = false
+    ): string {
         $file_arr = explode("/", $this->getLocation());
         $o_file = $file_arr[count($file_arr) - 1];
         $file_arr = explode(".", $o_file);
@@ -813,7 +785,7 @@ class ilMediaItem
     /**
      * get media file directory
      */
-    public function getDirectory()
+    public function getDirectory(): string
     {
         return ilObjMediaObject::_getDirectory($this->getMobId());
     }
@@ -821,16 +793,18 @@ class ilMediaItem
     /**
      * get media file directory
      */
-    public function getThumbnailDirectory($a_mode = "filesystem")
-    {
+    public function getThumbnailDirectory(
+        string $a_mode = "filesystem"
+    ): string {
         return ilObjMediaObject::_getThumbnailDirectory($this->getMobId(), $a_mode);
     }
 
     /**
      * get thumbnail target
      */
-    public function getThumbnailTarget($a_size = "")
-    {
+    public function getThumbnailTarget(
+        string $a_size = ""
+    ): string {
         $jpeg_file = $this->getThumbnailDirectory() . "/" .
             $this->getPurpose() . ".jpeg";
         $format = "png";
@@ -857,8 +831,8 @@ class ilMediaItem
                 $med_file = $this->getDirectory() . "/" . $this->getLocation();
 
                 if (is_file($med_file)) {
-                    ilUtil::convertImage($med_file, $thumb_file, $format, "80");
-                    ilUtil::convertImage($med_file, $thumb_file_small, $format, "40");
+                    ilShellUtil::convertImage($med_file, $thumb_file, $format, "80");
+                    ilShellUtil::convertImage($med_file, $thumb_file_small, $format, "40");
                 }
             }
             if ($a_size == "small") {
@@ -880,9 +854,11 @@ class ilMediaItem
     }
 
     /**
-     * Copy the orginal file
+     * Copy the original file for map editing
+     * to the working directory
+     * @throws ilMapEditingException
      */
-    public function copyOriginal()
+    public function copyOriginal(): void
     {
         $lng = $this->lng;
         $this->createWorkDirectory();
@@ -891,8 +867,8 @@ class ilMediaItem
             ? $this->getWidth() . "x" . $this->getHeight()
             : "";
 
-        if ($this->getLocationType() != "Reference") {
-            ilUtil::convertImage(
+        if ($this->getLocationType() !== "Reference") {
+            ilShellUtil::convertImage(
                 $this->getDirectory() . "/" . $this->getLocation(),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
@@ -901,7 +877,7 @@ class ilMediaItem
         } else {
             // first copy the external file, if necessary
             if (!is_file($this->getMapWorkCopyName(true)) || (filesize($this->getMapWorkCopyName(true)) == 0)) {
-                $handle = @fopen($this->getLocation(), "r");
+                $handle = fopen($this->getLocation(), "r");
                 $lcopy = fopen($this->getMapWorkCopyName(true), "w");
                 if ($handle && $lcopy) {
                     while (!feof($handle)) {
@@ -909,42 +885,39 @@ class ilMediaItem
                         fwrite($lcopy, $content);
                     }
                 }
-                @fclose($lcopy);
-                @fclose($handle);
+                fclose($lcopy);
+                fclose($handle);
             }
 
             // now, create working copy
-            ilUtil::convertImage(
+            ilShellUtil::convertImage(
                 $this->getMapWorkCopyName(true),
                 $this->getMapWorkCopyName(),
                 $this->getMapWorkCopyType(),
                 $geom
             );
         }
-
         if (!is_file($this->getMapWorkCopyName())) {
-            ilUtil::sendFailure($lng->txt("cont_map_file_not_generated"));
-            return false;
+            throw new ilMapEditingException($lng->txt("cont_map_file_not_generated"));
         }
-        return true;
     }
 
     /**
      * make map work copy of image
-     * @param int     $a_area_nr draw area $a_area_nr only
-     * @param boolean $a_exclude true: draw all areas but area $a_area_nr
+     * @param int  $a_area_nr draw area $a_area_nr only
+     * @param bool $a_exclude true: draw all areas but area $a_area_nr
      */
-    public function makeMapWorkCopy($a_area_nr = 0, $a_exclude = false)
-    {
+    public function makeMapWorkCopy(
+        int $a_area_nr = 0,
+        bool $a_exclude = false
+    ): void {
         $lng = $this->lng;
 
-        if (!$this->copyOriginal()) {
-            return false;
-        }
+        $this->copyOriginal();
         $this->buildMapWorkImage();
 
         // determine ratios
-        $size = @getimagesize($this->getMapWorkCopyName());
+        $size = getimagesize($this->getMapWorkCopyName());
         $x_ratio = 1;
         if ($size[0] > 0 && $this->getWidth() > 0) {
             $x_ratio = $this->getWidth() / $size[0];
@@ -973,8 +946,6 @@ class ilMediaItem
         }
 
         $this->saveMapWorkImage();
-
-        return true;
     }
 
     /**
@@ -982,12 +953,14 @@ class ilMediaItem
      * @param string $a_shape  shape
      * @param string $a_coords coordinates string
      */
-    public function addAreaToMapWorkCopy($a_shape, $a_coords)
-    {
+    public function addAreaToMapWorkCopy(
+        string $a_shape,
+        string $a_coords
+    ): void {
         $this->buildMapWorkImage();
 
         // determine ratios
-        $size = @getimagesize($this->getMapWorkCopyName());
+        $size = getimagesize($this->getMapWorkCopyName());
         $x_ratio = 1;
         if ($size[0] > 0 && $this->getWidth() > 0) {
             $x_ratio = $this->getWidth() / $size[0];
@@ -1016,7 +989,7 @@ class ilMediaItem
     /**
      * output raw map work copy file
      */
-    public function outputMapWorkCopy()
+    public function outputMapWorkCopy(): void
     {
         if ($this->getMapWorkCopyType() != "") {
             header("Pragma: no-cache");
@@ -1030,22 +1003,22 @@ class ilMediaItem
     /**
      * build image map work image
      */
-    public function buildMapWorkImage()
+    public function buildMapWorkImage(): void
     {
         $im_type = strtolower($this->getMapWorkCopyType());
 
         switch ($im_type) {
             case "gif":
-                $this->map_image = ImageCreateFromGIF($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefromgif($this->getMapWorkCopyName());
                 break;
 
             case "jpg":
             case "jpeg":
-                $this->map_image = ImageCreateFromJPEG($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefromjpeg($this->getMapWorkCopyName());
                 break;
 
             case "png":
-                $this->map_image = ImageCreateFromPNG($this->getMapWorkCopyName());
+                $this->map_image = imagecreatefrompng($this->getMapWorkCopyName());
                 break;
         }
 
@@ -1060,35 +1033,35 @@ class ilMediaItem
     }
 
     /**
-     * save image map work image
+     * save image map work image as file
      */
-    public function saveMapWorkImage()
+    public function saveMapWorkImage(): void
     {
         $im_type = strtolower($this->getMapWorkCopyType());
 
         // save image work-copy and free memory
         switch ($im_type) {
             case "gif":
-                ImageGIF($this->map_image, $this->getMapWorkCopyName());
+                imagegif($this->map_image, $this->getMapWorkCopyName());
                 break;
 
             case "jpg":
             case "jpeg":
-                ImageJPEG($this->map_image, $this->getMapWorkCopyName());
+                imagejpeg($this->map_image, $this->getMapWorkCopyName());
                 break;
 
             case "png":
-                ImagePNG($this->map_image, $this->getMapWorkCopyName());
+                imagepng($this->map_image, $this->getMapWorkCopyName());
                 break;
         }
 
-        ImageDestroy($this->map_image);
+        imagedestroy($this->map_image);
     }
 
     /**
-     * get image map work image
+     * @return GdImage|resource|null
      */
-    public function &getMapWorkImage()
+    public function getMapWorkImage()
     {
         return $this->map_image;
     }
@@ -1096,8 +1069,10 @@ class ilMediaItem
     /**
      * get xml code of media items' areas
      */
-    public function getMapAreasXML($a_insert_inst = false, $a_inst = 0)
-    {
+    public function getMapAreasXML(
+        bool $a_insert_inst = false,
+        int $a_inst = 0
+    ): string {
         $xml = "";
 
         // build xml of map areas
@@ -1146,8 +1121,9 @@ class ilMediaItem
      * resolve internal links of all media items of a media object
      * @param int $a_mob_id media object id
      */
-    public static function _resolveMapAreaLinks($a_mob_id)
-    {
+    public static function _resolveMapAreaLinks(
+        int $a_mob_id
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1167,8 +1143,9 @@ class ilMediaItem
      * get all internal links of map areas of a mob
      * @param int $a_mob_id media object id
      */
-    public static function _getMapAreasIntLinks($a_mob_id)
-    {
+    public static function _getMapAreasIntLinks(
+        int $a_mob_id
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1191,7 +1168,7 @@ class ilMediaItem
     /**
      * Extract parameters of special external references to parameter array
      */
-    public function extractUrlParameters()
+    public function extractUrlParameters(): void
     {
         $par = ilExternalMediaAnalyzer::extractUrlParameters(
             $this->getLocation(),
@@ -1202,21 +1179,57 @@ class ilMediaItem
         }
     }
 
-    public function determineDuration()
+    public function determineDuration(): void
     {
         $ana = new ilMediaAnalyzer();
-        $ana->setFile(ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation());
-        $ana->analyzeFile();
-        $this->setDuration((int) $ana->getPlaytimeSeconds());
+
+        if (ilExternalMediaAnalyzer::isVimeo($this->getLocation())) {
+            $par = ilExternalMediaAnalyzer::extractVimeoParameters($this->getLocation());
+            $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
+            if ($meta["duration"] > 0) {
+                $this->setDuration((int) $meta["duration"]);
+            }
+        } else {
+            $file = ($this->getLocationType() == "Reference")
+                ? $this->getLocation()
+                : ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation();
+
+            $remote = false;
+
+            if (substr($file, 0, 4) == "http") {
+                if ($fp_remote = fopen($file, 'rb')) {
+                    $tmpdir = ilFileUtils::ilTempnam();
+                    ilFileUtils::makeDir($tmpdir);
+                    $localtempfilename = tempnam($tmpdir, 'getID3');
+                    if ($fp_local = fopen($localtempfilename, 'wb')) {
+                        while ($buffer = fread($fp_remote, 8192)) {
+                            fwrite($fp_local, $buffer);
+                        }
+                        fclose($fp_local);
+                        $file = $localtempfilename;
+                    }
+                    fclose($fp_remote);
+                }
+            }
+
+            $ana->setFile($file);
+            $ana->analyzeFile();
+            $this->setDuration((int) $ana->getPlaytimeSeconds());
+
+            if ($remote) {
+                unlink($localtempfilename);
+            }
+        }
     }
 
     /**
      * Get media items for upload hash
      * @param string $a_hash upload hash
-     * @return array
+     * @return array[]
      */
-    public static function getMediaItemsForUploadHash($a_hash)
-    {
+    public static function getMediaItemsForUploadHash(
+        string $a_hash
+    ): array {
         global $DIC;
 
         $db = $DIC->database();

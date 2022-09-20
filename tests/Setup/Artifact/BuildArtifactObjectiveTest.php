@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup\Artifact;
 
@@ -12,17 +28,10 @@ class BuildArtifactObjectiveTest extends TestCase
 {
     protected \PHPUnit\Framework\MockObject\MockObject $o;
 
-    /**
-     * @var Artifact|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $artifact;
+    protected Artifact $artifact;
+    protected Setup\Environment $env;
 
-    /**
-     * @var Setup\Environment|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $env;
-
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
@@ -33,7 +42,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->env = $this->createMock(Setup\Environment::class);
     }
 
-    public function testBuildInDefaultsToBuild() : void
+    public function testBuildInDefaultsToBuild(): void
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
@@ -49,12 +58,12 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertSame($this->artifact, $this->o->buildIn($this->env));
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $this->assertEquals([], $this->o->getPreconditions($this->env));
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $path = "path/to/artifact";
 
@@ -67,7 +76,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $path = "path/to/artifact";
 
@@ -80,14 +89,14 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertEquals("Build $path", $this->o->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $this->assertTrue($this->o->isNotable());
     }
 
-    const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
+    public const TEST_PATH = "BuildArtifactObjectiveTest_testAchive";
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $path = self::TEST_PATH;
         $this->o
@@ -114,7 +123,7 @@ class BuildArtifactObjectiveTest extends TestCase
         $this->assertEquals($artifact, file_get_contents($path));
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         if (file_exists(getcwd() . "/" . self::TEST_PATH)) {
             unlink(getcwd() . "/" . self::TEST_PATH);

@@ -1,8 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-//use \ILIAS\UI\Component\Modal\RoundTrip;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Class ilCmiXapiScoringTableGUI
  *
@@ -14,48 +29,47 @@
  */
 class ilCmiXapiScoringTableGUI extends ilTable2GUI
 {
-    const TABLE_ID = 'cmix_scoring_table_';
+    public const TABLE_ID = 'cmix_scoring_table_';
 
-    /**
-     * @var bool
-     */
-    protected $isMultiActorReport;
+    protected bool $isMultiActorReport;
 
-    /**
-     * @var ilCmiXapiScoringGUI
-     */
-    private $_parent;
-    
-    /**
-     * @var bool
-     */
-    private $hasOutcomeAccess;
+    private \ilCmiXapiScoringGUI $_parent;
+
+    private bool $hasOutcomeAccess;
+
+    private \ILIAS\DI\Container $dic;
+
+    private ilLanguage $language;
 
     /**
      * ilCmiXapiScoringTableGUI constructor.
-     * @param ilCmiXapiScoringGUI $a_parent_obj
-     * @param $a_parent_cmd
-     * @param $isMultiActorReport
-     * @param $tableId
      */
-    public function __construct(ilCmiXapiScoringGUI $a_parent_obj, $a_parent_cmd, $isMultiActorReport, $tableId, $hasOutcomeAccess)
-    {
+    public function __construct(
+        ilCmiXapiScoringGUI $a_parent_obj,
+        string $a_parent_cmd,
+        bool $isMultiActorReport,
+        string $tableId,
+        bool $hasOutcomeAccess
+    ) {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
 
         $this->isMultiActorReport = $isMultiActorReport;
-        
+
         $this->setId(self::TABLE_ID . $tableId);
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->_parent = $a_parent_obj;
 
         $DIC->language()->loadLanguageModule('assessment');
-        
+        $this->language = $DIC->language();
         $this->setRowTemplate('tpl.cmix_scoring_table_row.html', 'Modules/CmiXapi');
 
         if ($tableId === 'highscore') {
-            $this->setTitle(sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->object->getHighscoreTopNum()));
+            $this->setTitle(
+                sprintf($this->language->txt('toplist_top_n_results'), $this->_parent->object->getHighscoreTopNum())
+            );
         } else {
-            $this->setTitle($DIC->language()->txt('toplist_your_result'));
+            $this->setTitle($this->language->txt('toplist_your_result'));
         }
 
         $this->initColumns();
@@ -66,80 +80,78 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->resetOffset();
         $this->setDefaultOrderField('rank');
         $this->setDefaultOrderDirection('asc');
-        
+
         $this->hasOutcomeAccess = $hasOutcomeAccess;
     }
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $this->addColumn($DIC->language()->txt('toplist_col_rank'));
-        $this->addColumn($DIC->language()->txt('toplist_col_participant'));
+        $this->addColumn($this->language->txt('toplist_col_rank'));
+        $this->addColumn($this->language->txt('toplist_col_participant'));
 
         if ($this->_parent->object->getHighscoreAchievedTS()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_achieved'));
+            $this->addColumn($this->language->txt('toplist_col_achieved'));
         }
 
         if ($this->_parent->object->getHighscorePercentage()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_percentage'));
+            $this->addColumn($this->language->txt('toplist_col_percentage'));
         }
 
         if ($this->_parent->object->getHighscoreWTime()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_wtime'));
+            $this->addColumn($this->language->txt('toplist_col_wtime'));
         }
 
         $this->setEnableNumInfo(false);
-        $this->setLimit((int) $this->_parent->object->getHighscoreTopNum());
+        $this->setLimit($this->_parent->object->getHighscoreTopNum());
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set): void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $this->tpl->setVariable('SCORE_RANK', $data['rank']);
+        $this->tpl->setVariable('SCORE_RANK', $a_set['rank']);
 
         $this->tpl->setCurrentBlock('personal');
-        $this->tpl->setVariable('SCORE_USER', $this->getUsername($data));
+        $this->tpl->setVariable('SCORE_USER', $this->getUsername($a_set));
         $this->tpl->parseCurrentBlock();
 
         if ($this->_parent->object->getHighscoreAchievedTS()) {
             $this->tpl->setCurrentBlock('achieved');
-            $this->tpl->setVariable('SCORE_ACHIEVED', $data['date']);
+            $this->tpl->setVariable('SCORE_ACHIEVED', $a_set['date']);
             $this->tpl->parseCurrentBlock();
         }
 
-
         if ($this->_parent->object->getHighscorePercentage()) {
             $this->tpl->setCurrentBlock('percentage');
-            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $data['score'] * 100);
+            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $a_set['score'] * 100);
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->_parent->object->getHighscoreWTime()) {
             $this->tpl->setCurrentBlock('wtime');
-            $this->tpl->setVariable('SCORE_DURATION', $data['duration']);
+            $this->tpl->setVariable('SCORE_DURATION', $a_set['duration']);
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $data['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
+        $highlight = $a_set['ilias_user_id'] == $this->dic->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
 
-    protected function getUsername($data)
+    /**
+     * @return string
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
+    protected function getUsername(array $data): string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         if ($this->hasOutcomeAccess) {
             $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
-            
+
             if ($user) {
                 return $user->getFullname();
             }
-            
-            return $DIC->language()->txt('deleted_user');
+
+            return $this->language->txt('deleted_user');
         }
-        
-        return $data['user'];
+        return "";
+//        return $data['user'];
     }
 }

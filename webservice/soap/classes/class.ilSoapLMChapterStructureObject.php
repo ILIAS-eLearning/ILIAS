@@ -22,27 +22,23 @@
    +-----------------------------------------------------------------------------+
   */
 
-
- /**
-   * class representing a lm as structure object
-   *
-   * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
-   * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
-   *
-   * @package ilias
-   */
+/**
+ * class representing a lm as structure object
+ * @author  Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
+ * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
+ * @package ilias
+ */
 
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
-
 class ilSoapLMChapterStructureObject extends ilSoapStructureObject
 {
-    public function getInternalLink()
+    public function getInternalLink(): string
     {
         return "[iln chap=\"" . $this->getObjId() . "\"]" . $this->getTitle() . "[/iln]";
     }
-    
-    public function getGotoLink()
+
+    public function getGotoLink(): string
     {
         return "";
     }

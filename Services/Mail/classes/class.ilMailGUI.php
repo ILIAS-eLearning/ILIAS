@@ -1,8 +1,26 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Mail\Provider\MailGlobalScreenToolProvider;
 
 /**
  * @author       Jens Conze
@@ -10,10 +28,10 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
  */
-class ilMailGUI
+class ilMailGUI implements ilCtrlBaseClassInterface
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private string $forwardClass = '';
     private GlobalHttpState $http;
@@ -21,7 +39,7 @@ class ilMailGUI
     private int $currentFolderId = 0;
     private ilObjUser $user;
     public ilMail $umail;
-    public ilMailBox $mbox;
+    public ilMailbox $mbox;
 
     public function __construct()
     {
@@ -37,10 +55,11 @@ class ilMailGUI
 
         $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
-        if (!$DIC->rbac()->system()->checkAccess(
-            'internal_mail',
-            $this->umail->getMailObjectReferenceId()
-        )
+        if (
+            !$DIC->rbac()->system()->checkAccess(
+                'internal_mail',
+                $this->umail->getMailObjectReferenceId()
+            )
         ) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
@@ -60,9 +79,8 @@ class ilMailGUI
         }
     }
 
-    protected function initFolder() : void
+    protected function initFolder(): void
     {
-        $folderId = 0;
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
@@ -76,7 +94,7 @@ class ilMailGUI
         $this->currentFolderId = $folderId;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $type = "";
         if ($this->http->wrapper()->query()->has('type')) {
@@ -121,14 +139,12 @@ class ilMailGUI
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_REPLY === $type) {
-            ilSession::set('mail_id', $mailId);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'replyMail');
         } elseif ('read' === $type) {
-            ilSession::set('mail_id', $mailId);
+            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('deliverFile' === $type) {
-            ilSession::set('mail_id', $mailId);
-
             $fileName = "";
             if ($this->http->wrapper()->post()->has('filename')) {
                 $fileName = $this->http->wrapper()->post()->retrieve(
@@ -143,9 +159,10 @@ class ilMailGUI
             }
 
             ilSession::set('filename', ilUtil::stripSlashes($fileName));
+            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'deliverFile');
         } elseif ('message_sent' === $type) {
-            ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('mail_message_send'), true);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class);
         } elseif (ilMailFormGUI::MAIL_FORM_TYPE_ROLE === $type) {
             $roles = [];
@@ -157,7 +174,10 @@ class ilMailGUI
             } elseif ($this->http->wrapper()->query()->has('role')) {
                 $roles = [$this->http->wrapper()->query()->retrieve('role', $this->refinery->kindlyTo()->string())];
             }
-            ilSession::set('mail_roles', $roles);
+
+            if ($roles !== []) {
+                ilSession::set('mail_roles', $roles);
+            }
 
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailRole');
@@ -214,7 +234,7 @@ class ilMailGUI
         }
     }
 
-    private function setViewMode() : void
+    private function setViewMode(): void
     {
         $targetClass = ilMailFolderGUI::class;
         if ($this->http->wrapper()->query()->has('target')) {
@@ -257,17 +277,14 @@ class ilMailGUI
         }
     }
 
-    private function showHeader() : void
+    private function showHeader(): void
     {
         global $DIC;
 
         $DIC['ilHelp']->setScreenIdComponent("mail");
-        $DIC['ilMainMenu']->setActive("mail");
 
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail.svg"));
-
-        ilUtil::infoPanel();
 
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
@@ -322,7 +339,7 @@ class ilMailGUI
         }
     }
 
-    protected function toggleExplorerNodeState() : void
+    protected function toggleExplorerNodeState(): void
     {
         $exp = new ilMailExplorer($this, $this->user->getId());
         $exp->toggleExplorerNodeState();

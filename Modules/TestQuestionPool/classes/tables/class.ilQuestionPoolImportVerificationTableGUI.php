@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -32,7 +33,7 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('question_title'));
@@ -42,9 +43,9 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
-        $a_set['chb'] = ilUtil::formCheckbox(true, 'ident[]', $a_set['ident']);
+        $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(true, 'ident[]', $a_set['ident']);
         parent::fillRow($a_set);
     }
 }

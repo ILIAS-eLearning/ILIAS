@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class for global mail information (e.g. in main menu).
@@ -13,9 +30,9 @@ class ilMailGlobalServices
 {
     public const CACHE_TYPE_REF_ID = 0;
     public const CACHE_TYPE_NEW_MAILS = 1;
-    protected static $global_mail_services_cache = [];
+    protected static array $global_mail_services_cache = [];
 
-    public static function getMailObjectRefId() : int
+    public static function getMailObjectRefId(): int
     {
         global $DIC;
 
@@ -49,11 +66,9 @@ class ilMailGlobalServices
     }
 
     /**
-     * @param ilObjUser $user
-     * @param int $leftInterval
      * @return array{count: int, max_time: string}
      */
-    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0) : array
+    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0): array
     {
         global $DIC;
 

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -10,10 +11,10 @@
  */
 class ilTestQuestionNavigationGUI
 {
-    const SHOW_DISABLED_COMMANDS = false;
-    
-    const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
-    
+    public const SHOW_DISABLED_COMMANDS = false;
+
+    public const CSS_CLASS_SUBMIT_BUTTONS = 'ilc_qsubmit_Submit';
+
     /**
      * @var ilLanguage
      */
@@ -102,7 +103,7 @@ class ilTestQuestionNavigationGUI
      * @var bool
      */
     private $anythingRendered = false;
-    
+
     /**
      * @param ilLanguage $lng
      */
@@ -114,7 +115,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getEditSolutionCommand()
+    public function getEditSolutionCommand(): string
     {
         return $this->editSolutionCommand;
     }
@@ -130,7 +131,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isQuestionWorkedThrough()
+    public function isQuestionWorkedThrough(): bool
     {
         return $this->questionWorkedThrough;
     }
@@ -146,7 +147,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getSubmitSolutionCommand()
+    public function getSubmitSolutionCommand(): string
     {
         return $this->submitSolutionCommand;
     }
@@ -163,7 +164,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getRevertChangesLinkTarget()
+    public function getRevertChangesLinkTarget(): string
     {
         return $this->revertChangesLinkTarget;
     }
@@ -180,7 +181,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return bool
      */
-    public function isDiscardSolutionButtonEnabled()
+    public function isDiscardSolutionButtonEnabled(): bool
     {
         return $this->discardSolutionButtonEnabled;
     }
@@ -196,7 +197,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getSkipQuestionLinkTarget()
+    public function getSkipQuestionLinkTarget(): string
     {
         return $this->skipQuestionLinkTarget;
     }
@@ -212,7 +213,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getInstantFeedbackCommand()
+    public function getInstantFeedbackCommand(): string
     {
         return $this->instantFeedbackCommand;
     }
@@ -228,7 +229,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isAnswerFreezingEnabled()
+    public function isAnswerFreezingEnabled(): bool
     {
         return $this->answerFreezingEnabled;
     }
@@ -236,7 +237,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isForceInstantResponseEnabled()
+    public function isForceInstantResponseEnabled(): bool
     {
         return $this->forceInstantResponseEnabled;
     }
@@ -260,7 +261,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getRequestHintCommand()
+    public function getRequestHintCommand(): string
     {
         return $this->requestHintCommand;
     }
@@ -276,7 +277,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getShowHintsCommand()
+    public function getShowHintsCommand(): string
     {
         return $this->showHintsCommand;
     }
@@ -292,7 +293,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function hintRequestsExist()
+    public function hintRequestsExist(): bool
     {
         return $this->hintRequestsExist;
     }
@@ -309,7 +310,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getQuestionMarkLinkTarget()
+    public function getQuestionMarkLinkTarget(): string
     {
         return $this->questionMarkLinkTarget;
     }
@@ -326,7 +327,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isQuestionMarked()
+    public function isQuestionMarked(): bool
     {
         return $this->questionMarked;
     }
@@ -342,7 +343,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isAnythingRendered()
+    public function isAnythingRendered(): bool
     {
         return $this->anythingRendered;
     }
@@ -358,7 +359,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return boolean
      */
-    public function isCharSelectorEnabled()
+    public function isCharSelectorEnabled(): bool
     {
         return $this->charSelectorEnabled;
     }
@@ -370,13 +371,13 @@ class ilTestQuestionNavigationGUI
     {
         $this->charSelectorEnabled = $charSelectorEnabled;
     }
-    
+
     // fau: testNav - generate question actions menu
     /**
      * Get the HTML of an actions menu below the title
      * @return string
      */
-    public function getActionsHTML()
+    public function getActionsHTML(): string
     {
         $tpl = $this->getTemplate('actions');
 
@@ -496,7 +497,7 @@ class ilTestQuestionNavigationGUI
     /**
      * @return string
      */
-    public function getHTML()
+    public function getHTML(): string
     {
         // fau: testNav - add parameter for toolbar template purpose
         $tpl = $this->getTemplate('toolbar');
@@ -508,7 +509,7 @@ class ilTestQuestionNavigationGUI
                 $this->getEditSolutionButtonLabel()
             );
         }
-        
+
         // fau: testNav - don't show the standard submit button.
         // fau: testNav - discard answer is moved to the actions menu.
         // fau: testNav - skip question (postpone) is moved to the actions menu.
@@ -540,15 +541,15 @@ class ilTestQuestionNavigationGUI
 
         // fau: testNav - question mark is moved to the actions menu.
         // fau: testNav - char selector is moved to the actions menu.
-        
+
         if ($this->isAnythingRendered()) {
             $this->parseNavigation($tpl);
         }
-        
+
         return $tpl->get();
     }
 
-    private function getEditSolutionButtonLabel()
+    private function getEditSolutionButtonLabel(): string
     {
         if ($this->isQuestionWorkedThrough()) {
             return 'edit_answer';
@@ -557,7 +558,7 @@ class ilTestQuestionNavigationGUI
         return 'answer_question';
     }
 
-    private function getSubmitSolutionButtonLabel()
+    private function getSubmitSolutionButtonLabel(): string
     {
         if ($this->isForceInstantResponseEnabled()) {
             return 'submit_and_check';
@@ -567,27 +568,27 @@ class ilTestQuestionNavigationGUI
         return 'save';
         // fau.
     }
-    
-    private function getCheckButtonLabel()
+
+    private function getCheckButtonLabel(): string
     {
         if ($this->isAnswerFreezingEnabled()) {
             return 'submit_and_check';
         }
-        
+
         return 'check';
     }
-    
-    private function getRequestHintButtonLabel()
+
+    private function getRequestHintButtonLabel(): string
     {
         if ($this->hintRequestsExist()) {
             return 'button_request_next_question_hint';
         }
-        
+
         return 'button_request_question_hint';
     }
 
     // fau: testNav - adjust mark icon and action labels
-    private function getQuestionMarkActionLabel()
+    private function getQuestionMarkActionLabel(): string
     {
         if ($this->isQuestionMarked()) {
             return $this->lng->txt('tst_remove_mark');
@@ -597,7 +598,7 @@ class ilTestQuestionNavigationGUI
     }
 
 
-    private function getQuestionMarkIconLabel()
+    private function getQuestionMarkIconLabel(): string
     {
         if ($this->isQuestionMarked()) {
             return $this->lng->txt('tst_question_marked');
@@ -607,7 +608,7 @@ class ilTestQuestionNavigationGUI
     }
     // fau.
 
-    private function getQuestionMarkIconSource()
+    private function getQuestionMarkIconSource(): string
     {
         if ($this->isQuestionMarked()) {
             return ilUtil::getImagePath('marked.svg');
@@ -622,17 +623,17 @@ class ilTestQuestionNavigationGUI
      * @param	string	$a_purpose ('toolbar' | 'actions')
      * @return ilTemplate
      */
-    private function getTemplate($a_purpose = 'toolbar')
+    private function getTemplate($a_purpose = 'toolbar'): ilTemplate
     {
         switch ($a_purpose) {
             case 'toolbar':
-        return new ilTemplate(
-            'tpl.tst_question_navigation.html',
-            true,
-            true,
-            'Modules/Test'
-        );
-
+                return new ilTemplate(
+                    'tpl.tst_question_navigation.html',
+                    true,
+                    true,
+                    'Modules/Test'
+                );
+            default:
             case 'actions':
                 return new ilTemplate(
                     'tpl.tst_question_actions.html',
@@ -640,7 +641,7 @@ class ilTestQuestionNavigationGUI
                     true,
                     'Modules/Test'
                 );
-    }
+        }
     }
     // fau.
 
@@ -689,7 +690,7 @@ class ilTestQuestionNavigationGUI
         $button->setCaption($label);
         $button->setPrimary($primary);
         $button->addCSSClass(self::CSS_CLASS_SUBMIT_BUTTONS);
-        
+
         $this->renderButtonInstance($tpl, $button);
     }
 

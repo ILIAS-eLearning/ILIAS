@@ -1,112 +1,65 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitType
- *
  * @author : Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitType
 {
-    const TABLE_NAME = 'orgu_types';
+    public const TABLE_NAME = 'orgu_types';
     /**
      * Folder in ILIAS webdir to store the icons
      */
-    const WEB_DATA_FOLDER = 'orgu_data';
-    /**
-     * @var int
-     */
-    protected $id = 0;
-    /**
-     * @var string
-     */
-    protected $default_lang = '';
-    /**
-     * @var int
-     */
-    protected $owner;
-    /**
-     * @var string
-     */
-    protected $create_date;
-    /**
-     * @var string
-     */
-    protected $last_update;
-    /**
-     * @var string
-     */
-    protected $icon;
-    /**
-     * @var array
-     */
-    protected $translations = array();
-    /**
-     * @var array
-     */
-    protected $amd_records_assigned;
-    /**
-     * @var array
-     */
-    protected static $amd_records_available;
-    /**
-     * @var array
-     */
-    protected $orgus;
-    /**
-     * @var
-     */
-    protected $orgus_ids;
-    /**
-     * @var ilDB
-     */
-    protected $db;
-    /**
-     * @var ilLog
-     */
-    protected $log;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
-    /**
-     * @var array
-     */
-    protected $active_plugins;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * Object cache
-     *
-     * @var array
-     */
-    protected static $instances = array();
+    public const WEB_DATA_FOLDER = 'orgu_data';
+    protected int $id = 0;
+    protected string $default_lang = '';
+    protected int $owner;
+    protected string $create_date;
+    protected string $last_update;
+    protected ?string $icon = null;
+    protected array $translations = array();
+    protected array $amd_records_assigned;
+    protected static array $amd_records_available = [];
+    protected array $orgus = [];
+    protected array $orgus_ids = [];
+    protected ilDBInterface $db;
+    protected \ILIAS\DI\LoggingServices  $log;
+    protected ilObjUser $user;
+    protected array $active_plugins;
+    protected ilLanguage $lng;
+    /** @param self[] */
+    protected static array $instances = array();
+    protected ilComponentFactory $component_factory;
 
 
     /**
-     * @param int $a_id
-     *
      * @throws ilOrgUnitTypeException
      */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        $ilUser = $DIC['ilUser'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $lng = $DIC['lng'];
-        $this->db = $ilDB;
-        $this->log = $ilLog;
-        $this->user = $ilUser;
-        $this->pluginAdmin = $ilPluginAdmin;
-        $this->lng = $lng;
+        $this->component_factory = $DIC['component.factory'];
+        $this->db = $DIC->database();
+        $this->log = $DIC->logger();
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         if ($a_id) {
             $this->id = (int) $a_id;
             $this->read();
@@ -114,18 +67,12 @@ class ilOrgUnitType
     }
 
     /**
-     * Public
-     */
-
-    /**
      * Get instance of an ilOrgUnitType object
      * Returns object from cache or from database, returns null if no object was found
-     *
      * @param int $a_id ID of the OrgUnit type
-     *
      * @return ilOrgUnitType|null
      */
-    public static function getInstance($a_id)
+    public static function getInstance(int $a_id): ?ilOrgUnitType
     {
         if (!$a_id) {
             return null;
@@ -144,13 +91,10 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Get array of all instances of ilOrgUnitType objects
-     *
-     * @return array
      */
-    public static function getAllTypes()
+    public static function getAllTypes(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -166,13 +110,11 @@ class ilOrgUnitType
         return $types;
     }
 
-
     /**
      * Create object in database. Also invokes creating of translation objects.
-     *
      * @throws ilOrgUnitTypeException
      */
-    public function create()
+    public function create(): void
     {
         $default_lang = $this->getDefaultLang();
         $title = $this->getTranslation('title', $default_lang);
@@ -198,14 +140,12 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Update changes to database
-     *
      * @throws ilOrgUnitTypePluginException
      * @throws ilOrgUnitTypeException
      */
-    public function update()
+    public function update(): void
     {
         $title = $this->getTranslation('title', $this->getDefaultLang());
         if (!$title) {
@@ -242,13 +182,11 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Wrapper around create() and update() methods.
-     *
      * @throws ilOrgUnitTypePluginException
      */
-    public function save()
+    public function save(): void
     {
         if ($this->getId()) {
             $this->update();
@@ -257,14 +195,12 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Delete object by removing all database entries.
      * Deletion is only possible if this type is not assigned to any OrgUnit and if no plugin disallowed deletion process.
-     *
      * @throws ilOrgUnitTypeException
      */
-    public function delete()
+    public function delete(): void
     {
         $orgus = $this->getOrgUnits(false);
         if (count($orgus)) {
@@ -273,7 +209,10 @@ class ilOrgUnitType
             foreach ($orgus as $orgu) {
                 $titles[] = $orgu->getTitle();
             }
-            throw new ilOrgUnitTypeException(sprintf($this->lng->txt('orgu_type_msg_unable_delete'), implode(', ', $titles)));
+            throw new ilOrgUnitTypeException(sprintf(
+                $this->lng->txt('orgu_type_msg_unable_delete'),
+                implode(', ', $titles)
+            ));
         }
 
         $disallowed = array();
@@ -316,76 +255,66 @@ class ilOrgUnitType
         $this->db->manipulate($sql);
     }
 
-
     /**
      * Get the title of an OrgUnit type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the translation of the default language is substituted.
      * If a language code is provided, returns title for the given language or null.
-     *
      * @param string $a_lang_code
-     *
      * @return null|string
      */
-    public function getTitle($a_lang_code = '')
+    public function getTitle(string $a_lang_code = ''): ?string
     {
         return $this->getTranslation('title', $a_lang_code);
     }
 
-
     /**
      * Set title of OrgUnit type.
      * If no lang code is given, sets title for default language.
-     *
      * @param        $a_title
      * @param string $a_lang_code
      */
-    public function setTitle($a_title, $a_lang_code = '')
+    public function setTitle(string $a_title, string $a_lang_code = '')
     {
         $lang = ($a_lang_code) ? $a_lang_code : $this->getDefaultLang();
         $this->setTranslation('title', $a_title, $lang);
     }
 
-
     /**
      * Get the description of an OrgUnit type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the description of the default language is substituted.
      * If a language code is provided, returns description for the given language or null.
-     *
      * @param string $a_lang_code
-     *
      * @return null|string
      */
-    public function getDescription($a_lang_code = '')
+    public function getDescription(string $a_lang_code = ''): ?string
     {
         return $this->getTranslation('description', $a_lang_code);
     }
 
-
     /**
      * Set description of OrgUnit type.
      * If no lang code is given, sets description for default language.
-     *
      * @param        $a_description
      * @param string $a_lang_code
      */
-    public function setDescription($a_description, $a_lang_code = '')
+    public function setDescription(string $a_description, string $a_lang_code = ''): void
     {
         $lang = ($a_lang_code) ? $a_lang_code : $this->getDefaultLang();
         $this->setTranslation('description', $a_description, $lang);
     }
 
-
     /**
      * Get an array of IDs of ilObjOrgUnit objects using this type
-     *
      * @param bool $include_deleted
-     *
      * @return array
      */
-    public function getOrgUnitIds($include_deleted = true)
+    public function getOrgUnitIds(bool $include_deleted = true): array
     {
         $cache_key = ($include_deleted) ? 1 : 0;
-        if (is_array($this->orgus_ids[$cache_key])) {
+
+        if (array_key_exists($cache_key, $this->orgus_ids)
+            && is_array($this->orgus_ids[$cache_key])
+        ) {
             return $this->orgus_ids[$cache_key];
         }
         if ($include_deleted) {
@@ -404,18 +333,18 @@ class ilOrgUnitType
         return $this->orgus_ids[$cache_key];
     }
 
-
     /**
      * Get an array of ilObjOrgUnit objects using this type
-     *
      * @param bool $include_deleted True if also deleted OrgUnits are returned
-     *
-     * @return array
+     * @return int[]
      */
-    public function getOrgUnits($include_deleted = true)
+    public function getOrgUnits(bool $include_deleted = true): array
     {
         $cache_key = ($include_deleted) ? 1 : 0;
-        if (is_array($this->orgus[$cache_key])) {
+
+        if (array_key_exists($cache_key, $this->orgus)
+            && is_array($this->orgus[$cache_key])
+        ) {
             return $this->orgus[$cache_key];
         }
         $this->orgus[$cache_key] = array();
@@ -437,15 +366,12 @@ class ilOrgUnitType
         return $this->orgus[$cache_key];
     }
 
-
     /**
      * Get assigned AdvancedMDRecord objects
-     *
      * @param bool $a_only_active True if only active AMDRecords are returned
-     *
-     * @return array
+     * @return ilAdvancedMDRecord[]
      */
-    public function getAssignedAdvancedMDRecords($a_only_active = false)
+    public function getAssignedAdvancedMDRecords(bool $a_only_active = false): array
     {
         $active = ($a_only_active) ? 1 : 0; // Cache key
         if (is_array($this->amd_records_assigned[$active])) {
@@ -455,7 +381,7 @@ class ilOrgUnitType
         $sql = 'SELECT * FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
         $set = $this->db->query($sql);
         while ($rec = $this->db->fetchObject($set)) {
-            $amd_record = new ilAdvancedMDRecord($rec->rec_id);
+            $amd_record = new ilAdvancedMDRecord((int) $rec->rec_id);
             if ($a_only_active) {
                 if ($amd_record->isActive()) {
                     $this->amd_records_assigned[1][] = $amd_record;
@@ -468,15 +394,12 @@ class ilOrgUnitType
         return $this->amd_records_assigned[$active];
     }
 
-
     /**
      * Get IDs of assigned AdvancedMDRecord objects
-     *
      * @param bool $a_only_active True if only IDs of active AMDRecords are returned
-     *
-     * @return array
+     * @return int[]
      */
-    public function getAssignedAdvancedMDRecordIds($a_only_active = false)
+    public function getAssignedAdvancedMDRecordIds(bool $a_only_active = false): array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
@@ -487,13 +410,11 @@ class ilOrgUnitType
         return $ids;
     }
 
-
     /**
      * Get all available AdvancedMDRecord objects for OrgUnits/Types
-     *
-     * @return array
+     * @return ilAdvancedMDRecord[]
      */
-    public static function getAvailableAdvancedMDRecords()
+    public static function getAvailableAdvancedMDRecords(): array
     {
         if (is_array(self::$amd_records_available)) {
             return self::$amd_records_available;
@@ -503,13 +424,11 @@ class ilOrgUnitType
         return self::$amd_records_available;
     }
 
-
     /**
      * Get IDs of all available AdvancedMDRecord objects for OrgUnit/Types
-     *
-     * @return array
+     * @return ilAdvancedMDRecord[]
      */
-    public static function getAvailableAdvancedMDRecordIds()
+    public static function getAvailableAdvancedMDRecordIds(): array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
@@ -520,18 +439,15 @@ class ilOrgUnitType
         return $ids;
     }
 
-
     /**
      * Assign a given AdvancedMDRecord to this type.
      * If the AMDRecord is already assigned, nothing is done. If the AMDRecord cannot be assigned to OrgUnits/Types,
      * an Exception is thrown. Otherwise the AMDRecord is assigned (relation gets stored in DB).
-     *
      * @param int $a_record_id
-     *
      * @throws ilOrgUnitTypePluginException
      * @throws ilOrgUnitTypeException
      */
-    public function assignAdvancedMDRecord($a_record_id)
+    public function assignAdvancedMDRecord(int $a_record_id): void
     {
         if (!in_array($a_record_id, $this->getAssignedAdvancedMDRecordIds())) {
             if (!in_array($a_record_id, self::getAvailableAdvancedMDRecordIds())) {
@@ -564,15 +480,12 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Deassign a given AdvancedMD record from this type.
-     *
      * @param int $a_record_id
-     *
      * @throws ilOrgUnitTypePluginException
      */
-    public function deassignAdvancedMdRecord($a_record_id)
+    public function deassignAdvancedMdRecord(int $a_record_id): void
     {
         $record_ids = $this->getAssignedAdvancedMDRecordIds();
         $key = array_search($a_record_id, $record_ids);
@@ -603,15 +516,12 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Resize and store an icon file for this object
-     *
      * @param array $file_data The array containing file information from the icon from PHPs $_FILES array
-     *
      * @return bool
      */
-    public function processAndStoreIconFile(array $file_data)
+    public function processAndStoreIconFile(array $file_data): bool
     {
         if (!$this->updateable()) {
             return false;
@@ -620,20 +530,16 @@ class ilOrgUnitType
             return false;
         }
         if (!is_dir($this->getIconPath())) {
-            ilUtil::makeDirParents($this->getIconPath());
+            ilFileUtils::makeDirParents($this->getIconPath());
         }
         $filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-        $return = ilUtil::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
-
-        // TODO Resize
-        return $return;
+        return ilFileUtils::moveUploadedFile($file_data['tmp_name'], $filename, $this->getIconPath(true), false);
     }
-
 
     /**
      * Remove the icon file on disk
      */
-    public function removeIconFile()
+    public function removeIconFile(): void
     {
         if (!$this->updateable()) {
             return;
@@ -651,13 +557,11 @@ class ilOrgUnitType
 
     /**
      * Helper method to return a translation for a given member and language
-     *
      * @param $a_member
      * @param $a_lang_code
-     *
      * @return null|string
      */
-    protected function getTranslation($a_member, $a_lang_code)
+    protected function getTranslation(string $a_member, string $a_lang_code): ?string
     {
         $lang = ($a_lang_code) ? $a_lang_code : $this->user->getLanguage();
         $trans_obj = $this->loadTranslation($lang);
@@ -684,22 +588,19 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Helper method to set a translation for a given member and language
-     *
      * @param string $a_member
      * @param string $a_value
      * @param string $a_lang_code
-     *
      * @throws ilOrgUnitTypePluginException
      */
-    protected function setTranslation($a_member, $a_value, $a_lang_code)
+    protected function setTranslation(string $a_member, string $a_value, string $a_lang_code): void
     {
         $a_value = trim($a_value);
         // If the value is identical, quit early and do not execute plugin checks
         $existing_translation = $this->getTranslation($a_member, $a_lang_code);
-        if ($existing_translation == $a_value) {
+        if ($existing_translation === $a_value) {
             return;
         }
         // #19 Title should be unique per language
@@ -708,15 +609,15 @@ class ilOrgUnitType
         //                throw new ilOrgUnitTypeException($this->lng->txt('orgu_type_msg_title_already_exists'));
         //            }
         //        }
-        $disallowed = array();
-        $titles = array();
+        $disallowed = [];
+        $titles = [];
         /** @var ilOrgUnitTypeHookPlugin $plugin */
         foreach ($this->getActivePlugins() as $plugin) {
             $allowed = true;
-            if ($a_member == 'title') {
+            if ($a_member === 'title') {
                 $allowed = $plugin->allowSetTitle($this->getId(), $a_lang_code, $a_value);
             } else {
-                if ($a_member == 'description') {
+                if ($a_member === 'description') {
                     $allowed = $plugin->allowSetDescription($this->getId(), $a_lang_code, $a_value);
                 }
             }
@@ -746,37 +647,22 @@ class ilOrgUnitType
         }
     }
 
-
     /**
      * Get array of all acitve plugins for the ilOrgUnitTypeHook plugin slot
-     *
      * @return array
      */
-    protected function getActivePlugins()
+    public function getActivePlugins(): array
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->pluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'OrgUnit', 'orgutypehk');
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl_name) {
-                /** @var ilOrgUnitTypeHookPlugin $plugin */
-                $plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'OrgUnit', 'orgutypehk', $pl_name);
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return iterator_to_array($this->component_factory->getActivePluginsInSlot("orgutypehk"));
     }
-
 
     /**
      * Helper function to load a translation.
      * Returns translation object from cache or null, if no translation exists for the given code.
-     *
      * @param string $a_lang_code A language code
-     *
      * @return ilOrgUnitTypeTranslation|null
      */
-    protected function loadTranslation($a_lang_code)
+    protected function loadTranslation(string $a_lang_code): ?ilOrgUnitTypeTranslation
     {
         if (isset($this->translations[$a_lang_code])) {
             return $this->translations[$a_lang_code];
@@ -792,13 +678,11 @@ class ilOrgUnitType
         return null;
     }
 
-
     /**
      * Read object data from database
-     *
      * @throws ilOrgUnitTypeException
      */
-    protected function read()
+    protected function read(): void
     {
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE id = ' . $this->db->quote($this->id, 'integer');
         $set = $this->db->query($sql);
@@ -813,13 +697,11 @@ class ilOrgUnitType
         $this->setIcon($rec->icon);
     }
 
-
     /**
      * Helper function to check if this type can be updated
-     *
      * @return bool
      */
-    protected function updateable()
+    protected function updateable(): bool
     {
         foreach ($this->getActivePlugins() as $plugin) {
             if (!$plugin->allowUpdate($this->getId())) {
@@ -836,31 +718,27 @@ class ilOrgUnitType
      */
 
     /**
-     * @param array $translations
+     * @param string[] $translations
      */
-    public function setTranslations($translations)
+    public function setTranslations(array $translations)
     {
         $this->translations = $translations;
     }
 
-
     /**
      * Returns the loaded translation objects
-     *
      * @return array
      */
-    public function getTranslations()
+    public function getTranslations(): array
     {
         return $this->translations;
     }
 
-
     /**
      * Returns all existing translation objects
-     *
      * @return array
      */
-    public function getAllTranslations()
+    public function getAllTranslations(): array
     {
         $translations = ilOrgUnitTypeTranslation::getAllTranslations($this->getId());
         /** @var ilOrgUnitTypeTranslation $trans */
@@ -871,65 +749,39 @@ class ilOrgUnitType
         return $this->translations;
     }
 
-
-    /**
-     * @param int $owner
-     */
-    public function setOwner($owner)
+    public function setOwner(int $owner)
     {
         $this->owner = $owner;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getOwner()
+    public function getOwner(): int
     {
         return $this->owner;
     }
 
-
-    /**
-     * @param string $last_update
-     */
-    public function setLastUpdate($last_update)
+    public function setLastUpdate(string $last_update)
     {
         $this->last_update = $last_update;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getLastUpdate()
+    public function getLastUpdate(): string
     {
         return $this->last_update;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-
     /**
      * Set new Icon filename.
-     *
      * Note that if you did also send a new icon image file with a form, make sure to call
      * ilOrgUnitType::processAndStoreIconFile() to store the file additionally on disk.
-     *
      * If you want to delete the icon, set call ilOrgUnitType::removeIconFile() first and set an empty string here.
-     *
-     * @param string $icon
-     *
      * @throws ilOrgUnitTypeException
      */
-    public function setIcon($icon)
+    public function setIcon(?string $icon): void
     {
         if ($icon and !preg_match('/\.(svg)$/', $icon)) {
             throw new ilOrgUnitTypeException('Icon must be set with file extension svg');
@@ -937,26 +789,19 @@ class ilOrgUnitType
         $this->icon = $icon;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->icon;
     }
 
-
     /**
      * Return the path to the icon
-     *
      * @param bool $append_filename If true, append filename of icon
-     *
      * @return string
      */
-    public function getIconPath($append_filename = false)
+    public function getIconPath(bool $append_filename = false): string
     {
-        $path = ilUtil::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
+        $path = ilFileUtils::getWebspaceDir() . '/' . self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
         if ($append_filename) {
             $path .= $this->getIcon();
         }
@@ -964,13 +809,11 @@ class ilOrgUnitType
         return $path;
     }
 
-
     /**
      * @param string $default_lang
-     *
      * @throws ilOrgUnitTypePluginException
      */
-    public function setDefaultLang($default_lang)
+    public function setDefaultLang(string $default_lang): void
     {
         // If the new default_lang is identical, quit early and do not execute plugin checks
         if ($this->default_lang == $default_lang) {
@@ -988,36 +831,28 @@ class ilOrgUnitType
             }
         }
         if (count($disallowed)) {
-            $msg = sprintf($this->lng->txt('orgu_type_msg_setting_default_lang_prevented'), $default_lang, implode(', ', $titles));
+            $msg = sprintf(
+                $this->lng->txt('orgu_type_msg_setting_default_lang_prevented'),
+                $default_lang,
+                implode(', ', $titles)
+            );
             throw new ilOrgUnitTypePluginException($msg, $disallowed);
         }
 
         $this->default_lang = $default_lang;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDefaultLang()
+    public function getDefaultLang(): string
     {
         return $this->default_lang;
     }
 
-
-    /**
-     * @param string $create_date
-     */
-    public function setCreateDate($create_date)
+    public function setCreateDate(string $create_date)
     {
         $this->create_date = $create_date;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getCreateDate()
+    public function getCreateDate(): string
     {
         return $this->create_date;
     }

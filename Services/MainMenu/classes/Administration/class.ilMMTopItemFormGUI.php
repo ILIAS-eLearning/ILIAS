@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\FileUpload\MimeType;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilMMTopItemFormGUI
@@ -16,55 +20,39 @@ class ilMMTopItemFormGUI
     use Hasher;
 
     private const F_ICON = 'icon';
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    private $http;
-    /**
-     * @var ilMMItemRepository
-     */
-    private $repository;
-    /**
-     * @var Standard
-     */
-    private $form;
-    /**
-     * @var ilMMItemFacadeInterface
-     */
-    private $item_facade;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ILIAS\UI\Factory
-     */
-    protected $ui_fa;
-    /**
-     * @var ILIAS\UI\Renderer
-     */
-    protected $ui_re;
+
+    private Services $http;
+
+    private ilMMItemRepository $repository;
+
+    private Standard $form;
+
+    private ilMMItemFacadeInterface $item_facade;
+
+    protected ilLanguage $lng;
+
+    protected ilCtrl $ctrl;
+
+    protected ILIAS\UI\Factory $ui_fa;
+
+    protected ILIAS\UI\Renderer $ui_re;
     /**
      * ilMMTopItemFormGUI constructor.
      * @param ilCtrl   $ctrl
      * @param Factory  $ui_fa
      * @param Renderer $ui_re
      */
-    const F_ACTIVE = 'active';
-    const F_TITLE = 'title';
-    const F_TYPE = 'type';
-    const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
+    public const F_ACTIVE = 'active';
+    public const F_TITLE = 'title';
+    public const F_TYPE = 'type';
+    public const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
 
     public function __construct(
         ilCtrl $ctrl,
         Factory $ui_fa,
         Renderer $ui_re,
         ilLanguage $lng,
-        \ILIAS\HTTP\Services $http,
+        Services $http,
         ilMMItemFacadeInterface $item,
         ilMMItemRepository $repository
     ) {
@@ -76,18 +64,18 @@ class ilMMTopItemFormGUI
         $this->lng = $lng;
         $this->item_facade = $item;
         if (!$this->item_facade->isEmpty()) {
-            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER);
+            $this->ctrl->saveParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER);
         }
 
         $this->initForm();
     }
 
-    private function initForm()
+    private function initForm(): void
     {
         $txt = function ($key) {
             return $this->lng->txt($key);
         };
-        $f = function () : InputFactory {
+        $f = function (): InputFactory {
             return $this->ui_fa->input();
         };
 
@@ -104,7 +92,7 @@ class ilMMTopItemFormGUI
             // ICON
             $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('topitem_icon'))
                         ->withByline($txt('topitem_icon_byline'))
-                        ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+                        ->withAcceptedMimeTypes([MimeType::IMAGE__SVG_XML]);
             if ($this->item_facade->getIconID() !== null) {
                 $icon = $icon->withValue([$this->item_facade->getIconID()]);
             }
@@ -115,8 +103,11 @@ class ilMMTopItemFormGUI
         // TYPE
         if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
-            $type = $f()->field()->switchableGroup($type_groups, $txt('topitem_type'),
-                $txt('topitem_type_byline'))->withRequired(true);
+            $type = $f()->field()->switchableGroup(
+                $type_groups,
+                $txt('topitem_type'),
+                $txt('topitem_type_byline')
+            )->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
                 $string = $this->item_facade->getType() === '' ? TopParentItem::class : $this->item_facade->getType();
                 $type = $type->withValue($this->hash($string));
@@ -154,16 +145,20 @@ class ilMMTopItemFormGUI
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
             $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_ADD), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
-                ilMMTopItemGUI::CMD_CREATE), [$section]);
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(
+                ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_CREATE
+            ), [$section]);
         } else {
             $section = $f()->field()->section($items, $txt(ilMMTopItemGUI::CMD_EDIT), "");
-            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class,
-                ilMMTopItemGUI::CMD_UPDATE), [$section]);
+            $this->form = $f()->container()->form()->standard($this->ctrl->getLinkTargetByClass(
+                ilMMTopItemGUI::class,
+                ilMMTopItemGUI::CMD_UPDATE
+            ), [$section]);
         }
     }
 
-    public function save()
+    public function save(): bool
     {
         $this->form = $this->form->withRequest($this->http->request());
         $data = $this->form->getData();
@@ -176,7 +171,7 @@ class ilMMTopItemFormGUI
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
             $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
-            if ((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] and (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+            if ($data[0][self::F_ROLE_BASED_VISIBILITY] and !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
                 $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
             }
         }
@@ -209,7 +204,7 @@ class ilMMTopItemFormGUI
     /**
      * @return string
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return $this->ui_re->render([$this->form]);
     }
@@ -218,7 +213,7 @@ class ilMMTopItemFormGUI
      * @param Closure $f
      * @return array
      */
-    private function getTypeGroups(Closure $f) : array
+    private function getTypeGroups(Closure $f): array
     {
         $type_groups = [];
         $type_informations = $this->repository->getPossibleTopItemTypesWithInformation();
@@ -227,8 +222,10 @@ class ilMMTopItemFormGUI
                 || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
             ) { // https://mantis.ilias.de/view.php?id=24152
                 $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-                $type_groups[$this->hash($classname)] = $f()->field()->group($inputs,
-                    $information->getTypeNameForPresentation());
+                $type_groups[$this->hash($classname)] = $f()->field()->group(
+                    $inputs,
+                    $information->getTypeNameForPresentation()
+                );
             }
         }
 

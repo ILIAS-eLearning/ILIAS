@@ -1,14 +1,15 @@
 <?php
+
+declare(strict_types=1);
 /**
  *
  * @author Jesús López Reyes <lopez@leifos.de>
- * @version $Id$
  *
  * @ingroup ServicesCalendar
  */
 interface ilCalendarAppointmentPresentation
 {
-    public function getToolbar();
+    public function getToolbar(): ?ilToolbarGUI;
 
-    public function getInfoScreen();
+    public function getInfoScreen(): ?ilInfoScreenGUI;
 }

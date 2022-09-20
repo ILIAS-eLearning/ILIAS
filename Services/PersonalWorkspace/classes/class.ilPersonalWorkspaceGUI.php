@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
@@ -31,6 +34,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilPersonalWorkspaceGUI
 {
+    protected ilSetting $settings;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
@@ -43,7 +47,7 @@ class ilPersonalWorkspaceGUI
     protected int $node_id; // [int]
     protected ContextServices $tool_context;
     protected StandardGUIRequest $std_request;
-    
+
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -59,6 +63,7 @@ class ilPersonalWorkspaceGUI
         $this->locator = $DIC["ilLocator"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->settings = $DIC->settings();
 
         $lng->loadLanguageModule("wsp");
 
@@ -77,12 +82,16 @@ class ilPersonalWorkspaceGUI
         }
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
         $tpl = $this->tpl;
+
+        if ($this->settings->get("disable_personal_workspace")) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
 
         $ilCtrl->setReturn($this, "render");
 
@@ -100,7 +109,7 @@ class ilPersonalWorkspaceGUI
             // ilObjLinkResourceGUI tries to forward to ilLinkInputGUI (adding an internal link
             // when creating a link resource)
             // Without this fix, the cmdClass ilObjectCopyGUI would never be reached
-            if (strtolower($ilCtrl->getNextClass($this)) != strtolower("ilObj" . $class_name . "GUI")) {
+            if (strtolower($ilCtrl->getNextClass($this)) !== strtolower("ilObj" . $class_name . "GUI")) {
                 $ilCtrl->setCmdClass("ilObj" . $class_name . "GUI");
             }
         }
@@ -112,28 +121,28 @@ class ilPersonalWorkspaceGUI
             $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
             $ilCtrl->setCmdClass($next_class);
         }
-        
+
         //  if we do this here the object can still change the breadcrumb
         $this->renderLocator();
-        
+
         // current node
         $class_path = $ilCtrl->lookupClassPath($next_class);
         include_once($class_path);
         $class_name = $ilCtrl->getClassForClasspath($class_path);
         if ($this->std_request->getNewType()) {
-            $gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
+            $gui = new $class_name(0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
             $gui->setCreationMode();
         } else {
             $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
         }
         $ilCtrl->forwardCommand($gui);
-        
+
         //$this->renderBack();
 
         $tpl->setLocator();
     }
 
-    protected function initTree() : void
+    protected function initTree(): void
     {
         $ilUser = $this->user;
 
@@ -145,13 +154,13 @@ class ilPersonalWorkspaceGUI
         }
     }
 
-    protected function renderBack() : void
+    protected function renderBack(): void
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $root = $this->tree->getNodeData($this->node_id);
         if ($root["type"] != "wfld" && $root["type"] != "wsrt") {
             // do not override existing back targets, e.g. public user profile gui
@@ -185,11 +194,11 @@ class ilPersonalWorkspaceGUI
             }
         }
     }
-    
+
     /**
      * Build locator for current node
      */
-    protected function renderLocator() : void
+    protected function renderLocator(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -197,7 +206,7 @@ class ilPersonalWorkspaceGUI
         $objDefinition = $this->obj_definition;
 
         $ilLocator->clearItems();
-        
+
         // we have no path if shared item
         $path = $this->tree->getPathFull($this->node_id);
         if ($path) {

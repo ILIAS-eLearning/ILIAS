@@ -111,7 +111,7 @@
 
     .timepicker-hour, .timepicker-minute, .timepicker-second {
         width: 54px;
-        font-weight: bold;
+        font-weight: @il-font-weight-bold;
         font-size: @bs-datetimepicker-timepicker-font-size;
         margin: 0;
     }
@@ -241,7 +241,7 @@
             width: 54px;
 
             &.cw {
-                font-size: .8em;
+                font-size: @il-font-size-small;
                 height: 20px;
                 line-height: 20px;
                 color: @bs-datetimepicker-alternate-color;
@@ -354,5 +354,9 @@
 .input-group.date {
     & .input-group-addon {
         cursor: pointer;
+        border: 1px solid @il-main-border-dark-color;
+        &:last-child {
+            border-left: 0;
+        }
     }
 }

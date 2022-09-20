@@ -37,5 +37,5 @@ interface ilLuceneResultFilter
      * @param int $a_ref_id reference id of object in question
      * @return boolean
      */
-    public function filter($a_ref_id);
+    public function filter(int $a_ref_id): bool;
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,45 +23,40 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data to XML class
-*
-* @package ilias-core
-* @version $Id$
-*/
-include_once './Services/Xml/classes/class.ilXmlWriter.php';
-include_once 'Services/MetaData/classes/class.ilMD.php';
-
+ * Meta Data to XML class
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMD2XML extends ilXmlWriter
 {
-    public $md_obj = null;
-    public $export_mode = false;
+    public ilMD $md_obj;
+    public bool $export_mode = false;
 
-    public function __construct($a_rbac_id, $a_obj_id, $a_type)
+    public function __construct(int $a_rbac_id, int $a_obj_id, string $a_type)
     {
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_type);
         parent::__construct();
     }
-    
-    public function setExportMode($a_export_mode = true)
+
+    public function setExportMode(bool $a_export_mode = true): void
     {
         $this->export_mode = $a_export_mode;
     }
-    
-    public function getExportMode()
+
+    public function getExportMode(): bool
     {
         return $this->export_mode;
     }
 
-    public function startExport()
+    public function startExport(): void
     {
         // Starts the xml export and calls all element classes
         $this->md_obj->setExportMode($this->getExportMode());
         $this->md_obj->toXML($this);
     }
 
-    public function getXML()
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }

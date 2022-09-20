@@ -1,17 +1,30 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\Setup\Condition\ExternalConditionObjective;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ProxyConnectableCondition extends ExternalConditionObjective
 {
     public function __construct($config)
     {
-        return parent::__construct(
+        parent::__construct(
             "Can establish a connection to proxy",
-            function (Setup\Environment $env) use ($config) : bool {
+            function (Setup\Environment $env) use ($config): bool {
                 try {
                     $host = $config->getProxyHost();
                     if (strspn($host, '.0123456789') != strlen($host) && strstr($host, '/') === false) {

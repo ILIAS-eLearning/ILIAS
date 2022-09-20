@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Container page GUI class
@@ -43,7 +48,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         $link = ilLink::_getLink($this->requested_ref_id);
         // make it relative, since profile only accepts relative links as back links
@@ -52,12 +57,12 @@ class ilContainerPageGUI extends ilPageObjectGUI
         return $link;
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function getAdditionalPageActions() : array
+    public function getAdditionalPageActions(): array
     {
         $ctrl = $this->ctrl;
         $ui = $this->ui;
@@ -70,7 +75,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         $class = $this->obj_definition->getClassName($type);
 
         $items = [];
-        if ($class != "") {
+        if ($class !== "") {
             $items[] = $ui->factory()->link()->standard(
                 $lng->txt("obj_sty"),
                 $ctrl->getLinkTargetByClass([

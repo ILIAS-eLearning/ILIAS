@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBasePasswordEncoder
@@ -20,7 +37,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
      * @param string $userString  The second password
      * @return bool true if the two passwords are the same, false otherwise
      */
-    protected function comparePasswords(string $knownString, string $userString) : bool
+    protected function comparePasswords(string $knownString, string $userString): bool
     {
         $knownString .= chr(0);
         $userString .= chr(0);
@@ -37,22 +54,22 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
         return 0 === $result;
     }
 
-    protected function isPasswordTooLong(string $password) : bool
+    protected function isPasswordTooLong(string $password): bool
     {
         return strlen($password) > self::MAX_PASSWORD_LENGTH;
     }
 
-    public function isSupportedByRuntime() : bool
+    public function isSupportedByRuntime(): bool
     {
         return true;
     }
 
-    public function requiresSalt() : bool
+    public function requiresSalt(): bool
     {
         return false;
     }
 
-    public function requiresReencoding(string $encoded) : bool
+    public function requiresReencoding(string $encoded): bool
     {
         return false;
     }

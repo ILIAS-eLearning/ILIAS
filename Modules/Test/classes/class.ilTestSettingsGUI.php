@@ -1,28 +1,31 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class that manages the editing of general test settings/properties
  * shown on "general" subtab
- *
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id: class.ilObjTestSettingsGeneralGUI.php 57702 2015-01-31 21:30:34Z bheyser $
- *
  * @package		Modules/Test
  */
 abstract class ilTestSettingsGUI
 {
-    /**
-     * @var ilObjTest $testOBJ
-     */
-    protected $testOBJ = null;
-
-    /**
-     * object instance for currently active settings template
-     *
-     * @var $settingsTemplate ilSettingsTemplate
-     */
-    protected $settingsTemplate = null;
+    protected ilObjTest $testOBJ;
+    protected ?ilSettingsTemplate $settingsTemplate = null;
 
     public function __construct(ilObjTest $testOBJ)
     {
@@ -31,7 +34,6 @@ abstract class ilTestSettingsGUI
         $templateId = $this->testOBJ->getTemplate();
 
         if ($templateId) {
-            include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
             $this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         }
     }
@@ -51,7 +53,7 @@ abstract class ilTestSettingsGUI
         return $templateSettings[$settingName]['value'];
     }
 
-    protected function isHiddenFormItem($formFieldId)
+    protected function isHiddenFormItem($formFieldId): bool
     {
         if (!$this->settingsTemplate) {
             return false;
@@ -70,7 +72,7 @@ abstract class ilTestSettingsGUI
         return true;
     }
 
-    protected function isSectionHeaderRequired($fields)
+    protected function isSectionHeaderRequired($fields): bool
     {
         foreach ($fields as $field) {
             if (!$this->isHiddenFormItem($field)) {
@@ -81,7 +83,7 @@ abstract class ilTestSettingsGUI
         return false;
     }
 
-    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
     }

@@ -1,16 +1,16 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "ttruffer(42894)",
-    "second_maintainer": "",
-    "implicit_maintainers": [
-        "mstuder(8473)"
-    ],
-    "coordinator": [
-        ""
-    ],
-    "tester": "kim.schmidt(28720)",
-    "testcase_writer": "mstuder(8473)",
-    "path": "Modules/DataCollection",
-    "belong_to_component": "Data Collection",
-    "used_in_components": []
+  "maintenance_model": "Classic",
+  "first_maintainer": "ttruffer(42894)",
+  "second_maintainer": "",
+  "implicit_maintainers": [
+    "mstuder(8473)"
+  ],
+  "coordinator": [
+    ""
+  ],
+  "tester": "kim.schmidt(28720)",
+  "testcase_writer": "mstuder(8473)",
+  "path": "Modules/DataCollection",
+  "belong_to_component": "Data Collection",
+  "used_in_components": []
 }

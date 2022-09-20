@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,23 +29,16 @@
 * class for searching meta
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilMetaDataSearch.php';
 
 class ilLikeMetaDataSearch extends ilMetaDataSearch
 {
-
     // Private
-    public function __createKeywordWhereCondition()
+    public function __createKeywordWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $concat = ' keyword ';
         $where = " WHERE (";
         $counter = 0;
@@ -51,19 +46,15 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
             if ($counter++) {
                 $where .= "OR";
             }
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
             #$where .= $concat;
             #$where .= (" LIKE ('%".$word."%')");
         }
         return $where . ') ';
     }
 
-    public function __createContributeWhereCondition()
+    public function __createContributeWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $concat = ' entity ';
         $where = " WHERE (";
         $counter = 0;
@@ -73,29 +64,25 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
             }
             #$where .= $concat;
             #$where .= (" LIKE ('%".$word."%')");
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         return $where . ') ';
     }
-    public function __createTitleWhereCondition()
+    public function __createTitleWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         /*
         $concat = ' CONCAT(title,coverage) '; // broken if coverage is null
         // DONE: fix coverage search
         $concat = ' title ';
         */
-        
-        $concat = $ilDB->concat(
+
+        $concat = $this->db->concat(
             array(
                 array('title','text'),
                 array('coverage','text'))
         );
-        
-        
+
+
         $where = " WHERE (";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
@@ -104,17 +91,13 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
             }
             #$where .= $concat;
             #$where .= (" LIKE ('%".$word."%')");
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         return $where . ' )';
     }
 
-    public function __createDescriptionWhereCondition()
+    public function __createDescriptionWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $concat = ' description ';
         $where = " WHERE (";
         $counter = 0;
@@ -124,7 +107,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
             }
             #$where .= $concat;
             #$where .= (" LIKE ('%".$word."%')");
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         return $where . ') ';
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCFileItem
@@ -21,7 +24,7 @@
  */
 class ilPCFileItem extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("flit");
     }
@@ -30,7 +33,7 @@ class ilPCFileItem extends ilPageContent
         int $a_id,
         string $a_location,
         string $a_format
-    ) : void {
+    ): void {
         $li = $this->getNode();
         $new_item = $this->dom->create_element("FileItem");
         if ($next_li = $li->next_sibling()) {
@@ -66,7 +69,7 @@ class ilPCFileItem extends ilPageContent
         int $a_id,
         string $a_location,
         string $a_format
-    ) : void {
+    ): void {
         $li = $this->getNode();
         $new_item = $this->dom->create_element("FileItem");
         $new_item = $li->insert_before($new_item, $li);
@@ -92,16 +95,16 @@ class ilPCFileItem extends ilPageContent
     /**
      * Delete file item
      */
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $li = $this->getNode();
         $li->unlink($li);
     }
-    
+
     /**
      * move list item down
      */
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $li = $this->getNode();
         $next = $li->next_sibling();
@@ -113,7 +116,7 @@ class ilPCFileItem extends ilPageContent
     /**
      * move list item up
      */
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $li = $this->getNode();
         $prev = $li->previous_sibling();

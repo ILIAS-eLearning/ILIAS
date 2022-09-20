@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
@@ -10,14 +12,9 @@ class ilMMTopItemTableGUI extends ilTable2GUI
 {
     use Hasher;
 
-    /**
-     * @var ilMMCustomProvider
-     */
-    private $item_repository;
-    /**
-     * @var ilObjMainMenuAccess
-     */
-    private $access;
+    private ilMMItemRepository $item_repository;
+
+    private ilObjMainMenuAccess $access;
 
     /**
      * ilMMTopItemTableGUI constructor.
@@ -33,7 +30,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
         $this->item_repository = $item_repository;
-        $this->lng             = $this->parent_obj->lng;
+        $this->lng = $this->parent_obj->lng;
         $this->setData($this->resolveData());
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         if ($this->access->hasUserPermissionTo('write')) {
@@ -43,7 +40,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.top_items.html', 'Services/MainMenu');
     }
 
-    private function initColumns()
+    private function initColumns(): void
     {
         $this->addColumn($this->lng->txt('topitem_position'), '', '30px');
         $this->addColumn($this->lng->txt('topitem_title'));
@@ -58,23 +55,26 @@ class ilMMTopItemTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         static $position;
         $position++;
         global $DIC;
         $renderer = $DIC->ui()->renderer();
-        $factory  = $DIC->ui()->factory();
+        $factory = $DIC->ui()->factory();
 
         $item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
-        $this->tpl->setVariable('IDENTIFIER', ilMMTopItemGUI::IDENTIFIER);
-        $this->tpl->setVariable('ID', $item_facade->getId());
+        $this->tpl->setVariable('IDENTIFIER', ilMMAbstractItemGUI::IDENTIFIER);
+        $this->tpl->setVariable('ID', $this->hash($item_facade->getId()));
+        $this->tpl->setVariable('NATIVE_ID', $item_facade->getId());
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
         $this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
         $this->tpl->setVariable('POSITION', $position * 10);
+        $this->tpl->setVariable('NATIVE_POSITION', $item_facade->getRawItem()->getPosition());
+        $this->tpl->setVariable('SAVED_POSITION', $item_facade->getFilteredItem()->getPosition());
         if ($item_facade->isActivated()) {
             $this->tpl->touchBlock('is_active');
         }
@@ -83,10 +83,11 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
-        $this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
+        $this->ctrl->setParameterByClass(ilMMTopItemGUI::class, ilMMAbstractItemGUI::IDENTIFIER, $this->hash($a_set['identification']));
         $this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER, $this->hash($a_set['identification']));
 
         if ($this->access->hasUserPermissionTo('write')) {
+            $items = [];
             if ($item_facade->isEditable()) {
                 $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_EDIT));
                 $items[] = $factory->button()
@@ -95,9 +96,9 @@ class ilMMTopItemTableGUI extends ilTable2GUI
 
             $rendered_modal = "";
             if ($item_facade->isDeletable()) {
-                $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+                $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
-                $m      = $factory->modal()
+                $m = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);
 
@@ -115,7 +116,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    private function resolveData() : array
+    private function resolveData(): array
     {
         return $this->item_repository->getTopItems();
     }

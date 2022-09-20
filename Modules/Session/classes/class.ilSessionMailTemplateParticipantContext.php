@@ -1,7 +1,23 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Mail context template for mails send via session participants tab
@@ -11,54 +27,45 @@ include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
  */
 class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
 {
-    const ID = 'sess_context_participant_manual';
+    protected ilLanguage $lng;
+    protected ilObjectDataCache $obj_data_cache;
 
-    /**
-     * @return string
-     */
-    public function getId() : string
+    public const ID = 'sess_context_participant_manual';
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+
+        $this->lng = $DIC->language();
+        $this->obj_data_cache = $DIC['ilObjDataCache'];
+    }
+
+    public function getId(): string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() : string
+    public function getTitle(): string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
+        $lng = $this->lng;
 
         $lng->loadLanguageModule('sess');
         return $lng->txt('sess_mail_context_participant_title');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() : string
+    public function getDescription(): string
     {
-        global $DIC;
+        $lng = $this->lng;
 
-        $lng = $DIC['lng'];
         $lng->loadLanguageModule('sess');
-
         return $lng->txt('sess_mail_context_participant_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
-        global $DIC;
-
-        /**
-         * @var $lng ilLanguage
-         */
-        $lng = $DIC['lng'];
+        $lng = $this->lng;
 
         $lng->loadLanguageModule('sess');
         $lng->loadLanguageModule('crs');
@@ -74,7 +81,6 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
             'label' => $lng->txt('event_date_time')
         ];
 
-
         $placeholders['sess_location'] = [
             'placeholder' => 'SESS_LOCATION',
             'label' => $lng->txt('event_location')
@@ -85,32 +91,25 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
             'label' => $lng->txt('event_details_workflow')
         ];
 
-
         return $placeholders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
+        ?ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+    ): string {
+        $ilObjDataCache = $this->obj_data_cache;
+        $obj_id = $ilObjDataCache->lookupObjId((int) $context_parameters['ref_id']);
         $sess_data = ilObjSession::lookupSession($obj_id);
         $sess_app = ilSessionAppointment::_lookupAppointment($obj_id);
-
 
         switch ($placeholder_id) {
             case 'sess_title':
                 return $ilObjDataCache->lookupTitle($obj_id);
             case 'sess_appointment':
-                return ilSessionAppointment::_appointmentToString($sess_app['start'], $sess_app['end'], $sess_app['fullday']);
+                return ilSessionAppointment::_appointmentToString($sess_app['start'], $sess_app['end'], (bool) $sess_app['fullday']);
             case 'sess_location':
                 return $sess_data['location'];
             case 'sess_details':

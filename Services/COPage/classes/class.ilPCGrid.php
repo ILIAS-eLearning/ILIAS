@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Grid element
@@ -25,7 +28,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Init page content component.
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setType("grid");
     }
@@ -34,7 +37,7 @@ class ilPCGrid extends ilPageContent
      * Set content node
      * @param php4DOMElement $a_node
      */
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->grid_node = $a_node->first_child();		// this is the Tabs node
@@ -46,7 +49,7 @@ class ilPCGrid extends ilPageContent
      *  Note that these are mapped to (BS3):
      *  s > .col-xs, m > .col-sm, l > .col-md, xl > .col-lg
      */
-    public static function getSizes() : array
+    public static function getSizes(): array
     {
         return array("s" => "s", "m" => "m", "l" => "l", "xl" => "xl");
     }
@@ -54,7 +57,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Get widths
      */
-    public static function getWidths() : array
+    public static function getWidths(): array
     {
         return array(
             "1" => "1/12", "2" => "2/12", "3" => "3/12",
@@ -68,7 +71,7 @@ class ilPCGrid extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->grid_node = $this->dom->create_element("Grid");
@@ -82,7 +85,7 @@ class ilPCGrid extends ilPageContent
         int $m,
         int $l,
         int $xl
-    ) {
+    ): void {
         switch ($post_layout_template) {
             case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
                 $this->addGridCell(12, 6, 6, 6);
@@ -119,7 +122,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Save positions of grid cells
      */
-    public function savePositions(array $a_pos) : void
+    public function savePositions(array $a_pos): void
     {
         asort($a_pos);
 
@@ -133,7 +136,7 @@ class ilPCGrid extends ilPageContent
                 $childs[$i]->unlink($childs[$i]);
             }
         }
-        
+
         foreach ($a_pos as $k => $v) {
             if (is_object($nodes[$k])) {
                 $nodes[$k] = $this->grid_node->append_child($nodes[$k]);
@@ -149,7 +152,7 @@ class ilPCGrid extends ilPageContent
         array $a_width_m,
         array $a_width_l,
         array $a_width_xl
-    ) {
+    ): void {
         $cell_nodes = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($cell_nodes); $i++) {
             if ($cell_nodes[$i]->node_name() == "GridCell") {
@@ -172,7 +175,7 @@ class ilPCGrid extends ilPageContent
     public function deleteGridCell(
         string $a_hier_id,
         string $a_pc_id
-    ) : void {
+    ): void {
         $childs = $this->grid_node->child_nodes();
         for ($i = 0; $i < count($childs); $i++) {
             if ($childs[$i]->node_name() == "GridCell") {
@@ -192,7 +195,7 @@ class ilPCGrid extends ilPageContent
         int $a_m,
         int $a_l,
         int $a_xl
-    ) : void {
+    ): void {
         $new_item = $this->dom->create_element("GridCell");
         $new_item = $this->grid_node->append_child($new_item);
         //$new_item->set_attribute("xs", $a_xs);
@@ -206,7 +209,7 @@ class ilPCGrid extends ilPageContent
     /**
      * Add a cell
      */
-    public function addCell() : void
+    public function addCell(): void
     {
         $new_item = $this->dom->create_element("GridCell");
         $new_item->set_attribute("WIDTH_XS", "");
@@ -221,22 +224,22 @@ class ilPCGrid extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("pc_grid", "pc_grid_cell", "ed_delete_cell", "ed_cell_left", "ed_cell_right");
     }
 
-    public function getJavascriptFiles(string $a_mode) : array
+    public function getJavascriptFiles(string $a_mode): array
     {
         return parent::getJavascriptFiles($a_mode);
     }
 
-    public function getCssFiles(string $a_mode) : array
+    public function getCssFiles(string $a_mode): array
     {
         return parent::getCssFiles($a_mode);
     }
 
-    public function getCellData() : array
+    public function getCellData(): array
     {
         $cells = array();
         $cell_nodes = $this->grid_node->child_nodes();

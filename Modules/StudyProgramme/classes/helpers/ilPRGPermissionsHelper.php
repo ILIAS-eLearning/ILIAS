@@ -1,4 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Both role and OrgU-based permissions are relevant in many places of the PRG.
@@ -10,7 +28,7 @@
  */
 class ilPRGPermissionsHelper
 {
-    const ORGU_OPERATIONS = [
+    public const ORGU_OPERATIONS = [
         ilOrgUnitOperation::OP_VIEW_MEMBERS,
         ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
         ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
@@ -18,39 +36,29 @@ class ilPRGPermissionsHelper
         ilOrgUnitOperation::OP_MANAGE_MEMBERS
     ];
 
-    const ROLEPERM_VIEW = 'rp_visible';
-    const ROLEPERM_READ = 'rp_read';
-    const ROLEPERM_WRITE = 'rp_write';
+    public const ROLEPERM_VIEW = 'rp_visible';
+    public const ROLEPERM_READ = 'rp_read';
+    public const ROLEPERM_WRITE = 'rp_write';
     //both org-unit and rbac permission read "manage_members";
     //however, rbac-manage_members does include all of the orgu-permissions listed here.
-    const ROLEPERM_MANAGE_MEMBERS = 'rp_manage_members';
+    public const ROLEPERM_MANAGE_MEMBERS = 'rp_manage_members';
 
-    const ROLEMAPPINGS = [
+    private const ROLEMAPPINGS = [
         'rp_visible' => 'visible',
         'rp_read' => 'read',
         'rp_write' => 'write',
         'rp_manage_members' => 'manage_members'
     ];
 
-    /**
-      * @var ilAccess
-      */
-    protected $access;
-
-    /**
-      * @var ilOrgUnitPositionAccess
-      */
-    protected $orgu_access;
-
-    /**
-      * @var ilObjStudyProgramme
-      */
-    protected $programme;
+    protected ilAccess $access;
+    protected ilOrgUnitPositionAccess $orgu_access;
+    protected ilObjStudyProgramme $programme;
+    protected array $cache = [];
 
     /**
       * @var array <mixed, array>
       */
-    protected $user_id_cache;
+    protected array $user_id_cache;
 
     public function __construct(
         ilAccess $access,
@@ -62,7 +70,7 @@ class ilPRGPermissionsHelper
         $this->programme = $programme;
     }
 
-    public function may(string $operation) : bool
+    public function may(string $operation): bool
     {
         $this->throwForInvalidOperation($operation);
         if (in_array($operation, self::ORGU_OPERATIONS)) {
@@ -73,15 +81,15 @@ class ilPRGPermissionsHelper
                     $this->getProgrammeRefId()
                 )
                 || $this->access->checkPositionAccess($operation, $this->getProgrammeRefId());
-        } else {
-            return $this->access->checkAccess(self::ROLEMAPPINGS[$operation], '', $this->getProgrammeRefId());
         }
+
+        return $this->access->checkAccess(self::ROLEMAPPINGS[$operation], '', $this->getProgrammeRefId());
     }
 
     /**
      * @param string[] $operations
      */
-    public function mayAnyOf(array $operations) : bool
+    public function mayAnyOf(array $operations): bool
     {
         foreach ($operations as $operation) {
             if ($this->may($operation)) {
@@ -92,9 +100,9 @@ class ilPRGPermissionsHelper
     }
 
     /**
-     * return int[]
+     * @return int[]
      */
-    public function getUserIdsSusceptibleTo(string $operation) : array
+    public function getUserIdsSusceptibleTo(string $operation): array
     {
         $this->throwForInvalidOperation($operation);
 
@@ -111,7 +119,7 @@ class ilPRGPermissionsHelper
     /**
      * @param int[] $user_ids
      */
-    public function filterUserIds(array $user_ids, string $operation) : array
+    public function filterUserIds(array $user_ids, string $operation): array
     {
         if ($this->may(self::ROLEPERM_MANAGE_MEMBERS)) { //RBAC overrides OrgUs
             return $user_ids;
@@ -124,7 +132,7 @@ class ilPRGPermissionsHelper
         );
     }
 
-    protected function throwForInvalidOperation(string $operation) : void
+    protected function throwForInvalidOperation(string $operation): void
     {
         $valid = array_merge(
             self::ORGU_OPERATIONS,
@@ -137,13 +145,13 @@ class ilPRGPermissionsHelper
         );
 
         if (!in_array($operation, $valid)) {
-            throw new \ilException('prg does not provide this permission: ' . $operation);
+            throw new ilException('prg does not provide this permission: ' . $operation);
         }
     }
 
-    protected function getUserIdsInPrgAccessibleForOperation(string $orgu_operation) : array
+    protected function getUserIdsInPrgAccessibleForOperation(string $orgu_operation): array
     {
-        if (!$this->cache[$orgu_operation]) {
+        if (!isset($this->cache[$orgu_operation])) {
             $user_ids = array_map(
                 'intval',
                 $this->orgu_access->filterUserIdsByPositionOfCurrentUser(
@@ -160,16 +168,16 @@ class ilPRGPermissionsHelper
     /**
      * @return int[]
      */
-    protected function getAllAssignedUserIds() : array
+    protected function getAllAssignedUserIds(): array
     {
-        if (!$this->cache[self::ROLEPERM_MANAGE_MEMBERS]) {
+        if (!isset($this->cache[self::ROLEPERM_MANAGE_MEMBERS])) {
             $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($this->programme->getMembers());
         }
         return $this->cache[self::ROLEPERM_MANAGE_MEMBERS];
     }
 
-    protected function getProgrammeRefId() : int
+    protected function getProgrammeRefId(): int
     {
-        return (int) $this->programme->getRefId();
+        return $this->programme->getRefId();
     }
 }

@@ -1,371 +1,286 @@
 <?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/classes/Less/class.ilSystemStyleLessFile.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
-
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Refinery\Factory as Refinery;
+
 class ilSystemStyleLessGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilSkinStyleContainer $style_container;
+    protected ilSystemStyleLessFile $less_file;
+    protected ilSystemStyleMessageStack $message_stack;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
+    protected ServerRequestInterface $request;
+    protected ilToolbarGUI $toolbar;
+    protected Refinery $refinery;
+    protected ilSystemStyleConfig $config;
+    protected string $style_id;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        Factory $ui_factory,
+        Renderer $renderer,
+        ServerRequestInterface $request,
+        ilToolbarGUI $toolbar,
+        Refinery $refinery,
+        ilSkinFactory $factory,
+        string $skin_id,
+        string $style_id
+    ) {
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->ui_factory = $ui_factory;
+        $this->renderer = $renderer;
+        $this->request = $request;
+        $this->toolbar = $toolbar;
+        $this->refinery = $refinery;
+        $this->style_id = $style_id;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
 
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $style_container;
-
-    /**
-     * @var ilSystemStyleLessFile
-     */
-    protected $less_file;
-
-    /**
-     * @var ilSystemStyleMessageStack
-     */
-    protected $message_stack;
-
-
-    /**
-     * ilSystemStyleLessGUI constructor.
-     * @param string $skin_id
-     * @param string $style_id
-     */
-    public function __construct($skin_id = "", $style_id = "")
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
-
-        $this->setMessageStack(new ilSystemStyleMessageStack());
-
-        if ($skin_id == "") {
-            $skin_id = $_GET["skin_id"];
-        }
-        if ($style_id == "") {
-            $style_id = $_GET["style_id"];
-        }
-
-        try {
-            $this->setStyleContainer(ilSystemStyleSkinContainer::generateFromId($skin_id));
-            $less_file = new ilSystemStyleLessFile($this->getStyleContainer()->getLessVariablesFilePath($style_id));
-            $this->setLessFile($less_file);
-        } catch (ilSystemStyleException $e) {
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR)
-            );
-        }
+        $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
+        $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
     }
 
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
+        $this->addResetToolbar();
+        $form = null;
+
         $cmd = $this->ctrl->getCmd();
 
         switch ($cmd) {
-            case "save":
-            case "edit":
-            case "reset":
-            case "update":
-                $this->$cmd();
+            case 'update':
+                $form = $this->update();
                 break;
-            default:
-                $this->edit();
+            case 'reset':
+                $this->reset();
+                $form = $this->edit();
                 break;
+            case 'edit':
+            case '':
+                $form = $this->edit();
+                break;
+        }
+        $components = $this->message_stack->getUIComponentsMessages($this->ui_factory);
+        if ($form) {
+            $components[] = $form;
+        }
+
+        $this->tpl->setContent($this->renderer->render($components));
+    }
+
+    protected function addResetToolbar(): void
+    {
+        $this->toolbar->addComponent($this->ui_factory->button()->standard(
+            $this->lng->txt('reset_variables'),
+            $this->ctrl->getLinkTarget($this, 'reset')
+        ));
+    }
+
+    protected function reset(): void
+    {
+        $style = $this->style_container->getSkin()->getStyle($this->style_id);
+        $this->less_file = $this->style_container->copyVariablesFromDefault($style);
+        try {
+            $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('less_file_reset')));
+            $this->style_container->compileLess($style->getId());
+        } catch (ilSystemStyleException $e) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $this->lng->txt($e->getMessage()),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function checkRequirements()
+    protected function checkRequirements(): bool
     {
-        $style_id = $_GET['style_id'];
-        $less_path = $this->getStyleContainer()->getLessFilePath($style_id);
+        $less_path = $this->style_container->getLessFilePath($this->style_id);
 
         $pass = $this->checkLessInstallation();
 
         if (file_exists($less_path)) {
-            $less_variables_name = $this->getStyleContainer()->getLessVariablesName($style_id);
-            $content = "";
+            $less_variables_name = $this->style_container->getLessVariablesName($this->style_id);
+            $content = '';
             try {
                 $content = file_get_contents($less_path);
             } catch (Exception $e) {
-                $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage($this->lng->txt("can_not_read_less_file") . " " . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+                $this->message_stack->addMessage(
+                    new ilSystemStyleMessage(
+                        $this->lng->txt('can_not_read_less_file') . ' ' . $less_path,
+                        ilSystemStyleMessage::TYPE_ERROR
+                    )
                 );
                 $pass = false;
             }
             if ($content) {
-                $reg_exp = "/" . preg_quote($less_variables_name, "/") . "/";
+                $reg_exp = '/' . preg_quote($less_variables_name, '/') . '/';
 
                 if (!preg_match($reg_exp, $content)) {
-                    $this->getMessageStack()->addMessage(
-                        new ilSystemStyleMessage($this->lng->txt("less_variables_file_not_included") . " " . $less_variables_name
-                            . " " . $this->lng->txt("in_main_less_file") . " " . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+                    $this->message_stack->addMessage(
+                        new ilSystemStyleMessage(
+                            $this->lng->txt('less_variables_file_not_included') . ' ' . $less_variables_name
+                            . ' ' . $this->lng->txt('in_main_less_file') . ' ' . $less_path,
+                            ilSystemStyleMessage::TYPE_ERROR
+                        )
                     );
                     $pass = false;
                 }
             }
         } else {
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("less_file_does_not_exist") . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+            $this->message_stack->addMessage(
+                new ilSystemStyleMessage(
+                    $this->lng->txt('less_file_does_not_exist') . $less_path,
+                    ilSystemStyleMessage::TYPE_ERROR
+                )
             );
             $pass = false;
         }
         return $pass;
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkLessInstallation()
+    protected function checkLessInstallation(): bool
     {
         $pass = true;
 
         if (!PATH_TO_LESSC) {
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("no_less_path_set"), ilSystemStyleMessage::TYPE_ERROR)
+            $this->message_stack->addMessage(
+                new ilSystemStyleMessage($this->lng->txt('no_less_path_set'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $pass = false;
         } elseif (!shell_exec(PATH_TO_LESSC)) {
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("invalid_less_path"), ilSystemStyleMessage::TYPE_ERROR)
+            $this->message_stack->addMessage(
+                new ilSystemStyleMessage($this->lng->txt('invalid_less_path'), ilSystemStyleMessage::TYPE_ERROR)
             );
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("provided_less_path") . " " . PATH_TO_LESSC, ilSystemStyleMessage::TYPE_ERROR)
+            $this->message_stack->addMessage(
+                new ilSystemStyleMessage(
+                    $this->lng->txt('provided_less_path') . ' ' . PATH_TO_LESSC,
+                    ilSystemStyleMessage::TYPE_ERROR
+                )
             );
             $pass = false;
         }
 
-        if (!$pass && shell_exec("which lessc")) {
-            $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("less_less_installation_detected") . shell_exec("which lessc"), ilSystemStyleMessage::TYPE_ERROR)
+        if (!$pass && shell_exec('which lessc')) {
+            $this->message_stack->addMessage(
+                new ilSystemStyleMessage(
+                    $this->lng->txt('less_less_installation_detected') . shell_exec('which lessc'),
+                    ilSystemStyleMessage::TYPE_ERROR
+                )
             );
         }
 
         return $pass;
     }
 
-
-    protected function edit()
+    protected function edit(): Form
     {
         $modify = true;
 
         if (!$this->checkRequirements()) {
-            $this->getMessageStack()->prependMessage(
-                new ilSystemStyleMessage($this->lng->txt("less_can_not_be_modified"), ilSystemStyleMessage::TYPE_ERROR)
+            $this->message_stack->prependMessage(
+                new ilSystemStyleMessage($this->lng->txt('less_can_not_be_modified'), ilSystemStyleMessage::TYPE_ERROR)
             );
             $modify = false;
         }
 
-        if ($this->getLessFile()) {
-            $form = $this->initSystemStyleLessForm($modify);
-            $this->getVariablesValues($form);
-            $this->tpl->setContent($form->getHTML());
-        }
-
-        $this->getMessageStack()->sendMessages(true);
+        return $this->initSystemStyleLessForm($modify);
     }
 
-    /**
-     * @param bool|true $modify
-     * @return ilPropertyFormGUI
-     */
-    public function initSystemStyleLessForm($modify = true)
+    public function initSystemStyleLessForm(bool $modify = true): Form
     {
-        $form = new ilPropertyFormGUI();
-
-        $form->setTitle($this->lng->txt("adapt_less"));
-        $form->setDescription($this->lng->txt("adapt_less_description"));
-        $focus_variable = $_GET['id_less_variable'];
-        if ($focus_variable) {
-            $this->tpl->addOnLoadCode("setTimeout(function() { $('#" . $focus_variable . "').focus();}, 100);");
-        }
-
-        foreach ($this->getLessFile()->getCategories() as $category) {
-            $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($category->getName());
-            $section->setInfo($category->getComment());
-            //$section->setSectionAnchor($category->getName());
-            $form->addItem($section);
-            foreach ($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable) {
-                $input = new ilTextInputGUI($variable->getName(), $variable->getName());
-                $input->setRequired(true);
-                $input->setDisabled(!$modify);
-
-                $references = $this->getLessFile()->getReferencesToVariableAsString($variable->getName());
-
-                if ($references != "") {
-                    if ($variable->getComment()) {
-                        $info = $variable->getComment() . "</br>" . $this->lng->txt("usages") . " " . $references;
-                    } else {
-                        $info = $this->lng->txt("usages") . " " . $references;
-                    }
-                } else {
-                    $info = $variable->getComment();
-                }
-                $input->setInfo($info);
-
-                $form->addItem($input);
+        $f = $this->ui_factory->input();
+        $category_section = [];
+        foreach ($this->less_file->getCategories() as $category) {
+            $variables_inptus = [];
+            foreach ($this->less_file->getVariablesPerCategory($category->getName()) as $variable) {
+                $info = $this->less_file->getRefAndCommentAsString($variable->getName(), $this->lng->txt('usages'));
+                $save_closure = function ($v) use ($variable) {
+                    $variable->setValue($v);
+                };
+                $variables_inptus[] = $f->field()->text($variable->getName(), $info)
+                                        //->withRequired(true)
+                                        ->withDisabled(!$modify)
+                                        ->withValue($variable->getValue())
+                                        ->withAdditionalTransformation($this->refinery->custom()->transformation($save_closure));
             }
+
+            $category_section[] = $f->field()->section(
+                $variables_inptus,
+                $category->getName(),
+                $category->getComment()
+            );
         }
 
-        if ($modify) {
-            $form->addCommandButton("update", $this->lng->txt("update_variables"));
-            $form->addCommandButton("reset", $this->lng->txt("reset_variables"));
-            $form->addCommandButton("cancel", $this->lng->txt("cancel"));
-        }
+        $form_section = $f->field()->section(
+            $category_section,
+            $this->lng->txt('adapt_less'),
+            $this->lng->txt('adapt_less_description')
+        );
 
-
-        $form->setFormAction($this->ctrl->getFormAction($this));
-
-        return $form;
+        return $f->container()->form()->standard(
+            $this->ctrl->getFormAction($this, 'update'),
+            [$form_section]
+        )->withSubmitCaption($this->lng->txt('update_variables'));
     }
 
-
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function getVariablesValues(ilPropertyFormGUI $form)
-    {
-        $values = [];
-        foreach ($this->getLessFile()->getCategories() as $category) {
-            foreach ($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable) {
-                $values[$variable->getName()] = $variable->getValue();
-            }
-        }
-
-        $form->setValuesByArray($values);
-    }
-
-    /**
-     *
-     */
-    public function reset()
-    {
-        $style = $this->getStyleContainer()->getSkin()->getStyle($_GET["style_id"]);
-        $this->setLessFile($this->getStyleContainer()->copyVariablesFromDefault($style));
-        try {
-            ilUtil::sendSuccess($this->lng->txt("less_file_reset"));
-            $this->getStyleContainer()->compileLess($style->getId());
-        } catch (ilSystemStyleException $e) {
-            ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
-        }
-
-        $this->edit();
-    }
-
-    public function update()
+    public function update(): Form
     {
         $form = $this->initSystemStyleLessForm();
-        if (!$form->checkInput()) {
-            $empty_fields = [];
-            foreach ($this->getLessFile()->getCategories() as $category) {
-                foreach ($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable) {
-                    if ($form->getInput($variable->getName()) == "") {
-                        $empty_fields[$variable->getName()] = $this->getLessFile()->getVariableByName($variable->getName())->getValue();
-                        $item = $form->getItemByPostVar($variable->getName());
-                        $item->setAlert($this->lng->txt("less_variable_empty"));
-                    }
-                }
-            }
-            if (!empty($empty_fields)) {
-                $form->setValuesByPost();
-                $form->setValuesByArray($empty_fields, true);
-                ilUtil::sendFailure($this->lng->txt("less_variables_empty_might_have_changed"), true);
-                $this->tpl->setContent($form->getHTML());
-                return;
-            }
-        } else {
-            foreach ($this->getLessFile()->getCategories() as $category) {
-                foreach ($this->getLessFile()->getVariablesPerCategory($category->getName()) as $variable) {
-                    $variable->setValue($form->getInput($variable->getName()));
-                }
-            }
-            try {
-                $this->getLessFile()->write();
-                $this->getStyleContainer()->compileLess($_GET["style_id"]);
-                $skin = $this->getStyleContainer()->getSkin();
-                $skin->getVersionStep($skin->getVersion());
-                $this->getStyleContainer()->updateSkin($skin);
-                ilUtil::sendSuccess($this->lng->txt("less_file_updated"));
-            } catch (Exception $e) {
-                ilUtil::sendFailure($this->lng->txt($e->getMessage()), true);
-            }
+        $form = $form->withRequest($this->request);
+
+        if (!$form->getData()) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $this->lng->txt('less_variables_empty_might_have_changed'),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
+            return $form;
         }
 
-        $form->setValuesByPost();
-        $this->tpl->setContent($form->getHTML());
-    }
+        try {
+            $this->less_file->write();
+            $this->style_container->compileLess($this->style_id);
+            $skin = $this->style_container->getSkin();
+            $skin->getVersionStep($skin->getVersion());
+            $this->style_container->updateSkin($skin);
+            $this->message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt('less_file_updated')));
+        } catch (Exception $e) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $this->lng->txt($e->getMessage()),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
+        }
 
-    /**
-     * @return ilSystemStyleSkinContainer
-     */
-    public function getStyleContainer()
-    {
-        return $this->style_container;
-    }
-
-    /**
-     * @param ilSystemStyleSkinContainer $style_container
-     */
-    public function setStyleContainer($style_container)
-    {
-        $this->style_container = $style_container;
-    }
-
-    /**
-     * @return ilSystemStyleLessFile
-     */
-    public function getLessFile()
-    {
-        return $this->less_file;
-    }
-
-    /**
-     * @param ilSystemStyleLessFile $less_file
-     */
-    public function setLessFile($less_file)
-    {
-        $this->less_file = $less_file;
-    }
-
-    /**
-     * @return ilSystemStyleMessageStack
-     */
-    public function getMessageStack()
-    {
-        return $this->message_stack;
-    }
-
-    /**
-     * @param ilSystemStyleMessageStack $message_stack
-     */
-    public function setMessageStack($message_stack)
-    {
-        $this->message_stack = $message_stack;
+        return $form;
     }
 }

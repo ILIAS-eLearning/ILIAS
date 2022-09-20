@@ -1,41 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Handles general object notification settings, see e.g.
  * https://www.ilias.de/docu/goto_docu_wiki_wpage_3457_1357.html
- *
- * @author Alex Killing <killing@leifos.de>
- * @ingroup ServiceNotification
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjNotificationSettings
 {
-    const MODE_DEF_OFF_USER_ACTIVATION = 0;
-    const MODE_DEF_ON_OPT_OUT = 1;
-    const MODE_DEF_ON_NO_OPT_OUT = 2;
+    public const MODE_DEF_OFF_USER_ACTIVATION = 0;
+    public const MODE_DEF_ON_OPT_OUT = 1;
+    public const MODE_DEF_ON_NO_OPT_OUT = 2;
 
-    /**
-     * @var int
-     */
-    protected $obj_id;
+    protected int $obj_id;
+    protected int $mode = 0;
+    protected ilDBInterface $db;
 
-    /**
-     * @var int
-     */
-    protected $mode = 0;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_obj_id object id
-     */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
@@ -44,30 +37,17 @@ class ilObjNotificationSettings
         $this->read();
     }
 
-    /**
-     * Set mode
-     *
-     * @param  $a_val
-     */
-    public function setMode($a_val)
+    public function setMode(int $a_val): void
     {
         $this->mode = $a_val;
     }
 
-    /**
-     * Get mode
-     *
-     * @return int mode
-     */
-    public function getMode()
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    /**
-     * Save
-     */
-    public function save()
+    public function save(): void
     {
         $db = $this->db;
 
@@ -75,15 +55,12 @@ class ilObjNotificationSettings
             $db->replace(
                 "obj_noti_settings",
                 array("obj_id" => array("integer", $this->obj_id)),
-                array("noti_mode" => array("integer", (int) $this->getMode()))
+                array("noti_mode" => array("integer", $this->getMode()))
             );
         }
     }
 
-    /**
-     * Read
-     */
-    public function read()
+    public function read(): void
     {
         $db = $this->db;
 
@@ -95,11 +72,7 @@ class ilObjNotificationSettings
         $this->setMode((int) ($rec["noti_mode"] ?? 0));
     }
 
-
-    /**
-     * Delete
-     */
-    public function delete()
+    public function delete(): void
     {
         $db = $this->db;
 

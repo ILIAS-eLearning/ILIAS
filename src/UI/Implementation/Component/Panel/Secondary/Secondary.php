@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
@@ -24,7 +40,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Gets the secondary panel title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -32,7 +48,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Sets the action drop down to be displayed on the right of the title
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary
+    public function withActions(C\Dropdown\Standard $actions): C\Panel\Secondary\Secondary
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -42,7 +58,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Gets the action drop down to be displayed on the right of the title
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }
@@ -50,7 +66,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * @inheritdoc
      */
-    public function withFooter(C\Button\Shy $component) : C\Panel\Secondary\Secondary
+    public function withFooter(C\Button\Shy $component): C\Panel\Secondary\Secondary
     {
         $clone = clone $this;
         $clone->footer_component = $component;
@@ -60,7 +76,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * @inheritdoc
      */
-    public function getFooter() : ?C\Button\Shy
+    public function getFooter(): ?C\Button\Shy
     {
         return $this->footer_component;
     }

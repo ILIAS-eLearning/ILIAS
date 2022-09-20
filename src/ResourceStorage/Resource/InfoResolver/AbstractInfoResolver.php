@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 namespace ILIAS\ResourceStorage\Resource\InfoResolver;
 
@@ -9,24 +26,12 @@ namespace ILIAS\ResourceStorage\Resource\InfoResolver;
  */
 abstract class AbstractInfoResolver implements InfoResolver
 {
-    /**
-     * @var int
-     */
-    protected $revision_owner_id = 0;
-    /**
-     * @var string
-     */
-    protected $revision_title = '';
-    /**
-     * @var int
-     */
-    protected $next_version_number = 0;
+    protected int $revision_owner_id = 0;
+    protected string $revision_title = '';
+    protected int $next_version_number = 0;
 
     /**
      * AbstractInfoResolver constructor.
-     * @param int    $next_version_number
-     * @param int    $revision_owner_id
-     * @param string $revision_title
      */
     public function __construct(int $next_version_number, int $revision_owner_id, string $revision_title)
     {
@@ -35,19 +40,18 @@ abstract class AbstractInfoResolver implements InfoResolver
         $this->revision_title = $revision_title;
     }
 
-    public function getNextVersionNumber() : int
+    public function getNextVersionNumber(): int
     {
         return $this->next_version_number;
     }
 
-    public function getOwnerId() : int
+    public function getOwnerId(): int
     {
         return $this->revision_owner_id;
     }
 
-    public function getRevisionTitle() : string
+    public function getRevisionTitle(): string
     {
         return $this->revision_title;
     }
-
 }

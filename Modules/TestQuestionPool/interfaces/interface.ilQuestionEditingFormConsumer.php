@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 interface ilQuestionEditingFormConsumer
@@ -6,11 +7,11 @@ interface ilQuestionEditingFormConsumer
     /**
      * @return string
      */
-    public function getQuestionEditingFormBackTargetLabel();
+    public function getQuestionEditingFormBackTargetLabel(): string;
 
     /**
      * @param $context
      * @return string
      */
-    public function getQuestionEditingFormBackTarget($context);
+    public function getQuestionEditingFormBackTarget($context): string;
 }

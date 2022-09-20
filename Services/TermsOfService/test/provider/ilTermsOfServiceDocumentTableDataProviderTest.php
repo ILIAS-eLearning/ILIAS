@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceDocumentTableDataProviderTest
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
-    public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceTableDataProvider
+    public function testDocumentProviderCanBeCreatedByFactory(): ilTermsOfServiceTableDataProvider
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -22,9 +39,8 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
 
     /**
      * @depends testDocumentProviderCanBeCreatedByFactory
-     * @param ilTermsOfServiceDocumentTableDataProvider $provider
      */
-    public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider) : void
+    public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider): void
     {
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
         $criterionConnector = $this->getMockBuilder(arConnector::class)->getMock();
@@ -49,7 +65,7 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
         $criterionConnector
             ->expects($this->exactly(count($documentData)))
             ->method('readSet')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): array {
                 return [];
             });
 
@@ -61,6 +77,6 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayHasKey('cnt', $data);
         $this->assertCount(3, $data['items']);
-        $this->assertEquals(3, $data['cnt']);
+        $this->assertSame(3, $data['cnt']);
     }
 }

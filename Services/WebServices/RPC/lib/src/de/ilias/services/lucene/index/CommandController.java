@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.LockObtainFailedException;
@@ -41,6 +41,7 @@ import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.IndexWriter;
 
 /**
@@ -70,7 +71,7 @@ public class CommandController {
 	
 	private static final int MAX_ELEMENTS = 100;
 
-	protected static Logger logger = Logger.getLogger(CommandController.class);
+	protected static Logger logger = LogManager.getLogger(CommandController.class);
 	
 	private Vector<Integer> finished = new Vector<Integer>();
 	private CommandQueue queue;

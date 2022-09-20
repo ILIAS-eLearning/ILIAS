@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field\Radio;
 
@@ -43,7 +46,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $tpl = $DIC["tpl"];
-    
+
         parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
         //associated object
@@ -54,25 +57,17 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $tpl->setCurrentBlock("ContentStyle");
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->layout_object->getStyleId())
+            ilObjStyleSheet::getContentStylePath(0)
         );
         $tpl->parseCurrentBlock();
-        
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->setVariable(
-            "LOCATION_ADDITIONAL_STYLESHEET",
-            ilObjStyleSheet::getPlaceHolderStylePath()
-        );
-        $tpl->parseCurrentBlock();
-        
-        $this->setStyleId($this->layout_object->getStyleId());
+
+        $tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
+//        $this->setStyleId($this->layout_object->getStyleId());
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -85,8 +80,8 @@ class ilPageLayoutGUI extends ilPageObjectGUI
                 return $html;
         }
     }
-    
-    public function create() : void
+
+    public function create(): void
     {
         $this->properties("insert");
     }
@@ -97,24 +92,23 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     public function properties(
         string $a_mode = "save",
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $ilTabs = $this->tabs;
-    
+
         $ilTabs->setTabActive('properties');
-        
+
         if (!$a_form) {
             $a_form = $this->initForm($a_mode);
         }
-        
         $this->tpl->setContent($a_form->getHTML());
     }
-    
-    public function initForm(string $a_mode) : ilPropertyFormGUI
+
+    public function initForm(string $a_mode): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($lng->txt("cont_ed_pglprop"));
@@ -134,7 +128,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $desc_input->setCols(37);
         $desc_input->setTitle($lng->txt("description"));
         $desc_input->setRequired(false);
-        
+
         // modules
         $mods = new ilCheckboxGroupInputGUI($this->lng->txt("modules"), "module");
         // $mods->setRequired(true);
@@ -148,67 +142,45 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $form_gui->addItem($desc_input);
         $form_gui->addItem($mods);
 
-        // style
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->layout_object->getStyleId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $form_gui->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(true, false);
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-            $style_sel = new ilSelectInputGUI($lng->txt("obj_sty"), "style_id");
-            $style_sel->setOptions($st_styles);
-            $style_sel->setValue($style_id);
-            $form_gui->addItem($style_sel);
-        }
-                        
         $form_gui->addCommandButton("updateProperties", $lng->txt($a_mode));
-        
+
         return $form_gui;
     }
 
-    public function updateProperties() : void
+    public function updateProperties(): void
     {
         $lng = $this->lng;
-        
+
         $form = $this->initForm("save");
         if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->properties("save", $form);
             return;
         }
-        
+
         $this->layout_object->setTitle($form->getInput('pgl_title'));
         $this->layout_object->setDescription($form->getInput('pgl_desc'));
-        $this->layout_object->setStyleId($form->getInput('style_id'));
         $this->layout_object->setModules($form->getInput('module'));
         $this->layout_object->update();
-        
-        ilUtil::sendInfo($lng->txt("saved_successfully"));
+
+        $this->tpl->setOnScreenMessage('info', $lng->txt("saved_successfully"));
         $this->properties();
     }
-    
+
     /**
      * output tabs
      */
-    public function setTabs(ilTabsGUI $a_tabs = null) : void
+    public function setTabs(ilTabsGUI $a_tabs = null): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
 
         $ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->getId());
-        $ilTabs->addTarget(
+        $ilTabs->addTab(
             "properties",
-            $ilCtrl->getLinkTarget($this, "properties"),
-            array("properties","", ""),
-            "",
-            ""
+            $this->lng->txt("settings"),
+            $ilCtrl->getLinkTarget($this, "properties")
         );
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
         $tpl->setTitle($this->layout_object->getTitle());
@@ -218,13 +190,13 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     /**
      * Get template selection radio
      */
-    public static function getTemplateSelection(string $module) : ?Radio
+    public static function getTemplateSelection(string $module): ?Radio
     {
         global $DIC;
         $ui = $DIC->ui();
         $f = $ui->factory();
         $lng = $DIC->language();
-        $arr_templates = ilPageLayout::activeLayouts(false, $module);
+        $arr_templates = ilPageLayout::activeLayouts($module);
         if (count($arr_templates) == 0) {
             return null;
         }
@@ -240,5 +212,10 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         }
         $radio = $radio->withValue($first);
         return $radio;
+    }
+
+    public function finishEditing(): void
+    {
+        $this->ctrl->redirectByClass("ilpagelayoutadministrationgui", "listLayouts");
     }
 }

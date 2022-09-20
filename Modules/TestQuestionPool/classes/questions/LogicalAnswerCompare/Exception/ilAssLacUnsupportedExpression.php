@@ -25,7 +25,7 @@ class ilAssLacUnsupportedExpression extends ilAssLacException implements ilAssLa
     public function __construct($expression)
     {
         $this->expression = $expression;
-        
+
         parent::__construct(sprintf(
             'The expression "%s" is not supported',
             $this->getExpression()
@@ -35,7 +35,7 @@ class ilAssLacUnsupportedExpression extends ilAssLacException implements ilAssLa
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression(): string
     {
         return $this->expression;
     }
@@ -44,7 +44,7 @@ class ilAssLacUnsupportedExpression extends ilAssLacException implements ilAssLa
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_expression_not_supported"),

@@ -1,9 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/Folder/classes/class.ilFolderXmlWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
 
 /**
 * Folder export
@@ -16,31 +16,26 @@ include_once './Services/Export/classes/class.ilXmlExporter.php';
 */
 class ilGroupExporter extends ilXmlExporter
 {
-    private $writer = null;
+    private ilLogger $logger;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->grp();
     }
-    
+
     /**
-     * Init export
-     * @return void
+     * @inheritDoc
      */
-    public function init() : void
+    public function init(): void
     {
     }
-    
+
     /**
-     * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @inheritDoc
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         // always trigger container because of co-page(s)
         return array(
@@ -51,40 +46,32 @@ class ilGroupExporter extends ilXmlExporter
             )
         );
     }
-    
-    
+
+
     /**
-     * Get xml
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param string $a_id
-     * @return string
+     * @inheritDoc
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
-        $refs = ilObject::_getAllReferences($a_id);
+        $refs = ilObject::_getAllReferences((int) $a_id);
         $group_ref_id = end($refs);
         $group = ilObjectFactory::getInstanceByRefId($group_ref_id, false);
-        
+
         if (!$group instanceof ilObjGroup) {
-            $GLOBALS['DIC']->logger()->grp()->warning($a_id . ' is not instance of type group');
+            $this->logger->warning($a_id . ' is not instance of type group');
             return '';
         }
-        
-        include_once './Modules/Group/classes/class.ilGroupXMLWriter.php';
-        $this->writer = new ilGroupXMLWriter($group);
-        $this->writer->setMode(ilGroupXMLWriter::MODE_EXPORT);
-        $this->writer->start();
-        return $this->writer->getXML();
+
+        $writer = new ilGroupXMLWriter($group);
+        $writer->setMode(ilGroupXMLWriter::MODE_EXPORT);
+        $writer->start();
+        return $writer->getXML();
     }
-    
+
     /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
+     * @inheritDoc
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(

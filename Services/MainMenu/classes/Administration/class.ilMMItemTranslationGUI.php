@@ -1,47 +1,44 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
 /**
  * Class ilMMItemTranslationGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemTranslationGUI
 {
     use DIC;
-    const P_TRANSLATIONS = 'translations';
-    const P_DELETE = 'delete';
-    const CMD_ADD_LANGUAGE = "addLanguages";
-    const CMD_SAVE_LANGUAGES = "saveLanguages";
-    const CMD_SAVE_TRANSLATIONS = "saveTranslations";
-    const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
-    const CMD_DEFAULT = 'index';
-    const IDENTIFIER = 'identifier';
-    /**
-     * @var ilMMItemRepository
-     */
-    private $repository;
-    /**
-     * @var ilMMItemFacadeInterface
-     */
-    private $item_facade;
 
+    public const P_TRANSLATIONS = 'translations';
+    public const P_DELETE = 'delete';
+    public const CMD_ADD_LANGUAGE = "addLanguages";
+    public const CMD_SAVE_LANGUAGES = "saveLanguages";
+    public const CMD_SAVE_TRANSLATIONS = "saveTranslations";
+    public const CMD_DELETE_TRANSLATIONS = "deleteTranslations";
+    public const CMD_DEFAULT = 'index';
+    public const IDENTIFIER = 'identifier';
+
+    private ilMMItemRepository $repository;
+
+    private ilMMItemFacadeInterface $item_facade;
+    private ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilMMItemTranslationGUI constructor.
-     *
-     * @param ilMMItemFacadeInterface $item_facade
      */
     public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->item_facade = $item_facade;
         $this->repository = $repository;
         $this->lng()->loadLanguageModule("mme");
     }
 
-
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $this->ctrl()->saveParameter($this, self::IDENTIFIER);
         switch ($this->ctrl()->getNextClass()) {
@@ -51,8 +48,7 @@ class ilMMItemTranslationGUI
         }
     }
 
-
-    protected function index()
+    protected function index(): void
     {
         $this->initToolbar();
 
@@ -60,18 +56,16 @@ class ilMMItemTranslationGUI
         $this->tpl()->setContent($table->getHTML());
     }
 
-
-    protected function initToolbar()
+    protected function initToolbar(): void
     {
         $this->toolbar()->addButton(
             $this->lng()->txt("add_languages"),
             $this->ctrl()
-            ->getLinkTarget($this, self::CMD_ADD_LANGUAGE)
+                 ->getLinkTarget($this, self::CMD_ADD_LANGUAGE)
         );
     }
 
-
-    protected function saveTranslations()
+    protected function saveTranslations(): void
     {
         $to_translate = (array) $this->http()->request()->getParsedBody()[self::P_TRANSLATIONS];
         foreach ($to_translate as $id => $data) {
@@ -83,32 +77,29 @@ class ilMMItemTranslationGUI
             $translation->update();
         }
         $this->repository->clearCache();
-        ilUtil::sendInfo($this->lng()->txt('msg_translations_saved'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('msg_translations_saved'), true);
         $this->cancel();
     }
 
-
-    protected function deleteTranslations()
+    protected function deleteTranslations(): void
     {
         $to_delete = (array) $this->http()->request()->getParsedBody()[self::P_DELETE];
         foreach ($to_delete as $id) {
             ilMMItemTranslationStorage::find($id)->delete();
         }
         $this->repository->updateItem($this->item_facade);
-        ilUtil::sendInfo($this->lng()->txt('msg_translations_deleted'), true);
+        $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt('msg_translations_deleted'), true);
         $this->cancel();
     }
 
-
-    protected function addLanguages()
+    protected function addLanguages(): void
     {
         $form = $this->getLanguagesForm();
 
         $this->tpl()->setContent($form->getHTML());
     }
 
-
-    protected function saveLanguages()
+    protected function saveLanguages(): void
     {
         $form = $this->getLanguagesForm();
         if ($form->checkInput()) {
@@ -119,21 +110,19 @@ class ilMMItemTranslationGUI
                 }
             }
             $this->repository->updateItem($this->item_facade);
-            ilUtil::sendInfo($this->lng()->txt("msg_languages_added"), true);
+            $this->main_tpl->setOnScreenMessage('info', $this->lng()->txt("msg_languages_added"), true);
             $this->cancel();
         }
 
-        ilUtil::sendFailure($this->lng()->txt('err_check_input'));
+        $this->main_tpl->setOnScreenMessage('failure', $this->lng()->txt('err_check_input'));
         $form->setValuesByPost();
         $this->tpl()->setContent($form->getHTML());
     }
 
-
     /**
-     * @return ilPropertyFormGUI
      * @throws ilFormException
      */
-    protected function getLanguagesForm()
+    protected function getLanguagesForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl()->getFormAction($this));
@@ -153,8 +142,7 @@ class ilMMItemTranslationGUI
         return $form;
     }
 
-
-    protected function cancel()
+    protected function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_DEFAULT);
     }

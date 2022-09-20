@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceAcceptanceDatabaseGatewayTest
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBaseTest
 {
-    public function testInstanceCanBeCreated() : void
+    public function testInstanceCanBeCreated(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
@@ -15,7 +32,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceDatabaseGateway::class, $gateway);
     }
 
-    public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary() : void
+    public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity
@@ -80,7 +97,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion() : void
+    public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity
@@ -133,7 +150,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    public function testLatestAcceptanceOfUserCanBeLoaded() : void
+    public function testLatestAcceptanceOfUserCanBeLoaded(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
 
@@ -157,17 +174,17 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
         $entity = $gateway->loadCurrentAcceptanceOfUser($entity);
 
-        $this->assertEquals($expected['id'], $entity->getId());
-        $this->assertEquals($expected['usr_id'], $entity->getUserId());
-        $this->assertEquals($expected['doc_id'], $entity->getDocumentId());
-        $this->assertEquals($expected['title'], $entity->getTitle());
-        $this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
-        $this->assertEquals($expected['text'], $entity->getText());
-        $this->assertEquals($expected['accepted_ts'], $entity->getTimestamp());
-        $this->assertEquals($expected['hash'], $entity->getHash());
+        $this->assertSame($expected['id'], $entity->getId());
+        $this->assertSame($expected['usr_id'], $entity->getUserId());
+        $this->assertSame($expected['doc_id'], $entity->getDocumentId());
+        $this->assertSame($expected['title'], $entity->getTitle());
+        $this->assertSame($expected['criteria'], $entity->getSerializedCriteria());
+        $this->assertSame($expected['text'], $entity->getText());
+        $this->assertSame($expected['accepted_ts'], $entity->getTimestamp());
+        $this->assertSame($expected['hash'], $entity->getHash());
     }
 
-    public function testAcceptanceHistoryOfAUserCanBeDeleted() : void
+    public function testAcceptanceHistoryOfAUserCanBeDeleted(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
         $entity = $entity->withUserId(4711);
@@ -189,7 +206,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->deleteAcceptanceHistoryByUser($entity);
     }
 
-    public function testAcceptanceHistoryRecordCanBeLoadedById() : void
+    public function testAcceptanceHistoryRecordCanBeLoadedById(): void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
 
@@ -211,11 +228,11 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway = new ilTermsOfServiceAcceptanceDatabaseGateway($database);
         $entity = $gateway->loadById($entity);
 
-        $this->assertEquals($expected['id'], $entity->getId());
-        $this->assertEquals($expected['doc_id'], $entity->getDocumentId());
-        $this->assertEquals($expected['title'], $entity->getTitle());
-        $this->assertEquals($expected['criteria'], $entity->getSerializedCriteria());
-        $this->assertEquals($expected['text'], $entity->getText());
-        $this->assertEquals($expected['hash'], $entity->getHash());
+        $this->assertSame($expected['id'], $entity->getId());
+        $this->assertSame($expected['doc_id'], $entity->getDocumentId());
+        $this->assertSame($expected['title'], $entity->getTitle());
+        $this->assertSame($expected['criteria'], $entity->getSerializedCriteria());
+        $this->assertSame($expected['text'], $entity->getText());
+        $this->assertSame($expected['hash'], $entity->getHash());
     }
 }

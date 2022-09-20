@@ -1,88 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * Interface ilWebDAVMountInstructionsRepository
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 interface ilWebDAVMountInstructionsRepository
 {
-    /**
-     * Create new database entry for given mount instructions document
-     *
-     * @param ilWebDAVMountInstructionsDocument $document
-     * @return void
-     */
-    public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document);
+    public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document): void;
 
-    /**
-     * Return next free ID for mount instructions document
-     *
-     * @return int $nextId
-     */
-    public function getNextMountInstructionsDocumentId() : int;
+    public function getNextMountInstructionsDocumentId(): int;
 
-    /**
-     * Get currently highest sorting number for mount instructions document
-     *
-     * @return int
-     */
-    public function getHighestSortingNumber() : int;
+    public function getHighestSortingNumber(): int;
 
-    /**
-     * Gets mount instructions document by id
-     *
-     * @param int $id
-     * @return ilWebDAVMountInstructionsDocument $document
-     * @throws InvalidArgumentException
-     */
-    public function getMountInstructionsDocumentById(int $id) : ilWebDAVMountInstructionsDocument;
+    public function getMountInstructionsDocumentById(int $id): ilWebDAVMountInstructionsDocument;
 
-    /**
-     * Gets mount instructions document by language -> language is two letters like "en" for English etc.
-     *
-     * @param string $language
-     * @return ilWebDAVMountInstructionsDocument $document
-     * @throws InvalidArgumentException
-     */
-    public function getMountInstructionsByLanguage(string $language) : ilWebDAVMountInstructionsDocument;
+    public function getMountInstructionsByLanguage(string $language): ilWebDAVMountInstructionsDocument;
 
-    /**
-     * Returns an array with all existing mount instructions documents
-     *
-     * @return array
-     */
-    public function getAllMountInstructions() : array;
+    public function getAllMountInstructions(): array;
 
-    /**
-     * Check if mount instructions for language exists. Language is two letters like "en" for English etc.
-     * Returns id of mount instructions, if found, or 0.
-     *
-     * @param string $language
-     * @return int
-     */
-    public function doMountInstructionsExistByLanguage(string $language) : int;
+    public function doMountInstructionsExistByLanguage(string $language): int;
 
-    /**
-     * Update existing mount instructions document
-     *
-     * @param ilWebDAVMountInstructionsDocument $document
-     * @return void
-     */
-    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document);
+    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document): void;
 
-    /**
-     * Update sorting value of a mount instructions document
-     *
-     * @param int $id
-     * @param int $a_new_sorting_value
-     * @return void
-     */
-    public function updateSortingValueById(int $id, int $a_new_sorting_value);
+    public function updateSortingValueById(int $id, int $a_new_sorting_value): void;
 
-    /**
-     * Delete mount instructions document by id
-     *
-     * @param int $id
-     * @return void
-     */
-    public function deleteMountInstructionsById(int $id);
+    public function deleteMountInstructionsById(int $id): void;
 }

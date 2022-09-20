@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Table;
 
@@ -35,12 +51,12 @@ interface Presentation extends Table, HasViewControls
      *   mixed 				$environment
      * The closure MUST return \PresentationRow
      */
-    public function withRowMapping(Closure $row_mapping) : Presentation;
+    public function withRowMapping(Closure $row_mapping): Presentation;
 
     /**
      * Get the closure to construct row-entries with.
      */
-    public function getRowMapping() : Closure;
+    public function getRowMapping(): Closure;
 
     /**
      * Add a list of additional things the mapping-closure needs for processing.
@@ -48,14 +64,14 @@ interface Presentation extends Table, HasViewControls
      *
      * @param array<string,mixed> 	$environment
      */
-    public function withEnvironment(array $environment) : Presentation;
+    public function withEnvironment(array $environment): Presentation;
 
     /**
      * Get an array of additionally needed elements to build a data-entry.
      *
      * @return array<string,mixed>
      */
-    public function getEnvironment() : array;
+    public function getEnvironment(): array;
 
     /**
      * Fill a recordset into the table.
@@ -63,7 +79,7 @@ interface Presentation extends Table, HasViewControls
      *
      * @param array<mixed> 	$records
      */
-    public function withData(array $records) : Presentation;
+    public function withData(array $records): Presentation;
 
     /**
      * Get the recordset of this table.
@@ -71,5 +87,5 @@ interface Presentation extends Table, HasViewControls
      *
      * @return array<mixed>
      */
-    public function getData() : array;
+    public function getData(): array;
 }

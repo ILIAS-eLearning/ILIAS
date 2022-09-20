@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\DI\Container;
 use ILIAS\Data\Factory;
 use ILIAS\UI\Component\Modal\InterruptiveItem;
@@ -12,34 +28,20 @@ use ILIAS\UI\Component\Modal\Interruptive;
  */
 class ilADNNotificationTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\Data\Factory $data_factory;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    protected $data_factory;
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var ilObjAdministrativeNotificationAccess
-     */
-    protected $access;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilObjAdministrativeNotificationAccess $access;
     /**
      * @var Interruptive[]
      */
-    protected $modals = [];
+    protected array $modals = [];
 
     /**
      * ilADNNotificationTableGUI constructor.
-     * @param ilADNNotificationGUI $a_parent_obj
      * @param                      $a_parent_cmd
      */
-    public function __construct(ilADNNotificationGUI $a_parent_obj, $a_parent_cmd)
+    public function __construct(ilADNNotificationGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
         /**
@@ -69,17 +71,17 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-    protected function initData()
+    protected function initData(): void
     {
         $this->setData(ilADNNotification::getArray());
     }
 
-    protected function formatDate(DateTimeImmutable $timestamp) : string
+    protected function formatDate(DateTimeImmutable $timestamp): string
     {
-        return $timestamp->format($this->data_factory->dateFormat()->germanLong()->toString() . ' - H:i:s') ?? '';
+        return ilDatePresentation::formatDate(new ilDateTime($timestamp->getTimestamp(), IL_CAL_UNIX));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         /**
          * @var ilADNNotification $notification
@@ -101,7 +103,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         // Actions
         if ($this->access->hasUserPermissionTo('write')) {
             $items = [];
-            $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
+            $this->ctrl->setParameter($this->parent_obj, ilADNAbstractGUI::IDENTIFIER, $notification->getId());
 
             $items[] = $this->ui->factory()->button()->shy(
                 $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_EDIT),
@@ -112,14 +114,14 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             $ditem = $this->ui->factory()->modal()->interruptiveItem((string) $notification->getId(), $notification->getTitle());
             $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE);
             $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DELETE), "")
-                                ->withOnClick($delete_modal->getShowSignal());
+                                       ->withOnClick($delete_modal->getShowSignal());
             $this->modals[] = $delete_modal;
-            
+
             $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET);
             $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_RESET), "")
-                                ->withOnClick($reset_modal->getShowSignal());
+                                       ->withOnClick($reset_modal->getShowSignal());
             $this->modals[] = $reset_modal;
-            
+
             $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
 
             $this->tpl->setVariable('ACTIONS', $actions);
@@ -128,22 +130,21 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         }
     }
 
-    protected function modal(InterruptiveItem $i, string $cmd) : Interruptive
+    protected function modal(InterruptiveItem $i, string $cmd): Interruptive
     {
         $action = $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, $cmd);
-        $modal = $this->ui->factory()->modal()
-                          ->interruptive(
-                              $this->lng->txt('btn_' . $cmd),
-                              $this->lng->txt('btn_' . $cmd . '_confirm'),
-                              $action
-                          )
-                          ->withAffectedItems([$i])
-                          ->withActionButtonLabel($cmd);
-        
-        return $modal;
+
+        return $this->ui->factory()->modal()
+                           ->interruptive(
+                               $this->lng->txt('btn_' . $cmd),
+                               $this->lng->txt('btn_' . $cmd . '_confirm'),
+                               $action
+                           )
+                           ->withAffectedItems([$i])
+                           ->withActionButtonLabel($cmd);
     }
-    
-    public function getHTML()
+
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->ui->renderer()->render($this->modals);
     }

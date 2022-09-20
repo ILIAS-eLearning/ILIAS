@@ -1,30 +1,40 @@
 <?php
 
 /**
- * Class ilBiblRisFileReader
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilBiblRisFileReader
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-
-    /**
-     * @var array
-     */
-    protected static $ignored_keywords = array('Preamble');
-
+    protected static array $ignored_keywords = array('Preamble');
 
     /**
      * @inheritdoc
      */
-    public function parseContent()
+    public function parseContent(): array
     {
         $this->convertBibSpecialChars();
         $this->normalizeContent();
 
         // get entries
         $subject = $this->getFileContent();
-        $objects = preg_split("/\\@([\\w]*)/uix", $subject, null, PREG_SPLIT_DELIM_CAPTURE
+        $objects = preg_split("/\\@([\\w]*)/uix", $subject, -1, PREG_SPLIT_DELIM_CAPTURE
             | PREG_SPLIT_NO_EMPTY);
 
         if (in_array($objects[0], self::$ignored_keywords)) {
@@ -35,10 +45,10 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             $objects = array_splice($objects, 1);
         }
 
-        $entries = array();
+        $entries = [];
         foreach ($objects as $key => $object) {
             if ((int) $key % 2 == 0 || (int) $key == 0) {
-                $entry = array();
+                $entry = [];
                 $entry['entryType'] = strtolower($object);
             } else {
                 // Citation
@@ -58,19 +68,18 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
 
                     $entry[strtolower($match['attr'])] = $clean;
                 }
-
-                $entries[] = $entry;
+                // this looks strange, since $entry is only declared every second loop. this is because BibTex first delivers a line for type, in the next line the content (see lines 34.36)
+                $entries[] = $entry ?? [];
             }
         }
 
         return $entries;
     }
 
-
     /**
      * @inheritdoc
      */
-    protected function normalizeContent()
+    protected function normalizeContent(): void
     {
         $result = $this->removeBomUtf8($this->getFileContent());
         // remove emty newlines
@@ -100,8 +109,8 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         $this->setFileContent($result);
     }
 
-
-    protected function convertBibSpecialChars()
+    /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
+    protected function convertBibSpecialChars(): void
     {
         $bibtex_special_chars['ä'] = '{\"a}';
         $bibtex_special_chars['ë'] = '{\"e}';
@@ -165,15 +174,9 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
         $this->setFileContent(str_replace(array_values($bibtex_special_chars), array_keys($bibtex_special_chars), $this->getFileContent()));
     }
 
-
-    /**
-     * @param $s
-     *
-     * @return bool|string
-     */
-    protected function removeBomUtf8($s)
+    protected function removeBomUtf8(string $s): string
     {
-        if (substr($s, 0, 3) == chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
+        if (substr($s, 0, 3) === chr(hexdec('EF')) . chr(hexdec('BB')) . chr(hexdec('BF'))) {
             return substr($s, 3);
         } else {
             return $s;

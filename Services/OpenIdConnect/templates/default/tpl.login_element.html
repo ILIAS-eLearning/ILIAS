@@ -1,17 +1,31 @@
-<div class="form-horizontal" style="width: 40em;">
-	<div class="ilFormHeader">
-		<h3 class="ilHeader">{TXT_OIDCONNECT_HEADER}</h3>
+<form method="post" name="openidlogin" class="form-horizontal preventDoubleSubmission">
+<div class="form-horizontal">
+	<div class="ilFormHeader clearfix">
+		<h2 class="ilHeader">{TXT_OIDCONNECT_HEADER}</h2>
 	</div>
 	<div class="form-group">
 		<!-- BEGIN text_login -->
-		<div class="col-sm-12">
-			<a href="{SCRIPT_OIDCONNECT_T}">{TXT_OIDC}</a>
-		</div>
+        <div class="form-group" id="il_prop_cont_username">
+            <div class="col-lg-3 col-md-3 col-xs-4"></div>
+            <div class="col-lg-6 col-md-6 col-xs-4">
+                <a href="{SCRIPT_OIDCONNECT_T}" class="btn btn-default btn-bulky il-openid-login-button">
+                    {TXT_OIDC}
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-4"></div>
+        </div>
 		<!-- END text_login -->
 		<!-- BEGIN image_login -->
-		<div class="col-sm-12">
-			<a href="{SCRIPT_OIDCONNECT_I}"><img src="{IMG_SOURCE}" /></a>
-		</div>
-		<!-- BEGIN image_login -->
+        <div class="form-group" id="il_prop_cont_username">
+            <div class="col-lg-3 col-md-3 col-xs-4"></div>
+            <div class="col-lg-6 col-md-6 col-xs-4">
+                <a href="{SCRIPT_OIDCONNECT_I}" class="btn btn-default btn-bulky il-openid-login-button">
+                    <img alt="{TXT_OIDCONNECT_HEADER}" class="img-responsive" src="{IMG_SOURCE}" />
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-4"></div>
+        </div>
+		<!-- END image_login -->
 	</div>
 </div>
+</form>

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,45 +22,24 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-include_once('./Services/Calendar/classes/class.ilDateTime.php');
-include_once('./Services/Calendar/classes/class.ilTimeZone.php');
 
 /**
-* Class for single dates.
-* ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
-
+ * Class for single dates.
+ * ilDate('2008-03-15') is nothing else than ilDateTime('2008-03-15',IL_CAL_DATE,'UTC')
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesCalendar
+ */
 class ilDate extends ilDateTime
 {
-    
-    /**
-     * Create new date object
-     *
-     * @access public
-     * @param mixed integer string following the format given as the second parameter
-     * @param int format of date presentation
-     *
-     */
     public function __construct($a_date = '', $a_format = 0)
     {
         parent::__construct($a_date, $a_format, ilTimeZone::UTC);
-        
+
         $this->default_timezone = ilTimeZone::_getInstance('UTC');
     }
-    
-    /**
-     * get formatted date
-     *
-     * @access public
-     * @param int format type
-     * @param string format string
-     */
-    public function get($a_format, $a_format_str = '', $a_tz = '')
+
+    public function get(int $a_format, string $a_format_str = '', string $a_tz = '')
     {
         return parent::get($a_format, $a_format_str);
     }
@@ -66,7 +47,7 @@ class ilDate extends ilDateTime
     /**
      * To string for dates
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->get(IL_CAL_DATE) . '<br />';
     }

@@ -1,84 +1,60 @@
 <?php
-include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
 
 /**
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
+
 class ilSystemStyleDeleteGUI
 {
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected array $styles = [];
+    private ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var array
-     */
-    protected $styles = array();
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function __construct(ilLanguage $lng, ilCtrl $ctrl)
     {
         global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $lng;
+        $this->ctrl = $ctrl;
     }
 
-    /**
-     * @param ilSkinXML $skin
-     * @param ilSkinStyleXML $style
-     */
-    public function addStyle(ilSkinXML $skin, ilSkinStyleXML $style)
+    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path): void
     {
-        $this->styles[] = array(
-            "var" => "style_" . $skin->getId() . ":" . $style->getId(),
-            "id" => $skin->getId() . ":" . $style->getId(),
-            "text" => $skin->getName() . " / " . $style->getName(),
-            "img" => ilUtil::getImagePath('icon_stys.svg')
-        );
+        $this->styles[] = [
+            'var' => 'style_' . sizeof($this->styles),
+            'id' => $skin->getId() . ':' . $style->getId(),
+            'text' => $skin->getName() . ' / ' . $style->getName(),
+            'img' => $img_path,
+            'alt' => ''
+        ];
     }
 
-    /**
-     * @return string
-     */
-    public function getDeleteStyleFormHTML()
+    public function getDeleteStyleFormHTML(): string
     {
-        ilUtil::sendQuestion($this->lng->txt("info_delete_sure"), true);
+        $this->main_tpl->setOnScreenMessage('question', $this->lng->txt('info_delete_sure'), true);
 
         $table_form = new ilConfirmationTableGUI(true);
-        $table_form->setFormName("delete_style");
+        $table_form->setFormName('delete_style');
 
         $table_form->addCommandButton('confirmDelete', $this->lng->txt('confirm'));
         $table_form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        $table_form->setFormAction($this->ctrl->getFormActionByClass("ilSystemStyleOverviewGUI"));
-        $table_form->setData($this->getStyles());
+        $table_form->setFormAction($this->ctrl->getFormActionByClass('ilSystemStyleOverviewGUI'));
+        $table_form->setData($this->styles);
         return $table_form->getHTML();
-    }
-
-    /**
-     * @return array
-     */
-    public function getStyles()
-    {
-        return $this->styles;
-    }
-
-    /**
-     * @param array $styles
-     */
-    public function setStyles($styles)
-    {
-        $this->styles = $styles;
     }
 }

@@ -22,7 +22,8 @@
 
 package de.ilias.services.lucene.index;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Represents a single entry from table search_command_queue
@@ -40,7 +41,7 @@ public class CommandQueueElement {
 	public static final String DELETE = "delete";
 
 	
-	protected static Logger logger = Logger.getLogger(CommandQueueElement.class);
+	protected static Logger logger = LogManager.getLogger(CommandQueueElement.class);
 	
 	private int objId;
 	private String objType;

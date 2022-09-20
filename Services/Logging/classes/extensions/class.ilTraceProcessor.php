@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,41 +16,43 @@
  */
 class ilTraceProcessor
 {
-    private $level = 0;
-    
-    public function __construct($a_level)
+    private int $level = 0;
+
+    public function __construct(int $a_level)
     {
         $this->level = $a_level;
     }
-    
+
     /**
-     *
-     * @param array $record
-     * @return array
+     * @todo fix shifting calls
      */
-    public function __invoke(array $record)
+    public function __invoke(array $record): array
     {
         if ($record['level'] < $this->level) {
             return $record;
         }
-        
+
         $trace = debug_backtrace();
-        
+
         // shift current method
         array_shift($trace);
-        
+
         // shift internal monolog calls
         array_shift($trace);
         array_shift($trace);
         array_shift($trace);
         array_shift($trace);
-        
-        $trace_info = $trace[0]['class'] . '::' . $trace[0]['function'] . ':' . $trace[0]['line'];
-        
-        $record['extra'] = array_merge(
-            $record['extra'],
-            array('trace' => $trace_info)
-        );
+
+        if (is_array($trace) && count($trace)) {
+            $trace_info =
+                ($trace[0]['class'] ?? '') . '::' .
+                ($trace[0]['function'] ?? '') . ':' .
+                ($trace[0]['line'] ?? '');
+            $record['extra'] = array_merge(
+                $record['extra'],
+                array('trace' => $trace_info)
+            );
+        }
         return $record;
     }
 }

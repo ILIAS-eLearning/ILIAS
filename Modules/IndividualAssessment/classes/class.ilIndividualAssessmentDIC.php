@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 use ILIAS\Data;
 use Pimple\Container;
 
@@ -10,7 +12,7 @@ trait ilIndividualAssessmentDIC
     public function getObjectDIC(
         ilObjIndividualAssessment $object,
         ArrayAccess $dic
-    ) : Container {
+    ): Container {
         $container = new Container();
 
         $container['DataFactory'] = function () {
@@ -50,7 +52,9 @@ trait ilIndividualAssessmentDIC
                 $dic['ui.factory'],
                 $dic['ui.renderer'],
                 $dic['ilErr'],
-                $c['ilIndividualAssessmentMemberGUI']
+                $c['ilIndividualAssessmentMemberGUI'],
+                $dic->refinery(),
+                $dic->http()->wrapper()
             );
         };
 
@@ -70,7 +74,9 @@ trait ilIndividualAssessmentDIC
                 $c['ilIndividualAssessmentPrimitiveInternalNotificator'],
                 $dic["ilToolbar"],
                 $object,
-                $dic['ilErr']
+                $dic['ilErr'],
+                $dic->refinery(),
+                $dic->http()->wrapper()->query()
             );
         };
 

@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * Course/group skill notification
  *
@@ -28,6 +30,7 @@ class ilSkillNotifications extends ilCronJob
     protected ilObjUser $user;
     protected ilIniFile $client_ini;
     protected ilTree $tree;
+    protected SkillTreeService $tree_service;
 
     public function __construct()
     {
@@ -43,48 +46,49 @@ class ilSkillNotifications extends ilCronJob
         if (isset($DIC["tree"])) {
             $this->tree = $DIC->repositoryTree();
         }
+        $this->tree_service = $DIC->skills()->tree();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "skll_notification";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification_desc");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         global $DIC;
 
@@ -151,7 +155,7 @@ class ilSkillNotifications extends ilCronJob
     /**
      * Send news mail for 1 user and n objects
      */
-    protected function sendMail(int $a_user_id, array $a_achievements, string $a_last_run) : void
+    protected function sendMail(int $a_user_id, array $a_achievements, string $a_last_run): void
     {
         $ilClientIniFile = $this->client_ini;
         $tree = $this->tree;
@@ -166,11 +170,10 @@ class ilSkillNotifications extends ilCronJob
         $last_obj_id = 0;
 
         // order skill achievements per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
+        $vtree = $this->tree_service->getGlobalVirtualSkillTree();
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 
         foreach ($a_achievements as $skill_level) {
-
             // path
             $path = [];
             foreach ($tree->getPathId($skill_level["trigger_ref_id"]) as $node) {

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
@@ -11,17 +12,14 @@ use PHPUnit\Framework\TestCase;
  */
 class ilassMarkSchemaTest extends TestCase
 {
+    private ASS_MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
+
         // Arrange
         include_once './Modules/Test/classes/class.assMarkSchema.php';
         $this->ass_mark_schema = new ASS_MarkSchema();
@@ -196,8 +194,8 @@ class ilassMarkSchemaTest extends TestCase
     {
         // Arrange
         $expected = is_array(array());
-        $this->ass_mark_schema->mark_steps = "a string";
-        $this->assertEquals($this->ass_mark_schema->mark_steps, "a string");
+        $this->ass_mark_schema->mark_steps = array("a string");
+        $this->assertEquals(array("a string"), $this->ass_mark_schema->mark_steps);
         $this->ass_mark_schema->flush();
 
         // Act

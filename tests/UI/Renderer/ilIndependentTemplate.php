@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -16,7 +32,7 @@ class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\
         $flag1,
         $flag2,
         $in_module = '',
-        $vars = "DEFAULT",
+        $vars = self::DEFAULT_BLOCK,
         $plugin = false,
         $a_use_cache = true
     ) {
@@ -26,14 +42,14 @@ class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\
 
     // Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
     public function get(
-        $part = null,
-        $add_error_mess = false,
-        $handle_referer = false,
-        $add_ilias_footer = false,
-        $add_standard_elements = false,
-        $a_main_menu = true,
-        $a_tabs = true
-    ) : string {
+        string $part = null,
+        bool $add_error_mess = false,
+        bool $handle_referer = false,
+        bool $add_ilias_footer = false,
+        bool $add_standard_elements = false,
+        bool $a_main_menu = true,
+        bool $a_tabs = true
+    ): string {
         return $this->template->get($part);
     }
 }
@@ -42,16 +58,12 @@ class ilIndependantTemplate extends ilTemplate
 {
     /**
      * Reads a file from disk and returns its content.
-     *
      * Copy from Service/PEAR/lib/HTML/Template/IT.php with GlobalCache-stuff
      * removed.
-     *
-     * @param	string	Filename
-     * @return   string	Filecontent
-    */
-    public function getFile($filename)
+     */
+    public function getFile(string $filename): string
     {
-        if ($filename[0] == '/' && substr($this->fileRoot, -1) == '/') {
+        if ($filename[0] === '/' && substr($this->fileRoot, -1) === '/') {
             $filename = substr($filename, 1);
         }
 
@@ -60,11 +72,11 @@ class ilIndependantTemplate extends ilTemplate
         require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
 
-        if (!($fh = @fopen($filename, 'r'))) {
-            $this->err[] = PEAR::raiseError(
-                $this->errorMessage(IT_TPL_NOT_FOUND) .
+        if (!($fh = @fopen($filename, 'rb'))) {
+            $this->err[] = (new PEAR())->raiseError(
+                $this->errorMessage(self::IT_TPL_NOT_FOUND) .
                 ': "' . $filename . '"',
-                IT_TPL_NOT_FOUND
+                self::IT_TPL_NOT_FOUND
             );
             return "";
         }
@@ -85,42 +97,33 @@ class ilIndependantTemplate extends ilTemplate
             },
             $content
         );
-    } // end func getFile
+    }
 
     /**
      * Reads a template file from the disk.
-     *
      * unoverwrites IT:loadTemplateFile to deinclude the template input hook
-     *
-     * @param	string	  name of the template file
-     * @param	bool		how to handle unknown variables.
-     * @param	bool		how to handle empty blocks.
-     * @access   public
-     * @return   boolean	false on failure, otherwise true
-     * @see	  $template, setTemplate(), $removeUnknownVariables,
-     *		   $removeEmptyBlocks
      */
     public function loadTemplatefile(
-        $filename,
-        $removeUnknownVariables = true,
-        $removeEmptyBlocks = true
-    ) {
+        string $filename,
+        bool $removeUnknownVariables = true,
+        bool $removeEmptyBlocks = true
+    ): bool {
         return HTML_Template_IT::loadTemplatefile($filename, $removeUnknownVariables, $removeEmptyBlocks);
     }
 
     // Small adjustment to fit \ILIAS\UI\Implementation\Template and call to
-    public function get($part = null)
+    public function get(string $part = null): string
     {
         if ($part === null) {
-            $part = "__global__";
+            $part = self::IT_DEFAULT_BLOCK;
         }
-        if ($part == '__global__' && !$this->flagGlobalParsed) {
-            $this->parse('__global__');
+        if ($part === self::IT_DEFAULT_BLOCK && !$this->flagGlobalParsed) {
+            $this->parse(self::IT_DEFAULT_BLOCK);
         }
 
         if (!isset($this->blocklist[$part])) {
-            throw (new ilTemplateException($this->errorMessage(IT_BLOCK_NOT_FOUND) .
-                '"' . $block . "'"));
+            throw (new ilTemplateException($this->errorMessage(self::IT_BLOCK_NOT_FOUND) .
+                '"' . $part . "'"));
         }
 
         if (isset($this->blockdata[$part])) {
@@ -131,7 +134,7 @@ class ilIndependantTemplate extends ilTemplate
             if ($this->_options['preserve_data']) {
                 $ret = str_replace(
                     $this->openingDelimiter .
-                        '%preserved%' . $this->closingDelimiter,
+                    '%preserved%' . $this->closingDelimiter,
                     $this->openingDelimiter,
                     $ret
                 );

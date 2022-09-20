@@ -2,12 +2,23 @@
 
 namespace ILIAS\Filesystem\Stream;
 
-require_once('./libs/composer/vendor/autoload.php');
-
 use ILIAS\Filesystem\Util\PHPStreamFunctions;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class StreamTest
  *
@@ -20,7 +31,6 @@ use PHPUnit\Framework\TestCase;
  */
 class StreamTest extends TestCase
 {
-
     /**
      * @var Mockery\MockInterface
      */
@@ -35,7 +45,7 @@ class StreamTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -46,7 +56,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testDetachWhichShouldSucceed()
+    public function testDetachWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -66,7 +76,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testDetachDoubleInvocationWhichShouldFail()
+    public function testDetachDoubleInvocationWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -87,7 +97,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWithStatsWhichShouldSucceed()
+    public function testGetSizeWithStatsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $correctSize = strlen($content);
@@ -104,7 +114,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWithOptionsWhichShouldSucceed()
+    public function testGetSizeWithOptionsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $correctSize = 900;
@@ -122,7 +132,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetSizeWithDetachedStreamWhichShouldFail()
+    public function testGetSizeWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -139,7 +149,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testCloseWhichShouldSucceed()
+    public function testCloseWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -155,7 +165,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testCloseWithDetachedStreamWhichShouldDoNothing()
+    public function testCloseWithDetachedStreamWhichShouldDoNothing(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -173,7 +183,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testTellWhichShouldSucceed()
+    public function testTellWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -191,7 +201,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testTellWithDetachedStreamWhichShouldFail()
+    public function testTellWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -210,7 +220,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testTellWithFtellFailureWhichShouldFail()
+    public function testTellWithFtellFailureWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -239,7 +249,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testEofWhichShouldSucceed()
+    public function testEofWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -258,7 +268,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testEofWithDetachedStreamWhichShouldFail()
+    public function testEofWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -278,7 +288,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testSeekWhichShouldSucceed()
+    public function testSeekWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -295,7 +305,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testSeekWithDetachedStreamWhichShouldFail()
+    public function testSeekWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -315,7 +325,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testSeekWithNotSeekableStreamWhichShouldFail()
+    public function testSeekWithNotSeekableStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -339,7 +349,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testSeekWithFseekFailureWhichShouldFail()
+    public function testSeekWithFseekFailureWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -348,7 +358,7 @@ class StreamTest extends TestCase
         $resource = $this->createResource($content, $mode);
 
         $subject = new Stream($resource);
-        
+
         //load mock class
         $functionMock = Mockery::mock('alias:' . PHPStreamFunctions::class);
         $functionMock->shouldReceive('fseek')
@@ -370,7 +380,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWhichShouldSucceed()
+    public function testReadWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $expectedResult = "awesome";
@@ -388,7 +398,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithZeroLengthWhichShouldSucceed()
+    public function testReadWithZeroLengthWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $expectedResult = "";
@@ -406,7 +416,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithDetachedStreamWhichShouldFail()
+    public function testReadWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -426,7 +436,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithNegativeLengthWhichShouldFail()
+    public function testReadWithNegativeLengthWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -445,7 +455,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithUnreadableStreamWhichShouldFail()
+    public function testReadWithUnreadableStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'w';
@@ -464,7 +474,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testReadWithFailingFreadCallWhichShouldFail()
+    public function testReadWithFailingFreadCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -495,7 +505,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetContentsWhichShouldSucceed()
+    public function testGetContentsWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -511,7 +521,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetContentsWithDetachedStreamWhichShouldFail()
+    public function testGetContentsWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -530,7 +540,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testGetContentsWithFailingStreamGetContentsCallWhichShouldFail()
+    public function testGetContentsWithFailingStreamGetContentsCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -560,7 +570,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testToStringWhichShouldSucceed()
+    public function testToStringWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $mode = 'r';
@@ -578,7 +588,7 @@ class StreamTest extends TestCase
      *
      * to string must never fail
      */
-    public function testToStringWithErrorWhichShouldSucceed()
+    public function testToStringWithErrorWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $expectedResult = '';
@@ -600,7 +610,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWhichShouldSucceed()
+    public function testWriteWhichShouldSucceed(): void
     {
         $content = 'awesome content stream';
         $newContent = '!';
@@ -623,7 +633,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithDetachedStreamWhichShouldFail()
+    public function testWriteWithDetachedStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $newContent = '!';
@@ -643,7 +653,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithReadOnlyStreamWhichShouldFail()
+    public function testWriteWithReadOnlyStreamWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $newContent = '!';
@@ -662,7 +672,7 @@ class StreamTest extends TestCase
      * @Test
      * @small
      */
-    public function testWriteWithFailingFwriteCallWhichShouldFail()
+    public function testWriteWithFailingFwriteCallWhichShouldFail(): void
     {
         $content = 'awesome content stream';
         $newContent = '!';

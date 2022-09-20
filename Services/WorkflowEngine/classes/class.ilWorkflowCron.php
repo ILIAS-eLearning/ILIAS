@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilWorkflowCron is part of the petri net based workflow engine.
@@ -21,7 +38,7 @@ class ilWorkflowCron
      * here and leave the ordering here clear enough to make it a useful tool
      * to control the facile order of events.
      */
-    public static function executeCronjob()
+    public static function executeCronjob(): void
     {
         self::raiseTimePassedEvent();
     }
@@ -29,10 +46,8 @@ class ilWorkflowCron
     /**
      * Raises the generic "time passed" event.
      */
-    public static function raiseTimePassedEvent()
+    public static function raiseTimePassedEvent(): void
     {
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
         $workflow_engine = new ilWorkflowEngine();
 
         $workflow_engine->processEvent(

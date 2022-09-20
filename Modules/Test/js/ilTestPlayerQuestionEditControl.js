@@ -9,6 +9,12 @@
 il.TestPlayerQuestionEditControl = new function() {
 
     /**
+     * self reference for inner functions
+     */
+    var self = this;
+
+
+    /**
      * @const   string                  jquery selector for the question form
      */
     var FORM_SELECTOR = '#taForm';
@@ -668,6 +674,12 @@ il.TestPlayerQuestionEditControl = new function() {
             .fail(autoSaveFailure);
 
             autoSavedData = newData;
+
+            // fix mantis #2506:
+            // the question must stay at changed status, once an unauthorized solution exists
+            // otherwise nothing will be saved at navigation and the auto saved solution remains
+            // going back to the question would show the auto saved solution as "editing"
+            self.stickAnswerChanged();
         }
     }
 

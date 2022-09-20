@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -32,17 +35,17 @@ class ilRepDependenciesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         parent::__construct(null, "");
         $lng->loadLanguageModule("rep");
 
         $this->setTitle($lng->txt("rep_dependencies"));
         $this->setLimit(9999);
-        
+
         $this->addColumn($this->lng->txt("rep_object_to_delete"));
         $this->addColumn($this->lng->txt("rep_dependent_object"));
         $this->addColumn($this->lng->txt("rep_dependency"));
-        
+
         $this->setEnableHeader(true);
         //$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
@@ -52,21 +55,21 @@ class ilRepDependenciesTableGUI extends ilTable2GUI
         $this->disable("footer");
         $this->setEnableTitle(true);
 
-        $deps = array();
+        $deps = [];
         foreach ($a_deps as $id => $d) {
             foreach ($d as $id2 => $ms) {
                 foreach ($ms as $m) {
-                    $deps[] = array("dep_obj" => $id2, "del_obj" => $id, "message" => $m);
+                    $deps[] = ["dep_obj" => $id2, "del_obj" => $id, "message" => $m];
                 }
             }
         }
         $this->setData($deps);
     }
-    
+
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $this->tpl->setVariable(

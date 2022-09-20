@@ -1,23 +1,36 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Trait ilObjFileNews
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 trait ilObjFileNews
 {
-    /**
-     * @var bool
-     */
-    protected $just_notified = false;
+    protected bool $just_notified = false;
 
-    public function notifyCreation(int $obj_id, string $additional_message = null) : void
+    public function notifyCreation(int $obj_id, string $additional_message = null): void
     {
         $this->addNewsNotification($obj_id, 'file_created', $additional_message);
         $this->just_notified = true;
     }
 
-    public function notifyUpdate(int $obj_id, string $additional_message = null) : void
+    public function notifyUpdate(int $obj_id, string $additional_message = null): void
     {
         if (!$this->just_notified) {
             $this->addNewsNotification($obj_id, 'file_updated', $additional_message);
@@ -25,7 +38,7 @@ trait ilObjFileNews
         }
     }
 
-    protected function addNewsNotification(int $obj_id, string $a_lang_var, string $description = null) : void
+    protected function addNewsNotification(int $obj_id, string $a_lang_var, string $description = null): void
     {
         global $DIC;
 

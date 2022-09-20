@@ -1,29 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilObjSurveyAdministrationGUI
- *
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- *
- * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI, ilSettingsTemplateGUI
+ * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI
  */
 class ilObjSurveyAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
 
-    /**
-    * Constructor
-    * @access public
-    */
-    public $conditions;
-
-    public function __construct($a_data, $a_id, $a_call_by_reference)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -37,8 +42,8 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $lng->loadLanguageModule("survey");
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
-    
-    public function executeCommand()
+
+    public function executeCommand(): void
     {
         $ilTabs = $this->tabs;
 
@@ -50,102 +55,82 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $ilTabs->activateTab("perm_settings");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case 'ilsettingstemplategui':
-                $ilTabs->activateTab("templates");
-                $set_tpl_gui = new ilSettingsTemplateGUI($this->getSettingsTemplateConfig());
-                $this->ctrl->forwardCommand($set_tpl_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "settings";
                 }
                 $cmd .= "Object";
                 $this->$cmd();
-
                 break;
         }
-        return true;
     }
 
-
     /**
-    * display survey settings form
-    *
-    * Default settings tab for Survey settings
-    *
-    * @access	public
-    */
-    public function settingsObject(ilPropertyFormGUI $a_form = null)
-    {
+     * Display survey settings form
+     */
+    public function settingsObject(
+        ilPropertyFormGUI $a_form = null
+    ): void {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
+
         $ilTabs->activateTab("settings");
-        
+
         if (!$a_form) {
             $a_form = $this->initSettingsForm();
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
-    protected function initSettingsForm()
+
+    protected function initSettingsForm(): ilPropertyFormGUI
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $surveySetting = new ilSetting("survey");
-        $unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");
-        $use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
-        
+        $use_anonymous_id = (bool) $surveySetting->get("use_anonymous_id");
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("survey_defaults"));
-        
-        // unlimited invitation
-        /*
-        $enable = new ilCheckboxInputGUI($lng->txt("survey_unlimited_invitation"), "unlimited_invitation");
-        $enable->setChecked($unlimited_invitation);
-        $enable->setInfo($lng->txt("survey_unlimited_invitation_desc"));
-        $form->addItem($enable);*/
-        
+
         // Survey Code
         $code = new ilCheckboxInputGUI($lng->txt("use_anonymous_id"), "use_anonymous_id");
         $code->setChecked($use_anonymous_id);
         $code->setInfo($lng->txt("use_anonymous_id_desc"));
         $form->addItem($code);
-        
+
         // Skipped
         $eval_skipped = new ilRadioGroupInputGUI($lng->txt("svy_eval_skipped_value"), "skcust");
         $eval_skipped->setRequired(true);
         $form->addItem($eval_skipped);
-        
+
         $eval_skipped->setValue($surveySetting->get("skipped_is_custom", false)
             ? "cust"
             : "lng");
-        
+
         $skipped_lng = new ilRadioOption($lng->txt("svy_eval_skipped_value_lng"), "lng");
         $skipped_lng->setInfo(sprintf($lng->txt("svy_eval_skipped_value_lng_info"), $lng->txt("skipped")));
         $eval_skipped->addOption($skipped_lng);
         $skipped_cust = new ilRadioOption($lng->txt("svy_eval_skipped_value_custom"), "cust");
         $skipped_cust->setInfo($lng->txt("svy_eval_skipped_value_custom_info"));
         $eval_skipped->addOption($skipped_cust);
-        
+
         $skipped_cust_value = new ilTextInputGUI($lng->txt("svy_eval_skipped_value_custom_value"), "cust_value");
         $skipped_cust_value->setSize(15);
         $skipped_cust_value->setValue($surveySetting->get("skipped_custom_value", ""));
         $skipped_cust->addSubItem($skipped_cust_value);
-        
+
         $anon_part = new ilCheckboxInputGUI($lng->txt("svy_anonymous_participants"), "anon_part");
         $anon_part->setInfo($lng->txt("svy_anonymous_participants_info"));
-        $anon_part->setChecked($surveySetting->get("anonymous_participants", false));
+        $anon_part->setChecked((bool) $surveySetting->get("anonymous_participants", '0'));
         $form->addItem($anon_part);
-        
+
         $anon_part_min = new ilNumberInputGUI($lng->txt("svy_anonymous_participants_min"), "anon_part_min");
         $anon_part_min->setInfo($lng->txt("svy_anonymous_participants_min_info"));
         $anon_part_min->setSize(4);
@@ -156,77 +141,60 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton("saveSettings", $lng->txt("save"));
         }
-        
+
         return $form;
     }
-    
-    /**
-    * Save survey settings
-    */
-    public function saveSettingsObject()
+
+    public function saveSettingsObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        
+
         if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $ilCtrl->redirect($this, "settings");
         }
-        
+
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $surveySetting = new ilSetting("survey");
-            //$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
-            $surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
-            $surveySetting->set("anonymous_participants", ($_POST["anon_part"]) ? "1" : "0");
-            $surveySetting->set("anonymous_participants_min", (trim($_POST["anon_part_min"])) ? (int) $_POST["anon_part_min"] : null);
+            $surveySetting->set("use_anonymous_id", $form->getInput("use_anonymous_id") ? "1" : "0");
+            $surveySetting->set("anonymous_participants", $form->getInput("anon_part") ? "1" : "0");
+            $surveySetting->set(
+                "anonymous_participants_min",
+                (trim($form->getInput("anon_part_min")))
+                    ? (string) (int) $form->getInput("anon_part_min")
+                    : ""
+            );
 
-            if ($_POST["skcust"] == "lng") {
+            if ($form->getInput("skcust") === "lng") {
                 $surveySetting->set("skipped_is_custom", false);
             } else {
                 $surveySetting->set("skipped_is_custom", true);
-                $surveySetting->set("skipped_custom_value", trim($_POST["cust_value"]));
+                $surveySetting->set("skipped_custom_value", trim($form->getInput("cust_value")));
             }
 
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "settings");
         }
-        
+
         $form->setValuesByPost();
         $this->settingsObject($form);
     }
-    
-    public function getAdminTabs()
+
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    public function getTabs()
+    protected function getTabs(): void
     {
         $lng = $this->lng;
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "settings")
-            );
-
-            // #7927: special users are deprecated
-            /*
-            $tabs_gui->addTab("specialusers",
-                $lng->txt("specialusers"),
-                $this->ctrl->getLinkTarget($this, "specialusers"));
-            */
-
-            $this->tabs_gui->addTab(
-                "templates",
-                $lng->txt("adm_settings_templates"),
-                $this->ctrl->getLinkTargetByClass("ilsettingstemplategui", "")
             );
         }
         if ($this->checkPermissionBool("edit_permission")) {
@@ -237,101 +205,4 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             );
         }
     }
-
-    /**
-     * Get settings template configuration object
-     *
-     * @return object settings template configuration object
-     */
-    private function getSettingsTemplateConfig()
-    {
-        $lng = $this->lng;
-
-        $lng->loadLanguageModule("survey");
-
-        $config = new ilSettingsTemplateConfig("svy");
-
-        $config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor_settings_template"));
-        $config->addHidableTab("constraints", $lng->txt("constraints"));
-        //$config->addHidableTab("invitation", $lng->txt("invitation"));
-        $config->addHidableTab("meta_data", $lng->txt("meta_data"));
-        $config->addHidableTab("export", $lng->txt("export"));
-
-        $config->addSetting(
-            "use_pool",
-            ilSettingsTemplateConfig::SELECT,
-            $lng->txt("survey_question_pool_usage"),
-            true,
-            0,
-            array(1 => $this->lng->txt("survey_question_pool_usage_active"),
-                0 => $this->lng->txt("survey_question_pool_usage_inactive"))
-        );
-        
-        
-        $config->addSetting(
-            "enabled_start_date",
-            ilSettingsTemplateConfig::BOOL,
-            $lng->txt("start_date"),
-            true
-        );
-
-        $config->addSetting(
-            "enabled_end_date",
-            ilSettingsTemplateConfig::BOOL,
-            $lng->txt("end_date"),
-            true
-        );
-
-        $config->addSetting(
-            "show_question_titles",
-            ilSettingsTemplateConfig::BOOL,
-            $lng->txt("svy_show_questiontitles"),
-            true
-        );
-
-        
-        // #17585
-        
-        $config->addSetting(
-            "acc_codes",
-            ilSettingsTemplateConfig::BOOL,
-            $lng->txt("survey_access_codes"),
-            true
-        );
-        
-        $config->addSetting(
-            "evaluation_access",
-            ilSettingsTemplateConfig::SELECT,
-            $lng->txt("evaluation_access"),
-            true,
-            0,
-            array(ilObjSurvey::EVALUATION_ACCESS_OFF => $this->lng->txt("evaluation_access_off"),
-                ilObjSurvey::EVALUATION_ACCESS_ALL => $this->lng->txt("evaluation_access_all"),
-                ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS => $this->lng->txt("evaluation_access_participants"))
-        );
-        
-        $config->addSetting(
-            "anonymization_options",
-            ilSettingsTemplateConfig::SELECT,
-            $lng->txt("survey_results_anonymization"),
-            true,
-            0,
-            array("statpers" => $this->lng->txt("survey_results_personalized"),
-                "statanon" => $this->lng->txt("survey_results_anonymized"))
-        );
-        
-        /*
-        $config->addSetting(
-            "rte_switch",
-            ilSettingsTemplateConfig::SELECT,
-            $lng->txt("set_edit_mode"),
-            true,
-            0,
-            array(0 => $this->lng->txt("rte_editor_disabled"),
-                1 => $this->lng->txt("rte_editor_enabled"))
-            );
-        */
-    
-        return $config;
-    }
-} // END class.ilObjSurveyAdministrationGUI
+}

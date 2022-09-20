@@ -1,28 +1,31 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/Gallery/interfaces/interface.ilUsersGalleryUserCollectionSorter.php';
+declare(strict_types=1);
 
 /**
- * Class ilAbstractUsersGalleryUserCollectionSorter
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 abstract class ilAbstractUsersGalleryUserCollectionSorter implements ilUsersGalleryUserCollectionSorter
 {
-    /**
-     * @param ilUsersGalleryUser $left
-     * @param ilUsersGalleryUser $right
-     * @return int
-     */
-    abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right);
+    abstract protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right): int;
 
-    /**
-     * @inheritdoc
-     */
-    final public function sort(array $users)
+    final public function sort(array $users): array // Missing array type.
     {
-        $that = $this;
-        uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right) use ($that) {
-            return $that->compare($left, $right);
+        uasort($users, function (ilUsersGalleryUser $left, ilUsersGalleryUser $right): int {
+            return $this->compare($left, $right);
         });
 
         return $users;

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Dependencies\DependencyMap;
 
 use ILIAS\BackgroundTasks\Dependencies\Injector;
@@ -9,21 +25,19 @@ use ILIAS\DI\Container;
 
 /**
  * Class BaseDependencyMap
- *
  * @package ILIAS\BackgroundTasks\Dependencies
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class BaseDependencyMap extends EmptyDependencyMap
 {
-    protected $map;
-
+    protected array $map = [];
 
     public function __construct()
     {
-        $this->maps = [[$this, 'resolveBaseDependencies']];
+        $this->maps = [function (\ILIAS\DI\Container $DIC, $fullyQualifiedDomainName, $for) {
+            return $this->resolveBaseDependencies($DIC, $fullyQualifiedDomainName, $for);
+        }];
     }
-
 
     protected function resolveBaseDependencies(Container $DIC, $fullyQualifiedDomainName, $for)
     {
@@ -31,8 +45,6 @@ class BaseDependencyMap extends EmptyDependencyMap
         // because we don't really want type unsafe array access on $DIC.
         switch ($fullyQualifiedDomainName) {
             case \ilDBInterface::class:
-                return $DIC->database();
-            case \ilDB::class:
                 return $DIC->database();
             case \ilRbacAdmin::class:
                 return $DIC->rbac()->admin();
@@ -73,5 +85,6 @@ class BaseDependencyMap extends EmptyDependencyMap
             case TaskFactory::class:
                 return $DIC->backgroundTasks()->taskFactory();
         }
+        return null;
     }
 }

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Portfolio type
@@ -9,6 +23,8 @@
  */
 class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
 {
+    protected const STR_IDENTIFIER = "prtf";
+
     protected ilSetting $setting;
     protected ilLanguage $lng;
     protected string $identifier_str;
@@ -30,7 +46,7 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
             ?: $DIC->language();
     }
 
-    public function isActive() : bool
+    public function isActive(): bool
     {
         if ($this->setting->get('user_portfolios')) {
             return true;
@@ -38,44 +54,49 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
         return false;
     }
 
-    public function usesTeams() : bool
+    public function usesTeams(): bool
     {
         return false;
     }
 
-    public function usesFileUpload() : bool
+    public function usesFileUpload(): bool
     {
         return false;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_portfolio");
     }
 
-    public function getSubmissionType() : string
+    public function getSubmissionType(): string
     {
         return ilExSubmission::TYPE_OBJECT;
     }
 
-    public function isSubmissionAssignedToTeam() : bool
+    public function isSubmissionAssignedToTeam(): bool
     {
         return false;
     }
 
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target): void
     {
     }
 
-    public function supportsWebDirAccess() : bool
+    public function supportsWebDirAccess(): bool
     {
         return true;
     }
 
-    public function getStringIdentifier() : string
+    public function getStringIdentifier(): string
     {
-        return ilExAssignmentTypes::STR_IDENTIFIER_PORTFOLIO;
+        return self::STR_IDENTIFIER;
+    }
+
+    public function getExportObjIdForResourceId(int $resource_id): int
+    {
+        return $resource_id;
     }
 }

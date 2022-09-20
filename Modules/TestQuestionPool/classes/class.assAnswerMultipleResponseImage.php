@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponse.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
@@ -39,16 +52,9 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @param string $a_image The image filename
     * @access public
     */
-    public function __construct(
-        $answertext = "",
-        $points_checked = 0.0,
-        $order = 0,
-        $points_unchecked = 0,
-        $a_image = "",
-        $id = -1
-    ) {
-        parent::__construct($answertext, $points_checked, $order, $points_unchecked, $id);
-        $this->image = $a_image;
+    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, int $id = -1, int $state = 0)
+    {
+        parent::__construct($answertext, $points, $order, $id, $state);
     }
 
 
@@ -61,7 +67,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @access public
     * @see $image
     */
-    public function getImage()
+    public function getImage(): ?string
     {
         return $this->image;
     }
@@ -75,7 +81,7 @@ class ASS_AnswerMultipleResponseImage extends ASS_AnswerMultipleResponse
     * @access public
     * @see $image
     */
-    public function setImage($a_image = 0)
+    public function setImage($a_image = 0): void
     {
         $this->image = $a_image;
     }

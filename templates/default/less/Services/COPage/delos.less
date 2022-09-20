@@ -8,7 +8,7 @@ a.ilEditSubmit {
 	border-bottom-color: @il-neutral-light-color;
 	border-right-color: @il-neutral-light-color;
 	text-decoration: none;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	line-height: 14px;
 	cursor: pointer;
 }
@@ -17,7 +17,7 @@ input.ilEditSubmit {
 	color: #2255a0;
 	padding: 1px;
 	margin: 0;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 	line-height: 14px;
 	cursor: pointer;
 	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
@@ -32,22 +32,27 @@ input.ilEditSubmit {
 div.ilEditHelpline {
 	margin: 3px 0;
 	padding: 0;
-	font-size: 80%;
-	background-color: white;
+	font-size: @il-font-size-xsmall;
+	background-color: @il-main-bg;
 	color: black;
 }
 
 select.ilEditSelect {
-	background: none white;
+	background: none @il-main-bg;
 	border: 1px solid #bbb;
 	padding: 1px;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 }
 
 [data-copg-ed-type='add-area'] {
 	height: 30px;
 }
+
+[data-protected='1'] [data-copg-ed-type='add-area'] {
+	display: none;
+}
+
 
 button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
@@ -67,7 +72,7 @@ button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover,
 #copg-editor-help {
 
-	.glyphicon-plus-sign {
+	.glyphicon-plus-sign, .il-copg-add-text {
 		color: @il-btn-standard-bg;
 		font-size: @il-font-size-large;
 	}
@@ -88,8 +93,8 @@ button.copg-add:hover {
 
 div.il_droparea {
 	padding: 1px 5px;
-	border: 1px dashed #d0d0d0;
-	color: #d0d0d0;
+	border: 1px dashed @il-main-border-color;
+	color: @il-text-light-color;
 	text-align: center;
 	font-size: @font-size-small;
 	background-color: #fffed1;
@@ -106,35 +111,39 @@ div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
 
 div.ilCOPGNoPageContent {
 	padding: 20px 5px;
-	color: #a0a0a0;
+	color: @il-text-light-color;
 }
 
 
 div.il_editarea_nojs {
-	border-width: 1px dotted #999;
+	border-width: 1px dotted @il-main-border-color;
 }
 
 div.il_editarea, div.il_editarea_disabled {
 	border: 2px solid transparent;
 	min-height: 20px;
+	user-select: none;
 }
 
 .copg-state-page, .copg-state-multi {
 	div.il_editarea:hover, div.il_editarea_disabled:hover {
 		border: 2px solid @il-main-color;
 	}
+	[data-protected='1'] div.il_editarea:hover {
+		border: 2px solid transparent;
+	}
 }
 
 div.ilEditLabel {
 	position: absolute;
 	background-color: @il-main-color;
-	color: #f0f0f0;
-	font-size: 70%;
-	padding: 1px 3px;
-	margin-top: -15px;
-	margin-left: -2px;
+	color: white;
+	font-size: @il-font-size-small;
+	padding: @il-padding-base-vertical @il-padding-xs-horizontal;
+	margin-top: -@il-line-height-computed;
+	margin-left: -@il-padding-xs-horizontal + 1px;
 	border: 0;
-	height: 15px;
+	height: @il-line-height-computed;
 	display: none;
 	z-index: 1;
 }
@@ -144,6 +153,9 @@ div.ilEditLabel {
 	div.il_editarea_disabled:hover > div.ilEditLabel,
 	.copg-ghost-wrapper div.ilEditLabel {
 		display: block;
+	}
+	[data-protected='1'] div.il_editarea:hover > div.ilEditLabel {
+		display: none;
 	}
 }
 
@@ -156,16 +168,16 @@ div.ilc_page_Page > div.il_editarea_disabled {
 	padding: 10px;
 }
 
-div.il_editarea_disabled {
-	border: 2px dotted @brand-warning;
+div.il_editarea_disabled, div.copg-disabled-page {
+	border: 2px dotted @il-warning-color;
 	min-height: 20px;
 }
 
 .ilCopgDisabledText {
-	color: @brand-warning;
+	color: @il-warning-color;
 	position: absolute;
 	font-size: @font-size-small;
-	margin-top: -22px;
+	margin-top: -13px;
 	padding: 2px 5px;
 	background-color: @il-main-dark-bg;
 }
@@ -183,7 +195,7 @@ div.il_editarea_selected:hover {
 
 div.il_editarea_disabled_selected
 {
-	border: 2px solid @brand-warning;
+	border: 2px solid @il-warning-color;
 	min-height: 20px;
 }
 
@@ -193,13 +205,13 @@ div.il_editarea_active_selected {
 }
 
 .il_editmenu {
-	background-color: white;
+	background-color: @il-main-bg;
 	color: black;
 	font-weight: normal;
 	text-align: left;
 	font-style: normal;
 	text-indent: 0;
-	font-size: 14px;
+	font-size: @il-font-size-base;
 	z-index: 5000;
 }
 
@@ -216,7 +228,7 @@ div.ilEditVAccordCntr {
 }
 
 div.ilEditVAccordICntr {
-	background-color: white;
+	background-color: @il-main-bg;
 	margin-bottom: 15px;
 	border: 1px solid #9eadba;
 }
@@ -231,7 +243,7 @@ div.ilEditVAccordIHead {
 
 div.ilEditVAccordICont {
 	padding: 10px;
-	background-color: white;
+	background-color: @il-main-bg;
 }
 
 .ilTinyMenuSection .dropdown, .il-copg-button-group .dropdown {
@@ -272,7 +284,7 @@ div.ilTinyMenuSection, .il-copg-button-group {
 }
 
 div.ilTinyMenuSection button.btn {
-	background: white;
+	background: @il-main-bg;
 	border: 0;
 	color: black;
 }
@@ -315,6 +327,7 @@ div.il-copg-button-group-wide {
 }
 
 #iltinymenu {
+	padding: 0 @il-padding-xlarge-horizontal;
 	.bd {
 		div {
 			&.last {
@@ -377,7 +390,7 @@ a.ilTinyMenuDropDown {
 
 /* Page TOC */
 div.ilc_page_toc_PageTOC {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	padding: 5px 5px 10px;
 	background-color: @il-main-dark-bg;
 	border: 1px solid #f0f0f0;
@@ -386,7 +399,7 @@ div.ilc_page_toc_PageTOC {
 
 h1.ilc_page_toc_PageTOCHead {
 	margin: 0;
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	padding: 0;
 	font-weight: bold;
 	text-align: center;
@@ -429,12 +442,12 @@ td.ilc_PageDisabled {
 div.ilc_DefinitionHeader {
 	margin: 20px 0 10px 0;
 	padding: 5px 0;
-	border: 1px solid black;
+	border: 1px solid @il-main-border-dark-color;
 	border-width: 1px 0;
 }
 
 table.ilc_Fullscreen {
-	background-color: white;
+	background-color: @il-main-bg;
 	position: absolute;
 	margin: 0;
 	padding: 0;
@@ -464,32 +477,32 @@ div.ilc_LMMenu {
 a.ilc_LMMenu {
 	padding: 1px 5px;
 	margin: 2px 0;
-	border: 1px solid #b0b0b0;
+	border: 1px solid @il-main-border-color;
 	background-color: #e6ecf8;
 	white-space: nowrap;
 }
 
 div.ilc_TableOfContents {
-	background-color: white;
+	background-color: @il-main-bg;
 	padding: 20px;
 	border-spacing: 1px;
-	border: 1px solid #eee;
+	border: 1px solid @il-main-border-color;
 	margin-bottom: 0;
 }
 
 table.ilc_media {
-	background-color: white;
+	background-color: @il-main-bg;
 }
 
 h1.il_LMHead {
 	margin: 12px 15px 6px;
-	font-size: 120%;
+	font-size: @il-font-size-large;
 	font-weight: normal;
 }
 
 table.ilc_Table {
 	border-collapse: collapse;
-	background-color: white;
+	background-color: @il-main-bg;
 	margin: 10px 0;
 	border-color: #9eadba;
 }
@@ -506,7 +519,7 @@ div.ilEditModified {
 }
 
 div.ilEditDeleted {
-	border-color: @brand-warning;
+	border-color: @il-warning-color;
 }
 
 div.ilEditNew {
@@ -520,7 +533,7 @@ div.ilEditNew {
 }
 
 span.ilDiffDel {
-	background-color: lighten(@brand-warning, 30%);
+	background-color: lighten(@il-warning-color, 30%);
 }
 
 span.ilDiffIns {
@@ -545,6 +558,7 @@ a.nostyle:hover {
 }
 
 #ilPageEditLegend {
+	margin: 10px 0;
 	> div {
 		margin: 5px 0;
 	}
@@ -561,12 +575,17 @@ a.nostyle:hover {
 	}
 
 	tr > td {
-		padding: 9px;
+		padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 	}
 
 	tr > td:first-child {
 		white-space: nowrap;
 		text-align: right;
+	}
+
+	img {
+		width: 22px;
+		height: 22px;
 	}
 }
 
@@ -575,7 +594,7 @@ a.nostyle:hover {
 	border: 1px solid #d0d0d0;
 	height: 21px;
 	display: inline-block;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 	padding: 1px 5px;
 	text-align: center;
 }
@@ -706,7 +725,7 @@ div.ilCOPGMediaPrint {
 }
 
 #copg-editor-slate-content {
-	padding: 15px;
+	padding: @il-padding-xlarge-vertical 0px;
 
 	p {
 		padding: 0;
@@ -724,24 +743,41 @@ div.ilCOPGMediaPrint {
 	div.alert {
 		margin: 10px 0;
 	}
-	form {
+	form.form-horizontal {
+		margin-bottom: @il-padding-xlarge-vertical;
 		.ilFormHeader {
-			padding: 10px;
-
+			padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 			h3.ilHeader {
-				font-size: @font-size-base;
+				font-size: @il-font-size-base;
 			}
 		}
-		.col-sm-3, .col-sm-9 {
+		.col-sm-4, .col-sm-3, .col-sm-8, .col-sm-9 {
 			width: 100%;
 		}
 		.control-label {
 			text-align: left;
 			font-weight: bold;
+			min-height: auto;
+			padding-bottom: 0;
+			margin-bottom: 0;
 		}
 		.ilFormFooter {
+			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
+			background-color: @il-main-bg;
 		}
 	}
+
+	> .btn-link {
+		padding: 0px @il-padding-xlarge-horizontal;
+	}
+}
+
+#copg-top-actions {
+	padding: 0 @il-padding-xlarge-horizontal;
+}
+
+.copg-edit-button-group {
+	padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 }
 
 p#copg-auto-save {
@@ -752,6 +788,10 @@ p#copg-auto-save {
 .copg-edit-container {
 	border: 1px dashed #d0d0d0;
 }
+[data-protected='1'] .copg-edit-container {
+	border: none;
+}
+
 
 /* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
 #il_EditPage [data-copg-ed-type="add-area"] {
@@ -794,9 +834,14 @@ p#copg-auto-save {
 	th, td {
 		border: 1px solid #CCCCCC;
 	}
+
+	th {
+		vertical-align: middle;
+	}
 }
 
-.copg-new-content-placeholder {
+.copg-new-content-placeholder,
+.copg-content-placeholder-lso-curriculum {
 	text-align: center;
 	color: @il-text-light-color;
 	padding: 20px;
@@ -815,4 +860,31 @@ p#copg-auto-save {
 	height: 100%;
 	top: 0;
 	z-index: 9;
+}
+
+.il-copg-edit-list-button {
+	padding: 0;
+	img {
+		filter: invert(100%);
+		width: 26px;
+		height: 25px;
+	}
+}
+
+#il-copg-ed-modal .modal-content {
+	.Whoops.container {
+		.left-panel {
+			position: static;
+			float: left;
+		}
+		.details-container {
+			position: static;
+		}
+	}
+}
+
+.ilPageVideo, .ilPageAudio {
+	button {
+		.il-focus();
+	}
 }

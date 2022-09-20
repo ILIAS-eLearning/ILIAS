@@ -1,24 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
 {
-    /** @var string */
-    private $text;
+    private string $text;
 
-    /**
-     * ilWebDAVMountInstructionsDocumentsContainsHtmlValidator constructor.
-     * @param $purified_html_content
-     */
     public function __construct(string $purified_html_content)
     {
         $this->text = $purified_html_content;
     }
 
-    /**
-     * @return bool
-     */
-    public function isValid() : bool
+    public function isValid(): bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
             return false;
@@ -36,7 +46,7 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
             );
             foreach ($iter as $element) {
                 /** @var $element DOMNode */
-                if (in_array(strtolower($element->nodeName), ['body'])) {
+                if (strtolower($element->nodeName) === 'body') {
                     continue;
                 }
 
@@ -44,10 +54,10 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
                     return true;
                 }
             }
-        } catch (Exception $e) {
-            return false;
-        } catch (Throwable $e) {
+        } catch (Exception|Throwable $e) {
             return false;
         }
+
+        return false;
     }
 }

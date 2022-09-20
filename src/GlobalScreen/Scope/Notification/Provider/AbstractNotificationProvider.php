@@ -1,32 +1,38 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Notification\Provider;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Notification\Provider;
 
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
 
 /**
  * Interface AbstractNotificationProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractNotificationProvider extends AbstractProvider implements NotificationProvider
 {
-
-    /**
-     * @var Container
-     */
-    protected $dic;
-    /**
-     * @var IdentificationProviderInterface
-     */
-    protected $if;
-    /**
-     * @var NotificationFactory
-     */
-    protected $notification_factory;
-
+    protected Container $dic;
+    protected IdentificationProviderInterface $if;
+    protected NotificationFactory $notification_factory;
 
     /**
      * @inheritDoc
@@ -41,9 +47,8 @@ abstract class AbstractNotificationProvider extends AbstractProvider implements 
     /**
      * @inheritDoc
      */
-    public function getAdministrativeNotifications() : array
+    public function getAdministrativeNotifications(): array
     {
         return [];
     }
-
 }

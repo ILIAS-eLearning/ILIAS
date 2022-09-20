@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceCriterionFormGUITest
@@ -7,10 +24,8 @@
  */
 class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 {
-    public function testFormIsProperlyBuiltForNewCriterionAssignment() : void
+    public function testFormIsProperlyBuiltForNewCriterionAssignment(): void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -82,13 +97,11 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             'cancel'
         );
 
-        $this->assertEquals($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
+        $this->assertSame($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    public function testFormIsProperlyBuiltForExistingCriterionAssignment() : void
+    public function testFormIsProperlyBuiltForExistingCriterionAssignment(): void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -164,13 +177,11 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             'cancel'
         );
 
-        $this->assertEquals($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
+        $this->assertSame($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    public function testFormForNewCriterionAssignmentCanBeSavedForValidInput() : void
+    public function testFormForNewCriterionAssignmentCanBeSavedForValidInput(): void
     {
-        $this->initLangMock();
-
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -268,10 +279,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->method('checkInput')
             ->willReturn(true);
 
-        $_POST = [
-            'criterion' => $criterionType1->getTypeIdent()
-        ];
-
         $form->setCheckInputCalled(true);
 
         $this->assertTrue($form->saveObject());
@@ -279,7 +286,7 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    public function testFormForExistingAssignmentCannotBeSavedForInvalidInput() : void
+    public function testFormForExistingAssignmentCannotBeSavedForInvalidInput(): void
     {
         $lng = $this->getLanguageMock();
 
@@ -422,10 +429,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(2))
             ->method('checkInput')
             ->willReturn(true);
-
-        $_POST = [
-            'criterion' => $criterionType1->getTypeIdent()
-        ];
 
         $form->setCheckInputCalled(true);
 

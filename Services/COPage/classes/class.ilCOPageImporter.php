@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Importer class for pages
@@ -25,11 +28,11 @@ class ilCOPageImporter extends ilXmlImporter
     // Names of active plugins with own importers for additional data
     protected array $importer_plugins = array();
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setDSPrefix("ds");
@@ -38,8 +41,9 @@ class ilCOPageImporter extends ilXmlImporter
         $this->log = ilLoggerFactory::getLogger('copg');
 
         // collect all page component plugins that have their own exporter
-        foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
-            if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+        foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
+            $plugin_name = $plugin->getName();
+            if ($plugin->supportsExport()) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
                     . $plugin_name . '/classes/class.il' . $plugin_name . 'Importer.php');
 
@@ -47,13 +51,13 @@ class ilCOPageImporter extends ilXmlImporter
             }
         }
     }
-    
+
     public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("entity: " . $a_entity . ", id: " . $a_id);
 
         if ($a_entity == "pgtp") {
@@ -108,11 +112,11 @@ class ilCOPageImporter extends ilXmlImporter
                             $new_page->setActive(true);
                             // array_key_exists does NOT work on simplexml!
                             if (isset($page_data["Active"])) {
-                                $new_page->setActive($page_data["Active"]);
+                                $new_page->setActive((string) $page_data["Active"]);
                             }
                             $new_page->setActivationStart($page_data["ActivationStart"]);
                             $new_page->setActivationEnd($page_data["ActivationEnd"]);
-                            $new_page->setShowActivationInfo($page_data["ShowActivationInfo"]);
+                            $new_page->setShowActivationInfo((string) $page_data["ShowActivationInfo"]);
                             $new_page->createFromXML();
                             $this->extractPluginProperties($new_page);
                         }
@@ -131,7 +135,7 @@ class ilCOPageImporter extends ilXmlImporter
 
     public function finalProcessing(
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $this->log->debug("start");
         $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");
         $media_objects = $a_mapping->getMappingsOfEntity("Services/MediaObjects", "mob");
@@ -176,7 +180,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     protected function extractPluginProperties(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         if (empty($this->importer_plugins)) {
             return;
         }
@@ -225,7 +229,7 @@ class ilCOPageImporter extends ilXmlImporter
      */
     public function replacePluginProperties(
         ilPageObject $a_page
-    ) : bool {
+    ): bool {
         if (empty($this->importer_plugins)) {
             return false;
         }

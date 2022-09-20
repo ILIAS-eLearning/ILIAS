@@ -16,5 +16,5 @@ interface ilAssLacSolutionExpressionInterface
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null);
+    public function checkResult($result, $comperator, $index = null): bool;
 }

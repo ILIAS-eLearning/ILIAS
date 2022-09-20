@@ -1,55 +1,73 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Awareness\InternalDataService;
+use ILIAS\Awareness\InternalDomainService;
+use ILIAS\Awareness\InternalGUIService;
+use ILIAS\Awareness\WidgetManager;
+use ILIAS\DI\UIServices;
 
 /**
  * Awareness GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilAwarenessGUI
+class ilAwarenessGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected int $ref_id;
+    protected \ILIAS\Awareness\StandardGUIRequest $request;
+    protected WidgetManager $manager;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected UIServices $ui;
+    protected ilLanguage $lng;
+    protected InternalDataService $data_service;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
+    public function __construct(
+        InternalDataService $data_service = null,
+        InternalDomainService $domain_service = null,
+        InternalGUIService $gui_service = null
+    ) {
         global $DIC;
 
-        $this->user = $DIC->user();
-        global $DIC;
-        $this->ui = $DIC->ui();
+        $this->data_service = $data_service
+            ?? $DIC->awareness()->internal()->data();
+        $domain_service = $domain_service
+            ?? $DIC->awareness()->internal()->domain();
+        $gui_service = $gui_service
+            ?? $DIC->awareness()->internal()->gui();
+        $this->user = $domain_service->user();
+        $this->lng = $domain_service->lng();
+        $this->ui = $gui_service->ui();
+        $this->ctrl = $gui_service->ctrl();
 
-        $this->ref_id = (int) ($_GET["ref_id"] ?? 0);
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("awrn");
+        $this->request = $gui_service->standardRequest();
+        $this->main_tpl = $gui_service->mainTemplate();
+
+        $this->ref_id = $this->request->getRefId();
+        $this->manager = $domain_service->widget(
+            $this->user->getId(),
+            $this->ref_id
+        );
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -58,32 +76,21 @@ class ilAwarenessGUI
         }
     }
 
-
-    /**
-     * Get instance
-     *
-     * @return ilAwarenessGUI awareness gui object
-     */
-    public static function getInstance()
-    {
-        return new ilAwarenessGUI();
-    }
-
-    public function initJS()
+    public function initJS(): void
     {
         $ilUser = $this->user;
         // init js
-        $GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
+        $this->main_tpl->addJavaScript("./Services/Awareness/js/Awareness.js");
         $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(
+        $this->main_tpl->addOnLoadCode("il.Awareness.setBaseUrl('" . $this->ctrl->getLinkTarget(
             $this,
             "",
             "",
             true,
             false
         ) . "');");
-        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
-        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
+        $this->main_tpl->addOnLoadCode("il.Awareness.setLoaderSrc('" . ilUtil::getImagePath("loader.svg") . "');");
+        $this->main_tpl->addOnLoadCode("il.Awareness.init();");
 
         // include user action js
         $ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
@@ -91,108 +98,17 @@ class ilAwarenessGUI
     }
 
     /**
-     * Get main menu html
-     */
-    public function getMainMenuHTML()
-    {
-        $ilUser = $this->user;
-
-        $awrn_set = new ilSetting("awrn");
-        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
-            return "";
-        }
-
-        $cache_period = (int) $awrn_set->get("caching_period");
-        $last_update = ilSession::get("awrn_last_update");
-        $now = time();
-
-        $this->initJS();
-
-        $tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
-
-        $act = ilAwarenessAct::getInstance($ilUser->getId());
-        $act->setRefId($this->ref_id);
-        var_dump("1");
-        exit;
-        if ($last_update == "" || ($now - $last_update) >= $cache_period) {
-            $cnt = explode(":", $act->getAwarenessUserCounter());
-            $hcnt = $cnt[1];
-            $cnt = $cnt[0];
-            $act->notifyOnNewOnlineContacts();
-            ilSession::set("awrn_last_update", $now);
-            ilSession::set("awrn_nr_users", $cnt);
-            ilSession::set("awrn_nr_husers", $hcnt);
-        } else {
-            $cnt = (int) ilSession::get("awrn_nr_users");
-            $hcnt = (int) ilSession::get("awrn_nr_husers");
-        }
-
-        if ($hcnt > 0 || $cnt > 0) {
-            /*
-            $tpl->setCurrentBlock("status_text");
-            $tpl->setVariable("STATUS_TXT", $cnt);
-            if ($cnt == 0)
-            {
-                $tpl->setVariable("HIDDEN", "ilAwrnBadgeHidden");
-            }
-            $tpl->parseCurrentBlock();
-            $tpl->setCurrentBlock("h_status_text");
-            $tpl->setVariable("H_STATUS_TXT", $hcnt);
-            if ($hcnt == 0)
-            {
-                $tpl->setVariable("H_HIDDEN", "ilAwrnBadgeHidden");
-            }
-            $tpl->parseCurrentBlock();
-            $tpl->setVariable("HSP", "&nbsp;");*/
-
-            $f = $this->ui->factory();
-            $renderer = $this->ui->renderer();
-
-            $glyph = $f->symbol()->glyph()->user("#");
-            if ($cnt > 0) {
-                $glyph = $glyph->withCounter($f->counter()->status((int) $cnt));
-            }
-            if ($hcnt > 0) {
-                $glyph = $glyph->withCounter($f->counter()->novelty((int) $hcnt));
-            }
-            $glyph_html = $renderer->render($glyph);
-            $tpl->setVariable("GLYPH", $glyph_html);
-
-
-
-            $tpl->setVariable("LOADER", ilUtil::getImagePath("loader.svg"));
-
-            return $tpl->get();
-        }
-
-        return "";
-    }
-    
-    /**
      * Get awareness list (ajax)
+     * @return ?array<string,string>
+     * @throws ilWACException
      */
-    public function getAwarenessList($return = false)
+    public function getAwarenessList(bool $return = false): ?array
     {
-        $ilUser = $this->user;
-
-        $filter = $_GET["filter"] ?? '';
+        $filter = $this->request->getFilter();
 
         $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
 
-        $act = ilAwarenessAct::getInstance($ilUser->getId());
-        $act->setRefId($this->ref_id);
-
-        $ad = $act->getAwarenessData($filter);
-
-        // update counter
-        $now = time();
-        $cnt = explode(":", $ad["cnt"]);
-        $hcnt = $cnt[1];
-        $cnt = $cnt[0];
-        ilSession::set("awrn_last_update", $now);
-        ilSession::set("awrn_nr_users", $cnt);
-        ilSession::set("awrn_nr_husers", $hcnt);
-
+        $ad = $this->manager->getListData($filter);
 
         $users = $ad["data"];
 
@@ -225,7 +141,7 @@ class ilAwarenessGUI
                     foreach ($act->data as $k => $v) {
                         $tpl->setCurrentBlock("f_data");
                         $tpl->setVariable("DATA_KEY", $k);
-                        $tpl->setVariable("DATA_VAL", ilUtil::prepareFormOutput($v));
+                        $tpl->setVariable("DATA_VAL", ilLegacyFormElementsUtil::prepareFormOutput($v));
                         $tpl->parseCurrentBlock();
                     }
                 }
@@ -264,15 +180,15 @@ class ilAwarenessGUI
 
 
         $result = ["html" => $tpl->get(),
-                   "filter_val" => ilUtil::prepareFormOutput($filter),
-                    "cnt" => $ad["cnt"]];
+                   "filter_val" => ilLegacyFormElementsUtil::prepareFormOutput($filter),
+                   "cnt" => $ad["cnt"]];
 
         if ($return) {
             $this->initJS();
             return $result;
         }
 
-        echo json_encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit;
     }
 }

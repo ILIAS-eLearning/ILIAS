@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\Objective;
 
@@ -20,7 +36,7 @@ class ClientIdReadObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -28,7 +44,7 @@ class ClientIdReadObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Read client-id from data-directory.";
     }
@@ -38,7 +54,7 @@ class ClientIdReadObjective implements Setup\Objective
      *
      * @inheritdocs
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
@@ -46,7 +62,7 @@ class ClientIdReadObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [];
     }
@@ -54,12 +70,12 @@ class ClientIdReadObjective implements Setup\Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $dir = $this->getDataDirectoryPath();
         $candidates = array_filter(
             $this->scanDirectory($dir),
-            function ($c) use ($dir) {
+            function ($c) use ($dir): bool {
                 if ($c == "." || $c == "..") {
                     return false;
                 }
@@ -89,25 +105,25 @@ class ClientIdReadObjective implements Setup\Objective
         return $environment->withResource(Setup\Environment::RESOURCE_CLIENT_ID, $client_id);
     }
 
-    protected function getDataDirectoryPath() : string
+    protected function getDataDirectoryPath(): string
     {
         return dirname(__DIR__, 3) . "/data";
     }
 
-    protected function scanDirectory(string $path) : array
+    protected function scanDirectory(string $path): array
     {
         return scandir($path);
     }
 
-    protected function isDirectory(string $path) : bool
+    protected function isDirectory(string $path): bool
     {
         return is_dir($path);
     }
- 
+
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID) === null;
     }

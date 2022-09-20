@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
@@ -25,7 +41,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
@@ -33,7 +49,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function withOpenInNewViewport(bool $open_in_new_viewport) : C\Link\Link
+    public function withOpenInNewViewport(bool $open_in_new_viewport): C\Link\Link
     {
         $clone = clone $this;
         $clone->open_in_new_viewport = $open_in_new_viewport;
@@ -43,7 +59,7 @@ abstract class Link implements C\Link\Link
     /**
      * @inheritdoc
      */
-    public function getOpenInNewViewport() : ?bool
+    public function getOpenInNewViewport(): ?bool
     {
         return $this->open_in_new_viewport;
     }

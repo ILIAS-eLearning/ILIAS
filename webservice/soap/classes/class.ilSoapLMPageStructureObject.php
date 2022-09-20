@@ -22,22 +22,18 @@
    +-----------------------------------------------------------------------------+
   */
 
-
- /**
-   * class representing a pg as structure object
-   *
-   * @author Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
-   * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
-   *
-   * @package ilias
-   */
+/**
+ * class representing a pg as structure object
+ * @author  Roland Kuestermann (rku@aifb.uni-karlsruhe.de)
+ * @version $Id: class.ilSoapStructureReader.php,v 1.5 2006/05/23 23:09:06 hschottm Exp $
+ * @package ilias
+ */
 
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
-
 class ilSoapLMPageStructureObject extends ilSoapStructureObject
 {
-    public function getInternalLink()
+    public function getInternalLink(): string
     {
         return "[iln page=\"" . $this->getObjId() . "\"]" . $this->getTitle() . "[/iln]";
     }

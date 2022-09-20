@@ -1,53 +1,58 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclMultiTextInputGUI
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 {
-    public function setValues($values)
+    public function setValues($values): void
     {
         $this->setIdentifiedMultiValues($values);
     }
 
-
-    public function getValues()
+    public function getValues(): array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
-
-    public function setValue($a_value) : void
+    public function setValue($value): void
     {
-        $this->setIdentifiedMultiValues($a_value);
+        $this->setIdentifiedMultiValues($value);
     }
 
-
-    public function getValue()
+    public function getValue(): array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
-
-    public function setMultiValues(array $a_values) : void
+    public function setMultiValues(array $values): void
     {
-        $this->setIdentifiedMultiValues($a_values);
+        $this->setIdentifiedMultiValues($values);
     }
 
-
-    public function getMultiValues() : array
+    public function getMultiValues(): array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
-    //	protected function getMultiValuePostVar($identifier)
-    //	{
-    //		return $this->getPostVar();
-    //	}
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");
         $i = 0;
@@ -57,7 +62,7 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
             }
             if (strlen($value)) {
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($value));
                 $tpl->parseCurrentBlock();
             }
             if ($this->isEditElementOrderEnabled()) {

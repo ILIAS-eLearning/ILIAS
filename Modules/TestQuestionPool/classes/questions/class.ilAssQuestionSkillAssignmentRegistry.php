@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Utilities/classes/class.ilStr.php';
@@ -8,7 +9,7 @@ require_once 'Services/Utilities/classes/class.ilStr.php';
  */
 class ilAssQuestionSkillAssignmentRegistry
 {
-    const DEFAULT_CHUNK_SIZE = 1000;
+    public const DEFAULT_CHUNK_SIZE = 1000;
 
     /**
      * @var \ilSetting
@@ -32,7 +33,7 @@ class ilAssQuestionSkillAssignmentRegistry
     /**
      * @return int
      */
-    public function getChunkSize()
+    public function getChunkSize(): int
     {
         return $this->chunkSize;
     }
@@ -41,7 +42,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param int $chunkSize
      * @throws \InvalidArgumentException
      */
-    public function setChunkSize($chunkSize)
+    public function setChunkSize($chunkSize): void
     {
         if (!is_numeric($chunkSize) || $chunkSize <= 0) {
             throw new \InvalidArgumentException(sprintf("The passed chunk size is not a valid/supported integer: %s", var_export($chunkSize, true)));
@@ -54,9 +55,9 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param string $key
      * @return int
      */
-    protected function getNumberOfChunksByKey($key)
+    protected function getNumberOfChunksByKey($key): int
     {
-        return (int) $this->settings->get($key . '_num', 0);
+        return (int) $this->settings->get($key . '_num', '0');
     }
 
     /**
@@ -79,7 +80,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param string $key
      * @param string $value A serialized value
      */
-    public function setStringifiedImports($key, $value)
+    public function setStringifiedImports($key, $value): void
     {
         $i = 0;
 
@@ -102,7 +103,7 @@ class ilAssQuestionSkillAssignmentRegistry
     /**
      * @param string $key
      */
-    public function deleteStringifiedImports($key)
+    public function deleteStringifiedImports($key): void
     {
         for ($i = 1, $numberOfChunks = $this->getNumberOfChunksByKey($key); $i <= $numberOfChunks; $i++) {
             $this->settings->delete($key . '_' . $i);

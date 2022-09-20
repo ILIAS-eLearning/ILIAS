@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -28,15 +43,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * The text which defines the correct set of answers
     *
-    * The text which defines the correct set of answers
-    *
     * @var array
     */
     public $answers;
-    
+
     /**
-    * The number of correct answers to solve the question
-    *
     * The number of correct answers to solve the question
     *
     * @var integer
@@ -44,8 +55,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public $correctanswers;
 
     /**
-    * The method which should be chosen for text comparisons
-    *
     * The method which should be chosen for text comparisons
     *
     * @var string
@@ -81,7 +90,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return boolean True, if the TextSubset question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         if (
             strlen($this->title)
@@ -101,16 +110,18 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param string $original_id
      *
      */
-    public function saveToDb($original_id = "") : void
+    public function saveToDb($original_id = ""): void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if ($original_id == "") {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
 
-        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
 
-        parent::saveToDb($original_id);
+        parent::saveToDb();
     }
 
     /**
@@ -120,7 +131,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id) : void
+    public function loadFromDb($question_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -135,24 +146,24 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
-            $this->setCorrectAnswers($data["correctanswers"]);
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
+            $this->setCorrectAnswers((int) $data["correctanswers"]);
             $this->setTextRating($data["textgap_rating"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -168,7 +179,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
-                array_push($this->answers, new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"]));
+                $this->answers[] = new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"]);
             }
         }
 
@@ -180,7 +191,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @access public
     */
-    public function addAnswer($answertext, $points, $order)
+    public function addAnswer($answertext, $points, $order): void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
         if (array_key_exists($order, $this->answers)) {
@@ -188,27 +199,27 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $answer = new ASS_AnswerBinaryStateImage($answertext, $points, $order);
             $newchoices = array();
             for ($i = 0; $i < $order; $i++) {
-                array_push($newchoices, $this->answers[$i]);
+                $newchoices[] = $this->answers[$i];
             }
-            array_push($newchoices, $answer);
-            for ($i = $order; $i < count($this->answers); $i++) {
+            $newchoices[] = $answer;
+            for ($i = $order, $iMax = count($this->answers); $i < $iMax; $i++) {
                 $changed = $this->answers[$i];
                 $changed->setOrder($i + 1);
-                array_push($newchoices, $changed);
+                $newchoices[] = $changed;
             }
             $this->answers = $newchoices;
         } else {
             // add answer
-            array_push($this->answers, new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers)));
+            $this->answers[] = new ASS_AnswerBinaryStateImage($answertext, $points, count($this->answers));
         }
     }
-    
+
     /**
     * Duplicates an assTextSubsetQuestion
     *
     * @access public
     */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -217,16 +228,16 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -259,11 +270,10 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @access public
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = ""): int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -286,11 +296,10 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -326,7 +335,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $ranges
     */
-    public function getAnswerCount()
+    public function getAnswerCount(): int
     {
         return count($this->answers);
     }
@@ -340,7 +349,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function getAnswer($index = 0)
+    public function getAnswer($index = 0): ?object
     {
         if ($index < 0) {
             return null;
@@ -363,7 +372,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0): void
     {
         if ($index < 0) {
             return;
@@ -376,7 +385,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         }
         unset($this->answers[$index]);
         $this->answers = array_values($this->answers);
-        for ($i = 0; $i < count($this->answers); $i++) {
+        for ($i = 0, $iMax = count($this->answers); $i < $iMax; $i++) {
             if ($this->answers[$i]->getOrder() > $index) {
                 $this->answers[$i]->setOrder($i);
             }
@@ -389,7 +398,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function flushAnswers()
+    public function flushAnswers(): void
     {
         $this->answers = array();
     }
@@ -400,33 +409,35 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : float
+    public function getMaximumPoints(): float
     {
         $points = array();
         foreach ($this->answers as $answer) {
             if ($answer->getPoints() > 0) {
-                array_push($points, $answer->getPoints());
+                $points[] = $answer->getPoints();
             }
         }
         rsort($points, SORT_NUMERIC);
         $maxpoints = 0;
         for ($counter = 0; $counter < $this->getCorrectAnswers(); $counter++) {
-            $maxpoints += $points[$counter];
+            if (isset($points[$counter])) {
+                $maxpoints += $points[$counter];
+            }
         }
         return $maxpoints;
     }
-    
+
     /**
     * Returns the available answers for the question
     *
     * @access private
     * @see $answers
     */
-    public function &getAvailableAnswers()
+    public function &getAvailableAnswers(): array
     {
         $available_answers = array();
         foreach ($this->answers as $answer) {
-            array_push($available_answers, $answer->getAnswertext());
+            $available_answers[] = $answer->getAnswertext();
         }
         return $available_answers;
     }
@@ -444,45 +455,45 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     public function isAnswerCorrect($answers, $answer)
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
-        $result = 0;
+        global $DIC;
+        $refinery = $DIC->refinery();
         $textrating = $this->getTextRating();
+
         foreach ($answers as $key => $value) {
+            if ($this->answers[$key]->getPoints() <= 0) {
+                continue;
+            }
             switch ($textrating) {
                 case TEXTGAP_RATING_CASEINSENSITIVE:
-                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp(ilStr::strToLower($value), ilStr::strToLower($answer)) == 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_CASESENSITIVE:
-                    if (strcmp($value, $answer) == 0 && $this->answers[$key]->getPoints() > 0) {
+                    if (strcmp($value, $answer) == 0) {
                         return $key;
                     }
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN1:
-                    if (levenshtein($value, $answer) <= 1 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 1);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN2:
-                    if (levenshtein($value, $answer) <= 2 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 2);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN3:
-                    if (levenshtein($value, $answer) <= 3 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 3);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN4:
-                    if (levenshtein($value, $answer) <= 4 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 4);
                     break;
                 case TEXTGAP_RATING_LEVENSHTEIN5:
-                    if (levenshtein($value, $answer) <= 5 && $this->answers[$key]->getPoints() > 0) {
-                        return $key;
-                    }
+                    $transformation = $refinery->string()->levenshtein()->standard($answer, 5);
                     break;
+            }
+
+            // run answers against Levenshtein2 methods
+            if (isset($transformation) && $transformation->transform($value) >= 0) {
+                return $key;
             }
         }
         return false;
@@ -495,11 +506,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @see $text_rating
     * @access public
     */
-    public function getTextRating()
+    public function getTextRating(): string
     {
         return $this->text_rating;
     }
-    
+
     /**
     * Sets the rating option for text comparisons
     *
@@ -507,7 +518,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @see $textgap_rating
     * @access public
     */
-    public function setTextRating($a_text_rating)
+    public function setTextRating($a_text_rating): void
     {
         switch ($a_text_rating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -524,7 +535,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                 break;
         }
     }
-    
+
     /**
      * Returns the points, a learner has reached answering the question.
      * The points are calculated from the given answers.
@@ -535,53 +546,51 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
         }
-        
+
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
-        
+
+
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
         $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
-        
+
         $enteredTexts = array();
         while ($data = $ilDB->fetchAssoc($result)) {
             $enteredTexts[] = $data["value1"];
         }
 
-        $points = $this->calculateReachedPointsForSolution($enteredTexts);
-
-        return $points;
+        return $this->calculateReachedPointsForSolution($enteredTexts);
     }
-    
+
     /**
     * Sets the number of correct answers needed to solve the question
     *
     * @param integer $a_correct_anwers The number of correct answers
     * @access public
     */
-    public function setCorrectAnswers($a_correct_answers)
+    public function setCorrectAnswers(int $a_correct_answers): void
     {
         $this->correctanswers = $a_correct_answers;
     }
-    
+
     /**
     * Returns the number of correct answers needed to solve the question
     *
     * @return integer The number of correct answers
     * @access public
     */
-    public function getCorrectAnswers()
+    public function getCorrectAnswers(): int
     {
         return $this->correctanswers;
     }
-    
+
     /**
      * Saves the learners input of the question to the database.
      *
@@ -590,7 +599,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -616,7 +625,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         });
 
         if ($entered_values) {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 assQuestion::logAction($this->lng->txtlng(
                     "assessment",
@@ -624,20 +632,17 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
                     ilObjAssessmentFolder::_getLogLanguage()
                 ), $active_id, $this->getId());
             }
-        } else {
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-            if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng(
-                    "assessment",
-                    "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()
-                ), $active_id, $this->getId());
-            }
+        } elseif (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+            assQuestion::logAction($this->lng->txtlng(
+                "assessment",
+                "log_user_not_entered_values",
+                ilObjAssessmentFolder::_getLogLanguage()
+            ), $active_id, $this->getId());
         }
-        
+
         return true;
     }
-    
+
     public function saveAdditionalQuestionDataToDb()
     {
         /** @var ilDBInterface $ilDB */
@@ -653,7 +658,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                                        ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+            ) . " (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
             array( "integer", "text", "integer" ),
             array(
                                 $this->getId(),
@@ -698,36 +703,38 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "assTextSubset";
     }
-    
+
     /**
     * Returns the answers of the question as a comma separated string
     *
-    * @return string The answer string
-    * @access public
     */
-    public function &joinAnswers()
+    public function &joinAnswers(): array
     {
-        $join = array();
+        $join = [];
         foreach ($this->answers as $answer) {
-            if (!is_array($join[$answer->getPoints() . ""])) {
-                $join[$answer->getPoints() . ""] = array();
+            $key = $answer->getPoints() . '';
+
+            if (!isset($join[$key]) || !is_array($join[$key])) {
+                $join[$key] = [];
             }
-            array_push($join[$answer->getPoints() . ""], $answer->getAnswertext());
+
+            $join[$key][] = $answer->getAnswertext();
         }
+
         return $join;
     }
-    
+
     /**
     * Returns the maximum width needed for the answer textboxes
     *
     * @return integer Maximum textbox width
     * @access public
     */
-    public function getMaxTextboxWidth()
+    public function getMaxTextboxWidth(): int
     {
         $maxwidth = 0;
         foreach ($this->answers as $answer) {
@@ -745,7 +752,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return string The additional table name
     * @access public
     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName(): string
     {
         return "qpl_qst_textsubset";
     }
@@ -756,7 +763,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return string The answer table name
     * @access public
     */
-    public function getAnswerTableName()
+    public function getAnswerTableName(): string
     {
         return "qpl_a_textsubset";
     }
@@ -765,7 +772,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects() : string
+    public function getRTETextWithMediaObjects(): string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -773,7 +780,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -787,8 +794,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         return $startrow + $i + 1;
     }
-    
-    public function getAnswers()
+
+    public function getAnswers(): array
     {
         return $this->answers;
     }
@@ -796,16 +803,16 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON() : string
+    public function toJSON(): string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
-        $result['matching_method'] = (string) $this->getTextRating();
+        $result['nr_of_tries'] = $this->getNrOfTries();
+        $result['matching_method'] = $this->getTextRating();
         $result['feedback'] = array(
             'onenotcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false)),
             'allcorrect' => $this->formatSAQuestion($this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true))
@@ -813,32 +820,32 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 
         $answers = array();
         foreach ($this->getAnswers() as $key => $answer_obj) {
-            array_push($answers, array(
+            $answers[] = array(
                 "answertext" => (string) $answer_obj->getAnswertext(),
                 "points" => (float) $answer_obj->getPoints(),
                 "order" => (int) $answer_obj->getOrder()
-            ));
+            );
         }
         $result['correct_answers'] = $answers;
 
         $answers = array();
-        for ($loop = 1; $loop <= (int) $this->getCorrectAnswers(); $loop++) {
-            array_push($answers, array(
+        for ($loop = 1; $loop <= $this->getCorrectAnswers(); $loop++) {
+            $answers[] = array(
                 "answernr" => $loop
-            ));
+            );
         }
         $result['answers'] = $answers;
 
         $mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
         $result['mobs'] = $mobs;
-        
+
         return json_encode($result);
     }
 
     /**
      * @return array
      */
-    protected function getSolutionSubmit()
+    protected function getSolutionSubmit(): array
     {
         $solutionSubmit = array();
         $purifier = $this->getHtmlUserSolutionPurifier();
@@ -858,7 +865,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param $enteredTexts
      * @return int
      */
-    protected function calculateReachedPointsForSolution($enteredTexts)
+    protected function calculateReachedPointsForSolution($enteredTexts): int
     {
         $available_answers = $this->getAvailableAnswers();
         $points = 0;
@@ -880,7 +887,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression): array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -890,7 +897,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes(): array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -908,7 +915,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -949,8 +956,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {
@@ -959,5 +964,26 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         } else {
             return $this->getAnswers();
         }
+    }
+
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue): bool
+    {
+        $found = false;
+
+        foreach ($this->getAnswers() as $item) {
+            if ($answerOptionValue !== $item->getAnswerText()) {
+                continue;
+            }
+
+            $found = true;
+            break;
+        }
+
+        return !$found;
+    }
+
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points): void
+    {
+        $this->addAnswer($answerOptionValue, $points, $qIndex);
     }
 }

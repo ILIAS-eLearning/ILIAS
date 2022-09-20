@@ -11,7 +11,6 @@ require_once "./Modules/TestQuestionPool/interfaces/interface.iQuestionCondition
  */
 abstract class ilOperatorsExpressionMapping
 {
-
     /**
      * @var array
      */
@@ -31,12 +30,12 @@ abstract class ilOperatorsExpressionMapping
      *
      * @return array
      */
-    public static function getOperatorsByExpression($expression)
+    public static function getOperatorsByExpression($expression): array
     {
         return self::$mappings[$expression];
     }
 
-    public static function getAll()
+    public static function getAll(): array
     {
         return self::$mappings;
     }

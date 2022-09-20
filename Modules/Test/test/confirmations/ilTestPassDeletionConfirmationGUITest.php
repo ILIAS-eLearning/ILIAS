@@ -1,8 +1,8 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestPassDeletionConfirmationGUITest
@@ -10,20 +10,13 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-    /**
-     * @var ilTestEvaluationGUI|mixed|MockObject
-     */
     private $testEvaluationGUI_mock;
-    /**
-     * @var ilLanguage|mixed|MockObject
-     */
+
     private $lng_mock;
-    /**
-     * @var ilCtrl|mixed|MockObject
-     */
+
     private $ctrl_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->testEvaluationGUI_mock = $this->createMock(ilTestEvaluationGUI::class);
@@ -31,7 +24,7 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         $this->ctrl_mock = $this->createMock(ilCtrl::class);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $instance = new ilTestPassDeletionConfirmationGUI(
             $this->ctrl_mock,
@@ -42,7 +35,7 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);
     }
 
-    public function testConstructor() : void
+    public function testConstructor(): void
     {
         $this->ctrl_mock->expects($this->once())
                         ->method("getFormAction")
@@ -51,7 +44,7 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
         new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
     }
 
-    public function testBuildFailsWithWrongContext() : void
+    public function testBuildFailsWithWrongContext(): void
     {
         $gui = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
         $this->expectException(ilTestException::class);

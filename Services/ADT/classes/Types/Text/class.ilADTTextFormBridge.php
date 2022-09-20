@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilADTTextFormBridge extends ilADTFormBridge
 {
@@ -8,24 +26,23 @@ class ilADTTextFormBridge extends ilADTFormBridge
 
     public function __construct(ilADT $a_adt)
     {
-
         parent::__construct($a_adt);
         $this->lng->loadLanguageModule('meta');
     }
 
-    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
+    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null): void
     {
         $this->multi = $a_value;
         $this->multi_rows = ($a_rows === null) ? null : $a_rows;
         $this->multi_cols = ($a_cols === null) ? null : $a_cols;
     }
 
-    public function isMulti() : bool
+    public function isMulti(): bool
     {
         return $this->multi;
     }
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTText);
     }
@@ -36,7 +53,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         string $value,
         bool $is_translation = false,
         string $language = ''
-    ) : void {
+    ): void {
         $def = $this->getADT()->getCopyOfDefinition();
 
         if (!$this->isMulti()) {
@@ -76,16 +93,16 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addToParentElement($text);
     }
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $this->addElementToForm(
-            (string) $this->getADT()->getText(),
+            (string) $this->getTitle(),
             (string) $this->getElementId(),
-            $this->getTitle()
+            (string) $this->getADT()->getText()
         );
     }
 
-    public function importFromPost() : void
+    public function importFromPost(): void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setText($this->getForm()->getInput($this->getElementId()));

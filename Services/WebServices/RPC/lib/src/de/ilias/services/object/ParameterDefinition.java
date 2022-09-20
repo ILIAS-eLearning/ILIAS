@@ -26,11 +26,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -45,7 +46,7 @@ public class ParameterDefinition {
 	public static final int TYPE_INT = 1;
 	public static final int TYPE_STRING = 2;
 
-	protected Logger logger = Logger.getLogger(ParameterDefinition.class);
+	protected Logger logger = LogManager.getLogger(ParameterDefinition.class);
 	
 	private int format;
 	private int type;

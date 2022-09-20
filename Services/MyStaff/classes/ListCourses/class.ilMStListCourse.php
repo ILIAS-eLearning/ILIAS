@@ -1,4 +1,22 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+declare(strict_types=1);
+
 namespace ILIAS\MyStaff\ListCourses;
 
 use ilObjCourse;
@@ -6,249 +24,126 @@ use ilObjUser;
 
 /**
  * Class ilMStListCourse
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCourse
 {
-    const MEMBERSHIP_STATUS_REQUESTED = 1;
-    const MEMBERSHIP_STATUS_WAITINGLIST = 2;
-    const MEMBERSHIP_STATUS_REGISTERED = 3;
-    /**
-     *
-     * @var int
-     */
-    protected $crs_ref_id;
-    /**
-     * @var string
-     */
-    protected $crs_title;
-    /**
-     * @var int
-     */
-    protected $usr_id;
-    /**
-     * @var int
-     */
-    protected $usr_reg_status;
-    /**
-     * @var int
-     */
-    protected $usr_lp_status;
-    /**
-     * @var string
-     */
-    protected $usr_login;
-    /**
-     * @var string
-     */
-    protected $usr_firstname;
-    /**
-     * @var string
-     */
-    protected $usr_lastname;
-    /**
-     * @var string
-     */
-    protected $usr_email;
+    public const MEMBERSHIP_STATUS_REQUESTED = 1;
+    public const MEMBERSHIP_STATUS_WAITINGLIST = 2;
+    public const MEMBERSHIP_STATUS_REGISTERED = 3;
 
-    public function get($prop)
-    {
-        return $this->$prop;
-    }
+    protected int $crs_ref_id;
+    protected string $crs_title;
+    protected int $usr_id;
+    protected int $usr_reg_status;
+    protected int $usr_lp_status;
+    protected string $usr_login;
+    protected string $usr_firstname;
+    protected string $usr_lastname;
+    protected string $usr_email;
 
-    /**
-     * @return int
-     */
-    public function getCrsRefId()
+    final public function getCrsRefId(): int
     {
         return $this->crs_ref_id;
     }
 
-
-    /**
-     * @param int $crs_ref_id
-     */
-    public function setCrsRefId($crs_ref_id)
+    final public function setCrsRefId(int $crs_ref_id): void
     {
         $this->crs_ref_id = $crs_ref_id;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getCrsTitle()
+    final public function getCrsTitle(): string
     {
         return $this->crs_title;
     }
 
-
-    /**
-     * @param string $crs_title
-     */
-    public function setCrsTitle($crs_title)
+    final public function setCrsTitle(string $crs_title): void
     {
         $this->crs_title = $crs_title;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getUsrId()
+    final public function getUsrId(): int
     {
         return $this->usr_id;
     }
 
-
-    /**
-     * @param int $usr_id
-     */
-    public function setUsrId($usr_id)
+    final public function setUsrId(int $usr_id): void
     {
         $this->usr_id = $usr_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getUsrRegStatus()
+    final public function getUsrRegStatus(): int
     {
         return $this->usr_reg_status;
     }
 
-
-    /**
-     * @param int $usr_reg_status
-     */
-    public function setUsrRegStatus($usr_reg_status)
+    final public function setUsrRegStatus(int $usr_reg_status): void
     {
         $this->usr_reg_status = $usr_reg_status;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getUsrLpStatus()
+    final public function getUsrLpStatus(): int
     {
         return $this->usr_lp_status;
     }
 
-
-    /**
-     * @param int $usr_lp_status
-     */
-    public function setUsrLpStatus($usr_lp_status)
+    final public function setUsrLpStatus(int $usr_lp_status): void
     {
         $this->usr_lp_status = $usr_lp_status;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getUsrLogin()
+    final public function getUsrLogin(): string
     {
         return $this->usr_login;
     }
 
-
-    /**
-     * @param string $usr_login
-     */
-    public function setUsrLogin($usr_login)
+    final public function setUsrLogin(string $usr_login)
     {
         $this->usr_login = $usr_login;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getUsrFirstname()
+    final public function getUsrFirstname(): string
     {
         return $this->usr_firstname;
     }
 
-
-    /**
-     * @param string $usr_firstname
-     */
-    public function setUsrFirstname($usr_firstname)
+    final public function setUsrFirstname(string $usr_firstname): void
     {
         $this->usr_firstname = $usr_firstname;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getUsrLastname()
+    final public function getUsrLastname(): string
     {
         return $this->usr_lastname;
     }
 
-
-    /**
-     * @param string $usr_lastname
-     */
-    public function setUsrLastname($usr_lastname)
+    final public function setUsrLastname(string $usr_lastname)
     {
         $this->usr_lastname = $usr_lastname;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getUsrEmail()
+    final public function getUsrEmail(): string
     {
         return $this->usr_email;
     }
 
-
-    /**
-     * @param string $usr_email
-     */
-    public function setUsrEmail($usr_email)
+    final public function setUsrEmail(string $usr_email)
     {
         $this->usr_email = $usr_email;
     }
 
     //Other
-
-
-    /**
-     * @return ilObjUser
-     */
-    public function returnIlUserObj()
+    final public function returnIlUserObj(): ilObjUser
     {
-        $il_user_obj = new ilObjUser($this->usr_id);
-
-        return $il_user_obj;
+        return new ilObjUser($this->usr_id);
     }
 
-
-    /**
-     * @return ilObjCourse
-     */
-    public function returnIlCourseObj()
+    final public function returnIlCourseObj(): ilObjCourse
     {
-        $il_course_obj = new ilObjCourse($this->crs_ref_id);
-
-        return $il_course_obj;
+        return new ilObjCourse($this->crs_ref_id);
     }
 
-
-    /**
-     * @param int $status
-     *
-     * @return string
-     */
-    public static function getMembershipStatusText($status)
+    final public static function getMembershipStatusText(int $status): string
     {
         global $DIC;
 

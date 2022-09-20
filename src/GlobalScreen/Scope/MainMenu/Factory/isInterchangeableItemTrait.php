@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 
@@ -9,15 +28,14 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
  */
 trait isInterchangeableItemTrait
 {
-    public function hasChanged() : bool
+    public function hasChanged(): bool
     {
-        if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            $serialize = $this->getParent()->serialize();
-            return !$this->getParent() instanceof NullIdentification;
+        $serialized_parent = $this->getParent()->serialize();
+        if ($this instanceof isTopItem) {
+            return $serialized_parent !== '';
         } elseif ($this instanceof isChild) {
-            return $this->getParent() instanceof NullIdentification && empty($this->getParent()->serialize());
+            return $serialized_parent === '';
         }
         return false;
     }
-
 }

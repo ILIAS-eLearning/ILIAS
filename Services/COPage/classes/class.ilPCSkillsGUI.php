@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCSkillsGUI
@@ -24,7 +27,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -37,7 +40,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -52,12 +55,12 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
         $this->displayValidationError();
-        
+
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
             $exp = new ilPersonalSkillExplorerGUI($this, "insert", $this, "create", "skill_id");
@@ -74,7 +77,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         }
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -101,7 +104,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
      */
     protected function initForm(
         bool $a_insert = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
@@ -112,7 +115,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_skills"));
         }
-        
+
         $options = array();
 
         $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
@@ -122,13 +125,13 @@ class ilPCSkillsGUI extends ilPageContentGUI
             }
             asort($options);
         } else {
-            ilUtil::sendFailure("cont_no_skills");
+            $this->tpl->setOnScreenMessage('failure', "cont_no_skills");
         }
         $obj = new ilSelectInputGUI($this->lng->txt("cont_pc_skills"), "skill_id");
         $obj->setRequired(true);
         $obj->setOptions($options);
         $form->addItem($obj);
-        
+
         if ($a_insert) {
             $form->addCommandButton("create_skill", $this->lng->txt("select"));
             $form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
@@ -141,12 +144,12 @@ class ilPCSkillsGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $valid = false;
         $data = null;
         $form = null;
-        
+
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
             $data = $this->request->getInt("skill_id");
@@ -160,7 +163,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
                 $valid = true;
             }
         }
-        
+
         if ($valid) {
             $this->content_obj = new ilPCSkills($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -175,7 +178,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         $this->insert($form);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $valid = false;
         $data = null;
@@ -194,7 +197,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
                 $valid = true;
             }
         }
-                        
+
         if ($valid) {
             $this->content_obj->setData($data);
             $this->updated = $this->pg_obj->update();

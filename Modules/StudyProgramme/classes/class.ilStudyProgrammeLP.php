@@ -1,41 +1,57 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Object/classes/class.ilObjectLP.php");
+declare(strict_types=1);
 
 /**
- * Class ilObjStudyProgramme
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author : Richard Klees <richard.klees@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilStudyProgrammeLP extends ilObjectLP
 {
+    protected ?ilObjStudyProgramme $prg = null;
+
     /**
-     * @var ilObjStudyProgramme|null
+     * @param bool $lp_active
+     * @return int[]
      */
-    protected $prg = null;
-    
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $lp_active): array
     {
-        return array(
-            ilLPObjSettings::LP_MODE_DEACTIVATED
-        );
+        return [ilLPObjSettings::LP_MODE_DEACTIVATED];
     }
-    
-    public function getDefaultMode()
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_STUDY_PROGRAMME;
     }
-    
-    public function getValidModes()
+
+    /**
+     * @return array
+     */
+    public function getValidModes(): array
     {
-        return array( ilLPObjSettings::LP_MODE_STUDY_PROGRAMME
-            , ilLPObjSettings::LP_MODE_DEACTIVATED
-            );
+        return [
+            ilLPObjSettings::LP_MODE_STUDY_PROGRAMME,
+            ilLPObjSettings::LP_MODE_DEACTIVATED
+        ];
     }
-    
-    public function getMembers($a_search = true)
+
+    /**
+     * @param bool $search
+     * @return array
+     */
+    public function getMembers(bool $search = true): array
     {
         if ($this->prg === null) {
             $this->prg = new ilObjStudyProgramme($this->obj_id, false);

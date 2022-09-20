@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Just a wrapper class to create Unit Test for other classes.
@@ -8,7 +25,7 @@
  */
 class ilCertificateUtilHelper
 {
-    public function deliverData(string $data, string $fileName, string $mimeType) : void
+    public function deliverData(string $data, string $fileName, string $mimeType): void
     {
         ilUtil::deliverData(
             $data,
@@ -17,9 +34,9 @@ class ilCertificateUtilHelper
         );
     }
 
-    public function prepareFormOutput(string $string) : string
+    public function prepareFormOutput(string $string): string
     {
-        return ilUtil::prepareFormOutput($string);
+        return ilLegacyFormElementsUtil::prepareFormOutput($string);
     }
 
     public function convertImage(
@@ -28,55 +45,41 @@ class ilCertificateUtilHelper
         string $targetFormat = '',
         string $geometry = '',
         string $backgroundColor = ''
-    ) : void {
-        ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+    ): void {
+        ilShellUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
-    /**
-     * @param string $string
-     * @return mixed|null|string|string[]
-     */
-    public function stripSlashes(string $string)
+    public function stripSlashes(string $string): string
     {
         return ilUtil::stripSlashes($string);
     }
 
-    /**
-     * @param string $exportPath
-     * @param string $zipPath
-     */
-    public function zip(string $exportPath, string $zipPath) : void
+    public function zip(string $exportPath, string $zipPath): void
     {
-        ilUtil::zip($exportPath, $zipPath);
+        ilFileUtils::zip($exportPath, $zipPath);
     }
 
-    public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
+    public function deliverFile(string $zipPath, string $zipFileName, string $mime): void
     {
-        ilUtil::deliverFile($zipPath, $zipFileName, $mime);
+        ilFileDelivery::deliverFileLegacy($zipPath, $zipFileName, $mime);
     }
 
-    public function getDir(string $copyDirectory) : array
+    public function getDir(string $copyDirectory): array
     {
-        return ilUtil::getDir($copyDirectory);
+        return ilFileUtils::getDir($copyDirectory);
     }
 
-    public function unzip(string $file, bool $overwrite) : void
+    public function unzip(string $file, bool $overwrite): void
     {
-        ilUtil::unzip($file, $overwrite);
+        ilFileUtils::unzip($file, $overwrite);
     }
 
-    public function delDir(string $path) : void
+    public function delDir(string $path): void
     {
-        ilUtil::delDir($path);
+        ilFileUtils::delDir($path);
     }
 
     /**
-     * @param string $file
-     * @param string $name
-     * @param string $target
-     * @param bool   $raise_errors
-     * @param string $mode
-     * @return bool
      * @throws ilException
      */
     public function moveUploadedFile(
@@ -85,8 +88,8 @@ class ilCertificateUtilHelper
         string $target,
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
-    ) : bool {
-        return ilUtil::moveUploadedFile(
+    ): bool {
+        return ilFileUtils::moveUploadedFile(
             $file,
             $name,
             $target,
@@ -100,7 +103,7 @@ class ilCertificateUtilHelper
         string $module_path = "",
         string $mode = "output",
         bool $offline = false
-    ) : string {
+    ): string {
         return ilUtil::getImagePath(
             $img,
             $module_path,

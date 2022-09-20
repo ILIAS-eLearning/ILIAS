@@ -1,6 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Wiki\Editing\EditingGUIRequest;
 
 /**
  * Wiki statistics GUI class
@@ -9,45 +25,38 @@
  */
 class ilWikiStatGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected EditingGUIRequest $request;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected int $wiki_id;
+    protected int $page_id;
 
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $wiki_id; // [integer]
-    protected $page_id; // [integer]
-    
-    public function __construct($a_wiki_id, $a_page_id = null)
-    {
+    public function __construct(
+        int $a_wiki_id,
+        ?int $a_page_id = null
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
-        $this->wiki_id = (int) $a_wiki_id;
+        $this->wiki_id = $a_wiki_id;
         $this->page_id = (int) $a_page_id;
+        $this->request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
-    
-    public function executeCommand()
+
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("view");
 
@@ -57,16 +66,17 @@ class ilWikiStatGUI
                 break;
         }
     }
-    
-    protected function viewToolbar($a_is_initial = false)
-    {
+
+    protected function viewToolbar(
+        bool $a_is_initial = false
+    ): ?array {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        $current_figure = (int) $_POST["fig"];
-        $current_time_frame = (string) $_POST["tfr"];
-        $current_scope = (int) $_POST["scp"];
+
+        $current_figure = $this->request->getStatFig();
+        $current_time_frame = $this->request->getStatTfr();
+        $current_scope = $this->request->getStatScp();
 
         $view = new ilSelectInputGUI($lng->txt("wiki_stat_figure"), "fig");
         $view->setOptions($this->page_id
@@ -81,7 +91,7 @@ class ilWikiStatGUI
                 : ilWikiStat::KEY_FIGURE_WIKI_NUM_PAGES;
         }
         $ilToolbar->addInputItem($view, true);
-                        
+
         $options = array();
         $lng->loadLanguageModule("dateplaner");
         foreach (ilWikiStat::getAvailableMonths($this->wiki_id) as $month) {
@@ -90,16 +100,17 @@ class ilWikiStatGUI
                 " " . $parts[0];
         }
         krsort($options);
-        
+
         $tframe = new ilSelectInputGUI($lng->txt("month"), "tfr");
         $tframe->setOptions($options);
         if ($current_time_frame) {
             $tframe->setValue($current_time_frame);
         } elseif ($a_is_initial) {
-            $current_time_frame = array_shift(array_keys($options)); // default
+            $opt = array_keys($options);
+            $current_time_frame = array_shift($opt); // default
         }
         $ilToolbar->addInputItem($tframe, true);
-        
+
         $scope = new ilSelectInputGUI($lng->txt("wiki_stat_scope"), "scp");
         $scope->setOptions(array(
             1 => "1 " . $lng->txt("month"),
@@ -115,45 +126,46 @@ class ilWikiStatGUI
             $current_scope = 1; // default
         }
         $ilToolbar->addInputItem($scope, true);
-        
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "view"));
         $ilToolbar->addFormButton($lng->txt("show"), "view");
-        
+
         if ($current_figure && $current_time_frame && $current_scope) {
             $ilToolbar->addSeparator();
             $ilToolbar->addFormButton($lng->txt("export"), "export");
-            
+
             return array(
                 "figure" => $current_figure,
                 "month" => $current_time_frame,
                 "scope" => $current_scope
             );
         }
+        return null;
     }
-    
-    protected function export()
+
+    protected function export(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $params = $this->viewToolbar();
         if ($params) {
             // data
-            
+
             $tfr = explode("-", (string) $params["month"]);
             $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1] - ($params["scope"] - 1), 1, $tfr[0]));
             $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1] + 1, 0, $tfr[0]));
             unset($tfr);
-            
+
             $chart_data = $this->getChartData($params["figure"], $params["scope"], $day_from, $day_to);
-            
-            
+
+
             // excel
-                    
+
             $period = ilDatePresentation::formatPeriod(
                 new ilDate($day_from, IL_CAL_DATE),
                 new ilDate($day_to, IL_CAL_DATE)
             );
-            
+
             $filename = ilObject::_lookupTitle($this->wiki_id);
             if ($this->page_id) {
                 $filename .= " - " . ilWikiPage::lookupTitle($this->page_id);
@@ -162,61 +174,59 @@ class ilWikiStatGUI
 
             $excel = new ilExcel();
             $excel->addSheet($this->lng->txt("statistics"));
-            
+
             $row = 1;
             foreach ($chart_data as $day => $value) {
                 $excel->setCell($row, 0, $day);
                 $excel->setCell($row++, 1, $value);
             }
-            
+
             $excel->sendToClient($filename);
         }
-        
+
         $ilCtrl->redirect($this, "view");
     }
-    
-    protected function initial()
+
+    protected function initial(): void
     {
         $this->view(true);
     }
-    
-    protected function view($a_is_initial = false)
-    {
+
+    protected function view(
+        bool $a_is_initial = false
+    ): void {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $params = $this->viewToolbar($a_is_initial);
         if (is_array($params)) {
             // data
-            
+
             $tfr = explode("-", (string) $params["month"]);
             $day_from = date("Y-m-d", mktime(0, 0, 1, $tfr[1] - ($params["scope"] - 1), 1, $tfr[0]));
             $day_to = date("Y-m-d", mktime(0, 0, 1, $tfr[1] + 1, 0, $tfr[0]));
             unset($tfr);
-            
+
             $chart_data = $this->getChartData($params["figure"], $params["scope"], $day_from, $day_to);
             $list_data = $this->getListData();
-            
-            
+
+
             // render
-            
+
             $vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "Modules/Wiki");
 
             $chart_panel = ilPanelGUI::getInstance();
 
             $vtpl->setVariable("CHART", $this->renderGraph($params["figure"], $chart_data));
-                        
+
             $vtpl->setCurrentBlock("row_bl");
-            $counter = 0;
             foreach ($list_data as $figure => $values) {
-                $day = (int) substr($day, 8);
-                $vtpl->setVariable("CSS_ROW", ($counter++ % 2) ? "tblrow1" : "tblrow2");
                 $vtpl->setVariable("FIGURE", $figure);
                 $vtpl->setVariable("YESTERDAY_VALUE", $values["yesterday"]);
                 $vtpl->setVariable("TODAY_VALUE", $values["today"]);
                 $vtpl->parseCurrentBlock();
             }
-                                    
+
             $vtpl->setVariable("FIGURE_HEAD", $lng->txt("wiki_stat_figure"));
             $vtpl->setVariable("YESTERDAY_HEAD", $lng->txt("yesterday"));
             $vtpl->setVariable("TODAY_HEAD", $lng->txt("today"));
@@ -228,62 +238,68 @@ class ilWikiStatGUI
             $tpl->setContent($chart_panel->getHTML());
         }
     }
-    
-    protected function getChartData($a_figure, $a_scope, $a_from, $a_to)
-    {
+
+    protected function getChartData(
+        int $a_figure,
+        int $a_scope,
+        string $a_from,
+        string $a_to
+    ): array {
         $data = array();
-        
+
         $raw = $this->page_id
             ? ilWikiStat::getFigureDataPage($this->wiki_id, $this->page_id, $a_figure, $a_from, $a_to)
             : ilWikiStat::getFigureData($this->wiki_id, $a_figure, $a_from, $a_to);
-                
+
         $parts = explode("-", $a_from);
         for ($loop = 0; $loop <= ($a_scope * 31); $loop++) {
             $current_day = date("Y-m-d", mktime(0, 0, 1, $parts[1], $parts[2] + $loop, $parts[0]));
             if ($current_day <= $a_to) {
-                $data[$current_day] = (float) $raw[$current_day];
+                $data[$current_day] = (float) ($raw[$current_day] ?? 0);
             }
         }
-            
+
         return $data;
     }
-    
-    protected function getListData()
+
+    protected function getListData(): array
     {
         $data = array();
-        
+
         $today = date("Y-m-d");
         $yesterday = date("Y-m-d", strtotime("yesterday"));
-        
+
         $all = $this->page_id
             ? ilWikiStat::getFigureOptionsPage()
             : ilWikiStat::getFigureOptions();
         foreach ($all as $figure => $title) {
             if ($this->page_id) {
-                $tmp = (array) ilWikiStat::getFigureDataPage($this->wiki_id, $this->page_id, $figure, $yesterday, $today);
+                $tmp = ilWikiStat::getFigureDataPage($this->wiki_id, $this->page_id, $figure, $yesterday, $today);
             } else {
-                $tmp = (array) ilWikiStat::getFigureData($this->wiki_id, $figure, $yesterday, $today);
+                $tmp = ilWikiStat::getFigureData($this->wiki_id, $figure, $yesterday, $today);
             }
             $data[$title] = array(
-                "yesterday" => (float) $tmp[$yesterday],
-                "today" => (float) $tmp[$today]
+                "yesterday" => (float) ($tmp[$yesterday] ?? 0),
+                "today" => (float) ($tmp[$today] ?? 0)
             );
         }
-        
+
         return $data;
     }
-    
-    protected function renderGraph($a_figure, array $a_data)
-    {
-        $scope = ceil(sizeof($a_data) / 31);
+
+    protected function renderGraph(
+        int $a_figure,
+        array $a_data
+    ): string {
+        $scope = ceil(count($a_data) / 31);
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
-        $chart->setSize("100%", 400);
+        $chart->setSize("100%", "400");
         $chart->setColors(array("#C0E0FF"));
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);
-        
+
         // lines vs. bars
         if (in_array($a_figure, array(
             // wiki
@@ -305,7 +321,7 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_WORDS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
-            ))) {
+            ), true)) {
             $series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
             $series->setLineSteps(true);
             $series->setFill(true, "#E0F0FF");
@@ -314,14 +330,14 @@ class ilWikiStatGUI
             $series->setBarOptions(round(10 / ($scope * 2)) / 10);
         }
         $series->setLabel(ilWikiStat::getFigureTitle($a_figure));
-                
+
         $labels = array();
         $x = 0;
         foreach ($a_data as $date => $value) {
             $series->addPoint($x, $value);
-            
+
             $day = (int) substr($date, 8, 2);
-                    
+
             // match scale to scope
             if ($scope == 1) {
                 // daily
@@ -331,19 +347,17 @@ class ilWikiStatGUI
                 if (!($x % 7)) {
                     $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
                 }
-            } else {
+            } elseif ($day === 1 || $day === 15 || $x === count($a_data) - 1) {
                 // 1st/15th
-                if ($day == 1 || $day == 15 || $x == sizeof($a_data) - 1) {
-                    $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
-                }
+                $labels[$x] = substr($date, 8, 2) . "." . substr($date, 5, 2) . ".";
             }
-                        
+
             $x++;
         }
 
         $chart->addData($series);
         $chart->setTicks($labels, null, true);
-        
+
         // int vs. float (averages)
         if (in_array($a_figure, array(
             // wiki
@@ -369,10 +383,10 @@ class ilWikiStatGUI
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_CHARS
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
             ,ilWikiStat::KEY_FIGURE_WIKI_PAGE_RATINGS
-            ))) {
+            ), true)) {
             $chart->setYAxisToInteger(true);
         }
-        
+
         return $chart->getHTML();
     }
 }

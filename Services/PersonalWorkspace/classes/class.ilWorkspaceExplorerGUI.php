@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 
@@ -52,7 +55,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        
+
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
             : $a_select_gui;
@@ -72,51 +75,54 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $this->setSkipRootNode(false);
         $this->setAjax(true);
         $this->setPathOpen($this->root_id);
-        
+
         $this->setTypeWhiteList(array("wsrt", "wfld"));
     }
-    
-    public function setLinkToNodeClass(bool $a_val) : void
+
+    public function setLinkToNodeClass(bool $a_val): void
     {
         $this->link_to_node_class = $a_val;
     }
-    
-    public function getLinkToNodeClass() : bool
+
+    public function getLinkToNodeClass(): bool
     {
         return $this->link_to_node_class;
     }
-    
-    public function setActivateHighlighting(bool $a_val) : void
+
+    public function setActivateHighlighting(bool $a_val): void
     {
         $this->activate_highlighting = $a_val;
     }
-    
-    public function getActivateHighlighting() : bool
+
+    public function getActivateHighlighting(): bool
     {
         return $this->activate_highlighting;
     }
 
-    public function setSelectableTypes(array $a_val) : void
+    public function setSelectableTypes(array $a_val): void
     {
         $this->selectable_types = $a_val;
     }
-    
-    public function getSelectableTypes() : array
+
+    public function getSelectableTypes(): array
     {
         return $this->selectable_types;
     }
 
-    public function setCustomLinkTarget(string $a_val) : void
+    public function setCustomLinkTarget(string $a_val): void
     {
         $this->custom_link_target = $a_val;
     }
 
-    public function getCustomLinkTarget() : string
+    public function getCustomLinkTarget(): string
     {
         return $this->custom_link_target;
     }
 
-    public function getNodeHref($a_node) : string
+    /**
+     * @inheritcoc
+     */
+    public function getNodeHref($a_node): string
     {
         if ($this->select_postvar != "") {
             return "";
@@ -149,11 +155,13 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
         $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());
-
         return $ret;
     }
 
-    public function getNodeContent($a_node) : string
+    /**
+     * @inheritcoc
+     */
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
 
@@ -163,8 +171,11 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
         return $a_node["title"];
     }
-    
-    public function isNodeClickable($a_node) : bool
+
+    /**
+     * @inheritcoc
+     */
+    public function isNodeClickable($a_node): bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -172,7 +183,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    protected function isNodeSelectable($a_node) : bool
+    /**
+     * @inheritcoc
+     */
+    protected function isNodeSelectable($a_node): bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -180,7 +194,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    public function getNodeIcon($a_node) : string
+    /**
+     * @inheritcoc
+     */
+    public function getNodeIcon($a_node): string
     {
         $t = $a_node["type"];
         if (in_array($t, array("sktr"))) {
@@ -189,7 +206,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }
 
-    public function isNodeHighlighted($a_node) : bool
+    /**
+     * @inheritcoc
+     */
+    public function isNodeHighlighted($a_node): bool
     {
         $wsp_id = $this->request->getWspId();
         if ($this->getActivateHighlighting() &&

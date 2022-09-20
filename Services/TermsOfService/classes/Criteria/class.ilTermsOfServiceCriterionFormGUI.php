@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 
@@ -9,43 +26,28 @@ use ILIAS\Data\Factory;
  */
 class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
 {
-    protected ilTermsOfServiceDocument $document;
-    protected ilTermsOfServiceDocumentCriterionAssignment $assignment;
-    protected string $formAction;
-    protected ilObjUser $actor;
-    protected string $saveCommand;
-    protected string $cancelCommand;
     protected string $translatedError = '';
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
-        ilTermsOfServiceDocument $document,
-        ilTermsOfServiceDocumentCriterionAssignment $assignment,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilObjUser $actor,
-        string $formAction = '',
-        string $saveCommand = 'saveDocument',
-        string $cancelCommand = 'showDocuments'
+        protected ilTermsOfServiceDocument $document,
+        protected ilTermsOfServiceDocumentCriterionAssignment $assignment,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected ilObjUser $actor,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveDocument',
+        protected string $cancelCommand = 'showDocuments'
     ) {
-        $this->document = $document;
-        $this->assignment = $assignment;
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->actor = $actor;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->cancelCommand = $cancelCommand;
-
         parent::__construct();
 
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->assignment->getId() > 0) {
             $this->setTitle($this->lng->txt('tos_form_edit_criterion_head'));
@@ -72,7 +74,7 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
             $first = false;
 
             $criterionGui = $criterion->ui($this->lng);
-            if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
+            if ($this->assignment->getCriterionId() === $criterion->getTypeIdent()) {
                 $criterionGui->appendOption(
                     $criteriaSelection,
                     $this->assignment->getCriterionValue()
@@ -87,17 +89,17 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -130,7 +132,7 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\PC\EditGUIRequest;
 use ILIAS\COPage\PC\MapEditorSessionRepository;
@@ -31,7 +34,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
      * @var ilPCInteractiveImage|ilPCMediaObject
      */
     protected $content_obj;
-    protected EditGUIRequest $request;
+    protected EditGUIRequest $edit_request;
 
     /**
      * @param ilPCMediaObject|ilPCInteractiveImage $a_content_obj
@@ -45,9 +48,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
         $this->content_obj = $a_content_obj;
         $this->page = $a_page;
-        $this->request = $request;
+        $this->edit_request = $request;
         parent::__construct($a_content_obj->getMediaObject());
-                
+
         $this->std_alias_item = new ilMediaAliasItem(
             $this->content_obj->dom,
             $this->content_obj->hier_id,
@@ -63,12 +66,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             ->mediaMap();
     }
 
-    public function getParentNodeName() : string
+    public function getParentNodeName(): string
     {
         return "MediaObject";
     }
 
-    public function getImageMapTableHTML() : string
+    public function getImageMapTableHTML(): string
     {
         $image_map_table = new ilPCImageMapTableGUI(
             $this,
@@ -82,18 +85,18 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Save new or updated map area
      */
-    public function saveArea() : void
+    public function saveArea(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         switch ($this->map_repo->getMode()) {
             // save edited link
             case "edit_link":
-//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+                //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+                //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
-                $area_link_type = $this->request->getString("area_link_type");
+                $area_link_type = $this->edit_request->getString("area_link_type");
                 if ($area_link_type == IL_INT_LINK) {
                     $this->std_alias_item->setAreaIntLink(
                         $this->map_repo->getAreaNr(),
@@ -109,13 +112,13 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 } else {
                     $this->std_alias_item->setAreaExtLink(
                         $this->map_repo->getAreaNr(),
-                        $this->request->getString("area_link_ext")
+                        $this->edit_request->getString("area_link_ext")
                     );
                 }
                 $this->page->update();
                 break;
 
-            // save edited shape
+                // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
                     $this->map_repo->getAreaNr(),
@@ -125,17 +128,17 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $this->page->update();
                 break;
 
-            // save new area
+                // save new area
             default:
                 $area_type = $this->map_repo->getAreaType();
                 $coords = $this->map_repo->getCoords();
 
-                $area_link_type = $this->request->getString("area_link_type");
+                $area_link_type = $this->edit_request->getString("area_link_type");
                 switch ($area_link_type) {
                     case IL_EXT_LINK:
                         $link = array(
                             "LinkType" => IL_EXT_LINK,
-                            "Href" => $this->request->getString("area_link_ext"));
+                            "Href" => $this->edit_request->getString("area_link_ext"));
                         break;
 
                     case IL_NO_LINK:
@@ -153,12 +156,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                         break;
                 }
 
-//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
+                //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
+                //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
                 $this->std_alias_item->addMapArea(
                     $area_type,
                     $coords,
-                    $this->request->getString("area_name"),
+                    $this->edit_request->getString("area_name"),
                     []
                 );
                 $this->page->update();
@@ -166,21 +169,22 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         }
 
         //$this->initMapParameters();
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
+        return "";
     }
 
     /**
      * Delete map areas
      */
-    public function deleteAreas() : void
+    public function deleteAreas(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $areas = $this->request->getStringArray("area");
+        $areas = $this->edit_request->getStringArray("area");
         if (count($areas) == 0) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
 
@@ -193,7 +197,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             $this->std_alias_item->deleteMapArea($area_nr);
         }
         $this->page->update();
-        ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_areas_deleted"), true);
 
         $ilCtrl->redirect($this, "editMapAreas");
     }
@@ -201,7 +205,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Get Link Type of Area
      */
-    public function getLinkTypeOfArea(int $a_nr) : string
+    public function getLinkTypeOfArea(int $a_nr): string
     {
         return $this->std_alias_item->getLinkTypeOfArea($a_nr);
     }
@@ -209,7 +213,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Get Type of Area (only internal link)
      */
-    public function getTypeOfArea(int $a_nr) : string
+    public function getTypeOfArea(int $a_nr): string
     {
         return $this->std_alias_item->getTypeOfArea($a_nr);
     }
@@ -217,7 +221,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Get Target of Area (only internal link)
      */
-    public function getTargetOfArea(int $a_nr) : string
+    public function getTargetOfArea(int $a_nr): string
     {
         return $this->std_alias_item->getTargetOfArea($a_nr);
     }
@@ -225,7 +229,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Get TargetFrame of Area (only internal link)
      */
-    public function getTargetFrameOfArea(int $a_nr) : string
+    public function getTargetFrameOfArea(int $a_nr): string
     {
         return $this->std_alias_item->getTargetFrameOfArea($a_nr);
     }
@@ -233,7 +237,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Get Href of Area (only external link)
      */
-    public function getHrefOfArea(int $a_nr) : string
+    public function getHrefOfArea(int $a_nr): string
     {
         return $this->std_alias_item->getHrefOfArea($a_nr);
     }
@@ -241,19 +245,19 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Update map areas
      */
-    public function updateAreas() : void
+    public function updateAreas(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
         //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         $areas = $this->std_alias_item->getMapAreas();
         foreach ($areas as $area) {
             // fix #26032 empty values lead to "empty text node" errors on page update
-            $name = $this->request->getString("name_" . $area["Nr"]);
-            $hl_mode = $this->request->getString("hl_mode_" . $area["Nr"]);
-            $hl_class = $this->request->getString("hl_class_" . $area["Nr"]);
+            $name = $this->edit_request->getString("name_" . $area["Nr"]);
+            $hl_mode = $this->edit_request->getString("hl_mode_" . $area["Nr"]);
+            $hl_class = $this->edit_request->getString("hl_class_" . $area["Nr"]);
             if ($name == "") {
                 $name = " ";
             }
@@ -271,11 +275,11 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             );
         }
         $this->page->update();
-        
-        ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
+
+        $this->main_tpl->setOnScreenMessage('success', $lng->txt("cont_saved_map_data"), true);
         $ilCtrl->redirect($this, "editMapAreas");
     }
-    
+
     /**
      * Make work file for editing
      */
@@ -285,11 +289,11 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         bool $a_output_new_area = false,
         string $a_area_type = "",
         string $a_coords = ""
-    ) : void {
+    ): void {
         // old for pc media object
         //		$media_object = $this->media_object->getMediaItem("Standard");
         $media_object = $this->content_obj->getMediaObject();
-        
+
         // create/update imagemap work copy
         $st_item = $media_object->getMediaItem("Standard");
         $st_alias_item = new ilMediaAliasItem(
@@ -321,7 +325,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         }
     }
 
-    public function getAliasXML() : string
+    public function getAliasXML(): string
     {
         return $this->content_obj->dumpXML();
     }

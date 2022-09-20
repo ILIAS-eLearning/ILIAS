@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
@@ -44,27 +60,26 @@ class ilKioskPageRenderer
         $this->window_base_title = $window_base_title;
     }
 
-    public function buildCurriculumSlate(Workflow $curriculum) : Slate
+    public function buildCurriculumSlate(Workflow $curriculum): Slate
     {
         $f = $this->ui_factory;
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_curriculum'),
-            $f->symbol()->icon()->standard("lso", "Learning Sequence")
-                ->withIsOutlined(true),
+            $f->symbol()->icon()->standard("lso", "Learning Sequence"),
             $this->ui_factory->legacy(
                 $this->ui_renderer->render($curriculum)
             )
         );
     }
 
-    public function buildToCSlate(LSTOCBuilder $toc, Icon $icon) : Slate
+    public function buildToCSlate(LSTOCBuilder $toc, Icon $icon): Slate
     {
         $html = $this->toc_gui
             ->withStructure($toc->toJSON())
             ->getHTML();
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_toc'),
-            $icon->withSize("small")->withIsOutlined(true),
+            $icon->withSize("small"),
             $this->ui_factory->legacy($html)
         );
     }
@@ -75,7 +90,7 @@ class ilKioskPageRenderer
         string $obj_title,
         Component $icon,
         array $content
-    ) : string {
+    ): string {
         $this->tpl->setVariable(
             "OBJECT_ICON",
             $this->ui_renderer->render($icon)

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceAcceptanceHistoryProviderTest
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBaseTest
 {
-    public function testHistoryProviderCanBeCreatedByFactory() : void
+    public function testHistoryProviderCanBeCreatedByFactory(): void
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
@@ -19,7 +36,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceTableDataProvider::class, $provider);
     }
 
-    public function testListCanBeRetrieved() : void
+    public function testListCanBeRetrieved(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
@@ -51,7 +68,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $database
             ->method('quote')
             ->with($this->anything(), $this->isType('string'))
-            ->willReturnCallback(static function ($arg1) : string {
+            ->willReturnCallback(static function ($arg1): string {
                 return (string) $arg1;
             });
 
@@ -72,13 +89,13 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $this->assertArrayHasKey('items', $data);
         $this->assertArrayHasKey('cnt', $data);
         $this->assertCount(2, $data['items']);
-        $this->assertEquals(2, $data['cnt']);
+        $this->assertSame(2, $data['cnt']);
     }
 
     /**
      * @doesNotPerformAssertions
      */
-    public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed() : void
+    public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -90,31 +107,31 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         try {
             $provider->getList(['limit' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['limit' => 5, 'offset' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 5], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
 
         try {
             $provider->getList(['order_field' => 'ts', 'order_direction' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
-        } catch (InvalidArgumentException $e) {
+        } catch (InvalidArgumentException) {
         }
     }
 }

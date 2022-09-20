@@ -48,6 +48,20 @@
             ]
           }
         ]
+      },
+      {
+        "action": "CI/sort_langfile_entries.sh check",
+        "options": [],
+        "conditions": [
+          {
+            "exec": "\\CaptainHook\\App\\Hook\\Condition\\FileStaged\\Any",
+            "args": [
+              [
+                "*.lang"
+              ]
+            ]
+          }
+        ]
       }
     ]
   },

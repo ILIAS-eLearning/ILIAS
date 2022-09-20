@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Mail query class.
@@ -23,7 +40,7 @@ class ilMailBoxQuery
      * @return array{set: array[], cnt: int, cnt_unread: int}
      * @throws Exception
      */
-    public static function _getMailBoxListData() : array
+    public static function _getMailBoxListData(): array
     {
         global $DIC;
 
@@ -56,7 +73,7 @@ class ilMailBoxQuery
         }
 
         $filter_qry = '';
-        if ($filter_parts) {
+        if ($filter_parts !== []) {
             $filter_qry = 'AND (' . implode(' OR ', $filter_parts) . ')';
         }
 
@@ -64,10 +81,15 @@ class ilMailBoxQuery
             $filter_qry .= ' AND m_status = ' . $DIC->database()->quote('unread', 'text') . ' ';
         }
 
-        if (isset(self::$filter['mail_filter_only_with_attachments']) &&
+        if (
+            isset(self::$filter['mail_filter_only_with_attachments']) &&
             self::$filter['mail_filter_only_with_attachments']
         ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
+        }
+
+        if (isset(self::$filter['mail_filter_only_user_mails']) && self::$filter['mail_filter_only_user_mails']) {
+            $filter_qry .= ' AND sender_id != ' . $DIC->database()->quote(ANONYMOUS_USER_ID, ilDBConstants::T_INTEGER) . ' ';
         }
 
         if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {

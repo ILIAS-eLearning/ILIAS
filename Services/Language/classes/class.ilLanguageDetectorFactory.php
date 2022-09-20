@@ -1,5 +1,23 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilLanguageDetectorFactory
@@ -8,27 +26,13 @@
  */
 class ilLanguageDetectorFactory
 {
-    const DEFAULT_DETECTOR = 1;
-    const HTTP_REQUEST_DETECTOR = 2;
+    private const DEFAULT_DETECTOR = 1;
+    private const HTTP_REQUEST_DETECTOR = 2;
 
-    /**
-     * @var ilIniFile
-     */
-    protected $client_ini;
+    protected ilIniFile $client_ini;
+    protected array $request_information = array();
+    protected ilSetting $settings;
 
-    /**
-     * @var array
-     */
-    protected $request_information = array();
-
-    /**
-     * @var $ilSettings
-     */
-    protected $settings;
-
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -39,42 +43,40 @@ class ilLanguageDetectorFactory
     }
 
     /**
-     * @return ilLanguageDetector[]
+     * @throws ilLanguageException
      */
-    public function getValidInstances()
+    public function getValidInstances(): array
     {
         $detectors = array(
             $this->createDetectorByType(self::DEFAULT_DETECTOR)
         );
 
-        if (
-            $this->settings->get('lang_detection') &&
-            ilContext::usesHTTP()
+        if ($this->settings->get("lang_detection") &&
+            ilContext::usesHTTP() &&
+            array_key_exists('HTTP_ACCEPT_LANGUAGE', $this->request_information)
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);
         }
-        
+
         return $detectors;
     }
 
     /**
-     * @param int $type
      * @throws ilLanguageException
-     * @return ilLanguageDetector
      */
-    public function createDetectorByType($type)
+    public function createDetectorByType(int $type)
     {
         switch ($type) {
             case self::HTTP_REQUEST_DETECTOR:
-                require_once 'Services/Language/classes/class.ilHttpRequestsLanguageDetector.php';
-                return new ilHttpRequestsLanguageDetector($this->request_information['HTTP_ACCEPT_LANGUAGE']);
+                require_once "Services/Language/classes/class.ilHttpRequestsLanguageDetector.php";
+                return new ilHttpRequestsLanguageDetector($this->request_information["HTTP_ACCEPT_LANGUAGE"]);
 
             case self::DEFAULT_DETECTOR:
-                require_once 'Services/Language/classes/class.ilDefaultLanguageDetector.php';
+                require_once "Services/Language/classes/class.ilDefaultLanguageDetector.php";
                 return new ilDefaultLanguageDetector($this->client_ini);
         }
 
-        require_once 'Services/Language/exceptions/class.ilLanguageException.php';
-        throw new ilLanguageException(__METHOD__ . sprintf('Cannot create language detector instance for type %s!', $type));
+        require_once "Services/Language/exceptions/class.ilLanguageException.php";
+        throw new ilLanguageException(__METHOD__ . sprintf("Cannot create language detector instance for type %s!", $type));
     }
 }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilExternalAuthUserAttributeMapping
@@ -15,7 +32,8 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
 
     public function __construct(string $authMode, int $authSourceId = 0)
     {
-        $this->db = $GLOBALS['DIC']->database();
+        global $DIC;
+        $this->db = $DIC->database();
 
         $this->setAuthMode($authMode);
         $this->setAuthSourceId($authSourceId);
@@ -23,32 +41,32 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         $this->read();
     }
 
-    public function getAuthSourceId() : int
+    public function getAuthSourceId(): int
     {
         return $this->authSourceId;
     }
 
-    public function setAuthSourceId(int $authSourceId) : void
+    public function setAuthSourceId(int $authSourceId): void
     {
         $this->authSourceId = $authSourceId;
     }
 
-    public function getAuthMode() : string
+    public function getAuthMode(): string
     {
         return $this->authMode;
     }
 
-    public function setAuthMode(string $authMode) : void
+    public function setAuthMode(string $authMode): void
     {
         $this->authMode = $authMode;
     }
 
-    public function getEmptyRule() : ilExternalAuthUserAttributeMappingRule
+    public function getEmptyRule(): ilExternalAuthUserAttributeMappingRule
     {
         return new ilExternalAuthUserAttributeMappingRule();
     }
 
-    public function offsetExists($offset) : bool
+    public function offsetExists($offset): bool
     {
         return isset($this->mapping[$offset]);
     }
@@ -58,7 +76,7 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         return $this->offsetExists($offset) ? $this->mapping[$offset] : null;
     }
 
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value): void
     {
         if (is_null($offset)) {
             $this->mapping[] = $value;
@@ -67,22 +85,22 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         }
     }
 
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset): void
     {
         unset($this->mapping[$offset]);
     }
 
-    public function count() : int
+    public function count(): int
     {
         return count($this->mapping);
     }
 
-    public function current() : ilExternalAuthUserAttributeMappingRule
+    public function current(): ilExternalAuthUserAttributeMappingRule
     {
         return current($this->mapping);
     }
 
-    public function next() : void
+    public function next(): void
     {
         next($this->mapping);
     }
@@ -97,12 +115,12 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         return current($this->mapping);
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         reset($this->mapping);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $this->mapping = [];
 
@@ -121,7 +139,7 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         }
     }
 
-    public function save() : void
+    public function save(): void
     {
         foreach ($this->mapping as $rule) {
             $this->db->replace(
@@ -139,7 +157,7 @@ class ilExternalAuthUserAttributeMapping implements ArrayAccess, Countable, Iter
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->mapping = [];
         $this->db->manipulateF(

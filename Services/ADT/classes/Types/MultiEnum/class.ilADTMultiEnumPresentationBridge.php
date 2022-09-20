@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             $res = array();
@@ -24,7 +26,7 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             return implode(";", $this->getADT()->getSelections());

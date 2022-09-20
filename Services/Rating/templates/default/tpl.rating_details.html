@@ -3,13 +3,15 @@
 <p>{TXT_RATING_SIMPLE}</p>
 <!-- END rating_simple_title -->
 <p>
+<div id="{TTID}">
 <!-- BEGIN rating_link_simple -->
 <a class="ilRating" href="{HREF_RATING}" {ONCLICK_RATING}>
 <!-- BEGIN rating_mark_simple --><img class="ilRatingMarker" src="{SRC_MARK_SIMPLE}" alt="{ALT_MARK_SIMPLE}" style="position:absolute;" border="0" /><!-- END rating_mark_simple -->
 <img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
 <!-- END rating_link_simple -->
-{NUMBER_VOTES_SIMPLE}
+    <!-- BEGIN number_votes_simple --><span class="badge">{NUMBER_VOTES_SIMPLE}</span><!-- END number_votes_simple -->
+</div>
 </p>
 <!-- BEGIN rating_simple_del_bl -->
 <p>
@@ -34,6 +36,7 @@
 <td class="std small">{TXT_RATING_CATEGORY}</td>
 <!-- BEGIN user_rating_category_column -->
 <td class="std" style="white-space:nowrap;">
+<div id="{CAT_TTID}">
 <!-- BEGIN user_rating_icon -->
 <a href="#" onclick="{HREF_RATING}" style="text-decoration:none;"{ICON_MOUSEACTION}>
 <!-- BEGIN rating_mark --><img class="ilRatingMarker" src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" /><!-- END rating_mark -->
@@ -41,6 +44,7 @@
 </a>
 <!-- END user_rating_icon -->
 <input type="hidden" id="{JS_ID}rating_value_{CATEGORY_ID}" name="rating[{CATEGORY_ID}]" value="{CATEGORY_VALUE}" />
+</div>
 </td>
 <!-- END user_rating_category_column -->
 </tr>

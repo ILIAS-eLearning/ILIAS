@@ -1,5 +1,25 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -7,21 +27,20 @@
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    protected ?\ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected ?Factory $refinery;
+    protected GlobalHttpState $httpState;
 
     public function __construct($a_title, $a_postvar)
     {
-        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
-        
+
         $this->refinery = $DIC->refinery();
         $this->httpState = $DIC->http();
 
         parent::__construct($a_title, $a_postvar);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $ok = parent::checkInput();
 
@@ -46,7 +65,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
     }
 
-    public function render(string $a_mode = '') : string
+    public function render(string $a_mode = ''): string
     {
         $tpl = new ilTemplate(
             'tpl.prop_mail_quick_filter_input.html',
@@ -56,17 +75,17 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         );
         if ($this->getValue() !== '') {
             $tpl->setCurrentBlock('prop_text_propval');
-            $tpl->setVariable('PROPERTY_VALUE', ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable('PROPERTY_VALUE', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getInlineStyle() !== '') {
             $tpl->setCurrentBlock('stylecss');
-            $tpl->setVariable('CSS_STYLE', ilUtil::prepareFormOutput($this->getInlineStyle()));
+            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput($this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getCssClass() !== '') {
             $tpl->setCurrentBlock('classcss');
-            $tpl->setVariable('CLASS_CSS', ilUtil::prepareFormOutput($this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput($this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {
@@ -95,14 +114,14 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
 
         $postvar = $this->getPostVar();
-        if ($this->getMulti() && substr($postvar, -2) !== '[]') {
+        if ($this->getMulti() && !str_ends_with($postvar, '[]')) {
             $postvar .= '[]';
         }
 
         if ($this->getDisabled()) {
+            $hidden = '';
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
-                $hidden = '';
                 if (is_array($value)) {
                     foreach ($value as $item) {
                         $hidden .= $this->getHiddenTag($postvar, $item);
@@ -111,7 +130,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             } else {
                 $hidden = $this->getHiddenTag($postvar, $this->getValue());
             }
-            if ($hidden) {
+            if ($hidden !== '') {
                 $tpl->setVariable('DISABLED', ' disabled=\'disabled\'');
                 $tpl->setVariable('HIDDEN_INPUT', $hidden);
             }
@@ -131,7 +150,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             $tpl->setVariable('STYLE_PAR');
         }
 
-        if (is_array($this->sub_items) && $this->sub_items) {
+        if ($this->sub_items !== []) {
             $tpl->setVariable('FIELD_ID', $this->getFieldId());
             $tpl->setVariable('TXT_PLACEHOLDER', $this->lng->txt('mail_filter_field_placeholder'));
             $tpl->setVariable('TXT_FILTER_MESSAGES_BY', $this->lng->txt('mail_filter_txt'));

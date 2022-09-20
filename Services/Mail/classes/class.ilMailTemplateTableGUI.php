@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -12,23 +29,16 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 {
     /** @var ilMailTemplateContext[] */
     protected array $contexts = [];
-    protected bool $readOnly = false;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
     public function __construct(
         ilMailTemplateGUI $a_parent_obj,
         string $a_parent_cmd,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
-        bool $readOnly = false
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
+        protected bool $readOnly = false
     ) {
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-        $this->readOnly = $readOnly;
-
         $this->setId('mail_man_tpl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -52,10 +62,10 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('tpl_id' === $column) {
-            return ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
+            return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
         }
         if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);
@@ -76,10 +86,10 @@ class ilMailTemplateTableGUI extends ilTable2GUI
             return $this->lng->txt('mail_template_orphaned_context');
         }
 
-        return $row[$column];
+        return (string) $row[$column];
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -93,13 +103,13 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    protected function formatActionsDropDown(array $row) : string
+    protected function formatActionsDropDown(array $row): string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
 
         $buttons = [];
 
-        if (count($this->contexts) > 0) {
+        if ($this->contexts !== []) {
             if (!$this->readOnly) {
                 $buttons[] = $this->uiFactory
                     ->button()
@@ -124,6 +134,8 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->lng->txt('delete'),
                     $this->lng->txt('mail_tpl_sure_delete_entry'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'deleteTemplate')
+                )->withActionButtonLabel(
+                    'deleteTemplate'
                 );
 
             $this->uiComponents[] = $deleteModal;
@@ -162,7 +174,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,12 +15,17 @@
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
-    public function getType() : string
+    public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
+    {
+        parent::__construct($id, $id_type, $parent_node_id);
+    }
+
+    public function getType(): string
     {
         return "tstv";
     }
 
-    public function create() : void
+    public function create(): void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -34,7 +41,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -59,7 +66,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
             }
 
@@ -70,23 +77,23 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
                 $this->afterSave($newObj);
             } else {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
         $this->create();
     }
 
-    public function deliver() : void
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -125,7 +132,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -137,14 +144,12 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
+        global $DIC;
         $id = explode("_", $a_target);
-
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $DIC->ctrl()->setParameterByClass('ilsharedresourceGUI', 'wsp_id', $id[0]);
+        $DIC->ctrl()->redirectByClass('ilsharedresourceGUI');
     }
 
     /**

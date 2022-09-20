@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
@@ -16,21 +32,21 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     private I\Tree\Node\Factory $node_factory;
     private C\Symbol\Icon\Standard $icon;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->node_factory = new I\Tree\Node\Factory();
         $icon_factory = new I\Symbol\Icon\Factory();
         $this->icon = $icon_factory->standard("", '');
     }
 
-    public function brutallyTrimHTML(string $html) : string
+    public function brutallyTrimHTML(string $html): string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
         return trim($html);
     }
 
-    public function testConstruction() : C\Tree\Node\Simple
+    public function testConstruction(): C\Tree\Node\Simple
     {
         $node = $this->node_factory->simple('simple');
         $this->assertInstanceOf(
@@ -40,13 +56,13 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         return $node;
     }
 
-    public function testWrongConstruction() : void
+    public function testWrongConstruction(): void
     {
         $this->expectException(ArgumentCountError::class);
         $this->node_factory->simple();
     }
 
-    public function testConstructionWithIcon() : C\Tree\Node\Simple
+    public function testConstructionWithIcon(): C\Tree\Node\Simple
     {
         $node = $this->node_factory->simple('label', $this->icon);
         $this->assertInstanceOf(
@@ -59,7 +75,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstructionWithIcon
      */
-    public function testGetLabel(C\Tree\Node\Simple $node) : void
+    public function testGetLabel(C\Tree\Node\Simple $node): void
     {
         $this->assertEquals("label", $node->getLabel());
     }
@@ -67,7 +83,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstructionWithIcon
      */
-    public function testGetIcon(C\Tree\Node\Simple $node) : C\Tree\Node\Simple
+    public function testGetIcon(C\Tree\Node\Simple $node): C\Tree\Node\Simple
     {
         $this->assertEquals($this->icon, $node->getIcon());
         return $node;
@@ -76,7 +92,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testDefaultAsyncLoading(C\Tree\Node\Simple $node) : void
+    public function testDefaultAsyncLoading(C\Tree\Node\Simple $node): void
     {
         $this->assertFalse($node->getAsyncLoading());
     }
@@ -84,7 +100,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithAsyncURL(C\Tree\Node\Simple $node) : C\Tree\Node\Simple
+    public function testWithAsyncURL(C\Tree\Node\Simple $node): C\Tree\Node\Simple
     {
         $url = 'something.de';
         $node = $node->withAsyncURL($url);
@@ -96,7 +112,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testRendering(C\Tree\Node\Simple $node) : void
+    public function testRendering(C\Tree\Node\Simple $node): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -118,7 +134,7 @@ EOT;
     /**
      * @depends testWithAsyncURL
      */
-    public function testRenderingWithAsync(C\Tree\Node\Simple $node) : void
+    public function testRenderingWithAsync(C\Tree\Node\Simple $node): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);
@@ -144,7 +160,7 @@ EOT;
     /**
      * @depends testConstructionWithIcon
      */
-    public function testRenderingWithIcon(C\Tree\Node\Simple $node) : void
+    public function testRenderingWithIcon(C\Tree\Node\Simple $node): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($node);

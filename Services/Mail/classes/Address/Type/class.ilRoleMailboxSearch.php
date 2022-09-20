@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilRoleMailboxSearch
@@ -9,16 +26,13 @@
  */
 class ilRoleMailboxSearch
 {
-    protected ilMailRfc822AddressParserFactory $parserFactory;
     protected ilDBInterface $db;
 
     public function __construct(
-        ilMailRfc822AddressParserFactory $parserFactory,
+        protected ilMailRfc822AddressParserFactory $parserFactory,
         ilDBInterface $db = null
     ) {
         global $DIC;
-
-        $this->parserFactory = $parserFactory;
 
         if (null === $db) {
             $db = $DIC->database();
@@ -68,7 +82,7 @@ class ilRoleMailboxSearch
      * If Pear Mail is not installed, then the mailbox address
      * @return int[] Array with role ids that were found
      */
-    public function searchRoleIdsByAddressString(string $a_address_list) : array
+    public function searchRoleIdsByAddressString(string $a_address_list): array
     {
         $parser = $this->parserFactory->getParser($a_address_list);
         $parsedList = $parser->parse();
@@ -76,7 +90,7 @@ class ilRoleMailboxSearch
         $role_ids = [];
         foreach ($parsedList as $address) {
             $local_part = $address->getMailbox();
-            if (strpos($local_part, '#') !== 0 && !($local_part[0] === '"' && $local_part[1] === "#")) {
+            if (!str_starts_with($local_part, '#') && !($local_part[0] === '"' && $local_part[1] === "#")) {
                 // A local-part which doesn't start with a '#' doesn't denote a role.
                 // Therefore we can skip it.
                 continue;
@@ -90,7 +104,7 @@ class ilRoleMailboxSearch
                 $local_part = substr($local_part, 0, -1);
             }
 
-            if (strpos($local_part, 'il_role_') === 0) {
+            if (str_starts_with($local_part, 'il_role_')) {
                 $role_id = substr($local_part, 8);
                 $query = "SELECT t.tree " .
                     "FROM rbac_fa fa " .
@@ -106,7 +120,7 @@ class ilRoleMailboxSearch
             }
 
             $domain = $address->getHost();
-            if (strpos($domain, '[') === 0 && strrpos($domain, ']')) {
+            if (str_starts_with($domain, '[') && strrpos($domain, ']')) {
                 $domain = substr($domain, 1, -1);
             }
             if ($local_part === '') {

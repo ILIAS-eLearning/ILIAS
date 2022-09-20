@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Verification object base class
@@ -9,18 +23,20 @@
  */
 abstract class ilVerificationObject extends ilObject2
 {
-    protected $map = array();
-    protected $properties = array();
+    protected array $map = array();
+    protected array $properties = array();
 
-    const TYPE_STRING = 1;
-    const TYPE_BOOL = 2;
-    const TYPE_INT = 3;
-    const TYPE_DATE = 4;
-    const TYPE_RAW = 5;
-    const TYPE_ARRAY = 6;
+    public const TYPE_STRING = 1;
+    public const TYPE_BOOL = 2;
+    public const TYPE_INT = 3;
+    public const TYPE_DATE = 4;
+    public const TYPE_RAW = 5;
+    public const TYPE_ARRAY = 6;
 
-    public function __construct($a_id = 0, $a_reference = true)
-    {
+    public function __construct(
+        int $a_id = 0,
+        bool $a_reference = true
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -30,55 +46,45 @@ abstract class ilVerificationObject extends ilObject2
 
     /**
      * Return property map (name => type)
-     *
-     * @return array
      */
-    abstract protected function getPropertyMap();
+    abstract protected function getPropertyMap(): array;
 
     /**
      * Check if given property is valid
-     *
-     * @param string $a_name
-     * @return bool
      */
-    public function hasProperty($a_name)
+    public function hasProperty(string $a_name): bool
     {
         return array_key_exists($a_name, $this->map);
     }
 
     /**
      * Get property data type
-     *
-     * @param string $a_name
-     * @return string
      */
-    public function getPropertyType($a_name)
+    public function getPropertyType(string $a_name): ?int
     {
         if ($this->hasProperty($a_name)) {
-            return $this->map[$a_name];
+            return (int) $this->map[$a_name];
         }
+        return null;
     }
 
     /**
      * Get property value
-     *
-     * @param string $a_name
      * @return mixed
      */
-    public function getProperty($a_name)
+    public function getProperty(string $a_name)
     {
         if ($this->hasProperty($a_name)) {
             return $this->properties[$a_name];
         }
+        return null;
     }
 
     /**
      * Set property value
-     *
-     * @param string $a_name
-     * @return mixed
+     * @param mixed $a_value
      */
-    public function setProperty($a_name, $a_value)
+    public function setProperty(string $a_name, $a_value): void
     {
         if ($this->hasProperty($a_name)) {
             $this->properties[$a_name] = $a_value;
@@ -89,15 +95,18 @@ abstract class ilVerificationObject extends ilObject2
      * Import property from database
      *
      * @param string $a_type
-     * @param array $a_data
-     * @param string $a_raw_data
+     * @param mixed $a_data
+     * @param ?string $a_raw_data
      */
-    protected function importProperty($a_type, $a_data = null, $a_raw_data = null)
-    {
+    protected function importProperty(
+        string $a_type,
+        $a_data = null,
+        ?string $a_raw_data = null
+    ): void {
         $data_type = $this->getPropertyType($a_type);
         if ($data_type) {
             $value = null;
-            
+
             switch ($data_type) {
                 case self::TYPE_STRING:
                     $value = (string) $a_data;
@@ -117,7 +126,7 @@ abstract class ilVerificationObject extends ilObject2
 
                 case self::TYPE_ARRAY:
                     if ($a_data) {
-                        $value = unserialize($a_data);
+                        $value = unserialize($a_data, ['allowed_classes' => false]);
                     }
                     break;
 
@@ -135,7 +144,7 @@ abstract class ilVerificationObject extends ilObject2
      *
      * @return array(parameters, raw_data)
      */
-    protected function exportProperty($a_name)
+    protected function exportProperty(string $a_name): ?array
     {
         $data_type = $this->getPropertyType($a_name);
         if ($data_type) {
@@ -164,14 +173,10 @@ abstract class ilVerificationObject extends ilObject2
             return array("parameters" => $value,
                 "raw_data" => $raw_data);
         }
+        return null;
     }
 
-    /**
-     * Read database entry
-     *
-     * @return bool
-     */
-    protected function doRead()
+    protected function doRead(): void
     {
         $ilDB = $this->db;
 
@@ -187,38 +192,34 @@ abstract class ilVerificationObject extends ilObject2
                     );
                 }
             }
-            return true;
         }
-        return false;
     }
 
-    public function doCreate()
+    protected function doCreate(bool $clone_mode = false): void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
-    
-    public function doUpdate()
+
+    protected function doUpdate(): void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
-    
+
     /**
      * Save current properties to database
-     *
-     * @return bool
      */
-    protected function saveProperties()
+    protected function saveProperties(): bool
     {
         $ilDB = $this->db;
-        
+
         if ($this->id) {
             // remove all existing properties
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
-            
+
             foreach ($this->getPropertyMap() as $name => $type) {
                 $property = $this->exportProperty($name);
-                
+
                 $fields = array("id" => array("integer", $this->id),
                     "type" => array("text", $name),
                     "parameters" => array("text", $property["parameters"]),
@@ -226,21 +227,15 @@ abstract class ilVerificationObject extends ilObject2
 
                 $ilDB->insert("il_verification", $fields);
             }
-            
+
             $this->handleQuotaUpdate();
 
             return true;
         }
         return false;
     }
-    
 
-    /**
-     * Delete entry from database
-     *
-     * @return bool
-     */
-    public function doDelete()
+    protected function doDelete(): void
     {
         $ilDB = $this->db;
 
@@ -248,49 +243,48 @@ abstract class ilVerificationObject extends ilObject2
             // remove all files
             $storage = new ilVerificationStorageFile($this->id);
             $storage->delete();
-            
+
             $this->handleQuotaUpdate();
-            
+
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
-            return true;
         }
-        return false;
     }
-    
-    public static function initStorage($a_id, $a_subdir = null)
+
+    public static function initStorage(int $a_id, string $a_subdir = null): string
     {
         $storage = new ilVerificationStorageFile($a_id);
         $storage->create();
-        
+
         $path = $storage->getAbsolutePath() . "/";
-        
+
         if ($a_subdir) {
             $path .= $a_subdir . "/";
-            
+
             if (!is_dir($path)) {
                 mkdir($path);
             }
         }
-                
+
         return $path;
     }
-    
-    public function getFilePath()
+
+    public function getFilePath(): string
     {
         $file = $this->getProperty("file");
         if ($file) {
-            $path = $this->initStorage($this->getId(), "certificate");
+            $path = self::initStorage($this->getId(), "certificate");
             return $path . $file;
         }
+        return "";
     }
-    
-    public function getOfflineFilename()
+
+    public function getOfflineFilename(): string
     {
-        return ilUtil::getASCIIFilename($this->getTitle()) . ".pdf";
+        return ilFileUtils::getASCIIFilename($this->getTitle()) . ".pdf";
     }
-    
-    protected function handleQuotaUpdate()
+
+    protected function handleQuotaUpdate(): void
     {
     }
 }

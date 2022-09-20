@@ -9,8 +9,19 @@ namespace ILIAS\HTTP\Cookies;
 
 use PHPUnit\Framework\TestCase;
 
-require_once('./libs/composer/vendor/autoload.php');
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class CookieWrapperTest
  *
@@ -23,7 +34,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class CookieWrapperTest extends TestCase
 {
-
     /**
      * @var CookieWrapper $cookie
      */
@@ -34,14 +44,14 @@ class CookieWrapperTest extends TestCase
     private static $cookieFactory;
 
 
-    public static function setUpBeforeClass() : void
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$cookieFactory = new CookieFactoryImpl();
     }
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 

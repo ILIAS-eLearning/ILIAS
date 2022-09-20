@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -10,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilSamlMappedUserAttributeValueParserTest extends TestCase
 {
-    protected function getMappingRuleMock(string $externalAttributeReference) : ilExternalAuthUserAttributeMappingRule
+    protected function getMappingRuleMock(string $externalAttributeReference): ilExternalAuthUserAttributeMappingRule
     {
         $rule = $this->getMockBuilder(ilExternalAuthUserAttributeMappingRule::class)
             ->disableOriginalConstructor()
@@ -25,7 +41,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         return $rule;
     }
 
-    public function testValueGivenAsStringCanBeRetrievedForExternalAttribute() : void
+    public function testValueGivenAsStringCanBeRetrievedForExternalAttribute(): void
     {
         $expectedValue = 'ILIAS';
 
@@ -35,10 +51,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute() : void
+    public function testValueGivenAsArrayCanBeRetrievedForExternalAttribute(): void
     {
         $expectedValue = 'ILIAS';
 
@@ -48,10 +64,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $userData = [$attributeKey => $attributeValue];
 
         $parser = new ilSamlMappedUserAttributeValueParser($this->getMappingRuleMock($attributeKey), $userData);
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex() : void
+    public function testValueGivenAsArrayCanBeRetrievedForExternalAttributeWithSpecificIndex(): void
     {
         $expectedValue = 'ILIAS';
         $expectedValueIndex = 5;
@@ -65,10 +81,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
             $this->getMappingRuleMock($attributeKey . '|' . $expectedValueIndex),
             $userData
         );
-        $this->assertEquals($expectedValue, $parser->parse());
+        $this->assertSame($expectedValue, $parser->parse());
     }
 
-    public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing() : void
+    public function testExceptionIsRaisedIfAnExpectedAttributeIsMissing(): void
     {
         $this->expectException(ilSamlException::class);
 
@@ -79,7 +95,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $parser->parse();
     }
 
-    public function testExceptionIsRaisedIfAnExpectedValueCouldNotBeFoundForAnExpectedValueIndex() : void
+    public function testExceptionIsRaisedIfAnExpectedValueCouldNotBeFoundForAnExpectedValueIndex(): void
     {
         $this->expectException(ilSamlException::class);
 
@@ -98,7 +114,7 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $parser->parse();
     }
 
-    public function testExceptionIsRaisedForNonScalarValues() : void
+    public function testExceptionIsRaisedForNonScalarValues(): void
     {
         $this->expectException(ilSamlException::class);
 

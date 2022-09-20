@@ -1,28 +1,43 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
 
+/**
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ */
 class ilServicesUICoreSuite extends TestSuite
 {
-    public static function suite()
+    /**
+     * @return self
+     */
+    public static function suite(): self
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        $suite = new self();
 
-        $suite = new ilServicesUICoreSuite();
-    
-        include_once("./Services/UICore/test/ilTemplateTest.php");
-        $suite->addTestSuite("ilTemplateTest");
-        include_once("./Services/UICore/test/ilCtrlStructureReaderTest.php");
-        $suite->addTestSuite("ilCtrlStructureReaderTest");
-        include_once("./Services/UICore/test/ilCtrlStructureTest.php");
-        $suite->addTestSuite("ilCtrlStructureTest");
+        require_once __DIR__ . '/Iterator/ilCtrlIteratorSuite.php';
+        $suite->addTestSuite(ilCtrlIteratorSuite::class);
+
+        require_once __DIR__ . '/Paths/ilCtrlPathSuite.php';
+        $suite->addTestSuite(ilCtrlPathSuite::class);
+
+        require_once __DIR__ . '/Setup/ilCtrlSetupSuite.php';
+        $suite->addTestSuite(ilCtrlSetupSuite::class);
+
+        require_once __DIR__ . '/Structure/ilCtrlStructureSuite.php';
+        $suite->addTestSuite(ilCtrlStructureSuite::class);
+
+        require_once __DIR__ . '/Token/ilCtrlTokenSuite.php';
+        $suite->addTestSuite(ilCtrlTokenSuite::class);
+
+        require_once __DIR__ . '/ilCtrlContextTest.php';
+        $suite->addTestSuite(ilCtrlContextTest::class);
+
+        require_once __DIR__ . '/ilCtrlTest.php';
+        $suite->addTestSuite(ilCtrlTest::class);
 
         return $suite;
     }

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @ilCtrl_Calls ilContentPagePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
@@ -11,14 +28,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
     protected bool $isEmbeddedMode = false;
     protected string $language = '-';
 
-    /**
-     * ilContentPagePageGUI constructor.
-     * @param int $a_id
-     * @param int $a_old_nr
-     * @param bool $isEmbeddedMode
-     * @param string $language
-     */
-    public function __construct($a_id = 0, $a_old_nr = 0, $isEmbeddedMode = false, $language = '')
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, bool $isEmbeddedMode = false, string $language = '')
     {
         parent::__construct(self::OBJ_TYPE, $a_id, $a_old_nr, false, $language);
         $this->setTemplateTargetVar('ADM_CONTENT');
@@ -26,7 +36,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
-    public function getProfileBackUrl() : string
+    public function getProfileBackUrl(): string
     {
         if ($this->isEmbeddedMode) {
             return '';
@@ -35,7 +45,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         return parent::getProfileBackUrl();
     }
 
-    public function setDefaultLinkXml() : void
+    public function setDefaultLinkXml(): void
     {
         parent::setDefaultLinkXml();
 
@@ -44,7 +54,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
 
             try {
                 $linkXml = str_replace('<LinkTargets></LinkTargets>', '', $linkXml);
-                
+
                 $domDoc = new DOMDocument();
                 $domDoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $linkXml);
 
@@ -71,7 +81,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         }
     }
 
-    public function finishEditing() : void
+    public function finishEditing(): void
     {
         $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
     }

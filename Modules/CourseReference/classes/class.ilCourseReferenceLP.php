@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -23,9 +24,9 @@ class ilCourseReferenceLP extends ilObjectLP
 
     /**
      * @param bool $a_search
-     * @return int[]
+     * @return array
      */
-    public function getMembers($a_search = true)
+    public function getMembers(bool $a_search = true): array
     {
         if (!$a_search) {
             return [];
@@ -42,7 +43,7 @@ class ilCourseReferenceLP extends ilObjectLP
     /**
      * @inheritdoc
      */
-    public function getDefaultMode()
+    public function getDefaultMode(): int
     {
         return \ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
@@ -51,7 +52,7 @@ class ilCourseReferenceLP extends ilObjectLP
      * @param bool $a_lp_active
      * @return array
      */
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes(bool $a_lp_active): array
     {
         return [
             \ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -62,7 +63,7 @@ class ilCourseReferenceLP extends ilObjectLP
     /**
      * @inheritdoc
      */
-    public function getValidModes()
+    public function getValidModes(): array
     {
         return self::getDefaultModes(true);
     }

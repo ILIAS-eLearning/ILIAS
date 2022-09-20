@@ -1,44 +1,49 @@
 <?php
+
+declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
+use ILIAS\BackgroundTasks\Observer;
 
 /**
  * Description of class class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCalendarZipJob extends AbstractJob
 {
-    private $logger = null;
-    
-    
+    private ilLogger $logger;
+
     /**
      * Construct
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
-    }
-    
-    /**
-     * @inheritDoc
-     */
-    public function getInputTypes()
-    {
-        return
-        [
-            new SingleType(StringValue::class)
-        ];
+        global $DIC;
+
+        $this->logger = $DIC->logger()->cal();
     }
 
     /**
      * @inheritDoc
      */
-    public function getOutputType()
+    public function getInputTypes(): array
+    {
+        return
+            [
+                new SingleType(StringValue::class)
+            ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getOutputType(): Type
     {
         return new SingleType(StringValue::class);
     }
@@ -46,7 +51,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless()
+    public function isStateless(): bool
     {
         return true;
     }
@@ -55,17 +60,16 @@ class ilCalendarZipJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
+    public function run(array $input, Observer $observer): Value
     {
         $this->logger->debug('Start zipping input dir!');
-        $this->logger->dump($input);
         $tmpdir = $input[0]->getValue();
         $this->logger->debug('Zipping directory:' . $tmpdir);
-        
-        ilUtil::zip($tmpdir, $tmpdir . '.zip');
-        
+
+        ilFileUtils::zip($tmpdir, $tmpdir . '.zip');
+
         // delete temp directory
-        ilUtil::delDir($tmpdir);
+        ilFileUtils::delDir($tmpdir);
 
         $zip_file_name = new StringValue();
         $zip_file_name->setValue($tmpdir . '.zip');
@@ -75,7 +79,7 @@ class ilCalendarZipJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

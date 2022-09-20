@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -8,10 +24,8 @@
  */
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
-        global $DIC;
-
         $this->setId('mail_attachments');
 
         $this->setDefaultOrderDirection('ASC');
@@ -38,17 +52,18 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('mail_file_size'), 'filesize');
         $this->addColumn($this->lng->txt('create_date'), 'filecreatedate');
         // Show all attachments on one page
+        $this->setShowRowsSelector(false);
         $this->setLimit(PHP_INT_MAX);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
          */
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
-            ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
+            ilLegacyFormElementsUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
         );
         $this->tpl->setVariable(
             'VAL_FILENAME',
@@ -64,22 +79,17 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         );
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
 
-    protected function formatValue(string $column, string $value) : ?string
+    protected function formatValue(string $column, string $value): ?string
     {
-        switch ($column) {
-            case 'filecreatedate':
-                return ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX));
-
-            case 'filesize':
-                return ilUtil::formatSize($value);
-
-            default:
-                return $value;
-        }
+        return match ($column) {
+            'filecreatedate' => ilDatePresentation::formatDate(new ilDateTime($value, IL_CAL_UNIX)),
+            'filesize' => ilUtil::formatSize((int) $value),
+            default => $value,
+        };
     }
 }

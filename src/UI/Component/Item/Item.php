@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de>, Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
-use ILIAS\UI\Component\Dropdown\Standard;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Common interface to all items.
@@ -23,34 +39,24 @@ interface Item extends Component
     /**
      * Create a new item with an attached description.
      */
-    public function withDescription(string $description) : Item;
+    public function withDescription(string $description): Item;
 
     /**
      * Get the description of the item.
      */
-    public function getDescription() : ?string;
+    public function getDescription(): ?string;
 
     /**
      * Get a new item with the given properties as key-value pairs.
      * The key is holding the title and the value is holding the content of the
      * specific data set.
-     * @param array<string,string|Shy> $properties Label => Content
+     * @param array<string,string|Shy|Icon> $properties Label => Content
      */
-    public function withProperties(array $properties) : Item;
+    public function withProperties(array $properties): Item;
 
     /**
      * Get the properties of the appointment.
-     * @return array<string,string|Shy>		Title => Content
+     * @return array<string,string|Shy|Icon>		Title => Content
      */
-    public function getProperties() : array;
-
-    /**
-     * Create a new appointment item with a set of actions to perform on it.
-     */
-    public function withActions(Standard $actions) : Item;
-
-    /**
-     * Get the actions of the item.
-     */
-    public function getActions() : ?Standard;
+    public function getProperties(): array;
 }

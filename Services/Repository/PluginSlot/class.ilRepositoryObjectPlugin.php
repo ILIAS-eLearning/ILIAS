@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Abstract parent class for all repository object plugin classes.
@@ -26,68 +29,86 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     public function __construct()
     {
         global $DIC;
-        parent::__construct();
-
         $this->db = $DIC->database();
+        parent::__construct($this->db, $DIC["component.repository"], "xtst");
     }
 
-    public function getComponentType()
+    /**
+     * Only very little classes seem to care about this:
+     *    - Services/Repository/classes/class.ilRepositoryObjectPlugin.php
+     *    - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
+     *
+     * @param string $a_ctype
+     * @param string $a_cname
+     * @param string $a_slot_id
+     * @param string $a_pname
+     * @param string $a_img
+     *
+     * @return string
+     */
+    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img): string
     {
-        return IL_COMP_SERVICE;
-    }
-    
-    public function getComponentName()
-    {
-        return "Repository";
+        global $DIC;
+
+        $img = ilUtil::getImagePath($a_img);
+        if (is_int(strpos($img, "Customizing"))) {
+            return $img;
+        }
+
+        $component_repository = $DIC["component.repository"];
+
+        $plugin = $component_repository->getPluginByName($a_pname);
+        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
+
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
+
+        $img = ilUtil::getImagePath($d2 . "/" . $a_img);
+        if (is_int(strpos($img, "Customizing"))) {
+            return $img;
+        }
+
+        $d = $plugin->getPath();
+
+        return $d . "/templates/images/" . $a_img;
     }
 
-    public function getSlot()
-    {
-        return "RepositoryObject";
-    }
 
-    public function getSlotId()
-    {
-        return "robj";
-    }
 
-    protected function slotInit()
+    public static function _getIcon(string $a_type): string
     {
-        // nothing to do here
-    }
-    
-    public static function _getIcon(string $a_type) : string
-    {
-        return ilPlugin::_getImagePath(
-            IL_COMP_SERVICE,
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        return self::_getImagePath(
+            ilComponentInfo::TYPE_SERVICES,
             "Repository",
             "robj",
-            ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type),
+            $component_repository->getPluginById($a_type)->getName(),
             "icon_" . $a_type . ".svg"
         );
     }
-    
-    public static function _getName(string $a_id) : string
+
+    public static function _getName(string $a_id): string
     {
-        $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_id);
-        if ($name != "") {
-            return $name;
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        if (!$component_repository->hasPluginId($a_id)) {
+            return "";
         }
-        return "";
+        return $component_repository->getPluginById($a_id)->getName();
     }
-    
-    protected function beforeActivation()
+
+    protected function beforeActivation(): bool
     {
         $ilDB = $this->db;
-        
+
         // before activating, we ensure, that the type exists in the ILIAS
         // object database and that all permissions exist
         $type = $this->getId();
-        
-        if (substr($type, 0, 1) != "x") {
+
+        if (strpos($type, "x") !== 0) {
             throw new ilPluginException("Object plugin type must start with an x. Current type is " . $type . ".");
         }
-        
+
         // check whether type exists in object data, if not, create the type
         $set = $ilDB->query(
             "SELECT * FROM object_data " .
@@ -112,7 +133,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
         // add rbac operations
         // 1: edit_permissions, 2: visible, 3: read, 4:write, 6:delete
-        $ops = array(1, 2, 3, 4, 6);
+        $ops = [1, 2, 3, 4, 6];
         if ($this->allowCopy()) {
             $ops[] = ilRbacReview::_getOperationIdByName("copy");
         }
@@ -131,7 +152,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                     ")");
             }
         }
-        
+
         // now add creation permission, if not existing
         $set = $ilDB->query(
             "SELECT * FROM rbac_operations " .
@@ -150,7 +171,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 $ilDB->quote("create", "text") .
                 ")");
         }
-        
+
         // assign creation operation to root, cat, crs, grp and fold
         $par_types = $this->getParentTypes();
         foreach ($par_types as $par_type) {
@@ -159,42 +180,40 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 " WHERE type = " . $ilDB->quote("typ", "text") .
                 " AND title = " . $ilDB->quote($par_type, "text")
             );
-            if ($rec = $ilDB->fetchAssoc($set)) {
-                if ($rec["obj_id"] > 0) {
-                    $set = $ilDB->query(
-                        "SELECT * FROM rbac_ta " .
-                        " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                        " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
-                    );
-                    if (!$ilDB->fetchAssoc($set)) {
-                        $ilDB->manipulate("INSERT INTO rbac_ta " .
-                            "(typ_id, ops_id) VALUES (" .
-                            $ilDB->quote($rec["obj_id"], "integer") . "," .
-                            $ilDB->quote($create_ops_id, "integer") .
-                            ")");
-                    }
+            if (($rec = $ilDB->fetchAssoc($set)) && $rec["obj_id"] > 0) {
+                $set = $ilDB->query(
+                    "SELECT * FROM rbac_ta " .
+                    " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
+                    " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
+                );
+                if (!$ilDB->fetchAssoc($set)) {
+                    $ilDB->manipulate("INSERT INTO rbac_ta " .
+                        "(typ_id, ops_id) VALUES (" .
+                        $ilDB->quote($rec["obj_id"], "integer") . "," .
+                        $ilDB->quote($create_ops_id, "integer") .
+                        ")");
                 }
             }
         }
-        
+
         return true;
     }
-    
-    protected function beforeUninstallCustom() : bool
+
+    protected function beforeUninstallCustom(): bool
     {
         // plugin-specific
         // false would indicate that anything went wrong
         return true;
     }
-    
-    abstract protected function uninstallCustom() : void;
-    
-    final protected function beforeUninstall()
+
+    abstract protected function uninstallCustom(): void;
+
+    final protected function beforeUninstall(): bool
     {
         if ($this->beforeUninstallCustom()) {
             $rep_util = new ilRepUtil();
             $rep_util->deleteObjectType($this->getId());
-            
+
             // custom database tables may be needed by plugin repository object
             $this->uninstallCustom();
 
@@ -206,16 +225,16 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * @return string[]
      */
-    public function getParentTypes() : array
+    public function getParentTypes(): array
     {
-        $par_types = array("root", "cat", "crs", "grp", "fold");
+        $par_types = ["root", "cat", "crs", "grp", "fold"];
         return $par_types;
     }
 
     /**
      * decides if this repository plugin can be copied
      */
-    public function allowCopy() : bool
+    public function allowCopy(): bool
     {
         return false;
     }
@@ -223,7 +242,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * Decide if this repository plugin uses OrgUnit Permissions
      */
-    public function useOrguPermissions() : bool
+    public function useOrguPermissions(): bool
     {
         return false;
     }

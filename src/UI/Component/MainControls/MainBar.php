@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -22,12 +38,12 @@ interface MainBar extends Component, JavaScriptBindable
      * @param Button\Bulky|Link\Bulky|Slate\Slate $entry
      * @throws \InvalidArgumentException 	if $id is already taken
      */
-    public function withAdditionalEntry(string $id, $entry) : MainBar;
+    public function withAdditionalEntry(string $id, $entry): MainBar;
 
     /**
      * @return array <string, Button\Bulky|Link\Bulky|Slate>
      */
-    public function getEntries() : array;
+    public function getEntries(): array;
 
     /**
      * Append a tool-entry.
@@ -41,74 +57,74 @@ interface MainBar extends Component, JavaScriptBindable
         Slate\Slate $entry,
         bool $initially_hidden = false,
         Button\Close $close_button = null
-    ) : MainBar;
+    ): MainBar;
 
     /**
      * @return array <string, Slate>
      */
-    public function getToolEntries() : array;
+    public function getToolEntries(): array;
 
     /**
      * @throws \InvalidArgumentException 	if $active is not an element-identifier in entries
      */
-    public function withActive(string $active) : MainBar;
+    public function withActive(string $active): MainBar;
 
-    public function getActive() : ?string;
+    public function getActive(): ?string;
 
     /**
      * Set button for the tools-trigger.
      */
-    public function withToolsButton(Button\Bulky $button) : MainBar;
+    public function withToolsButton(Button\Bulky $button): MainBar;
 
     /**
      * Returns the button of the tools-trigger.
      */
-    public function getToolsButton() : Button\Bulky;
+    public function getToolsButton(): Button\Bulky;
 
     /**
      * Get the signal that is triggered when any entry in the bar is clicked.
      */
-    public function getEntryClickSignal() : Signal;
+    public function getEntryClickSignal(): Signal;
 
     /**
      * Get the signal that is triggered when any entry in the tools-button is clicked.
      */
-    public function getToolsClickSignal() : Signal;
+    public function getToolsClickSignal(): Signal;
 
     /**
      * Get the signal that is used for removing a tool.
      */
-    public function getToolsRemovalSignal() : Signal;
+    public function getToolsRemovalSignal(): Signal;
 
     /**
      * This signal disengages all slates when triggered.
      */
-    public function getDisengageAllSignal() : Signal;
+    public function getDisengageAllSignal(): Signal;
 
     /**
      * There are tools that are rendered invisible before first activation.
      * @return string[]
      */
-    public function getInitiallyHiddenToolIds() : array;
+    public function getInitiallyHiddenToolIds(): array;
 
     /**
      * Signal to engage a tool from outside the MainBar.
      */
-    public function getEngageToolSignal(string $tool_id) : Signal;
+    public function getEngageToolSignal(string $tool_id): Signal;
 
     /**
      * Buttons to close tools; maybe configure with callback.
      * @return array <string, Button\Close>
      */
-    public function getCloseButtons() : array;
+    public function getCloseButtons(): array;
 
     /**
      * Get a copy of this MainBar without any entries.
      */
-    public function withClearedEntries() : MainBar;
+    public function withClearedEntries(): MainBar;
 
     /**
      * Signal to toggle the tools-section.
      */
-    public function getToggleToolsSignal() : Signal;
+    public function getToggleToolsSignal(): Signal;
 }

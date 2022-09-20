@@ -1,17 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCVerificationGUI
@@ -35,13 +40,13 @@ class ilPCVerificationGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
 
-    public function insert(?ilPropertyFormGUI $a_form = null) : void
+    public function insert(?ilPropertyFormGUI $a_form = null): void
     {
         $this->displayValidationError();
 
@@ -51,7 +56,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function edit(?ilPropertyFormGUI $a_form = null) : void
+    public function edit(?ilPropertyFormGUI $a_form = null): void
     {
         $this->displayValidationError();
 
@@ -64,7 +69,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
     /**
      * @return array<int, array>
      */
-    private function getValidWorkspaceCertificateNodeByIdMap() : array
+    private function getValidWorkspaceCertificateNodeByIdMap(): array
     {
         $nodes = [];
 
@@ -86,7 +91,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
      * @return array<int, ilUserCertificatePresentation>
      * @throws JsonException
      */
-    private function getValidCertificateByIdMap() : array
+    private function getValidCertificateByIdMap(): array
     {
         $certificates = [];
 
@@ -99,7 +104,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $certificates;
     }
 
-    protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('wsp');
 
@@ -186,7 +191,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -197,14 +202,14 @@ class ilPCVerificationGUI extends ilPageContentGUI
             try {
                 $certificateFileService->createCertificateFile($userId, $objectId);
             } catch (\ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
-                ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_not_found_error'), true);
                 $this->log->warning($e->getMessage());
             } catch (\ILIAS\Filesystem\Exception\IOException $e) {
-                ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_input_output_error'), true);
                 $this->log->error($e->getMessage());
                 $this->ctrl->redirect($this, 'initForm');
             } catch (ilException $e) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'), true);
                 $this->log->error($e->getMessage());
                 $this->ctrl->redirect($this, 'initForm');
             }
@@ -228,7 +233,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
      * @throws JsonException
      * @throws ilDateTimeException
      */
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -260,13 +265,13 @@ class ilPCVerificationGUI extends ilPageContentGUI
                         $this->content_obj->setData('crta', $objectId);
                     }
                 } catch (\ILIAS\Filesystem\Exception\FileNotFoundException | \ILIAS\Filesystem\Exception\FileAlreadyExistsException $e) {
-                    ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_not_found_error'), true);
                     $this->log->warning($e->getMessage());
                 } catch (\ILIAS\Filesystem\Exception\IOException $e) {
-                    ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'), true);
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_input_output_error'), true);
                     $this->log->warning($e->getMessage());
                 } catch (ilException $e) {
-                    ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'), true);
                     $this->log->error($e->getMessage());
                     $this->ctrl->redirect($this, 'initForm');
                 }
@@ -280,10 +285,10 @@ class ilPCVerificationGUI extends ilPageContentGUI
                         (int) $oldContentData['id']
                     );
                 } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
-                    ilUtil::sendInfo($this->lng->txt('certificate_file_not_found_error'));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_not_found_error'));
                     $this->log->warning($e->getMessage());
                 } catch (\ILIAS\Filesystem\Exception\IOException $e) {
-                    ilUtil::sendInfo($this->lng->txt('certificate_file_input_output_error'));
+                    $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_file_input_output_error'));
                     $this->log->warning($e->getMessage());
                 }
             }

@@ -1,52 +1,59 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 // namespace ILIAS\Modules\OrgUnit\Positions\Authorities;
 
 /**
  * Class ilOrguAuthority
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitAuthority extends \ActiveRecord
 {
-    const FIELD_OVER = 'over';
-    const OVER_EVERYONE = -1;
-    const POSITION_ID = "position_id";
-    const SCOPE_SAME_ORGU = 1;
-    const SCOPE_SUBSEQUENT_ORGUS = 2;
-    const SCOPE_ALL_ORGUS = 3;
+    public const FIELD_OVER = 'over';
+    public const OVER_EVERYONE = -1;
+    public const POSITION_ID = "position_id";
+    public const SCOPE_SAME_ORGU = 1;
+    public const SCOPE_SUBSEQUENT_ORGUS = 2;
+    public const SCOPE_ALL_ORGUS = 3;
     /**
      * @var array
      */
     protected static $scopes
         = array(
             self::SCOPE_SAME_ORGU,
-            self::SCOPE_SUBSEQUENT_ORGUS,
-            //		self::SCOPE_ALL_ORGUS,
+            self::SCOPE_SUBSEQUENT_ORGUS
         );
 
-
     /**
-     * @return array
+     * @return int[]
      */
-    public static function getScopes()
+    public static function getScopes(): array
     {
         return self::$scopes;
     }
 
-
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_orgu_authority";
     }
 
-
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_sequence   true
@@ -57,50 +64,40 @@ class ilOrgUnitAuthority extends \ActiveRecord
     protected $id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $over = self::OVER_EVERYONE;
+    protected int $over = self::OVER_EVERYONE;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $scope = self::SCOPE_SAME_ORGU;
+    protected int $scope = self::SCOPE_SAME_ORGU;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $position_id = 0;
-    /**
-     * @var \Closure
-     */
-    protected static $name_render;
-
+    protected int $position_id = 0;
+    protected static ?\Closure $name_render = null;
 
     /**
      * ilOrgUnitAuthority constructor.
-     *
-     * @param int               $primary_key
-     * @param \arConnector|null $connector
+     * @param                $primary_key
      */
-    public function __construct($primary_key = 0, \arConnector $connector = null)
+    public function __construct($primary_key = 0)
     {
-        parent::__construct($primary_key, $connector);
-        if (!self::$name_render) {
+        parent::__construct($primary_key);
+        if (static::$name_render === null) {
             self::$name_render = function ($id) {
                 return $id;
             };
         }
     }
-
 
     /**
      * @param \Closure $closure
@@ -110,22 +107,14 @@ class ilOrgUnitAuthority extends \ActiveRecord
         self::$name_render = $closure;
     }
 
-
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         $renderer = self::$name_render;
 
-        return $renderer($this->getId());
+        return (string) $renderer($this->getId());
     }
 
-
-    /**
-     * @return array
-     */
-    public function __toArray()
+    public function __toArray(): array
     {
         return array(
             'id' => $this->getId(),
@@ -135,63 +124,47 @@ class ilOrgUnitAuthority extends \ActiveRecord
         );
     }
 
-
     /**
-     * @return int
+     * @return mixed
      */
     public function getId()
     {
         return $this->id;
     }
 
-
     /**
-     * @param int $id
+     * @param mixed
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getOver()
+    public function getOver(): int
     {
         return $this->over;
     }
 
-
     /**
      * This is either an ID of a position or ilOrgUnitAuthority::OVER_EVERYONE
-     *
-     * @param int $over
      */
-    public function setOver($over)
+    public function setOver(int $over)
     {
         $this->over = $over;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getScope()
+    public function getScope(): int
     {
         return $this->scope;
     }
 
-
     /**
      * This is either ilOrgUnitAuthority::SCOPE_SAME_ORGU, ilOrgUnitAuthority::SCOPE_ALL_ORGUS or
      * ilOrgUnitAuthority::SCOPE_SUBSEQUENT_ORGUS
-     *
      * @param int $scope
-     *
      * @throws \ilException
      */
-    public function setScope($scope)
+    public function setScope(int $scope): void
     {
         if (!in_array($scope, self::$scopes)) {
             throw new ilException('Selected Scop in ' . self::class . ' not allowed');
@@ -199,20 +172,12 @@ class ilOrgUnitAuthority extends \ActiveRecord
         $this->scope = $scope;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getPositionId()
+    public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-
-    /**
-     * @param int $position_id
-     */
-    public function setPositionId($position_id)
+    public function setPositionId(int $position_id)
     {
         $this->position_id = $position_id;
     }

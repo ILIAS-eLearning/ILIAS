@@ -1,97 +1,69 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-
 
 /**
  * Stores the applied template id for objects
- *
- * @author Stefan Meyer <meyer@ilias@gmx.de>
+ * @author  Stefan Meyer <meyer@ilias@gmx.de>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateObjSettings
 {
-
-    /**
-     * Lookup template id
-     * @param int $a_ref_id
-     * @return int
-     */
-    public static function lookupTemplateId(int $a_ref_id) : int
+    public static function lookupTemplateId(int $a_ref_id): int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT tpl_id FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->tpl_id;
+            return (int) $row->tpl_id;
         }
+
         return 0;
     }
 
-
-    /**
-     * Delete by obj id
-     * @param int $a_obj_id
-     * @return void
-     */
-    public static function deleteByObjId(int $a_obj_id) : void
+    public static function deleteByObjId(int $a_obj_id): void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Delete by template id
-     * @param int $a_tpl_id
-     * @return void
-     */
-    public static function deleteByTemplateId(int $a_tpl_id) : void
+    public static function deleteByTemplateId(int $a_tpl_id): void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Delete by ref_id
-     * @param int $a_ref_id
-     */
-    public static function deleteByRefId(int $a_ref_id) : void
+    public static function deleteByRefId(int $a_ref_id): void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Assign template to object
-     * @param int $a_obj_id
-     * @param int $a_tpl_id
-     * @return void
-     */
-    public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id) : void
+    public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id): void
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         self::deleteByRefId($a_ref_id);
 
@@ -103,33 +75,34 @@ class ilDidacticTemplateObjSettings
             ')';
         $ilDB->manipulate($query);
     }
+
     /**
-     * Lookup template id
      * @param int $a_tpl_id
-     * @return array[]
+     * @return array{ref_id: int, obj_id: int}[]
      */
-    public static function getAssignmentsByTemplateID(int $a_tpl_id) : array
+    public static function getAssignmentsByTemplateID(int $a_tpl_id): array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT * FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
         $res = $ilDB->query($query);
-        $assignments = array();
+        $assignments = [];
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $assignments[] = array("ref_id" => $row->ref_id, "obj_id" => $row->obj_id);
+            $assignments[] = ["ref_id" => (int) $row->ref_id, "obj_id" => (int) $row->obj_id];
         }
+
         return $assignments;
     }
 
     /**
      * @param int[] $template_ids
-     * @return array
+     * @return array<int, int[]>
      */
-    public static function getAssignmentsForTemplates(array $template_ids) : array
+    public static function getAssignmentsForTemplates(array $template_ids): array
     {
         global $DIC;
 
@@ -139,23 +112,23 @@ class ilDidacticTemplateObjSettings
         $res = $db->query($query);
         $assignments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $assignments[$row->tpl_id][] = $row->ref_id;
+            $assignments[(int) $row->tpl_id][] = (int) $row->ref_id;
         }
+
         return $assignments;
     }
 
-
     /**
-     * transfer auto generated flag if source is auto generated
+     * Transfer auto generated flag if source is auto generated
      * @param int $a_src
      * @param int $a_dest
      * @return bool
      */
-    public static function transferAutoGenerateStatus(int $a_src, int $a_dest) : bool
+    public static function transferAutoGenerateStatus(int $a_src, int $a_dest): bool
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT auto_generated FROM didactic_tpl_settings ' .
             'WHERE id = ' . $ilDB->quote($a_src, 'integer');
@@ -163,7 +136,7 @@ class ilDidacticTemplateObjSettings
 
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-        if ($row->auto_generated == 0) {
+        if ((int) $row->auto_generated === 0) {
             return false;
         }
 

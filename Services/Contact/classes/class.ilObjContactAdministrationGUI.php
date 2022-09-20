@@ -1,5 +1,24 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Notifications\ilNotificationDatabaseHandler;
 
 /**
  * Class ilObjContactAdministrationGUI
@@ -9,35 +28,18 @@
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
-    protected \ILIAS\DI\Container $dic;
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-    protected ilErrorHandling $error;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
-        global $DIC, $ilErr;
-
-        $this->dic = $DIC;
-        $this->rbacsystem = $this->dic->rbac()->system();
-        $this->lng = $this->dic->language();
-        $this->error = $ilErr;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return 'cadm';
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('read')) {
             $this->tabs_gui->addTarget(
@@ -58,7 +60,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -79,8 +81,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
     }
 
-    
-    protected function getConfigurationForm() : ilPropertyFormGUI
+
+    protected function getConfigurationForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('settings'));
@@ -106,10 +108,10 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         return $form;
     }
 
-    
-    protected function showConfigurationForm(ilPropertyFormGUI $form = null) : void
+
+    protected function showConfigurationForm(ilPropertyFormGUI $form = null): void
     {
-        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -126,8 +128,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    
-    protected function saveConfigurationForm() : void
+
+    protected function saveConfigurationForm(): void
     {
         $this->checkPermission('write');
 
@@ -162,7 +164,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
         ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
 
-        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -13,17 +14,17 @@ class ilTestSkillPointAccount
     private $totalMaxSkillPoints;
 
     private $totalReachedSkillPoints;
-    
+
     private $numBookings;
-    
+
     public function __construct()
     {
         $this->totalMaxSkillPoints = 0;
         $this->totalReachedSkillPoints = 0;
-        
+
         $this->numBookings = 0;
     }
-    
+
     public function addBooking($maxSkillPoints, $reachedSkillPoints)
     {
         $this->totalMaxSkillPoints += $maxSkillPoints;
@@ -31,22 +32,22 @@ class ilTestSkillPointAccount
 
         $this->numBookings++;
     }
-    
-    public function getTotalMaxSkillPoints()
+
+    public function getTotalMaxSkillPoints(): int
     {
         return $this->totalMaxSkillPoints;
     }
 
-    public function getTotalReachedSkillPoints()
+    public function getTotalReachedSkillPoints(): int
     {
         return $this->totalReachedSkillPoints;
     }
-    
-    public function getNumBookings()
+
+    public function getNumBookings(): int
     {
         return $this->numBookings;
     }
-    
+
     public function getTotalReachedSkillPercent()
     {
         return (

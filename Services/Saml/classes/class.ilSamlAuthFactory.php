@@ -1,19 +1,36 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Class ilSamlAuthFactory
  */
-class ilSamlAuthFactory
+final class ilSamlAuthFactory
 {
     private const METADATA_PATH = 'auth/saml/config';
 
     /**
-     * @param string $authSourceName
-     * @return ilSamlAuth
      * @throws Exception
      */
-    public function auth(string $authSourceName = 'default-sp') : ilSamlAuth
+    public function auth(string $authSourceName = 'default-sp'): ilSamlAuth
     {
         return new ilSimpleSAMLphpWrapper(
             $authSourceName,
@@ -22,10 +39,9 @@ class ilSamlAuthFactory
     }
 
     /**
-     * @return string
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    public function getConfigDirectory() : string
+    public function getConfigDirectory(): string
     {
         global $DIC;
 
@@ -33,6 +49,6 @@ class ilSamlAuthFactory
 
         $fs->createDir(self::METADATA_PATH);
 
-        return rtrim(ilUtil::getDataDir(), '/') . '/' . self::METADATA_PATH;
+        return rtrim(ilFileUtils::getDataDir(), '/') . '/' . self::METADATA_PATH;
     }
 }

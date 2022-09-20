@@ -6,7 +6,7 @@
 	<!-- END cb -->
 	<!-- BEGIN nr -->
 	<td class="std small">
-		<input type="text" class="form-control" name="order[{ORD_ID}]" value="{VAL_NR}" size="4" max_length="4" />
+		<input type="text" class="form-control" name="order[{ORD_ID}]" value="{VAL_NR}" size="4" max_length="4"<!-- BEGIN disabled --> disabled="disabled"<!-- END disabled --> />
 	</td>
 	<!-- END nr -->
 	<td class="std small">
@@ -14,17 +14,16 @@
 	</td>
 	<td class="std small">
 		{TXT_DESCRIPTION}
-	</td>	
-<!--	<td class="std small">
-		{TXT_TRIGGER}
 	</td>
 	<td class="std small">
-		{TXT_CERTIFICATE}
-	</td> -->
-	<td class="std small">
-		<!-- BEGIN ressource_bl -->
+		<!-- BEGIN ressource_sugg -->
 		<a href="{RSRC_URL}">{RSRC_IMG} {RSRC_TITLE}</a><br />
-		<!-- END ressource_bl -->
+		<!-- END ressource_sugg -->
+	</td>
+	<td class="std small">
+		<!-- BEGIN ressource_trigg -->
+		<a href="{RSRC_URL}">{RSRC_IMG} {RSRC_TITLE}</a><br />
+		<!-- END ressource_trigg -->
 	</td>
 	<td class="std small">
 	<!-- BEGIN cmd --><a href="{HREF_CMD}">{TXT_CMD}</a><!-- END cmd -->

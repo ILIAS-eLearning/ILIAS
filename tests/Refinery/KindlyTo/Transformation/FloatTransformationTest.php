@@ -1,33 +1,44 @@
 <?php
 
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
-
-require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\FloatTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 
-/**
- * Test transformations in this Group
- */
 class FloatTransformationTest extends TestCase
 {
-    private $transformation;
+    private FloatTransformation $transformation;
 
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new FloatTransformation();
     }
 
     /**
      * @dataProvider FloatTestDataProvider
-     * @param $originVal
-     * @param $expectedVal
+     * @param mixed $originVal
+     * @param float $expectedVal
      */
-    public function testFloatTransformation($originVal, $expectedVal)
+    public function testFloatTransformation($originVal, float $expectedVal): void
     {
         $transformedValue = $this->transformation->transform($originVal);
         $this->assertIsFloat($transformedValue);
@@ -36,9 +47,9 @@ class FloatTransformationTest extends TestCase
 
     /**
      * @dataProvider FailingTransformationDataProvider
-     * @param $failingVal
+     * @param mixed $failingVal
      */
-    public function testFailingTransformations($failingVal)
+    public function testFailingTransformations($failingVal): void
     {
         $this->expectNotToPerformAssertions();
         try {
@@ -49,7 +60,7 @@ class FloatTransformationTest extends TestCase
         $this->fail();
     }
 
-    public function FailingTransformationDataProvider()
+    public function FailingTransformationDataProvider(): array
     {
         return [
             'null' => [null],
@@ -62,13 +73,15 @@ class FloatTransformationTest extends TestCase
             'neg_INF' => [-INF],
             'written_INF' => ['INF'],
             'written_neg_INF' => ['-INF'],
-            'weird_notation1' => ["01"],
-            'weird_notation2' => ["-01"],
-            'mill_delim' => ["1'000"]
+            'octal_notation1' => ["01"],
+            'octal_notation2' => ["-01"],
+            'mill_delim' => ["1'000"],
+            'leading_dot' => [".5"],
+            'leading_comma' => [",661"]
         ];
     }
 
-    public function FloatTestDataProvider()
+    public function FloatTestDataProvider(): array
     {
         return [
             'some_float' => [1.0, 1.0],
@@ -86,7 +99,13 @@ class FloatTransformationTest extends TestCase
             'neg_string_e_notation_trimming' => [' -7E10 ', -70000000000],
             'int_val' => [23, 23.0],
             'neg_int_val' => [-2, -2.0],
-            'zero_int' => [0, 0.0]
+            'zero_int' => [0, 0.0],
+            'zero_string' => ["0", 0.0],
+            'float_st_one' => [0.1, 0.1],
+            'floatstr_st_one' => ['0.1', 0.1],
+            'floatstr_st_one_negative' => ['-0.1', -0.1],
+            'floatstr_st_one_comma' => ['0,1', 0.1],
+            'floatstr_st_one_comma_negative' => ['-0,1', -0.1]
         ];
     }
 }

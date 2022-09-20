@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * COPage Data set class
@@ -27,27 +30,27 @@ class ilCOPageDataSet extends ilDataSet
     protected ilPageLayout $current_obj;
     protected bool $master_lang_only = false;
 
-    public function setMasterLanguageOnly(bool $a_val) : void
+    public function setMasterLanguageOnly(bool $a_val): void
     {
         $this->master_lang_only = $a_val;
     }
 
-    public function getMasterLanguageOnly() : bool
+    public function getMasterLanguageOnly(): bool
     {
         return $this->master_lang_only;
     }
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.2.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Services/COPage/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // pgtp: page layout template
         if ($a_entity == "pgtp") {
@@ -64,14 +67,14 @@ class ilCOPageDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $db = $this->db;
 
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-                
+
         // mep_data
         if ($a_entity == "pgtp") {
             switch ($a_version) {
@@ -85,7 +88,7 @@ class ilCOPageDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
      * Determine the dependent sets of data
      */
@@ -94,11 +97,11 @@ class ilCOPageDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         return [];
     }
-    
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
         switch ($a_entity) {
             case "pgtp":
@@ -107,7 +110,7 @@ class ilCOPageDataSet extends ilDataSet
                 $pt->setDescription($a_rec["Description"]);
                 $pt->setSpecialPage($a_rec["SpecialPage"]);
                 $pt->update();
-                
+
                 $this->current_obj = $pt;
                 $a_mapping->addMapping(
                     "Services/COPage",

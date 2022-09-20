@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestExport.php';
@@ -18,8 +19,8 @@ class ilTestExportFixedQuestionSet extends ilTestExport
     protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
     {
     }
-    
-    protected function getQuestionsQtiXml()
+
+    protected function getQuestionsQtiXml(): string
     {
         $questionQtiXml = '';
 
@@ -29,8 +30,8 @@ class ilTestExportFixedQuestionSet extends ilTestExport
 
         return $questionQtiXml;
     }
-    
-    protected function getQuestionIds()
+
+    protected function getQuestionIds(): array
     {
         return $this->test_obj->questions;
     }

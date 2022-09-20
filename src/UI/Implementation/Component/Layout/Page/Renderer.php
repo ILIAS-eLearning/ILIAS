@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
@@ -21,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -32,13 +48,17 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render: " . get_class($component));
     }
 
-
     protected function renderStandardPage(
         Component\Layout\Page\Standard $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
+        $tpl->setVariable('FAVICON_PATH', $component->getFaviconPath());
+
+        if ($component->hasOverlay()) {
+            $tpl->setVariable('OVERLAY', $default_renderer->render($component->getOverlay()));
+        }
         if ($component->hasMetabar()) {
             $tpl->setVariable('METABAR', $default_renderer->render($component->getMetabar()));
         }
@@ -60,12 +80,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
         }
         if ($component->hasLogo()) {
-            $logo = $component->getLogo();
-            if ($logo) {
-                $tpl->setVariable("LOGO", $default_renderer->render($logo));
-            }
+            $tpl->setVariable('LOGO', $default_renderer->render($component->getLogo()));
+        }
+        if ($component->hasResponsiveLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getResponsiveLogo()));
+        } elseif ($component->hasLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getLogo()));
         }
 
+        // There is a roadmap entry for this.
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
@@ -86,12 +109,19 @@ class Renderer extends AbstractComponentRenderer
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
         }
 
+        foreach ($component->getMetaData() as $meta_key => $meta_value) {
+            $tpl->setCurrentBlock('meta_datum');
+            $tpl->setVariable('META_KEY', $meta_key);
+            $tpl->setVariable('META_VALUE', $meta_value);
+            $tpl->parseCurrentBlock();
+        }
+
         return $tpl->get();
     }
 
     protected function convertBreadcrumbsToDropdownLocator(
         Component\Breadcrumbs\Breadcrumbs $breadcrumbs
-    ) : Component\Dropdown\Dropdown {
+    ): Component\Dropdown\Dropdown {
         $f = $this->getUIFactory();
         $buttons = [];
         $items = array_reverse($breadcrumbs->getItems());
@@ -112,7 +142,7 @@ class Renderer extends AbstractComponentRenderer
      * with resources set as properties at the page or similar mechanisms.
      * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
      */
-    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false) : Template
+    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false): Template
     {
         global $DIC;
         $il_tpl = $DIC["tpl"] ?? null;
@@ -142,14 +172,15 @@ class Renderer extends AbstractComponentRenderer
             $base_url = '../../../../../../';
             $tpl->setVariable("BASE", $base_url);
 
-            array_unshift($js_files, './Services/JavaScript/js/Basic.js');
+            $additional_js_files = [
+                iljQueryUtil::getLocaljQueryPath(),
+                './Services/JavaScript/js/Basic.js',
+                ilUIFramework::BOWER_BOOTSTRAP_JS,
+                './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js',
+            ];
 
-            foreach (ilUIFramework::getJSFiles() as $il_js_file) {
-                array_unshift($js_files, $il_js_file);
-            }
+            array_unshift($js_files, ...$additional_js_files);
 
-            array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
-            array_unshift($js_files, iljQueryUtil::getLocaljQueryPath());
             $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
@@ -167,14 +198,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("CSS_INLINE", implode(PHP_EOL, $css_inline));
         $tpl->setVariable("OLCODE", implode(PHP_EOL, $js_inline));
 
-
         return $tpl;
     }
 
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Page/stdpage.js');
@@ -183,7 +213,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             Component\Layout\Page\Standard::class

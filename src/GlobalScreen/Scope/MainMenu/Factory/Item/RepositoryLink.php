@@ -1,4 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
@@ -10,10 +29,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
-use ILIAS\UI\Component\Changeable;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
-use ilObject2;
+use LogicException;
 
 /**
  * Class Link
@@ -21,32 +39,29 @@ use ilObject2;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem, isTopItem
+class RepositoryLink extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isTopItem,
+    isChild
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
     use isInterchangeableItemTrait;
 
-    /**
-     * @var int
-     */
-    protected $ref_id = 0;
-    /**
-     * @var string
-     */
-    protected $alt_text;
-    /**
-     * @var string
-     */
-    protected $title = '';
+    protected int $ref_id = 0;
+    protected string $alt_text;
+    protected string $title = '';
 
     /**
      * @param string $title
      * @return RepositoryLink
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -55,18 +70,14 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $alt_text
-     * @return RepositoryLink
-     */
-    public function withAltText(string $alt_text) : RepositoryLink
+    public function withAltText(string $alt_text): self
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -75,7 +86,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     /**
      * @return string
      */
-    public function getAltText() : string
+    public function getAltText(): string
     {
         return $this->alt_text;
     }
@@ -83,7 +94,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     /**
      * @return string
      */
-    final public function getAction() : string
+    final public function getAction(): string
     {
         return ilLink::_getLink($this->ref_id);
     }
@@ -92,27 +103,23 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      * @param string $action
      * @return hasAction
      */
-    public function withAction(string $action) : hasAction
+    public function withAction(string $action): hasAction
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = (int) $action;
 
         return $clone;
     }
 
-    /**
-     * @param int $ref_id
-     * @return RepositoryLink
-     */
-    public function withRefId(int $ref_id) : RepositoryLink
+    public function withRefId(int $ref_id): self
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = $ref_id;
 
         return $clone;
     }
 
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return $this->symbol;
     }
@@ -120,7 +127,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     /**
      * @return int
      */
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
@@ -128,17 +135,16 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     /**
      * @inheritDoc
      */
-    public function withIsLinkToExternalAction(bool $is_external) : hasAction
+    public function withIsLinkToExternalAction(bool $is_external): hasAction
     {
-        throw new \LogicException("Repository-Links are always internal");
+        throw new LogicException("Repository-Links are always internal");
     }
 
     /**
      * @inheritDoc
      */
-    public function isLinkWithExternalAction() : bool
+    public function isLinkWithExternalAction(): bool
     {
         return false;
     }
-
 }

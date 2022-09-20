@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once 'Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php';
 require_once 'Modules/TestQuestionPool/classes/class.assLongMenu.php';
 
@@ -6,12 +22,12 @@ class assLongMenuImport extends assQuestionImport
 {
     public $object;
 
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
 
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
@@ -35,10 +51,36 @@ class assLongMenuImport extends assQuestionImport
                         $this->object->setQuestion($this->object->QTIMaterialToString($material));
                     }
 
-                    
+
                     break;
             }
         }
+
+        // fixLongMenuImageImport - process images in question and long menu text when question is imported
+        $questiontext = $this->object->getQuestion();
+        $longmenutext = $this->object->getLongMenuTextValue();
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
+                if ($tst_id > 0) {
+                    $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
+                } else {
+                    $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
+                }
+
+                global $DIC; /* @var ILIAS\DI\Container $DIC */
+                $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
+
+                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
+
+                $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+                $longmenutext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $longmenutext);
+            }
+        }
+        $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+        $this->object->setLongMenuTextValue(ilRTE::_replaceMediaObjectImageSrc($longmenutext, 1));
+        // fau.
+
         foreach ($item->resprocessing as $resprocessing) {
             foreach ($resprocessing->respcondition as $respcondition) {
                 $correctness = 1;
@@ -143,17 +185,17 @@ class assLongMenuImport extends assQuestionImport
                 $feedbacksgeneric[$correctness] = $m;
             }
         }
-        
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int)$item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
         $this->object->setMinAutoComplete($item->getMetadataEntry("minAutoCompleteLength"));
         $this->object->setIdenticalscoring((int) $item->getMetadataEntry("identical_scoring"));
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $this->object->setCorrectAnswers($correct_answers);
         $this->object->setPoints($sum);
         // additional content editing mode information

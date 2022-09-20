@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\MainControls\Slate\Notification;
 
@@ -16,6 +18,8 @@ function standard()
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     //Creating a mail Notification Item, note that Additional Content is only to be used
     //if content needs to be provided, for which no UI Component yet exists.
@@ -28,7 +32,7 @@ function standard()
 
     //Creating a badge Notification Item with a specific close action here.
     $close_url = $_SERVER['REQUEST_URI'] . '&badge_closed=true';
-    if (isset($_GET['badge_closed']) && $_GET['badge_closed']) {
+    if ($request_wrapper->has('badge_closed') && $request_wrapper->retrieve('badge_closed', $refinery->kindlyTo()->bool())) {
         //Whatever needs to be done, if the badge notification is closed
         exit;
     } else {
@@ -72,7 +76,7 @@ function standard()
         $generic_item1_with_aggregates,
         $generic_item2
     ]);
-    
+
     //Add them to the center which is added to the top bar.
     $notification_center = $f->mainControls()->slate()->combined(
         "Notification Center",

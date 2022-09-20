@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSolutionComparisonExpressionImportList.php';
@@ -15,42 +16,42 @@ class ilAssQuestionSkillAssignmentImport
      * @var integer
      */
     private $importQuestionId;
-    
+
     /**
      * @var integer
      */
     private $importSkillBaseId;
-    
+
     /**
      * @var integer
      */
     private $importSkillTrefId;
-    
+
     /**
      * @var string
      */
     private $importSkillTitle;
-    
+
     /**
      * @var string
      */
     private $importSkillPath;
-    
+
     /**
      * @var integer
      */
     private $skillPoints;
-    
+
     /**
      * @var string
      */
     private $evalMode;
-    
+
     /**
      * @var ilAssQuestionSolutionComparisonExpressionImportList
      */
     private $importSolutionComparisonExpressionList;
-    
+
     /**
      * ilAssQuestionSkillAssignmentImport constructor.
      */
@@ -58,148 +59,148 @@ class ilAssQuestionSkillAssignmentImport
     {
         $this->importSolutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionImportList();
     }
-        
+
     /**
      * @param int $questionId
      */
-    public function setImportQuestionId($importQuestionId)
+    public function setImportQuestionId($importQuestionId): void
     {
         $this->importQuestionId = $importQuestionId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportQuestionId()
+    public function getImportQuestionId(): int
     {
         return $this->importQuestionId;
     }
-    
+
     /**
      * @param int $skillBaseId
      */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId($importSkillBaseId): void
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportSkillBaseId()
+    public function getImportSkillBaseId(): int
     {
         return $this->importSkillBaseId;
     }
-    
+
     /**
      * @param int $skillTrefId
      */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId($importSkillTrefId): void
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportSkillTrefId()
+    public function getImportSkillTrefId(): int
     {
         return $this->importSkillTrefId;
     }
-    
+
     /**
      * @return string
      */
-    public function getImportSkillTitle()
+    public function getImportSkillTitle(): string
     {
         return $this->importSkillTitle;
     }
-    
+
     /**
      * @param string $importSkillTitle
      */
-    public function setImportSkillTitle($importSkillTitle)
+    public function setImportSkillTitle($importSkillTitle): void
     {
         $this->importSkillTitle = $importSkillTitle;
     }
-    
+
     /**
      * @return string
      */
-    public function getImportSkillPath()
+    public function getImportSkillPath(): string
     {
         return $this->importSkillPath;
     }
-    
+
     /**
      * @param string $importSkillPath
      */
-    public function setImportSkillPath($importSkillPath)
+    public function setImportSkillPath($importSkillPath): void
     {
         $this->importSkillPath = $importSkillPath;
     }
-    
+
     /**
      * @return string
      */
-    public function getEvalMode()
+    public function getEvalMode(): string
     {
         return $this->evalMode;
     }
-    
+
     /**
      * @param $evalMode
      */
-    public function setEvalMode($evalMode)
+    public function setEvalMode($evalMode): void
     {
         $this->evalMode = $evalMode;
     }
-    
+
     /**
      * @return bool
      */
-    public function hasImportEvalModeBySolution()
+    public function hasImportEvalModeBySolution(): bool
     {
         return $this->getEvalMode() == ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_SOLUTION;
     }
-    
+
     /**
      * @param int $skillPoints
      */
-    public function setSkillPoints($skillPoints)
+    public function setSkillPoints($skillPoints): void
     {
         $this->skillPoints = $skillPoints;
     }
-    
+
     /**
      * @return int
      */
-    public function getSkillPoints()
+    public function getSkillPoints(): int
     {
         return $this->skillPoints;
     }
-    
-    public function initImportSolutionComparisonExpressionList()
+
+    public function initImportSolutionComparisonExpressionList(): void
     {
         $this->importSolutionComparisonExpressionList->setImportQuestionId($this->getImportQuestionId());
         $this->importSolutionComparisonExpressionList->setImportSkillBaseId($this->getImportSkillBaseId());
         $this->importSolutionComparisonExpressionList->setImportSkillTrefId($this->getImportSkillTrefId());
     }
-    
+
     /**
      * @return ilAssQuestionSolutionComparisonExpressionImportList
      */
-    public function getImportSolutionComparisonExpressionList()
+    public function getImportSolutionComparisonExpressionList(): ilAssQuestionSolutionComparisonExpressionImportList
     {
         return $this->importSolutionComparisonExpressionList;
     }
-    
-    public function sleep()
+
+    public function sleep(): void
     {
         // TODO: Implement __sleep() method.
     }
-    
-    public function wakeup()
+
+    public function wakeup(): void
     {
         // TODO: Implement __wakeup() method.
     }

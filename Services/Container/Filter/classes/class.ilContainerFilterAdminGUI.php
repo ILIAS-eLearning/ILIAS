@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -41,7 +44,7 @@ class ilContainerFilterAdminGUI
         $this->lng = $DIC->language();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->container_gui = $container_gui;
-        $this->ref_id = $this->container_gui->object->getRefId();
+        $this->ref_id = $this->container_gui->getObject()->getRefId();
         $this->toolbar = $DIC["ilToolbar"];
         $this->ui = $DIC->ui();
         $this->request = $DIC->http()->request();
@@ -49,7 +52,7 @@ class ilContainerFilterAdminGUI
         $this->container_filter_service = new ilContainerFilterService();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -58,7 +61,7 @@ class ilContainerFilterAdminGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("show", "selectFields", "saveFields"))) {
+                if (in_array($cmd, ["show", "selectFields", "saveFields"])) {
                     $this->$cmd();
                 }
         }
@@ -67,7 +70,7 @@ class ilContainerFilterAdminGUI
     /**
      * Show table
      */
-    protected function show() : void
+    protected function show(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -84,7 +87,7 @@ class ilContainerFilterAdminGUI
         $this->toolbar->addComponent($button);
 
         /** @var $container ilObjCategory */
-        $container = $this->container_gui->object;
+        $container = $this->container_gui->getObject();
         $table = new ilContainerFilterTableGUI(
             $this,
             "show",
@@ -94,7 +97,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($table->getHTML());
     }
 
-    protected function selectFields() : void
+    protected function selectFields(): void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -103,7 +106,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($r->render($form));
     }
 
-    protected function getFieldSelectionForm() : Standard
+    protected function getFieldSelectionForm(): Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -114,7 +117,7 @@ class ilContainerFilterAdminGUI
         $service = $this->container_filter_service;
 
 
-        $fields[] = array();
+        $fields[] = [];
 
 
         // current filter set
@@ -156,7 +159,7 @@ class ilContainerFilterAdminGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    protected function saveFields() : void
+    protected function saveFields(): void
     {
         $request = $this->request;
         $service = $this->container_filter_service;
@@ -165,7 +168,7 @@ class ilContainerFilterAdminGUI
         $ctrl = $this->ctrl;
 
         $fields = [];
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
 
@@ -179,7 +182,7 @@ class ilContainerFilterAdminGUI
                     }
                 }
             }
-            ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+            $this->main_tpl->setOnScreenMessage('info', $lng->txt("msg_obj_modified"), true);
             $service->data()->saveFilterSetForRefId($this->ref_id, $service->set($fields));
         }
         $ctrl->redirect($this, "");

@@ -1,16 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Multi byte sensitive string functions
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @deprecated
  */
 class ilStr
 {
-    public static function subStr($a_str, $a_start, $a_length = null)
+    public static function subStr(string $a_str, int $a_start, ?int $a_length = null): string
     {
         if (function_exists("mb_substr")) {
             // bug in PHP < 5.4.12: null is not supported as length (if encoding given)
@@ -18,14 +29,17 @@ class ilStr
             if ($a_length === null) {
                 $a_length = mb_strlen($a_str, "UTF-8");
             }
-            
+
             return mb_substr($a_str, $a_start, $a_length, "UTF-8");
         } else {
             return substr($a_str, $a_start, $a_length);
         }
     }
 
-    public static function strPos($a_haystack, $a_needle, $a_offset = null)
+    /**
+     * @return false|int|true
+     */
+    public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_strpos")) {
             return mb_strpos($a_haystack, $a_needle, $a_offset, "UTF-8");
@@ -34,46 +48,19 @@ class ilStr
         }
     }
 
-    public static function strrPos($a_haystack, $a_needle, $a_offset = null)
-    {
-        if (function_exists("mb_strpos")) {
-            return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
-        } else {
-            return strrpos($a_haystack, $a_needle, $a_offset);
-        }
-    }
-
-    public static function strIPos($a_haystack, $a_needle, $a_offset = null)
+    /**
+     * @return false|int
+     */
+    public static function strIPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_stripos")) {
-            return mb_stripos($a_haystack, $a_needle, $a_offset, "UTF-8");
+            return mb_stripos($a_haystack, $a_needle, $a_offset ?? 0, "UTF-8");
         } else {
             return stripos($a_haystack, $a_needle, $a_offset);
         }
     }
 
-    /*function strrPos($a_haystack, $a_needle, $a_offset = NULL)
-    {
-        if (function_exists("mb_strrpos"))
-        {
-            // only for php version 5.2.0 and above
-            if( version_compare(PHP_VERSION, '5.2.0', '>=') )
-            {
-                return mb_strrpos($a_haystack, $a_needle, $a_offset, "UTF-8");
-            }
-            else
-            {
-                @todo: We need an implementation for php versions < 5.2.0
-                return mb_strrpos($a_haystack, $a_needle, "UTF-8");
-            }
-        }
-        else
-        {
-            return strrpos($a_haystack, $a_needle, $a_offset);
-        }
-    }*/
-
-    public static function strLen($a_string)
+    public static function strLen(string $a_string): int
     {
         if (function_exists("mb_strlen")) {
             return mb_strlen($a_string, "UTF-8");
@@ -82,7 +69,7 @@ class ilStr
         }
     }
 
-    public static function strToLower($a_string)
+    public static function strToLower(string $a_string): string
     {
         if (function_exists("mb_strtolower")) {
             return mb_strtolower($a_string, "UTF-8");
@@ -91,9 +78,8 @@ class ilStr
         }
     }
 
-    public static function strToUpper($a_string)
+    public static function strToUpper(string $a_string): string
     {
-        $a_string = (string) $a_string;
         if (function_exists("mb_strtoupper")) {
             return mb_strtoupper($a_string, "UTF-8");
         } else {
@@ -101,43 +87,24 @@ class ilStr
         }
     }
 
-    /**
-     * Compare two strings
-     * @param string $a
-     * @param string $b
-     * @return int
-     */
-    public static function strCmp(string $a, string $b) : int
+    public static function strCmp(string $a, string $b): int
     {
-        global $DIC;
-
-        $ilCollator = null;
-        if (isset($DIC["ilCollator"])) {
-            $ilCollator = $DIC["ilCollator"];
-        }
-
-        if (is_object($ilCollator)) {
-            return $ilCollator->compare(ilStr::strToUpper($a), ilStr::strToUpper($b));
-        }
-
         return strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b));
     }
-    
+
     /**
      * Shorten text to the given number of bytes.
-     * If the character is cutted within a character
+     * If the character is cut within a character
      * the invalid character will be shortened, too.
      *
      * E.g: shortenText('€€€',4) will return '€'
-     *
-     * @param string $a_string
-     * @param int $a_start_pos
-     * @param int $a_num_bytes
-     * @param string $a_encoding [optional]
-     * @return string
      */
-    public static function shortenText($a_string, $a_start_pos, $a_num_bytes, $a_encoding = 'UTF-8')
-    {
+    public static function shortenText(
+        string $a_string,
+        int $a_start_pos,
+        int $a_num_bytes,
+        string $a_encoding = 'UTF-8'
+    ): string {
         if (function_exists("mb_strcut")) {
             return mb_strcut($a_string, $a_start_pos, $a_num_bytes, $a_encoding);
         }
@@ -145,12 +112,12 @@ class ilStr
     }
 
     /**
-    * Check whether string is utf-8
-    */
-    public static function isUtf8($a_str)
+     * Check whether string is utf-8
+     */
+    public static function isUtf8(string $a_str): bool
     {
         if (function_exists("mb_detect_encoding")) {
-            if (mb_detect_encoding($a_str, "UTF-8", true) == "UTF-8") {
+            if (mb_detect_encoding($a_str, "UTF-8", true) === "UTF-8") {
                 return true;
             }
         } else {
@@ -195,76 +162,87 @@ class ilStr
         return false;
     }
 
-
     /**
-     * Get all positions of a string
+     * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
      *
-     * @param string the string to search in
-     * @param string the string to search for
-     * @return array all occurences of needle in haystack
+     * @param string $value Value in lower camel case conversion
+     * @return string The value in underscore case conversion
      */
-    public static function strPosAll($a_haystack, $a_needle)
+    public static function convertUpperCamelCaseToUnderscoreCase(string $value): string
     {
-        $positions = array();
-        $cpos = 0;
-        while (is_int($pos = strpos($a_haystack, $a_needle, $cpos))) {
-            $positions[] = $pos;
-            $cpos = $pos + 1;
-        }
-        return $positions;
+        return strtolower(
+            preg_replace(
+                ['#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'],
+                ['\1_\2', '_\1'],
+                $value
+            )
+        );
     }
 
     /**
-     * Replaces the first occurence of $a_old in $a_str with $a_new
+     * @deprecated
      */
-    public static function replaceFirsOccurence($a_old, $a_new, $a_str)
-    {
-        if (is_int(strpos($a_str, $a_old))) {
-            $a_str = substr_replace($a_str, $a_new, strpos($a_str, $a_old), strlen($a_old));
+    public static function shortenTextExtended(
+        string $a_str,
+        int $a_len,
+        bool $a_dots = false,
+        bool $a_next_blank = false,
+        bool $a_keep_extension = false
+    ): string {
+        if (ilStr::strLen($a_str) > $a_len) {
+            if ($a_next_blank) {
+                $len = ilStr::strPos($a_str, " ", $a_len);
+            } else {
+                $len = $a_len;
+            }
+            // BEGIN WebDAV
+            //             - Shorten names in the middle, before the filename extension
+            //             Workaround for Windows WebDAV Client:
+            //             Use the unicode ellipsis symbol for shortening instead of
+            //             three full stop characters.
+            $p = false;
+            if ($a_keep_extension) {
+                $p = strrpos($a_str, '.');    // this messes up normal shortening, see bug #6190
+            }
+            if ($p === false || $p == 0 || strlen($a_str) - $p > $a_len) {
+                $a_str = ilStr::subStr($a_str, 0, $len);
+                if ($a_dots) {
+                    $a_str .= "\xe2\x80\xa6"; // UTF-8 encoding for Unicode ellipsis character.
+                }
+            } else {
+                if ($a_dots) {
+                    $a_str = ilStr::subStr($a_str, 0, $len - (strlen($a_str) - $p + 1)) . "\xe2\x80\xa6" . substr(
+                        $a_str,
+                        $p
+                    );
+                } else {
+                    $a_str = ilStr::subStr($a_str, 0, $len - (strlen($a_str) - $p + 1)) . substr($a_str, $p);
+                }
+            }
         }
+
         return $a_str;
     }
 
     /**
-     * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
-     * @param string $value Value in lower camel case conversion
-     * @return string The value in underscore case conversion
+     * Ensure that the maximum word lenght within a text is not longer
+     * than $a_len
+     *
+     * @depends
      */
-    public static function convertUpperCamelCaseToUnderscoreCase($value)
+    public static function shortenWords(string $a_str, int $a_len = 30, bool $a_dots = true): string
     {
-        return strtolower(preg_replace(
-            array('#(?<=(?:[A-Z]))([A-Z]+)([A-Z][A-z])#', '#(?<=(?:[a-z0-9]))([A-Z])#'),
-            array('\1_\2', '_\1'),
-            $value
-        ));
-    }
+        $str_arr = explode(" ", $a_str);
 
-    /**
-     * Return string as byte array
-     * Note: Use this for debugging purposes only. If strlen is overwritten by mb_ functions
-     * (PHP config) this will return not all characters
-     *
-     * @param string $a_str string
-     * @return array array of bytes
-     */
-    public static function getBytesForString($a_str)
-    {
-        $bytes = array();
-        for ($i = 0; $i < strlen($a_str); $i++) {
-            $bytes[] = ord($a_str[$i]);
+        for ($i = 0; $i < count($str_arr); $i++) {
+            if (ilStr::strLen($str_arr[$i]) > $a_len) {
+                $str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
+                if ($a_dots) {
+                    $str_arr[$i] .= "...";
+                }
+            }
         }
-        return $bytes;
-    }
-    
-    /**
-     * Normalize UTF8 string
-     *
-     * @param string $a_str string
-     * @return string
-     */
-    public static function normalizeUtf8String($a_str)
-    {
-        include_once("./include/Unicode/UtfNormal.php");
-        return UtfNormal::toNFC($a_str);
+
+        return implode(" ", $str_arr);
     }
 }

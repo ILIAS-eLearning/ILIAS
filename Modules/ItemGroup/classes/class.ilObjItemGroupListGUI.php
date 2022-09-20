@@ -1,17 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Item group list gui class
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjItemGroupListGUI extends ilObjectListGUI
 {
-    /**
-     * Constructor
-     */
+    protected bool $subitems_enabled;
+
     public function __construct()
     {
         global $DIC;
@@ -19,18 +31,12 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $lng->loadLanguageModule('itgr');
         parent::__construct();
     }
-    
-    /**
-     * Initialisation
-     *
-     * @access public
-     * @return void
-     */
-    public function init()
+
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = false;
@@ -41,88 +47,39 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->subitems_enabled = true;
         $this->type = "itgr";
         $this->gui_class_name = "ilobjitemgroupgui";
-        
+
         // general commands array
         $this->commands = ilObjItemGroupAccess::_getCommands();
     }
 
-    /**
-     * Enable subscribtion (deactivated)
-     * necessary due to bug 11509
-     *
-     * @param
-     * @return
-     */
-    public function enableSubscribe($a_val)
+    public function enableSubscribe(bool $status): void
     {
         $this->subscribe_enabled = false;
     }
-    
+
     /**
      * Prevent enabling info
      * necessary due to bug 11509
-     *
-     * @param bool
-     * @return void
      */
-    public function enableInfoScreen($a_info_screen)
+    public function enableInfoScreen(bool $info_screen): void
     {
         $this->info_screen_enabled = false;
     }
 
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         // separate method for this line
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
         return $cmd_link;
     }
-    
-    
-    /**
-     * Fet properties
-     *
-     * @return array properties array
-     */
-    public function getProperties()
+
+    public function getProperties(): array
     {
         $props = array();
         return $props;
-    }
-
-    
-    
-    /**
-     * Get assigned items of event.
-     * @return
-     * @param object $a_sess_id
-     */
-    protected static function lookupAssignedMaterials($a_sess_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        return array();
-        /*
-                $query = 'SELECT * FROM event_items '.
-                    'WHERE event_id = '.$ilDB->quote($a_sess_id).' ';
-                $res = $ilDB->query($query);
-                while($row = $res->fetchRow(FETCHMODE_OBJECT))
-                {
-                    $items[] = $row['item_id'];
-                }
-                return $items ? $items : array();*/
     }
 }

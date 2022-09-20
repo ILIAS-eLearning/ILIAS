@@ -1,20 +1,34 @@
 <?php
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\DI;
 
 class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
@@ -29,6 +43,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
         // component could just service locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
+        /** @noinspection PhpArrayIndexImmediatelyRewrittenInspection */
         $GLOBALS["DIC"]["ilDB"] = $db;
 
         $settings = new ilGlobalCacheSettings();
@@ -64,12 +79,12 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
                 );
                 $port = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
+                    Setup\Metrics\Metric::TYPE_GAUGE,
                     $server->getPort()
                 );
                 $weight = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_TEXT,
+                    Setup\Metrics\Metric::TYPE_GAUGE,
                     $server->getWeight()
                 );
 

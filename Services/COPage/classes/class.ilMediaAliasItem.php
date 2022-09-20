@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilMediaAliasItem
@@ -55,7 +58,7 @@ class ilMediaAliasItem
         string $a_purpose,
         string $a_pc_id = "",
         string $a_sub_element = ""
-    ) : ?php4DOMElement {
+    ): ?php4DOMElement {
         if ($a_pc_id != "") {
             $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']" . $a_sub_element;
@@ -64,7 +67,7 @@ class ilMediaAliasItem
                 return $res->nodeset[0];
             }
         }
-        
+
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $a_hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']" . $a_sub_element;
         $res = xpath_eval($xpc, $path);
@@ -73,12 +76,12 @@ class ilMediaAliasItem
         }
         return null;
     }
-    
+
     public function getParameterNodes(
         string $a_hier_id,
         string $a_purpose,
         string $a_pc_id = ""
-    ) : array {
+    ): array {
         $xpc = xpath_new_context($this->dom);
         if ($a_pc_id != "") {
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/Parameter";
@@ -101,7 +104,7 @@ class ilMediaAliasItem
         string $a_hier_id,
         string $a_purpose,
         string $a_pc_id = ""
-    ) : array {
+    ): array {
         $xpc = xpath_new_context($this->dom);
         if ($a_pc_id != "") {
             $path = "//PageContent[@PCID = '" . $a_pc_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='$a_purpose']/MapArea";
@@ -120,12 +123,12 @@ class ilMediaAliasItem
         return array();
     }
 
-    public function setPcId(string $a_pcid) : void
+    public function setPcId(string $a_pcid): void
     {
         $this->pcid = $a_pcid;
     }
 
-    public function getPcId() : string
+    public function getPcId(): string
     {
         return $this->pcid;
     }
@@ -133,7 +136,7 @@ class ilMediaAliasItem
     /**
      * check if item node exists
      */
-    public function exists() : bool
+    public function exists(): bool
     {
         if (is_object($this->item_node)) {
             return true;
@@ -145,7 +148,7 @@ class ilMediaAliasItem
     /**
      * inserts new node in dom
      */
-    public function insert() : void
+    public function insert(): void
     {
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $this->hier_id . "']/" . $this->parent_node_name;
@@ -159,7 +162,7 @@ class ilMediaAliasItem
         }
     }
 
-    public function setWidth(string $a_width) : void
+    public function setWidth(string $a_width): void
     {
         ilDOMUtil::setFirstOptionalElement(
             $this->dom,
@@ -173,7 +176,7 @@ class ilMediaAliasItem
     }
 
 
-    public function getWidth() : string
+    public function getWidth(): string
     {
         $layout_node = $this->getMAItemNode(
             $this->hier_id,
@@ -191,7 +194,7 @@ class ilMediaAliasItem
      * check if alias item defines own size or derives size from object
      * @return bool returns true if size is not derived from object
      */
-    public function definesSize() : bool
+    public function definesSize(): bool
     {
         $layout_node = $this->getMAItemNode(
             $this->hier_id,
@@ -208,7 +211,7 @@ class ilMediaAliasItem
     /**
      * derive size from object (-> width and height attributes are removed from layout element)
      */
-    public function deriveSize() : void
+    public function deriveSize(): void
     {
         $layout_node = $this->getMAItemNode(
             $this->hier_id,
@@ -226,7 +229,7 @@ class ilMediaAliasItem
         }
     }
 
-    public function setHeight(string $a_height) : void
+    public function setHeight(string $a_height): void
     {
         ilDOMUtil::setFirstOptionalElement(
             $this->dom,
@@ -240,7 +243,7 @@ class ilMediaAliasItem
     }
 
 
-    public function getHeight() : string
+    public function getHeight(): string
     {
         $layout_node = $this->getMAItemNode(
             $this->hier_id,
@@ -254,7 +257,7 @@ class ilMediaAliasItem
         return "";
     }
 
-    public function setCaption(string $a_caption) : void
+    public function setCaption(string $a_caption): void
     {
         ilDOMUtil::setFirstOptionalElement(
             $this->dom,
@@ -266,7 +269,7 @@ class ilMediaAliasItem
         );
     }
 
-    public function getCaption() : string
+    public function getCaption(): string
     {
         $caption_node = $this->getMAItemNode(
             $this->hier_id,
@@ -284,7 +287,7 @@ class ilMediaAliasItem
      * check if alias item defines own caption or derives caption from object
      * @return bool returns true if caption is not derived from object
      */
-    public function definesCaption() : bool
+    public function definesCaption(): bool
     {
         $caption_node = $this->getMAItemNode(
             $this->hier_id,
@@ -301,7 +304,7 @@ class ilMediaAliasItem
     /**
      * derive caption from object (-> caption element is removed from media alias item)
      */
-    public function deriveCaption() : void
+    public function deriveCaption(): void
     {
         $caption_node = $this->getMAItemNode(
             $this->hier_id,
@@ -316,7 +319,7 @@ class ilMediaAliasItem
 
     public function setTextRepresentation(
         string $a_text_representation
-    ) : void {
+    ): void {
         ilDOMUtil::setFirstOptionalElement(
             $this->dom,
             $this->item_node,
@@ -327,7 +330,7 @@ class ilMediaAliasItem
         );
     }
 
-    public function getTextRepresentation() : string
+    public function getTextRepresentation(): string
     {
         $text_representation_node = $this->getMAItemNode(
             $this->hier_id,
@@ -345,7 +348,7 @@ class ilMediaAliasItem
      * check if alias item defines own TextRepresentation or derives TextRepresentation from object
      * @return bool returns true if TextRepresentation is not derived from object
      */
-    public function definesTextRepresentation() : bool
+    public function definesTextRepresentation(): bool
     {
         $text_representation_node = $this->getMAItemNode(
             $this->hier_id,
@@ -362,7 +365,7 @@ class ilMediaAliasItem
     /**
      * derive TextRepresentation from object (-> TextRepresentation element is removed from media alias item)
      */
-    public function deriveTextRepresentation() : void
+    public function deriveTextRepresentation(): void
     {
         $text_representation_node = $this->getMAItemNode(
             $this->hier_id,
@@ -375,7 +378,7 @@ class ilMediaAliasItem
         }
     }
 
-    public function setHorizontalAlign(string $a_halign) : void
+    public function setHorizontalAlign(string $a_halign): void
     {
         ilDOMUtil::setFirstOptionalElement(
             $this->dom,
@@ -389,7 +392,7 @@ class ilMediaAliasItem
     }
 
 
-    public function getHorizontalAlign() : string
+    public function getHorizontalAlign(): string
     {
         $layout_node = $this->getMAItemNode(
             $this->hier_id,
@@ -403,7 +406,7 @@ class ilMediaAliasItem
         return "";
     }
 
-    public function setParameters(array $a_par_array) : void
+    public function setParameters(array $a_par_array): void
     {
         $par_nodes = $this->getParameterNodes(
             $this->hier_id,
@@ -435,7 +438,7 @@ class ilMediaAliasItem
     /**
      * Get all parameters as string
      */
-    public function getParameterString() : string
+    public function getParameterString(): string
     {
         $par_nodes = $this->getParameterNodes(
             $this->hier_id,
@@ -453,7 +456,7 @@ class ilMediaAliasItem
     /**
      * Get all parameters as array
      */
-    public function getParameters() : array
+    public function getParameters(): array
     {
         $par_nodes = $this->getParameterNodes(
             $this->hier_id,
@@ -473,7 +476,7 @@ class ilMediaAliasItem
      * check if alias item defines own parameters or derives parameters from object
      * @return bool returns true if parameters are not derived from object
      */
-    public function definesParameters() : bool
+    public function definesParameters(): bool
     {
         $par_nodes = $this->getParameterNodes(
             $this->hier_id,
@@ -489,7 +492,7 @@ class ilMediaAliasItem
     /**
      * derive parameters from object (-> all parameter elements are removed from media alias item)
      */
-    public function deriveParameters() : void
+    public function deriveParameters(): void
     {
         $par_nodes = $this->getParameterNodes(
             $this->hier_id,
@@ -504,11 +507,11 @@ class ilMediaAliasItem
         }
     }
 
-    
+
     /**
      * Get all map areas
      */
-    public function getMapAreas() : array
+    public function getMapAreas(): array
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -541,14 +544,14 @@ class ilMediaAliasItem
                 "Id" => $maparea_node->get_attribute("Id"),
                 "Link" => $link);
         }
-        
+
         return $maparea_arr;
     }
-    
+
     public function setAreaTitle(
         int $a_nr,
         string $a_title
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -562,7 +565,7 @@ class ilMediaAliasItem
             }
         }
     }
-    
+
     /**
      * Set link of area to an internal one
      */
@@ -571,7 +574,7 @@ class ilMediaAliasItem
         string $a_type,
         string $a_target,
         string $a_target_frame
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -592,14 +595,14 @@ class ilMediaAliasItem
             );
         }
     }
-    
+
     /**
      * Set link of area to an external one
      */
     public function setAreaExtLink(
         int $a_nr,
         string $a_href
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -627,7 +630,7 @@ class ilMediaAliasItem
         int $a_nr,
         string $a_shape_type,
         string $a_coords
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -645,7 +648,7 @@ class ilMediaAliasItem
     public function setAreaHighlightMode(
         int $a_nr,
         string $a_mode
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -662,7 +665,7 @@ class ilMediaAliasItem
     public function setAreaHighlightClass(
         int $a_nr,
         string $a_class
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -682,7 +685,7 @@ class ilMediaAliasItem
         string $a_title,
         array $a_link,
         string $a_id = ""
-    ) : void {
+    ): void {
         $attributes = array("Shape" => $a_shape_type,
             "Coords" => $a_coords, "Id" => $a_id);
 
@@ -720,11 +723,11 @@ class ilMediaAliasItem
             );
         }
     }
-    
+
     /**
      * Delete a sinlge map area
      */
-    public function deleteMapArea(int $a_nr) : void
+    public function deleteMapArea(int $a_nr): void
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -736,13 +739,13 @@ class ilMediaAliasItem
             $ma_nodes[$a_nr - 1]->unlink_node($ma_nodes[$a_nr - 1]);
         }
     }
-    
+
     /**
      * Delete map areas by id
      */
     public function deleteMapAreaById(
         string $a_id
-    ) : void {
+    ): void {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
             $this->purpose,
@@ -758,7 +761,7 @@ class ilMediaAliasItem
     /**
      * Delete all map areas
      */
-    public function deleteAllMapAreas() : void
+    public function deleteAllMapAreas(): void
     {
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId = '" . $this->hier_id . "']/" . $this->parent_node_name . "/MediaAliasItem[@Purpose='" . $this->purpose . "']/MapArea";
@@ -771,7 +774,7 @@ class ilMediaAliasItem
     /**
      * Get link type
      */
-    public function getLinkTypeOfArea(int $a_nr) : string
+    public function getLinkTypeOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -793,7 +796,7 @@ class ilMediaAliasItem
     /**
      * Get type (only internal link)
      */
-    public function getTypeOfArea(int $a_nr) : string
+    public function getTypeOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -810,7 +813,7 @@ class ilMediaAliasItem
     /**
      * Get target (only internal link)
      */
-    public function getTargetOfArea(int $a_nr) : string
+    public function getTargetOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -827,7 +830,7 @@ class ilMediaAliasItem
     /**
      * Get target frame (only internal link)
      */
-    public function getTargetFrameOfArea(int $a_nr) : string
+    public function getTargetFrameOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -844,7 +847,7 @@ class ilMediaAliasItem
     /**
      * Get href (only external link)
      */
-    public function getHrefOfArea(int $a_nr) : string
+    public function getHrefOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -861,7 +864,7 @@ class ilMediaAliasItem
     /**
      * Get title
      */
-    public function getTitleOfArea(int $a_nr) : string
+    public function getTitleOfArea(int $a_nr): string
     {
         $ma_nodes = $this->getMapAreaNodes(
             $this->hier_id,
@@ -878,13 +881,13 @@ class ilMediaAliasItem
     /**
      * delete full item node from dom
      */
-    public function delete() : void
+    public function delete(): void
     {
         if (is_object($this->item_node)) {
             $this->item_node->unlink_node($this->item_node);
         }
     }
-    
+
     /**
      * make map work copy of image
      * @param int $a_area_nr draw area $a_area_nr only
@@ -897,12 +900,10 @@ class ilMediaAliasItem
         bool $a_output_new_area,
         string $a_area_type,
         string $a_coords
-    ) : bool {
-        if (!$a_st_item->copyOriginal()) {
-            return false;
-        }
+    ): bool {
+        $a_st_item->copyOriginal();
         $a_st_item->buildMapWorkImage();
-        
+
         // determine ratios (first see whether the instance has w/h defined)
         $width = $this->getWidth();
         $height = $this->getHeight();
@@ -928,7 +929,7 @@ class ilMediaAliasItem
             if (((($i + 1) == $a_area_nr) && !$a_exclude) ||
                     ((($i + 1) != $a_area_nr) && $a_exclude) ||
                     ($a_area_nr == 0)
-                ) {
+            ) {
                 $area = new ilMapArea();
                 $area->setShape($areas[$i]["Shape"]);
                 $area->setCoords($areas[$i]["Coords"]);
@@ -942,7 +943,7 @@ class ilMediaAliasItem
                 );
             }
         }
-        
+
         if ($a_output_new_area) {
             $area = new ilMapArea();
             $area->setShape($a_area_type);
@@ -964,7 +965,7 @@ class ilMediaAliasItem
     /**
      * Has the alias any properties set?
      */
-    public function hasAnyPropertiesSet() : bool
+    public function hasAnyPropertiesSet(): bool
     {
         return ($this->definesSize() ||
             $this->definesCaption() ||

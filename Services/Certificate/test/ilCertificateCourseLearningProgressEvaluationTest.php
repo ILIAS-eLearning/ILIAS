@@ -1,18 +1,35 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBaseTestCase
 {
-    public function testOnlyOneCourseIsCompletedOnLPChange() : void
+    public function testOnlyOneCourseIsCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -41,7 +58,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -51,8 +68,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -64,10 +81,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $objectHelper->method('lookupObjId')
             ->withConsecutive(
-                array(10),
-                array(20),
-                array(10),
-                array(50)
+                [10],
+                [20],
+                [10],
+                [50]
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
@@ -76,10 +93,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $statusHelper->method('lookUpStatus')
             ->withConsecutive(
-                array(100),
-                array(200),
-                array(100),
-                array(500)
+                [100],
+                [200],
+                [100],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -102,16 +119,16 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(5, $completedCourses[0]->getObjId());
+        $this->assertSame(5, $completedCourses[0]->getObjId());
     }
 
-    public function testAllCoursesAreCompletedOnLPChange() : void
+    public function testAllCoursesAreCompletedOnLPChange(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -140,7 +157,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -150,8 +167,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 '[10,20]',
@@ -163,10 +180,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $objectHelper->method('lookupObjId')
             ->withConsecutive(
-                array(10),
-                array(20),
-                array(10),
-                array(500)
+                [10],
+                [20],
+                [10],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(100, 200, 100, 500);
 
@@ -175,10 +192,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $statusHelper->method('lookUpStatus')
             ->withConsecutive(
-                array(100),
-                array(200),
-                array(100),
-                array(500)
+                [100],
+                [200],
+                [100],
+                [500]
             )
             ->willReturnOnConsecutiveCalls(
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
@@ -201,17 +218,17 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(5, $completedCourses[0]->getObjId());
-        $this->assertEquals(6, $completedCourses[1]->getObjId());
+        $this->assertSame(5, $completedCourses[0]->getObjId());
+        $this->assertSame(6, $completedCourses[1]->getObjId());
     }
 
-    public function testNoSubitemDefinedForEvaluation() : void
+    public function testNoSubitemDefinedForEvaluation(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepository->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
             ->willReturn(
-                array(
+                [
                     new ilCertificateTemplate(
                         5,
                         'crs',
@@ -240,7 +257,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                         '/some/where/thumbnail.svg',
                         5
                     ),
-                )
+                ]
             );
 
         $setting = $this->getMockBuilder(ilSetting::class)
@@ -250,8 +267,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $setting
             ->method('get')
             ->withConsecutive(
-                array('cert_subitems_5'),
-                array('cert_subitems_6')
+                ['cert_subitems_5'],
+                ['cert_subitems_6']
             )
             ->willReturnOnConsecutiveCalls(
                 null,
@@ -278,10 +295,10 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
         $completedCourses = $evaluation->evaluate(10, 200);
 
-        $this->assertEquals(array(), $completedCourses);
+        $this->assertSame([], $completedCourses);
     }
-    
-    public function globalLearningProgressStateProvder() : array
+
+    public function globalLearningProgressStateProvder(): array
     {
         return [
             'LP globally enabled' => [true, []],
@@ -320,24 +337,22 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
     /**
      * @dataProvider globalLearningProgressStateProvder
-     * @param bool                    $isGlobalLpEnabled
-     * @param ilCertificateTemplate[] $template_recods
-     * @throws JsonException
+     * @param array[] $template_recods
      */
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,
         array $template_recods
-    ) : void {
+    ): void {
         $statement = $database = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $i = 0;
-        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods) {
+        $database->method('fetch')->willReturnCallback(static function () use (&$i, $template_recods): ?array {
             $result = $template_recods[$i] ?? null;
             ++$i;
 
             return $result;
         });
-        
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+
+        $database = $this->createMock(ilDBInterface::class);
         $database->expects($this->once())->method('queryF')->with(
             $isGlobalLpEnabled
                 ? $this->logicalAnd(
@@ -375,13 +390,13 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
         $this->assertCount(count($template_recods), $templates);
     }
 
-    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed() : void
+    public function testRetrievingCertificateTemplatesForCoursesWillBeCachedWhenCachingRepositoryIsUsed(): void
     {
         $wrappedTemplateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
         $wrappedTemplateRepository
             ->expects($this->exactly(2))
             ->method('fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress')
-            ->willReturnCallback(static function (bool $isGlobalLpEnabled) : array {
+            ->willReturnCallback(static function (bool $isGlobalLpEnabled): array {
                 if ($isGlobalLpEnabled) {
                     return [];
                 }

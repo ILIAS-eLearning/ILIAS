@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Abstract class wrapping the HTMLPurifier instance
@@ -7,6 +24,20 @@
  */
 abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterface
 {
+    private const HTML_PURIFIER_DIRECTORY = '/HTMLPurifier';
+    private const NOT_SUPPORTED_TAGS = [
+        'rp',
+        'rt',
+        'rb',
+        'rtc',
+        'rbc',
+        'ruby',
+        'u',
+        'strike',
+        'param',
+        'object'
+    ];
+
     protected HTMLPurifier $purifier;
 
     /**
@@ -19,12 +50,12 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         );
     }
 
-    final public function purify(string $html) : string
+    final public function purify(string $html): string
     {
         return $this->purifier->purify($html);
     }
 
-    final public function purifyArray(array $htmlCollection) : array
+    final public function purifyArray(array $htmlCollection): array
     {
         foreach ($htmlCollection as $key => $html) {
             if (!is_string($html)) {
@@ -39,26 +70,26 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         return $this->purifier->purifyArray($htmlCollection);
     }
 
-    abstract protected function getPurifierConfigInstance() : HTMLPurifier_Config;
+    abstract protected function getPurifierConfigInstance(): HTMLPurifier_Config;
 
-    final protected function setPurifier(HTMLPurifier $purifier) : self
+    final protected function setPurifier(HTMLPurifier $purifier): self
     {
         $this->purifier = $purifier;
         return $this;
     }
 
-    final protected function getPurifier() : HTMLPurifier
+    final protected function getPurifier(): HTMLPurifier
     {
         return $this->purifier;
     }
 
-    final public static function _getCacheDirectory() : string
+    final public static function _getCacheDirectory(): string
     {
-        if (!is_dir(ilUtil::getDataDir() . '/HTMLPurifier')) {
-            ilUtil::makeDirParents(ilUtil::getDataDir() . '/HTMLPurifier');
+        if (!is_dir(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY)) {
+            ilFileUtils::makeDirParents(ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY);
         }
 
-        return ilUtil::getDataDir() . '/HTMLPurifier';
+        return ilFileUtils::getDataDir() . self::HTML_PURIFIER_DIRECTORY;
     }
 
     /**
@@ -66,25 +97,12 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      * @param string[] $elements
      * @return string[]
      */
-    final protected function removeUnsupportedElements(array $elements) : array
+    final protected function removeUnsupportedElements(array $elements): array
     {
         $supportedElements = [];
 
-        $notSupportedTags = [
-            'rp',
-            'rt',
-            'rb',
-            'rtc',
-            'rbc',
-            'ruby',
-            'u',
-            'strike',
-            'param',
-            'object'
-        ];
-
         foreach ($elements as $element) {
-            if (!in_array($element, $notSupportedTags)) {
+            if (!in_array($element, self::NOT_SUPPORTED_TAGS)) {
                 $supportedElements[] = $element;
             }
         }
@@ -96,7 +114,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      * @param string[] $elements
      * @return string[]
      */
-    final protected function makeElementListTinyMceCompliant(array $elements) : array
+    final protected function makeElementListTinyMceCompliant(array $elements): array
     {
         // Bugfix #5945: Necessary because TinyMCE does not use the "u"
         // html element but <span style="text-decoration: underline">E</span>

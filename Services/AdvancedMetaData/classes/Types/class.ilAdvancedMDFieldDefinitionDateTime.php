@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php";
+declare(strict_types=1);
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * AMD field type date time
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
@@ -16,39 +14,40 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     //
     // generic types
     //
-    
-    public function getType()
+
+    public function getType(): int
     {
         return self::TYPE_DATETIME;
     }
-    
-    
+
+
     //
     // ADT
     //
-    
-    protected function initADTDefinition()
+
+    protected function initADTDefinition(): ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("DateTime");
     }
-    
-        
+
+
     //
     // import/export
     //
-    
-    public function getValueForXML(ilADT $element)
+
+    public function getValueForXML(ilADT $element): string
     {
         return $element->getDate()->get(IL_CAL_DATETIME);
     }
-    
-    public function importValueFromXML($a_cdata)
+
+    public function importValueFromXML(string $a_cdata): void
     {
         $this->getADT()->setDate(new ilDate($a_cdata, IL_CAL_DATETIME));
     }
-    
-    public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
+
+    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id): bool
     {
+        $value = '';
         switch ($a_ecs_type) {
             case ilECSUtils::TYPE_TIMEPLACE:
                 if ($a_value instanceof ilECSTimePlace) {
@@ -56,23 +55,21 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
                 }
                 break;
         }
-        
+
         if ($value instanceof ilDateTime) {
             $this->getADT()->setDate($value);
             return true;
         }
         return false;
     }
-    
-    
-    //
-    // search
-    //
-    
-    public function getLuceneSearchString($a_value)
+
+    /**
+     * @inheritdoc
+     */
+    public function getLuceneSearchString($a_value): string
     {
         // see ilADTDateTimeSearchBridgeRange::importFromPost();
-        
+
         if ($a_value["tgl"]) {
             $start = mktime(
                 $a_value["lower"]["time"]["h"],
@@ -91,17 +88,18 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
                 $a_value["upper"]["date"]["d"],
                 $a_value["upper"]["date"]["y"]
             );
-            
+
             if ($start && $end && $start > $end) {
                 $tmp = $start;
                 $start = $end;
                 $end = $tmp;
             }
-            
+
             $start = new ilDateTime($start, IL_CAL_UNIX);
             $end = new ilDateTime($end, IL_CAL_UNIX);
-        
+
             return "{" . $start->get(IL_CAL_DATETIME) . " TO " . $end->get(IL_CAL_DATETIME) . "}";
         }
+        return 'null';
     }
 }

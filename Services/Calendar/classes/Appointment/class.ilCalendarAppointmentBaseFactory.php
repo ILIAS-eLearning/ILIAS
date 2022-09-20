@@ -1,17 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- *
- * @author Alex Killing <killing@leifos.com>
- * @version $Id$
- *
- *
+ * @author  Alex Killing <killing@leifos.com>
  * @ingroup ServicesCalendar
  */
 class ilCalendarAppointmentBaseFactory
 {
-    public static function getClassBaseName($a_appointment)
+    public static function getClassBaseName($a_appointment): string
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_appointment['event']->getEntryId());
         $cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
         $cat_info["type"] = $cat->getType();
@@ -36,6 +34,9 @@ class ilCalendarAppointmentBaseFactory
 
                     case "exc":
                         return "Exercise";
+
+                    case "etal":
+                        return "EmployeeTalk";
 
                     default:
                         return "";

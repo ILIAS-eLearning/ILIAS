@@ -1,107 +1,91 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class ilSumOfFileSizesTooLargeInteraction
- *
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
-    const OPTION_OK = 'ok';
-    const OPTION_SKIP = 'skip';
-    /**
-     * @var \Monolog\Logger
-     */
-    private $logger = null;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    private const OPTION_OK = 'ok';
 
+    protected ilLanguage $lng;
 
     public function __construct()
     {
         global $DIC;
-        $this->logger = $DIC->logger()->cal();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('background_tasks');
     }
 
-
     /**
-     * @inheritdoc
+     * @return \ILIAS\BackgroundTasks\Types\SingleType[]
      */
-    public function getInputTypes()
+    public function getInputTypes(): array
     {
         return [
             new SingleType(ilCopyDefinition::class),
         ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getOutputType()
+    public function getOutputType(): Type
     {
         return new SingleType(ilCopyDefinition::class);
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getRemoveOption()
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('ok', self::OPTION_OK);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket): Value
     {
         if ($user_selected_option->getValue() == self::OPTION_OK) {
             // Set state to finished to stop the BackgroundTask and remove it from the popover.
             $bucket->setState(3);
         }
 
-        return $definition = $input[0];
+        return $input[0];
     }
 
-
     /**
-     * @inheritdoc
+     * @return mixed[]
      */
-    public function getOptions(array $input)
+    public function getOptions(array $input): array
     {
         return array();
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getMessage(array $input)
+    public function getMessage(array $input): string
     {
-        return $message = $this->lng->txt('ui_msg_files_violate_maxsize');
+        return $this->lng->txt('ui_msg_files_violate_maxsize');
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function canBeSkipped(array $input) : bool
+    public function canBeSkipped(array $input): bool
     {
         $copy_definition = $input[0];
         if ($copy_definition->getAdheresToLimit()->getValue()) {
@@ -115,11 +99,7 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
         }
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getSkippedValue(array $input) : Value
+    public function getSkippedValue(array $input): Value
     {
         return $input[0];
     }
@@ -128,6 +108,4 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     {
         return false;
     }
-
-
 }

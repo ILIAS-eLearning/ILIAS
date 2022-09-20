@@ -1,19 +1,25 @@
 {SEARCHFORM}
 <form action="{ACTION}" method="post" name="recipients">
 	<!-- BEGIN hits -->
+	<table class="fullwidth">
+		<tr class="tblheader">
+			<td class="submit">
+				<div class="pull-left"><img class="media-middle" src="{IMG_ARROW_UP}" alt="{ALT_ARROW_UP}" /></div>
+				<div class="pull-left"><input class="btn btn-default" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/></div>
+			</td>
+		</tr>
+	</table>
 	<p>
 	{TABLE_ADDR}
 	{TABLE_USERS}
-	{TABLE_GRP}	
+	{TABLE_GRP}
 	<table class="fullwidth">
 	<tr class="tblfooter">
-		<td class="submit"  width="4%" align="center">
-			 <img src="{IMG_ARROW}" alt="{ALT_ARROW}" style="vertical-align:middle;" />
+		<td class="submit text-center">
+			<div class="pull-left"><img class="media-middle" src="{IMG_ARROW}" alt="{ALT_ARROW}" /></div>
+			<div class="pull-left"><input class="btn btn-default" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/></div>
 		</td>
-		<td class="submit">
-			<input class="btn btn-default" type="submit" name="cmd[adopt]" value="{BUTTON_ADOPT}"/>
-		</td>
-	</tr>		
+	</tr>
 	</table>
 	</p>
 	<!-- END hits -->

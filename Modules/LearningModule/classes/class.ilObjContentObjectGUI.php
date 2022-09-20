@@ -1,7 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
 /**
  * Class ilObjContentObjectGUI
@@ -9,63 +24,26 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
- *
- * @ingroup ModulesLearningModule
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  */
-class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHandling
+class ilObjContentObjectGUI extends ilObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var Logger
-     */
-    protected $log;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
+    protected ilLMMenuEditor $lmme_obj;
+    protected ilObjLearningModule $lm_obj;
+    protected string $lang_switch_mode;
+    protected ilPropertyFormGUI $form;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilDBInterface $db;
+    protected ilLogger $log;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilComponentRepository $component_repository;
 
     protected bool $to_props = false;
-
     protected int $requested_obj_id = 0;
     protected string $requested_new_type = "";
     protected string $requested_baseClass = "";
@@ -80,33 +58,39 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     protected int $requested_glo_id = 0;
     protected int $requested_glo_ref_id = 0;
     protected string $requested_lang_switch_mode = "";
-
     protected int $requested_active_node = 0;
     protected int $requested_lmexpand = 0;
     protected int $requested_link_ref_id = 0;
     protected string $requested_totransl = "";
     protected bool $requested_lmmovecopy = false;
+    protected ilObjLearningModule $lm;
+    protected EditingGUIRequest $edit_request;
+    protected \ILIAS\Style\Content\Service $content_style_service;
 
     /**
-    * Constructor
-    *
-    * @access	public
-    */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = false)
-    {
+     * @param mixed $a_data
+     * @param int  $a_id
+     * @param bool $a_call_by_reference
+     * @param bool $a_prepare_output
+     * @throws ilCtrlException
+     */
+    public function __construct(
+        $a_data,
+        int $a_id = 0,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = false
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tabs = $DIC->tabs();
-        $this->error = $DIC["ilErr"];
         $this->settings = $DIC->settings();
         $this->user = $DIC->user();
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->tree = $DIC->repositoryTree();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $this->locator = $DIC["ilLocator"];
         $this->db = $DIC->database();
@@ -115,50 +99,83 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $this->ctrl = $ilCtrl;
+        $this->component_repository = $DIC["component.repository"];
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("obj");
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
-        $this->to_props = (bool) ($_GET["to_props"] ?? false);
-        $this->requested_obj_id = (int) ($_GET["obj_id"] ?? 0);
-        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
-        $this->requested_root_id = (int) ($_GET["root_id"] ?? 0);
-        $this->requested_glo_id = (int) ($_GET["glo_id"] ?? 0);
-        $this->requested_glo_ref_id = (int) ($_GET["glo_ref_id"] ?? 0);
-        $this->requested_menu_entry = (int) ($_GET["menu_entry"] ?? 0);
-        $this->requested_lm_menu_expand = (int) ($_GET["lm_menu_expand"] ?? 0);
-        $this->requested_search_root_expand = (int) ($_GET["search_root_expand"] ?? 0);
-        $this->requested_new_type = (string) ($_GET["new_type"] ?? "");
-        $this->requested_baseClass = (string) ($_GET["baseClass"] ?? "");
-        $this->requested_transl = (string) ($_GET["transl"] ?? "");
-        $this->requested_backcmd = (string) ($_GET["backcmd"] ?? "");
-        $this->requested_hierarchy = (bool) ($_GET["hierarchy"] ?? false);
-        $this->lang_switch_mode = (string) ($_GET["lang_switch_mode"] ?? "");
+        $this->edit_request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
-        $this->requested_active_node = (int) ($_GET["active_node"] ?? 0);
-        $this->requested_lmexpand = (int) ($_GET["lmexpand"] ?? 0);
-        $this->requested_link_ref_id = (int) ($_GET["link_ref_id"] ?? 0);
-        $this->requested_totransl = (string) ($_GET["totransl"] ?? "");
-        $this->requested_lmmovecopy = (bool) ($_GET["lmmovecopy"] ?? false);
+        $req = $this->edit_request;
+        $this->to_props = $req->getToProps();
+        $this->requested_obj_id = $req->getObjId();
+        $this->requested_ref_id = $req->getRefId();
+        $this->requested_root_id = $req->getRootId();
+        $this->requested_glo_id = $req->getGlossaryId();
+        $this->requested_glo_ref_id = $req->getGlossaryRefId();
+        $this->requested_menu_entry = $req->getMenuEntry();
+        $this->requested_lm_menu_expand = $req->getLMMenuExpand();
+        $this->requested_search_root_expand = $req->getSearchRootExpand();
+        $this->requested_new_type = $req->getNewType();
+        $this->requested_baseClass = $req->getBaseClass();
+        $this->requested_transl = $req->getTranslation();
+        $this->requested_backcmd = $req->getBackCmd();
+        $this->requested_hierarchy = $req->getHierarchy();
+        $this->lang_switch_mode = $req->getLangSwitchMode();
+        $this->requested_active_node = $req->getActiveNode();
+        $this->requested_lmexpand = $req->getLMExpand();
+        $this->requested_link_ref_id = $req->getLinkRefId();
+        $this->requested_totransl = $req->getToTranslation();
+        $this->requested_lmmovecopy = $req->getLMMoveCopy();
+        $this->content_style_service = $DIC
+            ->contentStyle();
+
+        $id = (isset($this->object))
+            ? $this->object->getId()
+            : 0;
+        $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
+    }
+
+    protected function checkCtrlPath(): void
+    {
+        if (!$this->getCreationMode()) {
+            $baseclass = strtolower($this->requested_baseClass);
+            $next_class = strtolower($this->ctrl->getNextClass());
+            // all calls must be routed through illmpresentationgui or
+            // illmeditorgui...
+            if (!in_array($baseclass, ["illmpresentationgui", "illmeditorgui"])) {
+                // ...except the comman action handler routes to
+                // activation/condition GUI, see https://mantis.ilias.de/view.php?id=32858
+                if (in_array($next_class, ["ilcommonactiondispatchergui"])) {
+                    return;
+                }
+                throw new ilLMException("Wrong ctrl path");
+            }
+        }
     }
 
     /**
      * execute command
-     * @return bool|mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        $ilErr = $this->error;
-        $ret = "";
-        
+
+        $this->checkCtrlPath();
+
         if ($this->ctrl->getRedirectSource() == "ilinternallinkgui") {
-            $this->explorer();
-            return;
+            throw new ilLMException("No Explorer found.");
+            //$this->explorer();
+            //return "";
         }
 
         if ($this->ctrl->getCmdClass() == "ilinternallinkgui") {
@@ -175,64 +192,64 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $cmd = $this->ctrl->getCmd("chapters");
         }
 
-        
+
         switch ($next_class) {
             case 'illtiproviderobjectsettinggui':
-                
+
                 $this->setTabs();
                 $ilTabs->setTabActive("settings");
                 $this->setSubTabs("lti_provider");
-                
-                $lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
-                $lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+
+                $lti_gui = new ilLTIProviderObjectSettingGUI($this->lm->getRefId());
+                $lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->lm->getRefId()));
                 $lti_gui->offerLTIRolesForSelection(true);
                 $this->ctrl->forwardCommand($lti_gui);
                 break;
-            
-            
-            
+
+
+
             case "illearningprogressgui":
                 $this->addHeaderAction();
                 $this->addLocations();
                 $this->setTabs("learning_progress");
 
-                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->object->getRefId());
+                $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $this->lm->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
 
                 break;
 
             case 'ilobjectmetadatagui':
-                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-                    $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->WARNING);
+                if (!$ilAccess->checkAccess('write', '', $this->lm->getRefId())) {
+                    throw new ilPermissionException($this->lng->txt('permission_denied'));
                 }
-                
+
                 $this->addHeaderAction();
                 $this->addLocations();
                 $this->setTabs("meta");
-                
-                $md_gui = new ilObjectMetaDataGUI($this->object);
-                $md_gui->addMDObserver($this->object, 'MDUpdateListener', 'Educational'); // #9510
-                $md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
+
+                $md_gui = new ilObjectMetaDataGUI($this->lm);
+                $md_gui->addMDObserver($this->lm, 'MDUpdateListener', 'Educational'); // #9510
+                $md_gui->addMDObserver($this->lm, 'MDUpdateListener', 'General');
                 $this->ctrl->forwardCommand($md_gui);
                 break;
 
-            case "ilobjstylesheetgui":
+            case "ilobjectcontentstylesettingsgui":
+                $this->checkPermission("write");
+                $this->addHeaderAction();
+                $this->setTitleAndDescription();
                 $this->addLocations();
-                $this->ctrl->setReturn($this, "editStyleProperties");
-                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-                $style_gui->omitLocator();
-                if ($cmd == "create" || $this->requested_new_type == "sty") {
-                    $style_gui->setCreationMode(true);
-                }
-                $ret = $this->ctrl->forwardCommand($style_gui);
+                $this->setTabs("settings");
+                $this->setSubTabs("cont_style");
 
-                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-                    $style_id = $ret;
-                    $this->object->setStyleSheetId($style_id);
-                    $this->object->update();
-                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-                }
+                $settings_gui = $this->content_style_service
+                    ->gui()
+                    ->objectSettingsGUIForRefId(
+                        null,
+                        $this->object->getRefId()
+                    );
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
+
 
             case "illmpageobjectgui":
                 $this->setTitleAndDescription();
@@ -244,12 +261,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->addLocations();
                 $this->ctrl->setReturn($this, "chapters");
 
-                $pg_gui = new ilLMPageObjectGUI($this->object);
+                $pg_gui = new ilLMPageObjectGUI($this->lm);
                 if ($this->requested_obj_id > 0) {
-                    $obj = ilLMObjectFactory::getInstance($this->object, $this->requested_obj_id);
+                    /** @var ilLMPageObject $obj */
+                    $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $pg_gui->setLMPageObject($obj);
                 }
-                $ret = $this->ctrl->forwardCommand($pg_gui);
+                $this->ctrl->forwardCommand($pg_gui);
                 break;
 
             case "ilstructureobjectgui":
@@ -261,12 +279,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->ctrl->saveParameter($this, array("obj_id"));
                 $this->addLocations();
                 $this->ctrl->setReturn($this, "chapters");
-                $st_gui = new ilStructureObjectGUI($this->object, $this->object->lm_tree);
+                $st_gui = new ilStructureObjectGUI($this->lm, $this->lm->lm_tree);
                 if ($this->requested_obj_id > 0) {
-                    $obj = ilLMObjectFactory::getInstance($this->object, $this->requested_obj_id);
+                    /** @var ilStructureObject $obj */
+                    $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $st_gui->setStructureObject($obj);
                 }
-                $ret = $this->ctrl->forwardCommand($st_gui);
+                $this->ctrl->forwardCommand($st_gui);
                 if ($cmd == "save" || $cmd == "cancel") {
                     if ($this->requested_obj_id == 0) {
                         $this->ctrl->redirect($this, "chapters");
@@ -286,10 +305,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                     $this->setTabs("perm");
                 }
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            // infoscreen
+                // infoscreen
             case 'ilinfoscreengui':
                 $this->addHeaderAction();
                 $this->addLocations(true);
@@ -297,27 +316,26 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $info = new ilInfoScreenGUI($this);
                 $info->enablePrivateNotes();
                 $info->enableLearningProgress();
-        
                 $info->enableNews();
                 if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
                     $info->enableNewsEditing();
                     $info->setBlockProperty("news", "settings", true);
                 }
-                
+
                 // show standard meta data section
                 $info->addMetaDataSections(
-                    $this->object->getId(),
+                    $this->lm->getId(),
                     0,
-                    $this->object->getType()
+                    $this->lm->getType()
                 );
-        
-                $ret = $this->ctrl->forwardCommand($info);
+
+                $this->ctrl->forwardCommand($info);
                 break;
-            
+
             case "ilexportgui":
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $ot = ilObjectTranslation::getInstance($this->object->getId());
+                $ot = ilObjectTranslation::getInstance($this->lm->getId());
                 if ($ot->getContentActivated()) {
                     $exp_gui->addFormat("xml_master", "XML (" . $lng->txt("cont_master_language_only") . ")", $this, "export");
                     $exp_gui->addFormat("xml_masternomedia", "XML (" . $lng->txt("cont_master_language_only_no_media") . ")", $this, "export");
@@ -332,7 +350,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                     $exp_gui->addFormat("html", "", $this, "exportHTML");
                 }
 
-                $exp_gui->addFormat("scorm", "", $this, "exportSCORM");
                 $exp_gui->addCustomColumn(
                     $lng->txt("cont_public_access"),
                     $this,
@@ -343,8 +360,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                     $this,
                     "publishExportFile"
                 );
-                $ret = $this->ctrl->forwardCommand($exp_gui);
-                ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
+                $this->ctrl->forwardCommand($exp_gui);
+                $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_only_one_download_per_type"));
                 $this->addHeaderAction();
                 $this->addLocations(true);
                 $this->setTabs("export");
@@ -378,7 +395,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->addLocations(true);
                 $this->setTabs("content");
                 $this->setContentSubTabs("srt_files");
-                $gui = new ilMobMultiSrtUploadGUI(new ilLMMultiSrt($this->object));
+                $gui = new ilMobMultiSrtUploadGUI(new ilLMMultiSrt($this->lm));
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -387,7 +404,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->addLocations(true);
                 $this->setTabs("content");
                 $this->setContentSubTabs("import");
-                $gui = new ilLMImportGUI($this->object);
+                $gui = new ilLMImportGUI($this->lm);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -396,12 +413,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $this->addLocations(true);
                 $this->setTabs("content");
                 $this->setContentSubTabs("short_titles");
-                $gui = new ilLMEditShortTitlesGUI($this);
+                /** @var ilObjLearningModuleGUI $lm_gui */
+                $lm_gui = $this;
+                $gui = new ilLMEditShortTitlesGUI(
+                    $lm_gui,
+                    $this->edit_request->getTranslation()
+                );
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
-                $new_type = $_POST["new_type"] ?? $this->requested_new_type;
+                $new_type = $this->requested_new_type;
 
                 if ($cmd == "create" &&
                     !in_array($new_type, array("lm"))) {
@@ -409,45 +431,38 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                         case "pg":
                             $this->setTabs();
                             $this->ctrl->setCmdClass("ilLMPageObjectGUI");
-                            $ret = $this->executeCommand();
+                            $this->executeCommand();
                             break;
 
                         case "st":
                             $this->setTabs();
                             $this->ctrl->setCmdClass("ilStructureObjectGUI");
-                            $ret = $this->executeCommand();
+                            $this->executeCommand();
                             break;
                     }
                 } else {
                     // creation of new dbk/lm in repository
-                    if ($this->getCreationMode() == true &&
-                        in_array($new_type, array("lm"))) {
+                    if ($this->getCreationMode() === true &&
+                        $new_type === "lm") {
                         $this->prepareOutput();
                         if ($cmd == "") {			// this may be due to too big upload files
                             $cmd = "create";
                         }
                         $cmd .= "Object";
-                        $ret = $this->$cmd();
                     } else {
                         $this->addHeaderAction();
                         $this->addLocations();
-                        $ret = $this->$cmd();
                     }
+                    $this->$cmd();
                 }
                 break;
         }
-        return $ret;
-    }
-
-    public static function _forwards()
-    {
-        return array("ilLMPageObjectGUI", "ilStructureObjectGUI","ilObjStyleSheetGUI");
     }
 
     /**
-    * edit properties form
-    */
-    public function properties()
+     * edit properties form
+     */
+    public function properties(): void
     {
         $lng = $this->lng;
 
@@ -458,34 +473,32 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         // lm properties
         $this->initPropertiesForm();
         $this->getPropertiesFormValues();
-        
-        if ($this->object->getType() == "lm") {
-            // Edit ecs export settings
-            $ecs = new ilECSLearningModuleSettings($this->object);
-            $ecs->addSettingsToForm($this->form, 'lm');
-        }
-        
+
+        // Edit ecs export settings
+        $ecs = new ilECSLearningModuleSettings($this->lm);
+        $ecs->addSettingsToForm($this->form, 'lm');
+
         $this->tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
-    * Init properties form
-    */
-    public function initPropertiesForm()
+     * Init properties form
+     */
+    public function initPropertiesForm(): void
     {
         $obj_service = $this->object_service;
 
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->form = new ilPropertyFormGUI();
-        
+
         // title
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setRequired(true);
         $this->form->addItem($ti);
-        
+
         // description
         $ta = new ilTextAreaInputGUI($lng->txt("desc"), "description");
         $this->form->addItem($ta);
@@ -505,18 +518,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->form->addItem($section);
 
         // tile image
-        $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
-
-        // default layout
-        /*
-        $layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
-        $this->form->addItem($layout);*/
-
-        // layout per page
-        /*
-        $lpp = new ilCheckboxInputGUI($lng->txt("cont_layout_per_page"), "layout_per_page");
-        $lpp->setInfo($this->lng->txt("cont_layout_per_page_info"));
-        $this->form->addItem($lpp);*/
+        $obj_service->commonSettings()->legacyForm($this->form, $this->lm)->addTileImage();
 
         // page header
         $page_header = new ilSelectInputGUI($lng->txt("cont_page_header"), "lm_pg_header");
@@ -525,7 +527,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             "none" => $this->lng->txt("cont_none"));
         $page_header->setOptions($option);
         $this->form->addItem($page_header);
-        
+
         // chapter numeration
         $chap_num = new ilCheckboxInputGUI($lng->txt("cont_act_number"), "cobj_act_number");
         $this->form->addItem($chap_num);
@@ -541,6 +543,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $progr_icons = new ilCheckboxInputGUI($lng->txt("cont_progress_icons"), "progr_icons");
         $progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
         $this->form->addItem($progr_icons);
+
+        $this->reading_time_gui->addSettingToForm($this->form);
 
         // self assessment
         $section = new ilFormSectionHeaderGUI();
@@ -600,20 +604,28 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->form->setTitle($lng->txt("cont_lm_properties"));
         $this->form->addCommandButton("saveProperties", $lng->txt("save"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
+
+        ilObjectServiceSettingsGUI::initServiceSettingsForm(
+            $this->object->getId(),
+            $this->form,
+            [
+                ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+            ]
+        );
     }
 
     /**
-    * Get values for properties form
-    */
-    public function getPropertiesFormValues()
+     * Get values for properties form
+     */
+    public function getPropertiesFormValues(): void
     {
         $ilUser = $this->user;
 
         $values = array();
 
-        $title = $this->object->getTitle();
-        $description = $this->object->getLongDescription();
-        $ot = ilObjectTranslation::getInstance($this->object->getId());
+        $title = $this->lm->getTitle();
+        $description = $this->lm->getLongDescription();
+        $ot = ilObjectTranslation::getInstance($this->lm->getId());
         if ($ot->getContentActivated()) {
             $title = $ot->getDefaultTitle();
             $description = $ot->getDefaultDescription();
@@ -621,116 +633,126 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         $values["title"] = $title;
         $values["description"] = $description;
-        if (!$this->object->getOfflineStatus()) {
+        if (!$this->lm->getOfflineStatus()) {
             $values["cobj_online"] = true;
         }
-        //$values["lm_layout"] = $this->object->getLayout();
-        $values["lm_pg_header"] = $this->object->getPageHeader();
-        if ($this->object->isActiveNumbering()) {
+        //$values["lm_layout"] = $this->lm->getLayout();
+        $values["lm_pg_header"] = $this->lm->getPageHeader();
+        if ($this->lm->isActiveNumbering()) {
             $values["cobj_act_number"] = true;
         }
-        $values["toc_mode"] = $this->object->getTOCMode();
-        if ($this->object->publicNotes()) {
+        $values["toc_mode"] = $this->lm->getTOCMode();
+        if ($this->lm->publicNotes()) {
             $values["cobj_pub_notes"] = true;
         }
-        if ($this->object->cleanFrames()) {
+        if ($this->lm->cleanFrames()) {
             $values["cobj_clean_frames"] = true;
         }
-        if ($this->object->isActiveHistoryUserComments()) {
+        if ($this->lm->isActiveHistoryUserComments()) {
             $values["cobj_user_comments"] = true;
         }
-        //$values["layout_per_page"] = $this->object->getLayoutPerPage();
-        $values["rating"] = $this->object->hasRating();
-        $values["rating_pages"] = $this->object->hasRatingPages();
-        $values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
-        $values["progr_icons"] = $this->object->getProgressIcons();
-        $values["store_tries"] = $this->object->getStoreTries();
-        $values["restrict_forw_nav"] = $this->object->getRestrictForwardNavigation();
+        //$values["layout_per_page"] = $this->lm->getLayoutPerPage();
+        $values["rating"] = $this->lm->hasRating();
+        $values["rating_pages"] = $this->lm->hasRatingPages();
+        $values["disable_def_feedback"] = $this->lm->getDisableDefaultFeedback();
+        $values["progr_icons"] = $this->lm->getProgressIcons();
+        $values["store_tries"] = $this->lm->getStoreTries();
+        $values["restrict_forw_nav"] = $this->lm->getRestrictForwardNavigation();
 
         $values["notification_blocked_users"] = ilNotification::hasNotification(
             ilNotification::TYPE_LM_BLOCKED_USERS,
             $ilUser->getId(),
-            $this->object->getId()
+            $this->lm->getId()
         );
 
-        $this->form->setValuesByArray($values);
+        $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
+
+        $this->form->setValuesByArray($values, true);
     }
-    
+
     /**
-    * save properties
-    */
-    public function saveProperties()
+     * save properties
+     */
+    public function saveProperties(): void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilSetting = $this->settings;
         $obj_service = $this->object_service;
 
+        $add_info = "";
+
         $valid = false;
         $this->initPropertiesForm();
-        if ($this->form->checkInput()) {
-            $ot = ilObjectTranslation::getInstance($this->object->getId());
+        $form = $this->form;
+        if ($form->checkInput()) {
+            $ot = ilObjectTranslation::getInstance($this->lm->getId());
             if ($ot->getContentActivated()) {
-                $ot->setDefaultTitle($_POST['title']);
-                $ot->setDefaultDescription($_POST['description']);
+                $ot->setDefaultTitle($form->getInput('title'));
+                $ot->setDefaultDescription($form->getInput('description'));
                 $ot->save();
             }
 
-            $this->object->setTitle($_POST['title']);
-            $this->object->setDescription($_POST['description']);
-            //$this->object->setLayout($_POST["lm_layout"]);
-            $this->object->setPageHeader($_POST["lm_pg_header"]);
-            $this->object->setTOCMode($_POST["toc_mode"]);
-            $this->object->setOfflineStatus(!($_POST['cobj_online']));
-            $this->object->setActiveNumbering($_POST["cobj_act_number"]);
-            $this->object->setCleanFrames($_POST["cobj_clean_frames"]);
+            $this->lm->setTitle($form->getInput('title'));
+            $this->lm->setDescription($form->getInput('description'));
+            $this->lm->setPageHeader($form->getInput("lm_pg_header"));
+            $this->lm->setTOCMode($form->getInput("toc_mode"));
+            $this->lm->setOfflineStatus(!($form->getInput('cobj_online')));
+            $this->lm->setActiveNumbering((bool) $form->getInput("cobj_act_number"));
+            $this->lm->setCleanFrames((bool) $form->getInput("cobj_clean_frames"));
             if (!$ilSetting->get('disable_comments')) {
-                $this->object->setPublicNotes($_POST["cobj_pub_notes"]);
+                $this->lm->setPublicNotes($form->getInput("cobj_pub_notes"));
             }
-            $this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
-            //$this->object->setLayoutPerPage($_POST["layout_per_page"]);
-            $this->object->setRating($_POST["rating"]);
-            $this->object->setRatingPages($_POST["rating_pages"]);
-            $this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
-            $this->object->setProgressIcons((int) $_POST["progr_icons"]);
+            $this->lm->setHistoryUserComments((bool) $form->getInput("cobj_user_comments"));
+            $this->lm->setRating((bool) $form->getInput("rating"));
+            $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
+            $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
+            $this->lm->setProgressIcons((int) $form->getInput("progr_icons"));
+            $this->reading_time_gui->saveSettingFromForm($this->form);
 
             $add_info = "";
-            if ($_POST["restrict_forw_nav"] && !$_POST["store_tries"]) {
-                $_POST["store_tries"] = 1;
+            $store_tries = $form->getInput("store_tries");
+            if ($form->getInput("restrict_forw_nav") && !$form->getInput("store_tries")) {
+                $store_tries = 1;
                 $add_info = "</br>" . $lng->txt("cont_automatically_set_store_tries");
                 $add_info = str_replace("$1", $lng->txt("cont_tries_store"), $add_info);
                 $add_info = str_replace("$2", $lng->txt("cont_restrict_forw_nav"), $add_info);
             }
 
-            $this->object->setStoreTries((int) $_POST["store_tries"]);
-            $this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
-            $this->object->updateProperties();
-            $this->object->update();
+            $this->lm->setStoreTries((int) $store_tries);
+            $this->lm->setRestrictForwardNavigation((int) $form->getInput("restrict_forw_nav"));
+            $this->lm->updateProperties();
+            $this->lm->update();
 
             // tile image
-            $obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+            $obj_service->commonSettings()->legacyForm($this->form, $this->lm)->saveTileImage();
 
             ilNotification::setNotification(
                 ilNotification::TYPE_LM_BLOCKED_USERS,
                 $ilUser->getId(),
-                $this->object->getId(),
+                $this->lm->getId(),
                 (bool) $this->form->getInput("notification_blocked_users")
             );
 
+            // services
+            ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+                $this->object->getId(),
+                $this->form,
+                array(
+                    ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
+                )
+            );
 
-            if ($this->object->getType() == 'lm') {
-                // Update ecs export settings
-                $ecs = new ilECSLearningModuleSettings($this->object);
-                if ($ecs->handleSettingsUpdate()) {
-                    $valid = true;
-                }
-            } else {
+
+            // Update ecs export settings
+            $ecs = new ilECSLearningModuleSettings($this->lm);
+            if ($ecs->handleSettingsUpdate()) {
                 $valid = true;
             }
         }
-        
+
         if ($valid) {
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified") . $add_info, true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified") . $add_info, true);
             $this->ctrl->redirect($this, "properties");
         } else {
             $lng->loadLanguageModule("style");
@@ -742,212 +764,70 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
     }
 
-    /**
-    * Edit style properties
-    */
-    public function editStyleProperties()
-    {
-        $tpl = $this->tpl;
-        
-        $this->initStylePropertiesForm();
-        $tpl->setContent($this->form->getHTML());
-    }
-    
-    /**
-    * Init style properties form
-    */
-    public function initStylePropertiesForm()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        
-        $lng->loadLanguageModule("style");
-        $this->setTabs();
-        $ilTabs->setTabActive("settings");
-        $this->setSubTabs("cont_style");
-
-        $this->form = new ilPropertyFormGUI();
-        
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $def_style = $ilSetting->get("default_content_style_id");
-        $style_id = $this->object->getStyleSheetId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $this->form->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(
-                true,
-                false,
-                $this->requested_ref_id
-            );
-
-            if ($def_style > 0) {
-                $st_styles[0] = ilObject::_lookupTitle($def_style) . " (" . $this->lng->txt("default") . ")";
-            } else {
-                $st_styles[0] = $this->lng->txt("default");
-            }
-            ksort($st_styles);
-
-            if ($style_id > 0) {
-                // individual style
-                if (!ilObjStyleSheet::_lookupStandard($style_id)) {
-                    $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-                    $st->setValue(ilObject::_lookupTitle($style_id));
-                    $this->form->addItem($st);
-
-                    // delete command
-                    $this->form->addCommandButton(
-                        "editStyle",
-                        $lng->txt("cont_edit_style")
-                    );
-                    $this->form->addCommandButton(
-                        "deleteStyle",
-                        $lng->txt("cont_delete_style")
-                    );
-                }
-            }
-
-            if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id)) {
-                $style_sel = new ilSelectInputGUI($lng->txt("cont_current_style"), "style_id");
-                $style_sel->setOptions($st_styles);
-                $style_sel->setValue($style_id);
-                $this->form->addItem($style_sel);
-                $this->form->addCommandButton(
-                    "saveStyleSettings",
-                    $lng->txt("save")
-                );
-                $this->form->addCommandButton(
-                    "createStyle",
-                    $lng->txt("sty_create_ind_style")
-                );
-            }
-        }
-        $this->form->setTitle($lng->txt("cont_style"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
-    
-    /**
-    * Create Style
-    */
-    public function createStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
-    }
-    
-    /**
-    * Edit Style
-    */
-    public function editStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
-    }
-
-    /**
-    * Delete Style
-    */
-    public function deleteStyle()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
-    }
-
-    /**
-    * Save style settings
-    */
-    public function saveStyleSettings()
-    {
-        $ilSetting = $this->settings;
-    
-        if ($ilSetting->get("fixed_content_style_id") <= 0 &&
-            (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
-            || $this->object->getStyleSheetId() == 0)) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
-            $this->object->update();
-            ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        }
-        $this->ctrl->redirect($this, "editStyleProperties");
-    }
-
-    /**
-     * Init menu form
-     */
-    public function initMenuForm()
+    public function initMenuForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
-    
+
         // enable menu
         $menu = new ilCheckboxInputGUI($this->lng->txt("cont_active"), "cobj_act_lm_menu");
-        $menu->setChecked($this->object->isActiveLMMenu());
+        $menu->setChecked($this->lm->isActiveLMMenu());
         $form->addItem($menu);
-        
+
         // toc
         $toc = new ilCheckboxInputGUI($this->lng->txt("cont_toc"), "cobj_act_toc");
-        $toc->setChecked($this->object->isActiveTOC());
+        $toc->setChecked($this->lm->isActiveTOC());
         $form->addItem($toc);
-        
+
         // print view
         $print = new ilCheckboxInputGUI($this->lng->txt("cont_print_view"), "cobj_act_print");
-        $print->setChecked($this->object->isActivePrintView());
+        $print->setChecked($this->lm->isActivePrintView());
         $form->addItem($print);
-        
+
         // prevent glossary appendix
         $glo = new ilCheckboxInputGUI($this->lng->txt("cont_print_view_pre_glo"), "cobj_act_print_prev_glo");
-        $glo->setChecked($this->object->isActivePreventGlossaryAppendix());
+        $glo->setChecked($this->lm->isActivePreventGlossaryAppendix());
         $print->addSubItem($glo);
-    
+
         // hide header and footer in print view
         $hhfp = new ilCheckboxInputGUI($this->lng->txt("cont_hide_head_foot_print"), "hide_head_foot_print");
-        $hhfp->setChecked($this->object->getHideHeaderFooterPrint());
+        $hhfp->setChecked($this->lm->getHideHeaderFooterPrint());
         $print->addSubItem($hhfp);
-    
+
         // downloads
         $no_download_file_available =
             " " . $lng->txt("cont_no_download_file_available") .
             " <a href='" . $ilCtrl->getLinkTargetByClass("ilexportgui", "") . "'>" . $lng->txt("change") . "</a>";
-        $types = array("xml", "html", "scorm");
+        $types = array("xml", "html");
         foreach ($types as $type) {
-            if ($this->object->getPublicExportFile($type) != "") {
-                if (is_file($this->object->getExportDirectory($type) . "/" .
-                    $this->object->getPublicExportFile($type))) {
+            if ($this->lm->getPublicExportFile($type) != "") {
+                if (is_file($this->lm->getExportDirectory($type) . "/" .
+                    $this->lm->getPublicExportFile($type))) {
                     $no_download_file_available = "";
                 }
             }
         }
         $dl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads"), "cobj_act_downloads");
         $dl->setInfo($this->lng->txt("cont_downloads_desc") . $no_download_file_available);
-        $dl->setChecked($this->object->isActiveDownloads());
+        $dl->setChecked($this->lm->isActiveDownloads());
         $form->addItem($dl);
-        
+
         // downloads in public area
         $pdl = new ilCheckboxInputGUI($this->lng->txt("cont_downloads_public_desc"), "cobj_act_downloads_public");
-        $pdl->setChecked($this->object->isActiveDownloadsPublic());
+        $pdl->setChecked($this->lm->isActiveDownloadsPublic());
         $dl->addSubItem($pdl);
-            
+
         $form->addCommandButton("saveMenuProperties", $lng->txt("save"));
-                    
+
         $form->setTitle($lng->txt("cont_lm_menu"));
         $form->setFormAction($ilCtrl->getFormAction($this));
-        
+
         return $form;
     }
-    
-    /**
-     * Edit menu properies
-     */
-    public function editMenuProperties()
+
+    public function editMenuProperties(): void
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -959,161 +839,78 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_lm_menu");
-        
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ilToolbar->addFormButton($this->lng->txt("add_menu_entry"), "addMenuEntry");
         $ilToolbar->setCloseFormTag(false);
-    
+
         $form = $this->initMenuForm();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
-        
+
         $this->__initLMMenuEditor();
         $entries = $this->lmme_obj->getMenuEntries();
         $table = new ilLMMenuItemsTableGUI($this, "editMenuProperties", $this->lmme_obj);
         $table->setOpenFormTag(false);
-        
+
         $tpl->setContent($form->getHTML() . "<br />" . $table->getHTML());
     }
 
-    /**
-    * save properties
-    */
-    public function saveMenuProperties()
+    public function saveMenuProperties(): void
     {
-        $this->object->setActiveLMMenu((int) $_POST["cobj_act_lm_menu"]);
-        $this->object->setActiveTOC((int) $_POST["cobj_act_toc"]);
-        $this->object->setActivePrintView((int) $_POST["cobj_act_print"]);
-        $this->object->setActivePreventGlossaryAppendix((int) $_POST["cobj_act_print_prev_glo"]);
-        $this->object->setHideHeaderFooterPrint((int) $_POST["hide_head_foot_print"]);
-        $this->object->setActiveDownloads((int) $_POST["cobj_act_downloads"]);
-        $this->object->setActiveDownloadsPublic((int) $_POST["cobj_act_downloads_public"]);
-        $this->object->updateProperties();
+        $form = $this->initMenuForm();
+        if ($form->checkInput()) {
+            $this->lm->setActiveLMMenu((int) $form->getInput("cobj_act_lm_menu"));
+            $this->lm->setActiveTOC((int) $form->getInput("cobj_act_toc"));
+            $this->lm->setActivePrintView((int) $form->getInput("cobj_act_print"));
+            $this->lm->setActivePreventGlossaryAppendix((int) $form->getInput("cobj_act_print_prev_glo"));
+            $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
+            $this->lm->setActiveDownloads((int) $form->getInput("cobj_act_downloads"));
+            $this->lm->setActiveDownloadsPublic((int) $form->getInput("cobj_act_downloads_public"));
+            $this->lm->updateProperties();
+        }
 
         $this->__initLMMenuEditor();
-        //var_dump($_POST["menu_entries"]); exit;
-        $this->lmme_obj->updateActiveStatus($_POST["menu_entries"]);
+        $this->lmme_obj->updateActiveStatus($this->edit_request->getMenuEntries());
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    /**
-    * output explorer tree
-    */
-    public function explorer()
+    public function proceedDragDrop(): void
     {
         $ilCtrl = $this->ctrl;
 
-        $gui_class = "ilobjlearningmodulegui";
-
-        $ilCtrl->setParameterByClass($gui_class, "active_node", $this->requested_active_node);
-        
-        $this->tpl = new ilTemplate("tpl.main.html", true, true);
-
-        $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-        $this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-        $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
-
-        $exp = new ilLMEditorExplorer(
-            $this->ctrl->getLinkTarget($this, "view"),
-            $this->object,
-            $gui_class
-        );
-
-        $exp->setTargetGet("obj_id");
-        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, "explorer"));
-
-        if ($this->requested_lmmovecopy) {
-            $this->proceedDragDrop();
-        }
-
-
-        if ($this->requested_lmexpand == 0) {
-            $mtree = new ilTree($this->object->getId());
-            $mtree->setTableNames('lm_tree', 'lm_data');
-            $mtree->setTreeTablePK("lm_id");
-            $expanded = $mtree->readRootId();
-        } else {
-            $expanded = $this->requested_lmexpand;
-        }
-        if ($this->requested_active_node > 0) {
-            $path = $this->lm_tree->getPathId($this->requested_active_node);
-            $exp->setForceOpenPath($path);
-
-            $exp->highlightNode($this->requested_active_node);
-        }
-        $exp->setExpand($expanded);
-
-        // build html-output
-        $exp->setOutput(0);
-        $output = $exp->getOutput();
-        
-        // asynchronous output
-        if ($ilCtrl->isAsynch()) {
-            echo $output;
-            exit;
-        }
-
-        $this->tpl->setCurrentBlock("content");
-        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_chap_and_pages"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
-        $this->ctrl->setParameter($this, "lmexpand", $this->requested_lmexpand);
-        $this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "explorer"));
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->printToStdout(false);
-        exit;
-    }
-
-    /**
-    * proceed drag and drop operations on pages/chapters
-    */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-        
-        $this->object->executeDragDrop(
-            $_POST["il_hform_source_id"],
-            $_POST["il_hform_target_id"],
-            $_POST["il_hform_fc"],
-            $_POST["il_hform_as_subitem"]
+        $req = $this->edit_request;
+        $this->lm->executeDragDrop(
+            $req->getHFormPar("source_id"),
+            $req->getHFormPar("target_id"),
+            $req->getHFormPar("fc"),
+            $req->getHFormPar("as_subitem")
         );
         $ilCtrl->redirect($this, "chapters");
     }
 
-    /* protected function initCreationForms($a_new_type)
+    protected function afterSave(ilObject $new_object): void
     {
-        $forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-            self::CFORM_IMPORT => $this->initImportForm());
-
-        return $forms;
-    }*/
-
-    protected function afterSave(ilObject $a_new_object)
-    {
-        $a_new_object->setCleanFrames(true);
-        $a_new_object->update();
+        $new_object->setCleanFrames(true);
+        $new_object->update();
 
         // create content object tree
-        $a_new_object->createLMTree();
-        
+        $new_object->createLMTree();
+
         // create a first chapter
-        $a_new_object->addFirstChapterAndPage();
+        $new_object->addFirstChapterAndPage();
 
         // always send a message
-        ilUtil::sendSuccess($this->lng->txt($this->type . "_added"), true);
-        ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
-            "&baseClass=ilLMEditorGUI");
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->type . "_added"), true);
+        $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $new_object->getRefId());
+        $this->ctrl->redirectByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
     }
 
-    /**
-    * Init import form.
-    */
-    public function initImportForm($a_new_type)
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
-        $form = parent::initImportForm($a_new_type);
+        $form = parent::initImportForm($new_type);
 
         // validation
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
@@ -1121,39 +918,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $form->addItem($cb);
         return $form;
     }
-    
-    /**
-    * export object
-    *
-    * @access	public
-    */
-    public function exportObject()
-    {
-        return;
-    }
 
-    /**
-    * display dialogue for importing XML-LeaningObjects
-    *
-    * @access	public
-    */
-    public function importObject()
+    protected function importFileObject(int $parent_id = null, bool $catch_errors = true): void
     {
-        $this->createObject();
-        return;
-    }
-
-
-    /**
-    * display status information or report errors messages
-    * in case of error
-    *
-    * @access	public
-    */
-    public function importFileObject($parent_id = null, $a_catch_errors = true)
-    {
-        $rbacsystem = $this->rbacsystem;
-        $ilErr = $this->error;
         $tpl = $this->tpl;
 
         $form = $this->initImportForm("lm");
@@ -1167,9 +934,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $no_manifest = true;
         } catch (ilException $e) {
             // display message and form again
-            ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
             return;
         }
 
@@ -1177,69 +944,34 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             return;			// something different has gone wrong, but we have a manifest, this is definitely not "the old" import
         }
 
-        // the "old" (pre 5.1) import
-
-        if (!$rbacsystem->checkAccess("create", $this->requested_ref_id, $this->requested_new_type)) {
-            $ilErr->raiseError($this->lng->txt("no_create_permission"), $ilErr->MESSAGE);
-            return;
-        }
-
-        if ($form->checkInput()) {
-            // create and insert object in objecttree
-            $newObj = new ilObjContentObject();
-            $newObj->setType($this->requested_new_type);
-            $newObj->setTitle($_FILES["importfile"]["name"]);
-            $newObj->setDescription("");
-            $newObj->create(true);
-            $newObj->createReference();
-            $newObj->putInTree($this->requested_ref_id);
-            $newObj->setPermissions($this->requested_ref_id);
-            
-            // create learning module tree
-            $newObj->createLMTree();
-
-            // since the "new" import already did the extracting
-            $mess = $newObj->importFromDirectory($this->tmp_import_dir, $_POST["validate"]);
-
-            if ($mess == "") {
-                ilUtil::sendSuccess($this->lng->txt($this->type . "_added"), true);
-                ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
-                    "&baseClass=ilLMEditorGUI");
-            } else {
-                $link = '<a href="' . "ilias.php?ref_id=" . $newObj->getRefId() .
-                    "&baseClass=ilLMEditorGUI" . '" target="_top">' . $this->lng->txt("btn_next") . '</a>';
-                $tpl->setContent("<br />" . $link . "<br /><br />" . $mess . $link);
-            }
-        } else {
-            $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
-        }
+        throw new ilLMOldExportFileException("This file seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
     }
 
     /**
-    * show chapters
-    */
-    public function chapters()
+     * show chapters
+     */
+    public function chapters(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $this->setTabs();
         $this->setContentSubTabs("chapters");
-        
+
         $ilCtrl->setParameter($this, "backcmd", "chapters");
-        
-        $form_gui = new ilChapterHierarchyFormGUI($this->object->getType(), $this->requested_transl);
+
+        $form_gui = new ilChapterHierarchyFormGUI($this->lm->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
-        $form_gui->setTitle($this->object->getTitle());
+        $form_gui->setTitle($this->lm->getTitle());
         $form_gui->setIcon(ilUtil::getImagePath("icon_lm.svg"));
         $form_gui->setTree($this->lm_tree);
         $form_gui->setMaxDepth(0);
+        $this->tree->readRootId();
         $form_gui->setCurrentTopNodeId($this->tree->getRootId());
         $form_gui->addMultiCommand($lng->txt("delete"), "delete");
         $form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
         $form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-        if ($this->object->getLayoutPerPage()) {
+        if ($this->lm->getLayoutPerPage()) {
             $form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
         }
         $form_gui->setDragIcon(ilUtil::getImagePath("icon_st.svg"));
@@ -1248,40 +980,45 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
-        $ilCtrl->setParameter($this, "obj_id", "");
+        $ilCtrl->setParameter($this, "obj_id", null);
 
-        $ml_head = self::getMultiLangHeader($this->object->getId(), $this);
-        
+        $ml_head = self::getMultiLangHeader($this->lm->getId(), $this);
+
         $this->tpl->setContent($ml_head . $ctpl->get());
     }
 
-    /**
-     * Get multi lang header
-     *
-     * @param
-     * @return
-     */
-    public static function getMultiLangHeader($a_lm_id, $a_gui_class, $a_mode = "")
-    {
+    public static function getMultiLangHeader(
+        int $a_lm_id,
+        object $a_gui_class,
+        string $a_mode = ""
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        $requested_transl = (string) ($_GET["transl"] ?? "");
-        $requested_totransl = (string) ($_GET["totransl"] ?? "");
+
+        $edit_request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $requested_transl = $edit_request->getTranslation();
+        $requested_totransl = $edit_request->getToTranslation();
 
         $ml_head = "";
-        
+
         // multi language
         $ot = ilObjectTranslation::getInstance($a_lm_id);
         if ($ot->getContentActivated()) {
             $ilCtrl->setParameter($a_gui_class, "lang_switch_mode", $a_mode);
             $lng->loadLanguageModule("meta");
-            
+
             // info
             $ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
             $ml_head = $ml_gui->getMultiLangInfo($requested_transl);
-            
+
             // language switch
             $list = new ilAdvancedSelectionListGUI();
             $list->setListTitle($lng->txt("actions"));
@@ -1312,7 +1049,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 }
                 $entries = true;
             }
-            
+
             if ($entries) {
                 $ml_head = '<div class="ilFloatLeft">' . $ml_head . '</div><div style="margin: 5px 0;" class="small ilRight">' . $list->getHTML() . "</div>";
             }
@@ -1321,12 +1058,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         return $ml_head;
     }
-    
 
-    /*
-    * List all pages of learning module
-    */
-    public function pages()
+    public function pages(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -1344,40 +1077,40 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         );
         $ilCtrl->setParameterByClass("illmpageobjectgui", "new_type", "");
 
-        $t = new ilLMPagesTableGUI($this, "pages", $this->object);
+        $t = new ilLMPagesTableGUI($this, "pages", $this->lm);
         $tpl->setContent($t->getHTML());
     }
 
     /**
-    * List all broken links
-    */
-    public function listLinks()
+     * List all broken links
+     */
+    public function listLinks(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->setTabs();
         $this->setContentSubTabs("internal_links");
-        
+
         $table_gui = new ilLinksTableGUI(
             $this,
             "listLinks",
-            $this->object->getId(),
-            $this->object->getType()
+            $this->lm->getId(),
+            $this->lm->getType()
         );
-        
+
         $tpl->setContent($table_gui->getHTML());
     }
-    
+
     /**
      * Show maintenance
      */
-    public function showMaintenance()
+    public function showMaintenance(): void
     {
         $ilToolbar = $this->toolbar;
-        
+
         $this->setTabs();
         $this->setContentSubTabs("maintenance");
-        
+
         $ilToolbar->addButton(
             $this->lng->txt("cont_fix_tree"),
             $this->ctrl->getLinkTarget($this, "fixTreeConfirm")
@@ -1385,29 +1118,27 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     }
 
     /**
-    * activates or deactivates pages
-    */
-    public function activatePages()
+     * activates or deactivates pages
+     */
+    public function activatePages(): void
     {
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
-                $act = ilLMPage::_lookupActive($id, $this->object->getType());
-                ilLMPage::_writeActive($id, $this->object->getType(), !$act);
-            }
+        $ids = $this->edit_request->getIds();
+        foreach ($ids as $id) {
+            $act = ilLMPage::_lookupActive($id, $this->lm->getType());
+            ilLMPage::_writeActive($id, $this->lm->getType(), !$act);
         }
 
         $this->ctrl->redirect($this, "pages");
     }
 
     /**
-    * paste page
-    */
-    public function pastePage()
+     * paste page
+     */
+    public function pastePage(): void
     {
-        $ilErr = $this->error;
-
         if (ilEditClipboard::getContentObjectType() != "pg") {
-            $ilErr->raiseError($this->lng->txt("no_page_in_clipboard"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_page_in_clipboard"), true);
+            $this->ctrl->redirect($this, "pages");
         }
 
         // paste selected object
@@ -1417,17 +1148,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         if (ilEditClipboard::getAction() == "copy") {
             // check wether page belongs to lm
             if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
-                == $this->object->getID()) {
-                $lm_page = new ilLMPageObject($this->object, $id);
-                $new_page = $lm_page->copy();
+                == $this->lm->getId()) {
+                $lm_page = new ilLMPageObject($this->lm, $id);
+                $new_page = $lm_page->copy($this->lm);
                 $id = $new_page->getId();
             } else {
                 // get page from other content object into current content object
                 $lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
+                /** @var ilObjLearningModule $lm_obj */
                 $lm_obj = ilObjectFactory::getInstanceByObjId($lm_id);
                 $lm_page = new ilLMPageObject($lm_obj, $id);
                 $copied_nodes = array();
-                $new_page = $lm_page->copyToOtherContObject($this->object, $copied_nodes);
+                $new_page = $lm_page->copyToOtherContObject($this->lm, $copied_nodes);
                 $id = $new_page->getId();
                 ilLMObject::updateInternalLinks($copied_nodes);
             }
@@ -1437,15 +1169,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         if (ilEditClipboard::getAction() == "cut") {
             // check wether page belongs not to lm
             if (ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId())
-                != $this->object->getID()) {
+                != $this->lm->getId()) {
                 $lm_id = ilLMObject::_lookupContObjID(ilEditClipboard::getContentObjectId());
+                /** @var ilObjLearningModule $lm_obj */
                 $lm_obj = ilObjectFactory::getInstanceByObjId($lm_id);
                 $lm_page = new ilLMPageObject($lm_obj, $id);
-                $lm_page->setLMId($this->object->getID());
+                $lm_page->setLMId($this->lm->getId());
                 $lm_page->update();
                 $page = $lm_page->getPageObject();
                 $page->buildDom();
-                $page->setParentId($this->object->getID());
+                $page->setParentId($this->lm->getId());
                 $page->update();
             }
         }
@@ -1455,49 +1188,46 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->ctrl->redirect($this, "pages");
     }
 
-    /**
-    * copy page
-    */
-    public function copyPage()
+    public function copyPage(): void
     {
-        $ilErr = $this->error;
-        
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->ctrl->redirect($this, "pages");
         }
 
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        ilLMObject::clipboardCopy($this->object->getId(), $items);
+        ilLMObject::clipboardCopy($this->lm->getId(), $ids);
         ilEditClipboard::setAction("copy");
 
-        ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_selected_items_have_been_copied"), true);
 
         $this->ctrl->redirect($this, "pages");
     }
 
     /**
-    * confirm deletion screen for page object and structure object deletion
-    *
-    * @param	int		$a_parent_subobj_id		id of parent object (structure object)
-    *											of the objects, that should be deleted
-    *											(or no parent object id for top level)
-    */
-    public function delete($a_parent_subobj_id = 0)
+     * confirm deletion screen for page object and structure object deletion
+     * @param int $a_parent_subobj_id id of parent object (structure object)
+     *								  of the objects, that should be deleted
+     *								  (or no parent object id for top level)
+     */
+    public function delete(int $a_parent_subobj_id = 0): void
     {
-        $ilErr = $this->error;
+        $ids = $this->edit_request->getIds();
 
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->cancelDelete();
         }
 
-        if (count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE) {
-            $ilErr->raiseError($this->lng->txt("cont_select_item"), $ilErr->MESSAGE);
+        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"), true);
+            $this->cancelDelete();
         }
 
         if ($a_parent_subobj_id == 0) {
             $this->setTabs();
         }
-        
+
         if ($a_parent_subobj_id != 0) {
             $this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $this->requested_backcmd);
             $this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
@@ -1506,20 +1236,19 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $this->ctrl->setParameter($this, "backcmd", $this->requested_backcmd);
             $form_action = $this->ctrl->getFormAction($this);
         }
-        
+
         // display confirmation message
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($form_action);
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
-        
-        foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
-                $obj = new ilLMObject($this->object, $id);
-                $caption = ilUtil::getImageTagByType($obj->getType(), $this->tpl->tplPath) .
-                    " " . $obj->getTitle();
-                
+
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = new ilLMObject($this->lm, $id);
+                $caption = $obj->getTitle();
+
                 $cgui->addItem("id[]", $id, $caption);
             }
         }
@@ -1527,47 +1256,43 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    /**
-    * cancel delete
-    */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         $this->ctrl->redirect($this, $this->requested_backcmd);
     }
 
     /**
-    * delete page object or structure objects
-    *
-    * @param	int		$a_parent_subobj_id		id of parent object (structure object)
-    *											of the objects, that should be deleted
-    *											(or no parent object id for top level)
-    */
-    public function confirmedDelete($a_parent_subobj_id = 0)
+     * delete page object or structure objects
+     *
+     * @param	int		$a_parent_subobj_id		id of parent object (structure object)
+     *											of the objects, that should be deleted
+     *											(or no parent object id for top level)
+     */
+    public function confirmedDelete(int $a_parent_subobj_id = 0): void
     {
-        $ilErr = $this->error;
+        $tree = new ilLMTree($this->lm->getId());
 
-        $tree = new ilTree($this->object->getId());
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
+        $ids = $this->edit_request->getIds();
 
         // check number of objects
-        if (!$_POST["id"]) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->ctrl->redirect($this, "cancelDelete");
         }
 
         // delete all selected objects
-        foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
-                $obj = ilLMObjectFactory::getInstance($this->object, $id, false);
+        foreach ($ids as $id) {
+            if ($id != ilTree::POS_FIRST_NODE) {
+                $obj = ilLMObjectFactory::getInstance($this->lm, $id, false);
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
-                    $obj->setLMId($this->object->getId());
+                    $obj->setLMId($this->lm->getId());
 
                     ilHistory::_createEntry(
-                        $this->object->getId(),
+                        $this->lm->getId(),
                         "delete_" . $obj->getType(),
                         array(ilLMObject::_lookupTitle($id), $id),
-                        $this->object->getType()
+                        $this->lm->getType()
                     );
 
                     $obj->delete();
@@ -1579,26 +1304,20 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
 
         // check the tree
-        $this->object->checkTree();
+        $this->lm->checkTree();
 
         // feedback
-        ilUtil::sendSuccess($this->lng->txt("info_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("info_deleted"), true);
 
         if ($a_parent_subobj_id == 0) {
             $this->ctrl->redirect($this, $this->requested_backcmd);
         }
     }
 
-
-
-    /**
-    * get context path in content object tree
-    *
-    * @param	int		$a_endnode_id		id of endnode
-    * @param	int		$a_startnode_id		id of startnode
-    */
-    public function getContextPath($a_endnode_id, $a_startnode_id = 1)
-    {
+    public function getContextPath(
+        int $a_endnode_id,
+        int $a_startnode_id = 1
+    ): string {
         $path = "";
 
         $tmpPath = $this->lm_tree->getPathFull($a_endnode_id, $a_startnode_id);
@@ -1615,15 +1334,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         return $path;
     }
 
-
-
-    /**
-    * show possible action (form buttons)
-    *
-    * @access	public
-    */
-    public function showActions($a_actions)
+    public function showActions(array $a_actions): void
     {
+        $d = null;
         foreach ($a_actions as $name => $lng) {
             $d[$name] = array("name" => $name, "lng" => $lng);
         }
@@ -1654,10 +1367,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
     }
 
-    /**
-    * view content object
-    */
-    public function view()
+    public function view(): void
     {
         if (strtolower($this->requested_baseClass) == "iladministrationgui") {
             $this->prepareOutput();
@@ -1669,74 +1379,70 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
     /**
-    * move a single chapter  (selection)
-    */
-    public function moveChapter($a_parent_subobj_id = 0)
+     * move a single chapter  (selection)
+     */
+    public function moveChapter(int $a_parent_subobj_id = 0): void
     {
-        $ilErr = $this->error;
-
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            if ($a_parent_subobj_id == 0) {
+                $this->ctrl->redirect($this, "chapters");
+            }
+            return;
         }
-        if (count($_POST["id"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
+        if (count($ids) > 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"));
+            if ($a_parent_subobj_id == 0) {
+                $this->ctrl->redirect($this, "chapters");
+            }
+            return;
         }
 
-        if (count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE) {
-            $ilErr->raiseError($this->lng->txt("cont_select_item"), $ilErr->MESSAGE);
+        if (count($ids) == 1 && $ids[0] == ilTree::POS_FIRST_NODE) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_item"));
+            if ($a_parent_subobj_id == 0) {
+                $this->ctrl->redirect($this, "chapters");
+            }
         }
 
         // SAVE POST VALUES
-        ilEditClipboard::storeContentObject("st", $_POST["id"][0], "move");
+        ilEditClipboard::storeContentObject("st", $ids[0], "move");
 
-        ilUtil::sendInfo($this->lng->txt("cont_chap_select_target_now"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_chap_select_target_now"), true);
 
         if ($a_parent_subobj_id == 0) {
             $this->ctrl->redirect($this, "chapters");
         }
     }
 
-
-    /**
-    * copy a single chapter  (selection)
-    */
-    public function copyChapter($a_parent_subobj_id = 0)
+    public function copyChapter(): void
     {
         $this->copyItems();
     }
 
-    /**
-    * paste chapter
-    */
-    public function pasteChapter($a_parent_subobj_id = 0)
+    public function pasteChapter(): void
     {
-        return $this->insertChapterClip(false);
+        $this->insertChapterClip();
     }
 
-    /**
-    * move page
-    */
-    public function movePage()
+    public function movePage(): void
     {
-        $ilErr = $this->error;
-        
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "pages");
         }
 
-        ilUtil::sendInfo($this->lng->txt("cont_selected_items_have_been_cut"), true);
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_selected_items_have_been_cut"), true);
 
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        ilLMObject::clipboardCut($this->object->getId(), $items);
+        ilLMObject::clipboardCut($this->lm->getId(), $ids);
         ilEditClipboard::setAction("cut");
-        
+
         $this->ctrl->redirect($this, "pages");
     }
 
-    /**
-    * cancel action
-    */
-    public function cancel()
+    public function cancel(): void
     {
         if ($this->requested_new_type == "pg") {
             $this->ctrl->redirect($this, "pages");
@@ -1745,120 +1451,87 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
     }
 
-
-    /**
-    * export content object
-    */
-    public function export()
+    public function export(): void
     {
-        $ot = ilObjectTranslation::getInstance($this->object->getId());
+        $ot = ilObjectTranslation::getInstance($this->lm->getId());
         $opt = "";
         if ($ot->getContentActivated()) {
-            $format = explode("_", $_POST["format"]);
+            $format = explode("_", $this->edit_request->getFormat());
             $opt = ilUtil::stripSlashes($format[1]);
         }
 
 
-        $cont_exp = new ilContObjectExport($this->object);
+        $cont_exp = new ilContObjectExport($this->lm);
         $cont_exp->buildExportFile($opt);
     }
 
     /**
      * Get public access value for export table
      */
-    public function getPublicAccessColValue($a_type, $a_file)
-    {
+    public function getPublicAccessColValue(
+        string $a_type,
+        string $a_file
+    ): string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $add = "";
 
         $changelink = "<a href='" . $ilCtrl->getLinkTarget($this, "editMenuProperties") . "'>" . $lng->txt("change") . "</a>";
-        if (!$this->object->isActiveLMMenu()) {
+        if (!$this->lm->isActiveLMMenu()) {
             $add = "<br />" . $lng->txt("cont_download_no_menu") . " " . $changelink;
-        } elseif (!$this->object->isActiveDownloads()) {
+        } elseif (!$this->lm->isActiveDownloads()) {
             $add = "<br />" . $lng->txt("cont_download_no_download") . " " . $changelink;
         }
 
         $basetype = explode("_", $a_type);
         $basetype = $basetype[0];
 
-        if ($this->object->getPublicExportFile($basetype) == $a_file) {
+        if ($this->lm->getPublicExportFile($basetype) == $a_file) {
             return $lng->txt("yes") . $add;
         }
-    
+
         return " ";
     }
 
-
-
-    /**
-    * download export file
-    */
-    public function publishExportFile($a_files)
-    {
+    public function publishExportFile(
+        ?array $a_files
+    ): void {
         $ilCtrl = $this->ctrl;
-        
+
         if (!isset($a_files)) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
         } else {
             foreach ($a_files as $f) {
                 $file = explode(":", $f);
                 if (is_int(strpos($file[0], "_"))) {
                     $file[0] = explode("_", $file[0])[0];
                 }
-                $export_dir = $this->object->getExportDirectory($file[0]);
-        
-                if ($this->object->getPublicExportFile($file[0]) ==
+                $export_dir = $this->lm->getExportDirectory($file[0]);
+
+                if ($this->lm->getPublicExportFile($file[0]) ==
                     $file[1]) {
-                    $this->object->setPublicExportFile($file[0], "");
+                    $this->lm->setPublicExportFile($file[0], "");
                 } else {
-                    $this->object->setPublicExportFile($file[0], $file[1]);
+                    $this->lm->setPublicExportFile($file[0], $file[1]);
                 }
             }
-            $this->object->update();
+            $this->lm->update();
         }
         $ilCtrl->redirectByClass("ilexportgui");
     }
 
-    /**
-    * download export file
-    */
-    public function downloadPDFFile()
-    {
-        $ilErr = $this->error;
-
-        if (!isset($_POST["file"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
-        }
-
-        if (count($_POST["file"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
-        }
-
-
-        $export_dir = $this->object->getOfflineDirectory();
-        
-        $file = basename($_POST["file"][0]);
-        
-        ilUtil::deliverFile($export_dir . "/" . $file, $file);
-    }
-
-
-    /**
-    * confirm screen for tree fixing
-    *
-    */
-    public function fixTreeConfirm()
+    public function fixTreeConfirm(): void
     {
         $this->setTabs();
         $this->setContentSubTabs("maintenance");
-        
+
         // display confirmation message
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("cont_fix_tree_confirm"));
         $cgui->setCancel($this->lng->txt("cancel"), "showMaintenance");
         $cgui->setConfirm($this->lng->txt("cont_fix_tree"), "fixTree");
-        $issues = $this->object->checkStructure();
+        $issues = $this->lm->checkStructure();
         $mess = "";
         if (count($issues) > 0) {
             $mess = "Found Issues: <br>" . implode("<br>", $issues);
@@ -1866,315 +1539,39 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setContent($cgui->getHTML() . $mess);
     }
 
-    /**
-     * Fix tree
-     */
-    public function fixTree()
+    public function fixTree(): void
     {
-        $this->object->fixTree();
-        ilUtil::sendSuccess($this->lng->txt("cont_tree_fixed"), true);
+        $this->lm->fixTree();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("cont_tree_fixed"), true);
         $this->ctrl->redirect($this, "showMaintenance");
     }
 
-    /**
-    * get lm menu html
-    */
-    public function setilLMMenu(
-        $a_offline = false,
-        $a_export_format = "",
-        $a_active = "content",
-        $a_use_global_tabs = false,
-        $a_as_subtabs = false,
-        $a_cur_page = 0,
-        $a_lang = "",
-        $a_export_all = false
-    ) {
-        $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        $ilAccess = $this->access;
-        $ilTabs = $this->tabs;
-        $rbacsystem = $this->rbacsystem;
-        $ilPluginAdmin = $this->plugin_admin;
-        $ilHelp = $this->help;
-
-        $ilHelp->setScreenIdComponent("lm");
-
-        if ($a_as_subtabs) {
-            $addcmd = "addSubTabTarget";
-            $getcmd = "getSubTabHTML";
-        } else {
-            $addcmd = "addTarget";
-            $getcmd = "getHTML";
-        }
-        
-        $active[$a_active] = true;
-
-        if (!$this->object->isActiveLMMenu()) {
-            return "";
-        }
-
-        if ($a_use_global_tabs) {
-            $tabs_gui = $ilTabs;
-        } else {
-            $tabs_gui = new ilTabsGUI();
-        }
-
-        // workaround for preventing tooltips in export
-        if ($a_offline) {
-            $tabs_gui->setSetupMode(true);
-        }
-        
-        // Determine whether the view of a learning resource should
-        // be shown in the frameset of ilias, or in a separate window.
-        $showViewInFrameset = true;
-
-        if ($showViewInFrameset && !$a_offline) {
-            $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
-        } else {
-            $buttonTarget = "_top";
-        }
-
-        if ($a_export_format == "scorm") {
-            $buttonTarget = "";
-        }
-
-        // content
-        if (!$a_offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            $tabs_gui->$addcmd(
-                "content",
-                $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
-                "",
-                "",
-                $buttonTarget,
-                $active["content"]
-            );
-            if ($active["content"]) {
-                $ilHelp->setScreenId("content");
-                $ilHelp->setSubScreenId("content");
-            }
-        } elseif ($a_offline) {
-            $tabs_gui->setForcePresentationOfSingleTab(true);
-        }
-
-        // table of contents
-        if ($this->object->isActiveTOC() && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            if (!$a_offline) {
-                $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-                $link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showTableOfContents");
-            } else {
-                if ($a_export_all) {
-                    $link = "./table_of_contents_" . $a_lang . ".html";
-                } else {
-                    $link = "./table_of_contents.html";
-                }
-            }
-            $tabs_gui->$addcmd(
-                "cont_toc",
-                $link,
-                "",
-                "",
-                $buttonTarget,
-                $active["toc"]
-            );
-        }
-
-        // print view
-        if ($this->object->isActivePrintView() && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            if (!$a_offline) {		// has to be implemented for offline mode
-                $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-                $link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection");
-                $tabs_gui->$addcmd(
-                    "cont_print_view",
-                    $link,
-                    "",
-                    "",
-                    $buttonTarget,
-                    $active["print"]
-                );
-            }
-        }
-        
-        // download
-        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            $is_public = $this->object->isActiveDownloadsPublic();
-        } else {
-            $is_public = true;
-        }
-
-        if ($this->object->isActiveDownloads() && !$a_offline && $is_public &&
-            $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            $link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList");
-            $tabs_gui->$addcmd(
-                "download",
-                $link,
-                "",
-                "",
-                $buttonTarget,
-                $active["download"]
-            );
-        }
-
-        // info button
-        if ($a_export_format != "scorm" && !$a_offline) {
-            if (!$a_offline) {
-                $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-                $link = $this->ctrl->getLinkTargetByClass(
-                    array("illmpresentationgui", "ilinfoscreengui"),
-                    "showSummary"
-                );
-            } else {
-                $link = "./info.html";
-            }
-            
-            $tabs_gui->$addcmd(
-                'info_short',
-                $link,
-                "",
-                "",
-                $buttonTarget,
-                $active["info"]
-            );
-        }
-        
-        if (!$a_offline &&
-            $ilAccess->checkAccess("read", "", $this->requested_ref_id) && // #14075
-            ilLearningProgressAccess::checkAccess($this->requested_ref_id)) {
-            $olp = ilObjectLP::getInstance($this->object->getId());
-            if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
-                $tabs_gui->$addcmd(
-                    "learning_progress",
-                    $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editManual"),
-                    "",
-                    "",
-                    $buttonTarget,
-                    $active["learning_progress"]
-                );
-            } elseif ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
-                $tabs_gui->$addcmd(
-                    "learning_progress",
-                    $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "showtlt"),
-                    "",
-                    "",
-                    $buttonTarget,
-                    $active["learning_progress"]
-                );
-            }
-        }
-
-        // get user defined menu entries
-        $this->__initLMMenuEditor();
-        $entries = $this->lmme_obj->getMenuEntries(true);
-        if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            foreach ($entries as $entry) {
-                // build goto-link for internal resources
-                if ($entry["type"] == "intern") {
-                    $entry["link"] = ILIAS_HTTP_PATH . "/goto.php?target=" . $entry["link"];
-                }
-
-                // add http:// prefix if not exist
-                if (!strstr($entry["link"], '://') && !strstr($entry["link"], 'mailto:')) {
-                    $entry["link"] = "http://" . $entry["link"];
-                }
-
-                if (!strstr($entry["link"], 'mailto:')) {
-                    $entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=" . $this->ref_id . "&structure_id=" . $this->obj_id);
-                }
-                $tabs_gui->$addcmd(
-                    $entry["title"],
-                    $entry["link"],
-                    "",
-                    "",
-                    "_blank",
-                    "",
-                    true
-                );
-            }
-        }
-
-        // edit learning module
-        if (!$a_offline && $a_cur_page > 0) {
-            if ($rbacsystem->checkAccess("write", $this->requested_ref_id)) {
-                //$page_id = $this->getCurrentPageId();
-                $page_id = $a_cur_page;
-                $tabs_gui->$addcmd(
-                    "edit_page",
-                    ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
-                    "&obj_id=" . $page_id . "&to_page=1",
-                    "",
-                    "",
-                    $buttonTarget,
-                    $active["edit_page"]
-                );
-            }
-        }
-
-        // user interface hook [uihk]
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        $plugin_html = false;
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-            $gui_class = $ui_plugin->getUIClassInstance();
-            $resp = $gui_class->modifyGUI(
-                "Modules/LearningModule",
-                "lm_menu_tabs",
-                array("lm_menu_tabs" => $tabs_gui)
-            );
-        }
-
-        return $tabs_gui->$getcmd();
-    }
-
-    /**
-    * export content object
-    */
-    public function createPDF()
+    public function exportHTML(): void
     {
-        $cont_exp = new ilContObjectExport($this->object, "pdf");
-        $cont_exp->buildExportFile();
-        $this->offlineList();
-    }
-
-    /**
-     * create html package
-     */
-    public function exportHTML()
-    {
-        $ot = ilObjectTranslation::getInstance($this->object->getId());
+        $ot = ilObjectTranslation::getInstance($this->lm->getId());
         $lang = "";
         if ($ot->getContentActivated()) {
-            $format = explode("_", $_POST["format"]);
+            $format = explode("_", $this->edit_request->getFormat());
             $lang = ilUtil::stripSlashes($format[1]);
         }
-        $cont_exp = new ilContObjectExport($this->object, "html", $lang);
+        $cont_exp = new ilContObjectExport($this->lm, "html", $lang);
         $cont_exp->buildExportFile();
     }
 
     /**
-    * create scorm package
-    */
-    public function exportSCORM()
-    {
-        $cont_exp = new ilContObjectExport($this->object, "scorm");
-        $cont_exp->buildExportFile();
-    }
-
-    /**
-    * display locator
-    *
-    * @param	boolean		$a_omit_obj_id	set to true, if obj id is not page id (e.g. permission gui)
-    */
-    public function addLocations($a_omit_obj_id = false)
-    {
+     * display locator
+     * @param bool $a_omit_obj_id set to true, if obj id is not page id (e.g. permission gui)
+     */
+    public function addLocations(
+        bool $a_omit_obj_id = false
+    ): void {
         $locator = $this->locator;
 
         $obj_id = 0;
         if (!$a_omit_obj_id) {
             $obj_id = $this->requested_obj_id;
         }
-        $lmtree = $this->object->getTree();
-
+        $lmtree = $this->lm->getTree();
         if (($obj_id != 0) && $lmtree->isInTree($obj_id)) {
             $path = $lmtree->getPathFull($obj_id);
         } else {
@@ -2187,8 +1584,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         foreach ($path as $key => $row) {
             if ($row["child"] == 1) {
-                $this->ctrl->setParameter($this, "obj_id", "");
-                $locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "chapters"));
+                $this->ctrl->setParameter($this, "obj_id", null);
+                $locator->addItem($this->lm->getTitle(), $this->ctrl->getLinkTarget($this, "chapters"));
             } else {
                 $title = $row["title"];
                 switch ($row["type"]) {
@@ -2214,84 +1611,72 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     ////
 
 
-    /**
-     * List questions
-     */
-    public function listQuestions()
+    public function listQuestions(): void
     {
         $tpl = $this->tpl;
 
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("question_stats");
 
-        $table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->object);
+        $table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->lm);
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * List blocked users
-     */
-    public function listBlockedUsers()
+    public function listBlockedUsers(): void
     {
         $tpl = $this->tpl;
 
         $this->setTabs("questions");
         $this->setQuestionsSubTabs("blocked_users");
 
-        $table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->object);
+        $table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->lm);
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * Reset number of tries
-     */
-    public function resetNumberOfTries()
+    public function resetNumberOfTries(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (is_array($_POST["userquest_id"])) {
-            foreach ($_POST["userquest_id"] as $uqid) {
+        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        if (count($user_q_ids) > 0) {
+            foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
                 ilPageQuestionProcessor::resetTries((int) $uqid[0], (int) $uqid[1]);
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    /**
-     * Unlock blocked question
-     */
-    public function unlockQuestion()
+    public function unlockQuestion(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (is_array($_POST["userquest_id"])) {
-            foreach ($_POST["userquest_id"] as $uqid) {
+        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        if (count($user_q_ids) > 0) {
+            foreach ($user_q_ids as $uqid) {
                 $uqid = explode(":", $uqid);
                 ilPageQuestionProcessor::unlock((int) $uqid[0], (int) $uqid[1]);
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "listBlockedUsers");
     }
 
-    /**
-     * Send Mail to blocked users
-     */
-    public function sendMailToBlockedUsers()
+    public function sendMailToBlockedUsers(): void
     {
         $ilCtrl = $this->ctrl;
 
-        if (!is_array($_POST["userquest_id"])) {
-            ilUtil::sendFailure($this->lng->txt("no_checkbox"), 1);
+        $user_q_ids = $this->edit_request->getUserQuestionIds();
+        if (count($user_q_ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), 1);
             $ilCtrl->redirect($this, "listBlockedUsers");
         }
 
         $rcps = array();
-        foreach ($_POST["userquest_id"] as $uqid) {
+        foreach ($user_q_ids as $uqid) {
             $uqid = explode(":", $uqid);
             $login = ilObjUser::_lookupLogin($uqid[1]);
             if (!in_array($login, $rcps)) {
@@ -2310,28 +1695,21 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         ));
     }
 
-    /**
-     * Get mail signature for blocked users
-     */
-    protected function getBlockedUsersMailSignature()
+    protected function getBlockedUsersMailSignature(): string
     {
         $link = chr(13) . chr(10) . chr(13) . chr(10);
         $link .= $this->lng->txt('cont_blocked_users_mail_link');
         $link .= chr(13) . chr(10) . chr(13) . chr(10);
-        $link .= ilLink::_getLink($this->object->getRefId());
+        $link .= ilLink::_getLink($this->lm->getRefId());
         return rawurlencode(base64_encode($link));
     }
 
-    
+
     ////
     //// Tabs
     ////
 
-
-    /**
-    * output tabs
-    */
-    public function setTabs($a_act = "")
+    protected function setTabs(string $a_act = ""): void
     {
         parent::setTitleAndDescription();
         $ilHelp = $this->help;
@@ -2339,12 +1717,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->addTabs($a_act);
     }
 
-    /**
-     * Set pages tabs
-     *
-     * @param string $a_active active subtab
-     */
-    public function setContentSubTabs($a_active)
+    public function setContentSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -2353,21 +1726,21 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $lm_set = new ilSetting("lm");
 
         // chapters
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "chapters",
             $lng->txt("cont_chapters"),
             $ilCtrl->getLinkTarget($this, "chapters")
         );
 
         // all pages
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "pages",
             $lng->txt("cont_all_pages"),
             $ilCtrl->getLinkTarget($this, "pages")
         );
 
         // all pages
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "short_titles",
             $lng->txt("cont_short_titles"),
             $ilCtrl->getLinkTargetByClass("illmeditshorttitlesgui", "")
@@ -2375,65 +1748,58 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         // export ids
         if ($lm_set->get("html_export_ids")) {
-            if (!ilObjContentObject::isOnlineHelpModule($this->object->getRefId())) {
-                $ilTabs->addSubtab(
+            if (!ilObjContentObject::isOnlineHelpModule($this->lm->getRefId())) {
+                $ilTabs->addSubTab(
                     "export_ids",
                     $lng->txt("cont_html_export_ids"),
                     $ilCtrl->getLinkTarget($this, "showExportIDsOverview")
                 );
             }
         }
-        if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId())) {
+        if (ilObjContentObject::isOnlineHelpModule($this->lm->getRefId())) {
             $lng->loadLanguageModule("help");
-            $ilTabs->addSubtab(
+            $ilTabs->addSubTab(
                 "export_ids",
                 $lng->txt("cont_online_help_ids"),
                 $ilCtrl->getLinkTarget($this, "showExportIDsOverview")
             );
-            
-            $ilTabs->addSubtab(
+
+            $ilTabs->addSubTab(
                 "help_tooltips",
                 $lng->txt("help_tooltips"),
                 $ilCtrl->getLinkTarget($this, "showTooltipList")
             );
         }
-        
+
         // list links
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "internal_links",
             $lng->txt("cont_internal_links"),
             $ilCtrl->getLinkTarget($this, "listLinks")
         );
 
-        // web link checker
-        $ilTabs->addSubtab(
-            "link_check",
-            $lng->txt("link_check"),
-            $ilCtrl->getLinkTarget($this, "linkChecker")
-        );
-
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "history",
             $lng->txt("history"),
             $this->ctrl->getLinkTarget($this, "history")
         );
 
         // maintenance
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "maintenance",
             $lng->txt("cont_maintenance"),
             $ilCtrl->getLinkTarget($this, "showMaintenance")
         );
 
         // srt files
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "srt_files",
             $lng->txt("cont_subtitle_files"),
             $ilCtrl->getLinkTargetByClass("ilmobmultisrtuploadgui", "")
         );
 
         // srt files
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "import",
             $lng->txt("cont_import"),
             $ilCtrl->getLinkTargetByClass("illmimportgui", "")
@@ -2443,26 +1809,21 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilTabs->activateTab("content");
     }
 
-    /**
-     * Set pages tabs
-     *
-     * @param string $a_active active subtab
-     */
-    public function setQuestionsSubTabs($a_active)
+    public function setQuestionsSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         // chapters
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "question_stats",
             $lng->txt("cont_question_stats"),
             $ilCtrl->getLinkTarget($this, "listQuestions")
         );
 
         // blocked users
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "blocked_users",
             $lng->txt("cont_blocked_users"),
             $ilCtrl->getLinkTarget($this, "listBlockedUsers")
@@ -2471,15 +1832,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilTabs->activateSubTab($a_active);
     }
 
-    /**
-     * Adds tabs
-     */
-    public function addTabs($a_act = "")
+    public function addTabs(string $a_act = ""): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
-        
+
         // content
         $ilTabs->addTab(
             "content",
@@ -2488,12 +1846,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         );
 
         // info
-        $ilTabs->addTab(
-            "info",
-            $lng->txt("info_short"),
-            $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
-        );
-            
+        if ($this->object->isInfoEnabled()) {
+            $ilTabs->addTab(
+                "info",
+                $lng->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", 'showSummary')
+            );
+        }
+
         // settings
         $ilTabs->addTab(
             "settings",
@@ -2509,7 +1869,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         );
 
         // learning progress
-        if (ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm')) {
+        if (ilLearningProgressAccess::checkAccess($this->lm->getRefId()) and ($this->lm->getType() == 'lm')) {
             $ilTabs->addTab(
                 'learning_progress',
                 $lng->txt("learning_progress"),
@@ -2517,17 +1877,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             );
         }
 
-        if ($this->object->getType() != "lm") {
-            // bibliographical data
-            $ilTabs->addTab(
-                "bib_data",
-                $lng->txt("bib_data"),
-                $this->ctrl->getLinkTarget($this, "editBibItem")
-            );
-        }
-
         // meta data
-        $mdgui = new ilObjectMetaDataGUI($this->object);
+        $mdgui = new ilObjectMetaDataGUI($this->lm);
         $mdtab = $mdgui->getTab();
         if ($mdtab) {
             $ilTabs->addTab(
@@ -2537,41 +1888,36 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             );
         }
 
-        if ($this->object->getType() == "lm") {
-            // export
-            $ilTabs->addTab(
-                "export",
-                $lng->txt("export"),
-                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
-            );
-        }
-        
+        // export
+        $ilTabs->addTab(
+            "export",
+            $lng->txt("export"),
+            $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+        );
+
         // permissions
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($rbacsystem->checkAccess('edit_permission', $this->lm->getRefId())) {
             $ilTabs->addTab(
                 "perm",
                 $lng->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
             );
         }
-        
+
         if ($a_act != "") {
             $ilTabs->activateTab($a_act);
         }
-        
+
         // presentation view
         $ilTabs->addNonTabbedLink(
             "pres_mode",
             $lng->txt("cont_presentation_view"),
-            "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->object->getRefID(),
+            "ilias.php?baseClass=ilLMPresentationGUI&ref_id=" . $this->lm->getRefId(),
             "_top"
         );
     }
 
-    /**
-    * Set sub tabs
-    */
-    public function setSubTabs($a_active)
+    public function setSubTabs(string $a_active): void
     {
         $ilTabs = $this->tabs;
         $ilSetting = $this->settings;
@@ -2589,13 +1935,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 "",
                 ""
             );
-                
+
             // style properties
             $ilTabs->addSubTabTarget(
                 "cont_style",
-                $this->ctrl->getLinkTarget($this, 'editStyleProperties'),
+                $this->ctrl->getLinkTargetByClass("ilObjectContentStyleSettingsGUI", ""),
                 "",
-                ""
+                "ilObjectContentStyleSettingsGUI"
             );
 
             // menu properties
@@ -2628,30 +1974,30 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 "obj_multilinguality",
                 $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", "")
             );
-            
-            $lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+
+            $lti_settings = new ilLTIProviderObjectSettingGUI($this->lm->getRefId());
             if ($lti_settings->hasSettingsAccess()) {
                 $ilTabs->addSubTabTarget(
                     'lti_provider',
                     $this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
                 );
             }
-            
+
             $ilTabs->setSubTabActive($a_active);
         }
     }
 
-    public function editPublicSection()
+    public function editPublicSection(): void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
 
-        
-        if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->object->getRefId())) {
-            ilUtil::sendInfo($this->lng->txt("cont_anonymous_user_missing_perm"));
+
+        if (!$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", $this->lm->getRefId())) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("cont_anonymous_user_missing_perm"));
         }
-        
+
         $this->setTabs();
         $this->setSubTabs("public_section");
         $ilTabs->setTabActive("settings");
@@ -2671,63 +2017,72 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
         $si = new ilSelectInputGUI($this->lng->txt("choose_public_mode"), "lm_public_mode");
         $si->setOptions($modes);
-        $si->setValue($this->object->getPublicAccessMode());
+        $si->setValue($this->lm->getPublicAccessMode());
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($this->lng->txt("save"), "savePublicSectionAccess");
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "savePublicSectionAccess"));
 
-        if ($this->object->getPublicAccessMode() == "selected") {
+        if ($this->lm->getPublicAccessMode() == "selected") {
             $this->tpl->setCurrentBlock("select_pages");
             $this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSectionPages"));
 
-            $tree = new ilPublicSectionExplorerGUI($this, "editPublicSection", $this->lm_obj);
+            $tree = new ilPublicSectionExplorerGUI(
+                $this,
+                "editPublicSection",
+                $this->lm_obj,
+                $this->edit_request->getTranslation()
+            );
             $tree->setSelectMode("pages", true);
             $tree->setSkipRootNode(true);
 
             $this->tpl->setVariable("EXPLORER", $tree->getHTML());
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            
+
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    public function savePublicSection()
+    public function savePublicSection(): void
     {
-        //var_dump($_POST["lm_public_mode"]);exit;
-        $this->object->setPublicAccessMode($_POST["lm_public_mode"]);
-        $this->object->updateProperties();
-        ilLMObject::_writePublicAccessStatus($_POST["pages"], $this->object->getId());
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->lm->setPublicAccessMode(
+            $this->edit_request->getLMPublicMode()
+        );
+        $this->lm->updateProperties();
+        ilLMObject::_writePublicAccessStatus(
+            $this->edit_request->getPublicPages(),
+            $this->lm->getId()
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editPublicSection");
     }
 
     /**
      * Saves lm access mode
      */
-    public function savePublicSectionAccess()
+    public function savePublicSectionAccess(): void
     {
-        $this->object->setPublicAccessMode($_POST["lm_public_mode"]);
-        $this->object->updateProperties();
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->lm->setPublicAccessMode(
+            $this->edit_request->getLMPublicMode()
+        );
+        $this->lm->updateProperties();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editPublicSection");
     }
 
     /**
      * Saves public lm pages
      */
-    public function savePublicSectionPages()
+    public function savePublicSectionPages(): void
     {
-        ilLMObject::_writePublicAccessStatus($_POST["pages"], $this->object->getId());
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        ilLMObject::_writePublicAccessStatus(
+            $this->edit_request->getPublicPages(),
+            $this->lm->getId()
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "editPublicSection");
     }
 
-    /**
-    * history
-    *
-    * @access	public
-    */
-    public function history()
+    public function history(): void
     {
         $this->setTabs("content");
         $this->setContentSubTabs("history");
@@ -2735,138 +2090,30 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $hist_gui = new ilHistoryTableGUI(
             $this,
             "history",
-            $this->object->getId(),
-            $this->object->getType()
+            $this->lm->getId(),
+            $this->lm->getType()
         );
         $hist_gui->initTable();
-        $hist_gui->setCommentVisibility($this->object->isActiveHistoryUserComments());
+        $hist_gui->setCommentVisibility($this->lm->isActiveHistoryUserComments());
 
         $this->tpl->setContent($hist_gui->getHTML());
     }
-    
-    /**
-     *
-     * @see		ilLinkCheckerGUIRowHandling::formatInvalidLinkArray()
-     * @param	array Unformatted array
-     * @return	array Formatted array
-     * @access	public
-     *
-     */
-    public function formatInvalidLinkArray(array $row)
-    {
-        $row['title'] = ilLMPageObject::_getPresentationTitle($row['page_id'], $this->object->getPageHeader());
-    
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setSelectionHeaderClass('small');
-        $actions->setItemLinkClass('xsmall');
-        $actions->setListTitle($this->lng->txt('actions'));
-        $actions->setId($row['page_id']);
-        $this->ctrl->setParameterByClass('ilLMPageObjectGUI', 'obj_id', $row['page_id']);
-        $actions->addItem(
-            $this->lng->txt('edit'),
-            '',
-            $this->ctrl->getLinkTargetByClass('ilLMPageObjectGUI', 'edit')
-        );
-        $this->ctrl->clearParametersByClass('ilLMPageObjectGUI');
-        $row['action_html'] = $actions->getHTML();
-        
-        return $row;
-    }
 
-    public function linkChecker()
-    {
-        $ilUser = $this->user;
-        $tpl = $this->tpl;
-
-        $this->__initLinkChecker();
-
-        $this->setTabs();
-        $this->setContentSubTabs("link_check");
-        
-        $toolbar = new ilToolbarGUI();
-        
-        // #13684
-        if (ilCronManager::isJobActive("lm_link_check")) {
-            $chb = new ilCheckboxInputGUI($this->lng->txt('link_check_message_a'), 'link_check_message');
-            $chb->setValue(1);
-            $chb->setChecked((bool) ilLinkCheckNotify::_getNotifyStatus($ilUser->getId(), $this->object->getId()));
-            $chb->setOptionTitle($this->lng->txt('link_check_message_b'));
-            
-            $toolbar->addInputItem($chb);
-            $toolbar->addFormButton($this->lng->txt('save'), 'saveLinkCheck');
-            $toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'saveLinkCheck'));
-        }
-        
-        $tgui = new ilLinkCheckerTableGUI($this, 'linkChecker');
-        $tgui->setLinkChecker($this->link_checker_obj)
-             ->setRowHandler($this)
-             ->setRefreshButton($this->lng->txt('refresh'), 'refreshLinkCheck');
-        
-        return $tpl->setContent($tgui->prepareHTML()->getHTML() . $toolbar->getHTML());
-    }
-    
-    public function saveLinkCheck()
-    {
-        $ilDB = $this->db;
-        $ilUser = $this->user;
-
-        $link_check_notify = new ilLinkCheckNotify($ilDB);
-        $link_check_notify->setUserId($ilUser->getId());
-        $link_check_notify->setObjId($this->object->getId());
-
-        if ($_POST['link_check_message']) {
-            ilUtil::sendSuccess($this->lng->txt('link_check_message_enabled'));
-            $link_check_notify->addNotifier();
-        } else {
-            ilUtil::sendSuccess($this->lng->txt('link_check_message_disabled'));
-            $link_check_notify->deleteNotifier();
-        }
-        $this->linkChecker();
-
-        return true;
-    }
-
-
-
-    public function refreshLinkCheck()
-    {
-        $this->__initLinkChecker();
-        $this->link_checker_obj->checkLinks();
-        ilUtil::sendSuccess($this->lng->txt('link_checker_refreshed'));
-
-        $this->linkChecker();
-
-        return true;
-    }
-
-    public function __initLinkChecker()
-    {
-        $ilDB = $this->db;
-
-        $this->link_checker_obj = new ilLinkChecker($ilDB, false);
-        $this->link_checker_obj->setObjId($this->object->getId());
-
-        return true;
-    }
-
-    public function __initLMMenuEditor()
+    public function __initLMMenuEditor(): void
     {
         $this->lmme_obj = new ilLMMenuEditor();
-        $this->lmme_obj->setObjId($this->object->getId());
-
-        return true;
+        $this->lmme_obj->setObjId($this->lm->getId());
     }
 
     /**
-    * display add menu entry form
-    */
-    public function addMenuEntry()
+     * display add menu entry form
+     */
+    public function addMenuEntry(?ilPropertyFormGUI $form = null): void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
-        $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setTabs();
 
         $ilTabs->setTabActive("settings");
@@ -2876,38 +2123,37 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $this->lng->txt("lm_menu_select_internal_object"),
             $ilCtrl->getLinkTarget($this, "showEntrySelector")
         );
-        
-        $form = $this->initMenuEntryForm("create");
+
+        if (is_null($form)) {
+            $form = $this->initMenuEntryForm("create");
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init menu entry form.
-     *
-     * @param string $a_mode Edit Mode
-     */
-    public function initMenuEntryForm($a_mode = "edit")
+    public function initMenuEntryForm(string $a_mode = "edit"): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $form = new ilPropertyFormGUI();
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("lm_menu_entry_title"), "title");
         $ti->setMaxLength(255);
         $ti->setSize(40);
+        $ti->setRequired(true);
         $form->addItem($ti);
-        
+
         // target
         $ta = new ilTextInputGUI($this->lng->txt("lm_menu_entry_target"), "target");
         $ta->setMaxLength(255);
         $ta->setSize(40);
+        $ta->setRequired(true);
         $form->addItem($ta);
-        
+
         if ($a_mode == "edit") {
             $this->__initLMMenuEditor();
-            $this->lmme_obj->readEntry($_REQUEST["menu_entry"]);
+            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
             $ti->setValue($this->lmme_obj->getTitle());
             $ta->setValue($this->lmme_obj->getTarget());
         }
@@ -2921,14 +2167,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $target_link = $obj_type . "_" . $link_ref_id;
             $ti->setValue($title);
             $ta->setValue($target_link);
-            
+
             // link ref id
             $hi = new ilHiddenInputGUI("link_ref_id");
             $hi->setValue($link_ref_id);
             $form->addItem($hi);
         }
-        
-        
+
+
         // save and cancel commands
         if ($a_mode == "create") {
             $form->addCommandButton("saveMenuEntry", $lng->txt("save"));
@@ -2939,71 +2185,54 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $form->addCommandButton("editMenuProperties", $lng->txt("cancel"));
             $form->setTitle($lng->txt("lm_menu_edit_entry"));
         }
-        
+
         $form->setFormAction($ilCtrl->getFormAction($this));
-     
+
         return $form;
     }
-    
-    /**
-    * save new menu entry
-    */
-    public function saveMenuEntry()
+
+    public function saveMenuEntry(): void
     {
-        $ilCtrl = $this->ctrl;
-        
-        // check title and target
-        if (empty($_POST["title"])) {
-            ilUtil::sendFailure($this->lng->txt("please_enter_title"), true);
-            $ilCtrl->redirect($this, "addMenuEntry");
+        $form = $this->initMenuEntryForm("create");
+        if ($form->checkInput()) {
+            $this->__initLMMenuEditor();
+            $this->lmme_obj->setTitle($form->getInput("title"));
+            $this->lmme_obj->setTarget($form->getInput("target"));
+            $this->lmme_obj->setLinkRefId((int) $form->getInput("link_ref_id"));
+
+            if ($form->getInput("link_ref_id")) {
+                $this->lmme_obj->setLinkType("intern");
+            }
+
+            $this->lmme_obj->create();
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_entry_added"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+        } else {
+            $form->setValuesByPost();
+            $this->addMenuEntry($form);
         }
-        if (empty($_POST["target"])) {
-            ilUtil::sendFailure($this->lng->txt("please_enter_target"), true);
-            $ilCtrl->redirect($this, "addMenuEntry");
-        }
-
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->setTitle($_POST["title"]);
-        $this->lmme_obj->setTarget($_POST["target"]);
-        $this->lmme_obj->setLinkRefId($_POST["link_ref_id"]);
-
-        if ($_POST["link_ref_id"]) {
-            $this->lmme_obj->setLinkType("intern");
-        }
-
-        $this->lmme_obj->create();
-
-        ilUtil::sendSuccess($this->lng->txt("msg_entry_added"), true);
-        $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    /**
-    * drop a menu entry
-    */
-    public function deleteMenuEntry()
+    public function deleteMenuEntry(): void
     {
-        $ilErr = $this->error;
-
         if (empty($this->requested_menu_entry)) {
-            $ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
         }
 
         $this->__initLMMenuEditor();
         $this->lmme_obj->delete($this->requested_menu_entry);
 
-        ilUtil::sendSuccess($this->lng->txt("msg_entry_removed"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_entry_removed"), true);
         $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    /**
-    * edit menu entry form
-    */
-    public function editMenuEntry()
+    public function editMenuEntry(?ilPropertyFormGUI $form = null): void
     {
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        $ilErr = $this->error;
 
         $this->setTabs();
 
@@ -3012,7 +2241,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
         if (empty($this->requested_menu_entry)) {
-            $ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
         }
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
@@ -3020,68 +2250,67 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $this->lng->txt("lm_menu_select_internal_object"),
             $ilCtrl->getLinkTarget($this, "showEntrySelector")
         );
-        
-        $form = $this->initMenuEntryForm("edit");
+
+        if (is_null($form)) {
+            $form = $this->initMenuEntryForm("edit");
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-    * update a menu entry
-    */
-    public function updateMenuEntry()
+    public function updateMenuEntry(): void
     {
-        $ilErr = $this->error;
+        $form = $this->initMenuEntryForm("edit");
+        if ($form->checkInput()) {
+            if ($this->edit_request->getMenuEntry() == "") {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_menu_entry_id"), true);
+                $this->ctrl->redirect($this, "editMenuProperties");
+            }
 
-        if (empty($_REQUEST["menu_entry"])) {
-            $ilErr->raiseError($this->lng->txt("no_menu_entry_id"), $ilErr->MESSAGE);
+            $this->__initLMMenuEditor();
+            $this->lmme_obj->readEntry($this->edit_request->getMenuEntry());
+            $this->lmme_obj->setTitle($form->getInput("title"));
+            $this->lmme_obj->setTarget($form->getInput("target"));
+            if ($form->getInput("link_ref_id")) {
+                $this->lmme_obj->setLinkType("intern");
+            }
+            if (is_int(strpos($form->getInput("target"), "."))) {
+                $this->lmme_obj->setLinkType("extern");
+            }
+            $this->lmme_obj->update();
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_entry_updated"), true);
+            $this->ctrl->redirect($this, "editMenuProperties");
+        } else {
+            $form->setValuesByPost();
+            $this->editMenuEntry($form);
         }
-
-        // check title and target
-        if (empty($_POST["title"])) {
-            $ilErr->raiseError($this->lng->txt("please_enter_title"), $ilErr->MESSAGE);
-        }
-        if (empty($_POST["target"])) {
-            $ilErr->raiseError($this->lng->txt("please_enter_target"), $ilErr->MESSAGE);
-        }
-
-        $this->__initLMMenuEditor();
-        $this->lmme_obj->readEntry($_REQUEST["menu_entry"]);
-        $this->lmme_obj->setTitle($_POST["title"]);
-        $this->lmme_obj->setTarget($_POST["target"]);
-        if ($_POST["link_ref_id"]) {
-            $this->lmme_obj->setLinkType("intern");
-        }
-        if (is_int(strpos($_POST["target"], "."))) {
-            $this->lmme_obj->setLinkType("extern");
-        }
-        $this->lmme_obj->update();
-
-        ilUtil::sendSuccess($this->lng->txt("msg_entry_updated"), true);
-        $this->ctrl->redirect($this, "editMenuProperties");
     }
 
-    public function showEntrySelector()
+    public function showEntrySelector(): void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
         $this->setTabs();
 
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_lm_menu");
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
-        
+
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html", "Modules/LearningModule");
 
-        ilUtil::sendInfo($this->lng->txt("lm_menu_select_object_to_add"));
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_menu_select_object_to_add"));
 
-        $exp = new ilLMMenuObjectSelector($this->ctrl->getLinkTarget($this, 'test'), $this);
+        $exp = new ilLMMenuObjectSelector(
+            $this->ctrl->getLinkTarget($this, 'test'),
+            $this,
+            $this->edit_request->getMenuEntry()
+        );
 
-        $exp->setExpand($this->requested_lm_menu_expand ? $this->requested_lm_menu_expand : $this->tree->readRootId());
+        $exp->setExpand($this->requested_lm_menu_expand ?: $this->tree->readRootId());
         $exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showEntrySelector'));
         $exp->setTargetGet("ref_id");
-        $exp->setRefId($this->cur_ref_id);
+        $exp->setRefId($this->requested_ref_id);
 
         $sel_types = array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
             "crs", "grp", "book", "tst", "file");
@@ -3102,13 +2331,19 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
         $this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
         $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $select_public_mode = ilUtil::formSelect($this->object->getPublicAccessMode(), "lm_public_mode", $modes, false, true);
+        $select_public_mode = ilLegacyFormElementsUtil::formSelect(
+            $this->lm->getPublicAccessMode(),
+            "lm_public_mode",
+            $modes,
+            false,
+            true
+        );
         $this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
 
         $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
         $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
         $this->tpl->setVariable("EXPLORER", $output);
-        $this->tpl->setVariable("ONCLICK", $js_pages);
+        //$this->tpl->setVariable("ONCLICK", $js_pages);
         $this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
         $this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
         $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
@@ -3116,128 +2351,131 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     }
 
     /**
-    * select page as header
-    */
-    public function selectHeader()
+     * select page as header
+     */
+    public function selectHeader(): void
     {
-        $ilErr = $this->error;
-
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "pages");
         }
-        if (count($_POST["id"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
+        if (count($ids) > 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
+            $this->ctrl->redirect($this, "pages");
         }
-        if ($_POST["id"][0] != $this->object->getHeaderPage()) {
-            $this->object->setHeaderPage($_POST["id"][0]);
+        if ($ids[0] != $this->lm->getHeaderPage()) {
+            $this->lm->setHeaderPage($ids[0]);
         } else {
-            $this->object->setHeaderPage(0);
+            $this->lm->setHeaderPage(0);
         }
-        $this->object->updateProperties();
+        $this->lm->updateProperties();
         $this->ctrl->redirect($this, "pages");
     }
 
     /**
-    * select page as footer
-    */
-    public function selectFooter()
+     * select page as footer
+     */
+    public function selectFooter(): void
     {
-        $ilErr = $this->error;
-
-        if (!isset($_POST["id"])) {
-            $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "pages");
         }
-        if (count($_POST["id"]) > 1) {
-            $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
+        if (count($ids) > 1) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
+            $this->ctrl->redirect($this, "pages");
         }
-        if ($_POST["id"][0] != $this->object->getFooterPage()) {
-            $this->object->setFooterPage($_POST["id"][0]);
+        if ($ids[0] != $this->lm->getFooterPage()) {
+            $this->lm->setFooterPage($ids[0]);
         } else {
-            $this->object->setFooterPage(0);
+            $this->lm->setFooterPage(0);
         }
-        $this->object->updateProperties();
+        $this->lm->updateProperties();
         $this->ctrl->redirect($this, "pages");
     }
 
     /**
-    * Save all titles of chapters/pages
-    */
-    public function saveAllTitles()
+     * Save all titles of chapters/pages
+     */
+    public function saveAllTitles(): void
     {
         $ilCtrl = $this->ctrl;
-        
-        ilLMObject::saveTitles($this->object, ilUtil::stripSlashesArray($_POST["title"]), $this->requested_transl);
 
-        ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
+        ilLMObject::saveTitles(
+            $this->lm,
+            $this->edit_request->getTitles(),
+            $this->requested_transl
+        );
+
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("lm_save_titles"), true);
         $ilCtrl->redirect($this, "chapters");
     }
 
     /**
-    * Insert (multiple) chapters at node
-    */
-    public function insertChapter()
+     * Insert (multiple) chapters at node
+     */
+    public function insertChapter(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $num = ilChapterHierarchyFormGUI::getPostMulti();
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
-        
+
         if (!ilChapterHierarchyFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $this->lm_tree->getParentId($node_id);
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         for ($i = 1; $i <= $num; $i++) {
-            $chap = new ilStructureObject($this->object);
+            $chap = new ilStructureObject($this->lm);
             $chap->setType("st");
             $chap->setTitle($lng->txt("cont_new_chap"));
-            $chap->setLMId($this->object->getId());
+            $chap->setLMId($this->lm->getId());
             $chap->create();
             ilLMObject::putInTree($chap, $parent_id, $target);
         }
 
         $ilCtrl->redirect($this, "chapters");
     }
-    
+
     /**
-    * Insert Chapter from clipboard
-    */
-    public function insertChapterClip()
+     * Insert Chapter from clipboard
+     */
+    public function insertChapterClip(): void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $ilLog = $this->log;
-        
+
         $node_id = ilChapterHierarchyFormGUI::getPostNodeId();
         $first_child = ilChapterHierarchyFormGUI::getPostFirstChild();
-
-        $ilLog->write("InsertChapterClip, num: $num, node_id: $node_id, " .
-            " getPostFirstChild " . ilChapterHierarchyFormGUI::getPostFirstChild());
 
         if (!$first_child) {	// insert after node id
             $parent_id = $this->lm_tree->getParentId($node_id);
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
-        
+
         // copy and paste
         $chapters = $ilUser->getClipboardObjects("st", true);
         $copied_nodes = array();
         foreach ($chapters as $chap) {
-            $ilLog->write("Call pasteTree, Target LM: " . $this->object->getId() . ", Chapter ID: " . $chap["id"]
+            $ilLog->write("Call pasteTree, Target LM: " . $this->lm->getId() . ", Chapter ID: " . $chap["id"]
                 . ", Parent ID: " . $parent_id . ", Target: " . $target);
             $cid = ilLMObject::pasteTree(
-                $this->object,
+                $this->lm,
                 $chap["id"],
                 $parent_id,
                 $target,
-                $chap["insert_time"],
+                (string) ($chap["insert_time"] ?? ""),
                 $copied_nodes,
                 (ilEditClipboard::getAction() == "copy")
             );
@@ -3250,19 +2488,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $ilUser->clipboardDeleteObjectsOfType("st");
             ilEditClipboard::clear();
         }
-        
-        $this->object->checkTree();
+
+        $this->lm->checkTree();
         $ilCtrl->redirect($this, "chapters");
     }
 
-    /**
-    * redirect script
-    *
-    * @param	string		$a_target
-    */
-    public static function _goto($a_target)
+    public static function _goto(string $a_target): void
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -3276,7 +2510,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $a_target);
             $ctrl->redirectByClass("ilLMPresentationGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            ilUtil::sendFailure(sprintf(
+            $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
             ), true);
@@ -3287,69 +2521,66 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
     }
 
-    /**
-    * Copy items to clipboard, then cut them from the current tree
-    */
-    public function cutItems($a_return = "chapters")
+    public function cutItems(string $a_return = "chapters"): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        if (!is_array($items)) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, $a_return);
         }
 
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
+        foreach ($ids as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
         }
         foreach ($todel as $k) {
-            unset($items[$k]);
+            unset($ids[$k]);
         }
-        ilLMObject::clipboardCut($this->object->getId(), $items);
+        ilLMObject::clipboardCut($this->lm->getId(), $ids);
         ilEditClipboard::setAction("cut");
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
-        
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_cut"), true);
+
         $ilCtrl->redirect($this, $a_return);
     }
 
     /**
-    * Copy items to clipboard
-    */
-    public function copyItems()
+     * Copy items to clipboard
+     */
+    public function copyItems(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        if (!is_array($items)) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "chapters");
         }
 
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
+        foreach ($ids as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
         }
         foreach ($todel as $k) {
-            unset($items[$k]);
+            unset($ids[$k]);
         }
-        ilLMObject::clipboardCopy($this->object->getId(), $items);
+        ilLMObject::clipboardCopy($this->lm->getId(), $ids);
         ilEditClipboard::setAction("copy");
-        ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
+        $this->tpl->setOnScreenMessage('info', $lng->txt("cont_selected_items_have_been_copied"), true);
         $ilCtrl->redirect($this, "chapters");
     }
 
     /**
-    * Cut chapter(s)
-    */
-    public function cutChapter()
+     * Cut chapter(s)
+     */
+    public function cutChapter(): void
     {
         $this->cutItems("chapters");
     }
@@ -3358,13 +2589,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     //// HTML export IDs
     ////
 
-    /**
-     * Show export IDs overview
-     *
-     * @param
-     * @return
-     */
-    public function showExportIDsOverview($a_validation = false)
+    public function showExportIDsOverview(bool $a_validation = false): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -3373,11 +2598,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         $this->setTabs();
         $this->setContentSubTabs("export_ids");
-        
-        if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId())) {
+
+        if (ilObjContentObject::isOnlineHelpModule($this->lm->getRefId())) {
             // toolbar
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-            $lm_tree = $this->object->getTree();
+            $lm_tree = $this->lm->getTree();
             $childs = $lm_tree->getChilds($lm_tree->readRootId());
             $options = array("" => $lng->txt("all"));
             foreach ($childs as $c) {
@@ -3388,52 +2613,39 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $si->setValue(ilSession::get("help_chap"));
             $ilToolbar->addInputItem($si, true);
             $ilToolbar->addFormButton($lng->txt("help_filter"), "filterHelpChapters");
-            
-            $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation, false);
+
+            $tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation);
         } else {
             $tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation, false);
         }
 
         $tpl->setContent($tbl->getHTML());
     }
-    
-    /**
-     * Filter help chapters
-     *
-     * @param
-     * @return
-     */
-    public function filterHelpChapters()
+
+    public function filterHelpChapters(): void
     {
         $ilCtrl = $this->ctrl;
-        
-        ilSession::set("help_chap", ilUtil::stripSlashes($_POST["help_chap"]));
+        ilSession::set("help_chap", $this->edit_request->getHelpChap());
         $ilCtrl->redirect($this, "showExportIDsOverview");
     }
-    
 
-    /**
-     * Save export IDs
-     */
-    public function saveExportIds()
+    public function saveExportIds(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         // check all export ids
         $ok = true;
-        if (is_array($_POST["exportid"])) {
-            foreach ($_POST["exportid"] as $pg_id => $exp_id) {
-                if ($exp_id != "" && !preg_match(
-                    "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
-                    trim($exp_id)
-                )) {
-                    $ok = false;
-                }
+        foreach ($this->edit_request->getExportIds() as $exp_id) {
+            if ($exp_id != "" && !preg_match(
+                "/^([a-zA-Z]+)[0-9a-zA-Z_]*$/",
+                trim($exp_id)
+            )) {
+                $ok = false;
             }
         }
         if (!$ok) {
-            ilUtil::sendFailure($lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_exp_ids_not_resp_format1") . ": a-z, A-Z, 0-9, '_'. " .
                 $lng->txt("cont_exp_ids_not_resp_format3") . " " .
                 $lng->txt("cont_exp_ids_not_resp_format2"));
             $this->showExportIDsOverview(true);
@@ -3441,53 +2653,37 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         }
 
 
-        if (is_array($_POST["exportid"])) {
-            foreach ($_POST["exportid"] as $pg_id => $exp_id) {
-                ilLMPageObject::saveExportId(
-                    $this->object->getId(),
-                    $pg_id,
-                    ilUtil::stripSlashes($exp_id),
-                    ilLMObject::_lookupType($pg_id)
-                );
-            }
+        foreach ($this->edit_request->getExportIds() as $pg_id => $exp_id) {
+            ilLMPageObject::saveExportId(
+                $this->lm->getId(),
+                $pg_id,
+                ilUtil::stripSlashes($exp_id),
+                ilLMObject::_lookupType($pg_id)
+            );
         }
 
-        ilUtil::sendSuccess($lng->txt("cont_saved_export_ids"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("cont_saved_export_ids"), true);
         $ilCtrl->redirect($this, "showExportIdsOverview");
     }
 
-    /**
-     * Save help mapping
-     *
-     * @param
-     * @return
-     */
-    public function saveHelpMapping()
+    public function saveHelpMapping(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["screen_ids"])) {
-            foreach ($_POST["screen_ids"] as $chap => $ids) {
-                $ids = explode("\n", $ids);
-                ilHelpMapping::saveScreenIdsForChapter($chap, $ids);
-            }
+
+        foreach ($this->edit_request->getScreenIds() as $chap => $ids) {
+            $ids = explode("\n", $ids);
+            ilHelpMapping::saveScreenIdsForChapter($chap, $ids);
         }
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showExportIdsOverview");
     }
-    
+
     ////
     //// Help tooltips
     ////
 
-    /**
-     * Show export IDs overview
-     *
-     * @param
-     * @return
-     */
-    public function showTooltipList()
+    public function showTooltipList(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -3496,7 +2692,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         $this->setTabs();
         $this->setContentSubTabs("help_tooltips");
-        
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
         $ti = new ilTextInputGUI($this->lng->txt("help_tooltip_id"), "tooltip_id");
         $ti->setMaxLength(200);
@@ -3504,7 +2700,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilToolbar->addInputItem($ti, true);
         $ilToolbar->addFormButton($lng->txt("add"), "addTooltip");
         $ilToolbar->addSeparator();
-        
+
         $options = ilHelp::getTooltipComponents();
         if (ilSession::get("help_tt_comp") != "") {
             $options[ilSession::get("help_tt_comp")] = ilSession::get("help_tt_comp");
@@ -3514,92 +2710,72 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $si->setValue(ilSession::get("help_tt_comp"));
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
-        
+
         $tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
 
         $tpl->setContent($tbl->getHTML());
     }
 
-    /**
-     * Add tooltip
-     *
-     * @param
-     * @return
-     */
-    public function addTooltip()
+    public function addTooltip(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        $tt_id = ilUtil::stripSlashes($_POST["tooltip_id"]);
+
+        $tt_id = $this->edit_request->getTooltipId();
         if (trim($tt_id) != "") {
             if (is_int(strpos($tt_id, "_"))) {
                 ilHelp::addTooltip(trim($tt_id), "");
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 
                 $fu = strpos($tt_id, "_");
                 $comp = substr($tt_id, 0, $fu);
                 ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
             } else {
-                ilUtil::sendFailure($lng->txt("cont_help_no_valid_tooltip_id"), true);
+                $this->tpl->setOnScreenMessage('failure', $lng->txt("cont_help_no_valid_tooltip_id"), true);
             }
         }
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    /**
-     * Filter tooltips
-     *
-     * @param
-     * @return
-     */
-    public function filterTooltips()
+
+    public function filterTooltips(): void
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        ilSession::set("help_tt_comp", ilUtil::stripSlashes($_POST["help_tt_comp"]));
+
+        ilSession::set(
+            "help_tt_comp",
+            $this->edit_request->getTooltipComponent()
+        );
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    
-    /**
-     * Save tooltips
-     *
-     * @param
-     * @return
-     */
-    public function saveTooltips()
+
+    public function saveTooltips(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if (is_array($_POST["text"])) {
-            foreach ($_POST["text"] as $id => $text) {
-                ilHelp::updateTooltip(
-                    (int) $id,
-                    ilUtil::stripSlashes($text),
-                    ilUtil::stripSlashes($_POST["tt_id"][(int) $id])
-                );
-            }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $tooltip_ids = $this->edit_request->getTooltipIds();
+        foreach ($this->edit_request->getTooltipTexts() as $id => $text) {
+            ilHelp::updateTooltip(
+                (int) $id,
+                $text,
+                $tooltip_ids[(int) $id]
+            );
         }
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showTooltipList");
     }
-    
-    /**
-     * Delete tooltips
-     */
-    public function deleteTooltips()
+
+    public function deleteTooltips(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
-                ilHelp::deleteTooltip((int) $id);
+
+        $ids = $this->edit_request->getIds();
+        if (count($ids) > 0) {
+            foreach ($ids as $id) {
+                ilHelp::deleteTooltip($id);
             }
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "showTooltipList");
     }
@@ -3607,18 +2783,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     ////
     //// Set layout
     ////
-    
-    /**
-     * Get layout option
-     *
-     * @return object layout form option
-     */
-    public static function getLayoutOption($a_txt, $a_var, $a_def_option = "")
-    {
+
+    public static function getLayoutOption(
+        string $a_txt,
+        string $a_var,
+        string $a_def_option = ""
+    ): ilRadioGroupInputGUI {
         global $DIC;
 
+        $im_tag = "";
+
         $lng = $DIC->language();
-        
+
         // default layout
         $layout = new ilRadioGroupInputGUI($a_txt, $a_var);
         if ($a_def_option != "") {
@@ -3639,155 +2815,140 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
                 $im_tag . "</td><td style='padding:5px;'><b>" . $lng->txt("cont_layout_" . $l) . "</b>: " .
                 $lng->txt("cont_layout_" . $l . "_desc") . "</td></tr></table>", $l));
         }
-        
+
         return $layout;
     }
-    
+
     /**
-     * Set layout for multipl pages
+     * Set layout for multiple pages
      */
-    public function setPageLayoutInHierarchy()
+    public function setPageLayoutInHierarchy(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameter($this, "hierarchy", "1");
         $this->setPageLayout(true);
     }
-    
-    
+
+
     /**
-     * Set layout for multipl pages
+     * Set layout for multiple pages
      */
-    public function setPageLayout($a_in_hierarchy = false)
-    {
+    public function setPageLayout(
+        bool $a_in_hierarchy = false
+    ): void {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if (!is_array($_POST["id"])) {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
-            
+
+        $ids = $this->edit_request->getIds();
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
+
             if ($a_in_hierarchy) {
                 $ilCtrl->redirect($this, "chapters");
             } else {
                 $ilCtrl->redirect($this, "pages");
             }
         }
-        
+
         $this->initSetPageLayoutForm();
-        
+
         $tpl->setContent($this->form->getHTML());
     }
-    
-    /**
-     * Init set page layout form.
-     */
-    public function initSetPageLayoutForm()
+
+    public function initSetPageLayoutForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $this->form = new ilPropertyFormGUI();
-        
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
-                $hi = new ilHiddenInputGUI("id[]");
-                $hi->setValue($id);
-                $this->form->addItem($hi);
-            }
+
+        $ids = $this->edit_request->getIds();
+        foreach ($ids as $id) {
+            $hi = new ilHiddenInputGUI("id[]");
+            $hi->setValue($id);
+            $this->form->addItem($hi);
         }
         $layout = self::getLayoutOption(
             $lng->txt("cont_layout"),
             "layout",
-            $this->object->getLayout()
+            $this->lm->getLayout()
         );
         $this->form->addItem($layout);
-    
+
         $this->form->addCommandButton("savePageLayout", $lng->txt("save"));
         $this->form->addCommandButton("pages", $lng->txt("cancel"));
-        
+
         $this->form->setTitle($lng->txt("cont_set_layout"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
-    
-    /**
-     * Save page layout
-     */
-    public function savePageLayout()
+
+    public function savePageLayout(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "hierarchy", $this->requested_hierarchy);
-        
-        foreach ($_POST["id"] as $id) {
+
+        $ids = $this->edit_request->getIds();
+        foreach ($ids as $id) {
             ilLMPageObject::writeLayout(
-                ilUtil::stripSlashes($id),
-                ilUtil::stripSlashes($_POST["layout"]),
-                $this->object
+                $id,
+                $this->edit_request->getLayout(),
+                $this->lm
             );
         }
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
+
         if ($this->requested_hierarchy) {
             $ilCtrl->redirect($this, "chapters");
         } else {
             $ilCtrl->redirect($this, "pages");
         }
     }
-    
+
     //
     // Auto glossaries
     //
-    
+
     /**
      * Edit automatically linked glossaries
-     *
-     * @param
-     * @return
      */
-    public function editGlossaries()
+    public function editGlossaries(): void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
+
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_glossaries");
-        
+
         $ilToolbar->addButton(
             $lng->txt("add"),
             $ilCtrl->getLinkTarget($this, "showLMGlossarySelector")
         );
-        
-        $tab = new ilLMGlossaryTableGUI($this->object, $this, "editGlossaries");
-        
+
+        $tab = new ilLMGlossaryTableGUI($this->lm, $this, "editGlossaries");
+
         $tpl->setContent($tab->getHTML());
     }
-    
-    /**
-     * Select LM Glossary
-     *
-     * @param
-     * @return
-     */
-    public function showLMGlossarySelector()
+
+    public function showLMGlossarySelector(): void
     {
         $tpl = $this->tpl;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $tree = $this->tree;
-        $ilUser = $this->user;
         $ilTabs = $this->tabs;
-        
+
         $this->setTabs();
         $ilTabs->setTabActive("settings");
         $this->setSubTabs("cont_glossaries");
 
         $exp = new ilSearchRootSelector($ilCtrl->getLinkTarget($this, 'showLMGlossarySelector'));
-        $exp->setExpand($this->requested_search_root_expand ? $this->requested_search_root_expand : $tree->readRootId());
+        $exp->setExpand($this->requested_search_root_expand ?: $tree->readRootId());
         $exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showLMGlossarySelector'));
         $exp->setTargetClass(get_class($this));
         $exp->setCmd('confirmGlossarySelection');
@@ -3798,16 +2959,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $exp->setOutput(0);
         $tpl->setContent($exp->getOutput());
     }
-    
-    /**
-     * Confirm glossary selection
-     */
-    public function confirmGlossarySelection()
+
+    public function confirmGlossarySelection(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-            
+
         $cgui = new ilConfirmationGUI();
         $ilCtrl->setParameter($this, "glo_ref_id", $this->requested_root_id);
         $cgui->setFormAction($ilCtrl->getFormAction($this));
@@ -3816,74 +2974,48 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $cgui->setConfirm($lng->txt("yes"), "selectLMGlossaryLink");
         $tpl->setContent($cgui->getHTML());
     }
-    
-    /**
-     * Select a glossary and link all its terms
-     *
-     * @param
-     * @return
-     */
-    public function selectLMGlossaryLink()
+
+    public function selectLMGlossaryLink(): void
     {
-        $glo_ref_id = (int) $this->requested_glo_ref_id;
-        $glo_id = ilObject::_lookupObjId($glo_ref_id);
-        $this->object->autoLinkGlossaryTerms($glo_ref_id);
+        $glo_ref_id = $this->requested_glo_ref_id;
+        $this->lm->autoLinkGlossaryTerms($glo_ref_id);
         $this->selectLMGlossary();
     }
-    
-    
-    /**
-     * Select lm glossary
-     *
-     * @param
-     * @return
-     */
-    public function selectLMGlossary()
+
+    public function selectLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $glos = $this->object->getAutoGlossaries();
-        $glo_ref_id = (int) $this->requested_glo_ref_id;
+
+        $glos = $this->lm->getAutoGlossaries();
+        $glo_ref_id = $this->requested_glo_ref_id;
         $glo_id = ilObject::_lookupObjId($glo_ref_id);
         if (!in_array($glo_id, $glos)) {
             $glos[] = $glo_id;
         }
-        $this->object->setAutoGlossaries($glos);
-        $this->object->update();
-        
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->lm->setAutoGlossaries($glos);
+        $this->lm->update();
+
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editGlossaries");
     }
-    
-    /**
-     * Remove lm glossary
-     *
-     * @param
-     * @return
-     */
-    public function removeLMGlossary()
+
+    public function removeLMGlossary(): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $this->object->removeAutoGlossary((int) $this->requested_glo_id);
-        $this->object->update();
-        
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $this->lm->removeAutoGlossary($this->requested_glo_id);
+        $this->lm->update();
+
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editGlossaries");
     }
-    
-    /**
-     * Edit master language
-     *
-     * @param
-     * @return
-     */
-    public function editMasterLanguage()
+
+    public function editMasterLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", "");
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
@@ -3891,26 +3023,28 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilCtrl->redirect($this, "chapters");
     }
 
-    /**
-     * Switch to language
-     *
-     * @param
-     * @return
-     */
-    public function switchToLanguage()
+    public function switchToLanguage(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameter($this, "transl", $this->requested_totransl);
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
         }
         $ilCtrl->redirect($this, "chapters");
     }
-    
-    public function redrawHeaderAction()
+
+    public function redrawHeaderAction(): void
     {
         // #12281
-        return parent::redrawHeaderActionObject();
+        parent::redrawHeaderActionObject();
+    }
+
+    /**
+     * Learning progress
+     */
+    protected function learningProgress(): void
+    {
+        $this->ctrl->redirectByClass(array('illearningprogressgui'), '');
     }
 }

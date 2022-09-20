@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
@@ -34,39 +52,39 @@ class SystemInfo implements MainControls\SystemInfo
         $this->initSignals();
     }
 
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->close_signal = $this->signal_generator->create();
     }
 
-    public function getHeadLine() : string
+    public function getHeadLine(): string
     {
         return $this->head_line;
     }
 
-    public function getInformationText() : string
+    public function getInformationText(): string
     {
         return $this->information_text;
     }
 
-    public function isDismissable() : bool
+    public function isDismissable(): bool
     {
         return !is_null($this->dismiss_action);
     }
 
-    public function getDismissAction() : URI
+    public function getDismissAction(): URI
     {
         return $this->dismiss_action;
     }
 
-    public function withDismissAction(?URI $uri) : MainControls\SystemInfo
+    public function withDismissAction(?URI $uri): MainControls\SystemInfo
     {
         $clone = clone $this;
         $clone->dismiss_action = $uri;
         return $clone;
     }
 
-    public function withDenotation(string $denotation) : MainControls\SystemInfo
+    public function withDenotation(string $denotation): MainControls\SystemInfo
     {
         if (
             $denotation !== MainControls\SystemInfo::DENOTATION_NEUTRAL
@@ -81,12 +99,12 @@ class SystemInfo implements MainControls\SystemInfo
         return $clone;
     }
 
-    public function getDenotation() : string
+    public function getDenotation(): string
     {
         return $this->denotation;
     }
 
-    public function getCloseSignal() : Signal
+    public function getCloseSignal(): Signal
     {
         return $this->close_signal;
     }
@@ -94,7 +112,7 @@ class SystemInfo implements MainControls\SystemInfo
     /**
      * @inheritDoc
      */
-    public function withResetSignals() : SystemInfo
+    public function withResetSignals(): SystemInfo
     {
         $clone = clone $this;
         $clone->initSignals();

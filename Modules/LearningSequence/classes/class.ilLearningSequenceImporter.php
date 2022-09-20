@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilLearningSequenceImporter extends ilXmlImporter
 {
@@ -10,7 +26,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     protected ilObject $obj;
     protected array $data;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
         $this->user = $DIC["ilUser"];
@@ -18,10 +34,10 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
     }
 
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_id)) {
-            $this->obj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $this->obj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
         } else {
             $this->obj = new ilObjLearningSequence();
             $this->obj->create();
@@ -30,17 +46,17 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $parser = new ilLearningSequenceXMLParser($this->obj, $a_xml);
         $this->data = $parser->start();
 
-        $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, $this->obj->getId());
+        $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, (string) $this->obj->getId());
     }
 
-    public function finalProcessing(ilImportMapping $a_mapping) : void
+    public function finalProcessing(ilImportMapping $a_mapping): void
     {
         $this->buildSettings($this->data["settings"]);
 
         $this->obj->update();
     }
 
-    public function afterContainerImportProcessing(ilImportMapping $mapping) : void
+    public function afterContainerImportProcessing(ilImportMapping $mapping): void
     {
         $this->updateRefId($mapping);
         $this->buildLSItems($this->data["item_data"], $mapping);
@@ -53,7 +69,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         );
     }
 
-    protected function updateRefId(ilImportMapping $mapping) : void
+    protected function updateRefId(ilImportMapping $mapping): void
     {
         $old_ref_id = $this->data["object"]["ref_id"];
         $new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
@@ -61,7 +77,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->obj->setRefId((int) $new_ref_id);
     }
 
-    protected function buildLSItems(array $ls_data, ilImportMapping $mapping) : void
+    protected function buildLSItems(array $ls_data, ilImportMapping $mapping): void
     {
         $ls_items = array();
         foreach ($ls_data as $data) {
@@ -89,7 +105,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->obj->storeLSItems($ls_items);
     }
 
-    protected function buildSettings(array $ls_settings) : void
+    protected function buildSettings(array $ls_settings): void
     {
         $settings = $this->obj->getLSSettings();
         $settings = $settings
@@ -119,7 +135,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->obj->updateSettings($settings);
     }
 
-    protected function buildLPSettings(array $lp_settings, ilImportMapping $mapping) : void
+    protected function buildLPSettings(array $lp_settings, ilImportMapping $mapping): void
     {
         $collection = ilLPCollection::getInstanceByMode($this->obj->getId(), (int) $lp_settings["lp_mode"]);
 
@@ -136,12 +152,12 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $settings->insert();
     }
 
-    protected function decodeImageData(string $data) : string
+    protected function decodeImageData(string $data): string
     {
         return base64_decode($data);
     }
 
-    protected function getNewImagePath(string $type, string $path) : string
+    protected function getNewImagePath(string $type, string $path): string
     {
         $fs = $this->obj->getDI()['db.filesystem'];
         return $fs->getStoragePathFor(
@@ -151,7 +167,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         );
     }
 
-    protected function writeToFileSystem($data, string $path) : void
+    protected function writeToFileSystem($data, string $path): void
     {
         file_put_contents($path, $data);
     }

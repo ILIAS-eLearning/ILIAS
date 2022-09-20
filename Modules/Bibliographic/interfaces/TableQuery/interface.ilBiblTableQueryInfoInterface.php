@@ -1,74 +1,50 @@
 <?php
 
 /**
- * Interface ilBiblTableQueryInfoInterface
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Interface ilBiblTableQueryInfoInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblTableQueryInfoInterface
 {
-    const SORTING_ASC = "ASC";
-    const SORTING_DESC = "DESC";
+    public const SORTING_ASC = "ASC";
+    public const SORTING_DESC = "DESC";
 
+    public function getSortingColumn(): string;
 
-    /**
-     * @return string
-     */
-    public function getSortingColumn();
+    public function setSortingColumn(string $sorting_column): void;
 
+    public function getSortingDirection(): string;
 
-    /**
-     * @param string $sorting_column
-     */
-    public function setSortingColumn($sorting_column);
+    public function setSortingDirection(string $sorting_direction): void;
 
+    public function getOffset(): int;
 
-    /**
-     * @return string
-     */
-    public function getSortingDirection();
+    public function setOffset(int $offset): void;
 
+    public function getLimit(): int;
 
-    /**
-     * @param string $sorting_direction
-     */
-    public function setSortingDirection($sorting_direction);
+    public function setLimit(int $limit): void;
 
-
-    /**
-     * @return int
-     */
-    public function getOffset();
-
-
-    /**
-     * @param int $offset
-     */
-    public function setOffset($offset);
-
-
-    /**
-     * @return int
-     */
-    public function getLimit();
-
-
-    /**
-     * @param int $limit
-     */
-    public function setLimit($limit);
-
-
-    /**
-     * @param \ilBiblTableQueryFilterInterface $filter
-     *
-     * @return void
-     */
-    public function addFilter(ilBiblTableQueryFilterInterface $filter);
-
+    public function addFilter(ilBiblTableQueryFilterInterface $filter): void;
 
     /**
      * @return \ilBiblTableQueryFilterInterface[]
      */
-    public function getFilters();
+    public function getFilters(): array;
 }

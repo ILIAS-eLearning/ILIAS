@@ -1,9 +1,22 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\To\Transformation;
 
@@ -12,51 +25,50 @@ use ILIAS\Refinery\To\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use UnexpectedValueException;
 
 class ListTransformationTest extends TestCase
 {
     /**
      * @throws \ilException
      */
-    public function testListTransformationIsValid()
+    public function testListTransformationIsValid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 
-        $result = $listTransformation->transform(array('hello', 'world'));
+        $result = $listTransformation->transform(['hello', 'world']);
 
-        $this->assertEquals(array('hello', 'world'), $result);
+        $this->assertEquals(['hello', 'world'], $result);
     }
 
-    public function testTransformOnEmptyArrayReturnsEmptyList()
+    public function testTransformOnEmptyArrayReturnsEmptyList(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $this->assertSame([], $listTransformation->transform([]));
     }
 
-    public function testApplyToOnEmptyArrayDoesNotFail()
+    public function testApplyToOnEmptyArrayDoesNotFail(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
-        $result = $listTransformation->applyTo(new Ok(array()));
+        $result = $listTransformation->applyTo(new Ok([]));
         $this->assertFalse($result->isError());
     }
 
-    public function testTransformOnNullFails()
+    public function testTransformOnNullFails(): void
     {
         $this->expectNotToPerformAssertions();
 
         $listTransformation = new ListTransformation(new StringTransformation());
         try {
             $result = $listTransformation->transform(null);
-        } catch (\UnexpectedValueException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testApplyToOnNullFails()
+    public function testApplyToOnNullFails(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
         $result = $listTransformation->applyTo(new Ok(null));
@@ -64,36 +76,36 @@ class ListTransformationTest extends TestCase
     }
 
 
-    public function testListTransformationIsInvalid()
+    public function testListTransformationIsInvalid(): void
     {
         $this->expectNotToPerformAssertions();
 
         $listTransformation = new ListTransformation(new StringTransformation());
 
         try {
-            $result = $listTransformation->transform(array('hello', 2));
-        } catch (\UnexpectedValueException $exception) {
+            $result = $listTransformation->transform(['hello', 2]);
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testListApplyIsValid()
+    public function testListApplyIsValid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 
-        $result = $listTransformation->applyTo(new Ok(array('hello', 'world')));
+        $result = $listTransformation->applyTo(new Ok(['hello', 'world']));
 
-        $this->assertEquals(array('hello', 'world'), $result->value());
+        $this->assertEquals(['hello', 'world'], $result->value());
         $this->assertTrue($result->isOK());
     }
 
-    public function testListApplyIsInvalid()
+    public function testListApplyIsInvalid(): void
     {
         $listTransformation = new ListTransformation(new StringTransformation());
 
-        $result = $listTransformation->applyTo(new Ok(array('hello', 2)));
+        $result = $listTransformation->applyTo(new Ok(['hello', 2]));
 
         $this->assertTrue($result->isError());
     }

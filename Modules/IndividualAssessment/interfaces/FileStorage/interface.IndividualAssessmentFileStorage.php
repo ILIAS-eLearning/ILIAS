@@ -1,20 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\FileUpload\DTO\UploadResult;
 
 interface IndividualAssessmentFileStorage
 {
-    public function isEmpty();
-    public function deleteCurrentFile();
-    public function getFilePath();
-    public function uploadFile(UploadResult $file);
-    public function create();
-    /**
-     * Set user for path creation
-     *
-     * @param int 	$user_id
-     *
-     * @return null
-     */
-    public function setUserId($user_id);
+    public function isEmpty(): bool;
+    public function deleteCurrentFile(): void;
+    public function getFilePath(): string;
+    public function uploadFile(UploadResult $file): bool;
+    public function create(): void;
+    public function setUserId(int $user_id): void;
 }

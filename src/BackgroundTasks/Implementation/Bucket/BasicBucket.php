@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -11,194 +27,108 @@ use ILIAS\BackgroundTasks\Value;
 
 class BasicBucket implements Bucket
 {
-
-    /**
-     * @var int
-     */
-    protected $userId;
-    /**
-     * @var Task
-     */
-    protected $rootTask;
-    /**
-     * @var Task
-     */
-    protected $currentTask;
+    protected int $user_id;
+    protected Task $root_task;
+    protected Task $current_task;
     /**
      * @var Task[]
      */
-    protected $tasks;
-    /**
-     * @var int
-     */
-    protected $state;
-    /**
-     * @var int
-     */
-    protected $totalNumberOfTasks;
-    /**
-     * @var int[]
-     */
-    protected $percentages = [];
-    /**
-     * @var string
-     */
-    protected $title = "";
-    /**
-     * @var string
-     */
-    protected $description = "";
-    /**
-     * @var int
-     */
-    protected $percentage = 0;
-    /**
-     * @var int
-     */
-    protected $lastHeartbeat = 0;
+    protected array $tasks = [];
+    protected int $state;
+    protected int $total_number_of_tasks;
+    protected array $percentages = [];
+    protected string $title = "";
+    protected string $description = "";
+    protected int $percentage = 0;
+    protected int $last_heartbeat = 0;
 
-
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
-        return $this->userId;
+        return $this->user_id ?? 0;
     }
 
-
-    /**
-     * @param int $user_id
-     *
-     * @return $this BasicObserver
-     */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id): void
     {
-        $this->userId = $user_id;
-
-        return $this;
+        $this->user_id = $user_id;
     }
 
-
-    /**
-     * Used by a job to notify his percentage.
-     *
-     * @param $task       Task
-     * @param $percentage int
-     */
-    public function setPercentage(Task $task, $percentage)
+    public function setPercentage(Task $task, int $percentage): void
     {
         $this->percentages[spl_object_hash($task)] = $percentage;
         $this->calculateOverallPercentage();
     }
 
-
-    public function setOverallPercentage($percentage)
+    public function setOverallPercentage(int $percentage): void
     {
         $this->percentage = $percentage;
     }
 
-
-    /**
-     * @param Task $task
-     *
-     * @return mixed
-     */
-    public function setCurrentTask($task)
+    public function setCurrentTask(Task $task): void
     {
-        $this->currentTask = $task;
+        $this->current_task = $task;
     }
 
-
-    /**
-     * @param Task $task
-     *
-     * @return void
-     */
-    public function setTask(Task $task)
+    public function setTask(Task $task): void
     {
         $this->tasks = $task->unfoldTask();
-        $this->totalNumberOfTasks = count($this->tasks);
-        $this->rootTask = $task;
+        $this->total_number_of_tasks = count($this->tasks);
+        $this->root_task = $task;
         foreach ($this->tasks as $subTask) {
             $this->percentages[spl_object_hash($subTask)] = 0;
         }
     }
 
-
     /**
      * Calculates the percentage up to the last task.
-     *
-     * @return int
      */
-    public function calculateOverallPercentage()
+    public function calculateOverallPercentage(): void
     {
         $countable_tasks = 0;
         /**
          * @var $task Task\UserInteraction\
          */
         foreach ($this->tasks as $task) {
-            switch (true) {
-                case ($task instanceof Task\Job):
-                    $countable_tasks++;
-                    break;
+            if ($task instanceof Task\Job) {
+                $countable_tasks++;
             }
         }
 
         $this->percentage = array_sum($this->percentages) / $countable_tasks;
     }
 
-
-    public function getOverallPercentage()
+    public function getOverallPercentage(): int
     {
         return $this->percentage;
     }
 
-
-    /**
-     * @param int $state From ILIAS\BackgroundTasks\Implementation\Observer\State
-     */
-    public function setState($state)
+    public function setState(int $state): void
     {
         $this->state = $state;
     }
 
-
-    /**
-     * @return Task
-     */
-    public function getCurrentTask()
+    public function getCurrentTask(): Task
     {
-        return $this->currentTask;
+        return $this->current_task;
     }
 
-
-    /**
-     *
-     * @return Task
-     */
-    public function getTask()
+    public function hasCurrentTask(): bool
     {
-        return $this->rootTask;
+        return isset($this->current_task);
     }
 
+    public function getTask(): Task
+    {
+        return $this->root_task;
+    }
 
-    /**
-     * @return int
-     */
-    public function getState()
+    public function getState(): int
     {
         return $this->state;
     }
 
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function checkIntegrity()
+    public function checkIntegrity(): bool
     {
-        if (!$this->getUserId()) {
+        if ($this->getUserId() === 0) {
             foreach ($this->getTask()->unfoldTask() as $task) {
                 if ($task instanceof Task\UserInteraction) {
                     throw new Exception("Your task contains user interactions and thus needs a user that observes the task.");
@@ -209,16 +139,10 @@ class BasicBucket implements Bucket
         return true;
     }
 
-
     /**
-     * Continue a task with a given option.
-     *
-     * @param Option $option
-     *
-     * @return mixed
      * @throws Exception
      */
-    public function userInteraction(Option $option)
+    public function userInteraction(Option $option): void
     {
         $currentTask = $this->getCurrentTask();
 
@@ -234,7 +158,7 @@ class BasicBucket implements Bucket
         $inputs = $currentTask->getInput();
         $resulting_value = $currentTask->interaction($inputs, $option, $this);
 
-        if ($currentTask === $this->rootTask) {
+        if ($currentTask === $this->root_task) {
             // If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
             $this->setState(State::FINISHED);
         } else {
@@ -243,15 +167,11 @@ class BasicBucket implements Bucket
         }
     }
 
-
     /**
      * In the structure of the task of this bucket the result of $currentTask is replaced with the
      * $resulting_value
-     *
-     * @param Task  $currentTask
-     * @param Value $resulting_value
      */
-    protected function replaceThunkValue(Task $currentTask, Value $resulting_value)
+    protected function replaceThunkValue(Task $currentTask, Value $resulting_value): void
     {
         $tasks = $this->getTask()->unfoldTask();
 
@@ -268,73 +188,42 @@ class BasicBucket implements Bucket
         }
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-
     /**
      * There was something going on in the bucket, it's still working.
-     *
-     * @return void
      */
-    public function heartbeat()
+    public function heartbeat(): void
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
-        $this->lastHeartbeat = $now->getTimestamp();
+        $this->last_heartbeat = $now->getTimestamp();
     }
 
-
-    /**
-     * @param $timestamp int
-     *
-     * @return void
-     */
-    public function setLastHeartbeat($timestamp)
+    public function setLastHeartbeat(int $timestamp): void
     {
-        $this->lastHeartbeat = $timestamp;
+        $this->last_heartbeat = $timestamp;
     }
 
-
-    /**
-     * When was the last time that something happened on this bucket?
-     *
-     * @return int Timestamp.
-     */
-    public function getLastHeartbeat()
+    public function getLastHeartbeat(): int
     {
-        return $this->lastHeartbeat;
+        return $this->last_heartbeat;
     }
 }

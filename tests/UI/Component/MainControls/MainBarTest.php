@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -23,7 +39,7 @@ class MainBarTest extends ILIAS_UI_TestBase
     protected I\MainControls\Factory $factory;
     protected C\MainControls\MainBar $mainbar;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $sig_gen = new I\SignalGenerator();
         $this->button_factory = new I\Button\Factory();
@@ -44,7 +60,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->mainbar = $this->factory->mainBar();
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\MainControls\\MainBar",
@@ -52,13 +68,13 @@ class MainBarTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getButton() : C\Button\Bulky
+    protected function getButton(): C\Button\Bulky
     {
         $symbol = $this->icon_factory->custom('', '');
         return $this->button_factory->bulky($symbol, 'TestEntry', '#');
     }
 
-    protected function getLink() : C\Link\Bulky
+    protected function getLink(): C\Link\Bulky
     {
         $symbol = $this->icon_factory->custom('', '');
         $target = new Data\URI("http://www.ilias.de");
@@ -77,7 +93,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $mock;
     }
 
-    public function testAddEntry() : C\MainControls\MainBar
+    public function testAddEntry(): C\MainControls\MainBar
     {
         $btn = $this->getButton();
         $lnk = $this->getLink();
@@ -94,13 +110,13 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $mb;
     }
 
-    public function testDisallowedEntry() : void
+    public function testDisallowedEntry(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->mainbar->withAdditionalEntry('test', 'wrong_param');
     }
 
-    public function testDouplicateIdEntry() : void
+    public function testDouplicateIdEntry(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $btn = $this->getButton();
@@ -109,19 +125,19 @@ class MainBarTest extends ILIAS_UI_TestBase
             ->withAdditionalEntry('test', $btn);
     }
 
-    public function testDisallowedToolEntry() : void
+    public function testDisallowedToolEntry(): void
     {
         $this->expectException(\TypeError::class);
         $this->mainbar->withAdditionalToolEntry('test', 'wrong_param');
     }
 
-    public function testAddToolEntryWithoutToolsButton() : void
+    public function testAddToolEntryWithoutToolsButton(): void
     {
         $this->expectException(LogicException::class);
         $this->mainbar->withAdditionalToolEntry('test', $this->getSlate());
     }
 
-    public function testAddToolEntry() : void
+    public function testAddToolEntry(): void
     {
         $slate = $this->getSlate();
         $mb = $this->mainbar
@@ -131,7 +147,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($slate, $entries['test']);
     }
 
-    public function testDouplicateIdToolEntry() : void
+    public function testDouplicateIdToolEntry(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $btn = $this->getButton();
@@ -145,19 +161,19 @@ class MainBarTest extends ILIAS_UI_TestBase
     /**
      * @depends testAddEntry
      */
-    public function testActive(C\MainControls\MainBar $mb) : void
+    public function testActive(C\MainControls\MainBar $mb): void
     {
         $mb = $mb->withActive('testbtn');
         $this->assertEquals('testbtn', $mb->getActive());
     }
 
-    public function testWithInvalidActive() : void
+    public function testWithInvalidActive(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->mainbar->withActive('this-is-not-a-valid-entry');
     }
 
-    public function testSignalsPresent() : void
+    public function testSignalsPresent(): void
     {
         $this->assertInstanceOf(Signal::class, $this->mainbar->getEntryClickSignal());
         $this->assertInstanceOf(Signal::class, $this->mainbar->getToolsClickSignal());
@@ -165,16 +181,16 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Signal::class, $this->mainbar->getDisengageAllSignal());
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
+        $factory = new class () extends NoUIFactory {
             public C\Button\Factory $button_factory;
 
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return $this->button_factory;
             }
-            public function symbol() : C\Symbol\Factory
+            public function symbol(): C\Symbol\Factory
             {
                 $f_icon = new I\Symbol\Icon\Factory();
                 $f_glyph = new I\Symbol\Glyph\Factory();
@@ -182,7 +198,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 
                 return new I\Symbol\Factory($f_icon, $f_glyph, $f_avatar);
             }
-            public function mainControls() : C\MainControls\Factory
+            public function mainControls(): C\MainControls\Factory
             {
                 $sig_gen = new I\SignalGenerator();
                 $counter_factory = new I\Counter\Factory();
@@ -194,7 +210,7 @@ class MainBarTest extends ILIAS_UI_TestBase
                 $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory, $symbol_factory);
                 return new I\MainControls\Factory($sig_gen, $slate_factory);
             }
-            public function legacy(string $content) : C\Legacy\Legacy
+            public function legacy(string $content): C\Legacy\Legacy
             {
                 $sig_gen = new I\SignalGenerator();
                 return new I\Legacy\Legacy($content, $sig_gen);
@@ -204,7 +220,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $r = $this->getDefaultRenderer();
         $icon = $this->icon_factory->custom('', '');
@@ -234,7 +250,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 				<nav class="il-mainbar" aria-label="mainbar_aria_label">
 
 					<div class="il-mainbar-tools-button">
-						<button class="btn btn-bulky" id="id_14" role="menuitem"><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
+						<button class="btn btn-bulky" id="id_14"><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
 					</div>
 
 					<div class="il-mainbar-triggers">
@@ -242,7 +258,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button></li>
-							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
+							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
 						</ul>
 					</div>
 				</nav>
@@ -283,7 +299,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 
 					<div class="il-mainbar-close-slates">
 						<button class="btn btn-bulky" id="id_15" >
-							<span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
+							<span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
 							<span class="bulky-label">close</span></button>
 					</div>
 				</div>

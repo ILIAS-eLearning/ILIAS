@@ -1,26 +1,37 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitSimpleImport
- *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
- *
  */
 class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 {
-    public function simpleImport($file_path)
+    public function simpleImport(string $file_path)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
         $this->stats = array("created" => 0, "updated" => 0, "deleted" => 0);
         $a = file_get_contents($file_path, "r");
         $xml = new SimpleXMLElement($a);
 
         if (!count($xml->OrgUnit)) {
-            $this->addError("no_orgunit", null, null);
-
+            $this->addError("no_orgunit", $xml->external_id, null);
             return;
         }
 
@@ -29,12 +40,9 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         }
     }
 
-
     public function simpleImportElement(SimpleXMLElement $o)
     {
         global $DIC;
-        $tree = $DIC['tree'];
-        $tpl = $DIC['tpl'];
         $ilUser = $DIC['ilUser'];
         $title = (string) $o->title;
         $description = (string) $o->description;
@@ -42,9 +50,9 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $create_mode = true;
         $attributes = $o->attributes();
         $action = (string) $attributes->action;
-        $ou_id = (string) $attributes->ou_id;
+        $ou_id = (int) $attributes->ou_id;
         $ou_id_type = (string) $attributes->ou_id_type;
-        $ou_parent_id = (string) $attributes->ou_parent_id;
+        $ou_parent_id = (int) $attributes->ou_parent_id;
         $ou_parent_id_type = (string) $attributes->ou_parent_id_type;
 
         if ($ou_id == ilObjOrgUnit::getRootOrgRefId()) {
@@ -144,14 +152,11 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         }
     }
 
-
     /**
-     * @param $ref_id        int
-     * @param $parent_ref_id int
-     * @param $ou_id         mixed This is only needed for displaying the warning.
-     * @param $external_id   mixed This is only needed for displaying the warning.
+     * @param int $ou_id this is only needed for displaying the warning.
+     * @param int $external_id this is only needed for displaying the warning.
      */
-    protected function moveObject($ref_id, $parent_ref_id, $ou_id, $external_id)
+    protected function moveObject(int $ref_id, int $parent_ref_id, int $ou_id, int $external_id)
     {
         global $DIC;
         $tree = $DIC['tree'];

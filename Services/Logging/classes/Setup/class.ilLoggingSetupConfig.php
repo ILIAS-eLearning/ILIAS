@@ -1,25 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
+use ILIAS\Setup\Config;
 
-class ilLoggingSetupConfig implements Setup\Config
+class ilLoggingSetupConfig implements Config
 {
-    /**
-     * @var bool
-     */
-    protected $enabled;
+    protected bool $enabled;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_logfile;
-
-    /**
-     * @var string|null
-     */
-    protected $path_to_errorlogfiles;
+    protected ?string $path_to_logfile;
+    protected ?string $path_to_errorlogfiles;
+    protected ?string $errorlog_dir;
 
     public function __construct(
         bool $enabled,
@@ -36,7 +29,7 @@ class ilLoggingSetupConfig implements Setup\Config
         $this->errorlog_dir = $this->normalizePath($errorlog_dir);
     }
 
-    protected function normalizePath(?string $p) : ?string
+    protected function normalizePath(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -45,17 +38,17 @@ class ilLoggingSetupConfig implements Setup\Config
         return preg_replace("%/+$%", "", $p);
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function getPathToLogfile() : ?string
+    public function getPathToLogfile(): ?string
     {
         return $this->path_to_logfile;
     }
 
-    public function getErrorlogDir() : ?string
+    public function getErrorlogDir(): ?string
     {
         return $this->errorlog_dir;
     }

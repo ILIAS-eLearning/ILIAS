@@ -7,19 +7,14 @@ use PHPUnit\Framework\TestCase;
  */
 class NewsContextTest extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test admin view
      */
-    public function testContextProperties()
+    public function testContextProperties(): void
     {
         $context = new ilNewsContext(
             1,

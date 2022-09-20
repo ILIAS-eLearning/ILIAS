@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilTermsOfServiceSequentialDocumentEvaluation
@@ -7,27 +24,17 @@
  */
 class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDocumentEvaluation
 {
-    protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation;
-    protected ilObjUser $user;
     /** @var array<int, ilTermsOfServiceDocument[]> */
     protected array $matchingDocumentsByUser = [];
-    /** @var ilTermsOfServiceSignableDocument[] */
-    protected array $possibleDocuments = [];
-    protected ilLogger $log;
 
-    public function __construct(
-        ilTermsOfServiceDocumentCriteriaEvaluation $evaluation,
-        ilObjUser $user,
-        ilLogger $log,
-        array $possibleDocuments
-    ) {
-        $this->evaluation = $evaluation;
-        $this->user = $user;
-        $this->log = $log;
-        $this->possibleDocuments = $possibleDocuments;
+    /**
+     * @param \ilTermsOfServiceSignableDocument[] $possibleDocuments
+     */
+    public function __construct(protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation, protected ilObjUser $user, protected ilLogger $log, protected array $possibleDocuments)
+    {
     }
 
-    public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
+    public function withContextUser(ilObjUser $user): ilTermsOfServiceDocumentEvaluation
     {
         $clone = clone $this;
         $clone->user = $user;
@@ -39,7 +46,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     /**
      * @return ilTermsOfServiceSignableDocument[]
      */
-    protected function getMatchingDocuments() : array
+    protected function getMatchingDocuments(): array
     {
         if (!array_key_exists($this->user->getId(), $this->matchingDocumentsByUser)) {
             $this->matchingDocumentsByUser[$this->user->getId()] = [];
@@ -65,15 +72,15 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         return $this->matchingDocumentsByUser[$this->user->getId()];
     }
 
-    public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
+    public function evaluateDocument(ilTermsOfServiceSignableDocument $document): bool
     {
         return $this->evaluation->evaluate($document);
     }
 
-    public function document() : ilTermsOfServiceSignableDocument
+    public function document(): ilTermsOfServiceSignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
-        if (count($matchingDocuments) > 0) {
+        if ($matchingDocuments !== []) {
             return $matchingDocuments[0];
         }
 
@@ -84,8 +91,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         ));
     }
 
-    public function hasDocument() : bool
+    public function hasDocument(): bool
     {
-        return count($this->getMatchingDocuments()) > 0;
+        return $this->getMatchingDocuments() !== [];
     }
 }

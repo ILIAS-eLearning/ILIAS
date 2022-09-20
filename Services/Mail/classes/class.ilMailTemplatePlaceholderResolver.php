@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailTemplatePlaceholderResolver
@@ -7,20 +24,15 @@
  */
 class ilMailTemplatePlaceholderResolver
 {
-    protected ilMailTemplateContext $context;
-    protected string $message = '';
-
-    public function __construct(ilMailTemplateContext $context, string $a_message)
+    public function __construct(protected ilMailTemplateContext $context, protected string $message)
     {
-        $this->context = $context;
-        $this->message = $a_message;
     }
 
     public function resolve(
         ilObjUser $user = null,
         array $contextParameters = [],
         bool $replaceEmptyPlaceholders = true
-    ) : string {
+    ): string {
         $message = $this->message;
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
@@ -46,7 +58,7 @@ class ilMailTemplatePlaceholderResolver
                 }
             } else {
                 $message = preg_replace(
-                    '/[[:space:]]{1,1}\[' . $ph_definition['placeholder'] . '\][[:space:]]{1,1}/ims',
+                    '/[[:space:]]\[' . $ph_definition['placeholder'] . '\][[:space:]]/ims',
                     ' ',
                     $message
                 );

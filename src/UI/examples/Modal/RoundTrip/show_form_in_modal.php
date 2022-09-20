@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Modal\RoundTrip;
 
@@ -7,10 +9,8 @@ function show_form_in_modal()
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
-
-    require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-    require_once('./Services/Form/classes/class.ilTextInputGUI.php');
-    require_once('./Services/Form/classes/class.ilCountrySelectInputGUI.php');
+    $refinery = $DIC->refinery();
+    $post_wrapper = $DIC->http()->wrapper()->post();
 
     // Build the form
     $form = new \ilPropertyFormGUI();
@@ -38,8 +38,9 @@ function show_form_in_modal()
     // Check if the form was submitted, if validation fails, show it again in a modal
     $out = '';
     $valid = true;
-    if (isset($_POST['cmd']) && $_POST['cmd'] == 'submit') {
+    if ($post_wrapper->has('cmd') && $post_wrapper->retrieve('cmd', $refinery->kindlyTo()->string()) == 'submit') {
         if ($form->checkInput()) {
+            // TODO PHP8: check superglobal
             $panel = $factory->panel()->standard('Form validation successful', $factory->legacy(print_r($_POST, true)));
             $out = $renderer->render($panel);
         } else {

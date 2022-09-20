@@ -1,28 +1,38 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    private ilCertificateTemplateRepository $templateRepository;
-    private string $rootDirectory;
     private ilCertificateUtilHelper $utilHelper;
     private ilCertificateObjectHelper $objectHelper;
-    private string $iliasVersion;
 
     public function __construct(
-        ilCertificateTemplateRepository $templateRepository,
-        string $rootDirectory = CLIENT_WEB_DIR,
+        private ilCertificateTemplateRepository $templateRepository,
+        private string $rootDirectory = CLIENT_WEB_DIR,
+        private string $iliasVersion = ILIAS_VERSION_NUMERIC,
         ?ilCertificateUtilHelper $utilHelper = null,
-        ?ilCertificateObjectHelper $objectHelper = null,
-        string $iliasVersion = ILIAS_VERSION_NUMERIC
+        ?ilCertificateObjectHelper $objectHelper = null
     ) {
-        $this->templateRepository = $templateRepository;
-
-        $this->rootDirectory = $rootDirectory;
-
         if (null === $utilHelper) {
             $utilHelper = new ilCertificateUtilHelper();
         }
@@ -32,16 +42,9 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        $this->iliasVersion = $iliasVersion;
     }
 
-    /**
-     * @param $templateId
-     * @param $objectId
-     * @return void
-     */
-    public function delete($templateId, $objectId) : void
+    public function delete(int $templateId, int $objectId): void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -67,11 +70,11 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->overwriteBackgroundImageThumbnail($certificateTemplate);
     }
 
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate) : void
+    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate): void
     {
         $relativePath = $previousTemplate->getBackgroundImagePath();
 
-        if (null === $relativePath || '' === $relativePath) {
+        if ('' === $relativePath) {
             $relativePath = '/certificates/default/background.jpg';
         }
 
@@ -83,7 +86,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
             'JPEG',
-            (string) 100
+            "100"
         );
     }
 }

@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks;
 
 use ILIAS\BackgroundTasks\Exceptions\Exception;
@@ -7,140 +23,62 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 
 /**
  * Interface Observer
- *
  * @package ILIAS\BackgroundTasks
- *
  * Contains several chained tasks and infos about them.
  */
 interface Bucket extends BucketMeta
 {
+    public function getUserId(): int;
 
-    /**
-     * @return int
-     */
-    public function getUserId();
-
-
-    /**
-     * @param int $user_id
-     */
-    public function setUserId($user_id);
-
+    public function setUserId(int $user_id): void;
 
     /**
      * Used by a job to notify his percentage.
-     *
-     * @param $task       Task
-     * @param $percentage int
      */
-    public function setPercentage(Task $task, $percentage);
+    public function setPercentage(Task $task, int $percentage): void;
 
+    public function getOverallPercentage(): int;
+
+    public function setOverallPercentage(int $percentage): void;
+
+    public function setCurrentTask(Task $task): void;
+
+    public function getCurrentTask(): Task;
+
+    public function hasCurrentTask(): bool;
+
+    public function setTask(Task $task): void;
+
+    public function getTask(): Task;
+
+    public function setState(int $state): void;
+
+    public function getState(): int;
 
     /**
-     * @return integer
-     */
-    public function getOverallPercentage();
-
-
-    /**
-     * @param $percentage int
-     *
-     */
-    public function setOverallPercentage($percentage);
-
-
-    /**
-     * @param Task $task
-     *
-     * @return mixed
-     */
-    public function setCurrentTask($task);
-
-
-    /**
-     * @return Task
-     */
-    public function getCurrentTask();
-
-
-    /**
-     * @param Task $task
-     *
-     * @return void
-     */
-    public function setTask(Task $task);
-
-
-    /**
-     *
-     * @return Task
-     */
-    public function getTask();
-
-
-    /**
-     * @param $state int From Observer\State
-     *
-     * @return void
-     */
-    public function setState($state);
-
-
-    /**
-     * @return int
-     */
-    public function getState();
-
-
-    /**
-     * @return boolean      Returns true if everything's alright. Throws an exception otherwise.
+     * @return bool      Returns true if everything's alright. Throws an exception otherwise.
      * @throws Exception
      */
-    public function checkIntegrity();
-
+    public function checkIntegrity(): bool;
 
     /**
      * Let the user interact with the bucket task queue.
-     *
-     * @param Option $option
-     *
-     * @return void
      */
-    public function userInteraction(Option $option);
+    public function userInteraction(Option $option): void;
 
+    public function getDescription(): string;
 
-    /**
-     * @return string
-     */
-    public function getDescription();
-
-
-    /**
-     * @return string
-     */
-    public function getTitle();
-
+    public function getTitle(): string;
 
     /**
      * There was something going on in the bucket, it's still working.
-     *
-     * @return void
      */
-    public function heartbeat();
+    public function heartbeat(): void;
 
-
-    /**
-     * @param $timestamp int
-     *
-     * @return void
-     */
-    public function setLastHeartbeat($timestamp);
-
+    public function setLastHeartbeat(int $timestamp): void;
 
     /**
      * When was the last time that something happened on this bucket?
-     *
-     * @return int Timestamp.
      */
-    public function getLastHeartbeat();
+    public function getLastHeartbeat(): int;
 }

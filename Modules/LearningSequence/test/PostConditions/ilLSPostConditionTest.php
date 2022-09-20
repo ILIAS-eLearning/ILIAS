@@ -1,12 +1,28 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class ilLSPostConditionTest extends TestCase
 {
-    public function testObjectCreation() : void
+    public function testObjectCreation(): void
     {
         $obj = new ilLSPostCondition(33, 'operator1');
 
@@ -16,7 +32,7 @@ class ilLSPostConditionTest extends TestCase
         $this->assertNull($obj->getValue());
     }
 
-    public function testWithConditionOperator() : void
+    public function testWithConditionOperator(): void
     {
         $obj = new ilLSPostCondition(23, 'operator2', 15);
         $new_obj = $obj->withConditionOperator('operator3');
@@ -30,7 +46,7 @@ class ilLSPostConditionTest extends TestCase
         $this->assertEquals(15, $new_obj->getValue());
     }
 
-    public function testWithValue() : void
+    public function testWithValue(): void
     {
         $obj = new ilLSPostCondition(45, 'operator5', 15);
         $new_obj = $obj->withValue(22);

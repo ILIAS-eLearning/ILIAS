@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
@@ -13,11 +14,11 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilParserTestSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite(): ilParserTestSuite
     {
         error_reporting(E_ALL ^ E_NOTICE);
 
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         $suite = new ilParserTestSuite();

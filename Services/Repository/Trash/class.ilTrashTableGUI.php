@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for
@@ -47,14 +50,14 @@ class ilTrashTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->setTitle(
             $this->lng->txt('rep_trash_table_title') . ' "' .
-            \ilObject::_lookupTitle(\ilObject::_lookupObjId($this->ref_id)) . '" '
+            ilObject::_lookupTitle(ilObject::_lookupObjId($this->ref_id)) . '" '
         );
 
-        $this->addColumn('', '', 1, 1);
+        $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('type'), 'type');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('rep_trash_table_col_deleted_by'), 'deleted_by');
@@ -86,18 +89,14 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->setDefaultFilterVisiblity(true);
 
-        $type = new \ilMultiSelectInputGUI(
-            $this->lng->txt('type'),
-            'type'
-        );
 
         $type = $this->addFilterItemByMetaType(
             'type',
-            \ilTable2GUI::FILTER_SELECT,
+            ilTable2GUI::FILTER_SELECT,
             false,
             $this->lng->txt('type')
         );
@@ -106,7 +105,7 @@ class ilTrashTableGUI extends ilTable2GUI
 
         $title = $this->addFilterItemByMetaType(
             'title',
-            \ilTable2GUI::FILTER_TEXT,
+            ilTable2GUI::FILTER_TEXT,
             false,
             $this->lng->txt('title')
         );
@@ -114,7 +113,7 @@ class ilTrashTableGUI extends ilTable2GUI
 
         $deleted_by = $this->addFilterItemByMetaType(
             'deleted_by',
-            \ilTable2GUI::FILTER_TEXT,
+            ilTable2GUI::FILTER_TEXT,
             false,
             $this->lng->txt('rep_trash_table_col_deleted_by')
         );
@@ -122,20 +121,20 @@ class ilTrashTableGUI extends ilTable2GUI
 
         $deleted = $this->addFilterItemByMetaType(
             'deleted',
-            \ilTable2GUI::FILTER_DATE_RANGE,
+            ilTable2GUI::FILTER_DATE_RANGE,
             false,
             $this->lng->txt('rep_trash_table_col_deleted_on')
         );
         $this->current_filter['deleted'] = $deleted->getValue();
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $this->determineOffsetAndOrder();
 
         $max_trash_entries = 0;
 
-        $trash_tree_reader = new \ilTreeTrashQueries();
+        $trash_tree_reader = new ilTreeTrashQueries();
         $items = $trash_tree_reader->getTrashNodeForContainer(
             $this->ref_id,
             $this->current_filter,
@@ -157,7 +156,7 @@ class ilTrashTableGUI extends ilTable2GUI
             $row['description'] = $item->getDescription();
             $row['deleted_by_id'] = $item->getDeletedBy();
             $row['deleted_by'] = $this->lng->txt('rep_trash_deleted_by_unknown');
-            if ($login = \ilObjUser::_lookupLogin($row['deleted_by_id'])) {
+            if ($login = ilObjUser::_lookupLogin($row['deleted_by_id'])) {
                 $row['deleted_by'] = $login;
             }
             $row['deleted'] = $item->getDeleted();
@@ -170,11 +169,11 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
-        if (strlen(trim($a_set['description']))) {
+        if (trim($a_set['description']) !== '') {
             $this->tpl->setCurrentBlock('with_desc');
             $this->tpl->setVariable('VAL_DESC', $a_set['description']);
             $this->tpl->parseCurrentBlock();
@@ -186,14 +185,14 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->tpl->setVariable('PATH', $path->getPath($this->ref_id, $a_set['id']));
         $this->tpl->parseCurrentBlock();
 
-        $img = \ilObject::_getIcon(
-            $a_set['obj_id'],
+        $img = ilObject::_getIcon(
+            (int) $a_set['obj_id'],
             'small',
             $a_set['type']
         );
-        if (strlen($img)) {
+        if ($img !== '') {
             $alt = ($this->obj_definition->isPlugin($a_set['type']))
-                ? $this->lng->txt('icon') . ' ' . \ilObjectPlugin::lookupTxtById($a_set['type'], 'obj_' . $a_set['type'])
+                ? $this->lng->txt('icon') . ' ' . ilObjectPlugin::lookupTxtById($a_set['type'], 'obj_' . $a_set['type'])
                 : $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $a_set['type'])
             ;
             $this->tpl->setVariable('IMG_PATH', $img);
@@ -202,23 +201,23 @@ class ilTrashTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('VAL_DELETED_BY', $a_set['deleted_by']);
 
-        $dt = new \ilDateTime($a_set['deleted'], IL_CAL_DATETIME);
-        $this->tpl->setVariable('VAL_DELETED_ON', \ilDatePresentation::formatDate($dt));
+        $dt = new ilDateTime($a_set['deleted'], IL_CAL_DATETIME);
+        $this->tpl->setVariable('VAL_DELETED_ON', ilDatePresentation::formatDate($dt));
         $this->tpl->setVariable('VAL_SUBS', (string) (int) $a_set['num_subs']);
     }
 
-    protected function prepareTypeFilterTypes() : array
+    protected function prepareTypeFilterTypes(): array
     {
-        $trash = new \ilTreeTrashQueries();
+        $trash = new ilTreeTrashQueries();
         $subs = $trash->getTrashedNodeTypesForContainer($this->ref_id);
 
 
         $options = [];
         foreach ($subs as $type) {
-            if ($type == 'rolf') {
+            if ($type === 'rolf') {
                 continue;
             }
-            if ($type == 'root') {
+            if ($type === 'root') {
                 continue;
             }
 

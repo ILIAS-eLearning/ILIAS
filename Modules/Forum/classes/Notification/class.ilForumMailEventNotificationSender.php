@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -16,19 +33,14 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     private const TYPE_POST_UNCENSORED = 66;
     private const PERMANENT_LINK_POST = 'PL_Post';
     private const PERMANENT_LINK_FORUM = 'PL_Forum';
-
-    protected ilForumNotificationMailData $provider;
-    protected ilLogger $logger;
     protected bool $is_cronjob = false;
 
-    public function __construct(ilForumNotificationMailData $provider, ilLogger $logger)
+    public function __construct(protected ilForumNotificationMailData $provider, protected ilLogger $logger)
     {
         parent::__construct(false);
-        $this->provider = $provider;
-        $this->logger = $logger;
     }
 
-    protected function initMail() : ilMail
+    protected function initMail(): ilMail
     {
         $mail = parent::initMail();
         $this->logger->debug('Initialized mail service');
@@ -36,17 +48,17 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $mail;
     }
 
-    public function sendMail(array $a_rcp, bool $a_parse_recipients = true) : void
+    public function sendMail(array $a_rcp, bool $a_parse_recipients = true): void
     {
         $this->logger->debug(sprintf(
             'Delegating notification transport to mail service for recipient "%s" ...',
-            $a_rcp
+            json_encode($a_rcp, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
         parent::sendMail($a_rcp, $a_parse_recipients);
         $this->logger->debug('Notification transport delegated');
     }
 
-    protected function setSubject(string $a_subject) : string
+    protected function setSubject(string $a_subject): string
     {
         $value = parent::setSubject($a_subject);
         $this->logger->debug(sprintf('Setting subject to: %s', $a_subject));
@@ -54,7 +66,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $value;
     }
 
-    public function send() : bool
+    public function send(): bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -227,9 +239,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         }
 
         $contextParameters = ilMailFormCall::getContextParameters();
-        if (is_array($contextParameters)) {
-            $contextParameters = [];
-        }
 
         $processor = new ilMassMailTaskProcessor();
 
@@ -246,23 +255,23 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return true;
     }
 
-    protected function initLanguage(int $a_usr_id) : void
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->language->loadLanguageModule('forum');
     }
 
-    public function isCronjob() : bool
+    public function isCronjob(): bool
     {
         return $this->is_cronjob;
     }
 
-    public function setIsCronjob(bool $is_cronjob) : void
+    public function setIsCronjob(bool $is_cronjob): void
     {
         $this->is_cronjob = $is_cronjob;
     }
 
-    private function getPermanentLink(string $type = self::PERMANENT_LINK_POST) : string
+    private function getPermanentLink(string $type = self::PERMANENT_LINK_POST): string
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -298,7 +307,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $posting_link;
     }
 
-    private function getPostMessage() : string
+    private function getPostMessage(): string
     {
         $pos_message = $this->provider->getPostMessage();
         if (strip_tags($pos_message) !== $pos_message) {
@@ -307,9 +316,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $pos_message = preg_replace("/<\/ul([^>]*)>(?!\s*?(<p|<ul))/i", "</ul$1>\n", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
-            $pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
-
-            return $pos_message;
+            return preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
         }
 
         return $pos_message;
@@ -322,7 +329,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
      * @param string $customText        - mail text after salutation
      * @param string $action            - Language id of action
      * @param string $date              - date to be added in mail
-     * @return ilMailValueObject
      */
     private function createMailValueObjectsWithAttachments(
         string $subjectLanguageId,
@@ -330,7 +336,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date = ''
-    ) : ilMailValueObject {
+    ): ilMailValueObject {
         $subjectText = $this->createSubjectText($subjectLanguageId);
 
         $bodyText = $this->createMailBodyText(
@@ -347,7 +353,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $attachmentText = $this->createAttachmentLinkText();
         $bodyText .= $attachmentText;
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -358,18 +364,10 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     /**
      * Add body and send mail without attachments
-     * @param string $subjectLanguageId - Language id of subject
-     * @param int    $recipientUserId
-     * @param string $customText        - mail text after salutation
-     * @param string $action            - Language id of action
-     * @param string $date              - date to be added in mail
-     * @return ilMailValueObject
      */
     private function createMailValueObjectWithoutAttachments(
         string $subjectLanguageId,
@@ -377,7 +375,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date = ''
-    ) : ilMailValueObject {
+    ): ilMailValueObject {
         $subjectText = $this->createSubjectText($subjectLanguageId);
 
         $bodyText = $this->createMailBodyText(
@@ -388,7 +386,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date
         );
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -399,8 +397,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     private function createMailBodyText(
@@ -409,7 +405,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         string $customText,
         string $action,
         string $date
-    ) : string {
+    ): string {
         $date = $this->createMailDate($date);
 
         $this->addMailSubject($subject);
@@ -421,6 +417,10 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $body .= "\n\n";
         $body .= $this->getLanguageText('forum') . ": " . $this->provider->getForumTitle();
         $body .= "\n\n";
+        if ($this->provider->providesClosestContainer()) {
+            $body .= $this->getLanguageText('obj_' . $this->provider->closestContainer()->getType()) . ": " . $this->provider->closestContainer()->getTitle();
+            $body .= "\n\n";
+        }
         $body .= $this->getLanguageText('thread') . ": " . $this->provider->getThreadTitle();
         $body .= "\n\n";
         $body .= $this->getLanguageText($action) . ": \n------------------------------------------------------------\n";
@@ -441,15 +441,14 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         }
 
         $body .= $message . "\n";
-        $body .= "------------------------------------------------------------\n";
 
-        return $body;
+        return $body . "------------------------------------------------------------\n";
     }
 
-    private function createAttachmentText() : string
+    private function createAttachmentText(): string
     {
         $attachmentText = '';
-        if (count($this->provider->getAttachments()) > 0) {
+        if ($this->provider->getAttachments() !== []) {
             $this->logger->debug('Adding attachments ...');
             foreach ($this->provider->getAttachments() as $attachment) {
                 $attachmentText .= $this->getLanguageText('attachment') . ": " . $attachment . "\n";
@@ -460,22 +459,21 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $attachmentText;
     }
 
-    private function createAttachmentLinkText() : string
+    private function createAttachmentLinkText(): string
     {
         $body = $this->getPermanentLink();
-        $body .= ilMail::_getInstallationSignature();
 
-        return $body;
+        return $body . ilMail::_getInstallationSignature();
     }
 
-    private function addMailSubject(string $subject) : void
+    private function addMailSubject(string $subject): void
     {
         $this->initMail();
 
         $this->setSubject($this->createSubjectText($subject));
     }
 
-    private function createMailDate(string $date) : string
+    private function createMailDate(string $date): string
     {
         ilDatePresentation::setLanguage($this->language);
 
@@ -483,16 +481,21 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date = $this->provider->getPostDate();
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
-
-        return $date;
+        return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
-    private function createSubjectText(string $subject) : string
+    private function createSubjectText(string $subject): string
     {
+        $container_text = '';
+        if ($this->provider->providesClosestContainer()) {
+            $container_text = " (" . $this->getLanguageText('frm_noti_obj_' . $this->provider->closestContainer()->getType()) .
+                " \"" . $this->provider->closestContainer()->getTitle() . "\")";
+        }
+
         return sprintf(
             $this->getLanguageText($subject),
             $this->provider->getForumTitle(),
+            $container_text,
             $this->provider->getThreadTitle()
         );
     }

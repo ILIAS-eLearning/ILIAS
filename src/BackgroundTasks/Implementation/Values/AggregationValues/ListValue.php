@@ -1,68 +1,65 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\Values\AggregationValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
-use ILIAS\BackgroundTasks\Implementation\Values\PrimitiveValueWrapperFactory;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BasicScalarValueFactory;
 use ILIAS\BackgroundTasks\Types\ListType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
-use ILIAS\BackgroundTasks\ValueType;
 
 /**
  * Class ListValue
- *
  * @package ILIAS\BackgroundTasks\Implementation\Values
- *
  * The type of the list will be the lowest common type in the list e.g. [ScalarValue] if its a list
  * containing IntegerValues and FloatValues.
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
 class ListValue extends AbstractValue
 {
     use BasicScalarValueFactory;
+
     /**
      * @var array The values of the list are saved in an array.
      */
-    protected $list = array();
-    /**
-     * @var Type
-     */
-    protected $type;
+    protected array $list = [];
+    protected Type $type;
 
-
-    /**
-     * ListValue constructor.
-     *
-     * @param $list array
-     */
-    public function __construct()
+    protected function deriveType(array $list): ListType
     {
+        $type = $this->calculateLowestCommonType($this->getTypes($list));
+
+        return new ListType($type);
     }
-
-
-    protected function deriveType($list)
-    {
-        return new ListType($this->calculateLowestCommonType($this->getTypes($list)));
-    }
-
 
     /**
      * Todo: This implementation is not performing well (needs the most iterations) on lists with
      * all the same type, this might be suboptimal.
-     *
-     * @param $types ListType[]
-     *
-     * @return Type
+     * @param $types Type[]
+     * @return null|mixed
      * @throws InvalidArgumentException
      */
-    protected function calculateLowestCommonType($types)
+    protected function calculateLowestCommonType(array $types)
     {
         // If the list is empty the type should be [] (empty list).
-        if (!count($types)) {
+        if ($types === []) {
             return null;
         }
 
@@ -91,14 +88,7 @@ class ListValue extends AbstractValue
         return $lct;
     }
 
-
-    /**
-     * @param $ancestorsList Type[][]
-     * @param $i
-     *
-     * @return bool
-     */
-    protected function sameClassOnLevel($ancestorsList, $i)
+    protected function sameClassOnLevel(array $ancestorsList, int $i): bool
     {
         $class = $ancestorsList[0][$i];
         foreach ($ancestorsList as $class_hierarchy) {
@@ -113,8 +103,10 @@ class ListValue extends AbstractValue
         return true;
     }
 
-
-    protected function getTypes($list)
+    /**
+     * @return \ILIAS\BackgroundTasks\Types\Type[]
+     */
+    protected function getTypes(array $list): array
     {
         $types = [];
         foreach ($list as $value) {
@@ -126,10 +118,8 @@ class ListValue extends AbstractValue
         return $types;
     }
 
-
     /**
      * String representation of object
-     *
      * @link  http://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
      * @since 5.1.0
@@ -139,16 +129,12 @@ class ListValue extends AbstractValue
         return serialize($this->list);
     }
 
-
     /**
      * Constructs the object
-     *
      * @link  http://php.net/manual/en/serializable.unserialize.php
-     *
      * @param string $serialized <p>
      *                           The string representation of the object.
      *                           </p>
-     *
      * @return void
      * @since 5.1.0
      */
@@ -158,13 +144,12 @@ class ListValue extends AbstractValue
         $this->type = $this->deriveType($this->list);
     }
 
-
     /**
      * @return string Gets a hash for this IO. If two objects are the same the hash must be the
      *                same! if two objects are different you need to have as few collisions as
      *                possible.
      */
-    public function getHash()
+    public function getHash(): string
     {
         $hashes = '';
         foreach ($this->getList() as $value) {
@@ -174,13 +159,7 @@ class ListValue extends AbstractValue
         return md5($hashes);
     }
 
-
-    /**
-     * @param \ILIAS\BackgroundTasks\Value $other
-     *
-     * @return mixed
-     */
-    public function equals(Value $other)
+    public function equals(Value $other): bool
     {
         if (!$other instanceof ListValue) {
             return false;
@@ -193,12 +172,12 @@ class ListValue extends AbstractValue
         $values = $this->getList();
         $otherValues = $other->getList();
 
-        if (count($values) != count($otherValues)) {
+        if (count($values) !== count($otherValues)) {
             return false;
         }
 
-        for ($i = 0; $i < count($values); $i++) {
-            if (!$values[$i]->equals($otherValues[$i])) {
+        foreach ($values as $i => $value) {
+            if (!$value->equals($otherValues[$i])) {
                 ;
             }
         }
@@ -206,23 +185,20 @@ class ListValue extends AbstractValue
         return true;
     }
 
-
     /**
      * @return Value[]
      */
-    public function getList()
+    public function getList(): array
     {
         return $this->list;
     }
 
-
     /**
      * @param $object
-     *
-     * @return string
+     * @return class-string[]
      * @throws InvalidArgumentException
      */
-    protected function getClassHierarchy($object)
+    protected function getClassHierarchy($object): array
     {
         if (!is_object($object)) {
             throw new InvalidArgumentException("Given Value $object must be an object.");
@@ -238,22 +214,16 @@ class ListValue extends AbstractValue
         return $hierarchy;
     }
 
-
-    /**
-     * @return Type
-     */
-    public function getType()
+    public function getType(): Type
     {
         return $this->type;
     }
 
-
     /**
-     * @param $list
-     *
+     * @param $value
      */
-    public function setValue($list)
+    public function setValue($value): void
     {
-        $this->type = $this->deriveType($list);
+        $this->type = $this->deriveType($value);
     }
 }

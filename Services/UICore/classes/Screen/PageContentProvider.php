@@ -1,10 +1,15 @@
-<?php namespace ILIAS\UICore;
+<?php
+
+declare(strict_types=1);
+
+/* Copyright (c) 1998-2022 ILIAS open source, GPLv3, see LICENSE */
+
+namespace ILIAS\UICore;
 
 use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -14,93 +19,53 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
- * Class ilPageContentProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Michael Jansen <mjansen@databay.de>
  * @author Maximilian Becker <mbecker@databay.de>
  */
-class PageContentProvider extends AbstractModificationProvider implements ModificationProvider
+class PageContentProvider extends AbstractModificationProvider
 {
+    private static string $content = "";
+    private static string $perma_link = "";
+    private static string $title = "";
+    private static string $short_title = "";
+    private static string $view_title = "";
 
-    /**
-     * @var string
-     */
-    private static $content = "";
-    /**
-     * @var string
-     */
-    private static $perma_link = "";
-    /**
-     * @var string
-     */
-    private static $title = "";
-    /**
-     * @var string
-     */
-    private static $short_title = "";
-    /**
-     * @var string
-     */
-    private static $view_title = "";
-
-    /**
-     * @param string $content
-     */
-    public static function setContent(string $content) : void
+    public static function setContent(string $content): void
     {
         self::$content = $content;
     }
 
-    /**
-     * @param string $content
-     */
-    public static function setTitle(string $title) : void
+    public static function setTitle(string $title): void
     {
         self::$title = $title;
     }
 
-    /**
-     * @param string $content
-     */
-    public static function setShortTitle(string $short_title) : void
+    public static function setShortTitle(string $short_title): void
     {
         self::$short_title = $short_title;
     }
 
-    /**
-     * @param string $content
-     */
-    public static function setViewTitle(string $view_title) : void
+    public static function setViewTitle(string $view_title): void
     {
         self::$view_title = $view_title;
     }
 
-
-    /**
-     * @param string $perma_link
-     */
-    public static function setPermaLink(string $perma_link) : void
+    public static function setPermaLink(string $perma_link): void
     {
         self::$perma_link = $perma_link;
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
+    public function getContentModification(CalledContexts $screen_context_stack): ?ContentModification
     {
-        return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
+        return $this->globalScreen()->layout()->factory()->content()->withModification(function (
+            Legacy $content
+        ): Legacy {
             $ui = $this->dic->ui();
             return $ui->factory()->legacy(
                 $ui->renderer()->render($content) . self::$content
@@ -108,50 +73,54 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
         })->withLowPriority();
     }
 
-
-    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+    public function getTitleModification(CalledContexts $screen_context_stack): ?TitleModification
     {
-        return $this->globalScreen()->layout()->factory()->title()->withModification(
-            function (string $content) : string {
-                return self::$title;
-            }
+        /** @var $modification TitleModification */
+        $modification = $this->globalScreen()->layout()->factory()->title()->withModification(
+            fn (string $content): string => self::$title
         )->withLowPriority();
+
+        return $modification;
     }
 
-    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    public function getShortTitleModification(CalledContexts $screen_context_stack): ?ShortTitleModification
     {
-        return $this->globalScreen()->layout()->factory()->short_title()->withModification(
-            function (string $content) : string {
-                return self::$short_title;
-            }
+        /** @var $modification ShortTitleModification */
+        $modification = $this->globalScreen()->layout()->factory()->short_title()->withModification(
+            fn (string $content): string => self::$short_title
         )->withLowPriority();
+
+        return $modification;
     }
 
-    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
+    public function getViewTitleModification(CalledContexts $screen_context_stack): ?ViewTitleModification
     {
-        return $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            function (string $content) : string {
-                return self::$view_title;
-            }
+        /** @var $modification ViewTitleModification */
+        $modification = $this->globalScreen()->layout()->factory()->view_title()->withModification(
+            fn (string $content): string => self::$view_title
         )->withLowPriority();
+
+        return $modification;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
+    public function getFooterModification(CalledContexts $screen_context_stack): ?FooterModification
     {
-        return $this->globalScreen()->layout()->factory()->footer()->withModification(function () : Footer {
+        return $this->globalScreen()->layout()->factory()->footer()->withModification(function (): Footer {
             $f = $this->dic->ui()->factory();
 
             $links = [];
             // ILIAS Version and Text
-            $ilias_version = $this->dic->settings()->get('ilias_version');
+            $ilias_version = ILIAS_VERSION;
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint
-            $baseClass = (string) ($_REQUEST["baseClass"] ?? '');
-            if ($baseClass !== "ilImprintGUI" && \ilImprint::isActive()) {
+            $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
+                $this->dic->http()->wrapper()->query()->retrieve(
+                    \ilCtrlInterface::PARAM_BASE_CLASS,
+                    $this->dic->refinery()->kindlyTo()->string()
+                ) : null;
+
+            if ($base_class !== \ilImprintGUI::class && \ilImprint::isActive()) {
                 $imprint_title = $this->dic->language()->txt("imprint");
                 $imprint_url = \ilLink::_getStaticLink(0, "impr");
                 $links[] = $f->link()->standard($imprint_title, $imprint_url);
@@ -167,7 +136,7 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
             if (\ilObjLanguageAccess::_checkTranslate() && !\ilObjLanguageAccess::_isPageTranslation()) {
                 $translation_url = \ilObjLanguageAccess::_getTranslationLink();
                 $translation_title = $this->dic->language()->txt('translation');
-                $links[] = $f->link()->standard($translation_title, $translation_url);
+                $links[] = $f->link()->standard($translation_title, $translation_url)->withOpenInNewViewport(true);
             }
 
             // accessibility control concept

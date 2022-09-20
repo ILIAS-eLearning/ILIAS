@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,24 +11,23 @@ use PHPUnit\Framework\TestCase;
  */
 class ClipboardSessionRepositoryTest extends TestCase
 {
-    //protected $backupGlobals = false;
     protected \ILIAS\Repository\Clipboard\ClipboardSessionRepository $clipboard;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->clipboard = new \ILIAS\Repository\Clipboard\ClipboardSessionRepository();
         $this->clipboard->clear();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test clear
      */
-    public function testClear()
+    public function testClear(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setCmd("test");
@@ -50,7 +51,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test cmd set/get
      */
-    public function testCmd()
+    public function testCmd(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setCmd("test");
@@ -63,7 +64,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test ref ids set/get
      */
-    public function testRefIds()
+    public function testRefIds(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setRefIds([4]);
@@ -76,7 +77,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test parent set/get
      */
-    public function testParent()
+    public function testParent(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setParent(5);
@@ -89,7 +90,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test hasEntries returns false if ref ids, but no cmd is given
      */
-    public function testHasEntriesNoCmd()
+    public function testHasEntriesNoCmd(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setRefIds([4]);
@@ -102,7 +103,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test hasEntries returns true if ref ids and cmd is given
      */
-    public function testHasEntriesCmd()
+    public function testHasEntriesCmd(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setRefIds([4]);
@@ -116,7 +117,7 @@ class ClipboardSessionRepositoryTest extends TestCase
     /**
      * Test hasEntries returns false if empty ref ids array and cmd is given
      */
-    public function testHasEntriesCmdEmptyRefIds()
+    public function testHasEntriesCmdEmptyRefIds(): void
     {
         $clipboard = $this->clipboard;
         $clipboard->setRefIds([]);

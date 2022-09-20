@@ -1,64 +1,56 @@
 <?php
-require_once 'Modules/IndividualAssessment/interfaces/AccessControl/interface.IndividualAssessmentAccessHandler.php';
-require_once 'Services/AccessControl/classes/class.ilObjRole.php';
+
+declare(strict_types=1);
+
+/* Copyright (c) 2021 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 /**
- * @inheritdoc
  * Deal with ilias rbac-system
  */
 class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessHandler
 {
-    /**
-     * @var ilObjIndividualAssessment
-     */
-    protected $iass;
+    public const DEFAULT_ROLE = 'il_iass_member';
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $handler;
+    protected ilObjIndividualAssessment $iass;
+    protected ilAccessHandler $handler;
+    protected ilRbacAdmin $admin;
+    protected ilRbacReview $review;
+    protected ilObjUser $usr;
+    protected array $mass_global_permissions_cache = [];
 
-    /**
-     * @var ilRbacAdmin
-     */
-    protected $admin;
-
-    /**
-     * ilRbacReview
-     */
-    protected $review;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var string[]
-     */
-    protected $mass_global_permissions_cache;
-
-    const DEFAULT_ROLE = 'il_iass_member';
-
-    public function __construct(ilObjIndividualAssessment $iass, ilAccessHandler $handler, ilRbacAdmin $admin, ilRbacReview $review, ilObjUser $usr)
-    {
+    public function __construct(
+        ilObjIndividualAssessment $iass,
+        ilAccessHandler $handler,
+        ilRbacAdmin $admin,
+        ilRbacReview $review,
+        ilObjUser $usr
+    ) {
         $this->iass = $iass;
         $this->handler = $handler;
         $this->admin = $admin;
         $this->review = $review;
         $this->usr = $usr;
-        $this->mass_global_permissions_cache = array();
     }
 
     /**
      * @inheritdoc
      */
-    public function checkAccessToObj($operation)
+    public function checkAccessToObj(string $operation): bool
     {
         if ($operation == "read_learning_progress") {
-            return $this->handler->checkRbacOrPositionPermissionAccess("read_learning_progress", "read_learning_progress", $this->iass->getRefId());
+            return $this->handler->checkRbacOrPositionPermissionAccess(
+                "read_learning_progress",
+                "read_learning_progress",
+                $this->iass->getRefId()
+            );
         }
+
         if ($operation == "edit_learning_progress") {
-            return $this->handler->checkRbacOrPositionPermissionAccess("edit_learning_progress", "write_learning_progress", $this->iass->getRefId());
+            return $this->handler->checkRbacOrPositionPermissionAccess(
+                "edit_learning_progress",
+                "write_learning_progress",
+                $this->iass->getRefId()
+            );
         }
 
         return $this->handler->checkAccessOfUser($this->usr->getId(), $operation, '', $this->iass->getRefId(), 'iass');
@@ -67,9 +59,9 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     /**
      * @inheritdoc
      */
-    public function initDefaultRolesForObject(ilObjIndividualAssessment $iass)
+    public function initDefaultRolesForObject(ilObjIndividualAssessment $iass): void
     {
-        $role = ilObjRole::createDefaultRole(
+        ilObjRole::createDefaultRole(
             $this->getRoleTitleByObj($iass),
             "Admin of iass obj_no." . $iass->getId(),
             self::DEFAULT_ROLE,
@@ -80,37 +72,35 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     /**
      * @inheritdoc
      */
-    public function assignUserToMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass)
+    public function assignUserToMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool
     {
-        return $this->admin->assignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        $this->admin->assignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass)
+    public function deassignUserFromMemberRole(ilObjUser $usr, ilObjIndividualAssessment $iass): bool
     {
-        return $this->admin->deassignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        $this->admin->deassignUser($this->getMemberRoleIdForObj($iass), $usr->getId());
+        return true;
     }
 
-    protected function getRoleTitleByObj(ilObjIndividualAssessment $iass)
+    protected function getRoleTitleByObj(ilObjIndividualAssessment $iass): string
     {
         return self::DEFAULT_ROLE . '_' . $iass->getRefId();
     }
 
+    /**
+     * @return false|mixed
+     */
     protected function getMemberRoleIdForObj(ilObjIndividualAssessment $iass)
     {
         return current($this->review->getLocalRoles($iass->getRefId()));
     }
 
-    /**
-     * User view iass object
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayViewObject($use_cache = true)
+    public function mayViewObject(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('read');
@@ -119,14 +109,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('read');
     }
 
-    /**
-     * User edit iass
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayEditObject($use_cache = true)
+    public function mayEditObject(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('write');
@@ -135,14 +118,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('write');
     }
 
-    /**
-     * User edit permissions
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayEditPermissions($use_cache = true)
+    public function mayEditPermissions(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('edit_permission');
@@ -151,14 +127,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('edit_permission');
     }
 
-    /**
-     * User may edit members
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayEditMembers($use_cache = true)
+    public function mayEditMembers(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('edit_members');
@@ -167,14 +136,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('edit_members');
     }
 
-    /**
-     * User may view gradings
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayViewUser($use_cache = true)
+    public function mayViewUser(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('read_learning_progress');
@@ -183,14 +145,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('read_learning_progress');
     }
 
-    /**
-     * User may grade
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayGradeUser($use_cache = true)
+    public function mayGradeUser(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('edit_learning_progress');
@@ -199,27 +154,24 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->isSystemAdmin() || $this->checkAccessToObj('edit_learning_progress');
     }
 
-    /**
-     * User may grade
-     *
-     * @param  int	$a_user_id
-     *
-     * @return bool
-     */
-    public function mayGradeUserById($a_user_id)
+    public function mayGradeUserById(int $user_id): bool
     {
-        return $this->isSystemAdmin()
-            || ($this->mayGradeUser() && count($this->handler->filterUserIdsByRbacOrPositionOfCurrentUser("edit_learning_progress", "set_lp", $this->iass->getRefId(), [$a_user_id])) > 0);
+        return
+            $this->isSystemAdmin() ||
+            (
+                $this->mayGradeUser() &&
+                count(
+                    $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
+                        "edit_learning_progress",
+                        "set_lp",
+                        $this->iass->getRefId(),
+                        [$user_id]
+                    )
+                ) > 0
+            );
     }
 
-    /**
-     * User may Amend grading
-     *
-     * @param bool	$use_cache
-     *
-     * @return bool
-     */
-    public function mayAmendGradeUser($use_cache = true)
+    public function mayAmendGradeUser(bool $use_cache = true): bool
     {
         if ($use_cache) {
             return $this->cacheCheckAccessToObj('amend_grading');
@@ -228,14 +180,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->checkAccessToObj('amend_grading');
     }
 
-    /**
-     * Get permission state from cache
-     *
-     * @param string	$operation
-     *
-     * @return bool
-     */
-    protected function cacheCheckAccessToObj($operation)
+    protected function cacheCheckAccessToObj(string $operation): bool
     {
         $iass_id = $this->iass->getId();
         $user_id = $this->usr->getId();
@@ -248,12 +193,7 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
         return $this->mass_global_permissions_cache[$iass_id][$user_id][$operation];
     }
 
-    /**
-     * Check whether user is system admin.
-     *
-     * @return bool
-     */
-    public function isSystemAdmin()
+    public function isSystemAdmin(): bool
     {
         return $this->review->isAssigned($this->usr->getId(), SYSTEM_ROLE_ID);
     }

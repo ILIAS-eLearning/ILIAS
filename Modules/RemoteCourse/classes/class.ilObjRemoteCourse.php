@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
 * Remote course app class
@@ -14,31 +27,31 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
 
 class ilObjRemoteCourse extends ilRemoteObjectBase
 {
-    const DB_TABLE_NAME = "remote_course_settings";
-    
-    const ACTIVATION_OFFLINE = 0;
-    const ACTIVATION_UNLIMITED = 1;
-    const ACTIVATION_LIMITED = 2;
-    
+    public const DB_TABLE_NAME = "remote_course_settings";
+
+    public const ACTIVATION_OFFLINE = 0;
+    public const ACTIVATION_UNLIMITED = 1;
+    public const ACTIVATION_LIMITED = 2;
+
     protected $availability_type;
     protected $end;
     protected $start;
-    
-    public function initType()
+
+    public function initType(): void
     {
         $this->type = "rcrs";
     }
-    
-    protected function getTableName()
+
+    protected function getTableName(): string
     {
         return self::DB_TABLE_NAME;
     }
-    
-    protected function getECSObjectType()
+
+    protected function getECSObjectType(): string
     {
         return "/campusconnect/courselinks";
     }
-    
+
     /**
      * Set Availability type
      *
@@ -48,7 +61,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     {
         $this->availability_type = $a_type;
     }
-    
+
     /**
      * get availability type
      *
@@ -58,7 +71,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     {
         return $this->availability_type;
     }
-    
+
     /**
      * set starting time
      *
@@ -68,7 +81,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     {
         $this->start = $a_time;
     }
-    
+
     /**
      * get starting time
      *
@@ -88,7 +101,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     {
         $this->end = $a_time;
     }
-    
+
     /**
      * get ending time
      *
@@ -98,7 +111,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     {
         return $this->end;
     }
-        
+
     /**
      * Lookup online
      *
@@ -108,7 +121,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     public static function _lookupOnline($a_obj_id)
     {
         global $ilDB;
-        
+
         $query = "SELECT * FROM " . self::DB_TABLE_NAME .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
@@ -116,51 +129,49 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
         switch ($row->availability_type) {
             case self::ACTIVATION_UNLIMITED:
                 return true;
-                
+
             case self::ACTIVATION_OFFLINE:
                 return false;
-                
+
             case self::ACTIVATION_LIMITED:
                 return time() > $row->r_start && time < $row->r_end;
-                
+
             default:
                 return false;
         }
-        
+
         return false;
     }
-    
-    protected function doCreateCustomFields(array &$a_fields)
+
+    protected function doCreateCustomFields(array &$a_fields): void
     {
         $a_fields["availability_type"] = array("integer", 0);
         $a_fields["r_start"] = array("integer", 0);
         $a_fields["r_end"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields): void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
         $a_fields["r_start"] = array("integer",(int) $this->getStartingTime());
         $a_fields["r_end"] = array("integer", (int) $this->getEndingTime());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row): void
     {
         $this->setAvailabilityType($a_row->availability_type);
         $this->setStartingTime($a_row->r_start);
         $this->setEndingTime($a_row->r_end);
     }
-    
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content): void
     {
         // add custom values
         $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);
-        
+
         // :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
-        
+
         // adv. metadata
-        include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php');
         $definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
         $this->importMetadataFromJson(
             $a_ecs_content,
@@ -168,8 +179,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
             $definition,
             ilECSDataMappingSetting::MAPPING_IMPORT_RCRS
         );
-        
-        include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+
         $import = new ilECSImport($a_server->getServerId(), $this->getId());
         $import->setContentId($a_ecs_content->courseID);
         $import->save();

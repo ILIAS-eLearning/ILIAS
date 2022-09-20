@@ -1,9 +1,18 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -45,7 +54,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * {@inheritdoc}
      */
-    protected function writePostData(bool $always = false) : int
+    protected function writePostData(bool $always = false): int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -59,21 +68,22 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return 1;
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
-        if (is_array($_POST['errordata']['key'])) {
+        $errordata = $this->request->raw('errordata');
+        if ($errordata != null && is_array($errordata['key'])) {
             $this->object->flushErrorData();
-            foreach ($_POST['errordata']['key'] as $idx => $val) {
+            foreach ($errordata['key'] as $idx => $val) {
                 $this->object->addErrorData(
                     $val,
-                    $_POST['errordata']['value'][$idx],
-                    $_POST['errordata']['points'][$idx]
+                    $errordata['value'][$idx],
+                    $errordata['points'][$idx]
                 );
             }
         }
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form): void
     {
         $questiontext = $_POST["question"];
         $this->object->setQuestion($questiontext);
@@ -96,7 +106,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      *
      * @return bool
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false): bool
     {
         $save = $this->isSaveCommand();
         $this->getQuestionTemplate();
@@ -143,9 +153,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     /**
      * @param ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI|void
+     * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("errors_section"));
@@ -173,9 +183,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     /**
      * @param $form ilPropertyFormGUI
-     * @return \ilPropertyFormGUI|void
+     * @return ilPropertyFormGUI
      */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form): ilPropertyFormGUI
     {
         // errortext
         $errortext = new ilTextAreaInputGUI($this->lng->txt("errortext"), "errortext");
@@ -197,12 +207,13 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $textsize->setRequired(true);
             $form->addItem($textsize);
         }
+        return $form;
     }
 
     /**
     * Parse the error text
     */
-    public function analyze()
+    public function analyze(): void
     {
         $this->writePostData(true);
         $this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
@@ -211,20 +222,17 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     /**
      * Get the question solution output
-     *
      * The getSolutionOutput() method is used to print either the
      * user's pass' solution or the best possible solution for the
      * current errorText question object.
-     *
-     * @param	integer		$active_id				The active test id
-     * @param	integer		$pass					The test pass counter
-     * @param	boolean		$graphicalOutput		Show visual feedback for right/wrong answers
-     * @param	boolean		$result_output			Show the reached points for parts of the question
-     * @param	boolean		$show_question_only		Show the question without the ILIAS content around
-     * @param	boolean		$show_feedback			Show the question feedback
-     * @param	boolean		$show_correct_solution	Show the correct solution instead of the user solution
-     * @param	boolean		$show_manual_scoring	Show specific information for the manual scoring output
-     *
+     * @param	integer		$active_id             The active test id
+     * @param	integer		$pass                  The test pass counter
+     * @param	boolean		$graphicalOutput       Show visual feedback for right/wrong answers
+     * @param	boolean		$result_output         Show the reached points for parts of the question
+     * @param	boolean		$show_question_only    Show the question without the ILIAS content around
+     * @param	boolean		$show_feedback         Show the question feedback
+     * @param	boolean		$show_correct_solution Show the correct solution instead of the user solution
+     * @param	boolean		$show_manual_scoring   Show specific information for the manual scoring output
      * @return	string	HTML solution output
      **/
     public function getSolutionOutput(
@@ -237,13 +245,12 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ): string {
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_errortext_output_solution.html", true, true, "Modules/TestQuestionPool");
 
         $selections = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-
             /* Retrieve tst_solutions entries. */
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
             $solutions = $this->object->getSolutionValues($active_id, $pass);
@@ -281,10 +288,10 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $feedback = '';
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
-                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $fb = $this->getGenericFeedbackOutput((int) $active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-            
+
             $fb = $this->getSpecificFeedbackOutput(array());
             $feedback .= strlen($fb) ? $fb : '';
         }
@@ -293,11 +300,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
-        
+
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
@@ -308,7 +315,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $solutionoutput;
     }
 
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false): string
     {
         $selections = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
 
@@ -337,7 +344,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $is_postponed = false,
         $use_post_solutions = false,
         $show_feedback = false
-    ) {
+    ): string {
         // generate the question output
         $template = new ilTemplate("tpl.il_as_qpl_errortext_output.html", true, true, "Modules/TestQuestionPool");
         if ($active_id) {
@@ -370,98 +377,17 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $template->setVariable("ERRORTEXT_VALUE", $errortext_value);
 
         $questionoutput = $template->get();
-        if (!$show_question_only) {
-            // get page object output
-            $questionoutput = $this->getILIASPage($questionoutput);
-        }
+        //if (!$show_question_only) {
+        // get page object output
+        $questionoutput = $this->getILIASPage($questionoutput);
+        //}
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/errortext.js");
         $questionoutput = $template->get();
         $pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
         return $pageoutput;
     }
 
-    /**
-     * Sets the ILIAS tabs for this question type
-     *
-     * @access public
-     *
-     * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
-     */
-    public function setQuestionTabs() : void
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->clearTargets();
-
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
-
-        if (strlen($q_type)) {
-            $classname = $q_type . "GUI";
-            $this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
-            $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
-        }
-
-        if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    $force_active
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "analyze", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
-        }
-
-        // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($ilTabs);
-
-        // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($ilTabs);
-
-        // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($ilTabs, $classname);
-
-        // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
-            $ilTabs->addTarget(
-                "statistics",
-                $this->ctrl->getLinkTargetByClass($classname, "assessment"),
-                array("assessment"),
-                $classname,
-                ""
-            );
-        }
-
-        $this->addBackTab($ilTabs);
-    }
-
-    public function getSpecificFeedbackOutput(array $userSolution) : string
+    public function getSpecificFeedbackOutput(array $userSolution): string
     {
         $selection = $this->object->getBestSelection(false);
 
@@ -470,55 +396,56 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
 
         $feedback = '<table class="test_specific_feedback"><tbody>';
-        
+
         $elements = array();
-        foreach (preg_split("/[\n\r]+/", $this->object->errortext) as $line) {
+        foreach (preg_split("/[\n\r]+/", $this->object->getErrorText()) as $line) {
             $elements = array_merge($elements, preg_split("/\s+/", $line));
         }
-        
+
         $matchedIndexes = array();
-        
+
         $i = 0;
         foreach ($selection as $index => $answer) {
             $element = array();
             foreach ($answer as $answerPartIndex) {
                 $element[] = $elements[$answerPartIndex];
             }
-            
+
             $element = implode(' ', $element);
             $element = str_replace(array('((', '))', '#'), array('', '', ''), $element);
-            
+
             $ordinal = $index + 1;
-            
+
             $feedback .= '<tr>';
-            
+
             $feedback .= '<td class="text-nowrap">' . $ordinal . '. ' . $element . ':</td>';
-            
+
             foreach ($this->object->getErrorData() as $idx => $ans) {
+                /** @var assAnswerErrorText $ans */
                 if (isset($matchedIndexes[$idx])) {
                     continue;
                 }
-                
+
                 if (preg_match('/' . preg_quote($ans->text_wrong, '/') . '/', $element)) {
                     $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
                         $this->object->getId(),
                         0,
                         $idx
                     );
-                    
+
                     $feedback .= '<td>' . $fb . '</td>';
-                    
+
                     $matchedIndexes[$idx] = $idx;
-                    
+
                     break;
                 }
             }
-            
+
             $feedback .= '</tr>';
         }
-        
+
         $feedback .= '</tbody></table>';
-        
+
         return $this->object->prepareTextareaOutput($feedback, true);
     }
 
@@ -531,7 +458,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars()
+    public function getAfterParticipationSuppressionAnswerPostVars(): array
     {
         return array();
     }
@@ -545,7 +472,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars()
+    public function getAfterParticipationSuppressionQuestionPostVars(): array
     {
         return array();
     }
@@ -553,20 +480,18 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers)
+    public function getAggregatedAnswersView(array $relevant_answers): string
     {
         $errortext = $this->object->getErrorText();
-        
+
         $passdata = array(); // Regroup answers into units of passes.
         foreach ($relevant_answers as $answer_chosen) {
             $passdata[$answer_chosen['active_fi'] . '-' . $answer_chosen['pass']][$answer_chosen['value2']][] = $answer_chosen['value1'];
         }
-        
+
         $html = '';
         foreach ($passdata as $key => $pass) {
             $passdata[$key] = $this->object->createErrorTextOutput($pass);
@@ -575,44 +500,44 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         return $html;
     }
-    
-    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
+
+    public function getAnswersFrequency($relevantAnswers, $questionIndex): array
     {
         $answersByActiveAndPass = array();
-        
+
         foreach ($relevantAnswers as $row) {
             $key = $row['active_fi'] . ':' . $row['pass'];
-            
+
             if (!isset($answersByActiveAndPass[$key])) {
                 $answersByActiveAndPass[$key] = array();
             }
-            
+
             if (!isset($answersByActiveAndPass[$key][$row['value2']])) {
                 $answersByActiveAndPass[$key][$row['value2']] = array();
             }
-            
+
             $answersByActiveAndPass[$key][$row['value2']][] = $row['value1'];
         }
-        
+
         $answers = array();
-        
+
         foreach ($answersByActiveAndPass as $ans) {
             $errorText = $this->object->createErrorTextOutput($ans);
             $errorMd5 = md5($errorText);
-            
+
             if (!isset($answers[$errorMd5])) {
                 $answers[$errorMd5] = array(
                     'answer' => $errorText, 'frequency' => 0
                 );
             }
-            
+
             $answers[$errorMd5]['frequency']++;
         }
-        
+
         return array_values($answers);
     }
-    
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
+
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         // error terms
         include_once "./Modules/TestQuestionPool/classes/forms/class.ilAssErrorTextCorrectionsInputGUI.php";
@@ -621,7 +546,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $errordata->setValueName($this->lng->txt('text_correct'));
         $errordata->setValues($this->object->getErrorData());
         $form->addItem($errordata);
-        
+
         // points for wrong selection
         $points_wrong = new ilNumberInputGUI($this->lng->txt("points_wrong"), "points_wrong");
         $points_wrong->allowDecimals(true);
@@ -633,11 +558,11 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $points_wrong->setRequired(true);
         $form->addItem($points_wrong);
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form): void
     {
         $this->object->flushErrorData();
         foreach ($form->getItemByPostVar('errordata')->getValues() as $idx => $errAnswer) {
@@ -647,7 +572,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $errAnswer->points
             );
         }
-        
+
         $this->object->setPointsWrong((float) $form->getInput('points_wrong'));
     }
 }

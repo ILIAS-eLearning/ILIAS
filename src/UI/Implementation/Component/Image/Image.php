@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Image;
 
@@ -42,7 +58,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -50,7 +66,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withSource(string $source) : C\Image\Image
+    public function withSource(string $source): C\Image\Image
     {
         $clone = clone $this;
         $clone->src = $source;
@@ -60,7 +76,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getSource() : string
+    public function getSource(): string
     {
         return $this->src;
     }
@@ -68,7 +84,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAlt(string $alt) : C\Image\Image
+    public function withAlt(string $alt): C\Image\Image
     {
         $clone = clone $this;
         $clone->alt = $alt;
@@ -78,7 +94,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function getAlt() : string
+    public function getAlt(): string
     {
         return $this->alt;
     }
@@ -86,7 +102,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withAction($action) : C\Image\Image
+    public function withAction($action): C\Image\Image
     {
         $this->checkStringOrSignalArg("action", $action);
         $clone = clone $this;
@@ -117,7 +133,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -125,7 +141,7 @@ class Image implements C\Image\Image
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

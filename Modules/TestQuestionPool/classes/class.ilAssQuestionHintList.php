@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHint.php';
@@ -20,7 +21,7 @@ class ilAssQuestionHintList implements Iterator
      * @var		array
      */
     private $questionHints = array();
-    
+
     /**
      * iterator interface method
      *
@@ -42,7 +43,7 @@ class ilAssQuestionHintList implements Iterator
     {
         return reset($this->questionHints);
     }
-    
+
     /**
      * iterator interface method
      *
@@ -53,7 +54,7 @@ class ilAssQuestionHintList implements Iterator
     {
         return next($this->questionHints);
     }
-    
+
     /**
      * iterator interface method
      *
@@ -64,18 +65,18 @@ class ilAssQuestionHintList implements Iterator
     {
         return key($this->questionHints);
     }
-    
+
     /**
      * iterator interface method
      *
      * @access	public
      * @return	boolean
      */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->questionHints) !== null;
     }
-    
+
     /**
      * Constructor
      *
@@ -84,18 +85,18 @@ class ilAssQuestionHintList implements Iterator
     public function __construct()
     {
     }
-    
+
     /**
      * adds a question hint object to the current list instance
      *
      * @access	public
      * @param	ilAssQuestionHint	$questionHint
      */
-    public function addHint(ilAssQuestionHint $questionHint)
+    public function addHint(ilAssQuestionHint $questionHint): void
     {
         $this->questionHints[] = $questionHint;
     }
-    
+
     /**
      * returns the question hint object relating to the passed hint id
      *
@@ -103,7 +104,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer				$hintId
      * @return	ilAssQuestionHint	$questionHint
      */
-    public function getHint($hintId)
+    public function getHint($hintId): ilAssQuestionHint
     {
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -112,11 +113,11 @@ class ilAssQuestionHintList implements Iterator
                 return $questionHint;
             }
         }
-        
+
         require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
         throw new ilTestQuestionPoolException("hint with id $hintId does not exist in this list");
     }
-    
+
     /**
      * checks wether a question hint object
      * relating to the passed id exists or not
@@ -125,7 +126,7 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer		$hintId
      * @return	boolean		$hintExists
      */
-    public function hintExists($hintId)
+    public function hintExists($hintId): bool
     {
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -134,10 +135,10 @@ class ilAssQuestionHintList implements Iterator
                 return true;
             }
         }
-        
+
         return false;
     }
-    
+
     /**
      * re-indexes the list's hints sequentially by current order (starting with index "1")
      *
@@ -147,18 +148,18 @@ class ilAssQuestionHintList implements Iterator
      *
      * @access	public
      */
-    public function reIndex()
+    public function reIndex(): void
     {
         $counter = 0;
-        
+
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
-            
+
             $questionHint->setIndex(++$counter);
             $questionHint->save();
         }
     }
-    
+
     /**
      * duplicates a hint list from given original question id to
      * given duplicate question id and returns an array of duplicate hint ids
@@ -168,30 +169,30 @@ class ilAssQuestionHintList implements Iterator
      * @param integer $duplicateQuestionId
      * @return array $hintIds containing the map from original hint ids to duplicate hint ids
      */
-    public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId)
+    public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId): array
     {
         $hintIds = array();
-        
+
         $questionHintList = self::getListByQuestionId($originalQuestionId);
 
         foreach ($questionHintList as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
-            
+
             $originalHintId = $questionHint->getId();
-            
+
             $questionHint->setId(null);
             $questionHint->setQuestionId($duplicateQuestionId);
-            
+
             $questionHint->save();
-            
+
             $duplicateHintId = $questionHint->getId();
-            
+
             $hintIds[$originalHintId] = $duplicateHintId;
         }
-        
+
         return $hintIds;
     }
-    
+
     /**
      * returns an array with data of the hints in this list
      * that is adopted to be used as table gui data
@@ -199,10 +200,10 @@ class ilAssQuestionHintList implements Iterator
      * @access	public
      * @return	array	$tableData
      */
-    public function getTableData()
+    public function getTableData(): array
     {
         $tableData = array();
-        
+
         foreach ($this as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
 
@@ -213,10 +214,10 @@ class ilAssQuestionHintList implements Iterator
                 'hint_text' => $questionHint->getText()
             );
         }
-        
+
         return $tableData;
     }
-    
+
     /**
      * instantiates a question hint list for the passed question id
      *
@@ -226,11 +227,11 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer	$questionId
      * @return	self	$questionHintList
      */
-    public static function getListByQuestionId($questionId)
+    public static function getListByQuestionId($questionId): ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "
 			SELECT		qht_hint_id,
 						qht_question_fi,
@@ -244,26 +245,26 @@ class ilAssQuestionHintList implements Iterator
 			
 			ORDER BY	qht_hint_index ASC
 		";
-        
+
         $res = $ilDB->queryF(
             $query,
             array('integer'),
             array((int) $questionId)
         );
-        
+
         $questionHintList = new self();
-        
+
         while ($row = $ilDB->fetchAssoc($res)) {
             $questionHint = new ilAssQuestionHint();
-            
+
             ilAssQuestionHint::assignDbRow($questionHint, $row);
-            
+
             $questionHintList->addHint($questionHint);
         }
-        
+
         return $questionHintList;
     }
-    
+
     /**
      * instantiates a question hint list for the passed hint ids
      *
@@ -273,13 +274,13 @@ class ilAssQuestionHintList implements Iterator
      * @param	array	$hintIds
      * @return	self	$questionHintList
      */
-    public static function getListByHintIds($hintIds)
+    public static function getListByHintIds($hintIds): ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
-        $qht_hint_id__IN__hintIds = $ilDB->in('qht_hint_id', $hintIds, false, 'integer');
-        
+
+        $qht_hint_id__IN__hintIds = $ilDB->in('qht_hint_id', (array) $hintIds, false, 'integer');
+
         $query = "
 			SELECT		qht_hint_id,
 						qht_question_fi,
@@ -293,22 +294,22 @@ class ilAssQuestionHintList implements Iterator
 			
 			ORDER BY	qht_hint_index ASC
 		";
-        
+
         $res = $ilDB->query($query);
-        
+
         $questionHintList = new self();
-        
+
         while ($row = $ilDB->fetchAssoc($res)) {
             $questionHint = new ilAssQuestionHint();
-            
+
             ilAssQuestionHint::assignDbRow($questionHint, $row);
-            
+
             $questionHintList->addHint($questionHint);
         }
-        
+
         return $questionHintList;
     }
-    
+
     /**
      * determines the next index to be used for a new hint
      * that is to be added to the list of existing hints
@@ -320,11 +321,11 @@ class ilAssQuestionHintList implements Iterator
      * @param	integer		$questionId
      * @return	integer		$nextIndex
      */
-    public static function getNextIndexByQuestionId($questionId)
+    public static function getNextIndexByQuestionId($questionId): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-                
+
         $query = "
 			SELECT		1 + COALESCE( MAX(qht_hint_index), 0 ) next_index
 					
@@ -332,18 +333,18 @@ class ilAssQuestionHintList implements Iterator
 			
 			WHERE		qht_question_fi = %s
 		";
-        
+
         $res = $ilDB->queryF(
             $query,
             array('integer'),
             array((int) $questionId)
         );
-        
+
         $row = $ilDB->fetchAssoc($res);
-        
+
         return $row['next_index'];
     }
-    
+
     /**
      * Deletes all question hints relating to questions included in given question ids
      *
@@ -354,14 +355,14 @@ class ilAssQuestionHintList implements Iterator
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $__qht_question_fi__IN__questionIds = $ilDB->in('qht_question_fi', $questionIds, false, 'integer');
-        
+
         $query = "
 			DELETE FROM		qpl_hints
 			WHERE			$__qht_question_fi__IN__questionIds
 		";
-        
+
         return $ilDB->manipulate($query);
     }
 }

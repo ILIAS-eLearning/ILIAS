@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Persistence for Settings (like abstract, extro)
  */
 class ilLearningSequenceSettingsDB
 {
-    const TABLE_NAME = 'lso_settings';
+    public const TABLE_NAME = 'lso_settings';
 
     protected ilDBInterface $database;
     protected ilLearningSequenceFilesystem $ls_filesystem;
@@ -18,20 +34,16 @@ class ilLearningSequenceSettingsDB
         $this->ls_filesystem = $ls_filesystem;
     }
 
-    public function store(ilLearningSequenceSettings $settings) : void
+    public function store(ilLearningSequenceSettings $settings): void
     {
         $uploads = $settings->getUploads();
-        if (count($uploads) > 0) {
-            foreach ($uploads as $pre => $info) {
-                $settings = $this->ls_filesystem->moveUploaded($pre, $info, $settings);
-            }
+        foreach ($uploads as $pre => $info) {
+            $settings = $this->ls_filesystem->moveUploaded($pre, $info, $settings);
         }
 
         $deletions = $settings->getDeletions();
-        if (count($deletions) > 0) {
-            foreach ($deletions as $pre) {
-                $settings = $this->ls_filesystem->delete_image($pre, $settings);
-            }
+        foreach ($deletions as $pre) {
+            $settings = $this->ls_filesystem->delete_image($pre, $settings);
         }
 
         $where = [
@@ -49,7 +61,7 @@ class ilLearningSequenceSettingsDB
         $this->database->update(static::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $obj_id) : void
+    public function delete(int $obj_id): void
     {
         $settings = $this->getSettingsFor($obj_id);
 
@@ -65,7 +77,7 @@ class ilLearningSequenceSettingsDB
         $this->database->manipulate($query);
     }
 
-    public function getSettingsFor(int $lso_obj_id) : ilLearningSequenceSettings
+    public function getSettingsFor(int $lso_obj_id): ilLearningSequenceSettings
     {
         $data = $this->select($lso_obj_id);
 
@@ -89,7 +101,7 @@ class ilLearningSequenceSettingsDB
     /**
      * @return array<string, mixed>
      */
-    protected function select(int $obj_id) : array
+    protected function select(int $obj_id): array
     {
         $ret = [];
         $query =
@@ -101,6 +113,7 @@ class ilLearningSequenceSettingsDB
         $result = $this->database->query($query);
 
         if ($this->database->numRows($result) !== 0) {
+            // TODO PHP8 Review: Check array building, should be $ret[] = ... IMO
             $ret = $this->database->fetchAssoc($result);
         }
 
@@ -114,7 +127,7 @@ class ilLearningSequenceSettingsDB
         string $abstract_image = null,
         string $extro_image = null,
         bool $gallery = false
-    ) : ilLearningSequenceSettings {
+    ): ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(
             $obj_id,
             $abstract,
@@ -125,7 +138,7 @@ class ilLearningSequenceSettingsDB
         );
     }
 
-    protected function insert(ilLearningSequenceSettings $settings) : void
+    protected function insert(ilLearningSequenceSettings $settings): void
     {
         $values = [
             "obj_id" => ["integer", $settings->getObjId()],

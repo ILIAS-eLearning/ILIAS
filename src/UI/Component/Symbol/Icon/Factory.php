@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Symbol\Icon;
 
@@ -16,24 +32,12 @@ interface Factory
      *    Standard Icons represent ILIAS Objects, Services or ideas.
      *   composition: >
      *     An Icon is rendered as image-tag.
-     *     The outlined version is the silhouette of the Standard Icon.
-     *     This outlined version therefore attracts less attention.
      *   rivals:
      *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
+     *
      * rules:
-     *   usage:
-     *     1: If they are layered upon a picture, the outlined version MUST be used.
-     *     2:  >
-     *        In any other case, the outlined version SHOULD be used except for scenarios
-     *        where the icon should draw much more attention.
-     *     3: For drawing much more attention the filled version SHOULD be used.
      *   style:
-     *     1: CSS-Filters MAY be used for Standard Icons in their outlined version to manipulate the stroke to fit the context.
-     *     2: >
-     *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
-     *        applicable.
-     *   accessibility:
-     *     1: Icons MUST have alt-tags.
+     *     1: CSS-Filters MAY be used for Standard Icons to manipulate the stroke to fit the context.
      * ---
      * @param   string $name
      * @param   string $label
@@ -45,7 +49,7 @@ interface Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-    ) : Standard;
+    ): Standard;
 
     /**
      * ---
@@ -80,5 +84,5 @@ interface Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-    ) : Custom;
+    ): Custom;
 }

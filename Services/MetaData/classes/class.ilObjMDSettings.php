@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,41 +23,23 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
-* Class ilObjMDSettings
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesMetaData
-*/
+ * Class ilObjMDSettings
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesMetaData
+ */
 class ilObjMDSettings extends ilObject
 {
-    
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
+     * Constructor
+     * @access    public
+     * @param int    reference_id or object_id
+     * @param bool    treat the id as reference_id (true) or object_id (false)
+     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->type = "mds";
         parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    
-    /**
-    * read style folder data
-    */
-    public function read()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::read();
     }
 } // END class.ilObjMDSettingsGUI

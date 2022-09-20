@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\OnScreenChat\Repository;
 
@@ -25,9 +42,9 @@ class Subscriber
     }
 
     /**
-     * @return int[]
+     * @return array<int, array{public_name: string, profile_image: string}>
      */
-    public function getInitialUserProfileData() : array
+    public function getInitialUserProfileData(): array
     {
         $conversationIds = [];
 
@@ -61,7 +78,7 @@ class Subscriber
             $participants = json_decode($row['participants'], true, 512, JSON_THROW_ON_ERROR);
 
             if (is_array($participants)) {
-                $usrIds = array_unique(array_merge($usrIds, array_filter(array_map(static function ($user) : int {
+                $usrIds = array_unique(array_merge($usrIds, array_filter(array_map(static function ($user): int {
                     if (is_array($user) && isset($user['id'])) {
                         return (int) $user['id'];
                     }
@@ -78,7 +95,7 @@ class Subscriber
      * @param int[] $usrIds
      * @return array<int, array{public_name: string, profile_image: string}>
      */
-    public function getDataByUserIds(array $usrIds) : array
+    public function getDataByUserIds(array $usrIds): array
     {
         $usrIds = array_filter(array_map('intval', array_map('trim', $usrIds)));
 

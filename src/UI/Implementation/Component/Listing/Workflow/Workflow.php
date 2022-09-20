@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
@@ -36,7 +52,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -44,7 +60,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function withActive(int $active) : C\Listing\Workflow\Workflow
+    public function withActive(int $active): C\Listing\Workflow\Workflow
     {
         if ($active < 0 || $active > $this->getAmountOfSteps() - 1) {
             throw new InvalidArgumentException("active must be be within the amount of steps", 1);
@@ -57,7 +73,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getActive() : int
+    public function getActive(): int
     {
         return $this->active;
     }
@@ -65,7 +81,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * Return the amount of steps of this workflow.
      */
-    public function getAmountOfSteps() : int
+    public function getAmountOfSteps(): int
     {
         return count($this->steps);
     }
@@ -73,7 +89,7 @@ abstract class Workflow implements C\Listing\Workflow\Workflow
     /**
      * @inheritdoc
      */
-    public function getSteps() : array
+    public function getSteps(): array
     {
         return $this->steps;
     }

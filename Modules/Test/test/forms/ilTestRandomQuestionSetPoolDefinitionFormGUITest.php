@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,9 +20,11 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
      * @var ilLanguage|mixed|MockObject
      */
     private $lng_mock;
-    private ilTestRandomQuestionSetPoolDefinitionFormGUI $formGui;
 
-    protected function setUp() : void
+    // ilTestRandomQuestionSetPoolDefinitionFormGUI
+    private $formGui;
+
+    protected function setUp(): void
     {
         parent::setUp();
         $this->ctrl_mock = $this->createMock(ilCtrl::class);
@@ -47,12 +51,12 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetPoolDefinitionFormGUI::class, $this->formGui);
     }
 
-    protected function testSaveCommand() : void
+    protected function testSaveCommand(): void
     {
         $expected = "testCommand";
 
@@ -61,7 +65,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
         $this->assertEquals($expected, $this->formGui->getSaveCommand());
     }
 
-    protected function testSaveAndNewCommand() : void
+    protected function testSaveAndNewCommand(): void
     {
         $expected = "testCommand";
 

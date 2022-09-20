@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -31,13 +33,13 @@ class ilObjRootFolder extends ilContainer
     /**
      * @throws ilException
      */
-    public function delete()
+    public function delete(): bool
     {
         $message = get_class($this) . "::delete(): Can't delete root folder!";
         throw new ilException($message);
     }
 
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         global $ilDB;
 
@@ -47,23 +49,24 @@ class ilObjRootFolder extends ilContainer
 
         $num = 0;
 
-        $data["Fobject"] = array();
+        $data["Fobject"] = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["Fobject"][$num] = array("title" => $row->title,
-                                          "desc" => $row->description,
-                                          "lang" => $row->lang_code
-                                          );
+            $data["Fobject"][$num] = [
+                "title" => $row->title,
+                "desc" => $row->description,
+                "lang" => $row->lang_code
+            ];
             $num++;
         }
 
         // first entry is always the default language
         $data["default_language"] = 0;
 
-        return $data ?: array();
+        return $data ?: [];
     }
 
     // remove translations of current category
-    public function deleteTranslation(string $a_lang) : void
+    public function deleteTranslation(string $a_lang): void
     {
         global $ilDB;
 
@@ -74,7 +77,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // remove all Translations of current category
-    public function removeTranslations() : void
+    public function removeTranslations(): void
     {
         global $ilDB;
 
@@ -84,11 +87,11 @@ class ilObjRootFolder extends ilContainer
     }
 
     // add a new translation to current category
-    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default) : void
+    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default): void
     {
         global $ilDB;
 
-        if (empty($a_title)) {
+        if ($a_title === '') {
             $a_title = "NO TITLE";
         }
 
@@ -102,8 +105,8 @@ class ilObjRootFolder extends ilContainer
              $ilDB->quote($a_lang_default, 'integer') . ")";
         $ilDB->manipulate($query);
     }
-    
-    public function addAdditionalSubItemInformation(array &$object) : void
+
+    public function addAdditionalSubItemInformation(array &$object): void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }

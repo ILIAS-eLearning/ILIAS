@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,30 +23,26 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-include_once './Services/Search/classes/class.ilSearchCommandQueue.php';
-include_once './Services/Search/classes/class.ilSearchCommandQueueElement.php';
 
 /**
 * Update search command queue from Services/Object events
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilSearchAppEventListener implements ilAppEventListener
 {
-    
     /**
-    * Handle an event in a listener.
-    * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+     * @inheritDoc
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
+        if (!isset($a_parameter['obj_id'])) {
+            return;
+        }
+
         // only for files in the moment
         if (!isset($a_parameter['obj_type'])) {
             $type = ilObject::_lookupType($a_parameter['obj_id']);
@@ -56,60 +54,53 @@ class ilSearchAppEventListener implements ilAppEventListener
             $type != 'htlm') {
             return;
         }
-        
+
         switch ($a_component) {
             case 'Services/Help':
             case 'Services/Object':
-                
+
                 switch ($a_event) {
+                    case 'undelete':
                     case 'update':
                         $command = ilSearchCommandQueueElement::RESET;
                         break;
-                        
+
                     case 'create':
                         $command = ilSearchCommandQueueElement::CREATE;
                         break;
-                        
+
+                    case 'delete':
                     case 'toTrash':
                         $command = ilSearchCommandQueueElement::DELETE;
                         break;
-                        
-                    case 'delete':
-                        $command = ilSearchCommandQueueElement::DELETE;
-                        break;
-                        
-                    case 'undelete':
-                        $command = ilSearchCommandQueueElement::RESET;
-                        break;
-                        
+
                     default:
                         return;
                 }
-                
                 ilSearchAppEventListener::storeElement($command, $a_parameter);
         }
     }
-    
-    protected static function storeElement($a_command, $a_params)
+
+    protected static function storeElement(string $a_command, array $a_params): bool
     {
         if (!$a_command) {
             return false;
         }
-        
+
         if (!isset($a_params['obj_id']) or !$a_params['obj_id']) {
             return false;
         }
-        
+
         if (!isset($a_params['obj_type']) or !$a_params['obj_type']) {
             $a_params['obj_type'] = ilObject::_lookupType($a_params['obj_id']);
         }
         ilLoggerFactory::getLogger('src')->debug('Handling new command: ' . $a_command . ' for type ' . $a_params['obj_type']);
-        
+
         $element = new ilSearchCommandQueueElement();
         $element->setObjId($a_params['obj_id']);
         $element->setObjType($a_params['obj_type']);
         $element->setCommand($a_command);
-        
+
         ilSearchCommandQueue::factory()->store($element);
         return true;
     }

@@ -1,12 +1,26 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 include_once("./Services/UICore/lib/html-it/IT.php");
 include_once("./Services/UICore/lib/html-it/ITX.php");
 
 /**
  * special template class to simplify handling of ITX/PEAR
- *
  * @author     Stefan Kesseler <skesseler@databay.de>
  * @author     Sascha Hofmann <shofmann@databay.de>
  * @version    $Id$
@@ -18,40 +32,47 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected $permanent_link = false;
     protected $lightbox = array();
     protected $standard_template_loaded = false;
-    /**
-     * @var    \ilTemplate
-     */
-    protected $template;
-
+    protected ilTemplate $template;
+    protected array $on_load_code;
+    protected string $body_class;
+    protected string $icon_path;
+    protected ?bool $enable_fileupload = null;
+    protected string $left_content = "";
+    protected string $left_nav_content = "";
+    protected string $right_content = "";
+    protected string $main_content = "";
+    protected string $login_target_par = "";
+    protected string $tplIdentifier = "";
+    protected string $tree_flat_mode = "";
+    protected string $icon_desc = "";
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * constructor
-     *
-     * @param string  $file      templatefile (mit oder ohne pfad)
-     * @param boolean $flag1     remove unknown variables
-     * @param boolean $flag2     remove empty blocks
-     * @param boolean $in_module should be set to true, if template file is in module subdirectory
-     * @param array   $vars      variables to replace
-     *
+     * @param string $file      templatefile (mit oder ohne pfad)
+     * @param bool   $flag1     remove unknown variables
+     * @param bool   $flag2     remove empty blocks
+     * @param bool   $in_module should be set to true, if template file is in module subdirectory
+     * @param string $vars      variables to replace
+     * @param bool   $plugin
+     * @param bool   $a_use_cache
      * @access    public
      */
     public function __construct(
-        $file,
-        $flag1,
-        $flag2,
-        $in_module = false,
-        $vars = "DEFAULT",
-        $plugin = false,
-        $a_use_cache = true
+        string $file,
+        bool $flag1,
+        bool $flag2,
+        bool $in_module = false,
+        string $vars = "DEFAULT",
+        bool $plugin = false,
+        bool $a_use_cache = true
     ) {
         $this->setBodyClass("std");
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function printToString() : string
+    public function printToString(): string
     {
         throw new ilException('not implemented');
     }
@@ -69,22 +90,20 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    private $show_footer = true;
-
+    private bool $show_footer = true;
 
     /**
      * Make the template hide the footer.
      */
-    public function hideFooter()
+    public function hideFooter(): void
     {
         $this->show_footer = false;
     }
 
-
     /**
      * Fill the footer area.
      */
-    private function fillFooter()
+    private function fillFooter(): void
     {
         global $DIC;
 
@@ -105,32 +124,43 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         if (DEVMODE) {
             $php = ", PHP " . phpversion();
         }
-        $ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version") . $php);
+        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
 
         $link_items = array();
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         // imprint
-        include_once "Services/Imprint/classes/class.ilImprint.php";
-        if ($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive()) {
-            include_once "Services/Link/classes/class.ilLink.php";
+        if ($this->http->wrapper()->query()->has('record_id')) {
+            $baseClass = $this->http->wrapper()->query()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
+        }
+        if ($this->http->wrapper()->post()->has('record_id')) {
+            $baseClass = $this->http->wrapper()->post()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
+        }
+        if ($baseClass != "ilImprintGUI" && ilImprint::isActive()) {
             $link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
         }
 
         // system support contacts
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
         if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "") {
             $link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
         }
 
         if (DEVMODE) {
             if (function_exists("tidy_parse_string")) {
-                $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
-                $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);
+                $link_items[ilUtil::appendUrlParameterString(
+                    $_SERVER["REQUEST_URI"],
+                    "do_dev_validate=xhtml"
+                )] = array("Validate", true);
+                $link_items[ilUtil::appendUrlParameterString(
+                    $_SERVER["REQUEST_URI"],
+                    "do_dev_validate=accessibility"
+                )] = array("Accessibility", true);
             }
         }
 
         // output translation link
-        include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
@@ -151,85 +181,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $ftpl->parseCurrentBlock();
         }
 
-        if (DEVMODE) {
-            // execution time
-            $t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
-            $t2 = explode(" ", microtime());
-            $diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
-
-            $mem_usage = array();
-            if (function_exists("memory_get_usage")) {
-                $mem_usage[]
-                    = "Memory Usage: " . memory_get_usage() . " Bytes";
-            }
-            if (function_exists("xdebug_peak_memory_usage")) {
-                $mem_usage[]
-                    = "XDebug Peak Memory Usage: " . xdebug_peak_memory_usage() . " Bytes";
-            }
-            $mem_usage[] = round($diff, 4) . " Seconds";
-
-            if (sizeof($mem_usage)) {
-                $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
-            }
-
-
-            // controller history
-            if (is_object($ilCtrl) && $ftpl->blockExists("c_entry")
-                && $ftpl->blockExists("call_history")
-            ) {
-                $hist = $ilCtrl->getCallHistory();
-                foreach ($hist as $entry) {
-                    $ftpl->setCurrentBlock("c_entry");
-                    $ftpl->setVariable("C_ENTRY", $entry["class"]);
-                    if (is_object($ilDB)) {
-                        $file = $ilCtrl->lookupClassPath($entry["class"]);
-                        $add = $entry["mode"] . " - " . $entry["cmd"];
-                        if ($file != "") {
-                            $add .= " - " . $file;
-                        }
-                        $ftpl->setVariable("C_FILE", $add);
-                    }
-                    $ftpl->parseCurrentBlock();
-                }
-                $ftpl->setCurrentBlock("call_history");
-                $ftpl->parseCurrentBlock();
-            }
-
-            // included files
-            if (is_object($ilCtrl) && $ftpl->blockExists("i_entry")
-                && $ftpl->blockExists("included_files")
-            ) {
-                $fs = get_included_files();
-                $ifiles = array();
-                $total = 0;
-                foreach ($fs as $f) {
-                    $ifiles[] = array("file" => $f, "size" => filesize($f));
-                    $total += filesize($f);
-                }
-                $ifiles = ilUtil::sortArray($ifiles, "size", "desc", true);
-                foreach ($ifiles as $f) {
-                    $ftpl->setCurrentBlock("i_entry");
-                    $ftpl->setVariable("I_ENTRY", $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)");
-                    $ftpl->parseCurrentBlock();
-                }
-                $ftpl->setCurrentBlock("i_entry");
-                $ftpl->setVariable("I_ENTRY", "Total (" . $total . " Bytes, 100%)");
-                $ftpl->parseCurrentBlock();
-                $ftpl->setCurrentBlock("included_files");
-                $ftpl->parseCurrentBlock();
-            }
-        }
-
-        // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
-        $ftpl->setVariable(
-            "ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
-        );
-        // END Usability: Non-Delos Skins can display the elapsed time in the footer
-
         $this->setVariable("FOOTER", $ftpl->get());
     }
 
@@ -240,54 +191,19 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    /**
-     * @var string
-     */
-    protected $main_menu;
-    /**
-     * @var string
-     */
-    protected $main_menu_spacer;
+    protected string $main_menu;
+    protected string $main_menu_spacer;
 
-
-    private function getMainMenu()
+    private function getMainMenu(): void
     {
-        global $DIC;
-
-        $ilMainMenu = $DIC["ilMainMenu"];
-
-        if ($this->variableExists('MAINMENU')) {
-            $ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-            $this->main_menu = $ilMainMenu->getHTML();
-            $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-        }
     }
 
-
-    private function fillMainMenu()
+    private function fillMainMenu(): void
     {
-        global $DIC;
-        $tpl = $DIC["tpl"];
-        if ($this->variableExists('MAINMENU')) {
-            $tpl->setVariable("MAINMENU", $this->main_menu);
-            $tpl->setVariable("MAINMENU_SPACER", $this->main_menu_spacer);
-        }
     }
 
-
-    //***********************************
-    //
-    // HELP
-    //
-    //***********************************
-
-    /**
-     * Init help
-     */
-    private function initHelp()
+    private function initHelp(): void
     {
-        include_once("./Services/Help/classes/class.ilHelpGUI.php");
-        //ilHelpGUI::initHelp($this);
     }
 
 
@@ -299,10 +215,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    const MESSAGE_TYPE_FAILURE = 'failure';
-    const MESSAGE_TYPE_INFO = "info";
-    const MESSAGE_TYPE_SUCCESS = "success";
-    const MESSAGE_TYPE_QUESTION = "question";
     /**
      * @var array  available Types for Messages
      */
@@ -313,37 +225,24 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             self::MESSAGE_TYPE_SUCCESS,
             self::MESSAGE_TYPE_QUESTION,
         );
-    protected $message = array();
+    protected array $message = array();
 
-
-    /**
-     * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
-     * ilUtil::sendSuccess() and ilUtil::sendFailure()
-     *
-     * @param string $a_type   \ilTemplate::MESSAGE_TYPE_SUCCESS,
-     *                         \ilTemplate::MESSAGE_TYPE_FAILURE,,
-     *                         \ilTemplate::MESSAGE_TYPE_QUESTION,
-     *                         \ilTemplate::MESSAGE_TYPE_INFO
-     * @param string $a_txt    The message to be sent
-     * @param bool   $a_keep   Keep this message over one redirect
-     */
-    public function setOnScreenMessage($a_type, $a_txt, $a_keep = false)
+    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false): void
     {
-        if (!in_array($a_type, self::$message_types) || $a_txt == "") {
+        if (!in_array($type, self::$message_types) || $a_txt == "") {
             return;
         }
         if (!$a_keep) {
-            $this->message[$a_type] = $a_txt;
+            $this->message[$type] = $a_txt;
         } else {
-            $_SESSION[$a_type] = $a_txt;
+            ilSession::set($type, $a_txt);
         }
     }
-
 
     /**
      * Fill message area.
      */
-    private function fillMessage()
+    private function fillMessage(): void
     {
         global $DIC;
 
@@ -358,8 +257,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             $request = $DIC->http()->request();
             $accept_header = $request->getHeaderLine('Accept');
-            if (isset($_SESSION[$m]) && $_SESSION[$m] && ($accept_header !== 'application/json')) {
-                unset($_SESSION[$m]);
+            if (ilSession::has($m) && ilSession::get($m) && ($accept_header !== 'application/json')) {
+                ilSession::clear($m);
             }
         }
 
@@ -368,17 +267,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    /**
-     * @param $m
-     *
-     * @return mixed|string
-     */
-    private function getMessageTextForType($m)
+    private function getMessageTextForType(string $m): string
     {
         $txt = "";
-        if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
-            $txt = $_SESSION[$m];
+        if (ilSession::has($m) && ilSession::get($m) != "") {
+            $txt = ilSession::get($m);
         } else {
             if (isset($this->message[$m])) {
                 $txt = $this->message[$m];
@@ -396,28 +289,24 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * List of JS-Files that should be included.
-     *
      * @var array<int,string>
      */
     protected $js_files = array(0 => "./Services/JavaScript/js/Basic.js");
     /**
      * Stores if a version parameter should be appended to the js-file to force reloading.
-     *
      * @var array<string,bool>
      */
     protected $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);
     /**
      * Stores the order in which js-files should be included.
-     *
      * @var array<string,int>
      */
     protected $js_files_batch = array("./Services/JavaScript/js/Basic.js" => 1);
 
-
     /**
      * Add a javascript file that should be included in the header.
      */
-    public function addJavaScript($a_js_file, $a_add_version_parameter = true, $a_batch = 2)
+    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2): void
     {
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
@@ -439,11 +328,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Add on load code
      */
-    public function addOnLoadCode($a_code, $a_batch = 2)
+    public function addOnLoadCode(string $a_code, int $a_batch = 2): void
     {
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
@@ -452,13 +340,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->on_load_code[$a_batch][] = $a_code;
     }
 
-
     /**
      * Get js onload code for ajax calls
-     *
      * @return string
      */
-    public function getOnLoadCodeForAsynch()
+    public function getOnLoadCodeForAsynch(): string
     {
         $js = "";
         for ($i = 1; $i <= 3; $i++) {
@@ -473,6 +359,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $js .
                 '</script>' . "\n";
         }
+
+        return '';
     }
 
     // REMOVAL CANDIDATE
@@ -481,7 +369,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Reset javascript files
      */
-    public function resetJavascript()
+    public function resetJavascript(): void
     {
         $this->js_files = array();
         $this->js_files_vp = array();
@@ -494,14 +382,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilStartUpGUI
     //    - ilObjPortfolioGUI
     //    - latex.php
-    public function fillJavaScriptFiles($a_force = false)
+    public function fillJavaScriptFiles(bool $a_force = false): void
     {
         global $DIC;
 
         $ilSetting = $DIC->settings();
 
         if (is_object($ilSetting)) {        // maybe this one can be removed
-            $vers = "vers=" . str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+            $vers = "vers=" . str_replace(array(".", " "), "-", ILIAS_VERSION);
 
             if (DEVMODE) {
                 $vers .= '-' . time();
@@ -513,7 +401,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 reset($this->js_files);
                 foreach ($this->js_files as $file) {
                     if ($this->js_files_batch[$file] == $i) {
-                        if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0, 2) == "//" || $a_force) {
+                        if (is_file($file) || substr($file, 0, 4) == "http" || substr(
+                            $file,
+                            0,
+                            2
+                        ) == "//" || $a_force) {
                             $this->fillJavascriptFile($file, $vers);
                         } else {
                             if (substr($file, 0, 2) == './') { // #13962
@@ -529,11 +421,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Fill add on load code
      */
-    private function fillOnLoadCode()
+    private function fillOnLoadCode(): void
     {
         for ($i = 1; $i <= 3; $i++) {
             if (is_array($this->on_load_code[$i])) {
@@ -549,12 +440,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    /**
-     * @param string $file
-     * @param string $vers
-     */
-    protected function fillJavascriptFile($file, $vers)
+    protected function fillJavascriptFile(string $file, string $vers): void
     {
         $this->setCurrentBlock("js_file");
         if ($this->js_files_vp[$file]) {
@@ -574,7 +460,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * Stores CSS-files to be included.
-     *
      * @var array
      */
     protected $css_files = array();
@@ -584,11 +469,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     protected $inline_css = array();
 
-
     /**
      * Add a css file that should be included in the header.
      */
-    public function addCss($a_css_file, $media = "screen")
+    public function addCss(string $a_css_file, string $media = "screen"): void
     {
         if (!array_key_exists($a_css_file . $media, $this->css_files)) {
             $this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
@@ -602,7 +486,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add a css file that should be included in the header.
      */
-    public function addInlineCss($a_css, $media = "screen")
+    public function addInlineCss(string $a_css, string $media = "screen"): void
     {
         $this->inline_css[] = array("css" => $a_css, "media" => $media);
     }
@@ -614,10 +498,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilStartUpGUI
     /**
      * Fill in the css file tags
-     *
-     * @param boolean $a_force
+     * @param bool $a_force
      */
-    public function fillCssFiles($a_force = false)
+    public function fillCssFiles(bool $a_force = false): void
     {
         if (!$this->blockExists("css_file")) {
             return;
@@ -646,13 +529,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilTestPlayerAbstractGUI
     //    - ilAssQuestionHintRequestGUI
     //    - ilWorkspaceFolderExplorer
-    public function setBodyClass($a_class = "")
+    public function setBodyClass(string $a_class = ""): void
     {
         $this->body_class = $a_class;
     }
 
-
-    private function fillBodyClass()
+    private function fillBodyClass(): void
     {
         if ($this->body_class != "" && $this->blockExists("body_class")) {
             $this->setCurrentBlock("body_class");
@@ -661,22 +543,18 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Reset css files
      */
-    private function resetCss()
+    private function resetCss(): void
     {
         $this->css_files = array();
     }
 
-
     /**
      * Fill in the inline css
-     *
-     * @param boolean $a_force
      */
-    private function fillInlineCss()
+    private function fillInlineCss(): void
     {
         if (!$this->blockExists("css_inline")) {
             return;
@@ -688,11 +566,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Fill Content Style
      */
-    private function fillNewContentStyle()
+    private function fillNewContentStyle(): void
     {
         $this->setVariable(
             "LOCATION_NEWCONTENT_STYLESHEET_TAG",
@@ -711,24 +588,17 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    /**
-     * This loads the standard template "tpl.adm_content.html" and
-     * "tpl.statusline.html" the CONTENT and STATUSLINE placeholders
-     * if they are not already loaded.
-     */
-    public function loadStandardTemplate()
+    public function loadStandardTemplate(): void
     {
         if ($this->standard_template_loaded) {
             return;
         }
 
         // always load jQuery
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
         // always load ui framework
-        include_once("./Services/UICore/classes/class.ilUIFramework.php");
         ilUIFramework::init();
 
         $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -744,61 +614,38 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    protected $header_page_title = "";
-    protected $title = "";
-    protected $title_desc = "";
-    protected $title_alerts = array();
-    protected $header_action;
+    protected string $header_page_title = "";
+    protected string $title = "";
+    protected string $title_desc = "";
+    protected array $title_alerts = array();
+    protected string $header_action;
 
-
-    /**
-     * Sets title in standard template.
-     *
-     * Will override the header_page_title.
-     */
-    public function setTitle($a_title, $hidden = false)
+    public function setTitle(string $a_title, bool $hidden = false): void
     {
         $this->title = $a_title;
         $this->header_page_title = $a_title;
     }
 
-
-    /**
-     * Sets descripton below title in standard template.
-     */
-    public function setDescription($a_descr)
+    public function setDescription(string $a_descr): void
     {
         $this->title_desc = $a_descr;
     }
 
-
-    /**
-     * set title icon
-     */
-    public function setTitleIcon($a_icon_path, $a_icon_desc = "")
+    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = ""): void
     {
         $this->icon_desc = $a_icon_desc;
         $this->icon_path = $a_icon_path;
     }
 
-
-    /**
-     * Set alert properties
-     *
-     * @param array $a_props
-     *
-     * @return void
-     */
-    public function setAlertProperties(array $a_props)
+    public function setAlertProperties(array $alerts): void
     {
-        $this->title_alerts = $a_props;
+        $this->title_alerts = $alerts;
     }
-
 
     /**
      * Clear header
      */
-    public function clearHeader()
+    public function clearHeader(): void
     {
         $this->setTitle("");
         $this->setTitleIcon("");
@@ -815,12 +662,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilObjPortfolioTemplateGUI
     //    - ilWikiPageGUI
     //    - ilObjWikiGUI
-    /**
-     * Set header action menu
-     *
-     * @param string $a_gui $a_header
-     */
-    public function setHeaderActionMenu($a_header)
+    public function setHeaderActionMenu(string $a_header): void
     {
         $this->header_action = $a_header;
     }
@@ -830,98 +672,93 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilObjLanguageExtGUI
     //    - ilTestServiceGUI
     //    - ilWikiPageGUI
-    /**
-     * Sets the title of the page (for browser window).
-     */
-    public function setHeaderPageTitle($a_title)
+    public function setHeaderPageTitle(string $a_title): void
     {
         $this->header_page_title = $a_title;
     }
 
-
     /**
      * Fill header
      */
-    private function fillHeader()
+    private function fillHeader(): void
     {
         global $DIC;
 
         $lng = $DIC->language();
 
+        $header_tpl = new ilTemplate('tpl.il_header.html', true, true);
+
         $icon = false;
         if ($this->icon_path != "") {
             $icon = true;
-            $this->setCurrentBlock("header_image");
+            $header_tpl->setCurrentBlock("header_image");
             if ($this->icon_desc != "") {
-                $this->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-                $this->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
             }
 
-            $this->setVariable("IMG_HEADER", $this->icon_path);
-            $this->parseCurrentBlock();
+            $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
+            $header_tpl->parseCurrentBlock();
             $header = true;
         }
 
         if ($this->title != "") {
             $title = ilUtil::stripScriptHTML($this->title);
-            $this->setVariable("HEADER", $title);
+            $header_tpl->setVariable("HEADER", $title);
 
             $header = true;
         }
 
         if ($header) {
-            $this->setCurrentBlock("header_image");
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_image");
+            $header_tpl->parseCurrentBlock();
         }
 
         if ($this->title_desc != "") {
-            $this->setCurrentBlock("header_desc");
-            $this->setVariable("H_DESCRIPTION", $this->title_desc);
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_desc");
+            $header_tpl->setVariable("H_DESCRIPTION", $this->title_desc);
+            $header_tpl->parseCurrentBlock();
         }
 
         $header = $this->getHeaderActionMenu();
         if ($header) {
-            $this->setCurrentBlock("head_action_inner");
-            $this->setVariable("HEAD_ACTION", $header);
-            $this->parseCurrentBlock();
-            $this->touchBlock("head_action");
+            $header_tpl->setCurrentBlock("head_action_inner");
+            $header_tpl->setVariable("HEAD_ACTION", $header);
+            $header_tpl->parseCurrentBlock();
+            $header_tpl->touchBlock("head_action");
         }
 
-        if (count((array) $this->title_alerts)) {
+        if (count($this->title_alerts)) {
             foreach ($this->title_alerts as $alert) {
-                $this->setCurrentBlock('header_alert');
+                $header_tpl->setCurrentBlock('header_alert');
                 if (!($alert['propertyNameVisible'] === false)) {
-                    $this->setVariable('H_PROP', $alert['property'] . ':');
+                    $header_tpl->setVariable('H_PROP', $alert['property'] . ':');
                 }
-                $this->setVariable('H_VALUE', $alert['value']);
-                $this->parseCurrentBlock();
+                $header_tpl->setVariable('H_VALUE', $alert['value']);
+                $header_tpl->parseCurrentBlock();
             }
         }
 
         // add file upload drop zone in header
-        if ($this->enable_fileupload != null) {
-            $ref_id = $this->enable_fileupload;
-            $upload_id = "dropzone_" . $ref_id;
+        if ($this->enable_fileupload !== null) {
+            $file_upload = new ilObjFileUploadDropzone(
+                $this->enable_fileupload,
+                $header_tpl->get()
+            );
 
-            include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
-            $upload = new ilFileUploadGUI($upload_id, $ref_id, true);
-
-            $this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-
-            $this->setCurrentBlock("header_fileupload");
-            $this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-            $this->parseCurrentBlock();
+            $this->template->setVariable(
+                "IL_DROPZONE_HEADER",
+                $file_upload->getDropzoneHtml()
+            );
+        } else {
+            $this->template->setVariable("IL_HEADER", $header_tpl->get());
         }
     }
 
-
     /**
      * Get header action menu
-     *
-     * @return int ref id
      */
-    private function getHeaderActionMenu()
+    private function getHeaderActionMenu(): string
     {
         return $this->header_action;
     }
@@ -933,46 +770,24 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    /**
-     * Insert locator.
-     */
-    public function setLocator()
+    public function setLocator(): void
     {
         global $DIC;
 
-        $ilMainMenu = $DIC["ilMainMenu"];
         $ilLocator = $DIC["ilLocator"];
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
-        // blog/portfolio
-        if ($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED
-            || $ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY
-        ) {
-            $this->setVariable("LOCATOR", "");
-
-            return;
-        }
-
         $html = "";
-        if (is_object($ilPluginAdmin)) {
-            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-            $uip = new ilUIHookProcessor(
-                "Services/Locator",
-                "main_locator",
-                array("locator_gui" => $ilLocator)
-            );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
-            $html = $uip->getHTML($html);
-        } else {
+        $uip = new ilUIHookProcessor(
+            "Services/Locator",
+            "main_locator",
+            array("locator_gui" => $ilLocator)
+        );
+        if (!$uip->replaced()) {
             $html = $ilLocator->getHTML();
         }
-
+        $html = $uip->getHTML($html);
         $this->setVariable("LOCATOR", $html);
     }
-
 
     //***********************************
     //
@@ -980,20 +795,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    /**
-     * @var    string
-     */
-    protected $tabs_html = "";
-    /**
-     * @var string
-     */
-    protected $sub_tabs_html = "";
-
+    protected string $tabs_html = "";
+    protected string $sub_tabs_html = "";
 
     /**
      * sets tabs in standard template
      */
-    public function setTabs($a_tabs_html)
+    public function setTabs(string $a_tabs_html): void
     {
         if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start")) {
             $this->touchBlock("tabs_outer_start");
@@ -1004,17 +812,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * sets subtabs in standard template
      */
-    public function setSubTabs($a_tabs_html)
+    public function setSubTabs(string $a_tabs_html): void
     {
         $this->setVariable("SUB_TABS", $a_tabs_html);
     }
 
-
-    private function fillTabs()
+    private function fillTabs(): void
     {
         if ($this->blockExists("tabs_outer_start")) {
             $this->touchBlock("tabs_outer_start");
@@ -1029,8 +835,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    private function getTabsHTML()
+    private function getTabsHTML(): void
     {
         global $DIC;
 
@@ -1052,36 +857,33 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Sets content for standard template.
      */
-    public function setContent($a_html)
+    public function setContent(string $a_html): void
     {
         if ($a_html != "") {
             $this->main_content = $a_html;
         }
     }
 
-
     /**
      * Sets content of left column.
      */
-    public function setLeftContent($a_html)
+    public function setLeftContent(string $a_html): void
     {
         $this->left_content = $a_html;
     }
 
-
     /**
      * Sets content of left navigation column.
      */
-    public function setLeftNavContent($a_content)
+    public function setLeftNavContent(string $a_content): void
     {
         $this->left_nav_content = $a_content;
     }
 
-
     /**
      * Fill left navigation frame
      */
-    private function fillLeftNav()
+    private function fillLeftNav(): void
     {
         if (trim($this->left_nav_content) != "") {
             $this->setCurrentBlock("left_nav");
@@ -1091,17 +893,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Sets content of right column.
      */
-    public function setRightContent($a_html)
+    public function setRightContent(string $a_html): void
     {
         $this->right_content = $a_html;
     }
 
-
-    private function setCenterColumnClass()
+    private function setCenterColumnClass(): void
     {
         if (!$this->blockExists("center_col_width")) {
             return;
@@ -1135,16 +935,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-
-    private function fillMainContent()
+    private function fillMainContent(): void
     {
         if (trim($this->main_content) != "") {
             $this->setVariable("ADM_CONTENT", $this->main_content);
         }
     }
 
-
-    private function fillLeftContent()
+    private function fillLeftContent(): void
     {
         if (trim($this->left_content) != "") {
             $this->setCurrentBlock("left_column");
@@ -1157,8 +955,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    private function fillRightContent()
+    private function fillRightContent(): void
     {
         if (trim($this->right_content) != "") {
             $this->setCurrentBlock("right_column");
@@ -1174,12 +971,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    private function fillToolbar()
+    private function fillToolbar(): void
     {
         global $DIC;
 
         $ilToolbar = $DIC["ilToolbar"];
-        ;
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {
@@ -1196,7 +992,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add current user language to meta tags
      */
-    private function fillContentLanguage()
+    private function fillContentLanguage(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -1207,8 +1003,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    private function fillWindowTitle()
+    private function fillWindowTitle(): void
     {
         global $DIC;
 
@@ -1237,13 +1032,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilLuceneAdvancedSearchGUI
     //    - ilLuceneSearchGUI
     //    - ilContainerGUI
-    public function setPageFormAction($a_action)
+    public function setPageFormAction(string $a_action): void
     {
         $this->page_form_action = $a_action;
     }
 
-
-    private function fillPageFormAction()
+    private function fillPageFormAction(): void
     {
         if ($this->page_form_action != "") {
             $this->setCurrentBlock("page_form_start");
@@ -1263,16 +1057,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * Set target parameter for login (public sector).
      * This is used by the main menu
      */
-    public function setLoginTargetPar($a_val)
+    public function setLoginTargetPar(string $a_val): void
     {
         $this->login_target_par = $a_val;
     }
 
-
     /**
      * Get target parameter for login
      */
-    private function getLoginTargetPar()
+    private function getLoginTargetPar(): string
     {
         return $this->login_target_par;
     }
@@ -1292,22 +1085,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     // Also this seems to be somehow similar to the stuff going on in printToStdout.
     // Maybe we could unify them.
-    /**
-     * @param string
-     *
-     * @return    string
-     */
     public function getSpecial(
-        $part = "DEFAULT",
-        $add_error_mess = false,
-        $handle_referer = false,
-        $add_ilias_footer = false,
-        $add_standard_elements = false,
-        $a_main_menu = true,
-        $a_tabs = true
-    ) {
-        global $DIC;
-
+        string $part = self::DEFAULT_BLOCK,
+        bool $add_error_mess = false,
+        bool $handle_referer = false,
+        bool $add_ilias_footer = false,
+        bool $add_standard_elements = false,
+        bool $a_main_menu = true,
+        bool $a_tabs = true
+    ): string {
         if ($add_error_mess) {
             $this->fillMessage();
         }
@@ -1341,7 +1127,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             // these fill blocks in tpl.adm_content.html
             $this->fillHeader();
             $this->fillSideIcons();
-            $this->fillScreenReaderFocus();
             $this->fillLeftContent();
             $this->fillLeftNav();
             $this->fillRightContent();
@@ -1370,10 +1155,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        if ($handle_referer) {
-            $this->handleReferer();
-        }
-
         if ($part == "DEFAULT") {
             $html = $this->template->get();
         } else {
@@ -1386,14 +1167,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         return $html;
     }
 
-
-    /**
-     * @param string|bool $part
-     * @param bool        $a_fill_tabs fill template variable {TABS} with content of ilTabs
-     * @param bool        $a_skip_main_menu
-     */
-    public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
-    {
+    public function printToStdout(
+        string $part = self::DEFAULT_BLOCK,
+        bool $has_tabs = true,
+        bool $skip_main_menu = false
+    ): void {
         global $DIC;
 
         $http = $DIC->http();
@@ -1409,7 +1187,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 exit;
             default:
                 // include yahoo dom per default
-                include_once("./Services/YUI/classes/class.ilYuiUtil.php");
                 ilYuiUtil::initDom();
 
                 header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
@@ -1424,14 +1201,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
                 // set standard parts (tabs and title icon)
                 $this->fillBodyClass();
-                if ($a_fill_tabs) {
+                if ($has_tabs) {
                     if ($this->blockExists("content")) {
                         // determine default screen id
                         $this->getTabsHTML();
                     }
 
                     // to get also the js files for the main menu
-                    if (!$a_skip_main_menu) {
+                    if (!$skip_main_menu) {
                         $this->getMainMenu();
                         $this->initHelp();
                     }
@@ -1450,7 +1227,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     // these fill blocks in tpl.adm_content.html
                     $this->fillHeader();
                     $this->fillSideIcons();
-                    $this->fillScreenReaderFocus();
                     $this->fillLeftContent();
                     $this->fillLeftNav();
                     $this->fillRightContent();
@@ -1484,11 +1260,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 // Modification of html is done inline here and can't be done
                 // by ilTemplate, because the "phase" is template_show in this
                 // case here.
-                $ilPluginAdmin = $DIC["ilPluginAdmin"];
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-                foreach ($pl_names as $pl) {
-                    $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-                    $gui_class = $ui_plugin->getUIClassInstance();
+                $component_factory = $DIC["component.factory"];
+                foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+                    $gui_class = $plugin->getUIClassInstance();
 
                     $resp = $gui_class->getHTML(
                         "",
@@ -1506,93 +1280,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
                 print $html;
 
-                $this->handleReferer();
                 break;
         }
     }
 
-
     /**
-     * TODO: this is nice, but shouldn't be done here
-     * (-> maybe at the end of ilias.php!?, alex)
+     * Fill side icons (upper icon, tree icon, web folder icon)
      */
-    private function handleReferer()
-    {
-        if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))
-        ) {
-            // referer is modified if query string contains cmd=gateway and $_POST is not empty.
-            // this is a workaround to display formular again in case of error and if the referer points to another page
-            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
-            if (!$url_parts) {
-                $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
-                $host = $_SERVER['HTTP_HOST'];
-                $path = $_SERVER['REQUEST_URI'];
-                $url_parts = @parse_url($protocol . $host . $path);
-            }
-
-            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
-                foreach ($_POST as $key => $val) {
-                    if (is_array($val)) {
-                        $val = key($val);
-                    }
-
-                    $str .= "&" . $key . "=" . $val;
-                }
-
-                $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-            } else {
-                if (isset($url_parts["query"]) && preg_match("/cmd=post/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
-                    foreach ($_POST as $key => $val) {
-                        if (is_array($val)) {
-                            $val = key($val);
-                        }
-
-                        $str .= "&" . $key . "=" . $val;
-                    }
-
-                    $_SESSION["referer"] = preg_replace("/cmd=post/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                    if (isset($_GET['ref_id'])) {
-                        $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                    } else {
-                        $_SESSION['referer_ref_id'] = 0;
-                    }
-                } else {
-                    $_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-                    if (isset($_GET['ref_id'])) {
-                        $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                    } else {
-                        $_SESSION['referer_ref_id'] = 0;
-                    }
-                }
-            }
-
-            unset($_SESSION["error_post_vars"]);
-        }
-    }
-
-
-    /**
-     * Accessibility focus for screen readers
-     */
-    private function fillScreenReaderFocus()
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus")) {
-            $this->touchBlock("sr_focus");
-        }
-    }
-
-
-    /**
-     * Fill side icons (upper icon, tree icon, webfolder icon)
-     */
-    private function fillSideIcons()
+    private function fillSideIcons(): void
     {
         global $DIC;
 
@@ -1609,7 +1304,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
             if ($ilSetting->get("tree_frame") == "right") {
-                if ($this->tree_flat_mode == "tree") {
+                if ($this->tree_flat_mode === "tree") {
                     $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
                     $this->setVariable("RIGHT", "Right");
                 } else {
@@ -1625,13 +1320,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             }
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-            include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-            $this->setVariable(
-                "TREE_ACC_KEY",
-                ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
-                    ? ilAccessKey::TREE_ON
-                    : ilAccessKey::TREE_OFF)
-            );
             $this->parseCurrentBlock();
         }
 
@@ -1639,43 +1327,25 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-
-    /**
-     * set tree/flat icon
-     *
-     * @param string        link target
-     * @param strong        mode ("tree" | "flat")
-     */
-    public function setTreeFlatIcon($a_link, $a_mode)
+    public function setTreeFlatIcon(string $a_link, string $a_mode): void
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
     }
 
-
-    /**
-     * Add lightbox html
-     */
-    public function addLightbox($a_html, $a_id)
+    public function addLightbox(string $a_html, string $a_id): void
     {
         $this->lightbox[$a_id] = $a_html;
     }
 
-
     /**
      * Fill lightbox content
-     *
      * @param
-     *
      * @return
      */
-    private function fillLightbox()
+    private function fillLightbox(): void
     {
-        $html = "";
-
-        foreach ($this->lightbox as $lb) {
-            $html .= $lb;
-        }
+        $html = implode('', $this->lightbox);
         $this->setVariable("LIGHTBOX", $html);
     }
 
@@ -1686,31 +1356,26 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     // An "Admin Panel" is that toolbar thingy that could be found on top and bottom
     // of a repository listing when editing objects in a container gui.
 
-    protected $admin_panel_commands_toolbar = null;
-    protected $admin_panel_arrow = null;
-    protected $admin_panel_bottom = null;
+    protected ?ilToolbarGUI $admin_panel_commands_toolbar = null;
+    protected ?bool $admin_panel_arrow = null;
+    protected ?bool $admin_panel_bottom = null;
 
-
-    /**
-     * Add admin panel commands as toolbar
-     *
-     * @param ilToolbarGUI $toolb
-     * @param bool         $a_top_only
-     */
-    public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false)
-    {
-        $this->admin_panel_commands_toolbar = $toolb;
-        $this->admin_panel_arrow = $a_arrow;
-        $this->admin_panel_bottom = $a_bottom_panel;
+    public function addAdminPanelToolbar(
+        ilToolbarGUI $toolbar,
+        bool $is_bottom_panel = true,
+        bool $has_arrow = false
+    ): void {
+        $this->admin_panel_commands_toolbar = $toolbar;
+        $this->admin_panel_arrow = $has_arrow;
+        $this->admin_panel_bottom = $is_bottom_panel;
     }
-
 
     /**
      * Put admin panel into template:
      * - creation selector
      * - admin view on/off button
      */
-    private function fillAdminPanel()
+    private function fillAdminPanel(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -1720,7 +1385,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         $toolb = $this->admin_panel_commands_toolbar;
-        assert($toolbar instanceof \ilToolbarGUI);
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
@@ -1748,9 +1412,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
-    public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
-    {
+    public function setPermanentLink(
+        string $a_type,
+        ?int $a_id,
+        string $a_append = "",
+        string $a_target = "",
+        string $a_title = ""
+    ): void {
         $this->permanent_link = array(
             "type" => $a_type,
             "id" => $a_id,
@@ -1760,14 +1428,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         );
     }
 
-
     /**
      * Fill in permanent link
      */
-    private function fillPermanentLink()
+    private function fillPermanentLink(): void
     {
         if (is_array($this->permanent_link)) {
-            include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
             $plinkgui = new ilPermanentLinkGUI(
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],
@@ -1781,17 +1447,16 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Reset all header properties: title, icon, description, alerts, action menu
      */
-    public function resetHeaderBlock($a_reset_header_action = true)
+    public function resetHeaderBlock(bool $a_reset_header_action = true): void
     {
         $this->setTitle(null);
         $this->setTitleIcon(null);
         $this->setDescription(null);
         $this->setAlertProperties(array());
-        $this->enableDragDropFileUpload(null);
+        $this->setFileUploadRefId(null);
 
         // see setFullscreenHeader()
         if ($a_reset_header_action) {
@@ -1799,11 +1464,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-
     /**
      * Enables the file upload into this object by dropping a file.
      */
-    public function enableDragDropFileUpload($a_ref_id)
+    public function setFileUploadRefId(int $a_ref_id): void
     {
         $this->enable_fileupload = $a_ref_id;
     }
@@ -1815,99 +1479,45 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * @param string
-     *
      * @return    string
      */
-    public function get($part = "DEFAULT")
+    public function get(string $part = "DEFAULT"): string
     {
         return $this->template->get($part);
     }
 
-
-    public function setVariable($variable, $value = '')
+    public function setVariable(string $variable, $value = ''): void
     {
-        return $this->template->setVariable($variable, $value);
+        $this->template->setVariable($variable, $value);
     }
 
-
-    private function variableExists($a_variablename)
+    private function variableExists(string $a_variablename)
     {
         return $this->template->variableExists($a_variablename);
     }
 
-
-    /**
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    ???
-     */
-    public function setCurrentBlock($part = "DEFAULT")
+    public function setCurrentBlock(string $part = "DEFAULT"): bool
     {
         return $this->template->setCurrentBlock($part);
     }
 
-
-    /**
-     * overwrites ITX::touchBlock.
-     *
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    ???
-     */
-    public function touchBlock($block)
+    public function touchBlock(string $block): bool
     {
         return $this->template->touchBlock($block);
     }
 
-
-    /**
-     * Überladene Funktion, die auf den aktuelle Block vorher noch ein replace ausführt
-     *
-     * @access    public
-     *
-     * @param string
-     *
-     * @return    string
-     */
-    public function parseCurrentBlock($part = "DEFAULT")
+    public function parseCurrentBlock(string $block_name = "DEFAULT"): bool
     {
-        return $this->template->parseCurrentBlock($part);
+        return $this->template->parseCurrentBlock($block_name);
     }
 
-
-    /**
-     * overwrites ITX::addBlockFile
-     *
-     * @access    public
-     *
-     * @param string
-     * @param string
-     * @param string  $tplname   template name
-     * @param boolean $in_module should be set to true, if template file is in module subdirectory
-     *
-     * @return    boolean/string
-     */
-    public function addBlockFile($var, $block, $tplname, $in_module = false)
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
     {
-        return $this->template->addBlockFile($var, $block, $tplname, $in_module);
+        return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-
-    /**
-     * check if block exists in actual template
-     *
-     * @access    private
-     *
-     * @param string blockname
-     *
-     * @return    boolean
-     */
-    public function blockExists($a_blockname)
+    public function blockExists(string $block_name): bool
     {
-        return $this->template->blockExists($a_blockname);
+        return $this->template->blockExists($block_name);
     }
 }

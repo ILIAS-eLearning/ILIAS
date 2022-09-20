@@ -22,10 +22,11 @@
 
 package de.ilias.services.lucene.index;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,7 +39,7 @@ import java.io.StringWriter;
  */
 public class CommandControllerThread extends Thread {
 
-	protected Logger logger = Logger.getLogger(CommandControllerThread.class);
+	protected Logger logger = LogManager.getLogger(CommandControllerThread.class);
 	protected String clientKey = null;
 	
 	protected CommandController controller = null;

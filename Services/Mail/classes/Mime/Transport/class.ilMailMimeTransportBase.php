@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -10,29 +26,24 @@ use PHPMailer\PHPMailer\PHPMailer;
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
     protected PHPMailer $mailer;
-    protected ilSetting $settings;
-    private ilAppEventHandler $eventHandler;
 
-    public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
+    public function __construct(protected ilSetting $settings, private ilAppEventHandler $eventHandler)
     {
-        $this->settings = $settings;
-        $this->eventHandler = $eventHandler;
-
         $mail = new PHPMailer();
         $this->setMailer($mail);
     }
 
-    protected function getMailer() : PHPMailer
+    protected function getMailer(): PHPMailer
     {
         return $this->mailer;
     }
 
-    protected function setMailer(PHPMailer $mailer) : void
+    protected function setMailer(PHPMailer $mailer): void
     {
         $this->mailer = $mailer;
     }
 
-    protected function resetMailer() : void
+    protected function resetMailer(): void
     {
         $this->getMailer()->clearAllRecipients();
         $this->getMailer()->clearAttachments();
@@ -40,11 +51,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    protected function onBeforeSend() : void
+    protected function onBeforeSend(): void
     {
     }
 
-    final public function send(ilMimeMail $mail) : bool
+    final public function send(ilMimeMail $mail): bool
     {
         $this->resetMailer();
 
@@ -53,43 +64,59 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                $this->getMailer()->addAddress($recipient);
+                if (!$this->getMailer()->addAddress($recipient)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         foreach ($mail->getCc() as $carbon_copies) {
             $cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
             foreach ($cc_pieces as $carbon_copy) {
-                $this->getMailer()->addCC($carbon_copy);
+                if (!$this->getMailer()->addCC($carbon_copy)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         foreach ($mail->getBcc() as $blind_carbon_copies) {
             $bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
             foreach ($bcc_pieces as $blind_carbon_copy) {
-                $this->getMailer()->addBCC($blind_carbon_copy);
+                if (!$this->getMailer()->addBCC($blind_carbon_copy)) {
+                    ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+                }
             }
         }
 
         $this->getMailer()->Subject = $mail->getSubject();
 
-        if ($mail->getFrom()->hasReplyToAddress()) {
-            $this->getMailer()->addReplyTo($mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName());
+        if ($mail->getFrom()->hasReplyToAddress() && !$this->getMailer()->addReplyTo(
+            $mail->getFrom()->getReplyToAddress(),
+            $mail->getFrom()->getReplyToName()
+        )) {
+            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
         }
         if ($mail->getFrom()->hasEnvelopFromAddress()) {
             $this->getMailer()->Sender = $mail->getFrom()->getEnvelopFromAddress();
         }
-        $this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false);
+
+        if (!$this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false)) {
+            ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+        }
 
         foreach ($mail->getAttachments() as $attachment) {
-            $this->getMailer()->addAttachment($attachment['path'], $attachment['name']);
+            if (!$this->getMailer()->addAttachment($attachment['path'], $attachment['name'])) {
+                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+            }
         }
 
         foreach ($mail->getImages() as $image) {
-            $this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name']);
+            if (!$this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name'])) {
+                ilLoggerFactory::getLogger('mail')->warning($this->getMailer()->ErrorInfo);
+            }
         }
 
-        if ($mail->getFinalBodyAlt()) {
+        if ($mail->getFinalBodyAlt() !== '') {
             $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
         } else {
@@ -125,7 +152,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->CharSet = 'utf-8';
 
-        $this->mailer->Debugoutput = static function (string $message, $level) : void {
+        $this->mailer->Debugoutput = static function (string $message, $level): void {
             if (
                 strpos($message, 'Invalid address') ||
                 strpos($message, 'Message body empty')

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  *
@@ -22,15 +36,15 @@ class ilExAssignmentReminder
     protected ilTree $tree;
 
     protected ?bool $rmd_status = null;
-    protected int $rmd_start;
-    protected int $rmd_end;
-    protected int $rmd_frequency;
-    protected int $rmd_last_send;
-    protected int $rmd_tpl_id;
+    protected int $rmd_start = 0;
+    protected int $rmd_end = 0;
+    protected int $rmd_frequency = 0;
+    protected int $rmd_last_send = 0;
+    protected int $rmd_tpl_id = 0;
 
-    protected int $ass_id;
-    protected int $exc_id;
-    protected string $rmd_type;
+    protected int $ass_id = 0;
+    protected int $exc_id = 0;
+    protected string $rmd_type = "";
 
     protected ilLogger $log;
     protected ilAccessHandler $access;
@@ -61,7 +75,7 @@ class ilExAssignmentReminder
         }
     }
 
-    public function getReminderType() : string
+    public function getReminderType(): string
     {
         return $this->rmd_type;
     }
@@ -70,69 +84,69 @@ class ilExAssignmentReminder
      * Set reminder for users without submission.
      * @param bool $a_status activated?
      */
-    public function setReminderStatus(?bool $a_status) : void
+    public function setReminderStatus(?bool $a_status): void
     {
         $this->rmd_status = $a_status;
     }
 
-    public function getReminderStatus() : ?bool
+    public function getReminderStatus(): ?bool
     {
         return $this->rmd_status;
     }
 
     // Set num days before the deadline to start sending notifications.
-    public function setReminderStart(int $a_num_days) : void
+    public function setReminderStart(int $a_num_days): void
     {
         $this->rmd_start = $a_num_days;
     }
 
-    public function getReminderStart() : int
+    public function getReminderStart(): int
     {
         return $this->rmd_start;
     }
 
-    public function setReminderEnd(int $a_date) : void
+    public function setReminderEnd(int $a_date): void
     {
         $this->rmd_end = $a_date;
     }
 
-    public function getReminderEnd() : int
+    public function getReminderEnd(): int
     {
         return $this->rmd_end;
     }
 
     // Set frequency in days
-    public function setReminderFrequency(int $a_num_days) : void
+    public function setReminderFrequency(int $a_num_days): void
     {
         $this->rmd_frequency = $a_num_days;
     }
 
-    public function getReminderFrequency() : int
+    public function getReminderFrequency(): int
     {
         return $this->rmd_frequency;
     }
 
-    public function setReminderLastSend(int $a_timestamp) : void
+    public function setReminderLastSend(int $a_timestamp): void
     {
         $this->rmd_last_send = $a_timestamp;
     }
 
-    public function getReminderLastSend() : int
+    public function getReminderLastSend(): int
     {
         return $this->rmd_last_send;
     }
 
-    public function setReminderMailTemplate(int $a_tpl_id) : void
+    public function setReminderMailTemplate(int $a_tpl_id): void
     {
         $this->rmd_tpl_id = $a_tpl_id;
     }
 
-    public function getReminderMailTemplate() : int
+    public function getReminderMailTemplate(): int
     {
         return $this->rmd_tpl_id;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->db->insert("exc_ass_reminders", array(
             "type" => array("text", $this->rmd_type),
@@ -147,7 +161,7 @@ class ilExAssignmentReminder
         ));
     }
 
-    public function update() : void
+    public function update(): void
     {
         $this->db->update(
             "exc_ass_reminders",
@@ -168,7 +182,7 @@ class ilExAssignmentReminder
     }
 
 
-    public function read() : void
+    public function read(): void
     {
         $set = $this->db->queryF(
             "SELECT status, start, freq, end, last_send, template_id" .
@@ -184,7 +198,7 @@ class ilExAssignmentReminder
         }
     }
 
-    protected function initFromDB(array $a_set) : void
+    protected function initFromDB(array $a_set): void
     {
         $this->setReminderStatus((bool) $a_set["status"]);
         $this->setReminderStart((int) $a_set["start"]);
@@ -201,7 +215,7 @@ class ilExAssignmentReminder
      * Get reminders available by date/frequence.
      * @throws Exception
      */
-    public function getReminders(string $a_type = "") : array
+    public function getReminders(string $a_type = ""): array
     {
         $now = time();
         $today = date("Y-m-d");
@@ -253,7 +267,7 @@ class ilExAssignmentReminder
             if ($rec["last_send_day"] == "" || $next_send <= $today) {
                 if ($end_day >= $today) {
                     $this->log->debug("included");
-                    array_push($array_data, $rem);
+                    $array_data[] = $rem;
                 }
             }
         }
@@ -266,7 +280,7 @@ class ilExAssignmentReminder
      * @throws ilExcUnknownAssignmentTypeException
      * @throws Exception
      */
-    public function parseSubmissionReminders(array $a_reminders) : array
+    public function parseSubmissionReminders(array $a_reminders): array
     {
         $reminders = $a_reminders;
         $users_to_remind = array();
@@ -279,7 +293,6 @@ class ilExAssignmentReminder
 
             $exc_refs = ilObject::_getAllReferences($exc_id);
             foreach ($exc_refs as $exc_ref) {
-
                 // check if we have an upper course
                 if ($course_ref_id = $this->tree->checkForParentType($exc_ref, 'crs')) {
                     $obj = new ilObjCourse($course_ref_id);
@@ -332,7 +345,7 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
+                                $users_to_remind[] = $member_data;
                             }
                         }
                     }
@@ -345,7 +358,7 @@ class ilExAssignmentReminder
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function parseGradeReminders(array $a_reminders) : array
+    public function parseGradeReminders(array $a_reminders): array
     {
         $reminders = $a_reminders;
         $users_to_remind = array();
@@ -383,8 +396,8 @@ class ilExAssignmentReminder
                                     "reminder_type" => $rem["type"],
                                     "template_id" => $rem["template_id"]
                                 );
-                                array_push($users_to_remind, $member_data);
-                                array_push($unike_usr_id, $user_id);
+                                $users_to_remind[] = $member_data;
+                                $unike_usr_id[] = $user_id;
                             }
                         }
                     }
@@ -398,7 +411,7 @@ class ilExAssignmentReminder
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function parsePeerReminders(array $a_reminders) : array
+    public function parsePeerReminders(array $a_reminders): array
     {
         $reminders = $a_reminders;
         $users_to_remind = array();
@@ -426,7 +439,7 @@ class ilExAssignmentReminder
                                 "reminder_type" => $reminder["type"],
                                 "template_id" => $reminder["template_id"]
                             );
-                            array_push($users_to_remind, $member_data);
+                            $users_to_remind[] = $member_data;
                         }
                     }
                 }
@@ -441,7 +454,7 @@ class ilExAssignmentReminder
      * @throws ilExcUnknownAssignmentTypeException
      * @throws Exception
      */
-    public function checkReminders() : int
+    public function checkReminders(): int
     {
         $submit_reminders = $this->getReminders(self::SUBMIT_REMINDER);
         $parsed_submit_reminders = $this->parseSubmissionReminders($submit_reminders);
@@ -472,7 +485,7 @@ class ilExAssignmentReminder
         return $this->sendReminders($reminders);
     }
 
-    protected function sendReminders(array $reminders) : int
+    protected function sendReminders(array $reminders): int
     {
         global $DIC;
 
@@ -552,7 +565,7 @@ class ilExAssignmentReminder
         }
 
         $this->updateRemindersLastDate($reminders);
-        return sizeof($reminders);
+        return count($reminders);
     }
 
     //see ilObjSurvey.
@@ -560,7 +573,7 @@ class ilExAssignmentReminder
         string $a_message,
         array $a_reminder_data,
         string $a_reminder_type
-    ) : string {
+    ): string {
         // see ilMail::replacePlaceholders()
         try {
             switch ($a_reminder_type) {
@@ -589,7 +602,7 @@ class ilExAssignmentReminder
     }
 
     // Update reminders last_send value with the current timestamp.
-    protected function updateRemindersLastDate(array $a_reminders) : void
+    protected function updateRemindersLastDate(array $a_reminders): void
     {
         $today = date("Y-m-d");
         foreach ($a_reminders as $reminder) {
@@ -605,7 +618,7 @@ class ilExAssignmentReminder
     }
 
     // remove reminders from DB when the parent assignment is deleted.
-    public function deleteReminders(int $a_ass_id) : void
+    public function deleteReminders(int $a_ass_id): void
     {
         $sql = "DELETE FROM exc_ass_reminders" .
             " WHERE ass_id = " . $a_ass_id;

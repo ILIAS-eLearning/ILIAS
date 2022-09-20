@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Personal Workspace Settings.
@@ -28,6 +31,9 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
     protected ilSetting $setting;
     protected ilGlobalTemplateInterface $main_tpl;
 
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
         $a_data,
         int $a_id,
@@ -56,7 +62,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilPermissionException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -89,7 +95,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $lng = $this->lng;
@@ -113,13 +119,13 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $form = $this->getSettingsForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getSettingsForm() : ilPropertyFormGUI
+    public function getSettingsForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -135,25 +141,25 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         // Enable 'Personal Workspace'
         $wsp_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_personal_resources'), 'wsp');
         $wsp_prop->setValue('1');
-        $wsp_prop->setChecked(($ilSetting->get('disable_personal_workspace') ? '0' : '1'));
+        $wsp_prop->setChecked(!$ilSetting->get('disable_personal_workspace'));
         $form->addItem($wsp_prop);
 
         // Enable 'Blogs'
         $blog_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_blogs'), 'blog');
         $blog_prop->setValue('1');
-        $blog_prop->setChecked(($ilSetting->get('disable_wsp_blogs') ? '0' : '1'));
+        $blog_prop->setChecked(!$ilSetting->get('disable_wsp_blogs'));
         $wsp_prop->addSubItem($blog_prop);
 
         // Enable 'Files'
         $file_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_files'), 'file');
         $file_prop->setValue('1');
-        $file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
+        $file_prop->setChecked(!$ilSetting->get('disable_wsp_files'));
         $wsp_prop->addSubItem($file_prop);
 
         // Enable 'Links'
         $link_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_links'), 'link');
         $link_prop->setValue('1');
-        $link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
+        $link_prop->setChecked(!$ilSetting->get('disable_wsp_links'));
         $wsp_prop->addSubItem($link_prop);
 
         if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
@@ -164,7 +170,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         return $form;
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
@@ -188,13 +194,13 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
                 $link = 0;
             }
 
-            $ilSetting->set('disable_personal_workspace', (int) $wsp);
-            $ilSetting->set('disable_wsp_blogs', (int) $blog);
-            $ilSetting->set('disable_wsp_files', (int) $file);
-            $ilSetting->set('disable_wsp_links', (int) $link);
+            $ilSetting->set('disable_personal_workspace', (string) !$wsp);
+            $ilSetting->set('disable_wsp_blogs', (string) !$blog);
+            $ilSetting->set('disable_wsp_files', (string) !$file);
+            $ilSetting->set('disable_wsp_links', (string) !$link);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
 }

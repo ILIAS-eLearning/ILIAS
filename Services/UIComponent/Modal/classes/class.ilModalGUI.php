@@ -3,20 +3,25 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Modal class
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 11
  */
 class ilModalGUI
 {
@@ -35,58 +40,58 @@ class ilModalGUI
     {
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new ilModalGUI();
     }
 
-    public function setId(string $a_val) : void
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setHeading(string $a_val) : void
+    public function setHeading(string $a_val): void
     {
         $this->heading = $a_val;
     }
 
 
-    public function getHeading() : string
+    public function getHeading(): string
     {
         return $this->heading;
     }
 
-    public function setBody(string $a_val) : void
+    public function setBody(string $a_val): void
     {
         $this->body = $a_val;
     }
 
-    public function getBody() : string
+    public function getBody(): string
     {
         return $this->body;
     }
-    
+
     /**
      * Set type
      *
      * @param string $a_val type const ilModalGUI::TYPE_SMALL|ilModalGUI::TYPE_MEDIUM|ilModalGUI::TYPE_LARGE
      */
-    public function setType(string $a_val) : void
+    public function setType(string $a_val): void
     {
         $this->type = $a_val;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function addButton(ilButtonBase $but) : void
+    public function addButton(ilButtonBase $but): void
     {
         $this->buttons[] = $but;
     }
@@ -95,12 +100,12 @@ class ilModalGUI
      * Get buttons
      * @return ilButtonBase[]
      */
-    public function getButtons() : array
+    public function getButtons(): array
     {
         return $this->buttons;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.modal.html", true, true, "Services/UIComponent/Modal");
 
@@ -132,15 +137,11 @@ class ilModalGUI
         return $tpl->get();
     }
 
-    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null) : void
+    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         global $DIC;
 
-        if ($a_main_tpl != null) {
-            $tpl = $a_main_tpl;
-        } else {
-            $tpl = $DIC["tpl"];
-        }
+        $tpl = $a_main_tpl ?? $DIC["tpl"];
 
         $tpl->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
     }

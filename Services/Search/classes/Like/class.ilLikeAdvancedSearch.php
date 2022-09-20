@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,112 +23,80 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once 'Services/Search/classes/class.ilAdvancedSearch.php';
-
 /**
-* Class ilLikeMetaDataSearch
-*
-* class for searching meta
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id
-*
 * @package ilias-search
 *
 */
 class ilLikeAdvancedSearch extends ilAdvancedSearch
 {
-    /**
-     * Constructor
-     * @return
-     */
-    public function __construct($qp)
+    public function __createTaxonWhereCondition(): string
     {
-        parent::__construct($qp);
-    }
-    
-    public function __createTaxonWhereCondition()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         if ($this->options['lom_taxon']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
-                $where .= $ilDB->like('taxon', 'text', '%' . $word . '%');
+
+                $where .= $this->db->like('taxon', 'text', '%' . $word . '%');
             }
             $where .= ') ';
             return $where;
         }
         return '';
     }
-    
-    public function __createKeywordWhereCondition()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function __createKeywordWhereCondition(): string
+    {
         $where = " WHERE (";
-        
+
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
             if ($counter++) {
                 $where .= "OR";
             }
-            
-            $where .= $ilDB->like('keyword', 'text', '%' . $word . '%');
+
+            $where .= $this->db->like('keyword', 'text', '%' . $word . '%');
         }
         $where .= ') ';
         return $where;
     }
-    
-    public function __createLifecycleWhereCondition()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+    public function __createLifecycleWhereCondition(): string
+    {
         if ($this->options['lom_version']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
-                $where .= $ilDB->like('meta_version', 'text', '%' . $word . '%');
+
+                $where .= $this->db->like('meta_version', 'text', '%' . $word . '%');
             }
             $where .= ') ';
             return $where;
         }
         return '';
     }
-    
-    public function __createEntityWhereCondition()
+
+    public function __createEntityWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if ($this->options['lom_role_entry']) {
             $where = " WHERE (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
-                $where .= $ilDB->like('entity', 'text', '%' . $word . '%');
+
+                $where .= $this->db->like('entity', 'text', '%' . $word . '%');
             }
             $where .= ') ';
             return $where;
@@ -134,36 +104,28 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
         return '';
     }
 
-    public function __createCoverageAndCondition()
+    public function __createCoverageAndCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if ($this->options['lom_coverage']) {
             $where = " AND (";
-            
+
             $counter = 0;
             foreach ($this->query_parser->getQuotedWords() as $word) {
                 if ($counter++) {
                     $where .= "OR";
                 }
-                
-                $where .= $ilDB->like('coverage', 'text', '%' . $word . '%');
+
+                $where .= $this->db->like('coverage', 'text', '%' . $word . '%');
             }
             $where .= ') ';
             return $where;
         }
         return '';
     }
-    
-    public function __createTitleDescriptionWhereCondition()
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $concat = $ilDB->concat(
+    public function __createTitleDescriptionWhereCondition(): string
+    {
+        $concat = $this->db->concat(
             array(
                 array('title','text'),
                 array('description','text'))
@@ -176,11 +138,11 @@ class ilLikeAdvancedSearch extends ilAdvancedSearch
             if ($counter++) {
                 $where .= "OR";
             }
-            
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
+
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         $where .= ') ';
-        
+
         return $where;
     }
 }

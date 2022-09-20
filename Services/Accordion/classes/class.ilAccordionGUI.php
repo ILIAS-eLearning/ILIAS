@@ -1,13 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
-* Accordion user interface class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id:$
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Accordion user interface class
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilAccordionGUI
 {
     public const VERTICAL = "vertical";
@@ -15,37 +27,30 @@ class ilAccordionGUI
     public const FORCE_ALL_OPEN = "ForceAllOpen";
     public const FIRST_OPEN = "FirstOpen";
     public const ALL_CLOSED = "AllClosed";
-
     protected string $orientation;
     protected ilObjUser $user;
-
     protected array $items = array();
     protected array $force_open = array();
     protected static int $accordion_cnt = 0;
     protected bool $use_session_storage = false;
     protected bool $allow_multi_opened = false;
-    protected $show_all_element = null;
-    protected $hide_all_element = null;
-    protected $contentwidth;
-    protected $contentheight;
+    protected string $show_all_element = "";
+    protected string $hide_all_element = "";
+    protected ?int $contentwidth = null;
+    protected ?int $contentheight = null;
     protected string $headerclass = "";
     protected string $contentclass = "";
     protected string $icontainerclass = "";
     protected string $containerclass = "";
     protected string $id = "";
-    protected $head_class_set;
-    
-    public static $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
-    public static $owl_js_path = "/owl.carousel.js";
-    public static $owl_css_path = "/assets/owl.carousel.css";
-
+    protected bool $head_class_set = false;
+    public static string $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
+    public static string $owl_js_path = "/owl.carousel.js";
+    public static string $owl_css_path = "/assets/owl.carousel.css";
     protected ilGlobalTemplateInterface $main_tpl;
-    protected string $active_headerclass;
+    protected string $active_headerclass = "";
     protected string $behaviour = self::FIRST_OPEN;
 
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         global $DIC;
@@ -55,33 +60,18 @@ class ilAccordionGUI
         $this->user = $DIC->user();
         $this->setOrientation(ilAccordionGUI::VERTICAL);
     }
-    
-    /**
-    * Set id
-    *
-    * @param	string	 id
-    */
-    public function setId($a_val)
+
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
-    
-    /**
-    * Get id
-    *
-    * @return	string	id
-    */
-    public function getId()
+
+    public function getId(): string
     {
         return $this->id;
     }
-    
-    /**
-    * Set Orientation.
-    *
-    * @param	string	$a_orientation	Orientation
-    */
-    public function setOrientation($a_orientation)
+
+    public function setOrientation(string $a_orientation): void
     {
         if (in_array(
             $a_orientation,
@@ -91,252 +81,136 @@ class ilAccordionGUI
         }
     }
 
-    /**
-    * Get Orientation.
-    *
-    * @return	string	Orientation
-    */
-    public function getOrientation()
+    public function getOrientation(): string
     {
         return $this->orientation;
     }
 
-    /**
-     * Set Container CSS Class.
-     *
-     * @param	string	$a_containerclass	Container CSS Class
-     */
-    public function setContainerClass($a_containerclass)
+    public function setContainerClass(string $a_containerclass): void
     {
         $this->containerclass = $a_containerclass;
     }
 
-    /**
-     * Get Container CSS Class.
-     *
-     * @return	string	Container CSS Class
-     */
-    public function getContainerClass()
+    public function getContainerClass(): string
     {
         return $this->containerclass;
     }
 
-    /**
-     * Set inner Container CSS Class.
-     *
-     * @param	string	$a_containerclass	Container CSS Class
-     */
-    public function setInnerContainerClass($a_containerclass)
+    public function setInnerContainerClass(string $a_containerclass): void
     {
         $this->icontainerclass = $a_containerclass;
     }
 
-    /**
-     * Get inner Container CSS Class.
-     *
-     * @return	string	Container CSS Class
-     */
-    public function getInnerContainerClass()
+    public function getInnerContainerClass(): string
     {
         return $this->icontainerclass;
     }
 
-    /**
-    * Set Header CSS Class.
-    *
-    * @param	string	$a_headerclass	Header CSS Class
-    */
-    public function setHeaderClass($a_headerclass)
+    public function setHeaderClass(string $a_headerclass): void
     {
         $this->headerclass = $a_headerclass;
     }
 
-    /**
-    * Get Header CSS Class.
-    *
-    * @return	string	Header CSS Class
-    */
-    public function getHeaderClass()
+    public function getHeaderClass(): string
     {
         return $this->headerclass;
     }
 
-    /**
-     * Set active header class
-     *
-     * @param	string	$a_h_class	Active Header CSS Class
-     */
-    public function setActiveHeaderClass($a_h_class)
+    public function setActiveHeaderClass(string $a_h_class): void
     {
         $this->active_headerclass = $a_h_class;
     }
 
-    /**
-     * Get active Header CSS Class.
-     *
-     * @return	string	Active header CSS Class
-     */
-    public function getActiveHeaderClass()
+    public function getActiveHeaderClass(): string
     {
         return $this->active_headerclass;
     }
 
-    /**
-    * Set Content CSS Class.
-    *
-    * @param	string	$a_contentclass	Content CSS Class
-    */
-    public function setContentClass($a_contentclass)
+    public function setContentClass(string $a_contentclass): void
     {
         $this->contentclass = $a_contentclass;
     }
 
-    /**
-    * Get Content CSS Class.
-    *
-    * @return	string	Content CSS Class
-    */
-    public function getContentClass()
+    public function getContentClass(): string
     {
         return $this->contentclass;
     }
 
-    /**
-    * Set ContentWidth.
-    *
-    * @param	integer	$a_contentwidth	ContentWidth
-    */
-    public function setContentWidth($a_contentwidth)
+    public function setContentWidth(?int $a_contentwidth): void
     {
         $this->contentwidth = $a_contentwidth;
     }
 
-    /**
-    * Get ContentWidth.
-    *
-    * @return	integer	ContentWidth
-    */
-    public function getContentWidth()
+    public function getContentWidth(): ?int
     {
         return $this->contentwidth;
     }
 
-    /**
-    * Set ContentHeight.
-    *
-    * @param	integer	$a_contentheight	ContentHeight
-    */
-    public function setContentHeight($a_contentheight)
+    public function setContentHeight(?int $a_contentheight): void
     {
         $this->contentheight = $a_contentheight;
     }
 
-    /**
-    * Get ContentHeight.
-    *
-    * @return	integer	ContentHeight
-    */
-    public function getContentHeight()
+    public function getContentHeight(): ?int
     {
         return $this->contentheight;
     }
 
     /**
      * Set behaviour "ForceAllOpen" | "FirstOpen" | "AllClosed"
-     *
-     * @param	string	behaviour
      */
-    public function setBehaviour(string $a_val) : void
+    public function setBehaviour(string $a_val): void
     {
         $this->behaviour = $a_val;
     }
-    
-    /**
-     * Get behaviour
-     *
-     * @return
-     */
-    public function getBehaviour()
+
+    public function getBehaviour(): string
     {
         return $this->behaviour;
     }
 
-    /**
-     * Set use session storage
-     *
-     * @param bool $a_val use session storage
-     */
-    public function setUseSessionStorage($a_val)
+    public function setUseSessionStorage(bool $a_val): void
     {
         $this->use_session_storage = $a_val;
     }
 
-    /**
-     * Get use session storage
-     *
-     * @return bool use session storage
-     */
-    public function getUseSessionStorage()
+    public function getUseSessionStorage(): bool
     {
         return $this->use_session_storage;
     }
 
-    /**
-     * Set allow multi opened
-     *
-     * @param bool $a_val allow multiple accordions being opened
-     */
-    public function setAllowMultiOpened($a_val)
+    public function setAllowMultiOpened(bool $a_val): void
     {
         $this->allow_multi_opened = $a_val;
     }
-    
-    /**
-     * Get allow multi opened
-     *
-     * @return bool allow multiple accordions being opened
-     */
-    public function getAllowMultiOpened()
+
+    public function getAllowMultiOpened(): bool
     {
         return $this->allow_multi_opened;
     }
 
     /**
-     * Set show all element
-     *
      * @param string $a_val ID of show all html element
      */
-    public function setShowAllElement($a_val)
+    public function setShowAllElement(string $a_val): void
     {
         $this->show_all_element = $a_val;
     }
 
-    /**
-     * Get show all element
-     *
-     * @return string ID of show all html element
-     */
-    public function getShowAllElement()
+    public function getShowAllElement(): string
     {
         return $this->show_all_element;
     }
 
     /**
-     * Set hide all element
-     *
      * @param string $a_val ID of hide all html element
      */
-    public function setHideAllElement($a_val)
+    public function setHideAllElement(string $a_val): void
     {
         $this->hide_all_element = $a_val;
     }
 
-    /**
-     * Get hide all element
-     *
-     * @return string ID of hide all html element
-     */
-    public function getHideAllElement()
+    public function getHideAllElement(): string
     {
         return $this->hide_all_element;
     }
@@ -344,7 +218,7 @@ class ilAccordionGUI
     /**
     * Add javascript files that are necessary to run accordion
     */
-    public static function addJavaScript(ilGlobalTemplate $main_tpl = null)
+    public static function addJavaScript(ilGlobalTemplate $main_tpl = null): void
     {
         global $DIC;
 
@@ -362,11 +236,11 @@ class ilAccordionGUI
             $tpl->addJavaScript($f, true, 3);
         }
     }
-    
+
     /**
     * Add required css
     */
-    public static function addCss()
+    public static function addCss(): void
     {
         global $DIC;
 
@@ -377,10 +251,7 @@ class ilAccordionGUI
         }
     }
 
-    /**
-     * @return array
-     */
-    public static function getLocalJavascriptFiles()
+    public static function getLocalJavascriptFiles(): array
     {
         return array(
             "./Services/Accordion/js/accordion.js",
@@ -388,10 +259,7 @@ class ilAccordionGUI
         );
     }
 
-    /**
-     * @return array
-     */
-    public static function getLocalCssFiles()
+    public static function getLocalCssFiles(): array
     {
         return array(
             "./Services/Accordion/css/accordion.css",
@@ -399,40 +267,34 @@ class ilAccordionGUI
         );
     }
 
-    /**
-    * Add item
-    */
-    public function addItem($a_header, $a_content, $a_force_open = false)
-    {
+    public function addItem(
+        string $a_header,
+        string $a_content,
+        bool $a_force_open = false
+    ): void {
         $this->items[] = array("header" => $a_header,
             "content" => $a_content, "force_open" => $a_force_open);
-        
+
         if ($a_force_open) {
             $this->force_open[] = sizeof($this->items);
         }
     }
-    
-    /**
-    * Get all items
-    */
-    public function getItems()
+
+    public function getItems(): array
     {
         return $this->items;
     }
-    
-    /**
-    * Get accordion html
-    */
-    public function getHTML()
+
+    public function getHTML(bool $async = false): string
     {
         $ilUser = $this->user;
-        
+
         self::$accordion_cnt++;
-        
+
         $or_short = ($this->getOrientation() == ilAccordionGUI::HORIZONTAL)
             ? "H"
             : "V";
-            
+
         $width = (int) $this->getContentWidth();
         $height = (int) $this->getContentHeight();
         if ($this->getOrientation() == ilAccordionGUI::HORIZONTAL) {
@@ -443,10 +305,10 @@ class ilAccordionGUI
                 $height = 100;
             }
         }
-        
+
         $this->addJavascript();
         $this->addCss();
-        
+
         $tpl = new ilTemplate("tpl.accordion.html", true, true, "Services/Accordion");
         foreach ($this->getItems() as $item) {
             $tpl->setCurrentBlock("item");
@@ -462,7 +324,7 @@ class ilAccordionGUI
             }
 
             $tpl->setVariable("OR_SHORT", $or_short);
-            
+
             $tpl->setVariable("INNER_CONTAINER_CLASS", $this->getInnerContainerClass()
                 ? $this->getInnerContainerClass() : "il_" . $or_short . "AccordionInnerContainer");
 
@@ -483,8 +345,8 @@ class ilAccordionGUI
         $options["int_id"] = $this->getId();
 
         if ($this->getUseSessionStorage() && $this->getId() != "") {
-            $stor = new ilAccordionPropertiesStorage();
-            
+            $stor = new ilAccordionPropertiesStorageGUI();
+
             $ctab = $stor->getProperty(
                 $this->getId(),
                 $ilUser->getId(),
@@ -504,7 +366,7 @@ class ilAccordionGUI
             }
 
             $options["initial_opened"] = $ctab;
-            $options["save_url"] = "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab" .
+            $options["save_url"] = "./ilias.php?baseClass=ilaccordionpropertiesstoragegui&cmd=setOpenedTab" .
                 "&accordion_id=" . $this->getId() . "&user_id=" . $ilUser->getId();
         }
 
@@ -547,9 +409,18 @@ class ilAccordionGUI
 
         $tpl->setVariable("ACC_ID", $options["id"]);
 
-        $this->main_tpl->addOnLoadCode(
-            'il.Accordion.add(' . ilJsonUtil::encode($options) . ');'
-        );
-        return $tpl->get();
+        $html = $tpl->get();
+        $code = $this->getOnloadCode($options);
+        if (!$async) {
+            $this->main_tpl->addOnLoadCode($code);
+        } else {
+            $html .= "<script>$code</script>";
+        }
+        return $html;
+    }
+
+    protected function getOnloadCode(array $options): string
+    {
+        return 'il.Accordion.add(' . json_encode($options, JSON_THROW_ON_ERROR) . ');';
     }
 }

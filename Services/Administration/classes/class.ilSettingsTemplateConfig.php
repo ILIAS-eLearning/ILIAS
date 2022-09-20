@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Settings template config class
@@ -34,12 +39,12 @@ class ilSettingsTemplateConfig
         $this->setType($a_obj_type);
     }
 
-    public function setType(string $a_val) : void
+    public function setType(string $a_val): void
     {
         $this->type = $a_val;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -47,26 +52,26 @@ class ilSettingsTemplateConfig
     public function addHidableTab(
         string $a_tab_id,
         string $a_text
-    ) : void {
+    ): void {
         $this->tabs[$a_tab_id] = array(
             "id" => $a_tab_id,
             "text" => $a_text
         );
     }
 
-    public function getHidableTabs() : array
+    public function getHidableTabs(): array
     {
         return $this->tabs;
     }
 
     public function addSetting(
-        int $a_id,
+        string $a_id,
         string $a_type,
         string $a_text,
         bool $a_hidable,
         int $a_length = 0,
         array $a_options = array()
-    ) : void {
+    ): void {
         $this->setting[$a_id] = array(
             "id" => $a_id,
             "type" => $a_type,
@@ -77,7 +82,7 @@ class ilSettingsTemplateConfig
         );
     }
 
-    public function getSettings() : array
+    public function getSettings(): array
     {
         return $this->setting;
     }

@@ -1,54 +1,38 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 /**
  * represents a creation of local roles action
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplates
  */
 class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 {
     private int $role_template_id = 0;
 
-    /**
-     * Constructor
-     * @param int $a_action_id
-     */
     public function __construct(int $a_action_id = 0)
     {
         parent::__construct($a_action_id);
     }
 
-    /**
-     * Get action type
-     * @return int
-     */
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_LOCAL_ROLE;
     }
 
-    public function setRoleTemplateId(int $a_role_template_id) : void
+    public function setRoleTemplateId(int $a_role_template_id): void
     {
         $this->role_template_id = $a_role_template_id;
     }
 
-    /**
-     * get role template id
-     * @return int
-     */
-    public function getRoleTemplateId() : int
+    public function getRoleTemplateId(): int
     {
         return $this->role_template_id;
     }
 
-    /**
-     * Apply action
-     */
-    public function apply() : bool
+    public function apply(): bool
     {
         $source = $this->initSourceObject();
 
@@ -66,16 +50,15 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         );
 
         // Copy template permissions
-        
+
         $this->logger->debug(
             'Copy role template permissions ' .
-                'tpl_id: ' . $this->getRoleTemplateId() . ' ' .
-                'parent: ' . ROLE_FOLDER_ID . ' ' .
-                'role_id: ' . $role->getId() . ' ' .
-                'role_parent: ' . $source->getRefId()
+            'tpl_id: ' . $this->getRoleTemplateId() . ' ' .
+            'parent: ' . ROLE_FOLDER_ID . ' ' .
+            'role_id: ' . $role->getId() . ' ' .
+            'role_parent: ' . $source->getRefId()
         );
-        
-        
+
         $this->admin->copyRoleTemplatePermissions(
             $this->getRoleTemplateId(),
             ROLE_FOLDER_ID,
@@ -86,13 +69,11 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         // Set permissions
         $ops = $this->review->getOperationsOfRole($role->getId(), $source->getType(), $source->getRefId());
         $this->admin->grantPermission($role->getId(), $ops, $source->getRefId());
+
         return true;
     }
 
-    /**
-     * Revert action
-     */
-    public function revert() : bool
+    public function revert(): bool
     {
         // @todo: revert could delete the generated local role. But on the other hand all users
         // assigned to this local role would be deassigned. E.g. if course or group membership
@@ -100,10 +81,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return false;
     }
 
-    /**
-     * Create new action
-     */
-    public function save() : int
+    public function save(): int
     {
         if (!parent::save()) {
             return 0;
@@ -115,14 +93,11 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
             $this->db->quote($this->getRoleTemplateId(), 'integer') . ' ' .
             ') ';
         $res = $this->db->manipulate($query);
+
         return $this->getActionId();
     }
 
-    /**
-     * Delete
-     * @return void
-     */
-    public function delete() : void
+    public function delete(): void
     {
         parent::delete();
 
@@ -131,25 +106,18 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $this->db->manipulate($query);
     }
 
-    /**
-     * Write xml of template action
-     * @param ilXmlWriter $writer
-     */
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('localRoleAction');
-
 
         $il_id = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($this->getRoleTemplateId()) . '_' . $this->getRoleTemplateId();
 
         $writer->xmlStartTag(
             'roleTemplate',
-            array(
+            [
                 'id' => $il_id
-            )
+            ]
         );
-
-        
 
         $exp = new ilRoleXmlExport();
         $exp->setMode(ilRoleXmlExport::MODE_DTPL);
@@ -160,18 +128,14 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $writer->xmlEndTag('localRoleAction');
     }
 
-    /**
-     * Read db entry
-     * @return void
-     */
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_alr ' .
             'WHERE action_id = ' . $this->db->quote($this->getActionId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setRoleTemplateId($row->role_template_id);
+            $this->setRoleTemplateId((int) $row->role_template_id);
         }
     }
 }

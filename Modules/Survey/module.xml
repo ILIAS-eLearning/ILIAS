@@ -25,10 +25,8 @@
 		<cron id="survey_notification" class="ilSurveyCronNotification" />
 	</crons>
 	<mailtemplates>
-		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />		
+		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />
+		<context id="svy_rater_inv" class="ilSurveyMailTemplateRaterInvitationContext" />
 	</mailtemplates>
 	<logging />
-	<pdfpurposes>
-		<pdfpurpose name="Results" preferred="WkhtmlToPdf" />
-	</pdfpurposes>
 </module>

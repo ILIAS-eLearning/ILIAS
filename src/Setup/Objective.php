@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup;
 
@@ -20,17 +36,17 @@ interface Objective
      * the same config on the same environment, i.e. if the one is achieved the
      * other is achieved as well because they are the same.
      */
-    public function getHash() : string;
+    public function getHash(): string;
 
     /**
      * Get a label that describes this objective.
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Get to know if this is an interesting objective for a human.
      */
-    public function isNotable() : bool;
+    public function isNotable(): bool;
 
     /**
      * Objectives might depend on other objectives.
@@ -39,7 +55,7 @@ interface Objective
      *
      * @return Objective[]
      */
-    public function getPreconditions(Environment $environment) : array;
+    public function getPreconditions(Environment $environment): array;
 
     /**
      * Objectives can be achieved. They might add resources to the environment when
@@ -53,7 +69,7 @@ interface Objective
      * @throw \LogicException if there are unfullfilled preconditions.
      * @throw \RuntimeException if there are missing resources.
      */
-    public function achieve(Environment $environment) : Environment;
+    public function achieve(Environment $environment): Environment;
 
     /**
      * Get to know whether the objective is applicable.
@@ -62,5 +78,5 @@ interface Objective
      * Just check if this objective needs to be achieved, either currently or at all.
      * In case of doubt whether the objective is applicable or not return true.
      */
-    public function isApplicable(Environment $environment) : bool;
+    public function isApplicable(Environment $environment): bool;
 }

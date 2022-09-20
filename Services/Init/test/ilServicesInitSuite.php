@@ -7,9 +7,12 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesInitSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite(): self
     {
         $suite = new ilServicesInitSuite();
+
+        require_once __DIR__ . '/InitCtrlServiceTest.php';
+        $suite->addTestSuite(InitCtrlServiceTest::class);
 
         return $suite;
     }

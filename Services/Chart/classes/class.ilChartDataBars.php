@@ -1,70 +1,64 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChartData.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Chart data bars series
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartDataBars extends ilChartData
 {
-    protected $line_width; // [int]
-    protected $bar_width; // [float] bar
-    protected $bar_align; // [string] bar
-    protected $bar_horizontal; // [bool] bar
-    
-    protected function getTypeString()
+    protected ?int $line_width = null;
+    protected float $bar_width = 0;
+    protected string $bar_align = "";
+    protected bool $bar_horizontal = false;
+
+    protected function getTypeString(): string
     {
         return "bars";
     }
-    
-    /**
-     * Set line width
-     *
-     * @param int $a_value
-     */
-    public function setLineWidth($a_value)
+
+    public function setLineWidth(int $a_value): void
     {
-        $this->line_width = (int) $a_value;
+        $this->line_width = $a_value;
     }
 
-    /**
-     * Get line width
-     *
-     * @return int
-     */
-    public function getLineWidth()
+    public function getLineWidth(): ?int
     {
         return $this->line_width;
     }
-    
-    /**
-     * Set bar options
-     *
-     * @param float $a_width
-     * @param string $a_align
-     * @param bool $a_horizontal
-     */
-    public function setBarOptions($a_width, $a_align = "center", $a_horizontal = false)
-    {
-        $this->bar_width = (float) str_replace(",", ".", $a_width);
-        if (in_array((string) $a_align, array("center", "left"))) {
-            $this->bar_align = (string) $a_align;
+
+    public function setBarOptions(
+        float $a_width,
+        string $a_align = "center",
+        bool $a_horizontal = false
+    ): void {
+        $this->bar_width = (float) str_replace(",", ".", (string) $a_width);
+        if (in_array($a_align, array("center", "left"))) {
+            $this->bar_align = $a_align;
         }
-        $this->bar_horizontal = (bool) $a_horizontal;
+        $this->bar_horizontal = $a_horizontal;
     }
 
-    protected function parseDataOptions(array &$a_options)
+    protected function parseDataOptions(array &$a_options): void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {
             $a_options["lineWidth"] = $width;
         }
-        
+
         if ($this->bar_width) {
             $a_options["barWidth"] = $this->bar_width;
             $a_options["align"] = $this->bar_align;

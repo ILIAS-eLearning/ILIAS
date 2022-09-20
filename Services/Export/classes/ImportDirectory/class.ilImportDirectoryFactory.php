@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Filesystem;
 
 class ilImportDirectoryFactory
@@ -8,19 +10,9 @@ class ilImportDirectoryFactory
     public const TYPE_SAHS = 'sahs';
     public const TYPE_EXPORT = 'export';
 
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected ilLogger $logger;
+    protected Filesystem $storage_directory;
 
-    /**
-     * @var Filesystem
-     */
-    protected $storage;
-
-    /**
-     * ilImportDirectoryFactory constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -29,12 +21,7 @@ class ilImportDirectoryFactory
         $this->storage_directory = $DIC->filesystem()->storage();
     }
 
-    /**
-     * @param string $type
-     * @return ilImportDirectory
-     * @throws InvalidArgumentException
-     */
-    public function getInstanceForComponent(string $type) : ilImportDirectory
+    public function getInstanceForComponent(string $type): ilImportDirectory
     {
         switch ($type) {
             case self::TYPE_MOB:
@@ -60,7 +47,7 @@ class ilImportDirectoryFactory
 
             default:
                 $this->logger->error('Invalid type given: ' . $type);
-                throw new InvalidArgumentException(
+                throw new DomainException(
                     'Invalid type given: ' . $type
                 );
         }

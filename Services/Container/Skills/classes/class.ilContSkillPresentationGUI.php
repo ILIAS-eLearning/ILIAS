@@ -49,7 +49,7 @@ class ilContSkillPresentationGUI
 
         $this->container_gui = $a_container_gui;
         /* @var $obj ilContainer */
-        $obj = $this->container_gui->object;
+        $obj = $this->container_gui->getObject();
         $this->container = $obj;
 
         $this->container_skills = new ilContainerSkills($this->container->getId());
@@ -63,7 +63,7 @@ class ilContSkillPresentationGUI
         );
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -78,22 +78,22 @@ class ilContSkillPresentationGUI
             case "ilpersonalskillsgui":
                 $ctrl->forwardCommand($this->getPersonalSkillsGUI());
                 break;
-            
+
             default:
-                if ($cmd == "show") {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }
     }
 
-    protected function setPermanentLink() : void
+    protected function setPermanentLink(): void
     {
         $type = $this->container->getType();
         $ref_id = $this->container->getRefId();
-        $this->tpl->setPermanentLink($type, "", $ref_id . "_comp", "", "");
+        $this->tpl->setPermanentLink($type, 0, $ref_id . "_comp", "", "");
     }
 
-    protected function getPersonalSkillsGUI() : ilPersonalSkillsGUI
+    protected function getPersonalSkillsGUI(): ilPersonalSkillsGUI
     {
         $lng = $this->lng;
 
@@ -107,22 +107,22 @@ class ilContSkillPresentationGUI
         return $gui;
     }
 
-    public function show() : void
+    public function show(): void
     {
         $gui = $this->getPersonalSkillsGUI();
         $gui->listProfilesForGap();
     }
 
-    protected function getSubtreeObjectIds() : array
+    protected function getSubtreeObjectIds(): array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $nodes = $DIC->repositoryTree()->getSubTree(
             $DIC->repositoryTree()->getNodeData($this->container->getRefId())
         );
-        
+
         $objects = [];
-        
+
         foreach ($nodes as $node) {
             $objects[] = $node['obj_id'];
         }
@@ -130,7 +130,7 @@ class ilContSkillPresentationGUI
         return $objects;
     }
 
-    public static function isAccessible(int $ref_id) : bool
+    public static function isAccessible(int $ref_id): bool
     {
         global $DIC;
 
@@ -140,7 +140,7 @@ class ilContSkillPresentationGUI
         if ($access->checkAccess('read', '', $ref_id) && ilContainer::_lookupContainerSetting(
             $obj_id,
             ilObjectServiceSettingsGUI::SKILLS,
-            false
+            '0'
         )) {
             $skmg_set = new ilSetting("skmg");
             if ($skmg_set->get("enable_skmg")) {

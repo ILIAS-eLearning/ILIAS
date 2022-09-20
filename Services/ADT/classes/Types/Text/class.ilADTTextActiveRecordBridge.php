@@ -1,13 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTTextActiveRecordBridge extends ilADTActiveRecordBridge
 {
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTText);
     }
 
-    public function getActiveRecordFields() : array
+    public function getActiveRecordFields(): array
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -25,12 +27,12 @@ class ilADTTextActiveRecordBridge extends ilADTActiveRecordBridge
         return array($field);
     }
 
-    public function getFieldValue(string $a_field_name) : mixed
+    public function getFieldValue(string $a_field_name)
     {
         return $this->getADT()->getText();
     }
 
-    public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
+    public function setFieldValue(string $a_field_name, $a_field_value): void
     {
         $this->getADT()->setText($a_field_value);
     }

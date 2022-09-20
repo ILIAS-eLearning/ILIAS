@@ -1,45 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * User profile prompt subservice.
- *
  * Manages info texts on the personal profile and prompting mechanics.
- *
  * Do not use, not an official API yet. Only for user service internals.
- *
- * @author killing@leifos.de
- * @ingroup ServicesUser
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserProfilePromptService
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
 
-    /**
-     * Get data gateway
-     * @return ilUserProfilePromptDataGateway
-     */
-    public function data()
+    public function data(): ilUserProfilePromptDataGateway
     {
         return new ilUserProfilePromptDataGateway();
     }
 
-    /**
-     * Get a settings object
-     * @param int $mode
-     * @param int $days
-     * @param array $info_texts
-     * @param array $prompt_texts
-     * @return ilProfilePromptSettings
-     */
-    public function settings(int $mode, int $days, array $info_texts, array $prompt_texts)
-    {
+    public function settings(
+        int $mode,
+        int $days,
+        array $info_texts,
+        array $prompt_texts
+    ): ilProfilePromptSettings {
         return new ilProfilePromptSettings(
             $mode,
             $days,

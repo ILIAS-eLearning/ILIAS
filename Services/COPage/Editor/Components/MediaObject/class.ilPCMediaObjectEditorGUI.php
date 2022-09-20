@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\Editor\Components\PageComponentEditor;
 use ILIAS\COPage\Editor\Server\UIWrapper;
@@ -26,7 +29,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         string $page_type,
         ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
+    ): array {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -39,7 +42,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
-            "creation_form" => $acc->getHTML(),
+            "creation_form" => $acc->getHTML(true),
             "icon" => $ui_wrapper->getRenderedIcon("pemed")
         ];
     }
@@ -50,15 +53,19 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
+    ): string {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
 
-        $media_type = new ILIAS\MediaObjects\MediaType\MediaType();
+        $media_type = $DIC->mediaObjects()
+            ->internal()
+            ->domain()
+            ->mediaType();
 
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
+        $form->setTitle($lng->txt("cont_edit_mob"));
 
         /** @var ilPCMediaObject $pc_media */
         $pc_media = $page_gui->getPageObject()->getContentObjectForPcId($pcid);
@@ -71,6 +78,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
             $page_gui->getPageObject()->getHierIdForPcId($pcid),
             $pcid
         );
+        $pc_media_gui->setStyleId($style_id);
         $pc_media_gui->getCharacteristicsOfCurrentStyle(["media_cont"]);
 
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");
@@ -139,7 +147,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedUploadForm(
         UIWrapper $ui_wrapper,
         $lng
-    ) : string {
+    ): string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -176,7 +184,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedUrlForm(
         UIWrapper $ui_wrapper,
         ilLanguage $lng
-    ) : string {
+    ): string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -213,7 +221,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
     protected function getRenderedPoolBar(
         UIWrapper $ui_wrapper,
         ilLanguage $lng
-    ) : string {
+    ): string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -249,7 +257,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         UIWrapper $ui_wrapper,
         ilLanguage $lng,
         ilPageObjectGUI $page_gui
-    ) : string {
+    ): string {
         global $DIC;
 
         $ctrl = $DIC->ctrl();

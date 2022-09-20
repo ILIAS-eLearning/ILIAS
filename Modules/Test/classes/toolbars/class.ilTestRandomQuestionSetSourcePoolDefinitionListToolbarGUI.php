@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
@@ -11,27 +12,10 @@ require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolbarGUI
 {
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    public $ctrl = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfigGUI
-     */
-    public $questionSetConfigGUI = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfig
-     */
-    public $questionSetConfig = null;
-    
+    public ilCtrl $ctrl;
+    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
+    public ilTestRandomQuestionSetConfig $questionSetConfig;
+
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
         $this->ctrl = $ctrl;
@@ -41,8 +25,8 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 
         parent::__construct();
     }
-    
-    public function build()
+
+    public function build(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
 
@@ -50,34 +34,23 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
             $this->populateNewQuestionSelectionRuleInputs();
         }
     }
-    
-    private function buildSourcePoolSelectOptionsArray($availablePools)
+
+    private function buildSourcePoolSelectOptionsArray($availablePools): array
     {
         $sourcePoolSelectOptionArray = array();
-        
+
         foreach ($availablePools as $poolId => $poolData) {
             $sourcePoolSelectOptionArray[$poolId] = $poolData['title'];
         }
-        
+
         return $sourcePoolSelectOptionArray;
     }
 
-    private function populateNewQuestionSelectionRuleInputs()
+    private function populateNewQuestionSelectionRuleInputs(): void
     {
-        // hey: randomPoolSelector - remove dropdown from toolbar
-        #$availablePools = $this->questionSetConfig->getSelectableQuestionPools();
-
-        #require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-        #$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
-        #$poolSelection->setOptions($this->buildSourcePoolSelectOptionsArray($availablePools));
-
-        #$this->addInputItem($poolSelection, true);
-        
         $this->addFormButton(
             $this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
-            #ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
             ilTestRandomQuestionSetConfigGUI::CMD_SHOW_POOL_SELECTOR_EXPLORER
         );
-        // hey.
     }
 }

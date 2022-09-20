@@ -1,47 +1,62 @@
 <?php
 
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-use ILIAS\Refinery;
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
 
 /**
- * TestCase for AddLabel transformations
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use PHPUnit\Framework\TestCase;
+use ILIAS\Data\Factory as DataFactory;
+
 class AddLabelTest extends TestCase
 {
-    protected static $labels = array("A", "B", "C");
-    protected static $test_array = array(1, 2, 3);
-    protected static $result_array = array("A" => 1, "B" => 2, "C" => 3);
-    /**
-     * @var ILIAS\Refinery\Factory
-     */
-    private $f;
+    /** @var string[]  */
+    private static array $labels = ["A", "B", "C"];
+    /** @var int[]  */
+    private static array $test_array = [1, 2, 3];
+    /** @var array<string, int>  */
+    private static array $result_array = ["A" => 1, "B" => 2, "C" => 3];
 
-    protected function setUp() : void
+    private ?Refinery $f;
+    private ?Transformation $add_label;
+
+    protected function setUp(): void
     {
-        $dataFactory = new ILIAS\Data\Factory();
-        $language = $this->createMock('\ilLanguage');
+        $dataFactory = new DataFactory();
+        $language = $this->createMock(ilLanguage::class);
 
-        $this->f = new ILIAS\Refinery\Factory($dataFactory, $language);
+        $this->f = new Refinery($dataFactory, $language);
         $this->add_label = $this->f->container()->addLabels(self::$labels);
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->add_label = null;
     }
 
-    public function testTransform()
+    public function testTransform(): void
     {
         $with = $this->add_label->transform(self::$test_array);
         $this->assertEquals(self::$result_array, $with);
     }
 
-    public function testTransformFails()
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -54,7 +69,7 @@ class AddLabelTest extends TestCase
 
         $raised = false;
         try {
-            $without = array(1, 2, 3, 4);
+            $without = [1, 2, 3, 4];
             $with = $this->add_label->transform($without);
         } catch (InvalidArgumentException $e) {
             $raised = true;
@@ -80,14 +95,14 @@ class AddLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $add_label = $this->f->container()->addLabels(self::$labels);
         $with = $add_label(self::$test_array);
         $this->assertEquals(self::$result_array, $with);
     }
 
-    public function testInvokeFails()
+    public function testInvokeFails(): void
     {
         $add_label = $this->f->container()->addLabels(self::$labels);
 
@@ -102,7 +117,7 @@ class AddLabelTest extends TestCase
 
         $raised = false;
         try {
-            $without = array(1, 2, 3, 4);
+            $without = [1, 2, 3, 4];
             $with = $add_label($without);
         } catch (InvalidArgumentException $e) {
             $raised = true;

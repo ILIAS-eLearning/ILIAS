@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -16,7 +33,10 @@ class ilFormFieldParser
         $this->xlstProcess = $xlstProcess;
     }
 
-    public function fetchDefaultFormFields(string $content) : array
+    /**
+     * @return array{pageformat: string, pagewidth: mixed, pageheight: mixed, margin_body_top: mixed, margin_body_right: mixed, margin_body_bottom: mixed, margin_body_left: mixed, certificate_text: string}
+     */
+    public function fetchDefaultFormFields(string $content): array
     {
         $pagewidth = "21cm";
         if (preg_match("/page-width\=\"([^\"]+)\"/", $content, $matches)) {
@@ -28,23 +48,23 @@ class ilFormFieldParser
         }
 
         $pagesize = 'custom';
-        if (((strcmp($pageheight, "29.7cm") == 0) || (strcmp($pageheight, "297mm") == 0))
-            && ((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))) {
+        if (((strcmp($pageheight, "29.7cm") === 0) || (strcmp($pageheight, "297mm") === 0))
+            && ((strcmp($pagewidth, "21cm") === 0) || (strcmp($pagewidth, "210mm") === 0))) {
             $pagesize = "a4";
-        } elseif (((strcmp($pagewidth, "29.7cm") == 0) || (strcmp($pagewidth, "297mm") == 0))
-            && ((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0))) {
+        } elseif (((strcmp($pagewidth, "29.7cm") === 0) || (strcmp($pagewidth, "297mm") === 0))
+            && ((strcmp($pageheight, "21cm") === 0) || (strcmp($pageheight, "210mm") === 0))) {
             $pagesize = "a4landscape";
-        } elseif (((strcmp($pageheight, "21cm") == 0) || (strcmp($pageheight, "210mm") == 0))
-            && ((strcmp($pagewidth, "14.8cm") == 0) || (strcmp($pagewidth, "148mm") == 0))) {
+        } elseif (((strcmp($pageheight, "21cm") === 0) || (strcmp($pageheight, "210mm") === 0))
+            && ((strcmp($pagewidth, "14.8cm") === 0) || (strcmp($pagewidth, "148mm") === 0))) {
             $pagesize = "a5";
-        } elseif (((strcmp($pagewidth, "21cm") == 0) || (strcmp($pagewidth, "210mm") == 0))
-            && ((strcmp($pageheight, "14.8cm") == 0) || (strcmp($pageheight, "148mm") == 0))) {
+        } elseif (((strcmp($pagewidth, "21cm") === 0) || (strcmp($pagewidth, "210mm") === 0))
+            && ((strcmp($pageheight, "14.8cm") === 0) || (strcmp($pageheight, "148mm") === 0))) {
             $pagesize = "a5landscape";
-        } elseif (((strcmp($pageheight, "11in") == 0))
-            && ((strcmp($pagewidth, "8.5in") == 0))) {
+        } elseif (((strcmp($pageheight, "11in") === 0))
+            && ((strcmp($pagewidth, "8.5in") === 0))) {
             $pagesize = "letter";
-        } elseif (((strcmp($pagewidth, "11in") == 0))
-            && ((strcmp($pageheight, "8.5in") == 0))) {
+        } elseif (((strcmp($pagewidth, "11in") === 0))
+            && ((strcmp($pageheight, "8.5in") === 0))) {
             $pagesize = "letterlandscape";
         }
 
@@ -86,7 +106,7 @@ class ilFormFieldParser
         // replacements, so we do it in the code as well
         $content = str_replace(["&#xA0;", "&#160;"], "<br />", $content);
 
-        $formFields = [
+        return [
             'pageformat' => $pagesize,
             'pagewidth' => $pagewidth,
             'pageheight' => $pageheight,
@@ -96,7 +116,5 @@ class ilFormFieldParser
             'margin_body_left' => $marginBody_left,
             'certificate_text' => $content
         ];
-
-        return $formFields;
     }
 }

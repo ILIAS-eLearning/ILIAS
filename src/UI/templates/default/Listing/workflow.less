@@ -1,18 +1,25 @@
+.il-workflow {
+	&.linear {
+		-webkit-box-shadow: @il-panel-shadow;
+		box-shadow: @il-panel-shadow;
+	}
+}
 .il-workflow-header {
 	// margin-bottom:  @il-slate-content-padding;
 	// height: @il-top-bar-height;
 	.il-workflow-title {
-		background-color: @il-content-bg;
-		color: @il-main-color;
-		font-size: 2.6rem;
-		font-weight: 300;
+		background-color: @il-main-dark-bg;
+		color: @il-text-color;
+		font-size: @il-font-size-xlarge;
+		font-weight: @il-font-weight-base;
 		margin-bottom:  @il-slate-content-padding*3;
 		margin-top: 0;
+		padding: @il-padding-large-vertical @il-padding-large-horizontal;
 	}
 }
 .il-workflow-container {
 	list-style: none;
-	padding: 0;
+	padding: 0 @il-padding-small-horizontal;
 	.il-workflow-step {
 		&:before {
 			background-color: @il-workflow-icon-font-color;
@@ -32,6 +39,11 @@
 		}
 		&:last-child .text {
 			border-left: none;
+		}
+
+		.il-workflow-step-description {
+			font-size: @il-font-size-base;
+			font-weight: @il-font-weight-light;
 		}
 	}
 	//available, not-available, no-longer
@@ -93,7 +105,7 @@
 			margin: 0;
 			width: @il-workflow-icon-size*1.5;
 			height: @il-workflow-icon-size*1.5;
-			font-size: @il-workflow-icon-size*0.75;
+			font-size: @il-font-size-xlarge;
 		}
 		&.completed-successfully:before,
 		&.completed-unsuccessfully:before {
@@ -104,8 +116,8 @@
 			.il-workflow-step-label,
 			.il-workflow-step-label .btn.btn-link {
 				color: @il-main-color;
-				font-size: @il-workflow-icon-size*0.9;
-				font-weight: 400;
+				font-size: @il-font-size-large;
+				font-weight: @il-font-weight-base;
 			}
 		}
 	}
@@ -122,8 +134,35 @@
 	.available .il-workflow-step-label,
 	.available .il-workflow-step-label .btn.btn-link {
 		color: @il-workflow-available-text-color;
-		font-size: @il-workflow-icon-size*0.7;
-		font-weight: 300;
+		font-size: @il-font-size-large;
+		font-weight: @il-font-weight-base;
 		margin-top: -(@il-slate-content-padding/2);
+	}
+}
+
+#il_right_col .il-workflow {
+
+	border: @il-panel-border;
+	border-radius: @il-panel-border-radius;
+	-webkit-box-shadow: @il-panel-shadow;
+	box-shadow: @il-panel-shadow;
+
+	.il-workflow-header {
+		background-color: @il-main-dark-bg;
+		margin: 0;
+		padding: @il-panel-heading-padding;
+
+		h3 {
+			margin: 0;
+			padding: 0;
+			color: @il-panel-heading-color;
+			font-size: @il-font-size-xlarge;
+			line-height: @line-height-large;
+			font-weight: @il-font-weight-bold;
+		}
+	}
+
+	.il-workflow-container {
+		padding: @il-padding-xxxlarge-vertical @il-padding-xlarge-horizontal;
 	}
 }

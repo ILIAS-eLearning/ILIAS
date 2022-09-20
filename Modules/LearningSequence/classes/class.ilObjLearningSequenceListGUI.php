@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjLearningSequenceListGUI extends ilObjectListGUI
 {
@@ -15,13 +30,13 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->lng->loadLanguageModule($obj_type);
     }
 
-    protected function getDIC() : ILIAS\DI\Container
+    protected function getDIC(): ILIAS\DI\Container
     {
         global $DIC;
         return $DIC;
     }
 
-    public function init()
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -35,7 +50,7 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $this->commands = ilObjLearningSequenceAccess::_getCommands();
     }
 
-    public function getProperties()
+    public function getProperties(): array
     {
         $props = parent::getProperties();
 

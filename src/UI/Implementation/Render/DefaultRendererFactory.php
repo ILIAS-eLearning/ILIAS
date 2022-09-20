@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Render;
 
@@ -37,7 +53,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * @inheritdocs
      */
-    public function getRendererInContext(Component $component, array $contexts) : ComponentRenderer
+    public function getRendererInContext(Component $component, array $contexts): ComponentRenderer
     {
         $name = $this->getRendererNameFor($component);
         return new $name(
@@ -53,7 +69,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * Get the name for the renderer of Component class.
      */
-    protected function getRendererNameFor(Component $component) : string
+    protected function getRendererNameFor(Component $component): string
     {
         $class = get_class($component);
         $parts = explode("\\", $class);
@@ -64,7 +80,7 @@ class DefaultRendererFactory implements RendererFactory
     /**
      * @inheritdocs
      */
-    public function getJSBinding() : JavaScriptBinding
+    public function getJSBinding(): JavaScriptBinding
     {
         return $this->js_binding;
     }

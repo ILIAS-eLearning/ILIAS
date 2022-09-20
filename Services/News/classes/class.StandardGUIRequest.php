@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\News;
 
@@ -35,62 +38,71 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getNewsId() : int
+    public function getNewsId(): int
     {
-        return $this->int("news_id");
+        $id = $this->int("news_id");
+        if ($id === 0) {
+            $id = $this->int("id");
+        }
+        return $id;
     }
 
-    public function getNewsRefId() : int
+    public function getNewsPage(): int
+    {
+        return $this->int("news_page");
+    }
+
+    public function getNewsRefId(): int
     {
         return $this->int("news_ref_id");
     }
 
-    public function getNewsContext() : string
+    public function getNewsContext(): string
     {
         return $this->str("news_context");
     }
 
-    public function getDeleteMedia() : int
+    public function getDeleteMedia(): int
     {
         return $this->int("media_delete");
     }
 
-    public function getRenderedNews() : array
+    public function getRenderedNews(): array
     {
         return $this->intArray("rendered_news");
     }
 
-    public function getNewsAction() : string
+    public function getNewsAction(): string
     {
         return $this->str("news_action");
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->int("id");
     }
 
-    public function getCmd() : string
+    public function getCmd(): string
     {
         return $this->str("cmd");
     }
 
-    public function getDashboardPeriod() : string
+    public function getDashboardPeriod(): string
     {
         return $this->str("news_pd_periods");
     }
 
-    public function getNewsPer() : string
+    public function getNewsPer(): string
     {
         return $this->str("news_per");
     }
 
-    public function getNewsIds() : array
+    public function getNewsIds(): array
     {
         return $this->intArray("news_id");
     }

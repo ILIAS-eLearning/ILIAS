@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
     require_once("libs/composer/vendor/autoload.php");
@@ -12,14 +28,16 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
 
     class GlyphNonAbstractRenderer extends AbstractComponentRenderer
     {
-        public function render(Component $component, Renderer $default_renderer) : string
+        public function render(Component $component, Renderer $default_renderer): string
         {
         }
-        public function _getTemplate($a, $b, $c) : Template
+
+        public function _getTemplate(string $a, bool $b, bool $c): Template
         {
             return $this->getTemplate($a, $b, $c);
         }
-        protected function getComponentInterfaceName() : array
+
+        protected function getComponentInterfaceName(): array
         {
             return ["\\ILIAS\\UI\\Component\\Symbol\\Glyph\\Glyph"];
         }
@@ -29,7 +47,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
     {
         public array $ids = array();
 
-        public function render(Component $component, Renderer $default_renderer) : string
+        public function render(Component $component, Renderer $default_renderer): string
         {
             $this->ids[] = $this->bindJavaScript($component);
             return "";
@@ -45,14 +63,16 @@ namespace ILIAS\UI\Implementation\Component\Counter {
 
     class CounterNonAbstractRenderer extends AbstractComponentRenderer
     {
-        public function render(Component $component, Renderer $default_renderer) : string
+        public function render(Component $component, Renderer $default_renderer): string
         {
         }
-        public function _getTemplate(string $a, bool $b, bool $c) : Template
+
+        public function _getTemplate(string $a, bool $b, bool $c): Template
         {
             return $this->getTemplate($a, $b, $c);
         }
-        protected function getComponentInterfaceName() : array
+
+        protected function getComponentInterfaceName(): array
         {
             return ["\\ILIAS\\UI\\Component\\Counter\\Counter"];
         }
@@ -60,6 +80,22 @@ namespace ILIAS\UI\Implementation\Component\Counter {
 }
 
 namespace {
+    /**
+     * This file is part of ILIAS, a powerful learning management system
+     * published by ILIAS open source e-Learning e.V.
+     *
+     * ILIAS is licensed with the GPL-3.0,
+     * see https://www.gnu.org/licenses/gpl-3.0.en.html
+     * You should have received a copy of said license along with the
+     * source code, too.
+     *
+     * If this is not the case or you just want to try ILIAS, you'll find
+     * us at:
+     * https://www.ilias.de
+     * https://github.com/ILIAS-eLearning
+     *
+     *********************************************************************/
+
     require_once(__DIR__ . "/../Base.php");
 
     use ILIAS\UI\Component as C;
@@ -75,25 +111,32 @@ namespace {
 
     class NullTemplate implements Template
     {
-        public function setCurrentBlock($name)
+        public function setCurrentBlock(string $name): bool
+        {
+            return true;
+        }
+
+        public function parseCurrentBlock(): bool
+        {
+            return true;
+        }
+
+        public function touchBlock(string $name): bool
+        {
+            return true;
+        }
+
+        public function setVariable(string $name, $value): void
         {
         }
-        public function parseCurrentBlock()
-        {
-        }
-        public function touchBlock($name)
-        {
-        }
-        public function setVariable($name, $value)
-        {
-        }
-        public function get($name = null)
+
+        public function get(string $block = null): string
         {
             return "";
         }
-        public function addOnLoadCode($code)
+
+        public function addOnLoadCode(string $code): void
         {
-            return "";
         }
     }
 
@@ -101,7 +144,7 @@ namespace {
     {
         public array $files = array();
 
-        public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks) : Template
+        public function getTemplate(string $path, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template
         {
             $file_name = realpath(__DIR__ . "/../../../" . $path);
             $this->files[$file_name] = array($purge_unfilled_vars, $purge_unused_blocks);
@@ -116,15 +159,16 @@ namespace {
 
     class NullDefaultRenderer implements Renderer
     {
-        public function render($component) : string
+        public function render($component, ?Renderer $root = null)
         {
             return "";
         }
-        public function renderAsync($component) : string
+        public function renderAsync($component, ?Renderer $root = null)
         {
             return '';
         }
-        public function withAdditionalContext(C\Component $context) : Renderer
+
+        public function withAdditionalContext(C\Component $context): Renderer
         {
             return $this;
         }
@@ -141,7 +185,7 @@ namespace {
          */
         protected $image_path_resolver;
 
-        public function setUp() : void
+        public function setUp(): void
         {
             parent::setUp();
             $this->tpl_factory = new TemplateFactoryMock();
@@ -149,10 +193,10 @@ namespace {
             $this->lng = new ilLanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
             $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
-                ->getMock();
+                                              ->getMock();
         }
 
-        public function test_getTemplate_successfull() : void
+        public function test_getTemplate_successfull(): void
         {
             $r = new GlyphNonAbstractRenderer(
                 $this->ui_factory,
@@ -164,14 +208,14 @@ namespace {
             );
             $r->_getTemplate("tpl.glyph.html", true, false);
 
-            $expected = array( realpath(__DIR__ . "/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
-                    => array(true, false)
+            $expected = array(realpath(__DIR__ . "/../../../src/UI/templates/default/Symbol/tpl.glyph.html")
+                              => array(true, false)
             );
 
             $this->assertEquals($expected, $this->tpl_factory->files);
         }
 
-        public function test_getTemplate_unsuccessfull() : void
+        public function test_getTemplate_unsuccessfull(): void
         {
             $r = new CounterNonAbstractRenderer(
                 $this->ui_factory,
@@ -185,13 +229,13 @@ namespace {
             $this->expectException(TypeError::class);
             $r->_getTemplate("tpl.counter_foo.html", true, false);
 
-            $expected = array( realpath(__DIR__ . "/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
-                    => array(true, false)
+            $expected = array(realpath(__DIR__ . "/../../src/UI/templates/default/Counter/tpl.counter_foo.html")
+                              => array(true, false)
             );
             $this->assertEquals($expected, $this->tpl_factory->files);
         }
 
-        public function test_bindJavaScript_successfull() : void
+        public function test_bindJavaScript_successfull(): void
         {
             $r = new GlyphNonAbstractRendererWithJS(
                 $this->ui_factory,
@@ -216,7 +260,7 @@ namespace {
             $this->assertEquals(array("ID: id_1"), $this->js_binding->on_load_code);
         }
 
-        public function test_bindJavaScript_no_string() : void
+        public function test_bindJavaScript_no_string(): void
         {
             $r = new GlyphNonAbstractRendererWithJS(
                 $this->ui_factory,

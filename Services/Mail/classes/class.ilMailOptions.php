@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailOptions
@@ -17,7 +34,6 @@ class ilMailOptions
     public const DEFAULT_LINE_BREAK = 60;
     protected ILIAS $ilias;
     protected ilDBInterface $db;
-    protected int $usrId = 0;
     protected ilSetting $settings;
     protected string $table_mail_options = 'mail_options';
     protected int $linebreak = 0;
@@ -29,10 +45,9 @@ class ilMailOptions
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
-    public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
+    public function __construct(protected int $usrId, ilMailTransportSettings $mailTransportSettings = null)
     {
         global $DIC;
-        $this->usrId = $usrId;
         $this->db = $DIC->database();
         $this->settings = $DIC->settings();
         $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
@@ -44,7 +59,7 @@ class ilMailOptions
      * create entry in table_mail_options for a new user
      * this method should only be called from createUser()
      */
-    public function createMailOptionsEntry() : void
+    public function createMailOptionsEntry(): void
     {
         $this->incomingType = self::INCOMING_LOCAL;
         if ($this->settings->get('mail_incoming_mail', '') !== '') {
@@ -75,7 +90,7 @@ class ilMailOptions
         );
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         $query = implode(' ', [
             'SELECT mail_options.cronjob_notification,',
@@ -121,7 +136,7 @@ class ilMailOptions
         }
     }
 
-    public function updateOptions() : int
+    public function updateOptions(): int
     {
         $data = [
             'signature' => ['text', $this->getSignature()],
@@ -144,58 +159,58 @@ class ilMailOptions
             $data
         );
     }
-    
-    public function getLinebreak() : int
+
+    public function getLinebreak(): int
     {
         return $this->linebreak;
     }
 
-    public function getSignature() : string
+    public function getSignature(): string
     {
         return $this->signature;
     }
 
-    public function getIncomingType() : int
+    public function getIncomingType(): int
     {
         return $this->incomingType;
     }
 
-    public function setLinebreak(int $linebreak) : void
+    public function setLinebreak(int $linebreak): void
     {
         $this->linebreak = $linebreak;
     }
 
-    public function setSignature(string $signature) : void
+    public function setSignature(string $signature): void
     {
         $this->signature = $signature;
     }
 
-    public function setIncomingType(int $incomingType) : void
+    public function setIncomingType(int $incomingType): void
     {
         $this->incomingType = $incomingType;
     }
-    
-    public function setIsCronJobNotificationStatus(bool $isCronJobNotificationEnabled) : void
+
+    public function setIsCronJobNotificationStatus(bool $isCronJobNotificationEnabled): void
     {
         $this->isCronJobNotificationEnabled = $isCronJobNotificationEnabled;
     }
 
-    public function isCronJobNotificationEnabled() : bool
+    public function isCronJobNotificationEnabled(): bool
     {
         return $this->isCronJobNotificationEnabled;
     }
 
-    public function getEmailAddressMode() : int
+    public function getEmailAddressMode(): int
     {
         return $this->emailAddressMode;
     }
 
-    public function setEmailAddressMode(int $emailAddressMode) : void
+    public function setEmailAddressMode(int $emailAddressMode): void
     {
         $this->emailAddressMode = $emailAddressMode;
     }
 
-    private static function lookupNotificationSetting(int $usrId) : int
+    private static function lookupNotificationSetting(int $usrId): int
     {
         global $DIC;
 
@@ -211,7 +226,7 @@ class ilMailOptions
     /**
      * @return string[]
      */
-    public function getExternalEmailAddresses() : array
+    public function getExternalEmailAddresses(): array
     {
         $emailAddresses = [];
 

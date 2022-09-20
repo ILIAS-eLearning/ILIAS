@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /*
@@ -15,12 +16,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilSolutionExplorer extends ilExplorer
 {
-
-/**
- * id of root folder
- * @var int root folder id
- * @access private
- */
+    /**
+     * id of root folder
+     * @var int root folder id
+     * @access private
+     */
     public $root_id;
     public $ctrl;
 
@@ -62,7 +62,7 @@ class ilSolutionExplorer extends ilExplorer
     /**
      * @param int $ref_id
      */
-    public function expandPathByRefId($ref_id)
+    public function expandPathByRefId($ref_id): void
     {
         /**
          * @var $tree ilTree
@@ -70,31 +70,33 @@ class ilSolutionExplorer extends ilExplorer
         global $DIC;
         $tree = $DIC['tree'];
 
-        if (!$_SESSION[$this->expand_variable]) {
-            $_SESSION[$this->expand_variable] = array();
+        if (ilSession::get($this->expand_variable) == null) {
+            ilSession::set($this->expand_variable, array());
         }
 
         $path = $tree->getPathId($ref_id);
         foreach ((array) $path as $node_id) {
-            if (!in_array($node_id, $_SESSION[$this->expand_variable])) {
-                $_SESSION[$this->expand_variable][] = $node_id;
+            if (!in_array($node_id, ilSession::get($this->expand_variable))) {
+                $expand = ilSession::get($this->expand_variable);
+                $expand[] = $node_id;
+                ilSession::set($this->expand_variable, $expand);
             }
         }
 
-        $this->expanded = $_SESSION[$this->expand_variable];
+        $this->expanded = ilSession::get($this->expand_variable);
     }
 
-    public function setSelectableType($a_type)
+    public function setSelectableType($a_type): void
     {
         $this->selectable_type = $a_type;
     }
-    public function setRefId($a_ref_id)
+    public function setRefId($a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
-    
 
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         if ($a_type == $this->selectable_type) {
             $this->ctrl->setParameterByClass($this->target_class, 'source_id', $a_node_id);
@@ -105,17 +107,17 @@ class ilSolutionExplorer extends ilExplorer
         }
     }
 
-    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0): string
     {
         return '';
     }
 
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0): bool
     {
-        return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
+        return $type == $this->selectable_type && $ref_id !== $this->ref_id;
     }
 
-    public function showChilds($a_parent_id) : bool
+    public function showChilds($a_parent_id): bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];

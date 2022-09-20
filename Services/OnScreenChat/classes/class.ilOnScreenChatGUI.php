@@ -1,8 +1,25 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\Provider\OnScreenChatProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use Psr\Http\Message\ResponseInterface;
@@ -13,13 +30,13 @@ use Psr\Http\Message\ResponseInterface;
  * @author  Thomas Joußen <tjoussen@databay.de>
  * @since   26.07.16
  */
-class ilOnScreenChatGUI
+class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 {
     protected static bool $frontend_initialized = false;
 
     private ILIAS\DI\Container $dic;
     private ILIAS\HTTP\Services $http;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilObjUser $actor;
 
     public function __construct()
@@ -32,12 +49,12 @@ class ilOnScreenChatGUI
         $this->actor = $DIC->user();
     }
 
-    private function getResponseWithText(string $body) : ResponseInterface
+    private function getResponseWithText(string $body): ResponseInterface
     {
         return $this->dic->http()->response()->withBody(Streams::ofString($body));
     }
 
-    protected static function isOnScreenChatAccessible(ilSetting $chatSettings) : bool
+    protected static function isOnScreenChatAccessible(ilSetting $chatSettings): bool
     {
         global $DIC;
 
@@ -52,7 +69,7 @@ class ilOnScreenChatGUI
      * @param ilChatroomServerSettings $chatSettings
      * @return array<string, string>
      */
-    protected static function getEmoticons(ilChatroomServerSettings $chatSettings) : array
+    protected static function getEmoticons(ilChatroomServerSettings $chatSettings): array
     {
         $smileys = [];
 
@@ -84,7 +101,7 @@ class ilOnScreenChatGUI
         return $smileys;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -96,8 +113,8 @@ class ilOnScreenChatGUI
                 $response = $this->verifyLogin();
                 break;
 
-            case 'getRenderedNotificationItems':
-                $provider = new OnScreenChatNotificationProvider(
+            case 'getRenderedConversationItems':
+                $provider = new OnScreenChatProvider(
                     $this->dic,
                     new Conversation($this->dic->database(), $this->dic->user()),
                     new Subscriber($this->dic->database(), $this->dic->user())
@@ -126,7 +143,7 @@ class ilOnScreenChatGUI
         }
     }
 
-    private function verifyLogin() : ResponseInterface
+    private function verifyLogin(): ResponseInterface
     {
         ilSession::enableWebAccessWithoutSession(true);
 
@@ -135,7 +152,7 @@ class ilOnScreenChatGUI
         ], JSON_THROW_ON_ERROR));
     }
 
-    private function getUserList() : ResponseInterface
+    private function getUserList(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -155,7 +172,7 @@ class ilOnScreenChatGUI
         return $this->getResponseWithText($auto->getList($this->http->request()->getQueryParams()['term'] ?? ''));
     }
 
-    private function getUserProfileData() : ResponseInterface
+    private function getUserProfileData(): ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
@@ -175,7 +192,7 @@ class ilOnScreenChatGUI
         return $this->getResponseWithText(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
+    public static function initializeFrontend(ilGlobalTemplateInterface $page): void
     {
         global $DIC;
 
@@ -202,10 +219,10 @@ class ilOnScreenChatGUI
             $chatWindowTemplate->setVariable('ADD_ACTION', $renderer->render(
                 $factory->symbol()->glyph()->add('addUser')
             ));
-            $chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer->render(
-                $factory->button()->close()
+            $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
+                $factory->button()->minimize()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('outlined/icon_pcht.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_pcht.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
@@ -246,9 +263,9 @@ class ilOnScreenChatGUI
                     true,
                     false
                 ),
-                'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
+                'renderConversationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
                     'ilonscreenchatgui',
-                    'getRenderedNotificationItems',
+                    'getRenderedConversationItems',
                     '',
                     true,
                     false
@@ -259,10 +276,10 @@ class ilOnScreenChatGUI
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
                     $clientSettings->get('enable_browser_notifications', '0') &&
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
                 'broadcast_typing' => (
-                    ilUtil::yn2tf($DIC->user()->getPref('chat_broadcast_typing'))
+                    ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
             );
@@ -279,7 +296,7 @@ class ilOnScreenChatGUI
                 'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
                 'autocomplete_more',
-                'close',
+                'chat_osc_minimize',
                 'chat_osc_invite_to_conversation',
                 'chat_osc_user',
                 'chat_osc_add_user',
@@ -312,7 +329,7 @@ class ilOnScreenChatGUI
             $page->addJavaScript('./node_modules/jquery-outside-events/jquery.ba-outside-events.js');
             $page->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
             $page->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-            $page->addJavascript('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
+            $page->addJavascript('./node_modules/moment/min/moment-with-locales.min.js');
             $page->addJavascript('./Services/Notifications/js/browser_notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat-notifications.js');
             $page->addJavascript('./Services/OnScreenChat/js/moment.js');

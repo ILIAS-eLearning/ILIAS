@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author jposselt@databay.de
@@ -49,11 +66,9 @@ class ilChatroomObjectDefinition
      * @param string $moduleName
      * @return ilChatroomObjectDefinition
      */
-    public static function getDefaultDefinition(string $moduleName) : self
+    public static function getDefaultDefinition(string $moduleName): self
     {
-        $object = new self($moduleName, 'Modules/' . $moduleName . '/');
-
-        return $object;
+        return new self($moduleName, 'Modules/' . $moduleName . '/');
     }
 
     /**
@@ -63,16 +78,14 @@ class ilChatroomObjectDefinition
      * @param string $guiScope Optional. 'admin' or ''. Default ''
      * @return ilChatroomObjectDefinition
      */
-    public static function getDefaultDefinitionWithCustomGUIPath(string $moduleName, string $guiScope = '') : self
+    public static function getDefaultDefinitionWithCustomGUIPath(string $moduleName, string $guiScope = ''): self
     {
-        $object = new self(
+        return new self(
             $moduleName,
             'Modules/' . $moduleName . '/',
             'classes',
             $guiScope
         );
-
-        return $object;
     }
 
     /**
@@ -80,7 +93,7 @@ class ilChatroomObjectDefinition
      * @param string $gui
      * @return bool
      */
-    public function hasGUI(string $gui) : bool
+    public function hasGUI(string $gui): bool
     {
         return is_file($this->getGUIPath($gui));
     }
@@ -90,7 +103,7 @@ class ilChatroomObjectDefinition
      * @param string $gui
      * @return string
      */
-    public function getGUIPath(string $gui) : string
+    public function getGUIPath(string $gui): string
     {
         return (
             $this->moduleBasePath . '/' .
@@ -104,7 +117,7 @@ class ilChatroomObjectDefinition
      * @param string $gui
      * @return string
      */
-    public function getGUIClassName(string $gui) : string
+    public function getGUIClassName(string $gui): string
     {
         return 'il' . $this->moduleName . ucfirst($this->guiScope) . ucfirst($gui) . 'GUI';
     }
@@ -114,7 +127,7 @@ class ilChatroomObjectDefinition
      * method to build the filename of the file to required.
      * @param string $gui
      */
-    public function loadGUI(string $gui) : void
+    public function loadGUI(string $gui): void
     {
         require_once $this->getGUIPath($gui);
     }
@@ -125,11 +138,9 @@ class ilChatroomObjectDefinition
      * @param ilChatroomObjectGUI $chatroomObjectGUI
      * @return ilChatroomGUIHandler
      */
-    public function buildGUI(string $gui, ilChatroomObjectGUI $chatroomObjectGUI) : ilChatroomGUIHandler
+    public function buildGUI(string $gui, ilChatroomObjectGUI $chatroomObjectGUI): ilChatroomGUIHandler
     {
         $className = $this->getGUIClassName($gui);
-        $guiInstance = new $className($chatroomObjectGUI);
-
-        return $guiInstance;
+        return new $className($chatroomObjectGUI);
     }
 }

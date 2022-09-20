@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,28 +27,23 @@
 * List Gui factory for subitems (forum threads, lm pages...)
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneSubItemListGUIFactory
 {
-    private static $instances = array();
+    private static array $instances = [];
 
     /**
      * get instance by type
-     *
-     * @param string	$a_type	Object type
-     * @return
-     * @static
      */
-    public static function getInstanceByType($a_type, $a_cmd_class)
+    public static function getInstanceByType(string $a_type, object $a_cmd_class): ilObjectSubItemListGUI
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
-        
+
         if (isset(self::$instances[$a_type])) {
             return self::$instances[$a_type];
         }
@@ -57,8 +54,7 @@ class ilLuceneSubItemListGUIFactory
         if (@include_once($location . "/class." . $full_class . ".php")) {
             return self::$instances[$a_type] = new $full_class($a_cmd_class);
         } else {
-            include_once './Services/Object/classes/class.ilObjectSubItemListGUI.php';
-            return self::$instances[$a_type] = new ilObjectSubItemListGUI($a_cmd_class);
+            return self::$instances[$a_type] = new ilObjectSubItemListGUI(get_class($a_cmd_class));
         }
     }
 }

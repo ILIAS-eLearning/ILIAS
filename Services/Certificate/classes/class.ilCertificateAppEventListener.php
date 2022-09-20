@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Exception\IOException;
 
@@ -12,9 +28,6 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
-    protected ilDBInterface $db;
-    private ilObjectDataCache $objectDataCache;
-    private ilLogger $logger;
     protected string $component = '';
     protected string $event = '';
     protected array $parameters = [];
@@ -24,20 +37,17 @@ class ilCertificateAppEventListener implements ilAppEventListener
     private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
-        ilDBInterface $db,
-        ilObjectDataCache $objectDataCache,
-        ilLogger $logger
+        protected ilDBInterface $db,
+        private ilObjectDataCache $objectDataCache,
+        private ilLogger $logger
     ) {
-        $this->db = $db;
-        $this->objectDataCache = $objectDataCache;
-        $this->logger = $logger;
         $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
         $this->certificateClassMap = new ilCertificateTypeClassMap();
         $this->templateRepository = new ilCertificateTemplateDatabaseRepository($this->db, $this->logger);
         $this->userCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
     }
 
-    public function withComponent(string $component) : self
+    public function withComponent(string $component): self
     {
         $clone = clone $this;
 
@@ -46,7 +56,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withEvent(string $event) : self
+    public function withEvent(string $event): self
     {
         $clone = clone $this;
 
@@ -55,7 +65,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    public function withParameters(array $parameters) : self
+    public function withParameters(array $parameters): self
     {
         $clone = clone $this;
 
@@ -64,7 +74,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    protected function isLearningAchievementEvent() : bool
+    protected function isLearningAchievementEvent(): bool
     {
         return (
             'Services/Tracking' === $this->component &&
@@ -72,7 +82,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         );
     }
 
-    protected function isUserDeletedEvent() : bool
+    protected function isUserDeletedEvent(): bool
     {
         return (
             'Services/User' === $this->component &&
@@ -80,7 +90,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         );
     }
 
-    protected function isCompletedStudyProgramme() : bool
+    protected function isCompletedStudyProgramme(): bool
     {
         return (
             'Modules/StudyProgramme' === $this->component &&
@@ -91,7 +101,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @throws IOException
      */
-    public function handle() : void
+    public function handle(): void
     {
         try {
             if ($this->isLearningAchievementEvent()) {
@@ -107,16 +117,13 @@ class ilCertificateAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param string $a_component
-     * @param string $a_event
-     * @param array  $a_parameter
      * @throws IOException
      */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
 
-        $listener = new static(
+        $listener = new self(
             $DIC->database(),
             $DIC['ilObjDataCache'],
             $DIC->logger()->cert()
@@ -129,19 +136,19 @@ class ilCertificateAppEventListener implements ilAppEventListener
             ->handle();
     }
 
-    private function handleLPUpdate() : void
+    private function handleLPUpdate(): void
     {
         $status = (int) ($this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
 
         $settings = new ilSetting('certificate');
 
         if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-            $objectId = $this->parameters['obj_id'] ?? 0;
-            $userId = $this->parameters['usr_id'] ?? 0;
+            $objectId = (int) ($this->parameters['obj_id'] ?? 0);
+            $userId = (int) ($this->parameters['usr_id'] ?? 0);
 
             $type = $this->objectDataCache->lookupType($objectId);
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 "Certificate evaluation triggered, received 'completed' learning progress for: usr_id: %s/obj_id: %s/type: %s",
                 $userId,
                 $objectId,
@@ -152,8 +159,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 try {
                     $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
 
-                    if (true === $template->isCurrentlyActive()) {
-                        $this->logger->info(sprintf(
+                    if ($template->isCurrentlyActive()) {
+                        $this->logger->debug(sprintf(
                             "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                             $userId,
                             $objectId,
@@ -162,7 +169,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                         ));
                         $this->processEntry($type, $objectId, $userId, $template, $settings);
                     } else {
-                        $this->logger->info(sprintf(
+                        $this->logger->debug(sprintf(
                             "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                             $userId,
                             $objectId,
@@ -170,8 +177,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
                             $template->getId()
                         ));
                     }
-                } catch (ilException $exception) {
-                    $this->logger->info(sprintf(
+                } catch (ilException) {
+                    $this->logger->debug(sprintf(
                         "Did not find an active certificate template for case: usr_id: %s/obj_id: %s/type: %s",
                         $userId,
                         $objectId,
@@ -179,20 +186,20 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     ));
                 }
             } else {
-                $this->logger->info(sprintf(
+                $this->logger->debug(
                     "Object type ($type) is not of interest, skipping certificate evaluation for this object"
-                ));
+                );
             }
 
             if ($type === 'crs') {
-                $this->logger->info(
+                $this->logger->debug(
                     'Skipping handling for course, because courses cannot be certificate trigger ' .
                     '(with globally disabled learning progress) for other certificate enabled objects'
                 );
                 return;
             }
 
-            $this->logger->info(
+            $this->logger->debug(
                 'Triggering certificate evaluation of possible depending course objects ...'
             );
 
@@ -203,8 +210,8 @@ class ilCertificateAppEventListener implements ilAppEventListener
             );
             foreach (ilObject::_getAllReferences($objectId) as $refId) {
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
-                if (0 === count($templatesOfCompletedCourses)) {
-                    $this->logger->info(sprintf(
+                if ([] === $templatesOfCompletedCourses) {
+                    $this->logger->debug(sprintf(
                         "No dependent course certificate template configuration found for child object: usr_id: %s/obj_id: %s/ref_id: %s/type: %s",
                         $userId,
                         $objectId,
@@ -219,10 +226,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     try {
                         $courseObjectId = $courseTemplate->getObjId();
 
-                        if (true === $courseTemplate->isCurrentlyActive()) {
+                        if ($courseTemplate->isCurrentlyActive()) {
                             $type = $this->objectDataCache->lookupType($courseObjectId);
 
-                            $this->logger->info(sprintf(
+                            $this->logger->debug(sprintf(
                                 "Trigger persisting certificate achievement for: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                                 $userId,
                                 $courseObjectId,
@@ -231,7 +238,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                             ));
                             $this->processEntry($type, $courseObjectId, $userId, $courseTemplate, $settings);
                         } else {
-                            $this->logger->info(sprintf(
+                            $this->logger->debug(sprintf(
                                 "Did not trigger certificate achievement for inactive template: usr_id: %s/obj_id: %s/type: %s/template_id: %s",
                                 $userId,
                                 $objectId,
@@ -246,7 +253,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 }
             }
 
-            $this->logger->info(
+            $this->logger->debug(
                 'Finished certificate evaluation'
             );
         }
@@ -255,16 +262,16 @@ class ilCertificateAppEventListener implements ilAppEventListener
     /**
      * @throws IOException
      */
-    private function handleDeletedUser() : void
+    private function handleDeletedUser(): void
     {
         $portfolioFileService = new ilPortfolioCertificateFileService();
 
-        if (false === array_key_exists('usr_id', $this->parameters)) {
+        if (!array_key_exists('usr_id', $this->parameters)) {
             $this->logger->error('User ID is not added to the event. Abort.');
             return;
         }
 
-        $this->logger->info('User has been deleted. Try to delete user certificates');
+        $this->logger->debug('User has been deleted. Try to delete user certificates');
 
         $userId = $this->parameters['usr_id'];
 
@@ -274,29 +281,19 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
         $portfolioFileService->deleteUserDirectory($userId);
 
-        $this->logger->info(sprintf(
-            'All relevant data sources for the user certificates for user(user_id: "%s" deleted)',
+        $this->logger->debug(sprintf(
+            'All relevant data sources for the user certificates for user (usr_id: "%s" deleted)',
             $userId
         ));
     }
 
-    /**
-     * @param                       $type
-     * @param                       $objectId
-     * @param int                   $userId
-     * @param ilCertificateTemplate $template
-     * @param ilSetting             $settings
-     * @throws ilDatabaseException
-     * @throws ilException
-     * @throws ilInvalidCertificateException|JsonException
-     */
     private function processEntry(
-        $type,
-        $objectId,
+        string $type,
+        int $objectId,
         int $userId,
         ilCertificateTemplate $template,
         ilSetting $settings
-    ) : void {
+    ): void {
         $className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
         $entry = new ilCertificateQueueEntry(
@@ -319,14 +316,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->certificateQueueRepository->addToQueue($entry);
     }
 
-    private function handleCompletedStudyProgramme() : void
+    private function handleCompletedStudyProgramme(): void
     {
         $settings = new ilSetting('certificate');
         $objectId = $this->parameters['prg_id'] ?? 0;
         $userId = $this->parameters['usr_id'] ?? 0;
         try {
             $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
-            if (true === $template->isCurrentlyActive()) {
+            if ($template->isCurrentlyActive()) {
                 $entry = new ilCertificateQueueEntry(
                     $objectId,
                     $userId,

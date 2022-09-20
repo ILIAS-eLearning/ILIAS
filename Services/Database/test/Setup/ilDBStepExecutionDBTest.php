@@ -1,6 +1,20 @@
-<?php /** @noinspection PhpUndefinedVariableInspection */
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,39 +23,40 @@ class ilDBStepExecutionDBTest extends TestCase
     public const CLASS_NAME_200 = "01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
     public const CLASS_NAME_201 = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(\ilDBInterface::class);
         $this->execution_db = new \ilDBStepExecutionDB($this->db, fn () => new \DateTime());
     }
 
-    public function testStartedThrowsOnLongClassName() : void
+    public function testStartedThrowsOnLongClassName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->execution_db->started(self::CLASS_NAME_201, 1);
     }
 
-    public function testFinishedThrowsOnLongClassName() : void
+    public function testFinishedThrowsOnLongClassName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->execution_db->finished(self::CLASS_NAME_201, 1);
     }
 
-    public function testGetLastStartedStepThrowsOnLongClassName() : void
+    public function testGetLastStartedStepThrowsOnLongClassName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->execution_db->getLastStartedStep(self::CLASS_NAME_201);
     }
 
-    public function testGetLastFinishedStepThrowsOnLongClassName() : void
+    public function testGetLastFinishedStepThrowsOnLongClassName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->execution_db->getLastFinishedStep(self::CLASS_NAME_201);
     }
 
-    public function testStartedThrowsOnStartStepNotLargerThenLastFinishedStep() : void
+    public function testStartedThrowsOnStartStepNotLargerThenLastFinishedStep(): void
     {
         $STEP = 1;
+        $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
@@ -58,8 +73,10 @@ class ilDBStepExecutionDBTest extends TestCase
         $execution_db->started(self::CLASS_NAME_200, $STEP);
     }
 
-    public function testStartedThrowsWhenLastStepNotFinished() : void
+    public function testStartedThrowsWhenLastStepNotFinished(): void
     {
+        $NOW = "2021-08-12 13:37:23.111111";
+
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
@@ -81,9 +98,10 @@ class ilDBStepExecutionDBTest extends TestCase
         $execution_db->started(self::CLASS_NAME_200, 3);
     }
 
-    public function testFinishedThrowsWhenOtherStepThenLastIsFinished() : void
+    public function testFinishedThrowsWhenOtherStepThenLastIsFinished(): void
     {
         $STEP = 1;
+        $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
             ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
@@ -100,7 +118,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $execution_db->finished(self::CLASS_NAME_200, $STEP);
     }
 
-    public function testGetLastStartedStepStartsWithZero() : void
+    public function testGetLastStartedStepStartsWithZero(): void
     {
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
@@ -113,7 +131,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $this->assertEquals(0, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
     }
 
-    public function testGetLastFinishedStepStartsWithZero() : void
+    public function testGetLastFinishedStepStartsWithZero(): void
     {
         $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
@@ -126,7 +144,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $this->assertEquals(0, $this->execution_db->getLastFinishedStep(self::CLASS_NAME_200));
     }
 
-    public function testStartedWritesToDB() : void
+    public function testStartedWritesToDB(): void
     {
         $STEP = 2;
         $NOW = "2021-08-12 13:37:23.111111";
@@ -160,7 +178,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $execution_db->started(self::CLASS_NAME_200, $STEP);
     }
 
-    public function testFinishedWritesToDB() : void
+    public function testFinishedWritesToDB(): void
     {
         $STEP = 2;
         $NOW = "2021-08-12 13:37:23.222222";
@@ -191,7 +209,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $execution_db->finished(self::CLASS_NAME_200, $STEP);
     }
 
-    public function testGetLastStartedStepQueriesDB() : void
+    public function testGetLastStartedStepQueriesDB(): void
     {
         $STEP = 23;
 
@@ -220,7 +238,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $this->assertEquals($STEP, $this->execution_db->getLastStartedStep(self::CLASS_NAME_200));
     }
 
-    public function testGetLastFinishedStepQueriesDB() : void
+    public function testGetLastFinishedStepQueriesDB(): void
     {
         $STEP = 23;
 

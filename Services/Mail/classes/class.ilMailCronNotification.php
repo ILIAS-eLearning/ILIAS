@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 
@@ -15,7 +31,7 @@ class ilMailCronNotification extends ilCronJob
     protected ilSetting $settings;
     protected bool $initDone = false;
 
-    protected function init() : void
+    protected function init(): void
     {
         global $DIC;
 
@@ -28,49 +44,56 @@ class ilMailCronNotification extends ilCronJob
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'mail_notification';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->init();
+
         return $this->lng->txt('cron_mail_notification');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $this->init();
-        return  $this->lng->txt('cron_mail_notification_desc');
+
+        $this->lng->loadLanguageModule('mail');
+
+        return  sprintf(
+            $this->lng->txt('cron_mail_notification_desc'),
+            $this->lng->txt('mail_allow_external')
+        );
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
-    
-    public function hasAutoActivation() : bool
+
+    public function hasAutoActivation(): bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return true;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $msn = new ilMailSummaryNotification();
         $msn->send();
@@ -80,7 +103,7 @@ class ilMailCronNotification extends ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
         $this->init();
         $cb = new ilCheckboxInputGUI(
@@ -92,7 +115,7 @@ class ilMailCronNotification extends ilCronJob
         $a_form->addItem($cb);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         $this->init();
         $this->settings->set(
@@ -102,9 +125,8 @@ class ilMailCronNotification extends ilCronJob
         return true;
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
-        $this->init();
-        $this->settings->set('mail_notification', (string) ((int) $a_currently_active));
+        $setting->set('mail_notification', (string) ((int) $a_currently_active));
     }
 }

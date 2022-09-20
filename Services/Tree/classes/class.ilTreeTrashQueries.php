@@ -1,61 +1,56 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTree
- *
  */
 class ilTreeTrashQueries
 {
     protected const QUERY_LIMIT = 10;
 
-    /**
-     * @var int
-     */
-    private $ref_id = 0;
+    private int $ref_id = 0;
 
+    private ilTree $tree;
 
-    private $tree = null;
+    private ilLogger $logger;
 
-    /**
-     * @var \ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var \ilDBInterface
-     */
-    private $db;
+    private ilDBInterface $db;
 
     /**
      * ilTreeTrash constructor.
-     * @param int $ref_id
      */
     public function __construct()
     {
         global $DIC;
 
-
         $this->db = $DIC->database();
         $this->logger = $DIC->logger()->tree();
-
         $this->tree = $DIC->repositoryTree();
     }
 
     /**
-     * @param array $ref_ids
+     * @param int[] $ref_ids
      * @return bool
      */
-    public function isTrashedTrash(array $ref_ids)
+    public function isTrashedTrash(array $ref_ids): bool
     {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-
         $query = 'select tree,child,parent from tree ' .
             'where ' . $this->db->in('child', $ref_ids, false, \ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
@@ -64,7 +59,7 @@ class ilTreeTrashQueries
             if ((int) $row->child != ((int) $row->tree * -1)) {
                 $trashed_trash = true;
             }
-            if ($tree->isDeleted($row->parent)) {
+            if ($this->tree->isDeleted((int) $row->parent)) {
                 $trashed_trash = true;
             }
         }
@@ -73,18 +68,18 @@ class ilTreeTrashQueries
 
     /**
      * @param int $deleted_node
-     * @return $rep_ref_id
+     * @return int $rep_ref_id
      * @throws \ilRepositoryException
      */
-    public function findRepositoryLocationForDeletedNode(int $deleted_node)
+    public function findRepositoryLocationForDeletedNode(int $deleted_node): int
     {
         $query = 'select parent from tree ' .
             'where child = ' . $this->db->quote($deleted_node, \ilDBConstants::T_INTEGER) . ' ' .
             'and tree = ' . $this->db->quote($deleted_node * -1, \ilDBConstants::T_INTEGER);
-        $this->logger->info($query);
+        $this->logger->debug($query);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->parent;
+            return (int) $row->parent;
         }
         $this->logger->warning('Invalid node given for restoring to original location: deleted node id: ' . $deleted_node);
         throw new \ilRepositoryException('Invalid node given for restoring to original location');
@@ -94,22 +89,19 @@ class ilTreeTrashQueries
      * @param int $ref_id
      * @return string[]
      */
-    public function getTrashedNodeTypesForContainer(int $ref_id)
+    public function getTrashedNodeTypesForContainer(int $ref_id): array
     {
         $subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
-
         $query = 'select distinct(type) obj_type from object_data obd ' .
             'join object_reference obr on obd.obj_id = obr.obj_id ' .
             'where ref_id in (' .
             $subtreequery . ' ' .
             ') ';
 
-        $this->logger->dump($query);
-
-        $res = $this->db->query($query);
         $obj_types = [];
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_types[] = $row->obj_type;
+            $obj_types[] = (string) $row->obj_type;
         }
         return $obj_types;
     }
@@ -118,22 +110,15 @@ class ilTreeTrashQueries
      * @param int $ref_id
      * @return int
      */
-    public function getNumberOfTrashedNodesForTrashedContainer(int $ref_id)
+    public function getNumberOfTrashedNodesForTrashedContainer(int $ref_id): int
     {
         $res = $this->db->query($this->tree->getTrashSubTreeQuery($ref_id, ['child']));
-        return (int) $res->numRows();
+        return $res->numRows();
     }
 
     /**
      * Get trashed nodes
-     * @param int $ref_id
-     * @param array $filter
-     * @param int $max_entries
-     * @param string $order_field
-     * @param string $order_direction
-     * @param int $limit
-     * @param int $offset
-     * @return \ilTreeTrashItem[]
+     * @return ilTreeTrashItem[]
      * @throws \ilDatabaseException
      */
     public function getTrashNodeForContainer(
@@ -144,15 +129,15 @@ class ilTreeTrashQueries
         string $order_direction,
         int $limit = self::QUERY_LIMIT,
         int $offset = 0
-    ) {
+    ): array {
         $subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
 
-        $select = 'select ref_id, obd.obj_id, type, title, description, deleted, deleted_by ';
-        $select_count = 'select count(ref_id) max_entries ';
+        $select = 'SELECT ref_id, obd.obj_id, type, title, description, deleted, deleted_by ';
+        $select_count = 'SELECT COUNT(ref_id) max_entries ';
 
-        $from = 'from object_data obd ' .
-            'join object_reference obr on obd.obj_id = obr.obj_id ' .
-            'where ref_id in (' .
+        $from = 'FROM object_data obd ' .
+            'JOIN object_reference obr ON obd.obj_id = obr.obj_id ' .
+            'WHERE ref_id IN (' .
             $subtreequery . ' ' .
             ') ';
 
@@ -164,68 +149,66 @@ class ilTreeTrashQueries
         $query = $select . $from . $this->appendTrashNodeForContainerQueryFilter($filter) . $order;
         $query_count = $select_count . $from . $this->appendTrashNodeForContainerQueryFilter($filter);
 
-
-        $this->logger->dump($query);
-
         /**
          * Count query
          */
         $res_max_entries = $this->db->query($query_count);
         while ($max_entries_row = $res_max_entries->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-            $max_entries = $max_entries_row->max_entries;
+            $max_entries = (int) $max_entries_row->max_entries;
         }
 
         $this->db->setLimit($limit, $offset);
         $res = $this->db->query($query);
 
-
         $items = [];
         while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
             $item = new \ilTreeTrashItem();
-            $item->setObjId($row->obj_id);
-            $item->setRefId($row->ref_id);
-            $item->setTitle($row->title);
-            $item->setDescription($row->description);
-            $item->setType($row->type);
-            $item->setDeleted($row->deleted);
-            $item->setDeletedBy($row->deleted_by);
-
+            $item->setObjId((int) $row->obj_id);
+            $item->setRefId((int) $row->ref_id);
+            $item->setTitle((string) $row->title);
+            $item->setDescription((string) $row->description);
+            $item->setType((string) $row->type);
+            $item->setDeleted((string) $row->deleted);
+            $item->setDeletedBy((int) $row->deleted_by);
             $items[] = $item;
         }
         return $items;
     }
 
-
-
     /**
      * Unfortunately not supported by mysql 5
      * @param int $ref_id
-     *
+     * @return void
+     * @throws ilDatabaseException
+     * @deprecated
      */
-    public function getTrashedNodesForContainerUsingRecursion(int $ref_id)
+    public function getTrashedNodesForContainerUsingRecursion(int $ref_id): void
     {
-        $query = 'with recursive trash (child,tree) as ' .
-            '( select child, tree from tree where child = ' . $this->db->quote($ref_id, \ilDBConstants::T_INTEGER) . ' ' .
-            'union select tc.child,tc.tree from tree tc join tree tp on tp.child = tc.parent ) ' .
-            'select * from trash where tree < 1 ';
+        $query = 'WITH RECURSIVE trash (child,tree) AS ' .
+            '( SELECT child, tree FROM tree WHERE child = ' . $this->db->quote(
+                $ref_id,
+                \ilDBConstants::T_INTEGER
+            ) . ' ' .
+            'UNION SELECT tc.child,tc.tree FROM tree tc JOIN tree tp ON tp.child = tc.parent ) ' .
+            'SELECT * FROM trash WHERE tree < 1 ';
 
         $trash_ids = [];
-
         try {
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
-                $trash_ids[] = $row->child;
+                $trash_ids[] = (int) $row->child;
             }
         } catch (\ilDatabaseException $e) {
             $this->logger->warning($query . ' is not supported');
+            throw $e;
         }
     }
 
     /**
-     * @param array $filter
+     * @param array{type?: string, title?: string, deleted?: array{from?: \ilDate, to?: \ilDate}} $filter
      * @return string
      */
-    protected function appendTrashNodeForContainerQueryFilter(array $filter) : string
+    protected function appendTrashNodeForContainerQueryFilter(array $filter): string
     {
         $query = '';
         if (isset($filter['type'])) {
@@ -233,31 +216,37 @@ class ilTreeTrashQueries
                 'type',
                 \ilDBConstants::T_TEXT,
                 $filter['type'] . '%'
-                ) . ' ';
+            ) . ' ';
         }
         if (isset($filter['title'])) {
             $query .= 'and ' . $this->db->like(
                 'title',
                 \ilDBConstants::T_TEXT,
                 '%' . $filter['title'] . '%'
-                ) . ' ';
+            ) . ' ';
         }
         if (
             $filter['deleted']['from'] instanceof \ilDate &&
-            $filter['deleted']['to'] instanceof  \ilDate) {
-            $query .= ('and deleted between ' .
-                $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' and ' .
+            $filter['deleted']['to'] instanceof \ilDate) {
+            $query .= ('AND deleted BETWEEN ' .
+                $this->db->quote($filter['deleted']['from']->get(\IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' AND ' .
                 $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ');
         } elseif ($filter['deleted']['from'] instanceof \ilDate) {
-            $query .= 'and deleted >= ' . $this->db->quote($filter['deleted']['from']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ';
+            $query .= 'AND deleted >= ' . $this->db->quote(
+                $filter['deleted']['from']->get(IL_CAL_DATE),
+                \ilDBConstants::T_TEXT
+            ) . ' ';
         } elseif ($filter['deleted']['to'] instanceof \ilDate) {
-            $query .= 'and deleted <= ' . $this->db->quote($filter['deleted']['to']->get(IL_CAL_DATE), \ilDBConstants::T_TEXT) . ' ';
+            $query .= 'AND deleted <= ' . $this->db->quote(
+                $filter['deleted']['to']->get(IL_CAL_DATE),
+                \ilDBConstants::T_TEXT
+            ) . ' ';
         }
 
         if (isset($filter['deleted_by'])) {
             $usr_id = \ilObjUser::_lookupId($filter['deleted_by']);
             if ($usr_id > 0) {
-                $query .= 'and deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
+                $query .= 'AND deleted_by = ' . $this->db->quote($usr_id, \ilDBConstants::T_INTEGER) . ' ';
             }
         }
 

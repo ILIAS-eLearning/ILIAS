@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionComparisonExpression.php';
@@ -35,22 +36,22 @@ class ilAssQuestionSolutionComparisonExpressionList
      * @var array
      */
     private $expressions;
-    
+
     /**
      * @param ilDBInterface $db
      */
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
-        
+
         $this->questionId = null;
         $this->skillBaseId = null;
         $this->skillTrefId = null;
-        
+
         $this->expressions = array();
     }
-    
-    public function load()
+
+    public function load(): void
     {
         $query = "
 			SELECT *
@@ -72,49 +73,49 @@ class ilAssQuestionSolutionComparisonExpressionList
             $this->add($expression);
         }
     }
-    
-    public function save()
+
+    public function save(): void
     {
         $this->delete();
-        
+
         foreach ($this->expressions as $orderIndex => $expression) {
             /* @var ilAssQuestionSolutionComparisonExpression $expression */
-            
+
             $expression->setQuestionId($this->getQuestionId());
             $expression->save();
         }
     }
-    
-    public function delete()
+
+    public function delete(): void
     {
         $query = "
 			DELETE FROM qpl_qst_skl_sol_expr
 			WHERE question_fi = %s AND skill_base_fi = %s AND skill_tref_fi = %s
 		";
-        
+
         $this->db->manipulateF(
             $query,
             array('integer', 'integer', 'integer'),
             array($this->getQuestionId(), $this->getSkillBaseId(), $this->getSkillTrefId())
         );
     }
-    
-    public function add(ilAssQuestionSolutionComparisonExpression $expression)
+
+    public function add(ilAssQuestionSolutionComparisonExpression $expression): void
     {
         $expression->setDb($this->db);
         $expression->setQuestionId($this->getQuestionId());
         $expression->setSkillBaseId($this->getSkillBaseId());
         $expression->setSkillTrefId($this->getSkillTrefId());
-        
+
         $this->expressions[$expression->getOrderIndex()] = $expression;
     }
 
-    public function get()
+    public function get(): array
     {
         return $this->expressions;
     }
-    
-    public function reset()
+
+    public function reset(): void
     {
         $this->expressions = array();
     }
@@ -122,7 +123,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId(): ?int
     {
         return $this->questionId;
     }
@@ -130,7 +131,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId): void
     {
         $this->questionId = $questionId;
     }
@@ -138,7 +139,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getSkillBaseId()
+    public function getSkillBaseId(): ?int
     {
         return $this->skillBaseId;
     }
@@ -146,7 +147,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $skillBaseId
      */
-    public function setSkillBaseId($skillBaseId)
+    public function setSkillBaseId($skillBaseId): void
     {
         $this->skillBaseId = $skillBaseId;
     }
@@ -154,7 +155,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getSkillTrefId()
+    public function getSkillTrefId(): ?int
     {
         return $this->skillTrefId;
     }
@@ -162,7 +163,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $skillTrefId
      */
-    public function setSkillTrefId($skillTrefId)
+    public function setSkillTrefId($skillTrefId): void
     {
         $this->skillTrefId = $skillTrefId;
     }

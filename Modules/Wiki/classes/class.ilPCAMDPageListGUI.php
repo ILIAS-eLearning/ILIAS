@@ -1,32 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilPCAMDPageListGUI
- *
  * Handles user commands on advanced md page list
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPCAMDPageListGUI extends ilPageContentGUI
 {
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
-        global $DIC;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
 
-        $this->tpl = $DIC["tpl"];
-        $this->ctrl = $DIC->ctrl();
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
     /**
-    * execute command
-    */
+     * @return mixed
+     */
     public function executeCommand()
     {
         // get next class that processes or forwards current command
@@ -44,15 +53,10 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         return $ret;
     }
 
-    /**
-     * Insert courses form
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
 
         if (!$a_form) {
@@ -61,12 +65,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Edit courses form
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function edit(ilPropertyFormGUI $a_form = null)
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         $tpl = $this->tpl;
 
@@ -78,13 +77,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Init courses form
-     *
-     * @param bool $a_insert
-     * @return ilPropertyFormGUI
-     */
-    protected function initForm($a_insert = false)
+    protected function initForm(bool $a_insert = false): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
 
@@ -96,7 +89,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
             $form->setTitle($this->lng->txt("cont_update_amd_page_list"));
         }
         $form->setDescription($this->lng->txt("wiki_page_list_form_info"));
-                
+
         $mode = new ilSelectInputGUI($this->lng->txt("wiki_page_list_mode"), "mode");
         $mode->setOptions(array(
             0 => $this->lng->txt("wiki_page_list_mode_unordered"),
@@ -105,19 +98,25 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $mode->setRequired(true);
         $form->addItem($mode);
 
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH, 'wiki', $this->getPage()->getWikiId(), 'wpg', $this->getPage()->getId());
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_SEARCH,
+            'wiki',
+            $this->getPage()->getWikiId(),
+            'wpg',
+            $this->getPage()->getId()
+        );
         $this->record_gui->setPropertyForm($form);
-        
+
         if (!$a_insert) {
             $mode->setValue($this->content_obj->getMode());
             $this->record_gui->setSearchFormValues($this->content_obj->getFieldValues());
         }
-        
+
         $this->record_gui->parse();
 
-        $no_fields = (count($form->getItems()) == 1);
+        $no_fields = (count($form->getItems()) === 1);
         if ($no_fields) {
-            ilUtil::sendFailure($this->lng->txt("wiki_pg_list_no_search_fields"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("wiki_pg_list_no_search_fields"));
         }
 
         if ($a_insert) {
@@ -135,10 +134,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-    * Create new courses
-    */
-    public function create()
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -154,14 +150,10 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
             }
         }
 
-        // $form->setValuesByPost();
-        return $this->insert($form);
+        $this->insert($form);
     }
 
-    /**
-    * Update courses
-    */
-    public function update()
+    public function update(): void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -176,7 +168,6 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         }
 
         $this->pg_obj->addHierIDs();
-        // $form->setValuesByPost();
-        return $this->edit($form);
+        $this->edit($form);
     }
 }

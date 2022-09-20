@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -17,52 +28,52 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected \ILIAS\Notes\Service $notes;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected \ILIAS\UI\Renderer $renderer;
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
     protected $totalWorkingTime = '00:00:00';
     protected $confirmdelete;
-    
+
     protected $taxIds = array();
-    
+
     /**
      * @var bool
      */
     protected $questionCommentingEnabled = false;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
+
     public function __construct($a_parent_obj, $a_parent_cmd, $a_write_access = false, $confirmdelete = false, $taxIds = array(), $enableCommenting = false)
     {
         $this->setQuestionCommentingEnabled($enableCommenting);
-        
+
         // Bugfix: #0019539
         if ($confirmdelete) {
             $this->setId("qpl_confirm_del_" . $a_parent_obj->object->getRefId());
         } else {
             $this->setId("qpl_qst_brows_" . $a_parent_obj->object->getRefId());
         }
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-    
+
+        $this->renderer = $DIC->ui()->renderer();
+        $this->ui_factory = $DIC->ui()->factory();
+
         $this->confirmdelete = $confirmdelete;
         $this->setWriteAccess($a_write_access);
         $this->taxIds = $taxIds;
 
         $qplSetting = new ilSetting("qpl");
-            
+
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
         if (!$confirmdelete) {
@@ -132,9 +143,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setDefaultOrderField("title");
         $this->setDefaultOrderDirection("asc");
-        
+
         $this->setShowRowsSelector(true);
-        
+
         if ($confirmdelete) {
             $this->disable('sort');
             $this->disable('select_all');
@@ -146,67 +157,61 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->setResetCommand('resetQuestionBrowser');
             $this->initFilter();
         }
-        
+        $this->notes = $DIC->notes();
         if ($this->isQuestionCommentingEnabled()) {
-            global $DIC; /* @var ILIAS\DI\Container $DIC */
-            
-            $notesUrl = $this->ctrl->getLinkTargetByClass(
-                array("ilcommonactiondispatchergui", "ilnotegui"),
-                "",
-                "",
-                true,
-                false
-            );
-            
-            ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+            $this->notes->gui()->initJavascript();
         }
     }
-    
+
     /**
      * @return bool
      */
-    public function isQuestionCommentingEnabled() : bool
+    public function isQuestionCommentingEnabled(): bool
     {
         return $this->questionCommentingEnabled;
     }
-    
+
     /**
      * @param bool $questionCommentingEnabled
      */
-    public function setQuestionCommentingEnabled(bool $questionCommentingEnabled)
+    public function setQuestionCommentingEnabled(bool $questionCommentingEnabled): void
     {
         $this->questionCommentingEnabled = $questionCommentingEnabled;
     }
-    
-    protected function isCommentsColumnSelected()
+
+    protected function isCommentsColumnSelected(): bool
     {
         return in_array('comments', $this->getSelectedColumns());
     }
-    
-    public function setQuestionData($questionData)
+
+    public function setQuestionData($questionData): void
     {
         if ($this->isQuestionCommentingEnabled() && ($this->isCommentsColumnSelected() || $this->filter['commented'])) {
             foreach ($questionData as $key => $data) {
-                $numComments = count(ilNote::_getNotesOfObject(
-                    $this->parent_obj->object->getId(),
-                    $data['question_id'],
-                    'quest',
-                    IL_NOTE_PUBLIC
-                ));
-                
+                $notes_context = $this->notes
+                    ->data()
+                    ->context(
+                        $this->parent_obj->object->getId(),
+                        $data['question_id'],
+                        'quest'
+                    );
+                $numComments = $this->notes
+                    ->domain()
+                    ->getNrOfCommentsForContext($notes_context);
+
                 if ($this->filter['commented'] && !$numComments) {
                     unset($questionData[$key]);
                     continue;
                 }
-                
+
                 $questionData[$key]['comments'] = $numComments;
             }
         }
-        
+
         $this->setData($questionData);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -260,15 +265,11 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-        
-        // title
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setMaxLength(64);
         $ti->setValidationRegexp('/^[^%]+$/is');
@@ -276,7 +277,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["title"] = $ti->getValue();
-        
+
         // description
         $ti = new ilTextInputGUI($lng->txt("description"), "description");
         $ti->setMaxLength(64);
@@ -285,7 +286,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["description"] = $ti->getValue();
-        
+
         if (!$this->confirmdelete) {
             // author
             $ti = new ilTextInputGUI($lng->txt("author"), "author");
@@ -296,7 +297,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $ti->readFromSession();
             $this->filter["author"] = $ti->getValue();
         }
-        
+
         // lifecycle
         $lifecycleOptions = array_merge(
             array('' => $this->lng->txt('qst_lifecycle_filter_all')),
@@ -307,10 +308,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($lifecycleInp);
         $lifecycleInp->readFromSession();
         $this->filter['lifecycle'] = $lifecycleInp->getValue();
-        
-        // questiontype
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-        include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
+
         $types = ilObjQuestionPool::_getQuestionTypes();
         $options = array();
         $options[""] = $lng->txt('filter_all_question_types');
@@ -323,15 +321,13 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["type"] = $si->getValue();
-        
-        if ($this->parent_obj->object->getShowTaxonomies()) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 
+        if ($this->parent_obj->object->getShowTaxonomies()) {
             foreach ($this->taxIds as $taxId) {
                 if ($taxId == $this->parent_obj->object->getNavTaxonomyId()) {
                     continue;
                 }
-                
+
                 $postvar = "tax_$taxId";
 
                 $inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
@@ -340,7 +336,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                 $this->filter[$postvar] = $inp->getValue();
             }
         }
-        
+
         // comments
         if ($this->isQuestionCommentingEnabled()) {
             $comments = new ilCheckboxInputGUI($lng->txt('ass_commented_questions_only'), 'commented');
@@ -349,8 +345,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->filter['commented'] = $comments->getChecked();
         }
     }
-    
-    public function fillHeader()
+
+    public function fillHeader(): void
     {
         foreach ($this->column as $key => $column) {
             if (strcmp($column['text'], $this->lng->txt("points")) == 0) {
@@ -361,45 +357,38 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         }
         parent::fillHeader();
     }
-    
+
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set): void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));
-        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $data["question_id"]);
-        $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $data["question_id"]);
-        $this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
+        $class = strtolower(assQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
+        $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $a_set["question_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $a_set["question_id"]);
+        $this->ctrl->setParameterByClass($class, "q_id", $a_set["question_id"]);
         $points = 0;
 
         $actions = new ilAdvancedSelectionListGUI();
-        $actions->setId('qst' . $data["question_id"]);
+        $actions->setId('qst' . $a_set["question_id"]);
         $actions->setListTitle($this->lng->txt('actions'));
 
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
-            $this->tpl->setVariable('CB_QUESTION_ID', $data["question_id"]);
+            $this->tpl->setVariable('CB_QUESTION_ID', $a_set["question_id"]);
             $this->tpl->parseCurrentBlock();
 
-            if ($data["complete"] == 0) {
+            if ($a_set["complete"] == 0) {
+                $icon = $this->ui_factory->symbol()->icon()->custom(ilUtil::getImagePath("icon_alert.svg"), $this->lng->txt("warning_question_not_complete"));
                 $this->tpl->setCurrentBlock("qpl_warning");
-                $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
-                $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
-                $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
+                $this->tpl->setVariable("ICON_WARNING", $this->renderer->render($icon));
                 $this->tpl->parseCurrentBlock();
             } else {
-                $points = $data["points"];
-                $this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime, $data['working_time']);
+                $points = $a_set["points"];
+                $this->totalWorkingTime = assQuestion::sumTimesInISO8601FormatH_i_s_Extended($this->totalWorkingTime, $a_set['working_time']);
             }
             $this->totalPoints += $points;
 
@@ -413,47 +402,55 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     $this->tpl->setCurrentBlock('statistics');
                     $this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
                     $this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
-                    include_once "./Services/Utilities/classes/class.ilUtil.php";
                     $this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'author') == 0) {
                     $this->tpl->setCurrentBlock('author');
-                    $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+                    $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($c == 'lifecycle') {
-                    $lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle']);
-                    
+                    $lifecycle = ilAssQuestionLifecycle::getInstance($a_set['lifecycle']);
+
                     $this->tpl->setCurrentBlock('lifecycle');
                     $this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle->getTranslation($this->lng));
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($c == 'comments' && $this->isQuestionCommentingEnabled()) {
                     $this->tpl->setCurrentBlock('comments');
-                    $this->tpl->setVariable("COMMENTS", $this->getCommentsHtml($data));
+                    $this->tpl->setVariable("COMMENTS", $this->getCommentsHtml($a_set));
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'created') == 0) {
                     $this->tpl->setCurrentBlock('created');
-                    $this->tpl->setVariable('QUESTION_CREATED', ilDatePresentation::formatDate(new ilDateTime($data['created'], IL_CAL_UNIX)));
+                    $this->tpl->setVariable('QUESTION_CREATED', ilDatePresentation::formatDate(new ilDateTime($a_set['created'], IL_CAL_UNIX)));
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'tstamp') == 0) {
                     $this->tpl->setCurrentBlock('updated');
-                    $this->tpl->setVariable('QUESTION_UPDATED', ilDatePresentation::formatDate(new ilDateTime($data['tstamp'], IL_CAL_UNIX)));
+                    $this->tpl->setVariable('QUESTION_UPDATED', ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'working_time') == 0) {
                     $this->tpl->setCurrentBlock('working_time');
-                    $this->tpl->setVariable('WORKING_TIME', $data["working_time"]);
+                    $this->tpl->setVariable('WORKING_TIME', $a_set["working_time"]);
                     $this->tpl->parseCurrentBlock();
                 }
             }
 
-            $actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+            $actions->addItem(
+                $this->lng->txt('preview'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW)
+            );
+            $actions->addItem(
+                $this->lng->txt('statistics'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
+            );
             if ($this->getEditable()) {
-                $editHref = $this->ctrl->getLinkTargetByClass($data['type_tag'] . 'GUI', 'editQuestion');
+                $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
                 $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
 
                 $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
@@ -461,35 +458,34 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             }
 
             if ($this->getWriteAccess()) {
-                $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+                $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
                 $actions->addItem($this->lng->txt('move'), '', $moveHref);
 
-                $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+                $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copy');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
                 $actions->addItem($this->lng->txt('copy'), '', $copyHref);
 
-                $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
+                $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
                 $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
                 $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
                 $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
             }
 
             if ($this->getEditable()) {
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
-                $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $data['question_id']);
+                $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $a_set['question_id']);
                 $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
                 $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
                 $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
 
-                $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $data['question_id']);
+                $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $a_set['question_id']);
                 $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
                 $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
                 $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
             }
-            
+
             if ($this->isQuestionCommentingEnabled()) {
                 $actions->addItem(
                     $this->lng->txt('ass_comments'),
@@ -500,87 +496,87 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
                     '',
                     '',
                     '',
-                    $this->getCommentsAjaxLink($data['question_id'])
+                    $this->getCommentsAjaxLink($a_set['question_id'])
                 );
             }
         } else {
             $this->tpl->setCurrentBlock('hidden');
-            $this->tpl->setVariable('HIDDEN_QUESTION_ID', $data["question_id"]);
+            $this->tpl->setVariable('HIDDEN_QUESTION_ID', $a_set["question_id"]);
             $this->tpl->parseCurrentBlock();
         }
 
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($data["description"])) ? $data["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
+                $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
                 $this->tpl->parseCurrentBlock();
             }
         }
-        $this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
+        $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
         if (!$this->confirmdelete) {
             $this->tpl->setVariable('QUESTION_HREF_LINKED', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
-            $this->tpl->setVariable('QUESTION_TITLE_LINKED', $data['title']);
+            $this->tpl->setVariable('QUESTION_TITLE_LINKED', $a_set['title']);
             $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         } else {
-            $this->tpl->setVariable('QUESTION_ID_UNLINKED', $data['question_id']);
-            $this->tpl->setVariable('QUESTION_TITLE_UNLINKED', $data['title']);
+            $this->tpl->setVariable('QUESTION_ID_UNLINKED', $a_set['question_id']);
+            $this->tpl->setVariable('QUESTION_TITLE_UNLINKED', $a_set['title']);
         }
     }
-    
-    public function setEditable($value)
+
+    public function setEditable($value): void
     {
         $this->editable = $value;
     }
-    
-    public function getEditable()
+
+    public function getEditable(): bool
     {
         return $this->editable;
     }
 
-    public function setWriteAccess($value)
+    public function setWriteAccess($value): void
     {
         $this->writeAccess = $value;
     }
-    
-    public function getWriteAccess()
+
+    public function getWriteAccess(): bool
     {
         return $this->writeAccess;
     }
 
     /**
-     * @param string $column
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($column)
+    public function numericOrdering(string $a_field): bool
     {
-        if (in_array($column, array('points', 'created', 'tstamp', 'comments'))) {
+        if (in_array($a_field, array('points', 'created', 'tstamp', 'comments'))) {
             return true;
         }
 
         return false;
     }
-    
-    protected function getCommentsHtml($qData)
+
+    protected function getCommentsHtml($qData): string
     {
         if (!$qData['comments']) {
             return '';
         }
-        
+
         $ajaxLink = $this->getCommentsAjaxLink($qData['question_id']);
-        
+
         return "<a class='comment' href='#' onclick=\"return " . $ajaxLink . "\">
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
             . "' alt='{$qData['comments']}'><span class='ilHActProp'>{$qData['comments']}</span></a>";
     }
-    
-    protected function getCommentsAjaxLink($questionId)
+
+    protected function getCommentsAjaxLink($questionId): string
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->request->getRefId(), 'quest', $this->parent_obj->object->getId(), 'quest', $questionId);
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }
 }

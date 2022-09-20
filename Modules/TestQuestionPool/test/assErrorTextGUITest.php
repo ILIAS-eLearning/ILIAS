@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,27 +13,22 @@ class assErrorTextGUITest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
-
         parent::setUp();
 
-        require_once './Services/UICore/classes/class.ilCtrl.php';
-        $ilCtrl_mock = $this->createMock('ilCtrl');
-        $ilCtrl_mock->expects($this->any())->method('saveParameter');
-        $ilCtrl_mock->expects($this->any())->method('saveParameterByClass');
+        $ilCtrl_mock = $this->getMockBuilder(ilCtrl::class)
+                            ->disableOriginalConstructor()
+                            ->getMock();
+        $ilCtrl_mock->method('saveParameter');
+        $ilCtrl_mock->method('saveParameterByClass');
         $this->setGlobalVariable('ilCtrl', $ilCtrl_mock);
 
-        require_once './Services/Language/classes/class.ilLanguage.php';
-        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
-        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
+        $lng_mock = $this->getMockBuilder(ilLanguage::class)
+                         ->disableOriginalConstructor()
+                         ->onlyMethods(['txt'])
+                         ->getMock();
+        $lng_mock->method('txt')->will($this->returnValue('Test'));
         $this->setGlobalVariable('lng', $lng_mock);
 
         $this->setGlobalVariable('ilias', $this->getIliasMock());
@@ -45,7 +41,7 @@ class assErrorTextGUITest extends assBaseTestCase
         $GLOBALS['ilUser'] = $user_mock;
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         //$this->markTestIncomplete('Needs mock.');
         // Arrange

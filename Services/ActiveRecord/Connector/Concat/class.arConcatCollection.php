@@ -1,5 +1,18 @@
 <?php
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class arConcatCollection
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -7,8 +20,7 @@
  */
 class arConcatCollection extends arStatementCollection
 {
-
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = '';
         if ($this->hasStatements()) {
@@ -28,7 +40,7 @@ class arConcatCollection extends arStatementCollection
     /**
      * @return arConcat[]
      */
-    public function getConcats() : array
+    public function getConcats(): array
     {
         return $this->statements;
     }

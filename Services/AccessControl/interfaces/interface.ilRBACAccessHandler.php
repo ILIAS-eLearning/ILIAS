@@ -1,239 +1,206 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Interface ilRBACAccessHandler
- *
  * Checks access for ILIAS objects
- *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Sascha Hofmann <saschahofmann@gmx.de>
- * @version $Id$
- *
  * @ingroup ServicesAccessControl
  */
 interface ilRBACAccessHandler
 {
-
     /**
      * store access result
-     *
-     * @access    private
-     *
-     * @param    string  $a_permission     permission
-     * @param    string  $a_cmd            command string
-     * @param    int     $a_ref_id         reference id
-     * @param    boolean $a_access_granted true if access is granted
-     * @param    int     $a_user_id        user id (if no id passed, current user id)
      */
-    public function storeAccessResult($a_permission, $a_cmd, $a_ref_id, $a_access_granted, $a_user_id = null, $a_info = "");
-
-
-    /**
-     * Set prevent caching last result.
-     *
-     * @param    boolean        true if last result should not be cached
-     */
-    public function setPreventCachingLastResult($a_val);
-
-
-    /**
-     * Get prevent caching last result.
-     *
-     * @return    boolean        true if last result should not be cached
-     */
-    public function getPreventCachingLastResult();
-
+    public function storeAccessResult(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        bool $a_access_granted,
+        ?int $a_user_id = null,
+        ?ilAccessInfo $a_info = null
+    ): void;
 
     /**
      * get stored access result
-     *
-     * @access    private
-     *
-     * @param    string $a_permission permission
-     * @param    string $a_cmd        command string
-     * @param    int    $a_ref_id     reference id
-     * @param    int    $a_user_id    user id (if no id passed, current user id)
-     *
-     * @return    array        result array:
-     *                        "granted" (boolean) => true if access is granted
-     *                        "info" (object)    => info object
+     * @param string   $a_permission permission
+     * @param string   $a_cmd        command string
+     * @param int      $a_ref_id     reference id
+     * @param int|null $a_user_id    user id (if no id passed, current user id)
+     * @return array<{granted: bool, info: ?ilAccessInfo, prevent_db_cache: bool}>
      */
-    public function getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id = "");
+    public function getStoredAccessResult(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        ?int $a_user_id = null
+    ): array;
 
+    /**
+     * Set prevent caching last result.
+     */
+    public function setPreventCachingLastResult(bool $a_val): void;
 
-    public function storeCache();
+    /**
+     * Get prevent caching last result.
+     */
+    public function getPreventCachingLastResult(): bool;
 
+    public function storeCache(): void;
 
-    public function readCache($a_secs = 0);
+    public function readCache(int $a_secs = 0): bool;
 
+    public function getResults(): array;
 
-    public function getResults();
-
-
-    public function setResults($a_results);
-
+    public function setResults(array $a_results);
 
     /**
      * add an info item to current info object
      */
-    public function addInfoItem($a_type, $a_text, $a_data = "");
-
-
-    /**
-     * check access for an object
-     * (provide $a_type and $a_obj_id if available for better performance)
-     *
-     * @param    string $a_permission
-     * @param    string $a_cmd
-     * @param    int    $a_ref_id
-     * @param    string $a_type    (optional)
-     * @param    int    $a_obj_id  (optional)
-     * @param    int    $a_tree_id (optional)
-     *
-     */
-    public function checkAccess($a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = null, $a_tree_id = null);
-
+    public function addInfoItem(string $a_type, string $a_text, string $a_data = ""): void;
 
     /**
      * check access for an object
      * (provide $a_type and $a_obj_id if available for better performance)
-     *
-     * @param    integer $a_user_id
-     * @param    string  $a_permission
-     * @param    string  $a_cmd
-     * @param    int     $a_ref_id
-     * @param    string  $a_type    (optional)
-     * @param    int     $a_obj_id  (optional)
-     * @param    int     $a_tree_id (optional)
-     *
      */
-    public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_ref_id, $a_type = "", $a_obj_id = null, $a_tree_id = null);
+    public function checkAccess(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        string $a_type = "",
+        ?int $a_obj_id = null,
+        ?int $a_tree_id = null
+    ): bool;
 
+    /**
+     * check access for an object
+     * (provide $a_type and $a_obj_id if available for better performance)
+     */
+    public function checkAccessOfUser(
+        int $a_user_id,
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        string $a_type = "",
+        ?int $a_obj_id = null,
+        ?int $a_tree_id = null
+    ): bool;
+
+    /**
+     * get last info object
+     * @see ilAccessInfo::getInfoItems()
+     */
+    public function getInfo(): array;
 
     /**
      * get last info object
      */
-    public function getInfo();
+    public function getResultLast(): array;
 
-
-    /**
-     * get last info object
-     */
-    public function getResultLast();
-
-
-    public function getResultAll($a_ref_id = "");
-
+    public function getResultAll(int $a_ref_id = 0): array;
 
     /**
      * look if result for current query is already in cache
-     *
-     * @param string $a_permission
-     * @param string $a_cmd
-     * @param int    $a_ref_id
-     * @param int    $a_user_id
-     *
-     * @return bool
+     * @return array<{hit: bool, granted: bool, prevent_db_cache: bool}>
      */
-    public function doCacheCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
-
+    public function doCacheCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id
+    ): array;
 
     /**
      * check if object is in tree and not deleted
-     *
-     * @param string $a_permission
-     * @param string $a_cmd
-     * @param int    $a_ref_id
-     * @param int    $a_user_id
-     *
-     * @return bool
      */
-    public function doTreeCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
-
+    public function doTreeCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id
+    ): bool;
 
     /**
      * rbac check for current object
-     * -> type should be used for create permission
-     *
-     * @param string $a_permission
-     * @param string $a_cmd
-     * @param int    $a_ref_id
-     * @param int    $a_user_id
-     * @param string $a_type
-     *
-     * @return bool
+     * -> type is used for create permission
      */
-    public function doRBACCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_type);
-
+    public function doRBACCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id,
+        string $a_type
+    ): bool;
 
     /**
      * check read permission for all parents
-     *
-     * @param      string $a_permission
-     * @param      string $a_cmd
-     * @param      int    $a_ref_id
-     * @param      int    $a_user_id
-     * @param bool        $a_all
-     *
-     * @return bool
      */
-    public function doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_all = false);
-
+    public function doPathCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id,
+        bool $a_all = false
+    ): bool;
 
     /**
      * check for activation and centralized offline status.
-     *
-     * @param      string $a_permission
-     * @param      string $a_cmd
-     * @param      int    $a_ref_id
-     * @param      int    $a_user_id
-     * @param      int    $a_obj_id
-     * @param      string $a_type
-     *
-     * @return bool
      */
-    public function doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type);
-
+    public function doActivationCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id,
+        int $a_obj_id,
+        string $a_type
+    ): bool;
 
     /**
      * condition check (currently only implemented for read permission)
-     *
-     * @param string $a_permission
-     * @param string $a_cmd
-     * @param int $a_ref_id
-     * @param int $a_user_id
-     * @param int $a_obj_id
-     * @param string $a_type
-     *
-     * @return bool
      */
-    public function doConditionCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type);
-
+    public function doConditionCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id,
+        int $a_obj_id,
+        string $a_type
+    ): bool;
 
     /**
      * object type specific check
-     *
-     * @param string $a_permission
-     * @param string $a_cmd
-     * @param int $a_ref_id
-     * @param int $a_user_id
-     * @param int $a_obj_id
-     * @param string $a_type
-     *
-     * @return bool
      */
-    public function doStatusCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id, $a_obj_id, $a_type);
+    public function doStatusCheck(
+        string $a_permission,
+        string $a_cmd,
+        int $a_ref_id,
+        int $a_user_id,
+        int $a_obj_id,
+        string $a_type
+    ): bool;
 
+    public function clear(): void;
 
     /**
-     *
+     * @deprected
      */
-    public function clear();
-
-
-    /**
-     * @param $a_str
-     * @param $a_bool
-     */
-    public function enable($a_str, $a_bool);
+    public function enable(string $a_str, bool $a_bool): void;
 }

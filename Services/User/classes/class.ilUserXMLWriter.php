@@ -1,79 +1,69 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-include_once './Services/User/classes/class.ilObjUserFolder.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* XML writer class
-*
-* Class to simplify manual writing of xml documents.
-* It only supports writing xml sequentially, because the xml document
-* is saved in a string with no additional structure information.
-* The author is responsible for well-formedness and validity
-* of the xml document.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilObjectXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
-*/
+ * XML writer class
+ * Class to simplify manual writing of xml documents.
+ * It only supports writing xml sequentially, because the xml document
+ * is saved in a string with no additional structure information.
+ * The author is responsible for well-formedness and validity
+ * of the xml document.
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilUserXMLWriter extends ilXmlWriter
 {
-    public $ilias;
-    public $xml;
-    public $users;
-    public $user_id = 0;
-    public $attachRoles = false;
-    public $attachPreferences = false;
-    private static $exportablePrefs;
+    public ILIAS $ilias;
+    public array $users; // Missing array type.
+    public int $user_id = 0;
+    public bool $attachRoles = false;
+    public bool $attachPreferences = false;
 
     /**
      * fields to be exported
-     *
-     * @var array of fields, which can export
      */
-    private $settings;
+    private array $settings; // Missing array type.
 
-    /**
-    * constructor
-    * @param	string	xml version
-    * @param	string	output encoding
-    * @param	string	input encoding
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
 
         $ilias = $DIC['ilias'];
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
         parent::__construct();
 
         $this->ilias = $ilias;
         $this->user_id = $ilUser->getId();
         $this->attachRoles = false;
-        
-        /*		$this->exportablePrefs = array(
-                    "priv_feed_pass", "language", "style", "skin", 'ilPageEditor_HTMLMode',
-                     'ilPageEditor_JavaScript', 'ilPageEditor_MediaMode', 'tst_javascript',
-                     'tst_lastquestiontype', 'tst_multiline_answers', 'tst_use_previous_answers',
-                    'graphicalAnswerSetting', "weekstart"
-                );*/
     }
 
-    public function setAttachRoles($value)
+    public function setAttachRoles(bool $value): void
     {
-        $this->attachRoles = $value == 1? true : false;
+        $this->attachRoles = $value;
     }
 
-    public function setObjects(&$users)
+    public function setObjects(array $users): void // Missing array type.
     {
-        $this->users = &$users;
+        $this->users = $users;
     }
 
 
-    public function start()
+    public function start(): bool
     {
         if (!is_array($this->users)) {
             return false;
@@ -81,9 +71,7 @@ class ilUserXMLWriter extends ilXmlWriter
 
         $this->__buildHeader();
 
-
-        include_once("./Services/User/classes/class.ilUserDefinedFields.php");
-        $udf_data = &ilUserDefinedFields::_getInstance();
+        $udf_data = ilUserDefinedFields::_getInstance();
         $udf_data->addToXML($this);
 
         foreach ($this->users as $user) {
@@ -95,41 +83,38 @@ class ilUserXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML()
+    public function getXML(): string
     {
         return $this->xmlDumpMem(false);
     }
 
 
-    public function __buildHeader()
+    public function __buildHeader(): void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Users PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_user_5_1.dtd\">");
         $this->xmlSetGenCmt("User of ilias system");
         $this->xmlHeader();
 
         $this->xmlStartTag('Users');
-
-        return true;
     }
 
-    public function __buildFooter()
+    public function __buildFooter(): void
     {
         $this->xmlEndTag('Users');
     }
 
-    public function __handleUser($row)
+    public function __handleUser(array $row): void // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         if (!is_array($this->settings)) {
-            include_once('./Services/User/classes/class.ilObjUserFolder.php');
             $this->setSettings(ilObjUserFolder::getExportSettings());
         }
 
         $prefs = ilObjUser::_getPreferences($row["usr_id"]);
-        
+
         if (strlen($row["language"]) == 0) {
             $row["language"] = $lng->getDefaultLanguage();
         }
@@ -145,8 +130,6 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->xmlElement("Login", null, $row["login"]);
 
         if ($this->attachRoles == true) {
-            include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
             $query = sprintf(
                 "SELECT object_data.title, object_data.description,  rbac_fa.* " .
                             "FROM object_data, rbac_ua, rbac_fa WHERE rbac_ua.usr_id = %s " .
@@ -206,15 +189,15 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement("PhoneMobile", $row["phone_mobile"], null, "phone_mobile");
         $this->__addElement("Fax", $row["fax"]);
         $this->__addElement("Hobby", $row["hobby"]);
-        
-        $this->__addElementMulti("GeneralInterest", $row["interests_general"], null, "interests_general");
-        $this->__addElementMulti("OfferingHelp", $row["interests_help_offered"], null, "interests_help_offered");
-        $this->__addElementMulti("LookingForHelp", $row["interests_help_looking"], null, "interests_help_looking");
-        
+
+        $this->__addElementMulti("GeneralInterest", $row["interests_general"] ?? [], null, "interests_general");
+        $this->__addElementMulti("OfferingHelp", $row["interests_help_offered"] ?? [], null, "interests_help_offered");
+        $this->__addElementMulti("LookingForHelp", $row["interests_help_looking"] ?? [], null, "interests_help_looking");
+
         $this->__addElement("Department", $row["department"]);
         $this->__addElement("Comment", $row["referral_comment"], null, "referral_comment");
         $this->__addElement("Matriculation", $row["matriculation"]);
-        $this->__addElement("Active", $row["active"] ? "true":"false");
+        $this->__addElement("Active", $row["active"] ? "true" : "false");
         $this->__addElement("ClientIP", $row["client_ip"], null, "client_ip");
         $this->__addElement("TimeLimitOwner", $row["time_limit_owner"], null, "time_limit_owner");
         $this->__addElement("TimeLimitUnlimited", $row["time_limit_unlimited"], null, "time_limit_unlimited");
@@ -242,9 +225,8 @@ class ilUserXMLWriter extends ilXmlWriter
         $this->__addElement("LastUpdate", $row["last_update"], null, "last_update");
         $this->__addElement("LastLogin", $row["last_login"], null, "last_login");
 
-        include_once("./Services/User/classes/class.ilUserDefinedData.php");
         $udf_data = new ilUserDefinedData($row['usr_id']);
-        $udf_data->addToXML($this, $this->settings);
+        $udf_data->addToXML($this);
 
         $this->__addElement("AccountInfo", $row["ext_account"], array("Type" => "external"));
 
@@ -258,15 +240,14 @@ class ilUserXMLWriter extends ilXmlWriter
         if ($this->attachPreferences || $this->canExport("prefs", "preferences")) {
             $this->__handlePreferences($prefs, $row);
         }
-        
+
         $this->xmlEndTag('User');
     }
 
-    
-    private function __handlePreferences($prefs, $row)
+
+    private function __handlePreferences(array $prefs, array $row): void // Missing array type.
     {
         //todo nadia: test mail_address_option
-        include_once("Services/Mail/classes/class.ilMailOptions.php");
         $mailOptions = new ilMailOptions($row["usr_id"]);
         $prefs["mail_incoming_type"] = $mailOptions->getIncomingType();
         $prefs["mail_address_option"] = $mailOptions->getEmailAddressMode();
@@ -275,55 +256,61 @@ class ilUserXMLWriter extends ilXmlWriter
         if (count($prefs)) {
             $this->xmlStartTag("Prefs");
             foreach ($prefs as $key => $value) {
-                if (ilUserXMLWriter::isPrefExportable($key)) {
+                if (self::isPrefExportable($key)) {
                     $this->xmlElement("Pref", array("key" => $key), $value);
                 }
             }
             $this->xmlEndTag("Prefs");
         }
     }
-    
-    public function __addElementMulti($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
-    {
-        if (is_array($value) && sizeof($value)) {
-            foreach ($value as $idx => $item) {
+
+    public function __addElementMulti(
+        string $tagname,
+        array $value,
+        ?array $attrs = null,
+        ?string $settingsname = null,
+        bool $requiredTag = false
+    ): void {
+        if (is_array($value) && count($value)) {
+            foreach ($value as $item) {
                 $this->__addElement($tagname, $item, $attrs, $settingsname, $requiredTag);
             }
         }
     }
-    
-    public function __addElement($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
-    {
+
+    public function __addElement(
+        string $tagname,
+        ?string $value,
+        array $attrs = null,
+        ?string $settingsname = null,
+        bool $requiredTag = false
+    ): void {
         if ($this->canExport($tagname, $settingsname)) {
             if (strlen($value) > 0 || $requiredTag || (is_array($attrs) && count($attrs) > 0)) {
-                $this->xmlElement($tagname, $attrs, $value);
+                $this->xmlElement($tagname, $attrs, (string) $value);
             }
         }
     }
 
-    private function canExport($tagname, $settingsname = null)
-    {
+    private function canExport(
+        string $tagname,
+        ?string $settingsname = null
+    ): bool {
         return !is_array($this->settings) ||
                in_array(strtolower($tagname), $this->settings) !== false ||
                in_array($settingsname, $this->settings) !== false;
     }
 
-    /**
-     * write access to settings
-     *
-     * @param array $settings
-     */
-    public function setSettings($settings)
+    public function setSettings(array $settings): void // Missing array type.
     {
         $this->settings = $settings;
     }
 
     /**
-     * return array with baseencoded picture data as key value, encoding type as encoding, and image type as key type.
-     *
-     * @param int $usr_id
+     * return array with base-encoded picture data as key value,
+     * encoding type as encoding, and image type as key type.
      */
-    private function getPictureValue($usr_id)
+    private function getPictureValue(int $usr_id): ?array
     {
         global $DIC;
 
@@ -338,9 +325,9 @@ class ilUserXMLWriter extends ilXmlWriter
         if ($ilDB->numRows($r) == 1) {
             $personal_picture_data = $r->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
             $personal_picture = $personal_picture_data["value"];
-            $webspace_dir = ilUtil::getWebspaceDir();
+            $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_file = $webspace_dir . "/usr_images/" . $personal_picture;
-            if (@is_file($image_file)) {
+            if (is_file($image_file)) {
                 $fh = fopen($image_file, "rb");
                 if ($fh) {
                     $image_data = fread($fh, filesize($image_file));
@@ -358,27 +345,22 @@ class ilUserXMLWriter extends ilXmlWriter
                 }
             }
         }
-        return false;
+        return null;
     }
 
-    
+
     /**
      * if set to true, all preferences of a user will be set
-     *
-     * @param bool $attachPrefs
      */
-    
-    public function setAttachPreferences($attachPrefs)
+    public function setAttachPreferences(bool $attachPrefs): void
     {
         $this->attachPreferences = $attachPrefs;
     }
-    
+
     /**
      * return exportable preference keys as found in db
-     *
-     * @return array of string
      */
-    public static function getExportablePreferences()
+    public static function getExportablePreferences(): array // Missing array type.
     {
         return array(
                 'hits_per_page',
@@ -415,15 +397,12 @@ class ilUserXMLWriter extends ilXmlWriter
                 'public_interests_help_looking'
         );
     }
-    
+
     /**
      * returns wether a key from db is exportable or not
-     *
-     * @param string $key
-     * @return boolean
      */
-    public static function isPrefExportable($key)
+    public static function isPrefExportable(string $key): bool
     {
-        return in_array($key, ilUserXMLWriter::getExportablePreferences());
+        return in_array($key, self::getExportablePreferences());
     }
 }

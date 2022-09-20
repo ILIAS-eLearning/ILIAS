@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Luka Stocker <luka.stocker@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -16,16 +32,17 @@ class UrlInputTest extends ILIAS_UI_TestBase
 {
     private DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $data_factory = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $data_factory,
             new Refinery($data_factory, $language),
@@ -33,7 +50,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $factory = $this->buildFactory();
         $url = $factory->url("Test Label", "Test Byline");
@@ -42,7 +59,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Url::class, $url);
     }
 
-    public function test_rendering() : void
+    public function test_rendering(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -54,8 +71,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label</label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                             <div class=\"help-block\">$byline</div>
                         </div>
@@ -66,7 +83,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_error() : void
+    public function test_render_error(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -80,8 +97,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label</label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <div class=\"help-block alert alert-danger\" role=\"alert\">$error</div>
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                             <div class=\"help-block\">$byline</div>
@@ -94,7 +111,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_no_byline() : void
+    public function test_render_no_byline(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -105,8 +122,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label</label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
                     </div>";
@@ -116,7 +133,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_value() : void
+    public function test_render_value(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -129,8 +146,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label</label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                            <input id=\"$id\" type=\"url\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
                      </div>";
@@ -140,7 +157,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_required() : void
+    public function test_render_required(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -152,8 +169,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label<span class=\"asterisk\">*</span></label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label<span class=\"asterisk\">*</span></label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" class=\"form-control form-control-sm\" />
                         </div>
                     </div>";
@@ -163,7 +180,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_disabled() : void
+    public function test_render_disabled(): void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -175,8 +192,8 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($renderer->render($url));
 
         $expected = "<div class=\"form-group row\">
-                        <label for=\"$id\" class=\"control-label col-sm-3\">$label</label>
-                        <div class=\"col-sm-9\">
+                        <label for=\"$id\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>
+                        <div class=\"col-sm-8 col-md-9 col-lg-10\">
                             <input id=\"$id\" type=\"url\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />
                         </div>
                     </div>";

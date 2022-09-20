@@ -1,8 +1,24 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-use ILIAS\FileSystem\Filesystem;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Location;
@@ -13,50 +29,31 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
 {
-    protected ilTermsOfServiceDocument $document;
-    protected ilObjUser $actor;
-    protected FileUpload $fileUpload;
-    protected Filesystem $tmpFileSystem;
-    protected string $formAction;
-    protected string $saveCommand;
-    protected string $cancelCommand;
-    protected bool $isEditable = false;
     protected string $translatedError = '';
     protected string $translatedInfo = '';
-    protected ilHtmlPurifierInterface $documentPurifier;
 
     public function __construct(
-        ilTermsOfServiceDocument $document,
-        ilHtmlPurifierInterface $documentPurifier,
-        ilObjUser $actor,
-        Filesystem $tmpFileSystem,
-        FileUpload $fileUpload,
-        string $formAction = '',
-        string $saveCommand = 'saveDocument',
-        string $cancelCommand = 'showDocuments',
-        bool $isEditable = false
+        protected ilTermsOfServiceDocument $document,
+        protected ilHtmlPurifierInterface $documentPurifier,
+        protected ilObjUser $actor,
+        protected Filesystem $tmpFileSystem,
+        protected FileUpload $fileUpload,
+        protected string $formAction = '',
+        protected string $saveCommand = 'saveDocument',
+        protected string $cancelCommand = 'showDocuments',
+        protected bool $isEditable = false
     ) {
-        $this->document = $document;
-        $this->documentPurifier = $documentPurifier;
-        $this->actor = $actor;
-        $this->tmpFileSystem = $tmpFileSystem;
-        $this->fileUpload = $fileUpload;
-        $this->formAction = $formAction;
-        $this->saveCommand = $saveCommand;
-        $this->cancelCommand = $cancelCommand;
-        $this->isEditable = $isEditable;
-
         parent::__construct();
 
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->document->getId() > 0) {
             $this->setTitle($this->lng->txt('tos_form_edit_doc_head'));
@@ -97,27 +94,27 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return $this->translatedError !== '';
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function hasTranslatedInfo() : bool
+    public function hasTranslatedInfo(): bool
     {
         return $this->translatedInfo !== '';
     }
 
-    public function getTranslatedInfo() : string
+    public function getTranslatedInfo(): string
     {
         return $this->translatedInfo;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -129,7 +126,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -139,15 +136,15 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
             try {
                 $this->fileUpload->process();
 
-                /** @var UploadResult $uploadResult */
+                /** @var UploadResult|null $uploadResult */
                 $uploadResult = array_values($this->fileUpload->getResults())[0];
-                if (!$uploadResult) {
+                if (!($uploadResult instanceof UploadResult)) {
                     $this->getItemByPostVar('document')->setAlert($this->lng->txt('form_msg_file_no_upload'));
                     throw new ilException($this->lng->txt('form_input_not_valid'));
                 }
 
                 if (!$this->document->getId() || $uploadResult->getName() !== '') {
-                    if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+                    if (!$uploadResult->isOK()) {
                         $this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
                         throw new ilException($this->lng->txt('form_input_not_valid'));
                     }

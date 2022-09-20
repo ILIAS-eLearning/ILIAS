@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\ViewControl\Mode;
 
@@ -11,14 +13,16 @@ function base()
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     //Some Target magic to get a behaviour closer to some real use case
     $target = $DIC->http()->request()->getRequestTarget();
     $param = "Mode";
 
     $active = 1;
-    if (isset($_GET[$param]) && $_GET[$param]) {
-        $active = $_GET[$param];
+    if ($request_wrapper->has($param) && $request_wrapper->retrieve($param, $refinery->kindlyTo()->int())) {
+        $active = $request_wrapper->retrieve($param, $refinery->kindlyTo()->int());
     }
 
     //Here the real magic to draw the controls

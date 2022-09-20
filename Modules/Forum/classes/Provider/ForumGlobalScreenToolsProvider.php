@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
@@ -17,18 +35,18 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
     public const FORUM_BASE_CONTROLLER = 'frm_base_controller';
     public const PAGE = 'frm_thread_page';
 
-    public function isInterestedInContexts() : \ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
+    public function isInterestedInContexts(): \ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
     {
         return $this->context_collection->main()->repository()->administration();
     }
 
     public function getToolsForContextStack(
         \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
-    ) : array {
-        $iff = function (string $id) : IdentificationInterface {
+    ): array {
+        $iff = function (string $id): IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
-        $l = function (string $content) : Component {
+        $l = function (string $content): Component {
             return $this->dic->ui()->factory()->legacy($content);
         };
 
@@ -41,14 +59,14 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
             $root = $additionalData->get(self::FORUM_THREAD_ROOT);
 
             if ($root instanceof ilForumPost) {
-                $title = $this->dic->language()->txt('tree');
-                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
+                $title = $this->dic->language()->txt('forums_articles');
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title);
 
                 $tools[] = $this->factory
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) : Component {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root): Component {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -56,8 +74,6 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
-
-                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
 
                         return $l($exp->getHTML(true));
                     });

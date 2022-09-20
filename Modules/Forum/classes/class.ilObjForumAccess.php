@@ -1,18 +1,34 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjForumAccess
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ModulesForum
  */
 class ilObjForumAccess extends ilObjectAccess
 {
-    /** @var array<int, ilObjUser> */
+    /** @var array<int, ilObjUser|null> */
     protected static array $userInstanceCache = [];
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [
             [
@@ -29,27 +45,23 @@ class ilObjForumAccess extends ilObjectAccess
         ];
     }
 
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
 
         if ($t_arr[0] !== 'frm' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
-        if (
-            $DIC->access()->checkAccess('read', '', $t_arr[1]) ||
-            $DIC->access()->checkAccess('visible', '', $t_arr[1])
-        ) {
-            return true;
-        }
-
-        return false;
+        return (
+            $DIC->access()->checkAccess('read', '', (int) $t_arr[1]) ||
+            $DIC->access()->checkAccess('visible', '', (int) $t_arr[1])
+        );
     }
 
-    public static function _getThreadForPosting(int $a_pos_id) : int
+    public static function _getThreadForPosting(int $a_pos_id): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -65,7 +77,7 @@ class ilObjForumAccess extends ilObjectAccess
         return (int) $row['pos_thr_fk'];
     }
 
-    public static function prepareMessageForLists(string $text) : string
+    public static function prepareMessageForLists(string $text): string
     {
         $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
@@ -77,35 +89,37 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    public static function _preloadData($a_obj_ids, $a_ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
         /*
         We are only able to preload the top_pk values for the forum ref_ids.
         Other data like statistics and last posts require permission checks per reference, so there is no added value for using an SQL IN() function in the queries
         */
-        ilObjForum::preloadForumIdsByRefIds((array) $a_ref_ids);
+        ilObjForum::preloadForumIdsByRefIds($ref_ids);
     }
 
-    public static function getLastPostByRefId(int $ref_id) : array
+    public static function getLastPostByRefId(int $ref_id): ?array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }
 
     /**
-     * @param int $ref_id
      * @return array{num_posts: int, num_unread_posts: int, num_new_posts: int}
      */
-    public static function getStatisticsByRefId(int $ref_id) : array
+    public static function getStatisticsByRefId(int $ref_id): array
     {
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
 
-    public static function getCachedUserInstance(int $usr_id) : ilObjUser
+    public static function getCachedUserInstance(int $usr_id): ?ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
-            self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);
+            $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
+            if ($user instanceof ilObjUser) {
+                self::$userInstanceCache[$usr_id] = $user;
+            }
         }
 
-        return self::$userInstanceCache[$usr_id];
+        return self::$userInstanceCache[$usr_id] ?? null;
     }
 }

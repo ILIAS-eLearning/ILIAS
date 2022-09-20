@@ -1,13 +1,29 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
-use ILIAS\Setup\UnachievableException;
+use ILIAS\Setup\NotExecutableException;
 
 /**
  * Add this to an Command that has wants to achieve objectives.
@@ -18,30 +34,48 @@ trait ObjectiveHelper
         Objective $objective,
         Environment $environment,
         IOWrapper $io = null
-    ) : Environment {
+    ): Environment {
         $iterator = new ObjectiveIterator($environment, $objective);
+        $current = null;
+
+        register_shutdown_function(static function () use (&$current) {
+            if (null !== $current) {
+                throw new \RuntimeException("Objective '{$current->getLabel()}' failed because it halted the program.");
+            }
+        });
 
         while ($iterator->valid()) {
             $current = $iterator->current();
             if (!$current->isApplicable($environment)) {
+                // reset objective to mark it as processed without halting the program.
+                $current = null;
                 $iterator->next();
                 continue;
             }
-            if ($io) {
+            if ($io !== null) {
                 $io->startObjective($current->getLabel(), $current->isNotable());
             }
             try {
                 $environment = $current->achieve($environment);
-                if ($io) {
+                if ($io !== null) {
                     $io->finishedLastObjective();
                 }
                 $iterator->setEnvironment($environment);
-            } catch (UnachievableException $e) {
+            } catch (NotExecutableException $e) {
+                throw $e;
+            } catch (\Throwable $e) {
                 $iterator->markAsFailed($current);
-                if ($io) {
-                    $io->error($e->getMessage());
+                if ($io !== null) {
+                    $message = $e->getMessage();
                     $io->failedLastObjective();
+                    if ($io->isVerbose()) {
+                        $message .= "\n" . debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+                    }
+                    $io->error($message);
                 }
+            } finally {
+                // reset objective to mark it as processed without halting the program.
+                $current = null;
             }
             $iterator->next();
         }

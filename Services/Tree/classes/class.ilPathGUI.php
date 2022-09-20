@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,31 +24,25 @@
 */
 
 /**
-* Creates a path for a start and endnode
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesTree
-*/
+ * Creates a path for a start and endnode
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesTree
+ */
 class ilPathGUI
 {
-    private $startnode = ROOT_FOLDER_ID;
-    private $endnode = ROOT_FOLDER_ID;
-    
-    private $textOnly = true;
-    private $useImages = false;
-    private $hide_leaf = true;
-    private $display_cut = false;
-    
-    protected $lng = null;
+    private int $startnode;
+    private int $endnode;
 
-    /**
-     * @var \ilTree
-     */
-    protected $tree = null;
-    
+    private bool $textOnly = true;
+    private bool $useImages = false;
+    private bool $hide_leaf = true;
+    private bool $display_cut = false;
+
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilObjectDefinition $objectDefinition;
+
     /**
      * Constructor
      */
@@ -54,105 +50,93 @@ class ilPathGUI
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        
-        $this->tree = $tree;
-        $this->lng = $lng;
+        $this->startnode = (int) ROOT_FOLDER_ID;
+        $this->endnode = (int) ROOT_FOLDER_ID;
+        $this->tree = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
+        $this->objectDefinition = $DIC['objDefinition'];
     }
-    
+
     /**
      * get path
-     * @param int	$a_startnode	ref_id of startnode
-     * @param int	$a_endnode		ref_id of endnode
+     * @param int $a_startnode ref_id of startnode
+     * @param int $a_endnode   ref_id of endnode
      * @return string html
      */
-    public function getPath($a_startnode, $a_endnode)
+    public function getPath(int $a_startnode, int $a_endnode): string
     {
         $this->startnode = $a_startnode;
         $this->endnode = $a_endnode;
-        
+
         return $this->getHTML();
     }
-    
+
     /**
      * render path as text only
-     * @param	bool $a_text_only	path as text only true/false
-     * @return
+     * @param bool $a_text_only path as text only true/false
+     * @return void
      */
-    public function enableTextOnly($a_status)
+    public function enableTextOnly(bool $a_status): void
     {
         $this->textOnly = $a_status;
     }
-    
-    /**
-     * show text only
-     * @return
-     */
-    public function textOnly()
+
+    public function textOnly(): bool
     {
         return $this->textOnly;
     }
-    
+
     /**
      * Hide leaf node in path
-     * @param type $a_status
      */
-    public function enableHideLeaf($a_status)
+    public function enableHideLeaf(bool $a_status): void
     {
         $this->hide_leaf = $a_status;
     }
-    
-    public function hideLeaf()
+
+    public function hideLeaf(): bool
     {
         return $this->hide_leaf;
     }
-    /**
-     * set use images
-     * @param	bool
-     * @return
-     */
-    public function setUseImages($a_status)
+
+    public function setUseImages(bool $a_status): void
     {
         $this->useImages = $a_status;
     }
-    
+
     /**
      * get use images
-     * @return
+     * @return bool
      */
-    public function getUseImages()
+    public function getUseImages(): bool
     {
         return $this->useImages;
     }
 
     /**
      * Display a cut with "..."
-     * @param $a_status bool
      */
-    public function enableDisplayCut($a_status)
+    public function enableDisplayCut(bool $a_status): void
     {
         $this->display_cut = $a_status;
     }
 
     /**
      * Display a cut with "..."
-     * @return bool
      */
-    public function displayCut()
+    public function displayCut(): bool
     {
         return $this->display_cut;
     }
-    
+
     /**
      * get html
-     * @return
      */
-    protected function getHTML()
+    protected function getHTML(): string
     {
         if ($this->textOnly()) {
             $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
-            
+
             $first = true;
 
             // Display cut
@@ -167,7 +151,7 @@ class ilPathGUI
             foreach ($this->getPathIds() as $ref_id) {
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
-                
+
                 if ($first) {
                     if ($ref_id == ROOT_FOLDER_ID) {
                         $title = $this->lng->txt('repository');
@@ -184,10 +168,9 @@ class ilPathGUI
             return $tpl->get();
         } else {
             // With images and links
-            include_once './Services/Link/classes/class.ilLink.php';
-            
+
             $tpl = new ilTemplate('tpl.locator.html', true, true, 'Services/Locator');
-            
+
             $first = true;
 
             // Display cut
@@ -203,7 +186,7 @@ class ilPathGUI
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
                 $type = ilObject::_lookupType($obj_id);
-                
+
                 if ($first) {
                     if ($ref_id == ROOT_FOLDER_ID) {
                         $title = $this->lng->txt('repository');
@@ -213,7 +196,7 @@ class ilPathGUI
                 }
                 if ($this->getUseImages()) {
                     $tpl->setCurrentBlock('locator_img');
-                    $tpl->setVariable('IMG_SRC', ilUtil::getTypeIconPath($type, $obj_id));
+                    $tpl->setVariable('IMG_SRC', ilObject::_getIcon($obj_id, "small", $type));
                     $tpl->setVariable('IMG_ALT', $this->lng->txt('obj_' . $type));
                     $tpl->parseCurrentBlock();
                 }
@@ -231,35 +214,29 @@ class ilPathGUI
 
                 $first = false;
             }
+            $tpl->setVariable("TXT_BREADCRUMBS", $this->lng->txt("breadcrumb_navigation"));
             return $tpl->get();
         }
     }
 
-    /**
-     * @param $a_obj_id
-     * @return string
-     */
-    protected function buildTitle($a_obj_id)
+    protected function buildTitle(int $a_obj_id): string
     {
+        $type = ilObject::_lookupType($a_obj_id);
+        if ($this->objectDefinition->isAdministrationObject($type)) {
+            return $this->lng->txt('obj_' . $type);
+        }
         return ilObject::_lookupTitle($a_obj_id);
     }
-    
+
     /**
-     *
-     * @param
-     * @return
+     * @return int[]
      */
-    protected function getPathIds()
+    protected function getPathIds(): array
     {
         $path = $this->tree->getPathId($this->endnode, $this->startnode);
-
-        \ilLoggerFactory::getLogger('tree')->dump($path);
-        \ilLoggerFactory::getLogger('tree')->dump($this->endnode);
-        \ilLoggerFactory::getLogger('tree')->dump($this->startnode);
-
-        if ($this->hideLeaf()) {
+        if ($this->hideLeaf() && count($path)) {
             unset($path[count($path) - 1]);
         }
-        return $path ? $path : array();
+        return $path;
     }
 }

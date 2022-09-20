@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilAccessibilityCriterionType
@@ -10,25 +25,25 @@ interface ilAccessibilityCriterionType
      * Returns a unique id of the criterion type
      * @return string
      */
-    public function getTypeIdent() : string;
+    public function getTypeIdent(): string;
 
     /**
      * Returns whether or not a criterion is unique by it's nature.
      * Example: "User Language". A user account can only have one profile language .
      * @return bool
      */
-    public function hasUniqueNature() : bool;
+    public function hasUniqueNature(): bool;
 
     /**
      * @param ilObjUser                       $user
      * @param ilAccessibilityCriterionConfig $config
      * @return bool
      */
-    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config) : bool;
+    public function evaluate(ilObjUser $user, ilAccessibilityCriterionConfig $config): bool;
 
     /**
      * @param ilLanguage $lng
      * @return ilAccessibilityCriterionTypeGUI
      */
-    public function ui(ilLanguage $lng) : ilAccessibilityCriterionTypeGUI;
+    public function ui(ilLanguage $lng): ilAccessibilityCriterionTypeGUI;
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -19,7 +35,7 @@ class FooterTest extends ILIAS_UI_TestBase
     private string $text = '';
     private string $perm_url = '';
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $f = new I\Link\Factory();
         $this->links = [
@@ -30,7 +46,7 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->perm_url = 'http://www.ilias.de/goto.php?target=xxx_123';
     }
 
-    protected function getFactory() : I\MainControls\Factory
+    protected function getFactory(): I\MainControls\Factory
     {
         $sig_gen = new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
@@ -46,7 +62,7 @@ class FooterTest extends ILIAS_UI_TestBase
         return new I\MainControls\Factory($sig_gen, $slate_factory);
     }
 
-    public function testConstruction() : C\MainControls\Footer
+    public function testConstruction(): C\MainControls\Footer
     {
         $footer = $this->getFactory()->footer($this->links, $this->text);
         $this->assertInstanceOf(
@@ -56,7 +72,7 @@ class FooterTest extends ILIAS_UI_TestBase
         return $footer;
     }
 
-    public function testConstructionNoLinks() : C\MainControls\Footer
+    public function testConstructionNoLinks(): C\MainControls\Footer
     {
         $footer = $this->getFactory()->footer([], $this->text);
         $this->assertInstanceOf(
@@ -69,7 +85,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetLinks(C\MainControls\Footer $footer) : void
+    public function testGetLinks(C\MainControls\Footer $footer): void
     {
         $this->assertEquals(
             $this->links,
@@ -80,7 +96,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetText(C\MainControls\Footer $footer) : void
+    public function testGetText(C\MainControls\Footer $footer): void
     {
         $this->assertEquals(
             $this->text,
@@ -91,7 +107,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer) : C\MainControls\Footer
+    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer): C\MainControls\Footer
     {
         $bf = new I\Button\Factory();
         $signalGenerator = new SignalGenerator();
@@ -116,7 +132,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testPermanentURL(C\MainControls\Footer $footer) : C\MainControls\Footer
+    public function testPermanentURL(C\MainControls\Footer $footer): C\MainControls\Footer
     {
         $df = new Data\Factory();
         $footer = $footer->withPermanentURL($df->uri($this->perm_url));
@@ -129,12 +145,17 @@ class FooterTest extends ILIAS_UI_TestBase
         return $footer;
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function listing() : C\Listing\Factory
+        return new class () extends NoUIFactory {
+            public function listing(): C\Listing\Factory
             {
                 return new I\Listing\Factory();
+            }
+
+            public function button(): C\Button\Factory
+            {
+                return new I\Button\Factory();
             }
         };
     }
@@ -142,7 +163,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testRendering(C\MainControls\Footer $footer) : void
+    public function testRendering(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -173,7 +194,7 @@ EOT;
     /**
      * @depends testConstructionNoLinks
      */
-    public function testRenderingNoLinks(C\MainControls\Footer $footer) : void
+    public function testRenderingNoLinks(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -197,7 +218,7 @@ EOT;
     /**
      * @depends testPermanentURL
      */
-    public function testRenderingPermUrl($footer)
+    public function testRenderingPermUrl($footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -205,7 +226,7 @@ EOT;
         $expected = <<<EOT
         <div class="il-maincontrols-footer">
             <div class="il-footer-content">
-                <div class="il-footer-permanent-url"><label for="current_perma_link">perma_link</label><input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" readonly="readOnly">
+                <div class="il-footer-permanent-url"><button class="btn btn-link" data-action="http://www.ilias.de/goto.php?target=xxx_123" id="id_1">copy_perma_link</button>
                 </div>
 
                 <div class="il-footer-text">footer text</div>
@@ -229,7 +250,7 @@ EOT;
     /**
      * @depends testGetAndSetModalsWithTrigger
      */
-    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer)
+    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);

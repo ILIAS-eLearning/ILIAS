@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Text type gui implementations
@@ -15,7 +29,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
      * @var ilLanguage
      */
     protected $lng;
-    protected $requested_min_char_limit = 0;
+    protected int $requested_min_char_limit = 0;
 
     /**
      * Constructor
@@ -33,7 +47,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
@@ -56,7 +70,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         $form->addItem($rb_limit_chars);
     }
 
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ass->setMaxCharLimit(0);
         $ass->setMinCharLimit(0);
@@ -71,14 +85,14 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass)
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         $values = [];
-        if ($ass->getMinCharLimit()) {
+        if ($ass->getMinCharLimit() !== 0) {
             $values['limit_characters'] = 1;
             $values['min_char_limit'] = $ass->getMinCharLimit();
         }
-        if ($ass->getMaxCharLimit()) {
+        if ($ass->getMaxCharLimit() !== 0) {
             $values['limit_characters'] = 1;
             $values['max_char_limit'] = $ass->getMaxCharLimit();
         }
@@ -86,7 +100,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
 }

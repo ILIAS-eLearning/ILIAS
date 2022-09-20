@@ -1,25 +1,37 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'libs/composer/vendor/autoload.php';
+declare(strict_types=1);
 
-use ILIAS\Data;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Logical\LogicalOr;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class LogicalOrTest
- * @author  Michael Jansen <mjansen@databay.de>
- */
 class LogicalOrTest extends TestCase
 {
     /**
      * @dataProvider constraintsProvider
      * @param LogicalOr $constraint
-     * @param           $okValue
-     * @param           $errorValue
+     * @param mixed $okValue
+     * @param mixed $errorValue
      */
-    public function testAccept(LogicalOr $constraint, $okValue, $errorValue)
+    public function testAccept(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $this->assertTrue($constraint->accepts($okValue));
         $this->assertFalse($constraint->accepts($errorValue));
@@ -28,16 +40,16 @@ class LogicalOrTest extends TestCase
     /**
      * @dataProvider constraintsProvider
      * @param LogicalOr $constraint
-     * @param           $okValue
-     * @param           $errorValue
+     * @param mixed $okValue
+     * @param mixed $errorValue
      */
-    public function testCheck(LogicalOr $constraint, $okValue, $errorValue)
+    public function testCheck(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $raised = false;
 
         try {
             $constraint->check($errorValue);
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             $raised = true;
         }
 
@@ -46,7 +58,7 @@ class LogicalOrTest extends TestCase
         try {
             $constraint->check($okValue);
             $raised = false;
-        } catch (\UnexpectedValueException $e) {
+        } catch (UnexpectedValueException $e) {
             $raised = true;
         }
 
@@ -56,10 +68,10 @@ class LogicalOrTest extends TestCase
     /**
      * @dataProvider constraintsProvider
      * @param LogicalOr $constraint
-     * @param           $okValue
-     * @param           $errorValue
+     * @param mixed $okValue
+     * @param mixed $errorValue
      */
-    public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue)
+    public function testProblemWith(LogicalOr $constraint, $okValue, $errorValue): void
     {
         $this->assertNull($constraint->problemWith($okValue));
         $this->assertIsString($constraint->problemWith($errorValue));
@@ -68,12 +80,12 @@ class LogicalOrTest extends TestCase
     /**
      * @dataProvider constraintsProvider
      * @param LogicalOr $constraint
-     * @param           $okValue
-     * @param           $errorValue
+     * @param mixed $okValue
+     * @param mixed $errorValue
      */
-    public function testRestrict(LogicalOr $constraint, $okValue, $errorValue)
+    public function testRestrict(LogicalOr $constraint, $okValue, $errorValue): void
     {
-        $rf = new Data\Factory();
+        $rf = new DataFactory();
         $ok = $rf->ok($okValue);
         $ok2 = $rf->ok($errorValue);
         $error = $rf->error('text');
@@ -91,12 +103,12 @@ class LogicalOrTest extends TestCase
     /**
      * @dataProvider constraintsProvider
      * @param LogicalOr $constraint
-     * @param           $okValue
-     * @param           $errorValue
+     * @param mixed $okValue
+     * @param mixed $errorValue
      */
-    public function testWithProblemBuilder(LogicalOr $constraint, $okValue, $errorValue)
+    public function testWithProblemBuilder(LogicalOr $constraint, $okValue, $errorValue): void
     {
-        $new_constraint = $constraint->withProblemBuilder(function () {
+        $new_constraint = $constraint->withProblemBuilder(static function (): string {
             return "This was a vault";
         });
         $this->assertEquals("This was a vault", $new_constraint->problemWith($errorValue));
@@ -105,15 +117,26 @@ class LogicalOrTest extends TestCase
     /**
      * @return array
      */
-    public function constraintsProvider() : array
+    public function constraintsProvider(): array
     {
-        $mock = $this->getMockBuilder(\ilLanguage::class)->disableOriginalConstructor()->getMock();
-        $data_factory = new Data\Factory();
+        $mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $data_factory = new DataFactory();
 
-        $refinery = new \ILIAS\Refinery\Factory($data_factory, $mock);
+        $refinery = new Refinery($data_factory, $mock);
         return [
-            [$refinery->logical()->logicalOr([$refinery->int()->isLessThan(6), $refinery->int()->isGreaterThan(100)]), '5', 8],
-            [$refinery->logical()->logicalOr([$refinery->int()->isGreaterThan(5), $refinery->int()->isLessThan(2)]), 7, 3]
+            [
+                $refinery->logical()->logicalOr([
+                    $refinery->int()->isLessThan(6),
+                    $refinery->int()->isGreaterThan(100)
+                ]),
+                '5',
+                8
+            ],
+            [
+                $refinery->logical()->logicalOr([$refinery->int()->isGreaterThan(5), $refinery->int()->isLessThan(2)]),
+                7,
+                3
+            ]
         ];
     }
 }

@@ -1,27 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for lm menu items
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMMenuItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilLMMenuEditor $lmme;
+    protected ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_lmme)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilLMMenuEditor $a_lmme
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -29,40 +37,34 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->lmme = $a_lmme;
         $entries = $this->lmme->getMenuEntries();
 
         $this->setData($entries);
         $this->setTitle($lng->txt("cont_custom_menu_entries"));
         $this->disable("footer");
-        
+
         //		$this->addColumn("", "", "1px", true);
         $this->addColumn($this->lng->txt("link"));
         $this->addColumn($this->lng->txt("active"));
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.lm_menu_entry_row.html", "Modules/LearningModule");
 
         //		$this->addMultiCommand("deleteMenuEntry", $lng->txt("delete"));
         $this->addCommandButton("saveMenuProperties", $lng->txt("save"));
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($entry)
+
+    protected function fillRow(array $a_set): void
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        $ilCtrl->setParameter($this->parent_obj, "menu_entry", $entry["id"]);
-        
+
+        $ilCtrl->setParameter($this->parent_obj, "menu_entry", $a_set["id"]);
+
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "editMenuEntry"));
         $this->tpl->setVariable("CMD", $this->lng->txt("edit"));
@@ -75,21 +77,21 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this, "menu_entry", "");
 
-        $this->tpl->setVariable("LINK_ID", $entry["id"]);
-        
-        if ($entry["type"] == "intern") {
-            $entry["link"] = ILIAS_HTTP_PATH . "/goto.php?target=" . $entry["link"];
+        $this->tpl->setVariable("LINK_ID", $a_set["id"]);
+
+        if ($a_set["type"] == "intern") {
+            $a_set["link"] = ILIAS_HTTP_PATH . "/goto.php?target=" . $a_set["link"];
         }
 
         // add http:// prefix if not exist
-        if (!strstr($entry["link"], '://') && !strstr($entry["link"], 'mailto:')) {
-            $entry["link"] = "http://" . $entry["link"];
+        if (!strstr($a_set["link"], '://') && !strstr($a_set["link"], 'mailto:')) {
+            $a_set["link"] = "https://" . $a_set["link"];
         }
 
-        $this->tpl->setVariable("HREF_LINK", $entry["link"]);
-        $this->tpl->setVariable("LINK", $entry["title"]);
+        $this->tpl->setVariable("HREF_LINK", $a_set["link"]);
+        $this->tpl->setVariable("LINK", $a_set["title"]);
 
-        if (ilUtil::yn2tf($entry["active"])) {
+        if (ilUtil::yn2tf($a_set["active"])) {
             $this->tpl->setVariable("ACTIVE_CHECK", "checked=\"checked\"");
         }
     }

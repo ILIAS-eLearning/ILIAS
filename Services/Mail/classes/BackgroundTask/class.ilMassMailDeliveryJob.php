@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -26,7 +43,7 @@ class ilMassMailDeliveryJob extends AbstractJob
         $this->mailJsonService = new ilMailValueObjectJsonService();
     }
 
-    public function run(array $input, Observer $observer) : Value
+    public function run(array $input, Observer $observer): Value
     {
         $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
 
@@ -37,7 +54,7 @@ class ilMassMailDeliveryJob extends AbstractJob
             $contextId = $input[2]->getValue();
             $mail = $mail
                 ->withContextId((string) $contextId)
-                ->withContextParameters((array) unserialize($input[3]->getValue()));
+                ->withContextParameters((array) unserialize($input[3]->getValue(), ['allowed_classes' => false]));
 
             $recipients = $mailValueObject->getRecipients();
             $recipientsCC = $mailValueObject->getRecipientsCC();
@@ -70,7 +87,7 @@ class ilMassMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class), // User Id
@@ -80,17 +97,17 @@ class ilMassMailDeliveryJob extends AbstractJob
         ];
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 42; // The answer to life, universe and the rest
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(BooleanValue::class);
     }

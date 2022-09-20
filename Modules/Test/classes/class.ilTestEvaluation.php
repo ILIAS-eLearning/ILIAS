@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -10,9 +11,6 @@
  */
 class ilTestEvaluation
 {
-    /**
-     * @var ilDB
-     */
     protected $db;
 
     /**
@@ -35,7 +33,7 @@ class ilTestEvaluation
      * @param $testId
      * @return array
      */
-    public function getAllActivesPasses()
+    public function getAllActivesPasses(): array
     {
         $query = "
 			SELECT active_fi, pass
@@ -44,11 +42,11 @@ class ilTestEvaluation
 			ON active_fi = active_id
 			WHERE test_fi = %s
 		";
-        
+
         $res = $this->db->queryF($query, array('integer'), array($this->testId));
-        
+
         $passes = array();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($passes[$row['active_fi']])) {
                 $passes[$row['active_fi']] = array();
@@ -56,7 +54,7 @@ class ilTestEvaluation
 
             $passes[$row['active_fi']][] = $row['pass'];
         }
-        
+
         return $passes;
     }
 }

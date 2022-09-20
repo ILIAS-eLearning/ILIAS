@@ -1,99 +1,41 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
-use ILIAS\Data\DataSize;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Input\Field\FileUpload;
 use ILIAS\UI\Component\Droppable;
 
 /**
- * Interface File
- *
- * A dropzone where one can drop files on it to be uploaded on the server.
- *
- * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Component\Dropzone\File
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface File extends Component, Droppable
+interface File extends FileUpload, Form, Droppable
 {
+    /**
+     * Get a dropzone like this, but showing a custom title in the appearing modal.
+     */
+    public function withTitle(string $title): File;
 
     /**
-     * Get a dropzone like this where the files are uploaded to the given URL.
+     * Get the custom title if set.
      */
-    public function withUploadUrl(string $url) : File;
-
-    /**
-     * Get the upload URL where the files are uploaded.
-     */
-    public function getUploadUrl() : string;
-
-    /**
-     * Get a dropzone like this only accepting the submitted file types for uploading, e.g.
-     * ['jpg', 'png', 'gif'] to allow some image formats.
-     */
-    public function withAllowedFileTypes(array $types) : File;
-
-    public function getAllowedFileTypes() : array;
-
-    /**
-     * Get a dropzone like this, restricting the max number of files that can be uploaded.
-     */
-    public function withMaxFiles(int $max) : File;
-
-    /**
-     * Get the max number of files that can be uploaded.
-     */
-    public function getMaxFiles() : int;
-
-    /**
-     * Get a dropzone like this, restricting the max file size of the files to the given limit.
-     */
-    public function withFileSizeLimit(DataSize $limit) : File;
-
-    /**
-     * Get the max file size.
-     */
-    public function getFileSizeLimit() : ?DataSize;
-
-    /**
-     * Get a dropzone like this, allowing to set the filename for each file being uploaded.
-     * The custom file name is sent as POST parameter along with the uploaded file.
-     *
-     * @param bool $state True to enable custom file names
-     */
-    public function withUserDefinedFileNamesEnabled(bool $state) : File;
-
-    /**
-     * Check if the dropzone supports to enter custom file names for each file being uploaded.
-     */
-    public function allowsUserDefinedFileNames() : bool;
-
-    /**
-     * Get a dropzone like this, allowing to set a description for each file being uploaded.
-     * The description is sent as POST parameter along with the uploaded file.
-     *
-     * @param bool $state True to enable file descriptions
-     */
-    public function withUserDefinedDescriptionEnabled(bool $state) : File;
-
-    /**
-     * Check if the dropzone supports to enter file descriptions for each file being uploaded.
-     */
-    public function allowsUserDefinedFileDescriptions() : bool;
-
-    /**
-     * Get a dropzone like this where each uploaded file is identified over a given identifier.
-     * The identifier corresponds to the key used to identify the files server side,
-     * e.g. $_FILES[identifier]
-     *
-     * Note: If you use multiple file dropzones on the same page, you MUST use identifier in
-     * order to identify an uploaded file. The default identifier is 'files'.
-     */
-    public function withParameterName(string $parameter_name) : File;
-
-    /**
-     * Get the identifier used to retrieve and identify an uploaded file server side.
-     */
-    public function getParameterName() : string;
+    public function getTitle(): string;
 }

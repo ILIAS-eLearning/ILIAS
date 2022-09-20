@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
@@ -27,7 +43,7 @@ class Text implements C\Listing\CharacteristicValue\Text
     /**
      * @param array $items
      */
-    private function validateItems(array $items) : void
+    private function validateItems(array $items): void
     {
         if (!count($items)) {
             throw new InvalidArgumentException('expected non empty array, got empty array');
@@ -47,16 +63,14 @@ class Text implements C\Listing\CharacteristicValue\Text
 
                 return true;
             },
-            function ($k, $v) {
-                return "expected keys of type string and values of type string, got ($k => $v)";
-            }
+            fn ($k, $v) => "expected keys of type string and values of type string, got ($k => $v)"
         );
     }
 
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

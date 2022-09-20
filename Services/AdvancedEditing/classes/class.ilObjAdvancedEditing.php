@@ -21,7 +21,7 @@
 class ilObjAdvancedEditing extends ilObject
 {
     public ilSetting $setting;
-    
+
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
@@ -39,77 +39,75 @@ class ilObjAdvancedEditing extends ilObject
      * @param string $a_module Name of the module or object which uses the tags
      * @return array HTML tags
      */
-    public static function _getUsedHTMLTags(string $a_module = "") : array
+    public static function _getUsedHTMLTags(string $a_module = ""): array
     {
         $setting = new ilSetting("advanced_editing");
-        $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
-        if (strlen($tags)) {
-            $usedtags = unserialize($tags);
+        $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module, '');
+        if ($tags !== '') {
+            $usedtags = unserialize($tags, ["allowed_classes" => false]);
+        } elseif ($a_module === 'frm_post' || $a_module === 'exc_ass') {
+            $usedtags = array(
+            "a",
+            "blockquote",
+            "br",
+            "code",
+            "div",
+            "em",
+            "img",
+            "li",
+            "ol",
+            "p",
+            "strong",
+            "u",
+            "ul",
+            "span"
+            );
         } else {
-            if ($a_module == 'frm_post' || $a_module == 'exc_ass') {
-                $usedtags = array(
-                "a",
-                "blockquote",
-                "br",
-                "code",
-                "div",
-                "em",
-                "img",
-                "li",
-                "ol",
-                "p",
-                "strong",
-                "u",
-                "ul",
-                "span"
-                );
-            } else {
-                // default: everything but tables
-                $usedtags = array(
-                "a",
-                "blockquote",
-                "br",
-                "cite",
-                "code",
-                "dd",
-                "div",
-                "dl",
-                "dt",
-                "em",
-                "h1",
-                "h2",
-                "h3",
-                "h4",
-                "h5",
-                "h6",
-                "hr",
-                "img",
-                "li",
-                "ol",
-                "p",
-                "pre",
-                "span",
-                "strike",
-                "strong",
-                "sub",
-                "sup",
-                "u",
-                "ul"
-                );
-            }
+            // default: everything but tables
+            $usedtags = array(
+            "a",
+            "blockquote",
+            "br",
+            "cite",
+            "code",
+            "dd",
+            "div",
+            "dl",
+            "dt",
+            "em",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "hr",
+            "img",
+            "li",
+            "ol",
+            "p",
+            "pre",
+            "span",
+            "strike",
+            "strong",
+            "sub",
+            "sup",
+            "u",
+            "ul"
+            );
         }
-        
+
         // frm_posts need blockquote and div urgently
         if ($a_module === 'frm_post') {
-            if (!in_array('div', $usedtags)) {
+            if (!in_array('div', $usedtags, true)) {
                 $usedtags[] = 'div';
             }
-            
-            if (!in_array('blockquote', $usedtags)) {
+
+            if (!in_array('blockquote', $usedtags, true)) {
                 $usedtags[] = 'blockquote';
             }
         }
-        
+
         return $usedtags;
     }
 
@@ -118,33 +116,31 @@ class ilObjAdvancedEditing extends ilObject
      * @param string $a_module Name of the module or object which uses the tags
      * @return string Used HTML tags
      */
-    public static function _getUsedHTMLTagsAsString(string $a_module = "") : string
+    public static function _getUsedHTMLTagsAsString(string $a_module = ""): string
     {
         $result = "";
-        $tags = ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
+        $tags = self::_getUsedHTMLTags($a_module);
         foreach ($tags as $tag) {
             $result .= "<$tag>";
         }
         return $result;
     }
-    
+
     /**
      * Returns the identifier for the Rich Text Editor
      * @return string Identifier for the Rich Text Editor
      */
-    public static function _getRichTextEditor() : string
+    public static function _getRichTextEditor(): string
     {
-        $setting = new ilSetting("advanced_editing");
-        $js = $setting->get("advanced_editing_javascript_editor");
-        return $js;
+        return (new ilSetting("advanced_editing"))->get("advanced_editing_javascript_editor", "0");
     }
-    
-    public function setRichTextEditor(string $a_js_editor) : void
+
+    public function setRichTextEditor(string $a_js_editor): void
     {
         $setting = new ilSetting("advanced_editing");
         $setting->set("advanced_editing_javascript_editor", $a_js_editor);
     }
-    
+
     /**
      * Writes an array with allowed HTML tags to the ILIAS settings
      * @param array $a_html_tags An array containing the allowed HTML tags
@@ -154,26 +150,26 @@ class ilObjAdvancedEditing extends ilObject
     public function setUsedHTMLTags(
         array $a_html_tags,
         string $a_module
-    ) : void {
+    ): void {
         $lng = $this->lng;
-        
-        if (strlen($a_module)) {
+
+        if ($a_module !== '') {
             $auto_added_tags = array();
-            
+
             // frm_posts need blockquote and div urgently
-            if ($a_module == 'frm_post') {
-                if (!in_array('div', $a_html_tags)) {
+            if ($a_module === 'frm_post') {
+                if (!in_array('div', $a_html_tags, true)) {
                     $auto_added_tags[] = 'div';
                 }
-                
-                if (!in_array('blockquote', $a_html_tags)) {
+
+                if (!in_array('blockquote', $a_html_tags, true)) {
                     $auto_added_tags[] = 'blockquote';
                 }
             }
-            
+
             $setting = new ilSetting("advanced_editing");
             $setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge($a_html_tags, $auto_added_tags)));
-            
+
             if (count($auto_added_tags)) {
                 throw new ilAdvancedEditingRequiredTagsException(
                     sprintf(
@@ -184,12 +180,12 @@ class ilObjAdvancedEditing extends ilObject
             }
         }
     }
-    
+
     /**
      * Returns an array of all possible HTML tags for text editing
      * @return array HTML tags
      */
-    public function &getHTMLTags() : array
+    public function &getHTMLTags(): array
     {
         $tags = array(
             "a",
@@ -240,9 +236,9 @@ class ilObjAdvancedEditing extends ilObject
      * Returns an array of all possible HTML tags for text editing
      * @return array HTML tags
      */
-    public static function _getAllHTMLTags() : array
+    public static function _getAllHTMLTags(): array
     {
-        $tags = array(
+        return array(
             "a",
             "abbr",
             "acronym",
@@ -330,13 +326,12 @@ class ilObjAdvancedEditing extends ilObject
             "rt",
             "rp"
         );
-        return $tags;
     }
 
     /**
      * Sets the state of the rich text editor visibility for the current user
      */
-    public static function _setRichTextEditorUserState(int $a_state) : void
+    public static function _setRichTextEditorUserState(int $a_state): void
     {
         global $DIC;
 
@@ -348,12 +343,12 @@ class ilObjAdvancedEditing extends ilObject
      * Gets the state of the rich text editor visibility for the current user
      * @return int 0 if the RTE should be disabled, 1 otherwise
      */
-    public static function _getRichTextEditorUserState() : int
+    public static function _getRichTextEditorUserState(): int
     {
         global $DIC;
 
         $ilUser = $DIC->user();
-        if (strlen($ilUser->getPref("show_rte")) > 0) {
+        if ($ilUser->getPref("show_rte") != '') {
             return (int) $ilUser->getPref("show_rte");
         }
         return 1;

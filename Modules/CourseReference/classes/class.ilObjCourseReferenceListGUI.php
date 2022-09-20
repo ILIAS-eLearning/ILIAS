@@ -33,10 +33,10 @@ include_once "./Modules/Course/classes/class.ilObjCourseListGUI.php";
 */
 class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 {
-    protected $reference_obj_id = null;
-    protected $reference_ref_id = null;
-    protected $deleted = false;
-    
+    protected ?int $reference_obj_id = null;
+    protected int $reference_ref_id;
+    protected bool $deleted = false;
+
     /**
      * Constructor
      *
@@ -47,8 +47,8 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
     {
         parent::__construct();
     }
-    
-    public function getIconImageType()
+
+    public function getIconImageType(): string
     {
         return 'crsr';
     }
@@ -56,7 +56,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
     /**
      * @inheritdoc
      */
-    public function getTypeIcon()
+    public function getTypeIcon(): string
     {
         $reference_obj_id = ilObject::_lookupObjId($this->getCommandId());
         return ilObject::_getIcon(
@@ -65,7 +65,7 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         );
     }
 
-    
+
     /**
      * get command id
      *
@@ -73,24 +73,23 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
      * @param
      * @return
      */
-    public function getCommandId()
+    public function getCommandId(): int
     {
         return $this->reference_ref_id;
     }
-    
+
     /**
      * no activation for links
-     * @return type
      */
-    public function insertTimingsCommand()
+    public function insertTimingsCommand(): void
     {
         return;
     }
-    
+
     /**
     * initialisation
     */
-    public function init()
+    public function init(): void
     {
         $this->copy_enabled = true;
         $this->static_link_enabled = false;
@@ -101,56 +100,60 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
         $this->info_screen_enabled = true;
         $this->type = "crs";
         $this->gui_class_name = "ilobjcoursegui";
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
+
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
     }
-    
-    
-    
+
+
+
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
-    {
+    public function initItem(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title = "",
+        string $description = ""
+    ): void {
         global $ilBench,$ilAccess,$tree;
-        
-        $this->reference_ref_id = $a_ref_id;
-        $this->reference_obj_id = $a_obj_id;
-        
-        
+
+        $this->reference_ref_id = $ref_id;
+        $this->reference_obj_id = $obj_id;
+
+
         include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-        $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
-        
+        $target_obj_id = ilContainerReference::_lookupTargetId($obj_id);
+
         $target_ref_ids = ilObject::_getAllReferences($target_obj_id);
         $target_ref_id = current($target_ref_ids);
-        $target_title = ilContainerReference::_lookupTitle($a_obj_id);
+        $target_title = ilContainerReference::_lookupTitle($obj_id);
         $target_description = ilObject::_lookupDescription($target_obj_id);
 
         $this->deleted = $tree->isDeleted($target_ref_id);
-        
+
         $ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
         $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id, $target_obj_id);
         $ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
-        
-        
+
+
         parent::initItem($target_ref_id, $target_obj_id, $type, $target_title, $target_description);
 
         // general commands array
         include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
         $this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
-        
+
         if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {
             $this->info_screen_enabled = false;
         } else {
             $this->info_screen_enabled = true;
         }
     }
-    
-    public function getProperties()
+
+    public function getProperties(): array
     {
         global $lng,$ilUser,$tree;
 
@@ -164,53 +167,57 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 
         return $props ? $props : array();
     }
-    
+
     /**
      *
      * @param
      * @return
      */
-    public function checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id = "")
-    {
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ): bool {
         // Check edit reference against reference edit permission
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'editReference':
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
         }
 
-        switch ($a_permission) {
+        switch ($permission) {
             case 'copy':
             case 'delete':
                 // check against target ref_id
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
 
             default:
                 // check against reference
-                return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type, $a_obj_id);
+                return parent::checkCommandAccess($permission, $cmd, $ref_id, $type, $obj_id);
         }
     }
-    
+
     /**
      * get command link
      *
      * @access public
-     * @param string $a_cmd
      * @return
      */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
         global $ilCtrl;
-        
-        switch ($a_cmd) {
+
+        switch ($cmd) {
             case 'editReference':
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
                 return $cmd_link;
 
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
                 return $cmd_link;
         }

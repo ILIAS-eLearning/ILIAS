@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 class ilWorkspaceFolderSorting
 {
@@ -38,7 +41,7 @@ class ilWorkspaceFolderSorting
         string $wsp_type,
         int $selected,
         int $parent_effective
-    ) : array {
+    ): array {
         $sort_options = ($wsp_type == "wfld")
             ? [self::SORT_DERIVED => $this->lng->txt("wfld_derive")]
             : [];
@@ -59,7 +62,7 @@ class ilWorkspaceFolderSorting
         return $sort_options;
     }
 
-    protected function getLabel(int $option) : string
+    protected function getLabel(int $option): string
     {
         switch ($option) {
             case self::SORT_DERIVED: return $this->lng->txt("wfld_derive");
@@ -71,20 +74,20 @@ class ilWorkspaceFolderSorting
         return "";
     }
 
-    public function sortNodes(array $nodes, int $sorting) : array
+    public function sortNodes(array $nodes, int $sorting): array
     {
         switch ($sorting) {
             case self::SORT_ALPHABETICAL_ASC:
-                $nodes = ilUtil::sortArray($nodes, "title", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "asc");
                 break;
             case self::SORT_ALPHABETICAL_DESC:
-                $nodes = ilUtil::sortArray($nodes, "title", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "title", "desc");
                 break;
             case self::SORT_CREATION_ASC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "asc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "asc");
                 break;
             case self::SORT_CREATION_DESC:
-                $nodes = ilUtil::sortArray($nodes, "create_date", "desc");
+                $nodes = ilArrayUtil::sortArray($nodes, "create_date", "desc");
                 break;
         }
         return $nodes;

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Setup\Objective;
 
@@ -12,27 +28,27 @@ class NullObjectiveTest extends TestCase
 {
     protected Objective\NullObjective $o;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->o = new Objective\NullObjective();
     }
 
-    public function testGetHash() : void
+    public function testGetHash(): void
     {
         $this->assertIsString($this->o->getHash());
     }
 
-    public function testGetLabel() : void
+    public function testGetLabel(): void
     {
         $this->assertEquals("Nothing to do.", $this->o->getLabel());
     }
 
-    public function testIsNotable() : void
+    public function testIsNotable(): void
     {
         $this->assertFalse($this->o->isNotable());
     }
 
-    public function testGetPreconditions() : void
+    public function testGetPreconditions(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 
@@ -40,7 +56,7 @@ class NullObjectiveTest extends TestCase
         $this->assertEquals([], $pre);
     }
 
-    public function testAchieve() : void
+    public function testAchieve(): void
     {
         $env = $this->createMock(Setup\Environment::class);
 

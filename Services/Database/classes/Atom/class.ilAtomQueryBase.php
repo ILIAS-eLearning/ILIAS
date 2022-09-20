@@ -1,5 +1,22 @@
-<?php /** @noinspection ALL */
+<?php
+
 declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAtomQuery
@@ -10,18 +27,27 @@ declare(strict_types=1);
 abstract class ilAtomQueryBase
 {
     protected const ITERATIONS = 10;
+    /**
+     * @var int[]
+     */
     protected static array $available_isolations_levels = array(
         ilAtomQuery::ISOLATION_READ_UNCOMMITED,
         ilAtomQuery::ISOLATION_READ_COMMITED,
         ilAtomQuery::ISOLATION_REPEATED_READ,
         ilAtomQuery::ISOLATION_SERIALIZABLE,
     );
+    /**
+     * @var int[]
+     */
     protected static array $possible_anomalies = array(
         ilAtomQuery::ANO_LOST_UPDATES,
         ilAtomQuery::ANO_DIRTY_READ,
         ilAtomQuery::ANO_NON_REPEATED_READ,
         ilAtomQuery::ANO_PHANTOM,
     );
+    /**
+     * @var int[][]
+     */
     protected static array $anomalies_map = array(
         ilAtomQuery::ISOLATION_READ_UNCOMMITED => array(
             ilAtomQuery::ANO_LOST_UPDATES,
@@ -66,7 +92,7 @@ abstract class ilAtomQueryBase
     /**
      * @return int[]
      */
-    public function getRisks() : array
+    public function getRisks(): array
     {
         return static::getPossibleAnomalies($this->getIsolationLevel());
     }
@@ -77,7 +103,7 @@ abstract class ilAtomQueryBase
      * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
      * the lock-level is determined by ilAtomQuery
      */
-    public function addTableLock(string $table_name) : ilTableLockInterface
+    public function addTableLock(string $table_name): ilTableLockInterface
     {
         $ilTableLock = new ilTableLock($table_name, $this->ilDBInstance);
         $ilTableLock->setLockLevel($this->getDeterminedLockLevel());
@@ -86,7 +112,7 @@ abstract class ilAtomQueryBase
         return $ilTableLock;
     }
 
-    protected function getDeterminedLockLevel() : int
+    protected function getDeterminedLockLevel(): int
     {
         return ilAtomQuery::LOCK_WRITE;
     }
@@ -104,10 +130,9 @@ abstract class ilAtomQueryBase
      *      }
      * }
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     * @param \callable $query
      * @throws ilAtomQueryException
      */
-    public function addQueryCallable(callable $query) : void
+    public function addQueryCallable(callable $query): void
     {
         if ($this->query) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_ALREADY_SET);
@@ -121,7 +146,7 @@ abstract class ilAtomQueryBase
     /**
      * @throws \ilAtomQueryException
      */
-    public function replaceQueryCallable(callable $query) : void
+    public function replaceQueryCallable(callable $query): void
     {
         if (!$this->checkCallable($query)) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_WRONG_FORMAT);
@@ -133,19 +158,17 @@ abstract class ilAtomQueryBase
      * Fire your Queries
      * @throws \ilAtomQueryException
      */
-    abstract public function run() : void;
+    abstract public function run(): void;
 
-    public function getIsolationLevel() : int
+    public function getIsolationLevel(): int
     {
         return $this->isolation_level;
     }
 
     /**
-     * @param $isolation_level
-     * @param $anomaly
      * @throws \ilAtomQueryException
      */
-    public static function isThereRiskThat($isolation_level, $anomaly) : bool
+    public static function isThereRiskThat(int $isolation_level, int $anomaly): bool
     {
         static::checkIsolationLevel($isolation_level);
         static::checkAnomaly($anomaly);
@@ -154,10 +177,9 @@ abstract class ilAtomQueryBase
     }
 
     /**
-     * @param $isolation_level
-     * @return mixed[]
+     * @return int[]
      */
-    public static function getPossibleAnomalies($isolation_level) : array
+    public static function getPossibleAnomalies(int $isolation_level): array
     {
         static::checkIsolationLevel($isolation_level);
 
@@ -167,7 +189,7 @@ abstract class ilAtomQueryBase
     /**
      * @throws \ilAtomQueryException
      */
-    public static function checkIsolationLevel(int $isolation_level) : void
+    public static function checkIsolationLevel(int $isolation_level): void
     {
         // The following Isolations are currently not supported
         if (in_array($isolation_level, array(
@@ -175,29 +197,28 @@ abstract class ilAtomQueryBase
             ilAtomQuery::ISOLATION_READ_COMMITED,
             ilAtomQuery::ISOLATION_REPEATED_READ,
         ))) {
-            throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
+            throw new ilAtomQueryException('Level: ' . $isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
         }
         // Check if a available Isolation level is selected
         if (!in_array($isolation_level, self::$available_isolations_levels)) {
-            throw new ilAtomQueryException($isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
+            throw new ilAtomQueryException('Level: ' . $isolation_level, ilAtomQueryException::DB_ATOM_ISO_WRONG_LEVEL);
         }
     }
 
     /**
-     * @param $anomalie
      * @throws \ilAtomQueryException
      */
-    public static function checkAnomaly($anomalie)
+    public static function checkAnomaly(int $anomaly): void
     {
-        if (!in_array($anomalie, self::$possible_anomalies)) {
-            throw new ilAtomQueryException($anomalie, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
+        if (!in_array($anomaly, self::$possible_anomalies)) {
+            throw new ilAtomQueryException('Anomaly: ' . $anomaly, ilAtomQueryException::DB_ATOM_ANO_NOT_AVAILABLE);
         }
     }
 
     /**
      * @throws \ilAtomQueryException
      */
-    protected function checkQueries() : void
+    protected function checkQueries(): void
     {
         if (!($this->query instanceof \Traversable) && (is_array($this->query) && 0 === count($this->query))) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_CLOSURE_NONE);
@@ -210,7 +231,7 @@ abstract class ilAtomQueryBase
         }
     }
 
-    public function checkCallable(callable $query) : bool
+    public function checkCallable(callable $query): bool
     {
         if (!is_callable($query)) {
             return false; // Won't be triggered sidn type-hinting already checks this
@@ -221,8 +242,8 @@ abstract class ilAtomQueryBase
         if (is_string($query)) {
             return false;
         }
-        $classname = get_class($query);
-        $is_a_closure = $classname === 'Closure';
+
+        $is_a_closure = ($query instanceof Closure);
         if (!$is_a_closure) {
             $ref = new ReflectionClass($query);
             foreach ($ref->getMethods() as $method) {
@@ -246,7 +267,7 @@ abstract class ilAtomQueryBase
         return true;
     }
 
-    protected function hasWriteLocks() : bool
+    protected function hasWriteLocks(): bool
     {
         $has_write_locks = false;
         foreach ($this->tables as $table) {
@@ -261,7 +282,7 @@ abstract class ilAtomQueryBase
     /**
      * @throws ilAtomQueryException
      */
-    protected function runQueries() : void
+    protected function runQueries(): void
     {
         $query = $this->query;
         $query($this->ilDBInstance);
@@ -270,7 +291,7 @@ abstract class ilAtomQueryBase
     /**
      * @throws \ilAtomQueryException
      */
-    protected function checkBeforeRun() : void
+    protected function checkBeforeRun(): void
     {
         $this->checkQueries();
 

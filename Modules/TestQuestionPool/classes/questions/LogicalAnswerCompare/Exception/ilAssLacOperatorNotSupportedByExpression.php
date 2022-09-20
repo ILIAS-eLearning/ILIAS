@@ -43,7 +43,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getExpression()
+    public function getExpression(): string
     {
         return $this->expression;
     }
@@ -51,7 +51,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getOperator()
+    public function getOperator(): string
     {
         return $this->operator;
     }
@@ -60,7 +60,7 @@ class ilAssLacOperatorNotSupportedByExpression extends ilAssLacException impleme
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng)
+    public function getFormAlert(ilLanguage $lng): string
     {
         return sprintf(
             $lng->txt("ass_lac_operator_not_supported_by_expression"),

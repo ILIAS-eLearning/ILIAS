@@ -1,40 +1,39 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
 
 /**
- * Interface ilUsersGalleryUserCollection
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 interface ilUsersGalleryUserCollection extends Iterator, Countable
 {
-    /**
-     * Set whether or not this group is highlighted
-     * @param boolean $status
-     */
-    public function setHighlighted($status);
+    public function setHighlighted(bool $status): void;
+
+    public function isHighlighted(): bool;
+
+    public function getLabel(): string;
+
+    public function setLabel(string $label): void;
 
     /**
-     * Returns whether or not it is a highlighted group
-     * @return boolean
+     * @param ilUsersGalleryUser[] $items
      */
-    public function isHighlighted();
+    public function setItems(array $items): void;
 
     /**
-     * @return string
+     * @return ilUsersGalleryUser[]
      */
-    public function getLabel();
-
-    /**
-     * @param $label string
-     */
-    public function setLabel($label);
-
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items);
-
-    /**
-     * @return array
-     */
-    public function getItems();
+    public function getItems(): array;
 }

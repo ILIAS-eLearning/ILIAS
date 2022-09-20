@@ -1,6 +1,23 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\ResourceStorage;
+
 /** @noRector  */
 require_once('AbstractBaseTest.php');
 /** @noRector  */
@@ -20,8 +37,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-
-require_once('DummyIDGenerator.php');
+use ILIAS\ResourceStorage\Collection\Repository\CollectionRepository;
 
 /**
  * Class AbstractBaseResourceBuilderTest
@@ -50,6 +66,10 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      */
     protected $resource_repository;
     /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|CollectionRepository
+     */
+    protected $collection_repository;
+    /**
      * @var \PHPUnit\Framework\MockObject\MockObject|RevisionRepository
      */
     protected $revision_repository;
@@ -57,10 +77,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      * @var \PHPUnit\Framework\MockObject\MockObject|StorageHandler
      */
     protected $storage_handler;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    protected \ILIAS\ResourceStorage\Resource\ResourceBuilder $resource_builder;
     /**
      * @var StakeholderRepository|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -74,13 +91,15 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      */
     protected $storage_handler_factory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->storage_handler = $this->createMock(StorageHandler::class);
         $this->storage_handler_factory = $this->createMock(StorageHandlerFactory::class);
+        $this->storage_handler_factory->method('getPrimary')->willReturn($this->storage_handler);
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
+        $this->collection_repository = $this->createMock(CollectionRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
         $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
         $this->locking = $this->createMock(LockHandler::class);
@@ -89,12 +108,6 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
     }
 
     /**
-     * @param string $expected_file_name
-     * @param string $expected_mime_type
-     * @param int    $expected_size
-     * @param int    $expected_version_number
-     * @param int    $expected_owner_id
-     * @return array
      * @throws \Exception
      */
     protected function mockResourceAndRevision(
@@ -103,7 +116,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         int $expected_size,
         int $expected_version_number,
         int $expected_owner_id
-    ) : array {
+    ): array {
         $identification = $this->id_generator->getUniqueResourceIdentification();
 
         $upload_result = $this->getDummyUploadResult(
@@ -138,4 +151,3 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         return array($upload_result, $info_resolver, $identification);
     }
 }
-

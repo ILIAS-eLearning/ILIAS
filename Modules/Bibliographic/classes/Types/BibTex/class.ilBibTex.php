@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBibTexInterface
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -8,11 +24,10 @@
  */
 class ilBibTex implements ilBiblTypeInterface
 {
-
     /**
      * @inheritDoc
      */
-    public function getId() : int
+    public function getId(): int
     {
         return ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
     }
@@ -21,7 +36,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStringRepresentation() : string
+    public function getStringRepresentation(): string
     {
         return "bib";
     }
@@ -30,36 +45,14 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritDoc
      */
-    public function getStandardFieldIdentifiers() : array
+    public function getStandardFieldIdentifiers(): array
     {
         return self::$standard_fields;
     }
 
 
 
-    /**
-     * should return
-     *
-     * Array
-     * (
-     *      [0] => Array
-     *      (
-     *          [isbn] => 978-0-12-411454-8
-     *          [year] => 2013
-     *          [title] => Mastering cloud computing
-     *          [cite] => Masteringcloudcomputing:2013
-     *          [entryType] => book
-     *      )
-     *
-     *      [...]
-     *
-     * @return array
-     */
-
-    /**
-     * @var array
-     */
-    protected static $standard_fields
+    protected static array $standard_fields
         = array(
             'address',
             'annote',
@@ -88,10 +81,7 @@ class ilBibTex implements ilBiblTypeInterface
             'volume',
             'year',
         );
-    /**
-     * @var array
-     */
-    protected static $entry_types
+    protected static array $entry_types
         = array(
             'article',
             'book',
@@ -113,7 +103,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritdoc
      */
-    public function isStandardField(string $field_name) : bool
+    public function isStandardField(string $field_name): bool
     {
         return in_array($field_name, self::$standard_fields);
     }
@@ -122,7 +112,7 @@ class ilBibTex implements ilBiblTypeInterface
     /**
      * @inheritdoc
      */
-    public function isEntryType(string $entry_ype) : bool
+    public function isEntryType(string $entry_ype): bool
     {
         return in_array($entry_ype, self::$entry_types);
     }

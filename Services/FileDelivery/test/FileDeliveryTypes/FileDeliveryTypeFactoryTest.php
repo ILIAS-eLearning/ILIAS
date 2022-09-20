@@ -1,13 +1,8 @@
 <?php
 
-namespace ILIAS\FileDelivery\FileDeliveryTypes;
+declare(strict_types=1);
 
-require_once('./libs/composer/vendor/autoload.php');
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/PHP.php';
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/PHPChunked.php';
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php';
-require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
-require_once './Services/Exceptions/classes/class.ilException.php';
+namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ilException;
 use ILIAS\HTTP\Services;
@@ -15,6 +10,19 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FileDeliveryTypeFactoryTest
  *
@@ -27,25 +35,17 @@ use PHPUnit\Framework\TestCase;
  */
 class FileDeliveryTypeFactoryTest extends TestCase
 {
-    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    private \ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory $subject;
     /**
-     * @var Services|MockInterface $http
+     * @var Services|\PHPUnit\Framework\MockObject\MockObject
      */
-    private $http;
-    /**
-     * @var FileDeliveryTypeFactory $subject
-     */
-    private $subject;
+    private Services $http;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
-        $this->http = Mockery::mock(Services::class);
-
-        //the factory should not interact with the service.
-        $this->http->shouldNotReceive();
-
+        $this->http = $this->getMockBuilder(Services::class)->disableOriginalConstructor()->getMock();
         $this->subject = new FileDeliveryTypeFactory($this->http);
     }
 
@@ -53,7 +53,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPFileDeliveryWhichShouldSucceed()
+    public function testCreatePHPFileDeliveryWhichShouldSucceed(): void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP);
 
@@ -63,7 +63,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed()
+    public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed(): void
     {
         $result = $this->subject->getInstance(DeliveryMethod::PHP_CHUNKED);
 
@@ -74,9 +74,8 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance()
+    public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance(): void
     {
-
         //fetch the php file delivery type two times to check that only one instance is created.
         $firstResult = $this->subject->getInstance(DeliveryMethod::PHP);
         $secondResult = $this->subject->getInstance(DeliveryMethod::PHP);
@@ -87,9 +86,8 @@ class FileDeliveryTypeFactoryTest extends TestCase
     /**
      * @Test
      */
-    public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail()
+    public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail(): void
     {
-
         //get instance should throw an exception if the file delivery type is not known.
         $type = 'unknown file delivery type';
         $this->expectException(ilException::class);

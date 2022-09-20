@@ -1,37 +1,57 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=0);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 
 /**
  * GUI class for course verification
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
  */
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {
     private Container $dic;
+    protected ilErrorHandling $error;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    protected ilTabsGUI $tabs;
+
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         $this->dic = $DIC;
+        $this->error = $DIC->error();
+        $this->tabs = $DIC->tabs();
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "crsv";
     }
 
-    public function create() : void
+    public function create(): void
     {
-        $ilTabs = $this->dic->tabs();
-
         $this->lng->loadLanguageModule("crsv");
 
-        $ilTabs->setBackTarget(
+        $this->tabs->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "cancel")
         );
@@ -40,10 +60,10 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $ilUser = $this->dic->user();
-        
+
         $objectId = $this->getRequestValue("crs_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
@@ -56,7 +76,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $ilUser->getId(),
+                $ilUser->getId(),
                 (int) $objectId
             );
 
@@ -64,7 +84,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (Exception $exception) {
-                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
                 return;
             }
@@ -76,36 +96,36 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
                 $this->afterSave($newObj);
             } else {
-                ilUtil::sendFailure($this->lng->txt("msg_failed"));
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_failed"));
             }
         } else {
-            ilUtil::sendFailure($this->lng->txt("select_one"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"));
         }
 
         $this->create();
     }
-    
-    public function deliver() : void
+
+    public function deliver(): void
     {
         $file = $this->object->getFilePath();
         if ($file) {
-            ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
+            ilFileDelivery::deliverFileLegacy($file, $this->object->getTitle() . ".pdf");
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
+    public function render(bool $a_return = false, string $a_url = ''): string
     {
         $ilUser = $this->dic->user();
         $lng = $this->dic->language();
-        
+
         if (!$a_return) {
             $this->deliver();
         } else {
             $tree = new ilWorkspaceTree($ilUser->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
-            
+
             $caption = $lng->txt("wsp_type_crsv") . ' "' . $this->object->getTitle() . '"';
-            
+
             $valid = true;
             $message = '';
             if (!file_exists($this->object->getFilePath())) {
@@ -118,7 +138,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                     $message = $lng->txt("permission_denied");
                 }
             }
-            
+
             if ($valid) {
                 if (!$a_url) {
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
@@ -131,31 +151,33 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
         return "";
     }
-    
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
+
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page): void
     {
-        $ilErr = $this->dic['ilErr'];
-        
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
-        
-        $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+        $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
     }
-    
-    public static function _goto(string $a_target) : void
+
+    public static function _goto(string $a_target): void
     {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
         $id = explode("_", $a_target);
-        
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+
+        $ctrl->setParameterByClass(
+            ilSharedResourceGUI::class,
+            'wsp_id',
+            $id[0]
+        );
+        $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
-     * @param string $key
-     * @param mixed   $default
+     * @param mixed  $default
      * @return mixed|null
      */
     protected function getRequestValue(string $key, $default = null)

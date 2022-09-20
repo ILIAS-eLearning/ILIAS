@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -16,16 +32,17 @@ class TextareaTest extends ILIAS_UI_TestBase
 {
     private DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
         return new I\Input\Field\Factory(
+            $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             new SignalGenerator(),
             $df,
             new Refinery($df, $language),
@@ -33,7 +50,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label", "byline");
@@ -41,7 +58,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
-    public function test_implements_factory_interface_without_byline() : void
+    public function test_implements_factory_interface_without_byline(): void
     {
         $f = $this->buildFactory();
         $textarea = $f->textarea("label");
@@ -49,7 +66,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Textarea::class, $textarea);
     }
 
-    public function test_with_min_limit() : void
+    public function test_with_min_limit(): void
     {
         $f = $this->buildFactory();
         $limit = 5;
@@ -59,7 +76,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
 
-    public function test_with_max_limit() : void
+    public function test_with_max_limit(): void
     {
         $f = $this->buildFactory();
         $limit = 15;
@@ -69,7 +86,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMaxLimit(), $limit);
     }
 
-    public function test_is_limited() : void
+    public function test_is_limited(): void
     {
         $f = $this->buildFactory();
 
@@ -90,7 +107,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertFalse($textarea->isLimited());
     }
 
-    public function test_get_min_limit() : void
+    public function test_get_min_limit(): void
     {
         $f = $this->buildFactory();
         $limit = 5;
@@ -98,7 +115,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($textarea->getMinLimit(), $limit);
     }
 
-    public function test_get_max_limit() : void
+    public function test_get_max_limit(): void
     {
         $f = $this->buildFactory();
         $limit = 15;
@@ -107,7 +124,7 @@ class TextareaTest extends ILIAS_UI_TestBase
     }
 
     // RENDERER
-    public function test_renderer() : void
+    public function test_renderer(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -117,8 +134,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                 . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
                 . "<div class=\"help-block\">byline</div>"
                 . "</div>"
@@ -128,7 +145,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_min_limit() : void
+    public function test_renderer_with_min_limit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -141,8 +158,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"\"></div>"
             . "<div class=\"help-block\">$byline</div>"
@@ -153,7 +170,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_max_limit() : void
+    public function test_renderer_with_max_limit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -165,8 +182,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
             . "<div class=\"help-block\">$byline</div>"
@@ -177,7 +194,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_min_and_max_limit() : void
+    public function test_renderer_with_min_and_max_limit(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -190,8 +207,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
             . "<div class=\"help-block\">$byline</div>"
@@ -202,7 +219,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_counter_with_value() : void
+    public function test_renderer_counter_with_value(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -213,8 +230,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\">$value</textarea>"
             . "<div class=\"help-block\">byline</div>"
             . "</div>"
@@ -224,7 +241,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_renderer_with_error() : void
+    public function test_renderer_with_error(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -236,8 +253,8 @@ class TextareaTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label for="id_1" class="control-label col-sm-3">label</label>
-   <div class="col-sm-9">
+   <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+   <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="help-block alert alert-danger" role="alert">an_error</div>
       <textarea id="id_1" name="name_0" class="form-control form-control-sm"></textarea>
       <div class="help-block">This is just a byline Min: 5</div>
@@ -249,7 +266,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_renderer_with_disabled() : void
+    public function test_renderer_with_disabled(): void
     {
         $f = $this->buildFactory();
         $r = $this->getDefaultRenderer();
@@ -259,8 +276,8 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withDisabled(true);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label for=\"id_1\" class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<textarea id=\"id_1\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\"></textarea>"
             . "<div class=\"help-block\">byline</div>"
             . "</div>"
@@ -270,7 +287,7 @@ class TextareaTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_stripsTags() : void
+    public function test_stripsTags(): void
     {
         $f = $this->buildFactory();
         $name = "name_0";

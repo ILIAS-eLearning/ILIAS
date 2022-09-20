@@ -1,22 +1,24 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    protected $width;
-    protected $height;
+    protected int $width = 0;
+    protected int $height = 0;
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
 
-    public function setSize(int $a_width, int $a_height) : void
+    public function setSize(int $a_width, int $a_height): void
     {
         $this->width = $a_width;
         $this->height = $a_height;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         if (!$this->getADT()->isNull()) {
             $map_gui = ilMapUtil::getMapGUI();
@@ -30,10 +32,10 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
                     ->setEnableCentralMarker(true);
 
             if ($this->width) {
-                $map_gui->setWidth($this->width);
+                $map_gui->setWidth((string) $this->width);
             }
             if ($this->height) {
-                $map_gui->setHeight($this->height);
+                $map_gui->setHeight((string) $this->height);
             }
 
             return $this->decorate($map_gui->getHtml());
@@ -41,7 +43,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getList() : string
+    public function getList(): string
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense
@@ -50,7 +52,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         return '';
     }
 
-    public function getSortable() : mixed
+    public function getSortable()
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense

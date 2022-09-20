@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,25 +11,24 @@
  * the design of the desktop.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  *
  */
 class ilLogLevel
 {
-    const DEBUG = 100;
-    const INFO = 200;
-    const NOTICE = 250;
-    const WARNING = 300;
-    const ERROR = 400;
-    const CRITICAL = 500;
-    const ALERT = 550;
-    const EMERGENCY = 600;
-    
-    const OFF = 1000;
+    public const DEBUG = 100;
+    public const INFO = 200;
+    public const NOTICE = 250;
+    public const WARNING = 300;
+    public const ERROR = 400;
+    public const CRITICAL = 500;
+    public const ALERT = 550;
+    public const EMERGENCY = 600;
 
-    
-    
-    public static function getLevels()
+    public const OFF = 1000;
+
+
+
+    public static function getLevels(): array
     {
         return array(
             self::DEBUG,
@@ -43,16 +44,11 @@ class ilLogLevel
     }
 
 
-    /**
-     * Get log level options
-     * @return type
-     */
-    public static function getLevelOptions()
+    public static function getLevelOptions(): array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        
+        $lng = $DIC->language();
         return array(
             self::DEBUG => $lng->txt('log_level_debug'),
             self::INFO => $lng->txt('log_level_info'),

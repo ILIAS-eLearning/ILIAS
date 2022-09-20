@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,7 +23,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once 'Services/Search/classes/class.ilWikiContentSearch.php';
 
 /**
 * Class ilLikeWikiContentSearch
@@ -29,29 +30,14 @@ include_once 'Services/Search/classes/class.ilWikiContentSearch.php';
 * class for searching media pool folders and titles of mob's
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
 class ilLikeWikiContentSearch extends ilWikiContentSearch
 {
-
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($qp_obj)
+    public function __createWhereCondition(): string
     {
-        parent::__construct($qp_obj);
-    }
-
-    public function __createWhereCondition()
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $and = "  WHERE ( ";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {

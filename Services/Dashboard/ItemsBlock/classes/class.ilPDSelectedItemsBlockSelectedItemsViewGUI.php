@@ -1,48 +1,50 @@
 <?php
-
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockViewGUI
 {
-    public function getGroups() : array
+    public function getGroups(): array
     {
         if ($this->viewSettings->isSortedByLocation()) {
             return $this->groupItemsByLocation();
+        } elseif ($this->viewSettings->isSortedByAlphabet()) {
+            return $this->sortItemsByAlphabetInOneGroup();
         }
 
         return $this->groupItemsByType();
     }
 
-    public function getScreenId() : string
+    public function getScreenId(): string
     {
         return 'sel_items';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('dash_favourites');
     }
 
-    public function supportsSelectAll() : bool
+    public function supportsSelectAll(): bool
     {
         return true;
     }
 
-    public function getIntroductionHtml() : string
+    public function getIntroductionHtml(): string
     {
         $tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
-        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
+        $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon(0, 'big', 'pd'));
         $tpl->setVariable('TXT_WELCOME', $this->lng->txt('pdesk_intro'));
 
         $tpl->setVariable('TXT_INTRO_2', sprintf(

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup;
 
@@ -19,7 +35,7 @@ class ConfigCollection implements Config
         $this->configs = $configs;
     }
 
-    public function getConfig(string $key) : Config
+    public function getConfig(string $key): Config
     {
         if (!isset($this->configs[$key])) {
             throw new \InvalidArgumentException(
@@ -29,7 +45,7 @@ class ConfigCollection implements Config
         return $this->configs[$key];
     }
 
-    public function maybeGetConfig(string $key) : ?Config
+    public function maybeGetConfig(string $key): ?Config
     {
         return $this->configs[$key] ?? null;
     }
@@ -37,7 +53,7 @@ class ConfigCollection implements Config
     /**
      * @return string[]
      */
-    public function getKeys() : array
+    public function getKeys(): array
     {
         return array_keys($this->configs);
     }

@@ -1,47 +1,48 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Importer class for files
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilSurveyImporter extends ilXmlImporter
 {
-    /**
-     * @var Logger
-     */
-    protected $log;
+    protected ilSurveyDataSet $ds;
+    protected ilLogger $log;
+    protected static ilObjSurvey $survey;
+    protected ilLogger $svy_log;
+    protected \ILIAS\SurveyQuestionPool\Export\ImportManager $spl_import_manager;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
         global $DIC;
 
         $this->log = $DIC["ilLog"];
+
+        $this->spl_import_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->domain()
+            ->import();
     }
 
-    /**
-     * @var ilObjSurvey
-     */
-    protected static $survey;
 
-    /**
-     * @var ilLogger
-     */
-    protected $svy_log;
-
-    /**
-     * Init
-     * @param
-     * @return void
-     */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilSurveyDataSet();
         $this->ds->setDSPrefix("ds");
@@ -55,70 +56,65 @@ class ilSurveyImporter extends ilXmlImporter
      * Set current survey object (being imported). This is done statically,
      * since the survey import uses multiple input files being processed for every survey
      * and all of these need the current survey object (ilSurveyImporter is intantiated multiple times)
-     *
-     * @param ilObjSurvey $a_val survey
      */
-    public function setSurvey(ilObjSurvey $a_val)
+    public function setSurvey(ilObjSurvey $a_val): void
     {
         self::$survey = $a_val;
     }
 
-    /**
-     * Get current survey object
-     *
-     * @return ilObjSurvey survey
-     */
-    public function getSurvey()
+    public function getSurvey(): ilObjSurvey
     {
         return self::$survey;
     }
 
     /**
      * Import XML
-     * @param string          $a_entity
-     * @param string          $a_id
-     * @param string          $a_xml
-     * @param ilImportMapping $a_mapping
-     * @return void
      * @throws ilDatabaseException
      * @throws ilImportException
      * @throws ilObjectNotFoundException
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
-        if ($a_entity == "svy") {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ): void {
+        if ($a_entity === "svy") {
             // Container import => test object already created
-            if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            #$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
-            } else {    // case ii, non container
+            if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
                 $new_id = $a_mapping->getMapping("Modules/Survey", "svy", 0);
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             }
+            /** @var ilObjSurvey $newObj */
+            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $this->setSurvey($newObj);
 
 
-            list($xml_file) = $this->parseXmlFileNames();
+            [$xml_file] = $this->parseXmlFileNames();
 
-            if (!@file_exists($xml_file)) {
+            if (!file_exists($xml_file)) {
                 $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
                 return;
             }
             $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID());
 
-            $import = new SurveyImportParser($this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(), $xml_file, true, $a_mapping);
+            $import = new SurveyImportParser(
+                $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID(),
+                $xml_file,
+                true,
+                $a_mapping
+            );
 
             $import->setSurveyObject($newObj);
             $import->startParsing();
 
-            $this->svy_log->debug("is array import_mob_xml: -" . is_array($_SESSION["import_mob_xhtml"]) . "-");
 
             // this is "written" by Services/Survey/classes/class.ilSurveyImportParser
-            if (is_array($_SESSION["import_mob_xhtml"])) {
-                foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            $mobs = $this->spl_import_manager->getMobs();
+            if (count($mobs) > 0) {
+                foreach ($mobs as $mob) {
                     $this->svy_log->debug("import mob xhtml, type: " . $mob["type"] . ", id: " . $mob["mob"]);
 
-                    if (!$mob["type"]) {
+                    if (!isset($mob["type"])) {
                         $mob["type"] = "svy:html";
                     }
 
@@ -129,7 +125,7 @@ class ilSurveyImporter extends ilXmlImporter
                         $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
 
                         // survey mob
-                        if ($mob["type"] == "svy:html") {
+                        if ($mob["type"] === "svy:html") {
                             ilObjMediaObject::_saveUsage($media_object->getId(), "svy:html", $newObj->getId());
                             $this->svy_log->debug("old introduction: " . $newObj->getIntroduction());
                             $newObj->setIntroduction(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $newObj->getIntroduction()));
@@ -167,9 +163,7 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
                 $newObj->saveToDb();
             }
-            $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, (int) $newObj->getId());
-            //return $newObj->getId();
-            return;
+            $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, $newObj->getId());
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,
@@ -180,19 +174,18 @@ class ilSurveyImporter extends ilXmlImporter
             );
         }
     }
-    
-    
+
+
     /**
      * Create qti and xml file name
-     * @return array
      */
-    protected function parseXmlFileNames()
+    protected function parseXmlFileNames(): array
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
-        
+
         $basename = basename($this->getImportDirectory());
         $xml = $this->getImportDirectory() . '/' . $basename . '.xml';
-        
+
         return array($xml);
     }
 }

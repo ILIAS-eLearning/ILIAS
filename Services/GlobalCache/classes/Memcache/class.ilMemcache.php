@@ -1,20 +1,32 @@
 <?php
 
 /**
- * Class ilMemcache
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilMemcache
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
 class ilMemcache extends ilGlobalCacheService
 {
-
     protected static ?\Memcached $memcache_object = null;
-    
+
     /**
      * ilMemcache constructor.
-     * @param string $service_id
-     * @param string $component
      */
     public function __construct(string $service_id, string $component)
     {
@@ -26,9 +38,9 @@ class ilMemcache extends ilGlobalCacheService
 
             if (ilMemcacheServer::count() > 0) {
                 $memcached->resetServerList();
-                $servers = array();
-                $list = ilMemcacheServer::where(array( 'status' => ilMemcacheServer::STATUS_ACTIVE ))
-                                        ->get();
+                $servers = [];
+                $list = ilMemcacheServer::where(array('status' => ilMemcacheServer::STATUS_ACTIVE))
+                                           ->get();
                 foreach ($list as $ilMemcacheServer) {
                     $servers[] = array(
                         $ilMemcacheServer->getHost(),
@@ -44,41 +56,39 @@ class ilMemcache extends ilGlobalCacheService
         parent::__construct($service_id, $component);
     }
 
-
     protected function getMemcacheObject(): ?\Memcached
     {
         return self::$memcache_object;
     }
-    
-    public function exists(string $key):bool
+
+    public function exists(string $key): bool
     {
         return $this->getMemcacheObject()->get($this->returnKey($key)) !== null;
     }
-    
 
     public function set(string $key, $serialized_value, int $ttl = null): bool
     {
         return $this->getMemcacheObject()
                     ->set($this->returnKey($key), $serialized_value, (int) $ttl);
     }
-    
 
+    /**
+     * @return mixed
+     */
     public function get(string $key)
     {
         return $this->getMemcacheObject()->get($this->returnKey($key));
     }
-    
-    public function delete(string $key):bool
+
+    public function delete(string $key): bool
     {
         return $this->getMemcacheObject()->delete($this->returnKey($key));
     }
 
-
-    public function flush(bool $complete = false):bool
+    public function flush(bool $complete = false): bool
     {
         return $this->getMemcacheObject()->flush();
     }
-
 
     protected function getActive(): bool
     {
@@ -90,7 +100,7 @@ class ilMemcache extends ilGlobalCacheService
             }
 
             foreach ($stats as $server) {
-                if ($server['pid'] > 0) {
+                if ((int) $server['pid'] > 1) {
                     return true;
                 }
             }
@@ -101,54 +111,56 @@ class ilMemcache extends ilGlobalCacheService
         return false;
     }
 
-
     protected function getInstallable(): bool
     {
         return class_exists('Memcached');
     }
-    
-    public function getInstallationFailureReason() : string
+
+    public function getInstallationFailureReason(): string
     {
         $stats = $this->getMemcacheObject()->getStats();
-        if ((!$stats[self::STD_SERVER . ':' . self::STD_PORT]['pid']) > 0) {
+        $server_available = false;
+        foreach ($stats as $server) {
+            if ($server['pid'] > 0) {
+                $server_available = true;
+            }
+        }
+        if (!$server_available) {
             return 'No Memcached-Server available';
         }
         return parent::getInstallationFailureReason();
     }
 
-
     /**
-     * @param $value
-     *
-     * @return mixed
+     * @param mixed $value
      */
     public function serialize($value): string
     {
         return serialize($value);
     }
 
-    
+    /**
+     * @param mixed $serialized_value
+     * @return mixed
+     */
     public function unserialize($serialized_value)
     {
         return unserialize($serialized_value);
     }
-    
-    public function getInfo() : array
+
+    public function getInfo(): array
     {
+        $return = [];
         if ($this->isInstallable()) {
-            $return = array();
             $return['__cache_info'] = $this->getMemcacheObject()->getStats();
             foreach ($this->getMemcacheObject()->getAllKeys() as $key) {
                 $return[$key] = $this->getMemcacheObject()->get($key);
             }
-
-            return $return;
         }
+        return $return;
     }
 
-
- 
-    public function isValid(string $key) : bool
+    public function isValid(string $key): bool
     {
         return true;
     }

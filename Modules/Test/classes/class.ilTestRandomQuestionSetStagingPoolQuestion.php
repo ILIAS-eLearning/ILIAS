@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -41,7 +42,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -57,7 +58,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getPoolId()
+    public function getPoolId(): int
     {
         return $this->poolId;
     }
@@ -73,7 +74,7 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId(): int
     {
         return $this->questionId;
     }
@@ -85,11 +86,11 @@ class ilTestRandomQuestionSetStagingPoolQuestion
     {
         $this->questionId = $questionId;
     }
-    
+
     public function saveQuestionStaging()
     {
         $nextId = $this->db->nextId('tst_rnd_cpy');
-        
+
         $this->db->insert('tst_rnd_cpy', array(
             'copy_id' => array('integer', $nextId),
             'tst_fi' => array('integer', $this->getTestId()),

@@ -2,75 +2,65 @@
 
 declare(strict_types=1);
 
-use ILIAS\Data;
-use ILIAS\Refinery;
-use ILIAS\Refinery\String\CaseOfLabel;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\Factory as Refinery ;
+use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class CaseOfLabelTest
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
 class CaseOfLabelTest extends TestCase
 {
-    const LANGUAGE_KEY = "en";
-    const SENSELESS_LANGUAGE_KEY = "this_language_key_will_never_exist";
-    const TEST_STRING_1 = "I am a test string for the title capitalization and I hope that works even if it is complicated :)";
-    const TEST_STRING_2 = "I switch the computer on and go online";
-    const TEST_STRING_3 = "Now it is working";
-    const EXPECTED_RESULT_TEST_STRING_1 = "I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)";
-    const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
-    const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
-    /**
-     * @var CaseOfLabel
-     */
-    protected $case_of_label_if_possible;
-    /**
-     * @var Refinery\Factory
-     */
-    protected $f;
+    private const LANGUAGE_KEY = "en";
+    private const SENSELESS_LANGUAGE_KEY = "this_language_key_will_never_exist";
+    private const TEST_STRING_1 = "I am a test string for the title capitalization and I hope that works even if it is complicated :)";
+    private const TEST_STRING_2 = "I switch the computer on and go online";
+    private const TEST_STRING_3 = "Now it is working";
+    private const EXPECTED_RESULT_TEST_STRING_1 = "I Am a Test String for the Title Capitalization and I Hope that Works even if It Is Complicated :)";
+    private const EXPECTED_RESULT_TEST_STRING_2 = "I Switch the Computer on and Go Online";
+    private const EXPECTED_RESULT_TEST_STRING_3 = "Now It Is Working";
 
+    private ?Transformation $case_of_label_if_possible;
+    private ?Refinery $f;
 
-    /**
-     *
-     */
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $dataFactory = new Data\Factory();
+        $dataFactory = new DataFactory();
 
-        $language = $this->createMock('\\' . ilLanguage::class);
+        $language = $this->createMock(ilLanguage::class);
 
-        $this->f = new Refinery\Factory($dataFactory, $language);
+        $this->f = new Refinery($dataFactory, $language);
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
     }
 
-
-    /**
-     *
-     */
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         $this->f = null;
         $this->case_of_label_if_possible = null;
     }
 
-
-    /**
-     *
-     */
-    public function testTransform1() : void
+    public function testTransform1(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_1);
 
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
     }
 
-
-    /**
-     *
-     */
-    public function testTransform2() : void
+    public function testTransform2(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_2);
 
@@ -78,21 +68,14 @@ class CaseOfLabelTest extends TestCase
     }
 
 
-    /**
-     *
-     */
-    public function testTransform3() : void
+    public function testTransform3(): void
     {
         $str = $this->case_of_label_if_possible->transform(self::TEST_STRING_3);
 
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_3, $str);
     }
 
-
-    /**
-     *
-     */
-    public function testTransformFails() : void
+    public function testTransformFails(): void
     {
         $raised = false;
         try {
@@ -122,11 +105,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-
-    /**
-     *
-     */
-    public function testInvoke() : void
+    public function testInvoke(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
@@ -135,11 +114,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertEquals(self::EXPECTED_RESULT_TEST_STRING_1, $str);
     }
 
-
-    /**
-     *
-     */
-    public function testInvokeFails() : void
+    public function testInvokeFails(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::LANGUAGE_KEY);
 
@@ -171,13 +146,9 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($raised);
     }
 
-
-    /**
-     *
-     */
-    public function testApplyToWithValidValueReturnsAnOkResult() : void
+    public function testApplyToWithValidValueReturnsAnOkResult(): void
     {
-        $factory = new Data\Factory();
+        $factory = new DataFactory();
 
         $valueObject = $factory->ok(self::TEST_STRING_1);
 
@@ -187,13 +158,9 @@ class CaseOfLabelTest extends TestCase
         $this->assertFalse($resultObject->isError());
     }
 
-
-    /**
-     *
-     */
-    public function testApplyToWithInvalidValueWillLeadToErrorResult() : void
+    public function testApplyToWithInvalidValueWillLeadToErrorResult(): void
     {
-        $factory = new Data\Factory();
+        $factory = new DataFactory();
 
         $valueObject = $factory->ok(42);
 
@@ -202,11 +169,7 @@ class CaseOfLabelTest extends TestCase
         $this->assertTrue($resultObject->isError());
     }
 
-
-    /**
-     *
-     */
-    public function testUnknownLanguageKey() : void
+    public function testUnknownLanguageKey(): void
     {
         $this->case_of_label_if_possible = $this->f->string()->caseOfLabel(self::SENSELESS_LANGUAGE_KEY);
 

@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
@@ -8,16 +25,17 @@ use ILIAS\Refinery\KindlyTo\Transformation\IntegerTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 
-require_once ('./libs/composer/vendor/autoload.php');
+class TupleTransformationTest extends TestCase
+{
+    private const TUPLE_KEY = 'hello';
 
-class TupleTransformationTest extends TestCase {
-    const TUPLE_KEY = 'hello';
     /**
      * @dataProvider TupleTransformationDataProvider
-     * @param $originVal
-     * @param $expectedVal
+     * @param array $originVal
+     * @param array $expectedVal
      */
-    public function testTupleTransformation($originVal, $expectedVal) {
+    public function testTupleTransformation(array $originVal, array $expectedVal): void
+    {
         $transformation = new TupleTransformation(
             [
                 new IntegerTransformation(),
@@ -31,9 +49,10 @@ class TupleTransformationTest extends TestCase {
 
     /**
      * @dataProvider TupleFailingTransformationDataProvider
-     * @param $failingVal
+     * @param array $failingVal
      */
-    public function testNewTupleIsIncorrect($failingVal) {
+    public function testNewTupleIsIncorrect(array $failingVal): void
+    {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
             [
@@ -52,9 +71,10 @@ class TupleTransformationTest extends TestCase {
 
     /**
      * @dataProvider TupleTooManyValuesDataProvider
-     * @param $tooManyValues
+     * @param array $tooManyValues
      */
-    public function testTupleTooManyValues($tooManyValues) {
+    public function testTupleTooManyValues(array $tooManyValues): void
+    {
         $this->expectNotToPerformAssertions();
         $transformation = new TupleTransformation(
             [
@@ -71,21 +91,24 @@ class TupleTransformationTest extends TestCase {
         $this->fail();
     }
 
-    public function TupleTooManyValuesDataProvider() {
+    public function TupleTooManyValuesDataProvider(): array
+    {
         return [
-            'too_many_values' => [array(1,2,3)]
+            'too_many_values' => [[1,2,3]]
         ];
     }
 
-    public function TupleFailingTransformationDataProvider() {
+    public function TupleFailingTransformationDataProvider(): array
+    {
         return [
-            'incorrect_tuple' => [array(1, 2)]
+            'incorrect_tuple' => [[1, 2]]
         ];
     }
 
-    public function TupleTransformationDataProvider() {
+    public function TupleTransformationDataProvider(): array
+    {
         return [
-            'array_test01' => [array(1, 2), [1, 2]]
+            'array_test01' => [[1, 2], [1, 2]]
         ];
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
@@ -13,7 +29,8 @@ class ilChatroomSetupAgent implements Setup\Agent
     private const PORT_MIN = 1;
     private const PORT_MAX = 65535;
 
-    public static $LOG_LEVELS = [
+    /** @var string[] */
+    public static array $LOG_LEVELS = [
         'emerg',
         'alert',
         'crit',
@@ -25,7 +42,8 @@ class ilChatroomSetupAgent implements Setup\Agent
         'silly'
     ];
 
-    public static $INTERVALS = [
+    /** @var string[] */
+    public static array $INTERVALS = [
         'days',
         'weeks',
         'months',
@@ -42,7 +60,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -50,15 +68,15 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new LogicException("Not yet implemented.");
     }
 
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         $levels = self::$LOG_LEVELS;
         $intervals = self::$INTERVALS;
@@ -66,7 +84,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         return $this->refinery->custom()->transformation(static function ($data) use (
             $levels,
             $intervals
-        ) : Setup\Config {
+        ): Setup\Config {
             if (is_null($data)) {
                 return new Setup\NullConfig();
             }
@@ -202,7 +220,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         // null would not be valid here, because this agents strictly wants to have
         // a config.
@@ -216,7 +234,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
         // null would be valid here, because our user might just not have passed
         // one during update.
@@ -230,7 +248,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -238,7 +256,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new ilChatroomMetricsCollectedObjective($storage);
     }
@@ -246,7 +264,7 @@ class ilChatroomSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

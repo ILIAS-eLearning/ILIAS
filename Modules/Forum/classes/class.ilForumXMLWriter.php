@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * XML writer class
@@ -10,7 +26,6 @@
  * The author is responsible for well-formedness and validity
  * of the xml document.
  * @author  Andreas Kordosz (akordosz@databay.de)
- * @version $Id: class.ilExerciseXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
  * @ingroup ModulesFile
  */
 class ilForumXMLWriter extends ilXmlWriter
@@ -19,28 +34,23 @@ class ilForumXMLWriter extends ilXmlWriter
     private ?string $target_dir_relative;
     private ?string $target_dir_absolute;
 
-    public function __construct()
+    public function setForumId(int $id): void
     {
-        parent::__construct();
+        $this->forum_id = $id;
     }
 
-    public function setForumId($id) : void
-    {
-        $this->forum_id = (int) $id;
-    }
-
-    public function setFileTargetDirectories(string $a_rel, string $a_abs) : void
+    public function setFileTargetDirectories(string $a_rel, string $a_abs): void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
     }
 
-    public function start() : bool
+    public function start(): bool
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilUtil::makeDir($this->target_dir_absolute . "/objects");
+        ilFileUtils::makeDir($this->target_dir_absolute . "/objects");
 
         $query_frm = '
             SELECT *
@@ -138,7 +148,7 @@ class ilForumXMLWriter extends ilXmlWriter
                 $this->xmlElement("isAuthorModerator", null, $is_moderator_string);
 
                 $media_exists = false;
-                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
+                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', (int) $rowPost->pos_pk);
                 foreach ($mobs as $mob) {
                     $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
                     if (ilObjMediaObject::_exists($mob)) {
@@ -171,16 +181,14 @@ class ilForumXMLWriter extends ilXmlWriter
                     (int) $rowPost->pos_pk
                 );
 
-                if (count($tmp_file_obj->getFilesOfPost())) {
-                    foreach ($tmp_file_obj->getFilesOfPost() as $file) {
-                        $this->xmlStartTag("Attachment");
+                foreach ($tmp_file_obj->getFilesOfPost() as $file) {
+                    $this->xmlStartTag("Attachment");
 
-                        copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
-                        $content = $this->target_dir_relative . "/" . basename($file['path']);
-                        $this->xmlElement("Content", null, $content);
+                    copy($file['path'], $this->target_dir_absolute . "/" . basename($file['path']));
+                    $content = $this->target_dir_relative . "/" . basename($file['path']);
+                    $this->xmlElement("Content", null, $content);
 
-                        $this->xmlEndTag("Attachment");
-                    }
+                    $this->xmlEndTag("Attachment");
                 }
 
                 $this->xmlEndTag("Post");
@@ -192,7 +200,7 @@ class ilForumXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : string
+    public function getXML(): string
     {
         // Replace ascii code 11 characters because of problems with xml sax parser
         return str_replace('&#11;', '', $this->xmlDumpMem(false));

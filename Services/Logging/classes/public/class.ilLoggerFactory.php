@@ -1,8 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './libs/composer/vendor/autoload.php';
-include_once './Services/Logging/classes/public/class.ilLogLevel.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
@@ -11,6 +26,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
+use ILIAS\DI\Container;
 
 /**
  * Logging factory
@@ -20,86 +36,80 @@ use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
  */
 class ilLoggerFactory
 {
-    const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
-    
-    const ROOT_LOGGER = 'root';
-    const COMPONENT_ROOT = 'log_root';
-    const SETUP_LOGGER = 'setup';
-    
-    private static $instance = null;
-    
-    private $settings = null;
-    
-    private $enabled = false;
-    private $loggers = array();
-    
+    protected const DEFAULT_FORMAT = "[%suid%] [%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+
+    protected const ROOT_LOGGER = 'root';
+    protected const COMPONENT_ROOT = 'log_root';
+    protected const SETUP_LOGGER = 'setup';
+
+    private static ?ilLoggerFactory $instance = null;
+
+    private ilLoggingSettings $settings;
+    protected Container $dic;
+
+    private bool $enabled; //ToDo PHP8 Review: This is a private var never read only written and should probably be removed.
+
+    /**
+     * @var array<string, ilComponentLogger>
+     */
+    private array $loggers = array();
+
     protected function __construct(ilLoggingSettings $settings)
     {
+        global $DIC;
+
+        $this->dic = $DIC;
         $this->settings = $settings;
         $this->enabled = $this->getSettings()->isEnabled();
     }
 
-    /**
-     *
-     * @return ilLoggerFactory
-     */
-    public static function getInstance()
+    public static function getInstance(): ilLoggerFactory
     {
-        if (!static::$instance) {
-            include_once './Services/Logging/classes/class.ilLoggingDBSettings.php';
+        if (!static::$instance instanceof ilLoggerFactory) {
             $settings = ilLoggingDBSettings::getInstance();
             static::$instance = new ilLoggerFactory($settings);
         }
         return static::$instance;
     }
-    
-    /**
-     * get new instance
-     * @param ilLoggingSettings $settings
-     * @return \self
-     */
-    public static function newInstance(ilLoggingSettings $settings)
+
+    public static function newInstance(ilLoggingSettings $settings): ilLoggerFactory
     {
         return static::$instance = new self($settings);
     }
-            
-    
+
+    private function isLoggingEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+
     /**
      * Get component logger
-     * @see mudules.xml or service.xml
-     *
-     * @param string $a_component_id
-     * @return ilLogger
      */
-    public static function getLogger($a_component_id)
+    public static function getLogger(string $a_component_id): ilLogger
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger($a_component_id);
     }
-    
+
     /**
      * The unique root logger has a fixed error level
-     * @return ilLogger
      */
-    public static function getRootLogger()
+    public static function getRootLogger(): ilLogger
     {
         $factory = self::getInstance();
         return $factory->getComponentLogger(self::ROOT_LOGGER);
     }
-    
-    
+
+
     /**
      * Init user specific log options
-     * @param type $a_login
-     * @return boolean
      */
-    public function initUser($a_login)
+    public function initUser(string $a_login): void
     {
         if (!$this->getSettings()->isBrowserLogEnabledForUser($a_login)) {
-            return true;
+            return;
         }
-
-        include_once("./Services/Logging/classes/extensions/class.ilLineFormatter.php");
 
         foreach ($this->loggers as $a_component_id => $logger) {
             if ($this->isConsoleAvailable()) {
@@ -110,47 +120,42 @@ class ilLoggerFactory
             }
         }
     }
-    
+
     /**
      * Check if console handler is available
-     * @return boolean
      */
-    protected function isConsoleAvailable()
+    protected function isConsoleAvailable(): bool
     {
-        include_once './Services/Context/classes/class.ilContext.php';
         if (ilContext::getType() != ilContext::CONTEXT_WEB) {
             return false;
         }
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if (
+            $this->dic->isDependencyAvailable('ctrl') && $this->dic->ctrl()->isAsynch() ||
+            (
+                $this->dic->isDependencyAvailable('http') &&
+                strtolower($this->dic->http()->request()->getServerParams()['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest'
+            )
+        ) {
+            // In theory, we could analyze the HTTP_ACCEPT header and return true for text/html
             return false;
         }
         return true;
     }
-    
-    /**
-     * Get settigns
-     * @return ilLoggingSettings
-     */
-    public function getSettings()
+
+    public function getSettings(): ilLoggingSettings
     {
         return $this->settings;
     }
-    
+
     /**
-     *
      * @return ilComponentLogger[]
      */
-    protected function getLoggers()
+    protected function getLoggers(): array
     {
         return $this->loggers;
     }
-    
-    /**
-     * Get component logger
-     * @param type $a_component_id
-     * @return \Logger
-     */
-    public function getComponentLogger($a_component_id)
+
+    public function getComponentLogger(string $a_component_id): ilLogger
     {
         if (isset($this->loggers[$a_component_id])) {
             return $this->loggers[$a_component_id];
@@ -165,40 +170,37 @@ class ilLoggerFactory
             case 'root':
                 $logger = new Logger($loggerNamePrefix . 'root');
                 break;
-                
+
             default:
                 $logger = new Logger($loggerNamePrefix . $a_component_id);
                 break;
-                
         }
-        
-        if (!$this->getSettings()->isEnabled()) {
+
+        if (!$this->isLoggingEnabled()) {
             $null_handler = new NullHandler();
             $logger->pushHandler($null_handler);
-            
-            include_once './Services/Logging/classes/class.ilComponentLogger.php';
+
             return $this->loggers[$a_component_id] = new ilComponentLogger($logger);
         }
-        
-        
+
+
         // standard stream handler
         $stream_handler = new StreamHandler(
             $this->getSettings()->getLogDir() . '/' . $this->getSettings()->getLogFile(),
             Logger::DEBUG, // default minimum level, will be overwritten by component log level
             true
         );
-        
+
         if ($a_component_id == self::ROOT_LOGGER) {
             $stream_handler->setLevel($this->getSettings()->getLevelByComponent(self::COMPONENT_ROOT));
         } else {
             $stream_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
         }
-        
+
         // format lines
-        include_once("./Services/Logging/classes/extensions/class.ilLineFormatter.php");
         $line_formatter = new ilLineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u', true, true);
         $stream_handler->setFormatter($line_formatter);
-        
+
         if ($this->getSettings()->isCacheEnabled()) {
             // add new finger crossed handler
             $finger_crossed_handler = new FingersCrossedHandler(
@@ -212,20 +214,19 @@ class ilLoggerFactory
         }
 
         if (
-            $GLOBALS['DIC']->offsetExists('ilUser') &&
-            $GLOBALS['DIC']['ilUser'] instanceof ilObjUser
+            $this->dic->offsetExists('ilUser') &&
+            $this->dic->user() instanceof ilObjUser
         ) {
-            if ($this->getSettings()->isBrowserLogEnabledForUser($GLOBALS['DIC']->user()->getLogin())) {
+            if ($this->getSettings()->isBrowserLogEnabledForUser($this->dic->user()->getLogin())) {
                 if ($this->isConsoleAvailable()) {
                     $browser_handler = new BrowserConsoleHandler();
-                    #$browser_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
                     $browser_handler->setLevel($this->getSettings()->getLevel());
                     $browser_handler->setFormatter($line_formatter);
                     $logger->pushHandler($browser_handler);
                 }
             }
         }
-        
+
 
         // suid log
         $logger->pushProcessor(function ($record) {
@@ -234,14 +235,12 @@ class ilLoggerFactory
         });
 
         // append trace
-        include_once './Services/Logging/classes/extensions/class.ilTraceProcessor.php';
         $logger->pushProcessor(new ilTraceProcessor(ilLogLevel::DEBUG));
-        
-                
+
+
         // register new logger
-        include_once './Services/Logging/classes/class.ilComponentLogger.php';
         $this->loggers[$a_component_id] = new ilComponentLogger($logger);
-        
+
         return $this->loggers[$a_component_id];
     }
 }

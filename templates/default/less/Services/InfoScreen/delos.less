@@ -1,36 +1,13 @@
-/* Services/InfoScreen */
-div.ilInfoScreenSec {
-	padding: 0;
-	margin-bottom: 20px;
+.ilInfoScreenSec:not(:first-child) .ilFormHeader {
+	margin: @il-standard-form-header-margin;
+	border-top: @il-standard-form-header-border;
 }
 
-div.ilInfoScreenSec h2.ilHeader {
-	margin-bottom: 5px;
-	display: block;
-}
+.il_InfoScreenPropertyValue{
+	padding-top: @il-padding-base-vertical + 1px;
+	padding-bottom: @il-padding-base-vertical + 1px;
 
-.il_InfoScreenProperty {
-	padding: 15px;
-	vertical-align: top;
-	color: @il-neutral-light-color;
-	font-style: italic;
-}
-
-.il_InfoScreenPropertyValue {
-	padding: 15px;
-	vertical-align: top;
-	background-color: @il-main-bg;
-}
-
-.ilInfoScreenSec.form-horizontal .form-group {
-    margin: 0;
-	background-color: @il-main-bg;
-}
-
-.ilInfoScreenSec.form-horizontal {
-	background-color: transparent;
-}
-.ilInfoScreenSec.form-horizontal .control-label {
-    padding: 15px;
-	line-height: normal;
+	.ilProfile {
+		margin: 0;
+	}
 }

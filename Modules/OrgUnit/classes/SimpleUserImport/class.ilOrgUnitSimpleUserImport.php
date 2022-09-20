@@ -1,17 +1,30 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitSimpleUserImport
- *
  * @author : Oskar Truffer <ot@studer-raimann.ch>
  * @author : Martin Studer <ms@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
- *
  */
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
 {
-
     /**
      * @param $file_path
      */
@@ -32,15 +45,11 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
     }
 
-
     /**
      * @param SimpleXMLElement $a
      */
     public function simpleUserImportElement(SimpleXMLElement $a)
     {
-        global $DIC;
-        $rbacadmin = $DIC['rbacadmin'];
-
         $attributes = $a->attributes();
         $action = $attributes->action;
         $user_id_type = $a->User->attributes()->id_type;
@@ -67,9 +76,14 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         } elseif ($role === 'superior') {
             $position_id = ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
         } else {
-            $this->addError('not_a_valid_role', $user_id);
-
-            return;
+            //if passed a custom position.
+            $position = ilOrgUnitPosition::where(['title' => $role])->first();
+            if ($position instanceof ilOrgUnitPosition) {
+                $position_id = $position->getId();
+            } else {
+                $this->addError('not_a_valid_role', $user_id);
+                return;
+            }
         }
 
         if ($action == 'add') {
@@ -86,11 +100,9 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         }
     }
 
-
     /**
      * @param $id
      * @param $type
-     *
      * @return bool
      */
     private function buildUserId($id, $type)

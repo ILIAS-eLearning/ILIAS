@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -17,7 +18,6 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     protected $question;
 
     /**
-     * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
      * @param string                 $template_context
      * @param assQuestion            $question
@@ -48,7 +48,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('result'), 'result');
         $this->addColumn($this->lng->txt('value'), 'value');
@@ -57,7 +57,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData()
+    protected function initData(): void
     {
         $rows = array();
 
@@ -86,7 +86,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field): bool
     {
         if ('value' == $a_field) {
             return true;
@@ -96,12 +96,12 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('VAL_RESULT', $row['result']);
-        $this->tpl->setVariable('VAL_VALUE', $row['is_percent'] ? sprintf("%2.2f", $row['value'])
-                                                                  . ' %' : $row['value']);
+        $this->tpl->setVariable('VAL_RESULT', $a_set['result']);
+        $this->tpl->setVariable('VAL_VALUE', $a_set['is_percent'] ? sprintf("%2.2f", $a_set['value'])
+                                                                  . ' %' : $a_set['value']);
     }
 }

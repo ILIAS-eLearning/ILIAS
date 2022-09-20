@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -28,7 +31,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
         $this->db = $DIC->database();
     }
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "wsrt";
     }
@@ -36,7 +39,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
     /**
      * get all translations from this category
      */
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         $ilDB = $this->db;
 
@@ -62,7 +65,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
     }
 
     // remove all Translations of current category
-    public function removeTranslations() : void
+    public function removeTranslations(): void
     {
         $ilDB = $this->db;
 
@@ -77,7 +80,7 @@ class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
         string $a_desc,
         string $a_lang,
         string $a_lang_default
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         if (empty($a_title)) {

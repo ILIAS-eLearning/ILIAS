@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -17,43 +33,28 @@ use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class BasicTaskManager
- *
  * @package ILIAS\BackgroundTasks\Implementation
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
- *
  * Basic Task manager. Will execute tasks immediately.
- *
  * Some important infos:
  *         - The bucket and its tasks are not saved into the db upon execution
  *         - The percentage and current task are not updated during execution.
  *         - The bucket and its tasks inkl. percentage and current task are only saved into the DB
  *         when a user interaction occurs.
- *
  */
 abstract class BasicTaskManager implements TaskManager
 {
-
-    /**
-     * @var Persistence
-     */
-    protected $persistence;
-
+    protected Persistence $persistence;
 
     public function __construct(Persistence $persistence)
     {
         $this->persistence = $persistence;
     }
 
-
     /**
-     * @param Task     $task
-     * @param Observer $observer
-     *
-     * @return Value
      * @throws UserInteractionSkippedException|UserInteractionRequiredException|Exception
      */
-    public function executeTask(Task $task, Observer $observer)
+    public function executeTask(Task $task, Observer $observer): Value
     {
         $observer->notifyState(State::RUNNING);
         /** @var Value[] $values */
@@ -107,16 +108,10 @@ abstract class BasicTaskManager implements TaskManager
         throw new Exception("You need to execute a Job or a UserInteraction.");
     }
 
-
     /**
      * Continue a task with a given option.
-     *
-     * @param Bucket $bucket
-     * @param Option $option
-     *
-     * @return mixed
      */
-    public function continueTask(Bucket $bucket, Option $option)
+    public function continueTask(Bucket $bucket, Option $option): void
     {
         // We do the user interaction
         $bucket->userInteraction($option);
@@ -127,11 +122,10 @@ abstract class BasicTaskManager implements TaskManager
         }
     }
 
-
     /**
      * @inheritdoc
      */
-    public function quitBucket(Bucket $bucket)
+    public function quitBucket(Bucket $bucket): void
     {
         $this->persistence->deleteBucket($bucket);
     }

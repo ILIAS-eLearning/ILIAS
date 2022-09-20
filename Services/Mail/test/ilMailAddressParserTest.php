@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAddressParserTest
@@ -13,7 +29,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @return array[]
      */
-    public function emailAddressesProvider() : array
+    public function emailAddressesProvider(): array
     {
         return [
             'Username Addresses' => [
@@ -79,7 +95,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('#il_crs_admin_2581', self::DEFAULT_HOST),
                 ],
             ],
-            'sepp@some.where;done@web.de ' => [
+            'sepp@some.where;done@web.de' => [
                 // https://mantis.ilias.de/view.php?id=30306
                 'sepp@some.where;done@web.de',
                 [
@@ -93,7 +109,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @return array[]
      */
-    public function emailInvalidAddressesProvider() : array
+    public function emailInvalidAddressesProvider(): array
     {
         return [
             'Trailing Quote in Local Part' => [
@@ -108,7 +124,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @dataProvider emailAddressesProvider
      */
-    public function testBuiltInAddressParser(string $addresses, array $expected) : void
+    public function testBuiltInAddressParser(string $addresses, array $expected): void
     {
         if (!function_exists('imap_rfc822_parse_adrlist')) {
             $this->markTestSkipped('Skipped test, imap extension required');
@@ -124,7 +140,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @dataProvider emailAddressesProvider
      */
-    public function testPearAddressParser(string $addresses, array $expected) : void
+    public function testPearAddressParser(string $addresses, array $expected): void
     {
         $parser = new ilMailPearRfc822WrapperAddressParser($addresses);
         $parsedAddresses = $parser->parse();
@@ -133,10 +149,18 @@ class ilMailAddressParserTest extends ilMailBaseTest
         $this->assertCount(count($expected), $parsedAddresses);
     }
 
+    public function testAddressParserReturnsEmptyListIfAnEmptyAddressStringIsGiven(): void
+    {
+        $parser = new ilMailPearRfc822WrapperAddressParser('');
+        $parsedAddresses = $parser->parse();
+
+        $this->assertCount(0, $parsedAddresses);
+    }
+
     /**
      * @dataProvider emailInvalidAddressesProvider
      */
-    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void
+    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses): void
     {
         $this->expectException(ilMailException::class);
 
@@ -147,7 +171,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testWrappingParserDelegatesParsingToAggregatedParser() : void
+    public function testWrappingParserDelegatesParsingToAggregatedParser(): void
     {
         $wrappedParser = $this->getMockBuilder(ilBaseMailRfc822AddressParser::class)
             ->setConstructorArgs(['phpunit', 'ilias'])

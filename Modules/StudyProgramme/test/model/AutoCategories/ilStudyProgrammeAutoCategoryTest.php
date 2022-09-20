@@ -1,19 +1,41 @@
 <?php
 
-class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
-{
-    protected $backupGlobals = false;
+declare(strict_types=1);
 
-    public function setUp() : void
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use PHPUnit\Framework\TestCase;
+
+class ilStudyProgrammeAutoCategoryTest extends TestCase
+{
+    protected int $prg_obj_id;
+    protected int $cat_ref_id;
+    protected int $usr_id;
+    protected DateTimeImmutable $dat;
+
+    protected function setUp(): void
     {
-        PHPUnit_Framework_Error_Deprecated::$enabled = false;
         $this->prg_obj_id = 123;
         $this->cat_ref_id = 666;
         $this->usr_id = 6;
         $this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
     }
 
-    public function testConstruction()
+    public function testConstruction(): ilStudyProgrammeAutoCategory
     {
         $ac = new ilStudyProgrammeAutoCategory(
             $this->prg_obj_id,
@@ -31,7 +53,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetPrgObjId($ac)
+    public function testGetPrgObjId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->prg_obj_id,
@@ -42,7 +64,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetCategoryRefId($ac)
+    public function testGetCategoryRefId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->cat_ref_id,
@@ -53,7 +75,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEditorId($ac)
+    public function testGetLastEditorId(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->usr_id,
@@ -64,7 +86,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEdited($ac)
+    public function testGetLastEdited(ilStudyProgrammeAutoCategory $ac): void
     {
         $this->assertEquals(
             $this->dat,

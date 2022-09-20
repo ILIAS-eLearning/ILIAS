@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUserPasswordManager
@@ -16,6 +33,9 @@ class ilUserPasswordManager
     protected ?ilSetting $settings = null;
     protected ?ilDBInterface $db = null;
     protected ?string $encoderName = null;
+    /**
+     * @var array<string, mixed>
+     */
     protected array $config = [];
 
     /**
@@ -23,6 +43,7 @@ class ilUserPasswordManager
      * The constructor is still public because of the unit tests
      * @param array<string, mixed> $config
      * @throws ilUserException
+     * @throws JsonException
      */
     public function __construct(array $config = [])
     {
@@ -66,7 +87,7 @@ class ilUserPasswordManager
      * @throws ilUserException
      * @throws ilPasswordException
      */
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         global $DIC;
 
@@ -80,7 +101,7 @@ class ilUserPasswordManager
                     [
                         'default_password_encoder' => 'bcryptphp',
                         'ignore_security_flaw' => true,
-                        'data_directory' => ilUtil::getDataDir()
+                        'data_directory' => ilFileUtils::getDataDir()
                     ]
                 ),
                 'password_encoder' => 'bcryptphp',
@@ -93,37 +114,37 @@ class ilUserPasswordManager
         return self::$instance;
     }
 
-    public function setSettings(?ilSetting $settings) : void
+    public function setSettings(?ilSetting $settings): void
     {
         $this->settings = $settings;
     }
 
-    public function setDb(ilDBInterface $db) : void
+    public function setDb(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function getEncoderName() : ?string
+    public function getEncoderName(): ?string
     {
         return $this->encoderName;
     }
 
-    public function setEncoderName(string $encoderName) : void
+    public function setEncoderName(string $encoderName): void
     {
         $this->encoderName = $encoderName;
     }
 
-    public function getEncoderFactory() : ?ilUserPasswordEncoderFactory
+    public function getEncoderFactory(): ?ilUserPasswordEncoderFactory
     {
         return $this->encoderFactory;
     }
 
-    public function setEncoderFactory(ilUserPasswordEncoderFactory $encoderFactory) : void
+    public function setEncoderFactory(ilUserPasswordEncoderFactory $encoderFactory): void
     {
         $this->encoderFactory = $encoderFactory;
     }
 
-    public function encodePassword(ilObjUser $user, string $raw) : void
+    public function encodePassword(ilObjUser $user, string $raw): void
     {
         $encoder = $this->getEncoderFactory()->getEncoderByName($this->getEncoderName());
         $user->setPasswordEncodingType($encoder->getName());
@@ -134,24 +155,24 @@ class ilUserPasswordManager
         } else {
             $user->setPasswordSalt(null);
         }
-        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), IL_PASSWD_CRYPTED);
+        $user->setPasswd($encoder->encodePassword($raw, (string) $user->getPasswordSalt()), ilObjUser::PASSWD_CRYPTED);
     }
 
-    public function isEncodingTypeSupported(string $name) : bool
+    public function isEncodingTypeSupported(string $name): bool
     {
         return in_array($name, $this->getEncoderFactory()->getSupportedEncoderNames());
     }
 
-    public function verifyPassword(ilObjUser $user, string $raw) : bool
+    public function verifyPassword(ilObjUser $user, string $raw): bool
     {
         $encoder = $this->getEncoderFactory()->getEncoderByName($user->getPasswordEncodingType(), true);
         if ($this->getEncoderName() !== $encoder->getName()) {
-            if ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
                 $user->resetPassword($raw, $raw);
                 return true;
             }
-        } elseif ($encoder->isPasswordValid((string) $user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
-            if ($encoder->requiresReencoding((string) $user->getPasswd())) {
+        } elseif ($encoder->isPasswordValid($user->getPasswd(), $raw, (string) $user->getPasswordSalt())) {
+            if ($encoder->requiresReencoding($user->getPasswd())) {
                 $user->resetPassword($raw, $raw);
             }
 
@@ -161,11 +182,11 @@ class ilUserPasswordManager
         return false;
     }
 
-    public function resetLastPasswordChangeForLocalUsers() : void
+    public function resetLastPasswordChangeForLocalUsers(): void
     {
         $defaultAuthMode = $this->settings->get('auth_mode');
         $defaultAuthModeCondition = '';
-        if ((int) $defaultAuthMode === AUTH_LOCAL) {
+        if ((int) $defaultAuthMode === ilAuthUtils::AUTH_LOCAL) {
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
         }
 

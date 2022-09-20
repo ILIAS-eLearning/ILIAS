@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,31 +22,6 @@
  */
 abstract class ilEventHookPlugin extends ilPlugin
 {
-    final public function getComponentType() : string
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    final public function getComponentName() : string
-    {
-        return "EventHandling";
-    }
-
-    final public function getSlot() : string
-    {
-        return "EventHook";
-    }
-
-    final public function getSlotId() : string
-    {
-        return "evhk";
-    }
-
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
     /**
      * Handle the event
      *
@@ -56,5 +33,5 @@ abstract class ilEventHookPlugin extends ilPlugin
         string $a_component,
         string $a_event,
         array $a_parameter
-    ) : void;
+    ): void;
 }

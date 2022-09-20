@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Bibliographic ilBiblLibraryTableGUI
@@ -15,8 +29,6 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
 
     /**
      * ilObjBibliographicAdminTableGUI constructor.
-     *
-     * @param \ilBiblLibraryGUI $parent_gui
      */
     public function __construct(ilBiblLibraryGUI $parent_gui)
     {
@@ -30,10 +42,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param array $a_set
-     */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
         $this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
@@ -61,10 +70,10 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('bibl_library_name'), '', '30%');
-        $this->addColumn($this->lng()->txt('bibl_library_url'), '' . '30%');
+        $this->addColumn($this->lng()->txt('bibl_library_url'), '30%');
         $this->addColumn($this->lng()->txt('bibl_library_img'), '', '30%');
         $this->addColumn($this->lng()->txt('actions'), '', '8%');
     }

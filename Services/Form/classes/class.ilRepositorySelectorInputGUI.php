@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a repository selector in a property form.
@@ -34,7 +39,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     protected array $options = [];
     protected int $value = 0;
     protected array $container_types = array("root", "cat", "grp", "fold", "crs");
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -48,7 +53,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->user = $DIC->user();
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $lng = $DIC->language();
-        
+
         parent::__construct($a_title, $a_postvar);
         $this->setClickableTypes($this->container_types);
         $this->setHeaderMessage($lng->txt('search_area_info'));
@@ -56,55 +61,59 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->setSelectText($lng->txt("select"));
     }
 
-    public function setValue(int $a_value) : void
+    /**
+     * @param int|string $a_value
+     * @return void
+     */
+    public function setValue($a_value): void
     {
-        $this->value = $a_value;
+        $this->value = (int) $a_value;
     }
 
-    public function getValue() : int
+    public function getValue(): int
     {
         return $this->value;
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
-    public function setSelectText(string $a_val) : void
+    public function setSelectText(string $a_val): void
     {
         $this->select_text = $a_val;
     }
-    
-    public function getSelectText() : string
+
+    public function getSelectText(): string
     {
         return $this->select_text;
     }
-    
-    public function setHeaderMessage(string $a_val) : void
+
+    public function setHeaderMessage(string $a_val): void
     {
         $this->hm = $a_val;
     }
 
-    public function getHeaderMessage() : string
+    public function getHeaderMessage(): string
     {
         return $this->hm;
     }
-    
-    public function setClickableTypes(array $a_types) : void
+
+    public function setClickableTypes(array $a_types): void
     {
         $this->clickable_types = $a_types;
     }
-    
-    public function getClickableTypes() : array
+
+    public function getClickableTypes(): array
     {
         return $this->clickable_types;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
@@ -112,19 +121,19 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         return true;
     }
 
-    public function getInput() : int
+    public function getInput(): int
     {
         return (int) trim($this->str($this->getPostVar()));
     }
 
-    public function showRepositorySelection() : void
+    public function showRepositorySelection(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
-        ilUtil::sendInfo($this->getHeaderMessage());
+        $this->tpl->setOnScreenMessage('info', $this->getHeaderMessage());
 
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
@@ -138,7 +147,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
 
         if ($this->getValue()) {
             $exp->setPathOpen($this->getValue());
-            $exp->setHighlightedNode($this->getHighlightedNode());
+            $exp->setHighlightedNode((string) $this->getHighlightedNode());
         }
 
         if ($exp->handleCommand()) {
@@ -147,59 +156,49 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         // build html-output
         $tpl->setContent($exp->getHTML());
     }
-    
-    public function selectRepositoryItem() : void
+
+    public function selectRepositoryItem(): void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
 
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
-
-        $this->setValue($this->int("root_id"));
+        $this->setValue((string) $this->int("root_id"));
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
-    
-    public function reset() : void
+
+    public function reset(): void
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-
-        $anchor = $ilUser->prefs["screen_reader_optimization"]
-            ? $this->getFieldId() . "_anchor"
-            : "";
 
         $this->setValue("");
         $this->writeToSession();
 
-        $ilCtrl->returnToParent($this, $anchor);
+        $ilCtrl->returnToParent($this);
     }
-    
-    public function render($a_mode = "property_form") : string
+
+    public function render($a_mode = "property_form"): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilObjDataCache = $this->obj_data_cache;
         $tree = $this->tree;
         $parent_gui = "";
-        
+
         $tpl = new ilTemplate("tpl.prop_rep_select.html", true, true, "Services/Form");
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
-        $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+        $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
         $tpl->setVariable("TXT_SELECT", $this->getSelectText());
         $tpl->setVariable("TXT_RESET", $lng->txt("reset"));
         switch ($a_mode) {
             case "property_form":
                 $parent_gui = "ilpropertyformgui";
                 break;
-                
+
             case "table_filter":
-                $parent_gui = get_class($this->getParent());
+                $parent_gui = get_class($this->getParentTable());
                 break;
         }
 
@@ -240,21 +239,21 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         }
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render("table_filter");
         return $html;
     }
 
-    protected function getHighlightedNode() : int
+    protected function getHighlightedNode(): int
     {
         $tree = $this->tree;
 
@@ -265,8 +264,8 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         return $this->getValue();
     }
 
-    protected function getVisibleTypes() : array
+    protected function getVisibleTypes(): array
     {
-        return array_merge((array) $this->container_types, $this->getClickableTypes());
+        return array_merge($this->container_types, $this->getClickableTypes());
     }
 }

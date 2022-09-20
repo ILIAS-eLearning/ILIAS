@@ -42,7 +42,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         return '/~(.*)~/';
     }
@@ -54,7 +54,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches): void
     {
         $this->text = $matches[1][0];
     }
@@ -62,7 +62,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
@@ -71,7 +71,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return "~" . $this->text . '~';
     }
@@ -80,7 +80,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->text . " beantwortet ";
     }
@@ -92,7 +92,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null)
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $isTrue = false;
         if ($index == null) {
@@ -115,7 +115,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      *
      * @return bool
      */
-    private function compare($comperator, $value)
+    private function compare($comperator, $value): bool
     {
         switch ($comperator) {
             case "=":

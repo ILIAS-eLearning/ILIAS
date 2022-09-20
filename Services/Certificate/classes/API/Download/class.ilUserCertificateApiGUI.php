@@ -1,9 +1,24 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\RequestInterface;
 
 /**
  * @ingroup ServicesCertificate
@@ -15,13 +30,13 @@ class ilUserCertificateApiGUI
     private ilLogger $certificateLogger;
     private ServerRequestInterface $request;
     private ilLanguage $language;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
 
     public function __construct(
         ?ilLanguage $language = null,
         ?ServerRequestInterface $request = null,
         ?ilLogger $certificateLogger = null,
-        ?ilCtrl $ctrl = null
+        ?ilCtrlInterface $ctrl = null
     ) {
         global $DIC;
 
@@ -48,7 +63,7 @@ class ilUserCertificateApiGUI
         $this->language->loadLanguageModule('cert');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -62,17 +77,16 @@ class ilUserCertificateApiGUI
         }
     }
 
-    public function download() : void
+    public function download(): void
     {
         $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
-        $pdfGenerator = new ilPdfGenerator($userCertificateRepository, $this->certificateLogger);
+        $pdfGenerator = new ilPdfGenerator($userCertificateRepository);
 
         $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
         $userCertificate = $userCertificateRepository->fetchCertificate($userCertificateId);
 
         $pdfAction = new ilCertificatePdfAction(
-            $this->certificateLogger,
             $pdfGenerator,
             new ilCertificateUtilHelper(),
             $this->language->txt('error_creating_certificate_pdf')

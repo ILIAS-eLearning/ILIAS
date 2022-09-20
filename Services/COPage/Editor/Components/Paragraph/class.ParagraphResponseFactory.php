@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Paragraph;
 
@@ -22,8 +25,11 @@ use ILIAS\COPage\Editor\Server;
  */
 class ParagraphResponseFactory
 {
+    protected \ilLogger $log;
+
     public function __construct()
     {
+        $this->log = \ilLoggerFactory::getLogger("copg");
     }
 
     /**
@@ -35,14 +41,22 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
 
         if ($updated !== true) {
+            $this->log->debug(print_r($updated, true));
             if (is_array($updated)) {
-                $error = implode("<br />", $updated);
+                $error = "";
+                foreach ($updated as $msg) {
+                    if (is_array($msg)) {
+                        $error .= implode("<br />", $msg);
+                    } else {
+                        $error .= $msg;
+                    }
+                }
             } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
@@ -76,7 +90,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         array $pcids
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -112,13 +126,14 @@ class ParagraphResponseFactory
     protected function getParagraphOutput(
         \ilPageObjectGUI $page_gui,
         string $pcid
-    ) : string {
+    ): string {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $page_gui->setRawPageContent(true);
         $page_gui->setAbstractOnly(true, $pcid);
         $page_gui->setOutputMode(\ilPageObjectGUI::PRESENTATION);
+        $page_gui->setEnabledHref(false);
         //$html = $page_gui->showPage();
         $html = $DIC->ctrl()->getHTML($page_gui);
 

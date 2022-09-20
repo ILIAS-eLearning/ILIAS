@@ -92,29 +92,29 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('HIDDEN_NAME', $row['id']);
+        $this->tpl->setVariable('HIDDEN_NAME', $a_set['id']);
         $this->tpl->setVariable('TYPE_ICON', ilUtil::getImagePath('icon_usr.svg'));
         $this->tpl->setVariable('ALT_USR', $this->lng->txt('obj_usr'));
-        $this->tpl->setVariable('VAL_LOGIN', $row['title']);
+        $this->tpl->setVariable('VAL_LOGIN', $a_set['title']);
 
-        $linked_course_assignments = $this->readLinkedCourseAssignments($row['id']);
+        $linked_course_assignments = $this->readLinkedCourseAssignments($a_set['id']);
         foreach ($linked_course_assignments as $course_ref_id) {
             $path = new ilPathGUI();
             $path->enableHideLeaf(false);
             $path->enableTextOnly(false);
             $this->tpl->setCurrentBlock('reference_path');
-            $this->tpl->setVariable('CHECK_USER_NAME', 'refs[' . $row['id'] . '][' . $course_ref_id . ']');
+            $this->tpl->setVariable('CHECK_USER_NAME', 'refs[' . $a_set['id'] . '][' . $course_ref_id . ']');
             $this->tpl->setVariable('CHECK_USER_VAL', 1);
-            $this->tpl->setVariable('REF_PATH', $path->getPath(ROOT_FOLDER_ID, $course_ref_id));
+            $this->tpl->setVariable('REF_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $course_ref_id));
             $this->tpl->parseCurrentBlock();
         }
 
 
         if (count($linked_course_assignments)) {
             $this->tpl->setCurrentBlock('reference_select');
-            $this->tpl->setVariable('RUID', $row['id']);
+            $this->tpl->setVariable('RUID', $a_set['id']);
             $this->tpl->setVariable('RFORM_ID', $this->formname);
             $this->tpl->setVariable('SEL_ALL', $this->lng->txt('select_all'));
             $this->tpl->parseCurrentBlock();
@@ -124,7 +124,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
     /**
      * @param $part_id
      */
-    protected function readLinkedCourseAssignments($part_id) : array
+    protected function readLinkedCourseAssignments($part_id): array
     {
         $childs = $this->tree->getChildsByType($this->member_obj->getRefId(), 'crsr');
         $assigned_references = [];

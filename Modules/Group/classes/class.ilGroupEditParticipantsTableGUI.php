@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -21,7 +23,6 @@
         +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 /**
  *
@@ -32,12 +33,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 {
-    public $container = null;
-    
-    /**
-     * @var ilObject
-     */
-    protected $rep_object = null;
+    protected ilObject $rep_object;
+    protected ilPrivacySettings $privacy;
+    protected ilParticipants $participants;
 
     /**
      * Constructor
@@ -46,30 +44,19 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
      * @param object parent gui object
      * @return void
      */
-    public function __construct($a_parent_obj, $rep_object)
+    public function __construct(object $a_parent_obj, ilObject $rep_object)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->lng->loadLanguageModule('grp');
-        $this->ctrl = $ilCtrl;
-        
-        $this->container = $a_parent_obj;
-        
         $this->rep_object = $rep_object;
-        
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+
         $this->privacy = ilPrivacySettings::getInstance();
-        
         $this->participants = ilGroupParticipants::_getInstanceByObjId($this->rep_object->getId());
-        
         parent::__construct($a_parent_obj, 'editMembers');
+        $this->lng->loadLanguageModule('grp');
         $this->setFormName('participants');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        
+
         $this->addColumn($this->lng->txt('name'), 'name', '20%');
         $this->addColumn($this->lng->txt('login'), 'login', '25%');
 
@@ -82,26 +69,20 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 
         $this->addCommandButton('updateParticipants', $this->lng->txt('save'));
         $this->addCommandButton('participants', $this->lng->txt('cancel'));
-        
+
         $this->setRowTemplate("tpl.edit_participants_row.html", "Modules/Group");
-        
+
         $this->disable('sort');
         $this->enable('header');
         $this->enable('numinfo');
         $this->disable('select_all');
     }
-    
-    /**
-     * fill row
-     *
-     * @access public
-     * @param array usr_data
-     */
-    public function fillRow($a_set)
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);
-        
+
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
 
         if ($this->privacy->enabledGroupAccessTimes()) {
@@ -110,15 +91,15 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
         $this->tpl->setVariable('VAL_NOTIFICATION_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NOTIFICATION_CHECKED', $a_set['notification'] ? 'checked="checked"' : '');
-        
+
         $this->tpl->setVariable('NUM_ROLES', count($this->participants->getRoles()));
-        
-        $assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
+
+        $assigned = $this->participants->getAssignedRoles((int) $a_set['usr_id']);
         foreach ($this->rep_object->getLocalGroupRoles(true) as $name => $role_id) {
             $this->tpl->setCurrentBlock('roles');
             $this->tpl->setVariable('ROLE_ID', $role_id);
             $this->tpl->setVariable('ROLE_NAME', $name);
-            
+
             if (in_array($role_id, $assigned)) {
                 $this->tpl->setVariable('ROLE_CHECKED', 'selected="selected"');
             }

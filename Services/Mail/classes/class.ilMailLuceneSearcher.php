@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -7,29 +24,25 @@
  */
 class ilMailLuceneSearcher
 {
-    protected ilLuceneQueryParser $query_parser;
-    protected ilMailSearchResult $result;
     protected ilSetting $settings;
 
-    public function __construct(ilLuceneQueryParser $query_parser, ilMailSearchResult $result)
+    public function __construct(protected ilLuceneQueryParser $query_parser, protected ilMailSearchResult $result)
     {
         global $DIC;
         $this->settings = $DIC->settings();
-        $this->query_parser = $query_parser;
-        $this->result = $result;
     }
 
-    public function search(int $user_id, int $mail_folder_id) : void
+    public function search(int $user_id, int $mail_folder_id): void
     {
-        if (!$this->query_parser->getQuery()) {
-            throw new ilException('mail_search_query_missing');
+        if ($this->query_parser->getQuery() === '') {
+            throw new ilMailException('mail_search_query_missing');
         }
 
         try {
             $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
                 CLIENT_ID . '_' . $this->settings->get('inst_id', '0'),
                 $user_id,
-                (string) $this->query_parser->getQuery(),
+                $this->query_parser->getQuery(),
                 $mail_folder_id
             );
         } catch (Exception $e) {

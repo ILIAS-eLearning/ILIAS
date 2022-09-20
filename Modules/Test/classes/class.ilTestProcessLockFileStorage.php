@@ -1,22 +1,28 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/FileSystem/classes/class.ilFileSystemStorage.php';
-
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
  *
  * @package     Modules/Test
  */
-class ilTestProcessLockFileStorage extends ilFileSystemStorage
+class ilTestProcessLockFileStorage extends ilFileSystemAbstractionStorage
 {
-    /**
-     * @param integer $activeId
-     */
-    public function __construct($activeId)
+    public function __construct(int $contextId)
     {
-        parent::__construct(ilFileSystemStorage::STORAGE_DATA, true, $activeId);
+        parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $contextId);
     }
 
     /**
@@ -27,7 +33,7 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
         return 'ilTestProcessLocks';
     }
@@ -41,19 +47,19 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix(): string
     {
-        return 'active';
+        return 'context';
     }
 
-    public function create()
+    public function create(): void
     {
-        set_error_handler(function ($severity, $message, $file, $line) {
+        set_error_handler(function ($severity, $message, $file, $line): void {
             throw new ErrorException($message, $severity, 0, $file, $line);
         });
 
         try {
-            ilUtil::makeDirParents($this->getPath());
+            ilFileUtils::makeDirParents($this->getPath());
             restore_error_handler();
         } catch (Exception $e) {
             restore_error_handler();
@@ -62,7 +68,5 @@ class ilTestProcessLockFileStorage extends ilFileSystemStorage
         if (!file_exists($this->getPath())) {
             throw new ErrorException(sprintf('Could not find directory: %s', $this->getPath()));
         }
-
-        return true;
     }
 }

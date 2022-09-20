@@ -1,74 +1,53 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php";
+declare(strict_types=1);
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * AMD field type location
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
 {
-    //
-    // generic types
-    //
-    
-    public function getType()
+    public function getType(): int
     {
         return self::TYPE_LOCATION;
     }
-    
-    public function isFilterSupported()
+
+    public function isFilterSupported(): bool
     {
         return false;
     }
-    
-    
-    //
-    // ADT
-    //
-    
-    protected function initADTDefinition()
+
+    protected function initADTDefinition(): ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("Location");
     }
-    
-    
-    //
-    // import/export
-    //
-    
-    public function getValueForXML(ilADT $element)
+
+    public function getValueForXML(ilADT $element): string
     {
         return $element->getLatitude() . "#" . $element->getLongitude() . "#" . $element->getZoom();
     }
-    
-    public function importValueFromXML($a_cdata)
+
+    public function importValueFromXML(string $a_cdata): void
     {
         $parts = explode("#", $a_cdata);
-        if (sizeof($parts) == 3) {
+        if (count($parts) == 3) {
             $adt = $this->getADT();
             $adt->setLatitude($parts[0]);
             $adt->setLongitude($parts[1]);
             $adt->setZoom($parts[2]);
         }
     }
-        
-    
-    //
-    // search
-    //
-    
-    public function getLuceneSearchString($a_value)
+
+    /**
+     * @todo fix location search for lucene
+     * @inheritdoc
+     */
+    public function getLuceneSearchString($a_value): string
     {
         // #14777 - currently not supported
-        return;
-        
-        if ($a_value["tgl"]) {
-        }
+        return '';
     }
 }

@@ -1,10 +1,28 @@
 <?php
+
 declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Filesystem\Util;
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\FilesystemsAware;
+use ILIAS\FileUpload\Location;
 
 /**
  * Class LegacyPathHelper
@@ -20,6 +38,38 @@ final class LegacyPathHelper
 {
     use FilesystemsAware;
 
+    public static function deriveLocationFrom(string $absolute_path): int
+    {
+        [
+            $web,
+            $webRelativeWithLeadingDot,
+            $webRelativeWithoutLeadingDot,
+            $storage,
+            $customizing,
+            $customizingRelativeWithLeadingDot,
+            $libs,
+            $libsRelativeWithLeadingDot,
+            $temp,
+            $nodeModules,
+            $nodeModulesWithLeadingDot
+        ] = self::listPaths();
+
+        switch (true) {
+            case self::checkPossiblePath($temp, $absolute_path):
+                return Location::TEMPORARY;
+            case self::checkPossiblePath($web, $absolute_path):
+            case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
+            case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
+                return Location::WEB;
+            case self::checkPossiblePath($storage, $absolute_path):
+                return Location::STORAGE;
+            case self::checkPossiblePath($customizing, $absolute_path):
+            case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
+                return Location::CUSTOMIZING;
+            default:
+                throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
+        }
+    }
 
     /**
      * Tries to fetch the filesystem responsible for the absolute path.
@@ -34,9 +84,9 @@ final class LegacyPathHelper
      *
      * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
      */
-    public static function deriveFilesystemFrom(string $absolute_path) : Filesystem
+    public static function deriveFilesystemFrom(string $absolute_path): Filesystem
     {
-        list(
+        [
             $web,
             $webRelativeWithLeadingDot,
             $webRelativeWithoutLeadingDot,
@@ -48,7 +98,7 @@ final class LegacyPathHelper
             $temp,
             $nodeModules,
             $nodeModulesWithLeadingDot
-            ) = self::listPaths();
+        ] = self::listPaths();
 
         switch (true) {
             case self::checkPossiblePath($temp, $absolute_path):
@@ -91,9 +141,9 @@ final class LegacyPathHelper
      *
      * @see LegacyPathHelper::deriveFilesystemFrom()
      */
-    public static function createRelativePath(string $absolute_path) : string
+    public static function createRelativePath(string $absolute_path): string
     {
-        list(
+        [
             $web,
             $webRelativeWithLeadingDot,
             $webRelativeWithoutLeadingDot,
@@ -105,36 +155,36 @@ final class LegacyPathHelper
             $temp,
             $nodeModules,
             $nodeModulesWithLeadingDot
-            ) = self::listPaths();
+        ] = self::listPaths();
 
         switch (true) {
             // web without ./
             case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
                 return self::resolveRelativePath($webRelativeWithoutLeadingDot, $absolute_path);
-            // web with ./
+                // web with ./
             case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($webRelativeWithLeadingDot, $absolute_path);
-            // web/
+                // web/
             case self::checkPossiblePath($web, $absolute_path):
                 return self::resolveRelativePath($web, $absolute_path);
-            // temp/
+                // temp/
             case self::checkPossiblePath($temp, $absolute_path):
                 return self::resolveRelativePath($temp, $absolute_path);
-            // iliasdata/
+                // iliasdata/
             case self::checkPossiblePath($storage, $absolute_path):
                 return self::resolveRelativePath($storage, $absolute_path);
-            // Customizing/
+                // Customizing/
             case self::checkPossiblePath($customizing, $absolute_path):
                 return self::resolveRelativePath($customizing, $absolute_path);
-            // ./Customizing/
+                // ./Customizing/
             case self::checkPossiblePath($customizingRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($customizingRelativeWithLeadingDot, $absolute_path);
-            // libs/
+                // libs/
             case self::checkPossiblePath($libs, $absolute_path):
                 // ./libs
             case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path);
-            // node_modules/
+                // node_modules/
             case self::checkPossiblePath($nodeModules, $absolute_path):
                 // ./node_modules
             case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):
@@ -145,7 +195,7 @@ final class LegacyPathHelper
     }
 
 
-    private static function resolveRelativePath(string $possible_path, string $absolute_path) : string
+    private static function resolveRelativePath(string $possible_path, string $absolute_path): string
     {
         $real_possible_path = realpath($possible_path);
 
@@ -154,11 +204,15 @@ final class LegacyPathHelper
             case $real_possible_path === $absolute_path:
                 return "";
             case strpos($absolute_path, $possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($possible_path) + 1
+                );                             //also remove the trailing slash
             case strpos($absolute_path, $real_possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($real_possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($real_possible_path) + 1
+                );                             //also remove the trailing slash
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }
@@ -171,7 +225,7 @@ final class LegacyPathHelper
      *
      * @return bool
      */
-    private static function checkPossiblePath(string $possible_path, string $absolute_path) : bool
+    private static function checkPossiblePath(string $possible_path, string $absolute_path): bool
     {
         $real_possible_path = realpath($possible_path);
 
@@ -193,7 +247,7 @@ final class LegacyPathHelper
     /**
      * @return array
      */
-    private static function listPaths() : array
+    private static function listPaths(): array
     {
         $web = CLIENT_WEB_DIR;
         $webRelativeWithLeadingDot = './' . ILIAS_WEB_DIR . '/' . CLIENT_ID;

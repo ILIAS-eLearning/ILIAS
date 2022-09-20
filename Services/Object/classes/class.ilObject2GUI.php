@@ -1,6 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Factory;
 
 /**
  * New implementation of ilObjectGUI. (beta)
@@ -22,102 +42,117 @@
  */
 abstract class ilObject2GUI extends ilObjectGUI
 {
-    protected $object_id;
-    protected $node_id;
-    protected $creation_forms = array();
-    protected $id_type = array();
-    protected $parent_id;
-    public $tree;
-    protected $access_handler;
+    public const OBJECT_ID = 0;
+    public const REPOSITORY_NODE_ID = 1;
+    public const WORKSPACE_NODE_ID = 2;
+    public const REPOSITORY_OBJECT_ID = 3;
+    public const WORKSPACE_OBJECT_ID = 4;
+    public const PORTFOLIO_OBJECT_ID = 5;
 
-    const OBJECT_ID = 0;
-    const REPOSITORY_NODE_ID = 1;
-    const WORKSPACE_NODE_ID = 2;
-    const REPOSITORY_OBJECT_ID = 3;
-    const WORKSPACE_OBJECT_ID = 4;
-    const PORTFOLIO_OBJECT_ID = 5;
-    
+    protected ilObjectDefinition $obj_definition;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs_gui;
+    protected ilObjectService $object_service;
+    protected ilFavouritesManager $favourites;
+    protected ilErrorHandling $error;
+    protected ilLocatorGUI $locator;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
+    protected ArrayBasedRequestWrapper $post_wrapper;
+    protected RequestWrapper $request_wrapper;
+    protected Factory $refinery;
+    protected ilRbacAdmin $rbac_admin;
+    protected ilRbacSystem $rbac_system;
+    protected ilRbacReview $rbac_review;
+
+    protected int $request_ref_id;
+    protected int $id_type;
+    protected int $parent_id;
+    protected string $type;
+    protected string $html;
+
+    protected int $object_id;
+    protected ?int $node_id = null;
+    protected array $creation_forms = array();
     /**
-     * Constructor
-     *
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
+     * @var ilDummyAccessHandler|ilPortfolioAccessHandler|ilWorkspaceAccessHandler|mixed
      */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    protected $access_handler;
+    private ilObjectRequestRetriever $retriever;
+
+    public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
         global $DIC;
 
-        $objDefinition = $DIC["objDefinition"];
-        $tpl = $DIC["tpl"];
-        $ilCtrl = $DIC["ilCtrl"];
-        $ilErr = $DIC["ilErr"];
-        $lng = $DIC["lng"];
-        $ilTabs = $DIC["ilTabs"];
-        $tree = $DIC["tree"];
-        $ilAccess = $DIC["ilAccess"];
+        $this->obj_definition = $DIC["objDefinition"];
+        $this->tpl = $DIC["tpl"];
+        $this->ctrl = $DIC["ilCtrl"];
+        $this->lng = $DIC["lng"];
+        $this->tabs_gui = $DIC["ilTabs"];
         $this->object_service = $DIC->object();
         $this->favourites = new ilFavouritesManager();
-
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = $ilErr;
-        }
-
-        $this->id_type = $a_id_type;
-        $this->parent_id = $a_parent_node_id;
-        $this->type = $this->getType();
-        $this->html = "";
-        
-        $this->tabs_gui = $ilTabs;
-        $this->objDefinition = $objDefinition;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-
-        // these are things that are initialised in ilObjectGUI constructor now
-        // and may miss here
+        $this->error = $DIC['ilErr'];
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->access = $DIC->access();
-        //$this->settings = $DIC->settings();
-        //$this->rbacreview = $DIC->rbac()->review();
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
-        $this->requested_ref_id = (int) ($this->request->getQueryParams()['ref_id'] ?? 0);
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
+        $this->rbac_admin = $DIC->rbac()->admin();
+        $this->rbac_system = $DIC->rbac()->system();
+        $this->rbac_review = $DIC->rbac()->review();
 
-        $new_type = '';
-        if (isset($this->request->getQueryParams()['new_type'])) {
-            $new_type = $this->request->getQueryParams()['new_type'];
-        } elseif (isset($this->request->getParsedBody()['new_type'])) {
-            $new_type = $this->request->getParsedBody()['new_type'];
+        $tree = $DIC["tree"];
+
+        $this->requested_ref_id = 0;
+        if ($this->request_wrapper->has("ref_id")) {
+            $this->requested_ref_id = $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int());
         }
+        $this->id_type = $id_type;
+        $this->parent_id = $parent_node_id;
+        $this->type = $this->getType();
+        $this->html = "";
+        $this->notes_service = $DIC->notes();
 
-        $this->requested_new_type = $new_type;
+        $this->requested_new_type = '';
+        if ($this->request_wrapper->has("new_type")) {
+            $this->requested_new_type = $this->request_wrapper->retrieve(
+                "new_type",
+                $this->refinery->kindlyTo()->string()
+            );
+        } elseif ($this->post_wrapper->has("new_type")) {
+            $this->requested_new_type = $this->post_wrapper->retrieve(
+                "new_type",
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         $params = array();
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
-                $this->node_id = $a_id;
+                $this->node_id = $id;
                 $this->object_id = ilObject::_lookupObjectId($this->node_id);
                 $this->tree = $tree;
-                $this->access_handler = $ilAccess;
+                $this->access_handler = $this->access;
                 $this->call_by_reference = true;  // needed for prepareOutput()
                 $params[] = "ref_id";
                 break;
 
             case self::REPOSITORY_OBJECT_ID:
-                $this->object_id = $a_id;
+                $this->object_id = $id;
                 $this->tree = $tree;
-                $this->access_handler = $ilAccess;
+                $this->access_handler = $this->access;
                 $params[] = "obj_id"; // ???
                 break;
 
             case self::WORKSPACE_NODE_ID:
                 $ilUser = $DIC["ilUser"];
-                $this->node_id = $a_id;
+                $this->node_id = $id;
                 $this->tree = new ilWorkspaceTree($ilUser->getId());
                 $this->object_id = $this->tree->lookupObjectId($this->node_id);
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
@@ -126,20 +161,20 @@ abstract class ilObject2GUI extends ilObjectGUI
 
             case self::WORKSPACE_OBJECT_ID:
                 $ilUser = $DIC["ilUser"];
-                $this->object_id = $a_id;
+                $this->object_id = $id;
                 $this->tree = new ilWorkspaceTree($ilUser->getId());
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
                 $params[] = "obj_id"; // ???
                 break;
-            
+
             case self::PORTFOLIO_OBJECT_ID:
-                $this->object_id = $a_id;
+                $this->object_id = $id;
                 $this->access_handler = new ilPortfolioAccessHandler();
                 $params[] = "prt_id";
                 break;
 
             case self::OBJECT_ID:
-                $this->object_id = $a_id;
+                $this->object_id = $id;
                 $this->access_handler = new ilDummyAccessHandler();
                 $params[] = "obj_id";
                 break;
@@ -147,7 +182,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->ctrl->saveParameter($this, $params);
 
 
-        
+
         // old stuff for legacy code (obsolete?)
         if (!$this->object_id) {
             $this->creation_mode = true;
@@ -158,36 +193,34 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $this->parent_id = $this->tree->getParentId($this->node_id);
             }
         }
-        $this->ref_id = $this->node_id;
+        $this->ref_id = $this->node_id ?? 0;
         $this->obj_id = $this->object_id;
-        
-
 
         $this->assignObject();
-        
+
         // set context
         if (is_object($this->object)) {
-            $this->ctrl->setContext($this->object->getId(), $this->object->getType());
+            $this->ctrl->setContextObject($this->object->getId(), $this->object->getType());
         }
-        
+
         $this->afterConstructor();
     }
-    
+
     /**
      * Do anything that should be done after constructor in here.
      */
-    protected function afterConstructor()
+    protected function afterConstructor(): void
     {
     }
-    
+
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -200,7 +233,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                     if (!$cmd) {
                         $cmd = "render";
                     }
-                    return $this->$cmd();
+                    $this->$cmd();
                 }
                 break;
 
@@ -208,16 +241,19 @@ abstract class ilObject2GUI extends ilObjectGUI
                 if (!$cmd) {
                     $cmd = "render";
                 }
-                return $this->$cmd();
+                $this->$cmd();
         }
+    }
 
-        return true;
+    public function getIdType(): int
+    {
+        return $this->id_type;
     }
 
     /**
      * create object instance as internal property (repository/workspace switch)
      */
-    final protected function assignObject()
+    final protected function assignObject(): void
     {
         if ($this->object_id != 0) {
             switch ($this->id_type) {
@@ -239,11 +275,9 @@ abstract class ilObject2GUI extends ilObjectGUI
             }
         }
     }
-    
+
     /**
-     * Get access handler
-     *
-     * @return object
+     * @return mixed
      */
     protected function getAccessHandler()
     {
@@ -253,50 +287,45 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * set Locator
      */
-    protected function setLocator()
+    protected function setLocator(): void
     {
-        global $DIC;
-
-        $ilLocator = $DIC["ilLocator"];
-        $tpl = $DIC["tpl"];
-
         if ($this->omit_locator) {
             return;
         }
 
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
-                $ref_id = $this->node_id
-                    ? $this->node_id
-                    : $this->parent_id;
-                $ilLocator->addRepositoryItems($ref_id);
-                
-                // not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
+                $ref_id = $this->node_id ?: $this->parent_id;
+                $this->locator->addRepositoryItems($ref_id);
+
+                // not so nice workaround: todo: handle locator as tabs in ilTemplate
                 if ($this->admin_mode == self::ADMIN_MODE_NONE &&
                     strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui") {
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",
                         "rolf_ref_id",
-                        $_GET["rolf_ref_id"]
+                        $this->request_wrapper->has("rolf_ref_id")
+                            ? $this->request_wrapper->retrieve("rolf_ref_id", $this->refinery->kindlyTo()->string())
+                            : null
                     );
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",
                         "obj_id",
-                        $_GET["obj_id"]
+                        $this->request_wrapper->retrieve("obj_id", $this->refinery->kindlyTo()->string())
                     );
-                    $ilLocator->addItem(
+                    $this->locator->addItem(
                         $this->lng->txt("role"),
                         $this->ctrl->getLinkTargetByClass(array("ilpermissiongui",
                             "ilobjrolegui"), "perm")
                     );
                 }
-                
+
                 // in workspace this is done in ilPersonalWorkspaceGUI
                 if ($this->object_id) {
                     $this->addLocatorItems();
                 }
-                $tpl->setLocator();
-                
+                $this->tpl->setLocator();
+
                 break;
 
             case self::WORKSPACE_NODE_ID:
@@ -308,17 +337,19 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Display delete confirmation form (repository/workspace switch)
      */
-    public function delete()
+    public function delete(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
-                return parent::deleteObject();
+                parent::deleteObject();
 
+                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
-                return $this->deleteConfirmation();
+                $this->deleteConfirmation();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?
@@ -326,21 +357,22 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
     }
 
-
     /**
      * Delete objects (repository/workspace switch)
      */
-    public function confirmedDelete()
+    public function confirmedDelete(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
-                return parent::confirmedDeleteObject();
+                parent::confirmedDeleteObject();
 
+                // no break
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
-                return $this->deleteConfirmedObjects();
+                $this->deleteConfirmedObjects();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?
@@ -350,49 +382,52 @@ abstract class ilObject2GUI extends ilObjectGUI
 
     /**
      * Delete objects (workspace specific)
-     *
      * This should probably be moved elsewhere as done with RepUtil
      */
-    protected function deleteConfirmedObjects()
+    protected function deleteConfirmedObjects(): void
     {
-        global $DIC;
-
-        $lng = $DIC["lng"];
-
-
-        if (sizeof($_POST["id"])) {
-            // #18797 - because of parent/child relations gather all nodes first
-            $del_nodes = array();
-            foreach ($_POST["id"] as $node_id) {
-                $del_nodes[$node_id] = $this->tree->getNodeData($node_id);
-            }
-                                
-            foreach ($del_nodes as $node_id => $node) {
-                // tree/reference
-                $this->tree->deleteReference($node_id);
-                if ($this->tree->isInTree($node_id)) {
-                    $this->tree->deleteTree($node);
-                }
-                
-                // permission
-                $this->getAccessHandler()->removePermission($node_id);
-
-                // object
-                $object = ilObjectFactory::getInstanceByObjId($node["obj_id"], false);
-                if ($object) {
-                    $object->delete();
-                }
-            }
-
-            ilUtil::sendSuccess($lng->txt("msg_removed"), true);
-        } else {
-            ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+        if (!$this->post_wrapper->has("id")) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "");
+            return;
         }
 
+        $ids = $this->post_wrapper->retrieve(
+            "id",
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+
+        if (count($ids) == 0) {
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt("no_checkbox"), true);
+            $this->ctrl->redirect($this, "");
+            return;
+        }
+
+        // #18797 - because of parent/child relations gather all nodes first
+        $del_nodes = array();
+        foreach ($ids as $node_id) {
+            $del_nodes[$node_id] = $this->tree->getNodeData($node_id);
+        }
+
+        foreach ($del_nodes as $node_id => $node) {
+            $this->tree->deleteReference($node_id);
+            if ($this->tree->isInTree($node_id)) {
+                $this->tree->deleteTree($node);
+            }
+
+            $this->getAccessHandler()->removePermission($node_id);
+
+            $object = ilObjectFactory::getInstanceByObjId((int) $node["obj_id"], false);
+            if ($object) {
+                $object->delete();
+            }
+        }
+
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("msg_removed"), true);
         $this->ctrl->redirect($this, "");
     }
-    
-    public function getHTML()
+
+    public function getHTML(): string
     {
         return parent::getHTML();
     }
@@ -400,139 +435,102 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Final/Private declaration of unchanged parent methods
      */
-    final public function withReferences()
+    final public function withReferences(): bool
     {
         return parent::withReferences();
     }
-    final public function setCreationMode($a_mode = true)
+    final public function setCreationMode(bool $mode = true): void
     {
-        return parent::setCreationMode($a_mode);
+        parent::setCreationMode($mode);
     }
-    final public function getCreationMode()
+    final public function getCreationMode(): bool
     {
         return parent::getCreationMode();
     }
-    final public function prepareOutput($a_show_subobjects = true)
+    final public function prepareOutput(bool $show_sub_objects = true): bool
     {
-        return parent::prepareOutput($a_show_subobjects);
+        return parent::prepareOutput($show_sub_objects);
     }
-    protected function setTitleAndDescription()
+    protected function setTitleAndDescription(): void
     {
-        return parent::setTitleAndDescription();
+        parent::setTitleAndDescription();
     }
-    final protected function showUpperIcon()
+    final protected function omitLocator(bool $omit = true): void
     {
-        return parent::showUpperIcon();
+        parent::omitLocator($omit);
     }
-    final protected function omitLocator($a_omit = true)
+    final protected function getTargetFrame(string $cmd, string $target_frame = ""): string
     {
-        return parent::omitLocator($a_omit);
+        return parent::getTargetFrame($cmd, $target_frame);
     }
-    final protected function getTargetFrame($a_cmd, $a_target_frame = "")
+    final protected function setTargetFrame(string $cmd, string $target_frame): void
     {
-        return parent::getTargetFrame($a_cmd, $a_target_frame);
+        parent::setTargetFrame($cmd, $target_frame);
     }
-    final protected function setTargetFrame($a_cmd, $a_target_frame)
+    final public function isVisible(int $ref_id, string $type): bool
     {
-        return parent::setTargetFrame($a_cmd, $a_target_frame);
+        return parent::isVisible($ref_id, $type);
     }
-    final public function isVisible($a_ref_id, $a_type)
-    {
-        return parent::isVisible($a_ref_id, $a_type);
-    }
-    final protected function getCenterColumnHTML()
+    final protected function getCenterColumnHTML(): string
     {
         return parent::getCenterColumnHTML();
     }
-    final protected function getRightColumnHTML()
+    final protected function getRightColumnHTML(): string
     {
         return parent::getRightColumnHTML();
     }
-    final public function setColumnSettings(ilColumnGUI $column_gui)
+    final public function setColumnSettings(ilColumnGUI $column_gui): void
     {
-        return parent::setColumnSettings($column_gui);
+        parent::setColumnSettings($column_gui);
     }
-    final protected function checkPermission($a_perm, $a_cmd = "", $a_type = "", $a_ref_id = null)
-    {
-        return parent::checkPermission($a_perm, $a_cmd, $a_type, $a_ref_id);
+    final protected function checkPermission(
+        string $perm,
+        string $cmd = "",
+        string $type = "",
+        int $ref_id = null
+    ): void {
+        parent::checkPermission($perm, $cmd, $type, $ref_id);
     }
-    
-    // -> ilContainerGUI
-    final protected function showPossibleSubObjects()
+    final protected function showPossibleSubObjects(): void
     {
-        return parent::showPossibleSubObjects();
+        parent::showPossibleSubObjects();
     }
-    // -> ilRepositoryTrashGUI
-    final public function trash()
+    final public function cancelDelete(): void
     {
-        return parent::trashObject();
-    }		// done
-    // -> ilRepUtil
-    final public function undelete()
-    {
-        return parent::undeleteObject();
-    } // done
-    final public function cancelDelete()
-    {
-        return parent::cancelDeleteObject();
-    } // ok
-    final public function removeFromSystem()
-    {
-        return parent::removeFromSystemObject();
-    } // done
-    final protected function redirectToRefId($a_ref_id, $a_cmd = "")
-    {
-        return parent::redirectToRefId();
-    } // ok
-    
-    // -> stefan
-    final protected function fillCloneTemplate($a_tpl_varname, $a_type)
-    {
-        return parent::fillCloneTemplate($a_tpl_varname, $a_type);
+        parent::cancelDeleteObject();
     }
-    final protected function fillCloneSearchTemplate($a_tpl_varname, $a_type)
+    final protected function redirectToRefId(int $ref_id, string $cmd = ""): void
     {
-        return parent::fillCloneSearchTemplate($a_tpl_varname, $a_type);
+        parent::redirectToRefId($ref_id, $cmd);
     }
-    final protected function searchCloneSource()
+    final protected function fillCloneTemplate(?string $tpl_varname, string $type): ?ilPropertyFormGUI
     {
-        return parent::searchCloneSourceObject();
-    }
-    final public function cloneAll()
-    {
-        return parent::cloneAllObject();
-    }
-    final protected function buildCloneSelect($existing_objs)
-    {
-        return parent::buildCloneSelect($existing_objs);
+        return parent::fillCloneTemplate($tpl_varname, $type);
     }
 
-    // -> ilAdministration
-    private function displayList()
-    {
-        return parent::displayList();
-    }
     //	private function setAdminTabs() { return parent::setAdminTabs(); }
     //	final public function getAdminTabs() { return parent::getAdminTabs(); }
-    final protected function addAdminLocatorItems($a_do_not_add_object = false)
+    final protected function addAdminLocatorItems(bool $do_not_add_object = false): void
     {
-        return parent::addAdminLocatorItems($a_do_not_add_object);
+        parent::addAdminLocatorItems($do_not_add_object);
     }
 
     /**
      * view object content (repository/workspace switch)
      */
-    public function view()
+    public function view(): void
     {
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
-                return parent::viewObject();
+                parent::viewObject();
+                break;
 
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
-                return $this->render();
+                $this->render();
 
+                // no break
             case self::OBJECT_ID:
             case self::PORTFOLIO_OBJECT_ID:
                 // :TODO: should this ever occur?  do nothing or edit() ?!
@@ -545,21 +543,15 @@ abstract class ilObject2GUI extends ilObjectGUI
      *
      * this had to be moved here because of the context-specific permission tab
      */
-    protected function setTabs()
+    protected function setTabs(): void
     {
-        global $DIC;
-
-        $ilTabs = $DIC["ilTabs"];
-        $lng = $DIC["lng"];
-
-
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
                 if ($this->checkPermissionBool("edit_permission")) {
-                    $ilTabs->addTab(
+                    $this->tabs_gui->addTab(
                         "id_permissions",
-                        $lng->txt("perm_settings"),
+                        $this->lng->txt("perm_settings"),
                         $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilpermissiongui"), "perm")
                     );
                 }
@@ -568,118 +560,89 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 // only files and blogs can be shared for now
-                if ($this->checkPermissionBool("edit_permission") && in_array($this->type, array("file", "blog")) && $this->node_id) {
-                    $ilTabs->addTab(
+                if (
+                    $this->checkPermissionBool("edit_permission") &&
+                    in_array($this->type, array("file", "blog")) &&
+                    $this->node_id
+                ) {
+                    $this->tabs_gui->addTab(
                         "id_permissions",
-                        $lng->txt("wsp_permissions"),
+                        $this->lng->txt("wsp_permissions"),
                         $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilworkspaceaccessgui"), "share")
                     );
                 }
                 break;
         }
     }
-    
+
     /**
      * Deprecated functions
      */
     //	private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
     //	final public function getFormAction($a_cmd, $a_formaction = "") { die("ilObject2GUI::getFormAction() is deprecated."); }
     //	final protected  function setFormAction($a_cmd, $a_formaction) { die("ilObject2GUI::setFormAction() is deprecated."); }
-    final protected function getReturnLocation($a_cmd, $a_location = "")
+    final protected function getReturnLocation(string $cmd, string $location = ""): string
     {
         die("ilObject2GUI::getReturnLocation() is deprecated.");
     }
-    final protected function setReturnLocation($a_cmd, $a_location)
+    final protected function setReturnLocation(string $cmd, string $location): void
     {
         die("ilObject2GUI::setReturnLocation() is deprecated.");
     }
-    final protected function showActions()
+    final protected function showActions(): void
     {
         die("ilObject2GUI::showActions() is deprecated.");
     }
-    final protected function getTabs()
+    final protected function getTabs(): void
     {
         die("ilObject2GUI::getTabs() is deprecated.");
-    }
-    final protected function __showButton($a_cmd, $a_text, $a_target = '')
-    {
-        die("ilObject2GUI::__showButton() is deprecated.");
-    }
-    final protected function hitsperpageObject()
-    {
-        die("ilObject2GUI::hitsperpageObject() is deprecated.");
-    }
-    final protected function &__initTableGUI()
-    {
-        die("ilObject2GUI::__initTableGUI() is deprecated.");
-    }
-    final protected function __setTableGUIBasicData(&$tbl, &$result_set, $a_from = "")
-    {
-        die("ilObject2GUI::__setTableGUIBasicData() is deprecated.");
     }
 
     /**
      * Functions to be overwritten
      */
-    protected function addLocatorItems()
+    protected function addLocatorItems(): void
     {
     }
-    
+
     /**
      * Functions that must be overwritten
      */
-    abstract public function getType();
-    
-    /**
-     * Deleted in ilObject
-     */
-    //	private function permObject() { parent::permObject(); }
-    //	private function permSaveObject() { parent::permSaveObject(); }
-    //	private function infoObject() { parent::infoObject(); }
-    //	private function __buildRoleFilterSelect() { parent::__buildRoleFilterSelect(); }
-    //	private function __filterRoles() { parent::__filterRoles(); }
-    //	private function ownerObject() { parent::ownerObject(); }
-    //	private function changeOwnerObject() { parent::changeOwnerObject(); }
-    //	private function addRoleObject() { parent::addRoleObject(); }
-    //	private function setActions($a_actions = "") { die("ilObject2GUI::setActions() is deprecated."); }
-    //	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
+    abstract public function getType(): string;
 
     /**
      * CRUD
      */
-    public function create()
+    public function create(): void
     {
         parent::createObject();
     }
-    public function save()
+    public function save(): void
     {
         parent::saveObject();
     }
-    public function edit()
+    public function edit(): void
     {
         parent::editObject();
     }
-    public function update()
+    public function update(): void
     {
         parent::updateObject();
     }
-    public function cancel()
+    public function cancel(): void
     {
         parent::cancelObject();
     }
 
     /**
-     * Init creation froms
-     *
-     * this will create the default creation forms: new, import, clone
-     *
-     * @param	string	$a_new_type
-     * @return	array
+     * Init creation forms.
+     * This will create the default creation forms: new, import, clone
+     * @return \ilPropertyFormGUI[]
      */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms(string $new_type): array
     {
-        $forms = parent::initCreationForms($a_new_type);
-        
+        $forms = parent::initCreationForms($new_type);
+
         // cloning doesn't work in workspace yet
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             unset($forms[self::CFORM_CLONE]);
@@ -687,54 +650,40 @@ abstract class ilObject2GUI extends ilObjectGUI
 
         return $forms;
     }
-    
-    /**
-     * Import
-     *
-     * @access	public
-     */
-    public function importFile()
+
+    public function importFile(): void
     {
         parent::importFileObject($this->parent_id);
     }
 
     /**
      * Add object to tree at given position
-     *
-     * @param ilObject $a_obj
-     * @param int $a_parent_node_id
      */
-    public function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
+    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
     {
-        global $DIC;
+        $this->object_id = $obj->getId();
 
-        $rbacreview = $DIC["rbacreview"];
-        $ilUser = $DIC["ilUser"];
-
-
-        $this->object_id = $a_obj->getId();
-
-        if (!$a_parent_node_id) {
-            $a_parent_node_id = $this->parent_id;
+        if (!$parent_node_id) {
+            $parent_node_id = $this->parent_id;
         }
-        
+
         // add new object to custom parent container
-        if (isset($_REQUEST["crtptrefid"])) {
-            $a_parent_node_id = (int) $_REQUEST["crtptrefid"];
+        if ($this->retriever->has('crtptrefid')) {
+            $parent_node_id = $this->retriever->getMaybeInt('crtptrefid') ?? 0;
         }
 
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
                 if (!$this->node_id) {
-                    $a_obj->createReference();
-                    $this->node_id = $a_obj->getRefId();
+                    $obj->createReference();
+                    $this->node_id = $obj->getRefId();
                 }
-                $a_obj->putInTree($a_parent_node_id);
-                $a_obj->setPermissions($a_parent_node_id);
+                $obj->putInTree($parent_node_id);
+                $obj->setPermissions($parent_node_id);
 
                 // rbac log
-                $rbac_log_roles = $rbacreview->getParentRoleIds($this->node_id, false);
+                $rbac_log_roles = $this->rbac_review->getParentRoleIds($this->node_id, false);
                 $rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles), true);
                 ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->node_id, $rbac_log);
 
@@ -744,9 +693,9 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::WORKSPACE_NODE_ID:
             case self::WORKSPACE_OBJECT_ID:
                 if (!$this->node_id) {
-                    $this->node_id = $this->tree->insertObject($a_parent_node_id, $this->object_id);
+                    $this->node_id = $this->tree->insertObject($parent_node_id, $this->object_id);
                 }
-                $this->getAccessHandler()->setPermissions($a_parent_node_id, $this->node_id);
+                $this->getAccessHandler()->setPermissions($parent_node_id, $this->node_id);
 
                 $this->ctrl->setParameter($this, "wsp_id", $this->node_id);
                 break;
@@ -756,90 +705,69 @@ abstract class ilObject2GUI extends ilObjectGUI
                 // do nothing
                 break;
         }
-        
+
         // BEGIN ChangeEvent: Record save object.
-        ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
+        ilChangeEvent::_recordWriteEvent($this->object_id, $this->user->getId(), 'create');
         // END ChangeEvent: Record save object.
-        
+
         // use forced callback after object creation
-        self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"] ?? null);
+        self::handleAfterSaveCallback($obj, $this->retriever->getMaybeInt('crtcb'));
     }
-    
+
     /**
      * After creation callback
-     *
-     * @param ilObject $a_obj
-     * @param int $a_callback_ref_id
      */
-    public static function handleAfterSaveCallback(ilObject $a_obj, $a_callback_ref_id)
+    public static function handleAfterSaveCallback(ilObject $obj, ?int $callback_ref_id)
     {
         global $DIC;
-
         $objDefinition = $DIC["objDefinition"];
 
-
-        $a_callback_ref_id = (int) $a_callback_ref_id;
-        if ($a_callback_ref_id) {
-            $callback_type = ilObject::_lookupType($a_callback_ref_id, true);
+        $callback_ref_id = (int) $callback_ref_id;
+        if ($callback_ref_id) {
+            $callback_type = ilObject::_lookupType($callback_ref_id, true);
             $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
-            $location = $objDefinition->getLocation($callback_type);
-            include_once($location . "/class." . $class_name . ".php");
-            if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
-                $callback_obj = new $class_name($a_callback_ref_id);
+            if (strtolower($class_name) == "ilobjitemgroupgui") {
+                $callback_obj = new $class_name($callback_ref_id);
             } else {
-                $callback_obj = new $class_name(null, $a_callback_ref_id, true, false);
+                $callback_obj = new $class_name(null, $callback_ref_id, true, false);
             }
-            $callback_obj->afterSaveCallback($a_obj);
+            $callback_obj->afterSaveCallback($obj);
         }
     }
 
-    /**
-     * Check permission
-     *
-     * @param string $a_perm
-     * @param string $a_cmd
-     * @param string $a_type
-     * @param int $a_node_id
-     * @return bool
-     */
-    protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
-    {
-        global $DIC;
-
-        $ilUser = $DIC["ilUser"];
-
-
-        if ($a_perm == "create") {
-            if (!$a_node_id) {
-                $a_node_id = $this->parent_id;
+    protected function checkPermissionBool(
+        string $perm,
+        string $cmd = "",
+        string $type = "",
+        ?int $node_id = null
+    ): bool {
+        if ($perm == "create") {
+            if (!$node_id) {
+                $node_id = $this->parent_id;
             }
-            if ($a_node_id) {
-                return $this->getAccessHandler()->checkAccess($a_perm . "_" . $a_type, $a_cmd, $a_node_id);
+            if ($node_id) {
+                return $this->getAccessHandler()->checkAccess($perm . "_" . $type, $cmd, $node_id);
             }
         } else {
-            if (!$a_node_id) {
-                $a_node_id = $this->node_id;
+            if (!$node_id) {
+                $node_id = $this->node_id;
             }
-            if ($a_node_id) {
-                return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id);
+            if ($node_id) {
+                return $this->getAccessHandler()->checkAccess($perm, $cmd, $node_id);
             }
         }
-        
+
         // if we do not have a node id, check if current user is owner
-        if ($this->obj_id && $this->object->getOwner() == $ilUser->getId()) {
+        if ($this->obj_id && $this->object->getOwner() == $this->user->getId()) {
             return true;
         }
         return false;
     }
-    
+
     /**
      * Add header action menu
-     *
-     * @param string $a_sub_type
-     * @param int $a_sub_id
-     * @return ilObjectListGUI
      */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+    protected function initHeaderAction(?string $sub_type = null, ?int $sub_id = null): ?ilObjectListGUI
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             if (!$this->creation_mode && $this->object_id) {
@@ -850,17 +778,17 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->node_id,
                     $this->object_id
                 );
-                
-                $dispatcher->setSubObject($a_sub_type, $a_sub_id);
-                
+
+                $dispatcher->setSubObject($sub_type, $sub_id);
+
                 ilObjectListGUI::prepareJsLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                    $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
-                    $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+                    "",
+                    $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "")
                 );
-                
+
                 $lg = $dispatcher->initHeaderAction();
-                
+
                 if (is_object($lg)) {
                     // to enable add to desktop / remove from desktop
                     if ($this instanceof ilDesktopItemHandling) {
@@ -875,39 +803,35 @@ abstract class ilObject2GUI extends ilObjectGUI
 
                 return $lg;
             }
-        } else {
-            return parent::initHeaderAction();
         }
+
+        return parent::initHeaderAction($sub_type, $sub_id);
     }
-    
+
     /**
      * Updating icons after ajax call
      */
-    protected function redrawHeaderAction()
+    protected function redrawHeaderAction(): void
     {
         parent::redrawHeaderActionObject();
     }
-    
-    protected function getPermanentLinkWidget($a_append = null, $a_center = false)
+
+    protected function getPermanentLinkWidget(string $append = null, bool $center = false): string
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            $a_append .= "_wsp";
+            $append .= "_wsp";
         }
-        
-        $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $a_append);
+
+        $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $append);
         $plink->setIncludePermanentLinkText(false);
         return $plink->getHTML();
     }
 
-
-    /**
-     * @param \ilObject $a_new_obj
-     */
-    protected function handleAutoRating(ilObject $a_new_obj)
+    protected function handleAutoRating(ilObject $new_obj): void
     {
         // only needed in repository
         if ($this->id_type == self::REPOSITORY_NODE_ID) {
-            parent::handleAutoRating($a_new_obj);
+            parent::handleAutoRating($new_obj);
         }
     }
 }

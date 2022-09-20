@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -15,9 +16,8 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
      * @var assQuestion
      */
     protected $question;
-    
+
     /**
-     * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
      * @param string                 $template_context
      * @param assQuestion            $question
@@ -33,9 +33,9 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('ASC');
-        
+
         $this->setTitle($this->lng->txt('question_instances_title'));
-        
+
         $this->disable('sort');
         $this->disable('hits');
         $this->disable('numinfo');
@@ -47,7 +47,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('author'), 'author');
@@ -57,7 +57,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData()
+    protected function initData(): void
     {
         /**
          * @var $tree ilTree
@@ -76,7 +76,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
                     'author' => $instance['author'],
                     'ref_id' => $ref_id,
                     'is_trashed' => $trashed,
-                    'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, $ref_id)
+                    'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, (int) $ref_id)
                 );
             }
         }
@@ -84,9 +84,9 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set): void
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -94,15 +94,15 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
-        $this->tpl->setVariable('USAGE_INSTANCE_TITLE', $row['title']);
-        $this->tpl->setVariable('USAGE_AUTHOR', $row['author']);
-        $this->tpl->setVariable('USAGE_PATH', $row['path']);
+        $this->tpl->setVariable('USAGE_INSTANCE_TITLE', $a_set['title']);
+        $this->tpl->setVariable('USAGE_AUTHOR', $a_set['author']);
+        $this->tpl->setVariable('USAGE_PATH', $a_set['path']);
 
-        if ($ilAccess->checkAccess('read', '', $row['ref_id']) && !$row['is_trashed']) {
+        if ($ilAccess->checkAccess('read', '', $a_set['ref_id']) && !$a_set['is_trashed']) {
             $link = new ilLink();
 
-            $this->tpl->setVariable('USAGE_INSTANCE_LINKTED_TITLE', $row['title']);
-            $this->tpl->setVariable('USAGE_INSTANCE_HREF', $link->_getStaticLink($row['ref_id'], 'tst'));
+            $this->tpl->setVariable('USAGE_INSTANCE_LINKTED_TITLE', $a_set['title']);
+            $this->tpl->setVariable('USAGE_INSTANCE_HREF', $link->_getStaticLink($a_set['ref_id'], 'tst'));
 
             $this->tpl->setCurrentBlock('linked_title_b');
             $this->tpl->touchBlock('linked_title_b');

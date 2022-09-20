@@ -1,25 +1,34 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilServicesUserExtractor
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  */
 class ilServicesUserExtractor extends ilBaseExtractor
 {
     /**
      * @param string $event
      * @param array  $parameters
-     *
-     * @return \ilExtractedParams
+     * @return ilExtractedParams
      */
-    public function extract($event, $parameters)
+    public function extract(string $event, array $parameters): ilExtractedParams
     {
         $this->ilExtractedParams->setSubjectType('user');
 
@@ -38,7 +47,7 @@ class ilServicesUserExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractUser($parameters)
+    protected function extractUser(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId($parameters['user_obj']->getId());
         $this->ilExtractedParams->setContextType('null');
@@ -48,7 +57,7 @@ class ilServicesUserExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractUserById($parameters)
+    protected function extractUserById(array $parameters): void
     {
         $this->ilExtractedParams->setSubjectId($parameters['usr_id']);
         $this->ilExtractedParams->setContextType('null');

@@ -23,8 +23,8 @@
 }
 
 .il-chart-scale-bar-item {
-  font-size: @font-size-xs;
-  padding: @padding-xs-vertical @padding-xs-horizontal;
+  font-size: @il-font-size-xsmall;
+  padding: @il-padding-xs-vertical @il-padding-xs-horizontal;
   color: @il-chart-item-inactive-color;
   text-align: center;
   background-color: @il-chart-item-inactive-bg;
@@ -102,8 +102,8 @@
       }
       .il-chart-progressmeter-text {
         .text-score {
-          font-size: 7.5px;
-          font-weight: bold;
+          font-size: @il-font-size-xsmall;
+          font-weight: @il-font-weight-bold;
 
           fill: @il-chart-progressmeter-score-text-color;
         }
@@ -179,4 +179,17 @@
     }
   }
 
+}
+
+/*****************/
+/* Bar Chart */
+/*****************/
+.il-chart-bar-horizontal {
+  padding-top: @padding-large-horizontal;
+  padding-bottom: @padding-large-horizontal;
+}
+
+.il-chart-bar-vertical {
+  padding-top: @padding-large-horizontal;
+  padding-bottom: @padding-large-horizontal;
 }

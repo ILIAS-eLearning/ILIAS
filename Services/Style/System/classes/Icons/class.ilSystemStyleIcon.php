@@ -1,124 +1,101 @@
 <?php
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColorSet.php");
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+declare(strict_types=1);
 
 /**
  * Abstracts an Icon and the necessary actions to get all colors out of an svg Icon
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleIcon
 {
-
     /**
      * Path to the icon including name and extension
-     * @var string
      */
-    protected $path = "";
+    protected string $path = '';
 
     /**
      * Name of the Icon
-     * @var string
      */
-    protected $name = "";
+    protected string $name = '';
 
     /**
      * Extension of the icon
-     * @var string
      */
-    protected $type = "";
+    protected string $type = '';
 
     /**
      * Color set extracted from the icon
-     *
-     * @var ilSystemStyleIconColorSet
      */
-    protected $color_set = null;
+    protected ilSystemStyleIconColorSet $color_set;
 
-    /**
-     * ilSystemStyleIcon constructor.
-     * @param $name
-     * @param $path
-     * @param $type
-     */
-    public function __construct($name, $path, $type)
+    public function __construct(string $name, string $path, string $type)
     {
         $this->setName($name);
         $this->setType($type);
         $this->setPath($path);
     }
 
-
     /**
      * Changes colors in the svg file of the icon and updates the icon abstraction by extracting the colors again.
-     * @param array $color_changes
      */
-    public function changeColors(array $color_changes)
+    public function changeColors(array $color_changes): void
     {
-        if ($this->getType() == "svg") {
+        if ($this->getType() == 'svg') {
             $icon = file_get_contents($this->getPath());
             foreach ($color_changes as $old_color => $new_color) {
-                $icon = preg_replace('/' . $old_color . '/i', $new_color, $icon, -1);
+                $icon = preg_replace('/#' . $old_color . '/i', '#' . $new_color, $icon, -1);
             }
             file_put_contents($this->getPath(), $icon);
         }
         $this->extractColorSet();
     }
 
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     */
-    public function setPath($path)
+    public function setPath(string $path): void
     {
         $this->path = $path;
     }
@@ -126,19 +103,19 @@ class ilSystemStyleIcon
     /**
      * Only get dir rel to the Customizing dir
      * without name and extension from
-     * @return string
      */
-    public function getDirRelToCustomizing()
+    public function getDirRelToCustomizing(): string
     {
-        return dirname(strstr($this->getPath(), 'global/skin'));
+        $path = strstr($this->getPath(), 'global/skin');
+        if (!$path) {
+            return '';
+        }
+        return dirname($path);
     }
 
-    /**
-     * @return ilSystemStyleIconColorSet
-     */
-    public function getColorSet()
+    public function getColorSet(): ilSystemStyleIconColorSet
     {
-        if (!$this->color_set) {
+        if (!isset($this->color_set)) {
             $this->extractColorSet();
         }
         return $this->color_set;
@@ -147,38 +124,31 @@ class ilSystemStyleIcon
     /**
      * Extracts all colors from the icon by parsing the svg file for a regular expresion.
      */
-    protected function extractColorSet()
+    protected function extractColorSet(): void
     {
-        $regex_for_extracting_color = '/(?<=#)[\dabcdef]{6}/i';
+        $regex_for_extracting_color = '/((?<=#)[\dabcdef]{6})|((?<=#)[\dabcdef]{3})/i';
 
         $this->color_set = new ilSystemStyleIconColorSet();
-        if ($this->getType() == "svg") {
+        if ($this->getType() == 'svg') {
             $icon_content = file_get_contents($this->getPath());
             $color_matches = [];
             preg_match_all($regex_for_extracting_color, $icon_content, $color_matches);
             if (is_array($color_matches) && is_array($color_matches[0])) {
                 foreach ($color_matches[0] as $color_value) {
-                    $numeric = strtoupper(str_replace("#", "", $color_value));
-                    $color = new ilSystemStyleIconColor("id_" . $numeric, $color_value, $numeric, $color_value);
+                    $numeric = strtoupper(str_replace('#', '', $color_value));
+                    $color = new ilSystemStyleIconColor('id_' . $numeric, $color_value, $numeric, $color_value);
                     $this->getColorSet()->addColor($color);
                 }
             }
         }
     }
 
-    /**
-     * @param ilSystemStyleIconColorSet $color_set
-     */
-    public function setColorSet($color_set)
+    public function setColorSet(ilSystemStyleIconColorSet $color_set): void
     {
         $this->color_set = $color_set;
     }
 
-    /**
-     * @param $color_id
-     * @return bool
-     */
-    public function usesColor($color_id)
+    public function usesColor(string $color_id): bool
     {
         return $this->getColorSet()->doesColorExist($color_id);
     }

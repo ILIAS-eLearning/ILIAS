@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -9,15 +11,8 @@ namespace ILIAS\Data;
  */
 class Link
 {
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var URI
-     */
-    protected $url;
+    protected string $label;
+    protected URI $url;
 
     public function __construct(string $label, URI $url)
     {
@@ -25,12 +20,12 @@ class Link
         $this->url = $url;
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function getURL() : URI
+    public function getURL(): URI
     {
         return $this->url;
     }

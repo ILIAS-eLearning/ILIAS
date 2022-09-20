@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilAtomQuery
@@ -8,20 +26,19 @@
  */
 interface ilAtomQuery
 {
-
     // Lock levels
-    const LOCK_WRITE = 1;
-    const LOCK_READ = 2;
+    public const LOCK_WRITE = 1;
+    public const LOCK_READ = 2;
     // Isolation-Levels
-    const ISOLATION_READ_UNCOMMITED = 1;
-    const ISOLATION_READ_COMMITED = 2;
-    const ISOLATION_REPEATED_READ = 3;
-    const ISOLATION_SERIALIZABLE = 4;
+    public const ISOLATION_READ_UNCOMMITED = 1;
+    public const ISOLATION_READ_COMMITED = 2;
+    public const ISOLATION_REPEATED_READ = 3;
+    public const ISOLATION_SERIALIZABLE = 4;
     // Anomalies
-    const ANO_LOST_UPDATES = 1;
-    const ANO_DIRTY_READ = 2;
-    const ANO_NON_REPEATED_READ = 3;
-    const ANO_PHANTOM = 4;
+    public const ANO_LOST_UPDATES = 1;
+    public const ANO_DIRTY_READ = 2;
+    public const ANO_NON_REPEATED_READ = 3;
+    public const ANO_PHANTOM = 4;
 
     /**
      * Add table-names which are influenced by your queries, MyISAm has to lock those tables.
@@ -29,7 +46,7 @@ interface ilAtomQuery
      * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
      * the lock-level is determined by ilAtomQuery
      */
-    public function addTableLock(string $table_name) : ilTableLockInterface;
+    public function addTableLock(string $table_name): ilTableLockInterface;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -44,10 +61,9 @@ interface ilAtomQuery
      *      }
      * }
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     * @param \Callable $query
      * @throws ilAtomQueryException
      */
-    public function addQueryCallable(callable $query) : void;
+    public function addQueryCallable(callable $query): void;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -62,29 +78,28 @@ interface ilAtomQuery
      *      }
      * }
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     * @param \Callable $query
      * @throws ilAtomQueryException
      */
-    public function replaceQueryCallable(callable $query) : void;
+    public function replaceQueryCallable(callable $query): void;
 
     /**
      * Fire your Queries
      * @throws \ilAtomQueryException
      */
-    public function run() : void;
+    public function run(): void;
 
     /**
      * @throws \ilAtomQueryException
      */
-    public static function checkIsolationLevel(int $isolation_level) : void;
+    public static function checkIsolationLevel(int $isolation_level): void;
 
     /**
      * Returns the current Isolation-Level
      */
-    public function getIsolationLevel() : int;
+    public function getIsolationLevel(): int;
 
     /**
      * Provides a check if your callable is ready to be used in ilAtomQuery
      */
-    public function checkCallable(callable $query) : bool;
+    public function checkCallable(callable $query): bool;
 }

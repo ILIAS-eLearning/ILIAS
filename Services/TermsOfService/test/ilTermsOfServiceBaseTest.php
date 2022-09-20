@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -15,7 +32,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;
@@ -30,23 +47,21 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @return MockObject|ilLanguage
+     * @return MockObject&ilLanguage
      */
-    protected function getLanguageMock() : ilLanguage
+    protected function getLanguageMock(): ilLanguage
     {
-        $lng = $this
+        return $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
-
-        return $lng;
     }
 
     /**
-     * @return MockObject|Factory
+     * @return MockObject&Factory
      */
-    protected function getUiFactoryMock() : Factory
+    protected function getUiFactoryMock(): Factory
     {
         $ui = $this
             ->getMockBuilder(Factory::class)
@@ -65,10 +80,9 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -82,25 +96,13 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 
     /**
      * @param mixed $value
-     * @return ilTermsOfServiceCriterionConfig
      */
-    protected function getCriterionConfig($value = null) : ilTermsOfServiceCriterionConfig
+    protected function getCriterionConfig($value = null): ilTermsOfServiceCriterionConfig
     {
         if (null === $value) {
             return new ilTermsOfServiceCriterionConfig();
         }
 
         return new ilTermsOfServiceCriterionConfig($value);
-    }
-
-    protected function initLangMock() : void
-    {
-        $lng = $this->getLanguageMock();
-
-        $lng
-            ->method('txt')
-            ->willReturn('translation');
-
-        $this->setGlobalVariable('lng', $lng);
     }
 }

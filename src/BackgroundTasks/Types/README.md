@@ -1,14 +1,12 @@
 Types
 -----------
 
-Types is a simple extension to Reflection classes, allowing to Define lists and tuples. Currently 
-only subtypes, ancestors and equals is given by the interface. 
+Types is a simple extension to Reflection classes, allowing to Define lists and tuples. Currently only subtypes, ancestors and equals is given by the interface.
 
 ATTENTION
 ---------
 
-This package is currently only used in the BackgroundTasks! You are invited to use it and find other
-use cases. Any suggestions, improvements and pull requests are highly appreciated.
+This package is currently only used in the BackgroundTasks! You are invited to use it and find other use cases. Any suggestions, improvements and pull requests are highly appreciated.
 
 Usage
 -----

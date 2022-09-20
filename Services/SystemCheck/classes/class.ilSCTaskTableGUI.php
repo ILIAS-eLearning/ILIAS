@@ -1,60 +1,50 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Table GUI for system check task overview
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCTaskTableGUI extends ilTable2GUI
 {
-    private $group_id = 0;
-    private $component_task_handler = null;
+    private int $group_id = 0;
 
-    /**
-     * @var ilAccess
-     */
-    private $access;
-    
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     */
-    public function __construct($a_group_id, $a_parent_obj, $a_parent_cmd = "")
+    private ilAccess $access;
+
+    public function __construct(int $a_group_id, object $a_parent_obj, string $a_parent_cmd = '')
     {
         global $DIC;
         $this->group_id = $a_group_id;
         $this->setId('sc_groups');
         $this->access = $DIC->access();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
-    /**
-     * Get group id
-     * @return type
-     */
-    public function getGroupId()
+
+    public function getGroupId(): int
     {
         return $this->group_id;
     }
-    
-    
-    /**
-     * init table
-     */
-    public function init()
+
+    public function init(): void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $lng->loadLanguageModule('sysc');
+        $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
         $this->addColumn($this->lng->txt('last_update'), 'last_update_sort', '20%');
         $this->addColumn($this->lng->txt('status'), 'status', '10%');
@@ -63,59 +53,57 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('sysc_task_overview'));
 
         $this->setRowTemplate('tpl.syscheck_tasks_row.html', 'Services/SystemCheck');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
     /**
-     * Fill row
-     * @param type $a_set
+     * @param array $a_set
      */
-    public function fillRow($row)
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable('VAL_TITLE', $row['title']);
-        $this->tpl->setVariable('VAL_DESC', $row['description']);
+        $this->tpl->setVariable('VAL_TITLE', (string) ($a_set['title'] ?? ''));
+        $this->tpl->setVariable('VAL_DESC', (string) ($a_set['description'] ?? ''));
 
-        include_once './Services/SystemCheck/classes/class.ilSCUtils.php';
-        $text = ilSCUtils::taskStatus2Text($row['status']);
-        switch ($row['status']) {
+        $status = (int) ($a_set['status'] ?? 0);
+        $text = ilSCUtils::taskStatus2Text($status);
+        switch ($status) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('VAL_STATUS_SUCCESS', $text);
                 break;
-            
+
             case ilSCTask::STATUS_FAILED:
                 $this->tpl->setCurrentBlock('warning');
                 $this->tpl->setVariable('VAL_STATUS_WARNING', $text);
                 $this->tpl->parseCurrentBlock();
                 break;
-            
+
             default:
                 $this->tpl->setVariable('VAL_STATUS_STANDARD', $text);
                 break;
         }
 
-        $this->tpl->setVariable('VAL_LAST_UPDATE', $row['last_update']);
-        
+        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($a_set['last_update'] ?? ''));
+
         // Actions
-        if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
-            include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+        if ($this->access->checkAccess('write', '', $this->parent_obj->getObject()->getRefId())) {
+            $id = (int) ($a_set['id'] ?? 0);
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');
-            $list->setId('sysc_' . $row['id']);
+            $list->setId('sysc_' . $id);
             $list->setListTitle($this->lng->txt('actions'));
 
-            include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
-            $task_handler = ilSCComponentTaskFactory::getComponentTask($row['id']);
+            $task_handler = ilSCComponentTaskFactory::getComponentTask($id);
 
-            $GLOBALS['DIC']['ilCtrl']->setParameterByClass(get_class($task_handler), 'task_id', $row['id']);
-            foreach ((array) $task_handler->getActions() as $actions) {
+            $this->ctrl->setParameterByClass(get_class($task_handler), 'task_id', $id);
+            foreach ($task_handler->getActions() as $actions) {
                 $list->addItem(
-                    $actions['txt'],
+                    (string) ($actions['txt'] ?? ''),
                     '',
-                    $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass(
+                    $this->ctrl->getLinkTargetByClass(
                         get_class($task_handler),
-                        $actions['command']
-                        )
+                        (string) ($actions['command'] ?? '')
+                    )
                 );
             }
 
@@ -123,16 +111,11 @@ class ilSCTaskTableGUI extends ilTable2GUI
         }
     }
 
-
-    /**
-     * Parse system check groups
-     */
-    public function parse()
+    public function parse(): void
     {
         $data = array();
-        include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+
         foreach (ilSCTasks::getInstanceByGroupId($this->getGroupId())->getTasks() as $task) {
-            include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
             $task_handler = ilSCComponentTaskFactory::getComponentTask($task->getId());
 
             if (!$task->isActive()) {
@@ -146,10 +129,10 @@ class ilSCTaskTableGUI extends ilTable2GUI
             $item['last_update'] = ilDatePresentation::formatDate($task->getLastUpdate());
             $item['last_update_sort'] = $task->getLastUpdate()->get(IL_CAL_UNIX);
             $item['status'] = $task->getStatus();
-            
+
             $data[] = $item;
         }
-        
+
         $this->setData($data);
     }
 }

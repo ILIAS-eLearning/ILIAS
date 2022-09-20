@@ -1,37 +1,54 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
- *
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSCmsData
 {
-    const MAPPING_UNMAPPED = 1;
-    const MAPPING_PENDING_DISCONNECTABLE = 2;
-    const MAPPING_PENDING_NOT_DISCONNECTABLE = 3;
-    const MAPPING_MAPPED = 4;
-    const MAPPING_DELETED = 5;
+    public const MAPPING_UNMAPPED = 1;
+    public const MAPPING_PENDING_DISCONNECTABLE = 2;
+    public const MAPPING_PENDING_NOT_DISCONNECTABLE = 3;
+    public const MAPPING_MAPPED = 4;
+    public const MAPPING_DELETED = 5;
 
-    private $obj_id;
-    private $server_id;
-    private $mid;
-    private $tree_id;
-    private $cms_id;
-    private $title;
-    private $term;
-    private $status = self::MAPPING_UNMAPPED;
-    private $deleted = false;
+    private ilDBInterface $db;
 
-    public function __construct($a_obj_id = 0)
+    private int $obj_id;
+    private int $server_id;
+    private int $mid;
+    private int $tree_id;
+    private string $cms_id;
+    private string $title;
+    private string $term;
+    private int $status = self::MAPPING_UNMAPPED;
+    private bool $deleted = false;
+
+    public function __construct(int $a_obj_id = 0)
     {
+        global $DIC;
+        $this->db = $DIC->database();
+
         $this->obj_id = $a_obj_id;
         $this->read();
     }
 
-    public static function treeExists($a_server_id, $a_mid, $a_tree_id)
+    public static function treeExists(int $a_server_id, int $a_mid, int $a_tree_id): bool
     {
         global $DIC;
 
@@ -43,28 +60,23 @@ class ilECSCmsData
             'AND tree_id  = ' . $ilDB->quote($a_tree_id, 'integer');
 
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->num > 0 ? true : false;
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return $row->num > 0;
         }
         return false;
     }
-    
+
     /**
      * Find deleted nodes
      * Uses a left join since this is more robust. An alternative implementation
      * could simply check the deleted flag in ecs_cms_data.
-     * @global  $ilDB
-     * @param type $a_server_id
-     * @param type $a_mid
-     * @param type $a_tree_id
-     * @return type
      */
-    public static function findDeletedNodes($a_server_id, $a_mid, $a_tree_id)
+    public static function findDeletedNodes(int $a_server_id, int $a_mid, int $a_tree_id): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT ed.obj_id obj_id FROM ecs_cms_data ed ' .
                 'LEFT JOIN ecs_cms_tree et ON ed.obj_id = et.child ' .
                 'WHERE et.child IS NULL ' .
@@ -72,7 +84,7 @@ class ilECSCmsData
                 'AND mid = ' . $ilDB->quote($a_mid) . ' ' .
                 'AND tree_id  = ' . $ilDB->quote($a_tree_id);
         $res = $ilDB->query($query);
-        
+
         $deleted = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $deleted[] = $row->obj_id;
@@ -80,11 +92,12 @@ class ilECSCmsData
         return $deleted;
     }
 
-    public static function lookupObjId($a_server_id, $a_mid, $a_tree_id, $cms_id)
+    public static function lookupObjId(int $a_server_id, int $a_mid, int $a_tree_id, string $cms_id): int
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+        $logger = $DIC->logger()->wsrv();
 
         $query = 'SELECT obj_id FROM ecs_cms_data ' .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
@@ -92,10 +105,10 @@ class ilECSCmsData
             'AND tree_id = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND cms_id = ' . $ilDB->quote($cms_id, 'text');
         $res = $ilDB->query($query);
-        
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $query);
-        
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+
+        $logger->debug($query);
+
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->obj_id;
         }
         return 0;
@@ -103,19 +116,15 @@ class ilECSCmsData
 
     /**
      * Lookup first obj_id of cms node
-     * @global $ilDB $ilDB
-     * @param type $a_server_id
-     * @param type $a_mid
-     * @param type $cms_id
-     * @return int
      */
-    public static function lookupFirstTreeOfNode($a_server_id, $a_mid, $cms_id)
+    public static function lookupFirstTreeOfNode($a_server_id, $a_mid, $cms_id): int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ':ASDUASDUASDU ' . $a_server_id . ' ' . $a_mid . ' ' . $cms_id);
+        $ilDB = $DIC->database();
+        $logger = $DIC->logger()->wsrv();
+
+        $logger->debug($a_server_id . ' ' . $a_mid . ' ' . $cms_id);
 
         $query = 'SELECT tree_id FROM ecs_cms_data ' .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
@@ -123,8 +132,8 @@ class ilECSCmsData
             'AND cms_id = ' . $ilDB->quote($cms_id, 'text') . ' ' .
             'ORDER BY tree_id ';
         $res = $ilDB->query($query);
-        
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->tree_id;
         }
         return 0;
@@ -132,9 +141,8 @@ class ilECSCmsData
 
     /**
      * Lookup title by obj id
-     * @param int $a_obj_id
      */
-    public static function lookupTitle($a_server_id, $a_mid, $a_tree_id)
+    public static function lookupTitle(int $a_server_id, int $a_mid, int $a_tree_id): string
     {
         global $DIC;
 
@@ -145,7 +153,7 @@ class ilECSCmsData
             'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
             'AND tree_id = ' . $ilDB->quote($a_tree_id, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->title;
         }
         return '';
@@ -153,12 +161,8 @@ class ilECSCmsData
 
     /**
      * Lookup term (highest term in cms tree)
-     * @global <type> $ilDB
-     * @param <type> $a_server_id
-     * @param <type> $a_mid
-     * @param <type> $a_tree_id
      */
-    public static function lookupTopTerm($a_server_id, $a_mid, $a_tree_id)
+    public static function lookupTopTerm(int $a_server_id, int $a_mid, int $a_tree_id): string
     {
         global $DIC;
 
@@ -172,7 +176,7 @@ class ilECSCmsData
             'AND tree_id = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'ORDER BY depth';
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->term;
         }
         return '';
@@ -180,9 +184,8 @@ class ilECSCmsData
 
     /**
      * Lookup status
-     * @param int $a_obj_id
      */
-    public static function lookupStatusByObjId($a_server_id, $a_mid, $a_tree_id, $obj_id)
+    public static function lookupStatusByObjId(int $a_server_id, int $a_mid, int $a_tree_id, int $obj_id): int
     {
         global $DIC;
 
@@ -194,20 +197,19 @@ class ilECSCmsData
             'AND tree_id = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND obj_id = ' . $ilDB->quote($obj_id, 'integer');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->deleted) {
                 return self::MAPPING_DELETED;
             }
-            return $row->status;
+            return (int) $row->status;
         }
         return self::MAPPING_UNMAPPED;
     }
 
     /**
      * Lookup status
-     * @param int $a_obj_id
      */
-    public static function lookupStatusByCmsId($a_server_id, $a_mid, $a_tree_id, $cms_id)
+    public static function lookupStatusByCmsId(int $a_server_id, int $a_mid, int $a_tree_id, string $cms_id): int
     {
         global $DIC;
 
@@ -219,20 +221,18 @@ class ilECSCmsData
             'AND tree_id = ' . $ilDB->quote($a_tree_id, 'integer') . ' ' .
             'AND cms_id = ' . $ilDB->quote($cms_id, 'text');
         $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->status;
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->status;
         }
         return self::MAPPING_UNMAPPED;
     }
 
-    public static function updateStatus($a_server_id, $a_mid, $a_tree_id)
+    public static function updateStatus(int $a_server_id, int $a_mid, int $a_tree_id): void
     {
         // Set all status to pending unmapped
         self::writeAllStatus($a_server_id, $a_mid, $a_tree_id, self::MAPPING_UNMAPPED);
 
         // Set mapped for mapped and their descendent
-        include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
-        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
         foreach (ilECSNodeMappingAssignments::lookupAssignmentIds($a_server_id, $a_mid, $a_tree_id) as $assignment) {
             $cmsTree = new ilECSCmsTree($a_tree_id);
             $subIds = self::lookupCmsIds(array_merge($cmsTree->getSubTreeIds($assignment), array($assignment)));
@@ -249,16 +249,18 @@ class ilECSCmsData
 
     /**
      * Lookup cms id
-     * @param type $a_obj_id
      */
-    public static function lookupCmsId($a_obj_id)
+    public static function lookupCmsId($a_obj_id): string
     {
         $cms_ids = self::lookupCmsIds(array($a_obj_id));
         return $cms_ids[0];
     }
 
-
-    public static function lookupCmsIds($a_obj_ids)
+    /**
+     * @param int[] $a_obj_ids
+     * @return string[]
+     */
+    public static function lookupCmsIds(array $a_obj_ids): array
     {
         global $DIC;
 
@@ -268,26 +270,19 @@ class ilECSCmsData
             'WHERE ' . $ilDB->in('obj_id', $a_obj_ids, false, 'integer');
         $res = $ilDB->query($query);
 
-        $cms_ids = array();
+        $cms_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $cms_ids[] = $row->cms_id;
         }
         return $cms_ids;
     }
-    
-    /**
-     *
-     * @global $ilDB $ilDB
-     * @param type $a_server_id
-     * @param type $a_mid
-     * @param type $a_tree_id
-     */
-    public static function lookupCmsIdsOfTree($a_server_id, $a_mid, $a_tree_id)
+
+    public static function lookupCmsIdsOfTree($a_server_id, $a_mid, $a_tree_id): array
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = 'SELECT cms_id FROM ecs_cms_data ' .
                 'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
                 'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
@@ -302,15 +297,8 @@ class ilECSCmsData
 
     /**
      * Update status
-     * @global  $ilDB
-     * @param <type> $a_server_id
-     * @param <type> $a_mid
-     * @param <type> $a_tree_id
-     * @param <type> $cms_ids
-     * @param <type> $status
-     * @return <type>
      */
-    public static function writeStatus($a_server_id, $a_mid, $a_tree_id, $cms_ids, $status)
+    public static function writeStatus($a_server_id, $a_mid, $a_tree_id, $cms_ids, $status): bool
     {
         global $DIC;
 
@@ -328,15 +316,8 @@ class ilECSCmsData
 
     /**
      * Update status
-     * @global  $ilDB
-     * @param <type> $a_server_id
-     * @param <type> $a_mid
-     * @param <type> $a_tree_id
-     * @param <type> $cms_ids
-     * @param <type> $status
-     * @return <type>
      */
-    public static function writeAllStatus($a_server_id, $a_mid, $a_tree_id, $status)
+    public static function writeAllStatus($a_server_id, $a_mid, $a_tree_id, $status): bool
     {
         global $DIC;
 
@@ -350,15 +331,11 @@ class ilECSCmsData
         $ilDB->manipulate($query);
         return true;
     }
-    
+
     /**
      * Write deleted status
-     * @param type $a_server_id
-     * @param type $a_mid
-     * @param type $a_tree_id
-     * @param type $a_deleted_flag
      */
-    public static function writeAllDeleted($a_server_id, $a_mid, $a_tree_id, $a_deleted_flag)
+    public static function writeAllDeleted($a_server_id, $a_mid, $a_tree_id, $a_deleted_flag): bool
     {
         global $DIC;
 
@@ -373,7 +350,12 @@ class ilECSCmsData
         return true;
     }
 
-    public static function lookupTreeIds($a_server_id, $a_mid)
+    /**
+     * @param int $a_server_id
+     * @param int $a_mid
+     * @return int[]
+     */
+    public static function lookupTreeIds(int $a_server_id, int $a_mid): array
     {
         global $DIC;
 
@@ -384,169 +366,153 @@ class ilECSCmsData
             'AND mid = ' . $ilDB->quote($a_mid, 'integer');
         $res = $ilDB->query($query);
 
-        $tree_ids = array();
+        $tree_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tree_ids[] = $row->tid;
+            $tree_ids[] = (int) $row->tid;
         }
-        return (array) $tree_ids;
+        return $tree_ids;
     }
 
 
-    public function setTitle($a_title)
+    public function setTitle($a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTerm($a_term)
+    public function setTerm($a_term): void
     {
         $this->term = $a_term;
     }
 
-    public function getTerm()
+    public function getTerm(): string
     {
         return $this->term;
     }
 
-    public function setObjId($a_id)
+    public function setObjId($a_id): void
     {
         $this->obj_id = $a_id;
     }
 
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setCmsId($a_id)
+    public function setCmsId($a_id): void
     {
         $this->cms_id = $a_id;
     }
 
-    public function getCmsId()
+    public function getCmsId(): string
     {
         return $this->cms_id;
     }
 
-    public function setServerId($a_id)
+    public function setServerId($a_id): void
     {
         $this->server_id = $a_id;
     }
 
-    public function getServerId()
+    public function getServerId(): int
     {
         return $this->server_id;
     }
 
-    public function setTreeId($a_id)
+    public function setTreeId($a_id): void
     {
         $this->tree_id = $a_id;
     }
 
-    public function getTreeId()
+    public function getTreeId(): int
     {
         return $this->tree_id;
     }
 
-    public function setMid($a_id)
+    public function setMid($a_id): void
     {
         $this->mid = $a_id;
     }
 
-    public function getMid()
+    public function getMid(): int
     {
         return $this->mid;
     }
 
-    public function setStatus($a_status)
+    public function setStatus($a_status): void
     {
         $this->status = $a_status;
     }
 
-    public function getStatus()
+    public function getStatus(): int
     {
         return $this->status;
     }
-    
-    public function setDeleted($a_is_deleted)
+
+    public function setDeleted($a_is_deleted): void
     {
         $this->deleted = $a_is_deleted;
     }
-    
-    public function isDeleted()
+
+    public function isDeleted(): bool
     {
         return $this->deleted;
     }
-    
 
-    public function save()
+
+    public function save(): bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $this->obj_id = $ilDB->nextId('ecs_cms_data');
+        $this->obj_id = $this->db->nextId('ecs_cms_data');
 
         $query = 'INSERT INTO ecs_cms_data (obj_id,server_id,mid,tree_id,cms_id,title,term,status,deleted) ' .
             'VALUES ( ' .
-            $ilDB->quote($this->obj_id, 'integer') . ', ' .
-            $ilDB->quote($this->server_id, 'integer') . ', ' .
-            $ilDB->quote($this->mid, 'integer') . ', ' .
-            $ilDB->quote($this->tree_id, 'integer') . ', ' .
-            $ilDB->quote($this->cms_id, 'text') . ', ' .
-            $ilDB->quote($this->title, 'text') . ', ' .
-            $ilDB->quote($this->term, 'text') . ', ' .
-            $ilDB->quote($this->status, 'integer') . ', ' .
-            $ilDB->quote($this->deleted, 'integer') . ' ' .
+            $this->db->quote($this->obj_id, 'integer') . ', ' .
+            $this->db->quote($this->server_id, 'integer') . ', ' .
+            $this->db->quote($this->mid, 'integer') . ', ' .
+            $this->db->quote($this->tree_id, 'integer') . ', ' .
+            $this->db->quote($this->cms_id, 'text') . ', ' .
+            $this->db->quote($this->title, 'text') . ', ' .
+            $this->db->quote($this->term, 'text') . ', ' .
+            $this->db->quote($this->status, 'integer') . ', ' .
+            $this->db->quote($this->deleted, 'integer') . ' ' .
             ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         return true;
     }
 
-    public function update()
+    public function update(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "UPDATE ecs_cms_data SET " .
-            'title = ' . $ilDB->quote($this->title, 'text') . ', ' .
-            'term = ' . $ilDB->quote($this->term, 'text') . ', ' .
-            'status = ' . $ilDB->quote($this->status, 'text') . ', ' .
-            'deleted = ' . $ilDB->quote($this->isDeleted(), 'integer') . ' ' .
-            'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer');
-        $ilDB->manipulate($query);
+            'title = ' . $this->db->quote($this->title, 'text') . ', ' .
+            'term = ' . $this->db->quote($this->term, 'text') . ', ' .
+            'status = ' . $this->db->quote($this->status, 'text') . ', ' .
+            'deleted = ' . $this->db->quote($this->isDeleted(), 'integer') . ' ' .
+            'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer');
+        $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM ecs_cms_data  " .
-            'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer');
-        $ilDB->manipulate($query);
+            'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer');
+        $this->db->manipulate($query);
     }
 
-    public function deleteTree()
+    public function deleteTree(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "DELETE FROM ecs_cms_data  " .
-            'WHERE server_id = ' . $ilDB->quote($this->server_id, 'integer') . ' ' .
-            'AND mid = ' . $ilDB->quote($this->mid, 'integer') . ' ' .
-            'AND tree_id = ' . $ilDB->quote($this->tree_id, 'integer') . ' ';
-        $ilDB->manipulate($query);
+            'WHERE server_id = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
+            'AND mid = ' . $this->db->quote($this->mid, 'integer') . ' ' .
+            'AND tree_id = ' . $this->db->quote($this->tree_id, 'integer') . ' ';
+        $this->db->manipulate($query);
     }
-    
-    public static function deleteByServerId($a_server_id)
+
+    public static function deleteByServerId($a_server_id): void
     {
         global $DIC;
 
@@ -557,15 +523,11 @@ class ilECSCmsData
         $ilDB->manipulate($query);
     }
 
-    protected function read()
+    protected function read(): void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT * FROM ecs_cms_data ' .
-            'WHERE obj_id = ' . $ilDB->quote($this->obj_id, 'integer');
-        $res = $ilDB->query($query);
+            'WHERE obj_id = ' . $this->db->quote($this->obj_id, 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->title = $row->title;
             $this->term = $row->term;

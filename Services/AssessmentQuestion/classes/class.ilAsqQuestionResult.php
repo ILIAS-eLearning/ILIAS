@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,12 +16,12 @@ class ilAsqQuestionResult
      * @var float
      */
     protected $points;
-    
+
     /**
      * @var bool
      */
     protected $correct;
-    
+
     /**
      * @param float $points
      */
@@ -28,15 +29,15 @@ class ilAsqQuestionResult
     {
         $this->points = $points;
     }
-    
+
     /**
      * @return float
      */
-    public function getPoints() : float
+    public function getPoints(): float
     {
         return $this->points;
     }
-    
+
     /**
      * @param bool $correct
      */
@@ -44,11 +45,11 @@ class ilAsqQuestionResult
     {
         $this->correct = $correct;
     }
-    
+
     /**
      * @return bool
      */
-    public function isCorrect() : bool
+    public function isCorrect(): bool
     {
         return $this->correct;
     }

@@ -1,22 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Class ilMMItemTranslationTableGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMItemTranslationTableGUI extends ilTable2GUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    /**
-     * @var ilMMItemFacadeInterface
-     */
-    private $item_facade;
+    private ilMMItemFacadeInterface $item_facade;
 
+//    private ilCtrl $ctrl;
+//    private ilLanguage $lng;
 
     /**
      * ilMMItemTranslationTableGUI constructor.
-     *
      * @param ilMMItemTranslationGUI  $a_parent_obj
      * @param ilMMItemFacadeInterface $item_facade
      */
@@ -28,9 +26,9 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $this->setPrefix($table_id);
         $this->setFormName($table_id);
         parent::__construct($a_parent_obj);
-        $this->ctrl()->saveParameter($a_parent_obj, $this->getNavParameter());
+        $this->ctrl->saveParameter($a_parent_obj, $this->getNavParameter());
         $this->setRowTemplate("tpl.translation_row.html", "Services/MainMenu");
-        $this->setFormAction($this->ctrl()->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setExternalSorting(true);
         $this->setDefaultOrderField("id");
         $this->setDefaultOrderDirection("asc");
@@ -42,44 +40,40 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
 
         $this->addCommandButton(
             ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS,
-            $this->lng()
-            ->txt("save")
+            $this->lng
+                ->txt("save")
         );
         $this->addMultiCommand(
             ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS,
-            $this->lng()
-            ->txt("delete")
+            $this->lng
+                ->txt("delete")
         );
 
         $this->parseData();
     }
 
-
-    protected function initColumns()
+    protected function initColumns(): void
     {
-        $this->addColumn($this->lng()->txt('mm_translation_select'), '', '15px', true);
-        $this->addColumn($this->lng()->txt('mm_translation_lang'));
-        $this->addColumn($this->lng()->txt('mm_translation_trans'));
+        $this->addColumn($this->lng->txt('mm_translation_select'), '', '15px', true);
+        $this->addColumn($this->lng->txt('mm_translation_lang'));
+        $this->addColumn($this->lng->txt('mm_translation_trans'));
     }
 
-
-    protected function initCommands()
+    protected function initCommands(): void
     {
-        $this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng()
+        $this->addMultiCommand(ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng
             ->txt("delete"));
     }
 
-
-    protected function parseData()
+    protected function parseData(): void
     {
         $this->setData(ilMMItemTranslationStorage::where(['identification' => $this->item_facade->getId()])->getArray());
     }
 
-
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         /**
          * @var $translation ilMMItemTranslationStorage
@@ -87,7 +81,7 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $translation = ilMMItemTranslationStorage::find($a_set['id']);
 
         $this->tpl->setVariable('ID', $translation->getId());
-        $this->tpl->setVariable('LANGUAGE', $this->lng()->txt("meta_l_" . $translation->getLanguageKey()));
+        $this->tpl->setVariable('LANGUAGE', $this->lng->txt("meta_l_" . $translation->getLanguageKey()));
         $this->tpl->setVariable('TEXT', $translation->getTranslation());
     }
 }

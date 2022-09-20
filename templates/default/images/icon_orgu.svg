@@ -1,111 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
-	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
-	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
-	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
-	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
-	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
-	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
-	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
-]>
-<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<switch>
-	<g i:extraneous="self">
-		<rect y="-0.008" fill="none" width="32" height="32"/>
-		<g>
-			<g>
-				<defs>
-					<path id="SVGID_1_" d="M12,5.991c0,0-0.5,0-0.5,0.501v5c0,0,0,0.5,0.5,0.5h7.999c0,0,0.501,0,0.501-0.5v-5
-						c0,0,0-0.501-0.501-0.501H12z"/>
-				</defs>
-				<clipPath id="SVGID_2_">
-					<use xlink:href="#SVGID_1_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-370.8145" y1="-307.4639" x2="-369.8145" y2="-307.4639" gradientTransform="matrix(9 0 0 9 3348.8308 2776.1665)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect x="11.5" y="5.991" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="9" height="6.001"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<defs>
-					<path id="SVGID_4_" d="M4.5,19.992c0,0-0.5,0-0.5,0.5v3c0,0,0,0.499,0.5,0.499h5c0,0,0.499,0,0.499-0.499v-3
-						c0,0,0-0.5-0.499-0.5H4.5z"/>
-				</defs>
-				<clipPath id="SVGID_5_">
-					<use xlink:href="#SVGID_4_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-354.7218" y1="-320.0292" x2="-353.722" y2="-320.0292" gradientTransform="matrix(6 0 0 6 2132.3308 1942.1666)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect x="4" y="19.992" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="5.999" height="3.999"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<defs>
-					<path id="SVGID_7_" d="M22.5,19.992c0,0-0.5,0-0.5,0.5v3c0,0,0,0.499,0.5,0.499h5c0,0,0.499,0,0.499-0.499v-3
-						c0,0,0-0.5-0.499-0.5H22.5z"/>
-				</defs>
-				<clipPath id="SVGID_8_">
-					<use xlink:href="#SVGID_7_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="-354.7218" y1="-320.0292" x2="-353.722" y2="-320.0292" gradientTransform="matrix(6 0 0 6 2150.3308 1942.1666)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect x="22" y="19.992" clip-path="url(#SVGID_8_)" fill="url(#SVGID_9_)" width="5.999" height="3.999"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<defs>
-					<path id="SVGID_10_" d="M13.5,19.992c0,0-0.5,0-0.5,0.5v3c0,0,0,0.499,0.5,0.499h5c0,0,0.499,0,0.499-0.499v-3
-						c0,0,0-0.5-0.499-0.5H13.5z"/>
-				</defs>
-				<clipPath id="SVGID_11_">
-					<use xlink:href="#SVGID_10_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_12_" gradientUnits="userSpaceOnUse" x1="-354.7218" y1="-320.0292" x2="-353.722" y2="-320.0292" gradientTransform="matrix(6 0 0 6 2141.3308 1942.1666)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect x="13" y="19.992" clip-path="url(#SVGID_11_)" fill="url(#SVGID_12_)" width="5.999" height="3.999"/>
-			</g>
-		</g>
-		<g>
-			<g>
-				<defs>
-					<polygon id="SVGID_13_" points="25.5,18.992 25.5,15.992 16.5,15.992 16.5,12.992 15.5,12.992 15.5,15.992 6.5,15.992 
-						6.5,18.992 7.5,18.992 7.5,16.992 15.5,16.992 15.5,18.992 16.5,18.992 16.5,16.992 24.5,16.992 24.5,18.992 					"/>
-				</defs>
-				<clipPath id="SVGID_14_">
-					<use xlink:href="#SVGID_13_"  overflow="visible"/>
-				</clipPath>
-				
-					<linearGradient id="SVGID_15_" gradientUnits="userSpaceOnUse" x1="-387.7542" y1="-294.0618" x2="-386.7542" y2="-294.0618" gradientTransform="matrix(19 0 0 19 7373.8306 5603.1665)">
-					<stop  offset="0" style="stop-color:#536387"/>
-					<stop  offset="0.0198" style="stop-color:#536387"/>
-					<stop  offset="1" style="stop-color:#6276A2"/>
-				</linearGradient>
-				<rect x="6.5" y="12.992" clip-path="url(#SVGID_14_)" fill="url(#SVGID_15_)" width="19" height="6"/>
-			</g>
-		</g>
-	</g>
-</switch>
+<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{clip-path:url(#SVGID_00000039119031645112222890000010737771729401737646_);fill:#52668C;}
+</style>
+<rect class="st0" width="320" height="320"/>
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="320" height="320"/>
+	</defs>
+	<clipPath id="SVGID_00000075865635133830534980000010564279767211194800_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000075865635133830534980000010564279767211194800_);fill:#52668C;" d="M130,235v20
+		c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10v-20c0-5.5-4.5-10-10-10h-40C134.5,225,130,229.5,130,235 M90,225H50
+		c-5.5,0-10,4.5-10,10v20c0,5.5,4.5,10,10,10h40c5.5,0,10-4.5,10-10v-20C100,229.5,95.5,225,90,225 M205,120h-90V70h90V120z
+		 M220,125V65c0-5.5-4.5-10-10-10H110c-5.5,0-10,4.5-10,10v60c0,5.5,4.5,10,10,10h100C215.5,135,220,130.5,220,125 M242.5,210h15
+		v-32.5h-90V150h-15v27.5h-90V210h15v-17.5h75V210h15v-17.5h75V210z M280,255v-20c0-5.5-4.5-10-10-10h-40c-5.5,0-10,4.5-10,10v20
+		c0,5.5,4.5,10,10,10h40C275.5,265,280,260.5,280,255"/>
+</g>
 </svg>

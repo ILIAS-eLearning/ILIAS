@@ -1,7 +1,23 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Session data set class
@@ -12,59 +28,35 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  */
 class ilSessionDataSet extends ilDataSet
 {
-    /**
-     * @var \ilLogger
-     */
-    private $logger = null;
-
-    /**
-     * @var int
-     */
-    private $target_id = 0;
+    protected ilLogger $logger;
+    protected string $target_id = "";
+    protected ilObjSession $current_obj;
 
     public function __construct()
     {
         global $DIC;
 
         parent::__construct();
-        $this->logger = $DIC->logger()->sess();
+        $this->logger = $DIC->logger()->root();
     }
 
-    /**
-     * @param int $target_id
-     */
-    public function setTargetId(int $target_id)
+    public function setTargetId(string $target_id): void
     {
         $this->target_id = $target_id;
     }
 
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return ['7.0'];
         //return array("4.1.0", "5.0.0", "5.1.0", '5.4.0', '7.0');
     }
-    
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Modules/Session/" . $a_entity;
     }
-    
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity == "sess") {
             switch ($a_version) {
@@ -194,23 +186,14 @@ class ilSessionDataSet extends ilDataSet
                         );
             }
         }
+
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
-        global $DIC;
+        $ilDB = $this->db;
 
-        $ilDB = $DIC['ilDB'];
-
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
-                
         if ($a_entity == "sess") {
             switch ($a_version) {
                 case "4.1.0":
@@ -292,12 +275,7 @@ class ilSessionDataSet extends ilDataSet
         }
     }
 
-    /**
-     * Get xml record (export)
-     * @param	array	abstract data record
-     * @return	array	xml record
-     */
-    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set): array
     {
         if ($a_entity == "sess") {
             // convert server dates to utc
@@ -311,47 +289,33 @@ class ilSessionDataSet extends ilDataSet
         }
         if ($a_entity == "sess_item") {
             // make ref id an object id
-            $a_set["ItemId"] = ilObject::_lookupObjId($a_set["ItemId"]);
+            $a_set["ItemId"] = ilObject::_lookupObjId((int) ($a_set["ItemId"] ?? 0));
         }
         return $a_set;
     }
 
-
-
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "sess":
                 return array(
-                    "sess_item" => array("ids" => $a_rec["Id"])
+                    "sess_item" => array("ids" => ($a_rec["Id"] ?? ''))
                 );
         }
 
         return [];
     }
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
+
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version): void
     {
         switch ($a_entity) {
             case "sess":
-                include_once("./Modules/Session/classes/class.ilObjSession.php");
-                include_once("./Modules/Session/classes/class.ilSessionAppointment.php");
-
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
-                    $refs = ilObject::_getAllReferences($new_id);
+                    $refs = ilObject::_getAllReferences((int) $new_id);
                     $newObj = ilObjectFactory::getInstanceByRefId(end($refs), false);
                 } else {
                     $this->logger->debug('Session creation without existing instance');
@@ -359,44 +323,44 @@ class ilSessionDataSet extends ilDataSet
                     $newObj->setType("sess");
                     $newObj->create(true);
                 }
-                $newObj->setTitle($a_rec["Title"]);
-                $newObj->setDescription($a_rec["Description"]);
-                $newObj->setLocation($a_rec["Location"]);
-                $newObj->setName($a_rec["TutorName"]);
-                $newObj->setPhone($a_rec["TutorPhone"]);
-                $newObj->setEmail($a_rec["TutorEmail"]);
-                $newObj->setDetails($a_rec["Details"]);
+                $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
+                $newObj->setDescription((string) ($a_rec["Description"] ?? ''));
+                $newObj->setLocation((string) ($a_rec["Location"] ?? ''));
+                $newObj->setName((string) ($a_rec["TutorName"] ?? ''));
+                $newObj->setPhone((string) ($a_rec["TutorPhone"] ?? ''));
+                $newObj->setEmail((string) ($a_rec["TutorEmail"] ?? ''));
+                $newObj->setDetails((string) ($a_rec["Details"] ?? ''));
 
                 switch ($a_schema_version) {
                     case "5.0.0":
                     case "5.1.0":
-                        $newObj->setRegistrationType($a_rec["Registration"]);
+                        $newObj->setRegistrationType((int) ($a_rec["Registration"] ?? 0));
 
-                        $newObj->enableRegistrationUserLimit($a_rec["LimitedRegistration"]);
-                        $newObj->setRegistrationMaxUsers($a_rec["LimitUsers"]);
-                        $newObj->enableRegistrationWaitingList($a_rec["WaitingList"]);
+                        $newObj->enableRegistrationUserLimit((int) ($a_rec["LimitedRegistration"] ?? 0));
+                        $newObj->setRegistrationMaxUsers((int) ($a_rec["LimitUsers"] ?? 0));
+                        $newObj->enableRegistrationWaitingList((bool) ($a_rec["WaitingList"] ?? false));
 
                         if (isset($a_rec["MinUsers"])) {
-                            $newObj->setRegistrationMinUsers($a_rec["MinUsers"]);
+                            $newObj->setRegistrationMinUsers((int) ($a_rec["MinUsers"] ?? 0));
                         }
 
                         if (isset($a_rec["AutoWait"])) {
-                            $newObj->setWaitingListAutoFill($a_rec["AutoWait"]);
+                            $newObj->setWaitingListAutoFill((bool) ($a_rec["AutoWait"] ?? false));
                         }
                         break;
                     case '5.4.0':
                     case '7.0':
                         if (isset($a_rec['MailMembers'])) {
-                            $newObj->setMailToMembersType($a_rec['MailMembers']);
+                            $newObj->setMailToMembersType((int) ($a_rec['MailMembers'] ?? 0));
                         }
                         if (isset($a_rec['ShowMembers'])) {
-                            $newObj->setShowMembers($a_rec['ShowMembers']);
+                            $newObj->setShowMembers((bool) ($a_rec['ShowMembers'] ?? false));
                         }
                         if (isset($a_rec['ShowCannotPart'])) {
-                            $newObj->enableCannotParticipateOption((bool) $a_rec['show_cannot_part']);
+                            $newObj->enableCannotParticipateOption((bool) ($a_rec['show_cannot_part'] ?? false));
                             break;
                         }
-                        $this->applyDidacticTemplate($newObj, $a_rec['Type']);
+                        $this->applyDidacticTemplate($newObj, (int) ($a_rec['Type'] ?? 0));
                         break;
                 }
 
@@ -404,40 +368,30 @@ class ilSessionDataSet extends ilDataSet
 
                 $start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");
                 $end = new ilDateTime($a_rec["EventEnd"], IL_CAL_DATETIME, "UTC");
-//echo "<br>".$start->get(IL_CAL_UNIX);
-//echo "<br>".$start->get(IL_CAL_DATETIME);
                 $app = new ilSessionAppointment();
-                $app->setStart($a_rec["EventStart"]);
-                $app->setEnd($a_rec["EventEnd"]);
+                $app->setStart($start);
+                $app->setEnd($end);
                 $app->setStartingTime($start->get(IL_CAL_UNIX));
                 $app->setEndingTime($end->get(IL_CAL_UNIX));
-                $app->toggleFullTime($a_rec["Fulltime"]);
+                $app->toggleFullTime((bool) ($a_rec["Fulltime"] ?? false));
                 $app->setSessionId($newObj->getId());
                 $app->create();
-                
-                //$newObj->setAppointments(array($app));
-                //$newObj->update();
 
                 $this->current_obj = $newObj;
-                $a_mapping->addMapping("Modules/Session", "sess", $a_rec["Id"], $newObj->getId());
-                $a_mapping->addMapping('Services/Object', 'objs', $a_rec['Id'], $newObj->getId());
-                $a_mapping->addMapping('Services/AdvancedMetaData', 'parent', $a_rec['Id'], $newObj->getId());
+                $a_mapping->addMapping("Modules/Session", "sess", $a_rec["Id"], (string) $newObj->getId());
+                $a_mapping->addMapping('Services/Object', 'objs', $a_rec['Id'], (string) $newObj->getId());
+                $a_mapping->addMapping('Services/AdvancedMetaData', 'parent', $a_rec['Id'], (string) $newObj->getId());
                 $a_mapping->addMapping(
                     "Services/MetaData",
                     "md",
                     $a_rec["Id"] . ":0:sess",
                     $newObj->getId() . ":0:sess"
                 );
-                
-                
-//var_dump($a_mapping->mappings["Services/News"]["news_context"]);
                 break;
 
             case "sess_item":
-
                 if ($obj_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ItemId'])) {
-                    $ref_id = current(ilObject::_getAllReferences($obj_id));
-                    include_once './Modules/Session/classes/class.ilEventItems.php';
+                    $ref_id = current(ilObject::_getAllReferences((int) $obj_id));
                     $evi = new ilEventItems($this->current_obj->getId());
                     $evi->addItem($ref_id);
                     $evi->update();
@@ -449,29 +403,25 @@ class ilSessionDataSet extends ilDataSet
     /**
      * @param int[] $a_obj_ids
      */
-    protected function readDidacticTemplateType($a_obj_ids)
+    protected function readDidacticTemplateType(array $a_obj_ids): void
     {
         $ref_ids = [];
         $counter = 0;
         foreach ($a_obj_ids as $obj_id) {
-            $ref_ids = ilObject::_getAllReferences($obj_id);
+            $ref_ids = ilObject::_getAllReferences((int) $obj_id);
             foreach ($ref_ids as $ref_id) {
-                $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($ref_id);
-                $this->data[$counter++]['Type'] = (int) $tpl_id;
+                $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId((int) $ref_id);
+                $this->data[$counter++]['Type'] = $tpl_id;
                 break;
             }
         }
     }
 
-    /**
-     * @param ilObject $rep_object
-     * @param $tpl_id
-     */
-    protected function applyDidacticTemplate(ilObject $rep_object, $tpl_id)
+    protected function applyDidacticTemplate(ilObject $rep_object, int $tpl_id): void
     {
         $this->logger->debug('Apply didactic template');
 
-        if ((int) $tpl_id == 0) {
+        if ($tpl_id == 0) {
             $this->logger->debug('Default permissions');
             // Default template
             return;

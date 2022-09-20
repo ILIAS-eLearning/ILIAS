@@ -1,99 +1,84 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
- * @classDescription user account settings
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- * @ingroup ServicesUser
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserAccountSettings
 {
-    private static $instance = null;
+    private static ?ilUserAccountSettings $instance = null;
+    private ?ilSetting $storage = null;
+    private bool $lua_enabled = true;
+    private bool $lua_access_filter = false;
 
-    private $storage = null;
-    
-    private $lua_enabled = true;
-    private $lua_access_filter = false;
-
-    /**
-     * Singleton constructor
-     * @return
-     */
     protected function __construct()
     {
         $this->storage = new ilSetting('user_account');
         $this->read();
     }
-    
-    /**
-     * Singelton get instance
-     * @return object ilUserAccountSettings
-     */
-    public static function getInstance()
+
+    public static function getInstance(): self
     {
         if (self::$instance) {
             return self::$instance;
         }
         return self::$instance = new ilUserAccountSettings();
     }
-    
+
     /**
      * Check if local user administration is enabled
-     * @return bool
      */
-    public function isLocalUserAdministrationEnabled()
+    public function isLocalUserAdministrationEnabled(): bool
     {
-        return (bool) $this->lua_enabled;
+        return $this->lua_enabled;
     }
-    
+
     /**
      * Enable local user administration
-     * @param object $a_status
-     * @return
      */
-    public function enableLocalUserAdministration($a_status)
+    public function enableLocalUserAdministration(bool $a_status): void
     {
         $this->lua_enabled = $a_status;
     }
-    
+
     /**
      * Check if user access is restricted
-     * @return
      */
-    public function isUserAccessRestricted()
+    public function isUserAccessRestricted(): bool
     {
-        return (bool) $this->lua_access_filter;
+        return $this->lua_access_filter;
     }
-    
+
     /**
      * En/disable user access
-     * @param object $a_status
-     * @return
      */
-    public function restrictUserAccess($a_status)
+    public function restrictUserAccess(bool $a_status): void
     {
         $this->lua_access_filter = $a_status;
     }
-    
-    /**
-     * Update settings
-     * @return
-     */
-    public function update()
+
+    public function update(): void
     {
         $this->storage->set('lua_enabled', $this->isLocalUserAdministrationEnabled());
         $this->storage->set('lua_access_restricted', $this->isUserAccessRestricted());
     }
-    
-    /**
-     * Read user account settings
-     * @return
-     */
-    private function read()
+
+    private function read(): void
     {
         $this->enableLocalUserAdministration($this->storage->get('lua_enabled', $this->isLocalUserAdministrationEnabled()));
         $this->restrictUserAccess($this->storage->get('lua_access_restricted', $this->isUserAccessRestricted()));

@@ -9,6 +9,8 @@
          beStrictAboutTestsThatDoNotTestAnything="true"
          failOnRisky="true"
          failOnWarning="true"
+         backupGlobals="true"
+         executionOrder="random"
         >
     <testsuites>
         <testsuite name="unit">

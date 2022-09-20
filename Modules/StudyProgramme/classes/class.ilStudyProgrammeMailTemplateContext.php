@@ -2,32 +2,45 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use OrgUnit\PublicApi\OrgUnitUserService;
 
 class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
-    const ID = 'prg_context_manual';
+    public const ID = 'prg_context_manual';
 
-    const TITLE = "prg_title";
-    const DESCRIPTION = "prg_description";
-    const TYPE = "prg_type";
-    const LINK = "prg_link";
-    const ORG_UNIT = "prg_orgus";
-    const STATUS = "prg_status";
-    const COMPLETION_DATE = "prg_completion_date";
-    const COMPLETED_BY = "prg_completion_by";
-    const POINTS_REQUIRED = "prg_points_required";
-    const POINTS_CURRENT = "prg_points_current";
-    const DEADLINE = "prg_deadline";
-    const EXPIRE_DATE = "prg_expiry_date";
-    const VALIDITY = "prg_validity";
+    private const TITLE = "prg_title";
+    private const DESCRIPTION = "prg_description";
+    private const TYPE = "prg_type";
+    private const LINK = "prg_link";
+    private const ORG_UNIT = "prg_orgus";
+    private const STATUS = "prg_status";
+    private const COMPLETION_DATE = "prg_completion_date";
+    private const COMPLETED_BY = "prg_completion_by";
+    private const POINTS_REQUIRED = "prg_points_required";
+    private const POINTS_CURRENT = "prg_points_current";
+    private const DEADLINE = "prg_deadline";
+    private const EXPIRE_DATE = "prg_expiry_date";
+    private const VALIDITY = "prg_validity";
 
-    const DATE_FORMAT = 'd-m-Y H:i:s';
+    private const DATE_FORMAT = 'd-m-Y H:i:s';
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
@@ -48,102 +61,92 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         $this->lng->loadLanguageModule('prg');
     }
 
-    /**
-     * @return string
-     */
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('prg_mail_context_title');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('prg_mail_context_info');
     }
 
     /**
      * Return an array of placeholders
-     * @return array
      */
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
-        $placeholders = array();
+        $placeholders = [];
 
-        $placeholders[self::TITLE] = array(
+        $placeholders[self::TITLE] = [
             'placeholder' => 'STUDY_PROGRAMME_TITLE',
             'label' => $this->lng->txt(self::TITLE)
-        );
+        ];
 
-        $placeholders[self::DESCRIPTION] = array(
+        $placeholders[self::DESCRIPTION] = [
             'placeholder' => 'STUDY_PROGRAMME_DESCRIPTION',
             'label' => $this->lng->txt(self::DESCRIPTION)
-        );
+        ];
 
-        $placeholders[self::TYPE] = array(
+        $placeholders[self::TYPE] = [
             'placeholder' => 'STUDY_PROGRAMME_TYPE',
             'label' => $this->lng->txt(self::TYPE)
-        );
+        ];
 
-        $placeholders[self::LINK] = array(
+        $placeholders[self::LINK] = [
             'placeholder' => 'STUDY_PROGRAMME_LINK',
             'label' => $this->lng->txt(self::LINK)
-        );
+        ];
 
-        $placeholders[self::ORG_UNIT] = array(
+        $placeholders[self::ORG_UNIT] = [
             'placeholder' => 'STUDY_PROGRAMME_ORG_UNITS',
             'label' => $this->lng->txt(self::ORG_UNIT)
-        );
+        ];
 
-        $placeholders[self::STATUS] = array(
+        $placeholders[self::STATUS] = [
             'placeholder' => 'STUDY_PROGRAMME_STATUS',
             'label' => $this->lng->txt(self::STATUS)
-        );
+        ];
 
-        $placeholders[self::COMPLETION_DATE] = array(
+        $placeholders[self::COMPLETION_DATE] = [
             'placeholder' => 'STUDY_PROGRAMME_COMPLETION_DATE',
             'label' => $this->lng->txt(self::COMPLETION_DATE)
-        );
+        ];
 
-        $placeholders[self::COMPLETED_BY] = array(
+        $placeholders[self::COMPLETED_BY] = [
             'placeholder' => 'STUDY_PROGRAMME_COMPLETED_BY',
             'label' => $this->lng->txt(self::COMPLETED_BY)
-        );
+        ];
 
-        $placeholders[self::POINTS_REQUIRED] = array(
+        $placeholders[self::POINTS_REQUIRED] = [
             'placeholder' => 'STUDY_PROGRAMME_POINTS_REQUIRED',
             'label' => $this->lng->txt(self::POINTS_REQUIRED)
-        );
+        ];
 
-        $placeholders[self::POINTS_CURRENT] = array(
+        $placeholders[self::POINTS_CURRENT] = [
             'placeholder' => 'STUDY_PROGRAMME_POINTS_CURRENT',
             'label' => $this->lng->txt(self::POINTS_CURRENT)
-        );
+        ];
 
-        $placeholders[self::DEADLINE] = array(
+        $placeholders[self::DEADLINE] = [
             'placeholder' => 'STUDY_PROGRAMME_DEADLINE',
             'label' => $this->lng->txt(self::DEADLINE)
-        );
+        ];
 
-        $placeholders[self::EXPIRE_DATE] = array(
+        $placeholders[self::EXPIRE_DATE] = [
             'placeholder' => 'STUDY_PROGRAMME_EXPIRE_DATE',
             'label' => $this->lng->txt(self::EXPIRE_DATE)
-        );
+        ];
 
-        $placeholders[self::VALIDITY] = array(
+        $placeholders[self::VALIDITY] = [
             'placeholder' => 'STUDY_PROGRAMME_VALIDITY',
             'label' => $this->lng->txt(self::VALIDITY)
-        );
+        ];
 
         return $placeholders;
     }
@@ -156,7 +159,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         if (is_null($recipient)) {
             return '';
         }
@@ -196,7 +199,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             case self::TYPE:
                 $string = '';
                 if (!is_null($obj->getSubType())) {
-                    $string = (string) $obj->getSubType()->getTitle();
+                    $string = $obj->getSubType()->getTitle();
                 }
                 break;
             case self::LINK:
@@ -216,16 +219,14 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $id = $progress->getCompletionBy();
                 if (!is_null($id) && ilObject::_exists($id)) {
                     $obj = ilObjectFactory::getInstanceByObjId($id);
-                    if ($obj->getType() == 'usr') {
-                        $string = (string) ilObjUser::_lookupLogin($id);
-                    } else {
-                        if ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
-                            if (
-                                ilObject::_exists($ref_id, true) &&
-                                is_null(ilObject::_lookupDeletedDate($ref_id))
-                            ) {
-                                $string = ilContainerReference::_lookupTitle($id);
-                            }
+                    if ($obj->getType() === 'usr') {
+                        $string = ilObjUser::_lookupLogin($id);
+                    } elseif ($ref_id = ilContainerReference::_lookupTargetRefId($id)) {
+                        if (
+                            ilObject::_exists($ref_id, true) &&
+                            is_null(ilObject::_lookupDeletedDate($ref_id))
+                        ) {
+                            $string = ilContainerReference::_lookupTitle($id);
                         }
                     }
                 }
@@ -260,19 +261,19 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeProgress
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id): ilStudyProgrammeProgress
     {
         $progress = $obj->getProgressesOf($user_id);
 
-        $successfully_progress = array_filter($progress, function (ilStudyProgrammeProgress $a) {
+        $successfully_progress = array_filter($progress, static function (ilStudyProgrammeProgress $a): bool {
             return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
         });
 
-        if (count($successfully_progress) == 0) {
+        if (count($successfully_progress) === 0) {
             return $progress[0];
         }
 
-        usort($successfully_progress, function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) {
+        usort($successfully_progress, static function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b): int {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
@@ -285,28 +286,28 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return array_shift($successfully_progress);
     }
 
-    protected function statusToRepr(int $status, string $lang) : string
+    protected function statusToRepr(int $status, string $lang): string
     {
-        if ($status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return $this->lng->txtlng('prg', 'prg_status_in_progress', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_COMPLETED) {
             return $this->lng->txtlng('prg', 'prg_status_completed', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
             return $this->lng->txtlng('prg', 'prg_status_accredited', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+        if ($status === ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
             return $this->lng->txtlng('prg', 'prg_status_not_relevant', $lang);
         }
-        if ($status == ilStudyProgrammeProgress::STATUS_FAILED) {
+        if ($status === ilStudyProgrammeProgress::STATUS_FAILED) {
             return $this->lng->txtlng('prg', 'prg_status_failed', $lang);
         }
-            
+
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function date2String(DateTimeImmutable $date_time = null) : string
+    protected function date2String(DateTimeImmutable $date_time = null): string
     {
         if (is_null($date_time)) {
             return '';

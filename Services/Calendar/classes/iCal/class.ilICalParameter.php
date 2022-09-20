@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,27 +23,15 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once('./Services/Calendar/classes/iCal/class.ilICalItem.php');
-
 /**
-* This class represents a ical parameter
-* E.g  VALUE=DATETIME
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * This class represents a ical parameter
+ * E.g  VALUE=DATETIME
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesCalendar
+ */
 class ilICalParameter extends ilICalItem
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string name
-     *
-     */
-    public function __construct($a_name, $a_value = '')
+    public function __construct(string $a_name, string $a_value = '')
     {
         parent::__construct($a_name, $a_value);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -20,9 +21,6 @@ class ilTestGradingMessageBuilder
      */
     private $testOBJ;
 
-    /**
-     * @var ilTemplate
-     */
     private $tpl;
 
     /**
@@ -34,6 +32,10 @@ class ilTestGradingMessageBuilder
      * @var integer
      */
     private $activeId;
+    /**
+     * @var \ILIAS\DI\Container
+     */
+    private $container;
 
     /**
      * @param ilLanguage $lng
@@ -41,6 +43,8 @@ class ilTestGradingMessageBuilder
      */
     public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
     {
+        global $DIC;
+        $this->container = $DIC;
         $this->lng = $lng;
         $this->testOBJ = $testOBJ;
     }
@@ -50,7 +54,7 @@ class ilTestGradingMessageBuilder
         $this->activeId = $activeId;
     }
 
-    public function getActiveId()
+    public function getActiveId(): int
     {
         return $this->activeId;
     }
@@ -58,7 +62,7 @@ class ilTestGradingMessageBuilder
     public function buildMessage()
     {
         $this->loadResultData();
-        
+
         if ($this->testOBJ->isShowGradingStatusEnabled()) {
             $this->addMessagePart($this->buildGradingStatusMsg());
         }
@@ -66,7 +70,7 @@ class ilTestGradingMessageBuilder
         if ($this->testOBJ->areObligationsEnabled()) {
             $this->addMessagePart($this->buildObligationsMsg());
         }
-        
+
         if ($this->testOBJ->isShowGradingMarkEnabled()) {
             $this->addMessagePart($this->buildGradingMarkMsg());
         }
@@ -80,28 +84,28 @@ class ilTestGradingMessageBuilder
     {
         $this->messageText[] = $msgPart;
     }
-    
-    private function getFullMessage()
+
+    private function getFullMessage(): string
     {
         return implode(' ', $this->messageText);
     }
 
-    private function isPassed()
+    private function isPassed(): bool
     {
         return (bool) $this->resultData['passed'];
     }
-    
+
     public function sendMessage()
     {
         if (!$this->testOBJ->isShowGradingStatusEnabled()) {
-            ilUtil::sendInfo($this->getFullMessage());
+            $this->container->ui()->mainTemplate()->setOnScreenMessage('info', $this->getFullMessage());
         } elseif ($this->isPassed()) {
-            ilUtil::sendSuccess($this->getFullMessage());
+            $this->container->ui()->mainTemplate()->setOnScreenMessage('success', $this->getFullMessage());
         } else {
-            ilUtil::sendFailure($this->getFullMessage());
+            $this->container->ui()->mainTemplate()->setOnScreenMessage('failure', $this->getFullMessage());
         }
     }
-    
+
     private function loadResultData()
     {
         $this->resultData = $this->testOBJ->getResultsForActiveId($this->getActiveId());
@@ -117,7 +121,7 @@ class ilTestGradingMessageBuilder
         }
     }
 
-    private function buildGradingStatusMsg()
+    private function buildGradingStatusMsg(): string
     {
         if ($this->isPassed()) {
             return $this->lng->txt('grading_status_passed_msg');
@@ -135,7 +139,7 @@ class ilTestGradingMessageBuilder
         $markMsg = str_replace("[percentage]", $this->getPercentage(), $markMsg);
         $markMsg = str_replace("[reached]", $this->getReachedPoints(), $markMsg);
         $markMsg = str_replace("[max]", $this->getMaxPoints(), $markMsg);
-        
+
         return $markMsg;
     }
 
@@ -149,14 +153,14 @@ class ilTestGradingMessageBuilder
         return $this->resultData['mark_short'];
     }
 
-    private function getPercentage()
+    private function getPercentage(): string
     {
         $percentage = 0;
 
         if ($this->getMaxPoints() > 0) {
             $percentage = $this->getReachedPoints() / $this->getMaxPoints();
         }
-        
+
         return sprintf("%.2f", $percentage);
     }
 
@@ -169,8 +173,8 @@ class ilTestGradingMessageBuilder
     {
         return $this->resultData['max_points'];
     }
-    
-    private function buildObligationsMsg()
+
+    private function buildObligationsMsg(): string
     {
         if ($this->areObligationsAnswered()) {
             return $this->lng->txt('grading_obligations_answered_msg');
@@ -178,22 +182,22 @@ class ilTestGradingMessageBuilder
 
         return $this->lng->txt('grading_obligations_missing_msg');
     }
-    
-    private function areObligationsAnswered()
+
+    private function areObligationsAnswered(): bool
     {
         return (bool) $this->resultData['obligations_answered'];
     }
-    
+
     private function buildEctsGradeMsg()
     {
         return str_replace('[markects]', $this->getEctsGrade(), $this->lng->txt('mark_tst_ects'));
     }
-    
+
     private function getEctsGrade()
     {
         return $this->resultData['ects_grade'];
     }
-    
+
     public function buildList()
     {
         $this->loadResultData();
@@ -202,7 +206,7 @@ class ilTestGradingMessageBuilder
 
         if ($this->testOBJ->isShowGradingStatusEnabled()) {
             $passedStatusLangVar = $this->isPassed() ? 'passed_official' : 'failed_official';
-            
+
             $this->populateListEntry(
                 $this->lng->txt('passed_status'),
                 $this->lng->txt($passedStatusLangVar)
@@ -215,7 +219,7 @@ class ilTestGradingMessageBuilder
             } else {
                 $obligAnsweredStatusLangVar = 'grading_obligations_missing_listentry';
             }
-            
+
             $this->populateListEntry(
                 $this->lng->txt('grading_obligations_listlabel'),
                 $this->lng->txt($obligAnsweredStatusLangVar)
@@ -229,7 +233,7 @@ class ilTestGradingMessageBuilder
         if ($this->testOBJ->getECTSOutput()) {
             $this->populateListEntry($this->lng->txt('ects_grade'), $this->getEctsGrade());
         }
-        
+
         $this->parseListTemplate();
     }
 
@@ -251,8 +255,8 @@ class ilTestGradingMessageBuilder
         $this->tpl->setCurrentBlock('grading_msg_list');
         $this->tpl->parseCurrentBlock();
     }
-    
-    public function getList()
+
+    public function getList(): string
     {
         return $this->tpl->get();
     }

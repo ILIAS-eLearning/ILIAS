@@ -1,8 +1,18 @@
 <?php
+
 /**
- * Class HTTPServicesTest
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
 
 namespace ILIAS\DI;
@@ -17,9 +27,13 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\RawHTTPServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Duration\DurationFactory;
 
 /**
  * Class HTTPServicesTest
+ *
+ * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  *
  * @package                DI
  *
@@ -30,53 +44,50 @@ use ILIAS\HTTP\RawHTTPServices;
  */
 class HTTPServicesTest extends PHPUnitTestCase
 {
-
     /**
      * @var RequestFactory|MockObject $mockRequestFactory
      */
-    private $mockRequestFactory;
+    private RequestFactory $mockRequestFactory;
     /**
      * @var ResponseFactory|MockObject $mockResponseFactory
      */
-    private $mockResponseFactory;
+    private ResponseFactory $mockResponseFactory;
     /**
      * @var CookieJarFactory|MockObject $mockCookieJarFactory
      */
-    private $mockCookieJarFactory;
+    private CookieJarFactory $mockCookieJarFactory;
     /**
      * @var ResponseSenderStrategy|MockObject $mockSenderStrategy
      */
-    private $mockSenderStrategy;
+    private ResponseSenderStrategy $mockSenderStrategy;
     /**
-     * @var Services $httpState
+     * @var DurationFactory|MockObject $mockSenderStrategy
      */
-    private $httpState;
+    private DurationFactory $mockDurationFactory;
+    private GlobalHttpState $httpState;
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
-        // $this->mockRequestFactory = \Mockery::mock('alias:' . RequestFactory::class);
         $this->mockRequestFactory = $this->getMockBuilder(RequestFactory::class)->getMock();
 
-        // $this->mockResponseFactory = \Mockery::mock('alias:' . ResponseFactory::class);
         $this->mockResponseFactory = $this->getMockBuilder(ResponseFactory::class)->getMock();
 
-        // $this->mockSenderStrategy = \Mockery::mock('alias:' . ResponseSenderStrategy::class);
         $this->mockSenderStrategy = $this->getMockBuilder(ResponseSenderStrategy::class)->getMock();
 
-        // $this->mockCookieJarFactory = \Mockery::mock('alias:' . CookieJarFactory::class);
         $this->mockCookieJarFactory = $this->getMockBuilder(CookieJarFactory::class)->getMock();
 
-        //setup http state
-        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
+        $this->mockDurationFactory = $this->createMock(DurationFactory::class);
+
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory);
     }
 
 
     /**
      * @Test
      */
-    public function testRequestWhichShouldGenerateANewRequestOnce()
+    public function testRequestWhichShouldGenerateANewRequestOnce(): void
     {
         $expectedRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
         $wrongRequest = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
@@ -102,7 +113,7 @@ class HTTPServicesTest extends PHPUnitTestCase
     /**
      * @Test
      */
-    public function testResponseWhichShouldGenerateANewResponseOnce()
+    public function testResponseWhichShouldGenerateANewResponseOnce(): void
     {
         $expectedResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();
         $wrongResponse = $this->getMockBuilder(ResponseInterface::class)->getMock();

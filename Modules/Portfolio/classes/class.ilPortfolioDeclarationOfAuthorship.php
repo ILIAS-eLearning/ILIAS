@@ -1,28 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Declaration of authorship (data gateway)
  *
- * @author killing@leifos.de
- * @ingroup ModulesPortfolio
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPortfolioDeclarationOfAuthorship
 {
-    /**
-     * @var ilSetting
-     */
-    protected $prtf_settings;
+    protected ilSetting $prtf_settings;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,39 +36,33 @@ class ilPortfolioDeclarationOfAuthorship
 
     /**
      * Get for language
-     *
-     * @param string $l
-     * @return string
      */
-    public function getForLanguage(string $l) : string
-    {
-        return $this->prtf_settings->get("decl_author_" . $l);
+    public function getForLanguage(
+        string $l
+    ): string {
+        return (string) $this->prtf_settings->get("decl_author_" . $l);
     }
 
     /**
      * Set for language
-     *
-     * @param string $l
-     * @param string $value
-     * @return string
      */
-    public function setForLanguage(string $l, string $value) : string
-    {
-        return $this->prtf_settings->set("decl_author_" . $l, $value);
+    public function setForLanguage(
+        string $l,
+        string $value
+    ): void {
+        $this->prtf_settings->set("decl_author_" . $l, $value);
     }
 
     /**
      * Get for user
-     *
-     * @param ilObjUser $user
-     * @return string
      */
-    public function getForUser(ilObjUser $user) : string
-    {
+    public function getForUser(
+        ilObjUser $user
+    ): string {
         $lng = $this->lng;
 
         $decl = $this->getForLanguage($user->getLanguage());
-        if ($decl == "") {
+        if ($decl === "") {
             $decl = $this->getForLanguage($lng->getDefaultLanguage());
         }
         return $decl;

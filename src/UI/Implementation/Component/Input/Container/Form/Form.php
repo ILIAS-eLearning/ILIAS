@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
@@ -15,48 +31,51 @@ use LogicException;
 /**
  * This implements commonalities between all forms.
  */
-abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
+abstract class Form implements C\Input\Container\Form\Form
 {
     use ComponentHelper;
 
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
+    protected ?string $error = null;
 
     /**
      * For the implementation of NameSource.
      */
-    private int $count = 0;
-
-    public function __construct(Input\Field\Factory $field_factory, array $inputs)
-    {
+    public function __construct(
+        Input\Field\Factory $field_factory,
+        Input\NameSource $name_source,
+        array $inputs
+    ) {
         $classes = [CI\Input\Field\Input::class];
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
+
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom($this);
+        )->withNameFrom($name_source);
+
         $this->transformation = null;
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
-    public function getInputs() : array
+    public function getInputs(): array
     {
         return $this->getInputGroup()->getInputs();
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
-    public function getInputGroup() : C\Input\Field\Group
+    public function getInputGroup(): C\Input\Field\Group
     {
         return $this->input_group;
     }
 
-
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withRequest(ServerRequestInterface $request)
     {
@@ -72,7 +91,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withAdditionalTransformation(Transformation $trafo)
     {
@@ -83,12 +102,26 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
+     */
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
+    protected function setError(string $error): void
+    {
+        $this->error = $error;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function getData()
     {
         $content = $this->getInputGroup()->getContent();
         if (!$content->isok()) {
+            $this->setError($content->error());
             return null;
         }
 
@@ -97,31 +130,18 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
     /**
      * Check the request for sanity.
-     *
      * TODO: implement me!
      */
-    protected function isSanePostRequest(ServerRequestInterface $request) : bool
+    protected function isSanePostRequest(ServerRequestInterface $request): bool
     {
         return true;
     }
 
-
     /**
      * Extract post data from request.
      */
-    protected function extractPostData(ServerRequestInterface $request) : Input\InputData
+    protected function extractPostData(ServerRequestInterface $request): Input\InputData
     {
         return new PostDataFromServerRequest($request);
-    }
-
-    /**
-     * Implementation of NameSource
-     */
-    public function getNewName() : string
-    {
-        $name = "form_input_$this->count";
-        $this->count++;
-
-        return $name;
     }
 }

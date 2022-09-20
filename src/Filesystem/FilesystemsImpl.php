@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class FilesystemsImpl
  *
@@ -14,31 +29,12 @@ namespace ILIAS\Filesystem;
  */
 final class FilesystemsImpl implements Filesystems
 {
-
-    /**
-     * @var Filesystem
-     */
-    private $node_modules;
-    /**
-     * @var Filesystem
-     */
-    private $libs;
-    /**
-     * @var Filesystem $storage
-     */
-    private $storage;
-    /**
-     * @var Filesystem $storage
-     */
-    private $web;
-    /**
-     * @var Filesystem $storage
-     */
-    private $temp;
-    /**
-     * @var Filesystem $storage
-     */
-    private $customizing;
+    private Filesystem $node_modules;
+    private Filesystem $libs;
+    private Filesystem $storage;
+    private Filesystem $web;
+    private Filesystem $temp;
+    private Filesystem $customizing;
 
 
     /**
@@ -71,7 +67,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function web() : Filesystem
+    public function web(): Filesystem
     {
         return $this->web;
     }
@@ -80,7 +76,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function storage() : Filesystem
+    public function storage(): Filesystem
     {
         return $this->storage;
     }
@@ -89,7 +85,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function temp() : Filesystem
+    public function temp(): Filesystem
     {
         return $this->temp;
     }
@@ -98,7 +94,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function customizing() : Filesystem
+    public function customizing(): Filesystem
     {
         return $this->customizing;
     }
@@ -107,7 +103,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function libs() : Filesystem
+    public function libs(): Filesystem
     {
         return $this->libs;
     }
@@ -115,7 +111,7 @@ final class FilesystemsImpl implements Filesystems
     /**
      * @inheritDoc
      */
-    public function nodeModules() : Filesystem
+    public function nodeModules(): Filesystem
     {
         return $this->node_modules;
     }

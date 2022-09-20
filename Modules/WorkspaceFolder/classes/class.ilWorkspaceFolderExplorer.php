@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Explorer View for Workspace Folders
@@ -43,18 +46,18 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         $this->enablesmallmode = false;
     }
 
-    public function setEnableSmallMode(bool $a_enablesmallmode) : void
+    public function setEnableSmallMode(bool $a_enablesmallmode): void
     {
         $this->enablesmallmode = $a_enablesmallmode;
     }
 
-    public function getEnableSmallMode() : bool
+    public function getEnableSmallMode(): bool
     {
         return $this->enablesmallmode;
     }
 
 
-    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false): void
     {
         static $counter = 0;
         $parent_index = 0;
@@ -71,7 +74,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                     //$data = $this->tree->getParentNodeData($object["child"]);
                     $parent_index = $this->getIndex($object);
                 }
-                
+
                 $this->format_options["$counter"]["parent"] = $object["parent"];
                 $this->format_options["$counter"]["child"] = $object["child"];
                 $this->format_options["$counter"]["title"] = $object["title"];
@@ -110,28 +113,28 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         } //if
     } //function
 
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
+
         $title = $lng->txt("personal_resources");
-        
+
         $tpl->setCurrentBlock("icon");
         $tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_wsrt.svg"));
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
-        
+
         $tpl->setCurrentBlock("link");
         $tpl->setVariable("LINK_TARGET", $this->buildLinkTarget($this->root_id, "wsrt"));
         $tpl->setVariable("TITLE", $title);
-        
+
         // highlighting
         $style_class = $this->getNodeStyleClass($this->root_id, "wsrt");
         if ($style_class != "") {
             $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
         }
-        
+
         $tpl->parseCurrentBlock();
     }
 
@@ -140,7 +143,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
      * @param
      * @return
      */
-    protected function getExpanded() : array
+    protected function getExpanded(): array
     {
         $expanded = ilSession::get($this->expand_variable);
         if (!is_array($expanded)) {
@@ -149,7 +152,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         return $expanded;
     }
 
-    public function setExpand($a_node_id) : void
+    public function setExpand($a_node_id): void
     {
         if ($a_node_id == "") {
             $a_node_id = $this->root_id;
@@ -167,40 +170,40 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         $this->expanded = $this->getExpanded();
     }
 
-    public function buildLinkTarget($a_node_id, string $a_type) : string
+    public function buildLinkTarget($a_node_id, string $a_type): string
     {
         $ilCtrl = $this->ctrl;
-        
+
         switch ($a_type) {
             case "wsrt":
                 $ilCtrl->setParameterByClass("ilobjworkspacerootfoldergui", "wsp_id", $a_node_id);
                 return $ilCtrl->getLinkTargetByClass("ilobjworkspacerootfoldergui", "");
-                
+
             case "wfld":
                 $ilCtrl->setParameterByClass("ilobjworkspacefoldergui", "wsp_id", $a_node_id);
                 return $ilCtrl->getLinkTargetByClass("ilobjworkspacefoldergui", "");
-            
+
             default:
                 return "";
         }
     }
 
-    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0): string
     {
         return '';
     }
 
-    public function setAllowedTypes(array $a_types) : void
+    public function setAllowedTypes(array $a_types): void
     {
         $this->allowed_types = $a_types;
     }
 
-    public function setShowDetails(bool $s_details) : void
+    public function setShowDetails(bool $s_details): void
     {
         $this->show_details = $s_details;
     }
 
-    public function buildDescription(string $a_desc, $a_id, string $a_type) : string
+    public function buildDescription(string $a_desc, $a_id, string $a_type): string
     {
         if ($this->show_details == 'y' && !empty($a_desc)) {
             return $a_desc;
@@ -208,11 +211,11 @@ class ilWorkspaceFolderExplorer extends ilExplorer
             return "";
         }
     }
-    
-    public function getImageAlt(string $a_default_text, string $a_type = "", $a_obj_id = "") : string
+
+    public function getImageAlt(string $a_default_text, string $a_type = "", $a_obj_id = ""): string
     {
         $lng = $this->lng;
-        
+
         return $lng->txt("icon") . " " . $lng->txt($a_type);
     }
 
@@ -225,11 +228,11 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     {
         return $this->tree->getParentId($a_node_id);
     }
-    
-    public function getOutput() : string
+
+    public function getOutput(): string
     {
         $tpl = $this->tpl;
-        
+
         $html = parent::getOutput();
         $tpl->setBodyClass("std");
         return $html;

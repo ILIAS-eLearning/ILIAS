@@ -6,6 +6,19 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Stream\FileStream;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface FileStreamReadAccess
  *
@@ -21,7 +34,6 @@ use ILIAS\Filesystem\Stream\FileStream;
  */
 interface FileStreamReadAccess
 {
-
     /**
      * Opens a readable stream of the file.
      * Please make sure to close the stream after the work is done with Stream::close()
@@ -38,5 +50,5 @@ interface FileStreamReadAccess
      *
      * @see FileStream::close()
      */
-    public function readStream(string $path) : FileStream;
+    public function readStream(string $path): FileStream;
 }

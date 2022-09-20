@@ -1,32 +1,49 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilBiblLibraryGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblLibraryGUI
 {
-    const F_LIB_ID = 'lib_id';
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    const CMD_DELETE = 'delete';
-    const CMD_EDIT = 'edit';
-    const CMD_INDEX = 'index';
-    const CMD_ADD = 'add';
-    /**
-     * @var \ilBiblAdminLibraryFacadeInterface
-     */
-    protected $facade;
-
+    public const F_LIB_ID = 'lib_id';
+    public const CMD_DELETE = 'delete';
+    public const CMD_EDIT = 'edit';
+    public const CMD_INDEX = 'index';
+    public const CMD_ADD = 'add';
+    protected \ilBiblAdminLibraryFacadeInterface $facade;
+    private \ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
 
     /**
      * ilBiblLibraryGUI constructor.
-     *
-     * @param \ilBiblAdminLibraryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminLibraryFacadeInterface $facade)
     {
+        global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
     }
 
 
@@ -36,7 +53,7 @@ class ilBiblLibraryGUI
      * @access public
      *
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         switch ($this->ctrl()->getNextClass()) {
             case null:
@@ -48,11 +65,10 @@ class ilBiblLibraryGUI
 
 
     /**
-     * @return bool
      * @global $ilToolbar ilToolbarGUI;
      *
      */
-    public function index()
+    public function index(): bool
     {
         if ($this->checkPermissionBoolAndReturn('write')) {
             $b = ilLinkButton::getInstance();
@@ -70,10 +86,7 @@ class ilBiblLibraryGUI
     }
 
 
-    /**
-     * @return \ilBiblLibraryTableGUI
-     */
-    protected function initTable()
+    protected function initTable(): \ilBiblLibraryTableGUI
     {
         $table = new ilBiblLibraryTableGUI($this, $this->checkPermissionBoolAndReturn('write'));
         $settings = $this->facade->libraryFactory()->getAll();
@@ -95,7 +108,7 @@ class ilBiblLibraryGUI
     /**
      * add library
      */
-    public function add()
+    public function add(): void
     {
         $this->checkPermissionAndFail('write');
         $form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
@@ -106,7 +119,7 @@ class ilBiblLibraryGUI
     /**
      * delete library
      */
-    public function delete()
+    public function delete(): void
     {
         $this->checkPermissionAndFail('write');
         $ilBibliographicSetting = $this->getInstanceFromRequest();
@@ -118,7 +131,7 @@ class ilBiblLibraryGUI
     /**
      * cancel
      */
-    public function cancel()
+    public function cancel(): void
     {
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
@@ -127,14 +140,14 @@ class ilBiblLibraryGUI
     /**
      * save changes in library
      */
-    public function update()
+    public function update(): void
     {
         $this->checkPermissionAndFail('write');
         $ilBibliographicSetting = $this->getInstanceFromRequest();
         $form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
         $form->setValuesByPost();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng()->txt("settings_saved"), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt("settings_saved"), true);
             $this->ctrl()->redirect($this, self::CMD_INDEX);
         }
         $this->tpl()->setContent($form->getHTML());
@@ -144,13 +157,13 @@ class ilBiblLibraryGUI
     /**
      * create library
      */
-    public function create()
+    public function create(): void
     {
         $this->checkPermissionAndFail('write');
         $form = new ilBiblLibraryFormGUI($this->facade->libraryFactory()->getEmptyInstance());
         $form->setValuesByPost();
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng()->txt("settings_saved"), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng()->txt("settings_saved"), true);
             $this->ctrl()->redirect($this, self::CMD_INDEX);
         }
         $this->tpl()->setContent($form->getHTML());
@@ -160,7 +173,7 @@ class ilBiblLibraryGUI
     /**
      * edit library
      */
-    public function edit()
+    public function edit(): void
     {
         $this->checkPermissionAndFail('write');
         $this->ctrl()->saveParameter($this, self::F_LIB_ID);
@@ -169,15 +182,28 @@ class ilBiblLibraryGUI
         $this->tpl()->setContent($form->getHTML());
     }
 
-
-    /**
-     * @return \ilBiblLibraryInterface
-     */
-    private function getInstanceFromRequest()
+    private function getInstanceFromRequest(): \ilBiblLibraryInterface
     {
-        $ilBibliographicSetting = $this->facade->libraryFactory()
-            ->findById($_REQUEST[self::F_LIB_ID]);
-
-        return $ilBibliographicSetting;
+        // check Query
+        if ($this->wrapper->query()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->query()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->kindlyTo()->int()
+                                    )
+                                );
+        }
+        // check post
+        if ($this->wrapper->post()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->post()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->kindlyTo()->int()
+                                    )
+                                );
+        }
+        throw new ilException('library not found');
     }
 }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
@@ -19,7 +35,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [Text::class];
     }
@@ -27,7 +43,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component $component, RendererInterface $default_renderer) : string
+    public function render(Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -38,7 +54,7 @@ class Renderer extends AbstractComponentRenderer
         return '';
     }
 
-    private function render_text(Text $component) : string
+    private function render_text(Text $component): string
     {
         $tpl = $this->getReportTemplate();
 
@@ -50,7 +66,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    private function renderItem(Template $tpl, string $tpl_block, string $label, string $item) : void
+    private function renderItem(Template $tpl, string $tpl_block, string $label, string $item): void
     {
         $tpl->setCurrentBlock($tpl_block);
         $tpl->setVariable('LABEL', $label);
@@ -58,13 +74,13 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
     }
 
-    private function renderRow(Template $tpl) : void
+    private function renderRow(Template $tpl): void
     {
         $tpl->setCurrentBlock('value_row');
         $tpl->parseCurrentBlock();
     }
 
-    private function getReportTemplate() : Template
+    private function getReportTemplate(): Template
     {
         return $this->getTemplate('tpl.characteristic_value.html', true, true);
     }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCSourceCode
@@ -23,12 +26,12 @@
  */
 class ilPCSourceCode extends ilPCParagraph
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("src");
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("ed_insert_code", "pc_code");
     }
@@ -37,7 +40,7 @@ class ilPCSourceCode extends ilPCParagraph
         string $a_output,
         string $a_mode = "presentation",
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $dom = $this->getPage()->getDom();
 
         $xpc = xpath_new_context($dom);
@@ -157,7 +160,7 @@ class ilPCSourceCode extends ilPCParagraph
     public function highlightText(
         string $a_text,
         string $proglang
-    ) : string {
+    ): string {
         $proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
         if (ilSyntaxHighlighter::isSupported($proglang)) {
             $highl = ilSyntaxHighlighter::getInstance($proglang);

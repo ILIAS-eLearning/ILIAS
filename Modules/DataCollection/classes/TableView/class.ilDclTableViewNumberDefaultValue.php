@@ -2,14 +2,12 @@
 
 /**
  * Class ilDclBaseTableViewDefaultValue
- *
  * @author  Jannik Dolf <jd@studer-raimann.ch>
  */
 class ilDclTableViewNumberDefaultValue extends ilDclTableViewBaseDefaultValue
 {
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -18,85 +16,58 @@ class ilDclTableViewNumberDefaultValue extends ilDclTableViewBaseDefaultValue
      * @db_length           4
      * @db_sequence         true
      */
-    protected $id;
+    protected ?int $id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_is_notnull       true
      * @db_fieldtype        integer
      * @db_length           4
      */
-    protected $tview_set_id;
+    protected int $tview_set_id;
     /**
      * @var int
-     *
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      */
-    protected $value;
-
+    protected int $value;
 
     /**
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_dcl_stloc2_default";
     }
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getTviewSetId()
+    public function getTviewSetId(): int
     {
         return $this->tview_set_id;
     }
 
-
-    /**
-     * @param int $tview_set_id
-     */
-    public function setTviewSetId($tview_set_id)
+    public function setTviewSetId(int $tview_set_id): void
     {
         $this->tview_set_id = $tview_set_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getValue()
+    public function getValue(): int
     {
         return $this->value;
     }
 
-
-    /**
-     * @param int $value
-     */
-    public function setValue($value)
+    public function setValue(int $value): void
     {
         $this->value = $value;
     }

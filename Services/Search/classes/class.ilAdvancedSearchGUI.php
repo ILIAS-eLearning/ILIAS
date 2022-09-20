@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,7 +29,6 @@
 * GUI class for 'simple' search
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilAdvancedSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
@@ -36,89 +37,74 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilSearchBaseGUI.php';
-include_once 'Services/MetaData/classes/class.ilMDUtilSelect.php';
-include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 
 class ilAdvancedSearchGUI extends ilSearchBaseGUI
 {
-    const TYPE_LOM = 1;
-    const TYPE_ADV_MD = 2;
+    public const TYPE_LOM = 1;
+    public const TYPE_ADV_MD = 2;
 
-    protected $last_section = 'adv_search';
+    protected string $last_section = 'adv_search';
 
-    protected $fields = array();
+    protected ilLuceneAdvancedSearchFields $fields;
 
 
 
-    /**
-    * array of all options select boxes,'and' 'or' and query strings
-    * @access public
-    */
-    private $options = array();
-    
-    protected $tabs_gui;
 
-    /**
-    * Constructor
-    * @access public
-    */
+    private bool $stored = false;
+    private array $options = array();
+    protected array $filter = array();
+
+    protected ilTabsGUI $tabs_gui;
+    protected ilHelpGUI $help_gui;
+
     public function __construct()
     {
         global $DIC;
 
-        $ilTabs = $DIC['ilTabs'];
-        
-        $this->tabs_gui = $ilTabs;
-        
+        $this->tabs_gui = $DIC->tabs();
+        $this->help_gui = $DIC->help();
+
+
         parent::__construct();
 
         $this->lng->loadLanguageModule('meta');
         $this->fields = ilLuceneAdvancedSearchFields::getInstance();
 
-        $this->__setSearchOptions($_POST);
+        $this->__setSearchOptions();
     }
 
-    public function getRootNode()
+    public function getRootNode(): int
     {
         return ROOT_FOLDER_ID;
     }
 
 
-    /**
-    * Control
-    * @access public
-    */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case "ilpropertyformgui":
-            
-            
+
+
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
 
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
+
             default:
                 $this->initUserSearchCache();
                 if (!$cmd) {
-                    switch ($_SESSION['search_last_sub_section']) {
+                    $last_sub_section = (int) ilSession::get('search_last_sub_section');
+                    switch ($last_sub_section) {
                         case self::TYPE_ADV_MD:
                             $cmd = "showSavedAdvMDResults";
                             break;
-                        
+
                         default:
                             $cmd = "showSavedResults";
                             break;
@@ -130,7 +116,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    public function reset()
+    public function reset(): void
     {
         $this->initSearchType(self::TYPE_LOM);
         $this->options = array();
@@ -139,25 +125,36 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->showSearch();
     }
 
-    public function searchInResults()
+    public function searchInResults(): bool
     {
         $this->initSearchType(self::TYPE_LOM);
         $this->search_mode = 'in_results';
         $this->search_cache->setResultPageNumber(1);
-        unset($_SESSION['adv_max_page']);
+        ilSession::clear('adv_max_page');
         $this->performSearch();
 
         return true;
     }
 
-    /**
-     * Search from main menu
-     */
-    protected function remoteSearch()
+    protected function remoteSearch(): void
     {
-        $this->search_cache->setRoot((int) $_POST['root_id']);
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
         $this->search_cache->setResultPageNumber(1);
-        $this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+        $this->search_cache->setQuery(array('lom_content' => $queryString));
         $this->search_cache->save();
 
         $this->options = $this->search_cache->getQuery();
@@ -168,87 +165,82 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
 
 
-    public function performSearch()
+    public function performSearch(): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         $this->initSearchType(self::TYPE_LOM);
-        
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
+            ilSession::clear('adv_max_page');
             $this->search_cache->deleteCachedEntries();
         }
-        
-        if (isset($_POST['query'])) {
-            $this->search_cache->setQuery($_POST['query']);
+
+        if ($this->http->wrapper()->post()->has('query')) {
+            $this->search_cache->setQuery(
+                $this->http->wrapper()->post()->retrieve(
+                    'query',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
         }
-        
-
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
-
-        if ($res_con = &$this->__performContentSearch()) {
+        if ($res_con = $this->__performContentSearch()) {
             $this->__storeEntries($res, $res_con);
         }
-        if ($res_lan = &$this->__performLanguageSearch()) {
+        if ($res_lan = $this->__performLanguageSearch()) {
             $this->__storeEntries($res, $res_lan);
         }
-        if ($res_gen = &$this->__performGeneralSearch()) {
+        if ($res_gen = $this->__performGeneralSearch()) {
             $this->__storeEntries($res, $res_gen);
         }
-        if ($res_lif = &$this->__performLifecycleSearch()) {
+        if ($res_lif = $this->__performLifecycleSearch()) {
             $this->__storeEntries($res, $res_lif);
         }
-        if ($res_con = &$this->__performContributeSearch()) {
+        if ($res_con = $this->__performContributeSearch()) {
             $this->__storeEntries($res, $res_con);
         }
-        if ($res_ent = &$this->__performEntitySearch()) {
+        if ($res_ent = $this->__performEntitySearch()) {
             $this->__storeEntries($res, $res_ent);
         }
-        if ($res_req = &$this->__performRequirementSearch()) {
+        if ($res_req = $this->__performRequirementSearch()) {
             $this->__storeEntries($res, $res_req);
         }
-        if ($res_for = &$this->__performFormatSearch()) {
+        if ($res_for = $this->__performFormatSearch()) {
             $this->__storeEntries($res, $res_for);
         }
-        if ($res_edu = &$this->__performEducationalSearch()) {
+        if ($res_edu = $this->__performEducationalSearch()) {
             $this->__storeEntries($res, $res_edu);
         }
-        if ($res_typ = &$this->__performTypicalAgeRangeSearch()) {
+        if ($res_typ = $this->__performTypicalAgeRangeSearch()) {
             $this->__storeEntries($res, $res_typ);
         }
-        if ($res_rig = &$this->__performRightsSearch()) {
+        if ($res_rig = $this->__performRightsSearch()) {
             $this->__storeEntries($res, $res_rig);
         }
-        if ($res_cla = &$this->__performClassificationSearch()) {
+        if ($res_cla = $this->__performClassificationSearch()) {
             $this->__storeEntries($res, $res_cla);
         }
-        if ($res_tax = &$this->__performTaxonSearch()) {
+        if ($res_tax = $this->__performTaxonSearch()) {
             $this->__storeEntries($res, $res_tax);
         }
-        if ($res_key = &$this->__performKeywordSearch()) {
+        if ($res_key = $this->__performKeywordSearch()) {
             $this->__storeEntries($res, $res_key);
         }
-                
+
         $this->searchAdvancedMD($res);
-                    
+
         if ($this->search_mode == 'in_results') {
-            include_once 'Services/Search/classes/class.ilSearchResult.php';
+            $old_result_obj = new ilSearchResult($this->user->getId());
+            $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
-            $old_result_obj = new ilSearchResult($ilUser->getId());
-            $old_result_obj->read(ADVANCED_MD_SEARCH);
-
-            $res->diffEntriesFromResult($old_result_obj);
+            $res->diffEntriesFromResult();
         }
 
         $res->filter($this->getRootNode(), (ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND));
         $res->save();
         $this->showSearch();
-        
+
         if (!count($res->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($res->isLimitReached()) {
@@ -257,37 +249,29 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
-        include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('RESULTS', $presentation->getHTML());
         }
         return true;
     }
-    
-    /**
-     *
-     *
-     * @access protected
-     */
-    protected function initAdvancedMetaDataForm()
+
+
+    protected function initAdvancedMetaDataForm(): ?ilPropertyFormGUI
     {
         if (is_object($this->form)) {
             return $this->form;
         }
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performAdvMDSearch'));
         $this->form->setTitle($this->lng->txt('adv_md_search_title'));
         $this->form->addCommandButton('performAdvMDSearch', $this->lng->txt('search'));
         #$this->form->setSubformMode('right');
-        
+
         $content = new ilTextInputGUI($this->lng->txt('meta_title') . '/' .
             $this->lng->txt('meta_keyword') . '/' .
             $this->lng->txt('meta_description'), 'title');
@@ -297,13 +281,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         //		$content->setSubformMode('right');
         $group = new ilRadioGroupInputGUI('', 'title_ao');
         $group->setValue($this->options['title_ao']);
-        $radio_option = new ilRadioOption($this->lng->txt("search_any_word"), 0);
+        $radio_option = new ilRadioOption($this->lng->txt("search_any_word"), '0');
         $group->addOption($radio_option);
-        $radio_option = new ilRadioOption($this->lng->txt("search_all_words"), 1);
+        $radio_option = new ilRadioOption($this->lng->txt("search_all_words"), '1');
         $group->addOption($radio_option);
         $content->addSubItem($group);
         $this->form->addItem($content);
-        
+
         $type = new ilSelectInputGUI($this->lng->txt('type'), 'type');
         $options['adv_all'] = $this->lng->txt('search_any');
         foreach (ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type) {
@@ -312,55 +296,40 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $type->setOptions($options);
         $type->setValue($this->options['type']);
         $this->form->addItem($type);
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH);
         $record_gui->setPropertyForm($this->form);
         $record_gui->setSearchValues($this->options);
         $record_gui->parse();
+        return null;
     }
-    
-    /**
-     * perform advanced meta data search
-     *
-     * @access protected
-     */
-    protected function performAdvMDSearch()
+
+
+    protected function performAdvMDSearch(): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         $this->initSearchType(self::TYPE_ADV_MD);
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
+            ilSession::clear('adv_max_page');
             $this->search_cache->delete();
         }
-
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
-        
-        if ($res_tit = &$this->__performTitleSearch()) {
+        if ($res_tit = $this->__performTitleSearch()) {
             $this->__storeEntries($res, $res_tit);
         }
         $this->searchAdvancedMD($res);
-
         if ($this->search_mode == 'in_results') {
-            include_once 'Services/Search/classes/class.ilSearchResult.php';
+            $old_result_obj = new ilSearchResult($this->user->getId());
+            $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
-            $old_result_obj = new ilSearchResult($ilUser->getId());
-            $old_result_obj->read(ADVANCED_MD_SEARCH);
-
-            $res->diffEntriesFromResult($old_result_obj);
+            $res->diffEntriesFromResult();
         }
-
-        
         $res->filter($this->getRootNode(), true);
         $res->save();
         $this->showAdvMDSearch();
-        
+
         if (!count($res->getResults())) {
-            ilUtil::sendInfo($this->lng->txt('search_no_match'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('search_no_match'));
         }
 
         if ($res->isLimitReached()) {
@@ -369,28 +338,23 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
-        include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
+
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('RESULTS', $presentation->getHTML());
         }
         return true;
     }
-    
-    
-    /**
-     * Show advanced meta data search
-     *
-     * @access public
-     */
-    public function showAdvMDSearch()
+
+
+    public function showAdvMDSearch(): bool
     {
-        if (isset($_SESSION['search_adv_md'])) {
-            $this->options = $_SESSION['search_adv_md'];
+        $session_options = ilSession::get('search_adv_md');
+        if ($session_options !== null) {
+            $this->options = $session_options;
         }
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_adv_md');
@@ -401,31 +365,22 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->tpl->setVariable('SEARCH_FORM', $this->form->getHTML());
         return true;
     }
-    
-    /**
-     * Show search form
-     */
-    protected function initFormSearch()
-    {
-        global $DIC;
 
-        $tree = $DIC['tree'];
-        
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        
+
+    protected function initFormSearch(): bool
+    {
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
         $this->form->setTitle($this->lng->txt('search_advanced'));
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('reset', $this->lng->txt('reset'));
-        
         foreach ($this->fields->getActiveSections() as $definition) {
             if ($definition['name'] != 'default') {
                 $section = new ilFormSectionHeaderGUI();
                 $section->setTitle($definition['name']);
                 $this->form->addItem($section);
             }
-            
+
             foreach ($definition['fields'] as $field_name) {
                 if (is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(), $field_name, $this->form))) {
                     $this->form->addItem($element);
@@ -434,15 +389,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
 
 
-    public function showSearch()
+
+    public function showSearch(): bool
     {
-        global $DIC;
-
-        $ilLocator = $DIC['ilLocator'];
-
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_lom');
 
@@ -453,49 +404,31 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         return true;
     }
 
-    public function prepareOutput()
+    public function prepareOutput(): void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
-        $ilHelp = $DIC['ilHelp'];
-        
         parent::prepareOutput();
-        
-        $ilHelp->setScreenIdComponent("src");
 
-        $ilTabs->addTab(
+        $this->help_gui->setScreenIdComponent("src");
+
+        $this->tabs_gui->addTab(
             "search",
             $this->lng->txt("search"),
             $this->ctrl->getLinkTargetByClass('ilsearchgui')
         );
-        $ilTabs->addTab(
+        $this->tabs_gui->addTab(
             "adv_search",
             $this->lng->txt("search_advanced"),
             $this->ctrl->getLinkTarget($this)
         );
-        $ilTabs->activateTab("adv_search");
+        $this->tabs_gui->activateTab("adv_search");
     }
 
-    // PRIVATE
-    /**
-     * show advanced meta data results
-     *
-     * @access private
-     *
-     */
-    private function showSavedAdvMDResults()
+
+    private function showSavedAdvMDResults(): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        // Read old result sets
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-    
         $this->initSearchType(self::TYPE_ADV_MD);
-        $result_obj = new ilSearchResult($ilUser->getId());
-        $result_obj->read(ADVANCED_MD_SEARCH);
+        $result_obj = new ilSearchResult($this->user->getId());
+        $result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
         $this->showAdvMDSearch();
 
@@ -503,32 +436,24 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (count($result_obj->getResults())) {
             $this->addPager($result_obj, 'adv_max_page');
 
-            include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
-                $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+                $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
         }
 
         return true;
     }
-    
-    
-    public function showSavedResults()
+
+
+    public function showSavedResults(): bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        // Read old result sets
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-
         $this->initSearchType(self::TYPE_LOM);
-        $result_obj = new ilSearchResult($ilUser->getId());
-        $result_obj->read(ADVANCED_SEARCH);
+        $result_obj = new ilSearchResult($this->user->getId());
+        $result_obj->read(ilUserSearchCache::ADVANCED_SEARCH);
 
         $this->showSearch();
 
@@ -536,60 +461,55 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (count($result_obj->getResults())) {
             $this->addPager($result_obj, 'adv_max_page');
 
-            include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
-                $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+                $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
         }
 
         return true;
     }
 
-    public function &__performContentSearch()
+    public function __performContentSearch(): ?ilSearchResult
     {
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-
         if (!$this->options['lom_content']) {
-            return false;
+            return null;
         }
 
         $res = new ilSearchResult();
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_content']));
         #$query_parser->setCombination($this->options['content_ao']);
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
         if ($this->options['type'] == 'all' or $this->options['type'] == 'lms') {
             // LM content search
-            $lm_search = &ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
-            $res_cont = &$lm_search->performSearch();
+            $lm_search = ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
+            $res_cont = $lm_search->performSearch();
             $res->mergeEntries($res_cont);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'tst') {
-            $tst_search = &ilObjectSearchFactory::_getTestSearchInstance($query_parser);
-            $res_tes = &$tst_search->performSearch();
+            $tst_search = ilObjectSearchFactory::_getTestSearchInstance($query_parser);
+            $res_tes = $tst_search->performSearch();
             $res->mergeEntries($res_tes);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'mep') {
-            $med_search = &ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
-            $res_med = &$med_search->performSearch();
+            $med_search = ilObjectSearchFactory::_getMediaPoolSearchInstance($query_parser);
+            $res_med = $med_search->performSearch();
             $res->mergeEntries($res_med);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'glo') {
-            $glo_search = &ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
-            $res_glo = &$glo_search->performSearch();
+            $glo_search = ilObjectSearchFactory::_getGlossaryDefinitionSearchInstance($query_parser);
+            $res_glo = $glo_search->performSearch();
             $res->mergeEntries($res_glo);
         }
         if ($this->options['type'] == 'all' or $this->options['type'] == 'webr') {
-            $web_search = &ilObjectSearchFactory::_getWebresourceSearchInstance($query_parser);
-            $res_web = &$web_search->performSearch();
+            $web_search = ilObjectSearchFactory::_getWebresourceSearchInstance($query_parser);
+            $res_web = $web_search->performSearch();
             $res->mergeEntries($res_web);
         }
         if ($tit_res = $this->__performTitleSearch()) {
@@ -600,297 +520,253 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     }
 
 
-    public function &__performTitleSearch()
+    public function __performTitleSearch(): ?ilSearchResult
     {
         if (!$this->options['lom_content']) {
-            return false;
+            return null;
         }
 
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_content']));
         #$query_parser->setCombination($this->options['title_ao']);
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
-        
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('title_description');
         $meta_search->setOptions($this->options);
-        $res_tit = &$meta_search->performSearch();
-        
+        $res_tit = $meta_search->performSearch();
+
         $meta_search->setMode('keyword_all');
-        $res_key = &$meta_search->performSearch();
-        
+        $res_key = $meta_search->performSearch();
+
         // merge them
         $res_tit->mergeEntries($res_key);
-        
-        
+
+
         return $res_tit;
     }
 
 
 
-    public function &__performGeneralSearch()
+    public function __performGeneralSearch(): ?ilSearchResult
     {
         if (!$this->options['lom_coverage'] and !$this->options['lom_structure']) {
-            return false;
+            return null;
         }
 
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         if ($this->options['lom_coverage']) {
             $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_coverage']));
             #$query_parser->setCombination($this->options['coverage_ao']);
-            $query_parser->setCombination(QP_COMBINATION_OR);
+            $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
             $query_parser->parse();
         } else {
             $query_parser = new ilQueryParser('');
         }
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('general');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
 
-    public function &__performLifecycleSearch()
+    public function __performLifecycleSearch(): ?ilSearchResult
     {
         // Return if 'any'
         if (!$this->options['lom_status'] and !$this->options['lom_version']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_version']));
         #$query_parser->setCombination($this->options['version_ao']);
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('lifecycle');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performLanguageSearch()
+    public function __performLanguageSearch(): ?ilSearchResult
     {
         if (!$this->options['lom_language']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('language');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performContributeSearch()
+    public function __performContributeSearch(): ?ilSearchResult
     {
         if (!strlen($this->options['lom_role'])) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('contribute');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performEntitySearch()
+    public function __performEntitySearch(): ?ilSearchResult
     {
         // Return if 'any'
         if (!$this->options['lom_role_entry']) {
-            return false;
+            return null;
         }
-        
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
+
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_role_entry']));
         #$query_parser->setCombination($this->options['entity_ao']);
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('entity');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
 
 
-    public function &__performRequirementSearch()
+    public function __performRequirementSearch(): ?ilSearchResult
     {
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-
-
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('requirement');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performFormatSearch()
+    public function __performFormatSearch(): ?ilSearchResult
     {
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-
-
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('format');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performEducationalSearch()
+    public function __performEducationalSearch(): ?ilSearchResult
     {
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-
-
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('educational');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performTypicalAgeRangeSearch()
+    public function __performTypicalAgeRangeSearch(): ?ilSearchResult
     {
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
-
-
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('typical_age_range');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    public function &__performRightsSearch()
+    public function __performRightsSearch(): ?ilSearchResult
     {
         if (!$this->options['lom_copyright'] and !$this->options['lom_costs']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('rights');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
 
-    public function &__performClassificationSearch()
+    public function __performClassificationSearch(): ?ilSearchResult
     {
         // Return if 'any'
         if (!$this->options['lom_purpose']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance(new ilQueryParser(''));
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('classification');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
 
-    public function &__performTaxonSearch()
+    public function __performTaxonSearch(): ?ilSearchResult
     {
         // Return if 'any'
         if (!$this->options['lom_taxon']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_taxon']));
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('taxon');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
+        $res = $meta_search->performSearch();
 
         return $res;
     }
-    
-    /**
-     * Perform advanced meta data search
-     *
-     * @access private
-     * @param obj result object
-     *
-     */
-    private function searchAdvancedMD($res)
+
+    private function searchAdvancedMD(ilSearchResult $res): void
     {
         $this->initFormSearch();
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+
         foreach (array_keys($this->options) as $key) {
             if (substr($key, 0, 3) != 'adv') {
                 continue;
             }
-            
+
             // :TODO: ?
             if (!$key) {
                 continue;
             }
 
             $field_id = substr($key, 4);
-            $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
-        
+            $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
+
             $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
             $field_form->setElementId("query[" . $key . "]");
             $field_form->setForm($this->form);
-        
+
             // reload search values
             $field_form->importFromPost($this->options);
             $field_form->validate();
-                                                
+
             $parser_value = $field->getSearchQueryParserValue($field_form);
 
-            include_once 'Services/Search/classes/class.ilQueryParser.php';
-            include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
             $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));
             $adv_md_search->setFilter($this->filter);
             $adv_md_search->setDefinition($field);
@@ -902,41 +778,48 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
     }
 
-    public function &__performKeywordSearch()
+    public function __performKeywordSearch(): ?ilSearchResult
     {
         // Return if 'any'
         if (!$this->options['lom_keyword']) {
-            return false;
+            return null;
         }
-        include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->options['lom_keyword']));
         #$query_parser->setCombination($this->options['keyword_ao']);
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
 
-        $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
+        $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('keyword');
         $meta_search->setOptions($this->options);
-        $res = &$meta_search->performSearch();
-        
+        $res = $meta_search->performSearch();
+
         return $res;
     }
 
-    public function __setSearchOptions(&$post_vars)
+    public function __setSearchOptions(): bool
     {
-        if (isset($_POST['cmd']['performSearch'])) {
-            $this->options = $_SESSION['search_adv'] = $_POST['query'];
-        } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {
-            $this->options = $_SESSION['search_adv_md'] = $_POST;
-        } else {
-            $this->options = $_SESSION['search_adv'];
+        $query = '';
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
         }
-        
-        $_POST['result'] = $_POST['id'];
 
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+
+        if (isset($post_cmd['performSearch'])) {
+            $this->options = $query;
+            ilSession::set('search_adv', $this->options);
+        } elseif (isset($post_cmd['performAdvMDSearch'])) {
+            $this->options = (array) $this->http->request()->getParsedBody();
+            ilSession::set('search_adv_md', $this->options);
+        } else {
+            $this->options = ilSession::get('search_adv') ?? [];
+        }
         $this->filter = array();
 
         $this->options['type'] = 'all';
@@ -944,7 +827,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             case 'cat':
                 $this->filter[] = 'cat';
                 break;
-            
+
             case 'webr':
                 $this->filter[] = 'webr';
                 break;
@@ -971,18 +854,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             case 'mep':
                 $this->filter[] = 'mep';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
                 break;
-                    
+
             case 'crs':
                 $this->filter[] = 'crs';
                 break;
-                
+
             case 'file':
                 $this->filter[] = 'file';
                 break;
 
             case 'adv_all':
-                include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
                 $this->filter = ilAdvancedMDRecord::_getActivatedObjTypes();
                 break;
 
@@ -1004,11 +888,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'sahs';
                 $this->filter[] = 'htlm';
                 $this->filter[] = 'file';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
         }
+
         return true;
     }
 
-    public function __getFilterSelect()
+    public function __getFilterSelect(): string
     {
         $options = array('all' => $this->lng->txt('search_any'),
                          'crs' => $this->lng->txt('objs_crs'),
@@ -1022,11 +909,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             );
 
 
-        return ilUtil::formSelect($this->options['type'], 'search_adv[type]', $options, false, true);
+        return ilLegacyFormElementsUtil::formSelect($this->options['type'], 'search_adv[type]', $options, false, true);
     }
 
 
-    public function __storeEntries($res, $new_res)
+    public function __storeEntries(ilSearchResult $res, ilSearchResult $new_res): bool
     {
         if ($this->stored == false) {
             $res->mergeEntries($new_res);
@@ -1038,77 +925,46 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             return true;
         }
     }
-    
-    /**
-     * Init user search cache
-     *
-     * @access private
-     *
-     */
-    private function initUserSearchCache()
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        
-        include_once('Services/Search/classes/class.ilUserSearchCache.php');
-        $this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
+    private function initUserSearchCache(): void
+    {
+        $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
-        if ($_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
-        if ($_POST['cmd']['performSearch']) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+        $post_query = (array) ($this->http->request()->getParsedBody()['query'] ?? []);
+        if ($post_cmd['performSearch']) {
+            $this->search_cache->setQuery($post_query['lomContent'] ?? '');
             $this->search_cache->save();
         }
     }
-    
-    /**
-     * set sub tabs
-     *
-     * @access public
-     *
-     */
-    public function setSubTabs()
-    {
-        global $DIC;
 
-        $ilTabs = $DIC['ilTabs'];
-        
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+    public function setSubTabs(): bool
+    {
         if (!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds())) {
             return true;
         }
-        $ilTabs->addSubTabTarget('search_lom', $this->ctrl->getLinkTarget($this, 'showSavedResults'));
-        #$ilTabs->addSubTabTarget('search_adv_md',$this->ctrl->getLinkTarget($this,'showSavedAdvMDResults'));
+        $this->tabs_gui->addSubTabTarget('search_lom', $this->ctrl->getLinkTarget($this, 'showSavedResults'));
+        return true;
     }
-    
-    /**
-     * convert input array to unix time
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function toUnixTime($date, $time = array())
+
+
+    private function toUnixTime(array $date, array $time = array()): int
     {
         return mktime($time['h'], $time['m'], 0, $date['m'], $date['d'], $date['y']);
     }
-    
-    /**
-     * init search type (LOM Search or Advanced meta data search)
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function initSearchType($type)
+
+
+    private function initSearchType(int $type): void
     {
         if ($type == self::TYPE_LOM) {
-            $_SESSION['search_last_sub_section'] = self::TYPE_LOM;
+            ilSession::set('search_last_sub_section', self::TYPE_LOM);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
         } else {
-            $_SESSION['search_last_sub_section'] = self::TYPE_ADV_MD;
+            ilSession::set('search_last_sub_section', self::TYPE_ADV_MD);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_MD_SEARCH);
         }
     }

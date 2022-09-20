@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +27,8 @@ use PHPUnit\Framework\TestCase;
 class CronJobScheduleTest extends TestCase
 {
     private DateTimeImmutable $now;
-    private DateTimeImmutable $this_quater_start;
+
+    private DateTimeImmutable $this_quarter_start;
 
     private function getJob(
         bool $has_flexible_schedule,
@@ -19,8 +36,8 @@ class CronJobScheduleTest extends TestCase
         ?int $default_schedule_value,
         int $schedule_type,
         ?int $schedule_value
-    ) : ilCronJob {
-        $job_istance = new class($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
+    ): ilCronJob {
+        $job_instance = new class ($has_flexible_schedule, $default_schedule_type, $default_schedule_value, $schedule_type, $schedule_value) extends ilCronJob {
             private bool $has_flexible_schedule;
             private int $default_schedule_type;
             private ?int $default_schedule_value;
@@ -39,61 +56,61 @@ class CronJobScheduleTest extends TestCase
                 $this->default_schedule_value = $default_schedule_value;
             }
 
-            public function getId() : string
+            public function getId(): string
             {
                 return 'phpunit';
             }
 
-            public function getTitle() : string
+            public function getTitle(): string
             {
                 return 'phpunit';
             }
 
-            public function getDescription() : string
+            public function getDescription(): string
             {
                 return 'phpunit';
             }
 
-            public function hasAutoActivation() : bool
+            public function hasAutoActivation(): bool
             {
                 return false;
             }
 
-            public function hasFlexibleSchedule() : bool
+            public function hasFlexibleSchedule(): bool
             {
                 return $this->has_flexible_schedule;
             }
 
-            public function getDefaultScheduleType() : int
+            public function getDefaultScheduleType(): int
             {
                 return $this->default_schedule_type;
             }
 
-            public function getDefaultScheduleValue() : ?int
+            public function getDefaultScheduleValue(): ?int
             {
                 return $this->default_schedule_value;
             }
 
-            public function run() : ilCronJobResult
+            public function run(): ilCronJobResult
             {
                 return new ilCronJobResult();
             }
         };
 
-        $job_istance->setDateTimeProviver(function () : DateTimeImmutable {
+        $job_instance->setDateTimeProvider(function (): DateTimeImmutable {
             return $this->now;
         });
 
-        return $job_istance;
+        return $job_instance;
     }
 
-    public function jobProvider() : array
+    public function jobProvider(): array
     {
         // Can't be moved to setUp(), because the data provider is executed before the tests are executed
         $this->now = new DateTimeImmutable('@' . time());
 
         $offset = (((int) $this->now->format('n')) - 1) % 3;
-        $this->this_quater_start = $this->now->modify("first day of -{$offset} month midnight");
+        $this->this_quarter_start = $this->now->modify("first day of -$offset month midnight");
 
         return [
             'Manual Run is Always Due' => [
@@ -115,7 +132,7 @@ class CronJobScheduleTest extends TestCase
             'Daily Schedule / Did not run Today' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
                 false,
-                $this->now->modify('-1 day')->getTimestamp(),
+                $this->now->modify('-1 day'),
                 ilCronJob::SCHEDULE_TYPE_DAILY,
                 null,
                 true
@@ -123,7 +140,7 @@ class CronJobScheduleTest extends TestCase
             'Daily Schedule / Did run Today' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_DAILY, null, ilCronJob::SCHEDULE_TYPE_DAILY, null),
                 false,
-                $this->now->getTimestamp(),
+                $this->now,
                 ilCronJob::SCHEDULE_TYPE_DAILY,
                 null,
                 false
@@ -131,7 +148,7 @@ class CronJobScheduleTest extends TestCase
             'Weekly Schedule / Did not run this Week' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
                 false,
-                $this->now->modify('-1 week')->getTimestamp(),
+                $this->now->modify('-1 week'),
                 ilCronJob::SCHEDULE_TYPE_WEEKLY,
                 null,
                 true
@@ -139,7 +156,7 @@ class CronJobScheduleTest extends TestCase
             'Weekly Schedule / Did run this Week' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_WEEKLY, null, ilCronJob::SCHEDULE_TYPE_WEEKLY, null),
                 false,
-                $this->now->modify('monday this week')->getTimestamp(),
+                $this->now->modify('monday this week'),
                 ilCronJob::SCHEDULE_TYPE_WEEKLY,
                 null,
                 false
@@ -147,7 +164,7 @@ class CronJobScheduleTest extends TestCase
             'Monthly Schedule / Did not run this Month' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_MONTHLY, null, ilCronJob::SCHEDULE_TYPE_MONTHLY, null),
                 false,
-                $this->now->modify('-1 month')->getTimestamp(),
+                $this->now->modify('last day of last month'),
                 ilCronJob::SCHEDULE_TYPE_MONTHLY,
                 null,
                 true
@@ -155,7 +172,7 @@ class CronJobScheduleTest extends TestCase
             'Monthly Schedule / Did run this Month' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_MONTHLY, null, ilCronJob::SCHEDULE_TYPE_MONTHLY, null),
                 false,
-                $this->now->modify('first day of this month')->getTimestamp(),
+                $this->now->modify('first day of this month'),
                 ilCronJob::SCHEDULE_TYPE_MONTHLY,
                 null,
                 false
@@ -163,7 +180,7 @@ class CronJobScheduleTest extends TestCase
             'Yearly Schedule / Did not run this Year' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_YEARLY, null, ilCronJob::SCHEDULE_TYPE_YEARLY, null),
                 false,
-                $this->now->modify('-1 year')->getTimestamp(),
+                $this->now->modify('-1 year'),
                 ilCronJob::SCHEDULE_TYPE_YEARLY,
                 null,
                 true
@@ -171,39 +188,39 @@ class CronJobScheduleTest extends TestCase
             'Yearly Schedule / Did run this Year' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_YEARLY, null, ilCronJob::SCHEDULE_TYPE_YEARLY, null),
                 false,
-                $this->now->modify('first day of January this year')->getTimestamp(),
+                $this->now->modify('first day of January this year'),
                 ilCronJob::SCHEDULE_TYPE_YEARLY,
                 null,
                 false
             ],
-            'Quaterly Schedule / Did not run this Quater' => [
+            'Quarterly Schedule / Did not run this Quarter' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
-                $this->this_quater_start->modify('-1 seconds')->getTimestamp(),
+                $this->this_quarter_start->modify('-1 seconds'),
                 ilCronJob::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 true
             ],
-            'Quaterly Schedule / Did run this Quater' => [
+            'Quarterly Schedule / Did run this Quarter' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null, ilCronJob::SCHEDULE_TYPE_QUARTERLY, null),
                 false,
-                $this->this_quater_start->modify('+30 seconds')->getTimestamp(),
+                $this->this_quarter_start->modify('+30 seconds'),
                 ilCronJob::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 false
             ],
-            'Minutly Schedule / Did not run this Minute' => [
+            'Minutely Schedule / Did not run this Minute' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
-                $this->now->modify('-1 minute')->getTimestamp(),
+                $this->now->modify('-1 minute'),
                 ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
                 1,
                 true
             ],
-            'Minutly Schedule / Did run this Minute' => [
+            'Minutely Schedule / Did run this Minute' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
                 false,
-                $this->now->modify('-30 seconds')->getTimestamp(),
+                $this->now->modify('-30 seconds'),
                 ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
                 1,
                 false
@@ -211,7 +228,7 @@ class CronJobScheduleTest extends TestCase
             'Hourly Schedule / Did not run this Hour' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
                 false,
-                $this->now->modify('-7 hours')->getTimestamp(),
+                $this->now->modify('-7 hours'),
                 ilCronJob::SCHEDULE_TYPE_IN_HOURS,
                 7,
                 true
@@ -219,7 +236,7 @@ class CronJobScheduleTest extends TestCase
             'Hourly Schedule / Did run this Hour' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
                 false,
-                $this->now->modify('-7 hours +30 seconds')->getTimestamp(),
+                $this->now->modify('-7 hours +30 seconds'),
                 ilCronJob::SCHEDULE_TYPE_IN_HOURS,
                 7,
                 false
@@ -227,7 +244,7 @@ class CronJobScheduleTest extends TestCase
             'Every 5 Days Schedule / Did not run for 5 Days' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
                 false,
-                $this->now->modify('-5 days')->getTimestamp(),
+                $this->now->modify('-5 days'),
                 ilCronJob::SCHEDULE_TYPE_IN_DAYS,
                 5,
                 true
@@ -235,7 +252,7 @@ class CronJobScheduleTest extends TestCase
             'Every 5 Days Schedule / Did run withing the last 5 Days' => [
                 $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
                 false,
-                $this->now->modify('-4 days')->getTimestamp(),
+                $this->now->modify('-4 days'),
                 ilCronJob::SCHEDULE_TYPE_IN_DAYS,
                 5,
                 false
@@ -243,7 +260,7 @@ class CronJobScheduleTest extends TestCase
             'Invalid Schedule Type' => [
                 $this->getJob(true, PHP_INT_MAX, 5, PHP_INT_MAX, 5),
                 false,
-                $this->now->getTimestamp(),
+                $this->now,
                 PHP_INT_MAX,
                 5,
                 false
@@ -263,14 +280,15 @@ class CronJobScheduleTest extends TestCase
     public function testSchedule(
         ilCronJob $job_instance,
         bool $is_manual_run,
-        ?int $last_run_timestamp,
+        ?DateTimeImmutable $last_run_datetime,
         int $schedule_type,
         ?int $schedule_value,
         bool $expected_result
-    ) : void {
+    ): void {
         $this->assertSame(
             $expected_result,
-            $job_instance->isDue($last_run_timestamp, $schedule_type, $schedule_value, $is_manual_run)
+            $job_instance->isDue($last_run_datetime, $schedule_type, $schedule_value, $is_manual_run),
+            'Last run: ' . ($last_run_datetime ? $last_run_datetime->format(DATE_ATOM) : 'never')
         );
     }
 }

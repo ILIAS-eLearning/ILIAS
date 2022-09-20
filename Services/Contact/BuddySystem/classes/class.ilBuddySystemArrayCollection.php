@@ -1,96 +1,91 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddySystemArrayCollection
- * A collection which contains all entries of a buddy list
+ * A generic array based collection class
  * @author Michael Jansen <mjansen@databay.de>
+ * @template T
+ * @template TKey
+ * @template-implements ilBuddySystemCollection<TKey,T>
  */
 abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
 {
-    private array $elements;
-
-    public function __construct(array $elements = [])
+    /**
+     * @param array<string|int, mixed> $elements
+     * @phpstan-param array<TKey, T> $elements
+     */
+    public function __construct(private array $elements = [])
     {
-        $this->elements = $elements;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetExists($offset) : bool
+    public function offsetExists(mixed $offset): bool
     {
         return $this->containsKey($offset);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         if (!isset($offset)) {
             $this->add($value);
+
             return;
         }
 
         $this->set($offset, $value);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function offsetUnset($offset) : void
+    public function offsetUnset(mixed $offset): void
     {
         $this->remove($offset);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function count() : int
+    public function count(): int
     {
         return count($this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function add($element) : void
+    public function add(mixed $element): void
     {
         $this->elements[] = $element;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function remove($key) : void
+    public function remove(string|int $key): void
     {
-        if (!isset($this->elements[$key]) && !array_key_exists($key, $this->elements)) {
+        if (!$this->containsKey($key)) {
             throw new InvalidArgumentException(sprintf('Could not find an element for key: %s', $key));
         }
         unset($this->elements[$key]);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function removeElement($element) : void
+    public function removeElement(mixed $element): void
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
@@ -100,98 +95,83 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     }
 
     /**
+     * isset is used for performance reasons (array_key_exists is much slower).
+     * array_key_exists is only used in case of a null value (see https://www.php.net/manual/en/function.array-key-exists.php Example #2 array_key_exists() vs isset()).
+     *
      * @inheritDoc
      */
-    public function containsKey($key) : bool
+    public function containsKey(string|int $key): bool
     {
         return isset($this->elements[$key]) || array_key_exists($key, $this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getKey($element)
+    public function getKey($element): string|int
     {
         return array_search($element, $this->elements, true);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function clear() : void
+    public function clear(): void
     {
         $this->elements = [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function contains($element) : bool
+    public function contains(mixed $element): bool
     {
         return in_array($element, $this->elements, true);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function get($key)
+    public function get(string|int $key): mixed
     {
         return $this->elements[$key] ?? null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function set($key, $value) : void
+    public function set(string|int $key, mixed $value): void
     {
         $this->elements[$key] = $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return empty($this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getKeys() : array
+    public function getKeys(): array
     {
         return array_keys($this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValues() : array
+    public function getValues(): array
     {
         return array_values($this->elements);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function filter(callable $callable) : ilBuddySystemCollection
+    public function filter(callable $callable): self
     {
         return new static(array_filter($this->elements, $callable));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function slice(int $offset, int $length = null) : ilBuddySystemCollection
+    public function slice(int $offset, int $length = null): self
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->elements;
+    }
+
+    public function equals(mixed $other): bool
+    {
+        if (!($other instanceof self)) {
+            return false;
+        }
+
+        $self = $this->toArray();
+        $other = $other->toArray();
+
+        sort($self);
+        sort($other);
+
+        return $self == $other;
     }
 }

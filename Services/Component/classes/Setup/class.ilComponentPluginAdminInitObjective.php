@@ -1,4 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 use ILIAS\DI;
@@ -8,7 +27,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -16,7 +35,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "ilPluginAdmin is initialized and stored into the environment.";
     }
@@ -24,7 +43,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -32,18 +51,18 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     /**
      * @inheritdoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
-        $config = $environment->getConfigFor('language');
         return [
-            new \ilLanguagesInstalledAndUpdatedObjective($config, new ilSetupLanguage('en'))
+            new \ilLanguagesInstalledAndUpdatedObjective(new ilSetupLanguage('en')),
+            new ilComponentRepositoryExistsObjective()
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         // ATTENTION: This is a total abomination. It only exists to allow various
         // sub components of the various readers to run. This is a memento to the
@@ -51,15 +70,15 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
         // component could just service locate the whole world via the global $DIC.
         $DIC = $GLOBALS["DIC"];
         $GLOBALS["DIC"] = new DI\Container();
-        $GLOBALS["DIC"]["lng"] = new class() {
-            public function loadLanguageModule()
+        $GLOBALS["DIC"]["lng"] = new class () {
+            public function loadLanguageModule(): void
             {
             }
         };
 
         $environment = $environment->withResource(
             Setup\Environment::RESOURCE_PLUGIN_ADMIN,
-            new ilPluginAdmin()
+            new ilPluginAdmin($environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY))
         );
 
         $GLOBALS["DIC"] = $DIC;
@@ -70,7 +89,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return is_null($environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN));
     }

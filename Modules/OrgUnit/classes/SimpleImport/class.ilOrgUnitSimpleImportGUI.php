@@ -1,73 +1,60 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilOrgUnitSimpleImportGUI
- *
  * @author            Oskar Truffer <ot@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  */
 class ilOrgUnitSimpleImportGUI
 {
+    protected ilTabsGUI $tabs_gui;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjectGUI $parent_gui;
+    protected object $parent_object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
+    protected \ILIAS\DI\LoggingServices $ilLog;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnit|ilObjCategory
-     */
-    protected $parent_object;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-
-
-    /**
-     * @param $parent_gui
-     */
-    public function __construct($parent_gui)
+    public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilLog = $DIC['ilLog'];
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
         $this->parent_gui = $parent_gui;
-        $this->parent_object = $parent_gui->object;
-        $this->tabs_gui = $this->parent_gui->tabs_gui;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
+        $this->parent_object = $parent_gui->getObject();
+        $this->tabs_gui = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
         $this->lng->loadLanguageModule('user');
-        $this->ilLog = $ilLog;
-        if (!$this->ilAccess->checkaccess("write", "", $this->parent_gui->object->getRefId())) {
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+        $this->ilLog = $DIC->logger();
+
+        $this->may_create_orgus = $this->ilAccess->checkAccess("create_orgu", "", $this->parent_gui->getRefId(), 'orgu');
+        $this->is_top_level_orgu = ($this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId());
+
+        if (!$this->may_create_orgus) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
         }
     }
-
 
     /**
      * @return bool
@@ -82,12 +69,18 @@ class ilOrgUnitSimpleImportGUI
                 break;
             case 'importScreen':
                 $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, 'chooseImport'));
+                $this->tabs_gui->setBackTarget(
+                    $this->lng->txt("back"),
+                    $this->ctrl->getLinkTarget($this, 'chooseImport')
+                );
                 $this->importScreen();
                 break;
             case 'startImport':
                 $this->tabs_gui->clearTargets();
-                $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, 'chooseImport'));
+                $this->tabs_gui->setBackTarget(
+                    $this->lng->txt("back"),
+                    $this->ctrl->getLinkTarget($this, 'chooseImport')
+                );
                 $this->startImport();
                 break;
         }
@@ -95,11 +88,10 @@ class ilOrgUnitSimpleImportGUI
         return true;
     }
 
-
     public function chooseImport()
     {
-        if (!$this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) or !$this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_perm_edit"));
+        if (!$this->may_create_orgus || !$this->is_top_level_orgu) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_edit"));
             $this->ctrl->redirectByClass('ilinfoscreengui', '');
         }
 
@@ -107,19 +99,23 @@ class ilOrgUnitSimpleImportGUI
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
 
-        if ($this->ilAccess->checkAccess("write", "", $_GET["ref_id"]) and $this->parent_object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
-            $this->toolbar->addButton($this->lng->txt("simple_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen"));
-            $this->toolbar->addButton($this->lng->txt("simple_user_import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen"));
+        if ($this->may_create_orgus && $this->is_top_level_orgu) {
+            $this->toolbar->addButton(
+                $this->lng->txt("simple_import"),
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "importScreen")
+            );
+            $this->toolbar->addButton(
+                $this->lng->txt("simple_user_import"),
+                $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleUserImportGUI", "userImportScreen")
+            );
         }
     }
-
 
     public function importScreen()
     {
         $form = $this->initForm("startImport");
         $this->tpl->setContent($form->getHTML());
     }
-
 
     protected function initForm($submit_action)
     {
@@ -133,7 +129,6 @@ class ilOrgUnitSimpleImportGUI
 
         return $form;
     }
-
 
     public function startImport()
     {
@@ -167,13 +162,12 @@ class ilOrgUnitSimpleImportGUI
                 $importer->simpleImport($file_path);
             } catch (Exception $e) {
                 $this->ilLog->write($e->getMessage() . " - " . $e->getTraceAsString());
-                ilUtil::sendFailure($this->lng->txt("import_failed"), true);
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("import_failed"), true);
                 $this->ctrl->redirect($this, "render");
             }
             $this->displayImportResults($importer);
         }
     }
-
 
     /**
      * @param $importer ilOrgUnitImporter
@@ -182,21 +176,25 @@ class ilOrgUnitSimpleImportGUI
     {
         if (!$importer->hasErrors() && !$importer->hasWarnings()) {
             $stats = $importer->getStats();
-            ilUtil::sendSuccess(sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["deleted"]), true);
+            $this->tpl->setOnScreenMessage(
+                'success',
+                sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["deleted"]),
+                true
+            );
         }
         if ($importer->hasWarnings()) {
             $msg = $this->lng->txt("import_terminated_with_warnings") . " <br/>";
             foreach ($importer->getWarnings() as $warning) {
                 $msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
             }
-            ilUtil::sendInfo($msg, true);
+            $this->tpl->setOnScreenMessage('info', $msg, true);
         }
         if ($importer->hasErrors()) {
             $msg = $this->lng->txt("import_terminated_with_errors") . "<br/>";
             foreach ($importer->getErrors() as $warning) {
                 $msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br />";
             }
-            ilUtil::sendFailure($msg, true);
+            $this->tpl->setOnScreenMessage('failure', $msg, true);
         }
     }
 }

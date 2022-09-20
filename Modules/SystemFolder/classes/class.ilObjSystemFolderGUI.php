@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
@@ -19,6 +33,11 @@ use ILIAS\Setup\CLI\StatusCommand;
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
     /**
+     * @var \ILIAS\Style\Content\Object\ObjectFacade
+     */
+    protected $content_style_domain;
+
+    /**
      * @var ilTabsGUI
      */
     protected $tabs;
@@ -31,15 +50,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
      * @var ilObjectDefinition
      */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
 
     /**
      * @var ilErrorHandling
      */
-    protected $error;
+    protected ilErrorHandling $error;
 
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
@@ -63,12 +82,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     protected $bench;
 
-    /**
-    * ILIAS3 object type abbreviation
-    * @var		string
-    * @access	public
-    */
-    public $type;
+    public string $type;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    protected \ILIAS\Refinery\Factory $refinery;
 
     /**
     * Constructor
@@ -95,25 +111,30 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->client_ini = $DIC["ilClientIniFile"];
         $this->type = "adm";
         $this->bench = $DIC["ilBench"];
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->lng->loadLanguageModule("administration");
         $this->lng->loadLanguageModule("adm");
+        $this->content_style_domain = $DIC->contentStyle()
+                  ->domain()
+                  ->styleForRefId($this->object->getRefId());
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $ilTabs = $this->tabs;
 
         $next_class = $this->ctrl->getNextClass($this);
         $this->prepareOutput();
-        
+
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
-            
+
             case 'ilimprintgui':
                 // page editor will set its own tabs
                 $ilTabs->clearTargets();
@@ -123,34 +144,36 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 );
 
                 $igui = new ilImprintGUI();
-                                
+
                 // needed for editor
-                $igui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "impr"));
-                
+                $igui->setStyleId(
+                    $this->content_style_domain->getEffectiveStyleId()
+                );
+
                 if (!$this->checkPermissionBool("write")) {
                     $igui->setEnableEditing(false);
                 }
-                
+
                 $ret = $this->ctrl->forwardCommand($igui);
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
                 break;
-                
+
             case "ilobjectownershipmanagementgui":
                 $this->setSystemCheckSubTabs("no_owner");
                 $gui = new ilObjectOwnershipManagementGUI(0);
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case "ilcronmanagergui":
                 $ilTabs->activateTab("cron_jobs");
                 $gui = new ilCronManagerGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             default:
-//var_dump($_POST);
+                //var_dump($_POST);
                 $cmd = $this->ctrl->getCmd("view");
 
                 $cmd .= "Object";
@@ -158,8 +181,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
                 break;
         }
-
-        return true;
     }
 
     /**
@@ -167,21 +188,21 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     *
     * @access	public
     */
-    public function viewObject()
+    public function viewObject(): void
     {
         $ilAccess = $this->access;
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            return $this->showBasicSettingsObject();
+            $this->showBasicSettingsObject();
         }
-        return $this->showServerInfoObject();
+        $this->showServerInfoObject();
     }
 
     public function viewScanLogObject()
     {
-        return $this->viewScanLog();
+        $this->viewScanLog();
     }
-    
+
     /**
     * Set sub tabs for general settings
     */
@@ -189,7 +210,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
         $ilTabs->addSubTab(
             "system_check_sub",
             $this->lng->txt("system_check"),
@@ -200,7 +221,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->lng->txt("system_check_no_owner"),
             $ilCtrl->getLinkTargetByClass("ilObjectOwnershipManagementGUI")
         );
-        
+
         $ilTabs->setSubTabActive($a_activate);
         $ilTabs->setTabActive("system_check");
     }
@@ -217,7 +238,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $objDefinition = $this->obj_definition;
         $ilSetting = $this->settings;
         $ilErr = $this->error;
-        
+
         $this->setSystemCheckSubTabs("system_check_sub");
 
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
@@ -249,7 +270,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 "tpl.adm_check.html",
                 "Modules/SystemFolder"
             );
-            
+
             if ($hasScanLog) {
                 $this->tpl->setVariable("TXT_VIEW_LOG", $this->lng->txt("view_last_log"));
             }
@@ -310,12 +331,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             if ($ilUser->getPref('systemcheck_log_scan')) {
                 $this->tpl->touchBlock('log_scan_checked');
             }
-            
-            
+
+
             // #9520 - restrict to types which can be found in tree
-            
+
             $obj_types_in_tree = array();
-            
+
             $ilDB = $this->db;
             $set = $ilDB->query('SELECT type FROM object_data od' .
                 ' JOIN object_reference ref ON (od.obj_id = ref.obj_id)' .
@@ -325,7 +346,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             while ($row = $ilDB->fetchAssoc($set)) {
                 $obj_types_in_tree[] = $row['type'];
             }
-            
+
             $types = $objDefinition->getAllObjects();
             $ts = array("" => "");
             foreach ($types as $t) {
@@ -342,7 +363,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             asort($ts);
             $this->tpl->setVariable(
                 "TYPE_LIMIT_CHOICE",
-                ilUtil::formSelect(
+                ilLegacyFormElementsUtil::formSelect(
                     $ilUser->getPref("systemcheck_type_limit"),
                     'type_limit',
                     $ts,
@@ -355,40 +376,40 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
 
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_params_for_cron"));
-            
+
             $cron_form = new ilPropertyFormGUI();
             $cron_form->setFormAction($this->ctrl->getFormAction($this));
             $cron_form->setTitle($this->lng->txt('systemcheck_cronform'));
-            
+
             $radio_group = new ilRadioGroupInputGUI($this->lng->txt('systemcheck_cron'), 'cronjob');
             $radio_group->setValue($ilSetting->get('systemcheck_cron'));
-    
+
             $radio_opt = new ilRadioOption($this->lng->txt('disabled'), 0);
             $radio_group->addOption($radio_opt);
-    
+
             $radio_opt = new ilRadioOption($this->lng->txt('enabled'), 1);
             $radio_group->addOption($radio_opt);
-                
+
             $cron_form->addItem($radio_group);
-            
+
             $cron_form->addCommandButton('saveCheckCron', $this->lng->txt('save'));
-            
+
             $this->tpl->setVariable('CRON_FORM', $cron_form->getHTML());
         }
     }
-    
+
     private function saveCheckParamsObject()
     {
         $this->writeCheckParams();
         unset($_POST['mode']);
         return $this->checkObject();
     }
-    
+
     private function writeCheckParams()
     {
         $validator = new ilValidator();
         $modes = $validator->getPossibleModes();
-        
+
         $prefs = array();
         foreach ($modes as $mode) {
             if (isset($_POST['mode'][$mode])) {
@@ -398,27 +419,27 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             }
             $prefs[ 'systemcheck_mode_' . $mode ] = $value;
         }
-        
+
         if (isset($_POST['log_scan'])) {
             $value = (int) $_POST['log_scan'];
         } else {
             $value = 0;
         }
         $prefs['systemcheck_log_scan'] = $value;
-        
+
         $ilUser = $this->user;
         foreach ($prefs as $key => $val) {
             $ilUser->writePref($key, $val);
         }
     }
-    
+
     private function saveCheckCronObject()
     {
         $ilSetting = $this->settings;
-        
+
         $systemcheck_cron = ($_POST['cronjob'] ? 1 : 0);
         $ilSetting->set('systemcheck_cron', $systemcheck_cron);
-        
+
         unset($_POST['mode']);
         return $this->checkObject();
     }
@@ -535,7 +556,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->tpl->setVariable("TXT_DESC", $this->lng->txt("desc"));
             $this->tpl->setVariable("TXT_DEFAULT", $this->lng->txt("default"));
             $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-            $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($val["title"], $strip));
+            $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($val["title"], $strip));
             $this->tpl->setVariable("DESC", ilUtil::stripSlashes($val["desc"]));
             $this->tpl->setVariable("NUM", $key);
             $this->tpl->parseCurrentBlock();
@@ -600,12 +621,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $this->object->addHeaderTitleTranslation(ilUtil::stripSlashes($val["title"]), ilUtil::stripSlashes($val["desc"]), $val["lang"], $default);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this);
     }
 
-    public function cancelObject()
+    public function cancelObject(): void
     {
         $this->ctrl->redirect($this, "view");
     }
@@ -731,7 +752,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         // Activate DB Benchmark
         $cb = new ilCheckboxInputGUI($lng->txt("adm_activate_db_benchmark"), "enable_db_bench");
-        $cb->setChecked($ilSetting->get("enable_db_bench"));
+        $cb->setChecked((bool) $ilSetting->get("enable_db_bench"));
         $cb->setInfo($lng->txt("adm_activate_db_benchmark_desc"));
         $this->form->addItem($cb);
 
@@ -855,14 +876,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      */
     public function saveBenchSettingsObject()
     {
-        $ilBench = $this->bench;
-        if ($_POST["enable_db_bench"]) {
-            $ilBench->enableDbBench(true, ilUtil::stripSlashes($_POST["db_bench_user"]));
+        if ($this->wrapper->post()->has("enable_db_bench")) {
+            $user_id = $this->wrapper->post()->retrieve("enable_db_bench", $this->refinery->kindlyTo()->int());
+            $this->bench->enableDbBenchmarkForUser($user_id);
         } else {
-            $ilBench->enableDbBench(false);
+            $this->bench->disableDbBenchmark();
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
         $this->ctrl->redirect($this, "benchmark");
     }
@@ -889,11 +910,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     }
 
     // get tabs
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
         $ilHelp = $this->help;
-        
+
         //		$ilHelp->setScreenIdComponent($this->object->getType());
 
         $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
@@ -946,7 +967,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             );
         }
     }
-    
+
     /**
     * Show PHP Information
     */
@@ -979,7 +1000,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
         }
-        
+
         $ilTabs->setSubTabActive($a_activate);
         $ilTabs->setTabActive("server");
     }
@@ -1008,13 +1029,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // TODO: remove sub tabs
 //        $this->tabs->setTabActive("server");
         $this->setServerInfoSubTabs("server_data");
-        
+
         $btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
         $btpl->setVariable("FORM", $this->form->getHTML());
         $btpl->setVariable("PHP_INFO_TARGET", $ilCtrl->getLinkTarget($this, "showPHPInfo"));
         $tpl->setContent($btpl->get());
     }
-    
+
     /**
     * Init server info form.
     *
@@ -1025,9 +1046,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilClientIniFile = $this->client_ini;
         $ilSetting = $this->settings;
-        
+
         $this->form = new ilPropertyFormGUI();
-        
+
         // installation name
         $ne = new ilNonEditableValueGUI($lng->txt("inst_name"), "");
         $ne->setValue($ilClientIniFile->readVariable("client", "name"));
@@ -1038,55 +1059,55 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ne = new ilNonEditableValueGUI($lng->txt("client_id"), "");
         $ne->setValue(CLIENT_ID);
         $this->form->addItem($ne);
-        
+
         // installation id
         $ne = new ilNonEditableValueGUI($lng->txt("inst_id"), "");
         $ne->setValue($ilSetting->get("inst_id"));
         $this->form->addItem($ne);
-        
+
         // database version
         $ne = new ilNonEditableValueGUI($lng->txt("db_version"), "");
         $ne->setValue($ilSetting->get("db_version"));
-        
+
         $this->form->addItem($ne);
-        
+
         // ilias version
         $ne = new ilNonEditableValueGUI($lng->txt("ilias_version"), "");
-        $ne->setValue($ilSetting->get("ilias_version"));
+        $ne->setValue(ILIAS_VERSION);
         $this->form->addItem($ne);
 
         // host
         $ne = new ilNonEditableValueGUI($lng->txt("host"), "");
         $ne->setValue($_SERVER["SERVER_NAME"]);
         $this->form->addItem($ne);
-        
+
         // ip & port
         $ne = new ilNonEditableValueGUI($lng->txt("ip_address") . " & " . $this->lng->txt("port"), "");
         $ne->setValue($_SERVER["SERVER_ADDR"] . ":" . $_SERVER["SERVER_PORT"]);
         $this->form->addItem($ne);
-        
+
         // server
         $ne = new ilNonEditableValueGUI($lng->txt("server_software"), "");
         $ne->setValue($_SERVER["SERVER_SOFTWARE"]);
         $this->form->addItem($ne);
-        
+
         // http path
         $ne = new ilNonEditableValueGUI($lng->txt("http_path"), "");
         $ne->setValue(ILIAS_HTTP_PATH);
         $this->form->addItem($ne);
-        
+
         // absolute path
         $ne = new ilNonEditableValueGUI($lng->txt("absolute_path"), "");
         $ne->setValue(ILIAS_ABSOLUTE_PATH);
         $this->form->addItem($ne);
-        
+
         $not_set = $lng->txt("path_not_set");
-        
+
         // convert
         $ne = new ilNonEditableValueGUI($lng->txt("path_to_convert"), "");
         $ne->setValue((PATH_TO_CONVERT) ? PATH_TO_CONVERT : $not_set);
         $this->form->addItem($ne);
-        
+
         // zip
         $ne = new ilNonEditableValueGUI($lng->txt("path_to_zip"), "");
         $ne->setValue((PATH_TO_ZIP) ? PATH_TO_ZIP : $not_set);
@@ -1101,7 +1122,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ne = new ilNonEditableValueGUI($lng->txt("path_to_java"), "");
         $ne->setValue((PATH_TO_JAVA) ? PATH_TO_JAVA : $not_set);
         $this->form->addItem($ne);
-        
+
         // mkisofs
         $ne = new ilNonEditableValueGUI($lng->txt("path_to_mkisofs"), "");
         $ne->setValue((PATH_TO_MKISOFS) ? PATH_TO_MKISOFS : $not_set);
@@ -1117,13 +1138,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
 
-    protected function showServerInstallationStatusObject() : void
+    protected function showServerInstallationStatusObject(): void
     {
         $this->setServerInfoSubTabs("installation_status");
         $this->renderServerStatus();
     }
 
-    protected function renderServerStatus() : void
+    protected function renderServerStatus(): void
     {
         global $DIC;
         $f = $DIC->ui()->factory();
@@ -1136,19 +1157,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->tpl->setContent($r->render($report));
     }
 
-    protected function getServerStatusInfo(ILIAS\Refinery\Factory $refinery) : ILIAS\Setup\Metrics\Metric
+    protected function getServerStatusInfo(ILIAS\Refinery\Factory $refinery): ILIAS\Setup\Metrics\Metric
     {
         $data = new Factory();
         $lng = new ilSetupLanguage('en');
         $interface_finder = new ImplementationOfInterfaceFinder();
-        $plugin_raw_reader = new ilPluginRawReader();
 
         $agent_finder = new ImplementationOfAgentFinder(
             $refinery,
             $data,
             $lng,
             $interface_finder,
-            $plugin_raw_reader,
             []
         );
 
@@ -1156,13 +1175,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         return $st->getMetrics($agent_finder->getAgents());
     }
-    
+
     //
     //
     // General Settings
     //
     //
-    
+
     /**
     * Set sub tabs for general settings
     */
@@ -1170,12 +1189,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
         $ilTabs->addSubTabTarget("basic_settings", $ilCtrl->getLinkTarget($this, "showBasicSettings"));
         $ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
         $ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
         $ilTabs->addSubTabTarget("adm_imprint", $ilCtrl->getLinkTargetByClass("ilimprintgui", "preview"));
-    
+
         $ilTabs->setSubTabActive($a_activate);
         $ilTabs->setTabActive("general_settings");
     }
@@ -1185,7 +1204,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     // Basic Settings
     //
     //
-    
+
     /**
     * Show basic settings
     */
@@ -1195,11 +1214,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->initBasicSettingsForm();
         $this->setGeneralSettingsSubTabs("basic_settings");
-        
+
         $tpl->setContent($this->form->getHTML());
     }
 
-    
+
     /**
     * Init basic settings form.
     */
@@ -1214,7 +1233,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->form = new ilPropertyFormGUI();
         $lng->loadLanguageModule("pd");
-        
+
         // installation short title
         $ti = new ilTextInputGUI($this->lng->txt("short_inst_name"), "short_inst_name");
         $ti->setMaxLength(200);
@@ -1223,28 +1242,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("short_inst_name_info"));
         $this->form->addItem($ti);
 
-        
+
         $cb = new ilCheckboxInputGUI($this->lng->txt("pub_section"), "pub_section");
         $cb->setInfo($lng->txt("pub_section_info"));
         if (ilPublicSectionSettings::getInstance()->isEnabled()) {
             $cb->setChecked(true);
         }
         $this->form->addItem($cb);
-        
+
         $this->lng->loadLanguageModule('administration');
         $domains = new ilTextInputGUI($this->lng->txt('adm_pub_section_domain_filter'), 'public_section_domains');
         $domains->setInfo($this->lng->txt('adm_pub_section_domain_filter_info'));
         $domains->setMulti(true);
         $domains->setValue(current(ilPublicSectionSettings::getInstance()->getDomains()));
         $domains->setMultiValues(ilPublicSectionSettings::getInstance()->getDomains());
-        
+
         $cb->addSubItem($domains);
-        
-                
+
+
         // Enable Global Profiles
         $cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
         $cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
-        $cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
+        $cb_prop->setChecked((bool) $ilSetting->get('enable_global_profiles'));
         $cb->addSubItem($cb_prop);
 
         // search engine
@@ -1262,7 +1281,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 $cb2->setChecked(true);
             }
         }
-        
+
         // locale
         $ti = new ilTextInputGUI($this->lng->txt("adm_locale"), "locale");
         $ti->setMaxLength(80);
@@ -1270,14 +1289,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_locale_info"));
         $ti->setValue($ilSetting->get("locale"));
         $this->form->addItem($ti);
-        
+
         // save and cancel commands
         $this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
-                    
+
         $this->form->setTitle($lng->txt("basic_settings"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
-    
+
     /**
     * Save basic settings form
     *
@@ -1290,7 +1309,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
-    
+
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
@@ -1298,10 +1317,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->initBasicSettingsForm();
         if ($this->form->checkInput()) {
             $ilSetting->set("short_inst_name", $this->form->getInput("short_inst_name"));
-            
+
             $public_section = ilPublicSectionSettings::getInstance();
             $public_section->setEnabled($this->form->getInput('pub_section'));
-            
+
             $domains = array();
             foreach ((array) $this->form->getInput('public_section_domains') as $domain) {
                 if (strlen(trim($domain))) {
@@ -1310,23 +1329,23 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             }
             $public_section->setDomains($domains);
             $public_section->save();
-            
+
             $global_profiles = ($this->form->getInput("pub_section"))
                 ? (int) $this->form->getInput('enable_global_profiles')
                 : 0;
             $ilSetting->set('enable_global_profiles', $global_profiles);
-                                
+
             $ilSetting->set("open_google", $this->form->getInput("open_google"));
             $ilSetting->set("locale", $this->form->getInput("locale"));
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showBasicSettings");
         }
         $this->setGeneralSettingsSubTabs("basic_settings");
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
     }
-    
+
     //
     //
     // Header title
@@ -1339,7 +1358,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function showHeaderTitleObject($a_get_post_values = false)
     {
         $tpl = $this->tpl;
-        
+
         $this->setGeneralSettingsSubTabs("header_title");
         $table = new ilObjectTranslationTableGUI($this, "showHeaderTitle", false);
         if ($a_get_post_values) {
@@ -1383,24 +1402,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
-        
+
         //		var_dump($_POST);
-        
+
         // default language set?
         if (!isset($_POST["default"]) && count($_POST["lang"]) > 0) {
-            ilUtil::sendFailure($lng->txt("msg_no_default_language"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_default_language"));
             return $this->showHeaderTitleObject(true);
         }
 
         // all languages set?
         if (array_key_exists("", $_POST["lang"])) {
-            ilUtil::sendFailure($lng->txt("msg_no_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_no_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
         // no single language is selected more than once?
         if (count(array_unique($_POST["lang"])) < count($_POST["lang"])) {
-            ilUtil::sendFailure($lng->txt("msg_multi_language_selected"));
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("msg_multi_language_selected"));
             return $this->showHeaderTitleObject(true);
         }
 
@@ -1415,11 +1434,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 ($_POST["default"] == $k)
             );
         }
-        
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "showHeaderTitle");
     }
-    
+
     /**
     * Add a header title
     */
@@ -1432,7 +1451,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $_POST["title"][$k] = "";
         $this->showHeaderTitleObject(true);
     }
-    
+
     /**
     * Remove header titles
     */
@@ -1453,14 +1472,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
         $this->saveHeaderTitlesObject();
     }
-    
-    
+
+
     //
     //
     // Cron Jobs
     //
     //
-                                
+
     /*
      * OLD GLOBAL CRON JOB SWITCHES (ilSetting)
      *
@@ -1475,32 +1494,32 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      * crsgrp_ntf => migrated
      * cron_upd_adrbook => migrated
      */
-    
+
     public function jumpToCronJobsObject()
     {
         // #13010 - this is used for external settings
         $this->ctrl->redirectByClass("ilCronManagerGUI", "render");
     }
-    
-    
+
+
     //
     //
     // Contact Information
     //
     //
-    
+
     /**
     * Show contact information
     */
     public function showContactInformationObject()
     {
         $tpl = $this->tpl;
-        
+
         $this->initContactInformationForm();
         $this->setGeneralSettingsSubTabs("contact_data");
         $tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
     * Init contact information form.
     */
@@ -1508,9 +1527,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->form = new ilPropertyFormGUI();
-    
+
         // first name
         $ti = new ilTextInputGUI($this->lng->txt("firstname"), "admin_firstname");
         $ti->setMaxLength(64);
@@ -1518,7 +1537,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_firstname"));
         $this->form->addItem($ti);
-        
+
         // last name
         $ti = new ilTextInputGUI($this->lng->txt("lastname"), "admin_lastname");
         $ti->setMaxLength(64);
@@ -1526,28 +1545,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_lastname"));
         $this->form->addItem($ti);
-        
+
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "admin_title");
         $ti->setMaxLength(64);
         $ti->setSize(40);
         $ti->setValue($ilSetting->get("admin_title"));
         $this->form->addItem($ti);
-        
+
         // position
         $ti = new ilTextInputGUI($this->lng->txt("position"), "admin_position");
         $ti->setMaxLength(64);
         $ti->setSize(40);
         $ti->setValue($ilSetting->get("admin_position"));
         $this->form->addItem($ti);
-        
+
         // institution
         $ti = new ilTextInputGUI($this->lng->txt("institution"), "admin_institution");
         $ti->setMaxLength(200);
         $ti->setSize(40);
         $ti->setValue($ilSetting->get("admin_institution"));
         $this->form->addItem($ti);
-        
+
         // street
         $ti = new ilTextInputGUI($this->lng->txt("street"), "admin_street");
         $ti->setMaxLength(64);
@@ -1555,7 +1574,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         //$ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_street"));
         $this->form->addItem($ti);
-        
+
         // zip code
         $ti = new ilTextInputGUI($this->lng->txt("zipcode"), "admin_zipcode");
         $ti->setMaxLength(10);
@@ -1563,7 +1582,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         //$ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_zipcode"));
         $this->form->addItem($ti);
-        
+
         // city
         $ti = new ilTextInputGUI($this->lng->txt("city"), "admin_city");
         $ti->setMaxLength(64);
@@ -1571,7 +1590,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         //$ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_city"));
         $this->form->addItem($ti);
-        
+
         // country
         $ti = new ilTextInputGUI($this->lng->txt("country"), "admin_country");
         $ti->setMaxLength(64);
@@ -1579,7 +1598,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         //$ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_country"));
         $this->form->addItem($ti);
-        
+
         // phone
         $ti = new ilTextInputGUI($this->lng->txt("phone"), "admin_phone");
         $ti->setMaxLength(64);
@@ -1587,7 +1606,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         //$ti->setRequired(true);
         $ti->setValue($ilSetting->get("admin_phone"));
         $this->form->addItem($ti);
-        
+
         // email
         $ti = new ilEMailInputGUI($this->lng->txt("email"), "admin_email");
         $ti->setMaxLength(64);
@@ -1596,7 +1615,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->allowRFC822(true);
         $ti->setValue($ilSetting->get("admin_email"));
         $this->form->addItem($ti);
-        
+
         // System support contacts
         $ti = new ilTextInputGUI($this->lng->txt("adm_support_contacts"), "adm_support_contacts");
         $ti->setMaxLength(500);
@@ -1614,11 +1633,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->form->addItem($ti);
 
         $this->form->addCommandButton("saveContactInformation", $lng->txt("save"));
-                    
+
         $this->form->setTitle($lng->txt("contact_data"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
-    
+
     /**
     * Save contact information form
     *
@@ -1631,7 +1650,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
-    
+
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
@@ -1651,7 +1670,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             // Accessibility support contacts
             ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
 
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showContactInformation");
         } else {
             $this->setGeneralSettingsSubTabs("contact_data");
@@ -1659,7 +1678,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $tpl->setContent($this->form->getHtml());
         }
     }
-    
+
     //
     //
     // Java Server
@@ -1672,16 +1691,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function showJavaServerObject()
     {
         $tpl = $this->tpl;
-        
+
         $tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.java_settings.html', 'Modules/SystemFolder');
-        
+
         $GLOBALS['lng']->loadLanguageModule('search');
-        
+
         $this->initJavaServerForm();
         $this->setServerInfoSubTabs("java_server");
         $tpl->setVariable('SETTINGS_TABLE', $this->form->getHTML());
     }
-    
+
     /**
      * Create a server ini file
      * @return
@@ -1699,14 +1718,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        
+
         $this->form = new ilPropertyFormGUI();
-        
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveJavaServer'));
+
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();
         $pdf->setTitle($this->lng->txt('rpc_pdf_generation'));
         $this->form->addItem($pdf);
-        
+
         $pdf_font = new ilTextInputGUI($this->lng->txt('rpc_pdf_font'), 'rpc_pdf_font');
         $pdf_font->setInfo($this->lng->txt('rpc_pdf_font_info'));
         $pdf_font->setSize(64);
@@ -1716,11 +1736,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $ilSetting->get('rpc_pdf_font', 'Helvetica, unifont')
         );
         $this->form->addItem($pdf_font);
-    
+
         // save and cancel commands
         $this->form->addCommandButton("saveJavaServer", $lng->txt("save"));
     }
-    
+
     /**
     * Save java server form
     *
@@ -1733,7 +1753,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
-    
+
         if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
@@ -1741,9 +1761,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->initJavaServerForm();
         if ($this->form->checkInput()) {
             $ilSetting->set('rpc_pdf_font', ilUtil::stripSlashes($_POST['rpc_pdf_font']));
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+            $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showJavaServer");
-            
+
         // TODO check settings, ping server
         } else {
             $this->setGeneralSettingsSubTabs("java_server");
@@ -1752,28 +1772,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
     }
 
-    public function addToExternalSettingsForm($a_form_id)
-    {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_SECURITY:
-
-                $security = ilSecuritySettings::_getInstance();
-
-                $subitems = null;
-
-                $fields['activate_https'] =
-                    array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-
-                return array("general_settings" => array("showHTTPS", $fields));
-        }
-    }
-    
     /**
      * goto target group
      */
     public static function _goto()
     {
         global $DIC;
+        $main_tpl = $DIC->ui()->mainTemplate();
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
@@ -1786,7 +1791,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             exit;
         } else {
             if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                ilUtil::sendFailure(sprintf(
+                $main_tpl->setOnScreenMessage('failure', sprintf(
                     $lng->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
                 ), true);
@@ -1799,7 +1804,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     /**
      *
      */
-    protected function showVcsInformationObject() : void
+    protected function showVcsInformationObject(): void
     {
         $vcInfo = [];
 
@@ -1811,9 +1816,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
 
         if ($vcInfo) {
-            ilUtil::sendInfo(implode("<br />", $vcInfo));
+            $this->tpl->setOnScreenMessage('info', implode("<br />", $vcInfo));
         } else {
-            ilUtil::sendInfo($this->lng->txt('vc_information_not_determined'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('vc_information_not_determined'));
         }
 
         $this->showServerInfoObject();

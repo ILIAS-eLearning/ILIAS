@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTGroupPresentationBridge extends ilADTPresentationBridge
 {
     protected array $elements = [];
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
 
-    protected function prepareElements() : void
+    protected function prepareElements(): void
     {
         if (count($this->elements)) {
             return;
@@ -24,7 +26,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         }
     }
 
-    public function getHTML($delimiter = "<br />") : string
+    public function getHTML($delimiter = "<br />"): string
     {
         $res = array();
 
@@ -33,13 +35,13 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
             $res[] = $this->decorate($element->getHTML());
         }
 
-        if (sizeof($res)) {
+        if (count($res)) {
             return implode($delimiter, $res);
         }
         return '';
     }
 
-    public function getSortable($delimiter = ";") : mixed
+    public function getSortable($delimiter = ";")
     {
         $res = array();
 
@@ -48,7 +50,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
             $res[] = $element->getSortable();
         }
 
-        if (sizeof($res)) {
+        if (count($res)) {
             return implode($delimiter, $res);
         }
         return '';

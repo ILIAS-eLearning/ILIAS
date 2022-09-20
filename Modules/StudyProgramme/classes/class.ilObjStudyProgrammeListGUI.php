@@ -1,43 +1,33 @@
 <?php
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Object/classes/class.ilObjectListGUI.php");
-include_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php');
+declare(strict_types=1);
 
 /**
- * Class ilObjStudyProgrammeListGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author: Richard Klees <richard.klees@concepts-and-training.de>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
- */
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjStudyProgrammeListGUI extends ilObjectListGUI
 {
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-
     public function __construct()
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
         parent::__construct();
-        $this->tpl = $tpl;
-        $this->lng = $lng;
         $this->lng->loadLanguageModule("prg");
-        //$this->enableComments(false, false);
     }
 
-
-    /**
-     * initialisation
-     */
-    public function init()
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -51,81 +41,47 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjstudyprogrammegui";
 
         // general commands array
-        include_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAccess.php');
         $this->commands = ilObjStudyProgrammeAccess::_getCommands();
     }
-
 
     /**
      * no timing commands needed for program.
      */
-    public function insertTimingsCommand()
+    public function insertTimingsCommand(): void
     {
-        return;
     }
-
 
     /**
      * no social commands needed in program.
      */
-    public function insertCommonSocialCommands($a_header_actions = false)
+    public function insertCommonSocialCommands($header_actions = false): void
     {
-        return;
     }
 
-
     /**
-     * insert info screen program
+     * @inheritdoc
      */
-    /*function insertInfoScreenCommand() {
-
-        if ($this->std_cmd_only) {
-            return;
-        }
-        $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
-        $cmd_frame = $this->getCommandFrame("infoScreen");
-
-        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame, ilUtil::getImagePath("icon_info.svg"));
-    }*/
-
-
-    /**
-     * @param string $a_cmd
-     *
-     * @return string
-     */
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
         $this->ctrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $this->ref_id);
 
-        return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $a_cmd);
+        return $this->ctrl->getLinkTargetByClass("ilobjstudyprogrammegui", $cmd);
     }
 
     /**
-    * Get all item information (title, commands, description) in HTML
-    *
-    * @access	public
-    * @param	int			$a_ref_id		item reference id
-    * @param	int			$a_obj_id		item object id
-    * @param	int			$a_title		item title
-    * @param	int			$a_description	item description
-    * @param	bool		$a_use_asynch
-    * @param	bool		$a_get_asynch_commands
-    * @param	string		$a_asynch_url
-    * @param	bool		$a_context	    workspace/tree context
-    * @return	string		html code
+    * @inheritdoc
     */
     public function getListItemHTML(
-        $a_ref_id,
-        $a_obj_id,
-        $a_title,
-        $a_description,
-        $a_use_asynch = false,
-        $a_get_asynch_commands = false,
-        $a_asynch_url = "",
-        $a_context = self::CONTEXT_REPOSITORY
-    ) {
-        $prg = new ilObjStudyProgramme($a_ref_id);
+        int $ref_id,
+        int $obj_id,
+        string $title,
+        string $description,
+        bool $use_async = false,
+        bool $get_async_commands = false,
+        string $async_url = "",
+        int $context = self::CONTEXT_REPOSITORY
+    ): string {
+        $prg = new ilObjStudyProgramme($ref_id);
         $assignments = $prg->getAssignments();
         if ($this->getCheckboxStatus() && count($assignments) > 0) {
             $this->setAdditionalInformation($this->lng->txt("prg_can_not_manage_in_repo"));
@@ -134,6 +90,14 @@ class ilObjStudyProgrammeListGUI extends ilObjectListGUI
             $this->setAdditionalInformation(null);
         }
 
-        return parent::getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description, $a_use_asynch, $a_get_asynch_commands, $a_asynch_url, $a_context);
+        return parent::getListItemHTML(
+            $ref_id,
+            $obj_id,
+            $title,
+            $description,
+            $use_async,
+            $get_async_commands,
+            $async_url
+        );
     }
 }

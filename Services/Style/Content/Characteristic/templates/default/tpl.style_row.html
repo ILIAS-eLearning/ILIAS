@@ -1,0 +1,40 @@
+<tr class="std">
+	<!-- BEGIN checkbox -->
+	<td>
+	<input type="checkbox" name="char[]" value="{CHAR}" />
+	</td>
+	<!-- END checkbox -->
+	<!-- BEGIN no_checkbox -->
+	<td>&nbsp;</td>
+	<!-- END no_checkbox -->
+	<!-- BEGIN order -->
+	<td><input type="text" maxlength="4" size="4" name="order[{OCHAR}]" value="{ORDER}" /></td>
+	<!-- END order -->
+	<td>
+	{TXT_TAG}
+	</td>
+	<td>
+	{TITLE}
+	</td>
+	<td>
+	{TXT_TYPE}
+	</td>
+	<td>
+	{EXAMPLE}
+	</td>
+	<!-- BEGIN hide_checkbox -->
+	<td>
+	<input type="checkbox" name="hide[]" value="{CHAR}" {CHECKED}/>
+	<input type="hidden" name="all_chars[]" value="{CHAR}" />
+	</td>
+	<!-- END hide_checkbox -->
+	<!-- BEGIN no_hide_checkbox -->
+	<td>&nbsp;</td>
+	<!-- END no_hide_checkbox -->
+	<td>
+		{OUTDATED}
+	</td>
+	<td>
+		{ACTIONS}
+	</td>
+</tr>

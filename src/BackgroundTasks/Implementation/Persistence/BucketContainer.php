@@ -1,20 +1,33 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
-require_once("./Services/ActiveRecord/class.ActiveRecord.php");
+use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 class BucketContainer extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_bt_bucket";
     }
 
-
     /**
-     * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -22,255 +35,157 @@ class BucketContainer extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $user_id;
+    protected int $user_id = 0;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $root_task_id = 0;
+    protected int $root_task_id = 0;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $current_task_id = 0;
+    protected int $current_task_id = 0;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     2
      */
-    protected $state;
+    protected int $state = State::ERROR;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
-    protected $total_number_of_tasks;
+    protected int $total_number_of_tasks = 0;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     2
      */
-    protected $percentage = 0;
+    protected int $percentage = 0;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     255
      */
-    protected $title;
+    protected string $title = '';
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     255
      */
-    protected $description;
+    protected string $description = '';
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  timestamp
      */
-    protected $last_heartbeat;
+    protected ?int $last_heartbeat = 0;
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-
-    /**
-     * @param  $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-
-    /**
-     * @param  $user_id
-     */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getRootTaskid()
+    public function getRootTaskid(): int
     {
         return $this->root_task_id;
     }
 
-
-    /**
-     * @param  $root_task_id
-     */
-    public function setRootTaskid($root_task_id)
+    public function setRootTaskid(int $root_task_id): void
     {
         $this->root_task_id = $root_task_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getCurrentTaskid()
+    public function getCurrentTaskid(): int
     {
         return $this->current_task_id;
     }
 
-
-    /**
-     * @param  $current_task_id
-     */
-    public function setCurrentTaskid($current_task_id)
+    public function setCurrentTaskid(int $current_task_id): void
     {
         $this->current_task_id = $current_task_id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getState()
+    public function getState(): int
     {
         return $this->state;
     }
 
-
-    /**
-     * @param  $state
-     */
-    public function setState($state)
+    public function setState(int $state): void
     {
         $this->state = $state;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getTotalNumberoftasks()
+    public function getTotalNumberoftasks(): int
     {
         return $this->total_number_of_tasks;
     }
 
-
-    /**
-     * @param  $total_number_of_tasks
-     */
-    public function setTotalNumberoftasks($total_number_of_tasks)
+    public function setTotalNumberoftasks(int $total_number_of_tasks): void
     {
         $this->total_number_of_tasks = $total_number_of_tasks;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getPercentage()
+    public function getPercentage(): int
     {
         return $this->percentage;
     }
 
-
-    /**
-     * @param  $percentage
-     */
-    public function setPercentage($percentage)
+    public function setPercentage(int $percentage): void
     {
         $this->percentage = $percentage;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getLastHeartbeat()
+    public function getLastHeartbeat(): int
     {
         return $this->last_heartbeat;
     }
 
-
-    /**
-     * @param int $last_heartbeat
-     */
-    public function setLastHeartbeat($last_heartbeat)
+    public function setLastHeartbeat(int $last_heartbeat): void
     {
         $this->last_heartbeat = $last_heartbeat;
     }

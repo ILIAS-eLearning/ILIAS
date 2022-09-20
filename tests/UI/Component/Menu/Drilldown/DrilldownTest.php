@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
@@ -20,27 +36,27 @@ class DrilldownTest extends ILIAS_UI_TestBase
     protected C\Divider\Horizontal $divider;
     protected C\Legacy\Legacy $legacy;
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function menu() : C\Menu\Factory
+        return new class () extends NoUIFactory {
+            public function menu(): C\Menu\Factory
             {
                 return new Menu\Factory(
                     new I\SignalGenerator()
                 );
             }
-            public function button() : C\Button\Factory
+            public function button(): C\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function legacy(string $content) : C\Legacy\Legacy
+            public function legacy(string $content): C\Legacy\Legacy
             {
                 return new I\Legacy\Legacy(
                     $content,
                     new I\SignalGenerator()
                 );
             }
-            public function symbol() : \ILIAS\UI\Component\Symbol\Factory
+            public function symbol(): \ILIAS\UI\Component\Symbol\Factory
             {
                 return new I\Symbol\Factory(
                     new I\Symbol\Icon\Factory(),
@@ -51,7 +67,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         };
     }
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $icon_factory = new I\Symbol\Icon\Factory();
         $glyph_factory = new I\Symbol\Glyph\Factory();
@@ -64,7 +80,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $this->legacy = $this->getUIFactory()->legacy('');
     }
 
-    public function testConstruction() : C\Menu\Drilldown
+    public function testConstruction(): C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $menu = $f->menu()->drilldown('root', []);
@@ -77,13 +93,15 @@ class DrilldownTest extends ILIAS_UI_TestBase
             $menu
         );
 
+        $menu = $f->menu()->drilldown('root', []);
+
         return $menu;
     }
 
     /**
      * @depends testConstruction
      */
-    public function testGetLabel(C\Menu\Drilldown $menu) : void
+    public function testGetLabel(C\Menu\Drilldown $menu): void
     {
         $this->assertEquals(
             'root',
@@ -94,7 +112,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetItems($menu)
+    public function testGetItems($menu): void
     {
         $this->assertEquals(
             [],
@@ -102,7 +120,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithEntries() : C\Menu\Drilldown
+    public function testWithEntries(): C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $items = array(
@@ -121,7 +139,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         return $menu;
     }
 
-    public function testWithWrongEntry()
+    public function testWithWrongEntry(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
@@ -131,48 +149,40 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testWithEntries
      */
-    public function testRendering(C\Menu\Drilldown $menu) : void
+    public function testRendering(): void
     {
         $r = $this->getDefaultRenderer();
+        $f = $this->getUIFactory();
+
+        $items = [
+            $f->menu()->sub('1', [
+                $f->menu()->sub('1.1', []),
+                $f->menu()->sub('1.2', []),
+            ]),
+            $f->menu()->sub('2', [])
+        ];
+        $menu = $f->menu()->drilldown('root', $items);
+
         $html = $r->render($menu);
-        $expected = <<<EOT
-<div class="il-drilldown" id="id_2"> 
-    <header class="show-title show-backnav"> 
-        <h2>root</h2> 
-        <div class="backnav">
-            <button class="btn btn-bulky" id="id_1" ><span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
-        </div> 
-    </header>
-    <ul> 
-        <li> 
-            <button class="menulevel" aria-expanded="false">root<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
-            <ul>
-                <li> 
-                    <button class="menulevel" aria-expanded="false">sub<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
-                    <ul>
-                        <li>
-                            <button class="btn btn-default" data-action=""></button>
-                        </li>
-                        <li>
-                            <a class="glyph" href="" aria-label="show_who_is_online"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <hr />
-                </li>
-                <li>
-                    <button class="btn btn-default" data-action=""></button>
-                </li>
-            </ul> 
-        </li> 
-    </ul>
-</div>
-EOT;
+        $expected = file_get_contents(__DIR__ . "/drilldown_test.html");
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
+        );
+    }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testWithPersistenceId($menu): void
+    {
+        $this->assertNull($menu->getPersistenceId()) ;
+
+        $id = "some_id";
+        $this->assertEquals(
+            $id,
+            $menu->withPersistenceId($id)->getPersistenceId()
         );
     }
 }

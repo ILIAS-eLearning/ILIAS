@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,8 +23,8 @@ class ilExportFieldsInfo
 {
     private static array $instances = [];
 
-    private \ilSetting $settings;
-    private \ilLanguage $lng;
+    private ilSetting $settings;
+    private ilLanguage $lng;
     private string $obj_type = '';
     private array $possible_fields = array();
 
@@ -44,7 +46,7 @@ class ilExportFieldsInfo
     /**
      * Get Singleton Instance
      */
-    public static function _getInstanceByType($a_type) : \ilExportFieldsInfo
+    public static function _getInstanceByType(string $a_type): ilExportFieldsInfo
     {
         if (!isset(self::$instances[$a_type])) {
             self::$instances[$a_type] = new self($a_type);
@@ -52,7 +54,7 @@ class ilExportFieldsInfo
         return self::$instances[$a_type];
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->obj_type;
     }
@@ -60,7 +62,7 @@ class ilExportFieldsInfo
     /**
      * Check if field is exportable
      */
-    public function isExportable($a_field_name) : bool
+    public function isExportable($a_field_name): bool
     {
         return array_key_exists($a_field_name, $this->possible_fields);
     }
@@ -69,7 +71,7 @@ class ilExportFieldsInfo
      * Get informations (exportable) about user data profile fields
      * @access public
      */
-    public function getFieldsInfo() : array
+    public function getFieldsInfo(): array
     {
         return $this->possible_fields;
     }
@@ -77,7 +79,7 @@ class ilExportFieldsInfo
     /**
      * Get Exportable Fields
      */
-    public function getExportableFields() : array
+    public function getExportableFields(): array
     {
         $fields = [];
         foreach ($this->possible_fields as $field => $exportable) {
@@ -91,7 +93,7 @@ class ilExportFieldsInfo
     /**
      * Get selectable fields
      */
-    public function getSelectableFieldsInfo($a_obj_id) : array
+    public function getSelectableFieldsInfo(int $a_obj_id): array
     {
         global $DIC;
 
@@ -157,7 +159,7 @@ class ilExportFieldsInfo
      * Get exportable fields as info string
      * @return string info page string
      */
-    public function exportableFieldsToInfoString() : string
+    public function exportableFieldsToInfoString(): string
     {
         $fields = [];
         foreach ($this->getExportableFields() as $field) {
@@ -169,9 +171,9 @@ class ilExportFieldsInfo
     /**
      * Read info about exportable fields
      */
-    private function read() : void
+    private function read(): void
     {
-        $profile = new \ilUserProfile();
+        $profile = new ilUserProfile();
         $profile->skipGroup('settings');
 
         foreach ($profile->getStandardFields() as $key => $data) {
@@ -224,7 +226,7 @@ class ilExportFieldsInfo
     /**
      * sort Exports fields User for Name Presentation Guideline
      */
-    public function sortExportFields() : void
+    public function sortExportFields(): void
     {
         $start_order = array("lastname" => array(), "firstname" => array(), "username" => array());
 

@@ -1,137 +1,75 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+declare(strict_types=1);
 
 /**
-* Class ilObjAuthSettings
-*
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
 * @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @extends ilObject
 */
-
-include_once "./Services/Object/classes/class.ilObject.php";
-
 class ilObjAuthSettings extends ilObject
 {
     /**
-    * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "auth";
         parent::__construct($a_id, $a_call_by_reference);
     }
-    
-    public function checkAuthLDAP()
-    {
-        $settings = $this->ilias->getAllSettings();
-        
-        if (!$settings["ldap_server"] or !$settings["ldap_basedn"] or !$settings["ldap_port"]) {
-            return false;
-        }
-        
-        $this->ilias->setSetting('ldap_active', true);
-        
-        return true;
-    }
-    
-    public function checkAuthSHIB()
+
+    public function checkAuthLDAP(): bool
     {
         $settings = $this->ilias->getAllSettings();
 
-        if (!$settings["shib_hos_type"] or !$settings["shib_user_default_role"] or !$settings["shib_login"]
-             or !$settings["shib_firstname"] or !$settings["shib_lastname"]) {
+        if (!$settings["ldap_server"] || !$settings["ldap_basedn"] || !$settings["ldap_port"]) {
             return false;
         }
 
-        $this->ilias->setSetting('shibboleth_active', true);
+        $this->ilias->setSetting('ldap_active', "1");
 
         return true;
     }
-    
-    public function checkAuthRADIUS()
+
+    public function checkAuthSHIB(): bool
     {
         $settings = $this->ilias->getAllSettings();
-        
-        if (!$settings["radius_server"] or !$settings["radius_shared_secret"] or !$settings["radius_port"]) {
+
+        if (!$settings["shib_hos_type"] || !isset($settings["shib_user_default_role"]) || !$settings["shib_login"]
+            || !$settings["shib_firstname"] || !$settings["shib_lastname"]) {
             return false;
         }
-        
-        $this->ilias->setSetting('radius_active', true);
-        
+
+        $this->ilias->setSetting('shibboleth_active', "1");
+
         return true;
     }
 
-    public function checkAuthScript()
+    public function checkAuthScript(): bool
     {
         $settings = $this->ilias->getAllSettings();
-        
+
         if (!$settings["auth_script_name"]) {
             return false;
         }
-        
-        $this->ilias->setSetting('script_active', true);
+
+        $this->ilias->setSetting('script_active', "1");
 
         return true;
     }
-
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
-    {
-        if (!parent::update()) {
-            return false;
-        }
-
-        // put here object specific stuff
-        
-        return true;
-    }
-    
-
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
-    {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-        
-        //put here your module specific stuff
-        
-        return true;
-    }
-} // END class.ilObjAuthSettings
+}

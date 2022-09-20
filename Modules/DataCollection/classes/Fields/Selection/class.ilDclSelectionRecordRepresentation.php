@@ -1,25 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclSelectionRecordRepresentation
- *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class ilDclSelectionRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
     // those should be overwritten by subclasses
-    const PROP_SELECTION_TYPE = '';
-    const PROP_SELECTION_OPTIONS = '';
+    public const PROP_SELECTION_TYPE = '';
+    public const PROP_SELECTION_OPTIONS = '';
 
-
-    /**
-     * @param bool $link
-     *
-     * @return string
-     */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         $record_field_value = $this->getRecordField()->getValue();
         $values = ilDclSelectionOption::getValues($this->getField()->getId(), $record_field_value);

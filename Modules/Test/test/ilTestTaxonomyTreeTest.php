@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilTestTaxonomyTreeTest extends ilTestBaseTestCase
 {
     private ilTestTaxonomyTree $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -22,11 +24,12 @@ class ilTestTaxonomyTreeTest extends ilTestBaseTestCase
                 ->willReturn($returnValue);
 
         $this->setGlobalVariable("ilDB", $db_mock);
+        $this->addGlobal_ilAppEventHandler();
 
         $this->testObj = new ilTestTaxonomyTree(0);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestTaxonomyTree::class, $this->testObj);
     }

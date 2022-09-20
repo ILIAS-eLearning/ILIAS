@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -10,14 +28,14 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
     protected string $expectedInitialValue = 'en';
     protected string $expectedAfterFormSubmitValue = 'de';
     protected string $englishLanguageTranslation = 'English';
     protected string $germanLanguageTranslation = 'German';
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -32,30 +50,28 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
             ->willReturn([$this->expectedAfterFormSubmitValue, $this->expectedInitialValue]);
     }
 
-    protected function getInstance() : ilTermsOfServiceUserHasLanguageCriterion
+    protected function getInstance(): ilTermsOfServiceUserHasLanguageCriterion
     {
         return new ilTermsOfServiceUserHasLanguageCriterion();
     }
 
-    public function testInstanceCanBeCreated() : ilTermsOfServiceUserHasLanguageCriterion
+    public function testInstanceCanBeCreated(): ilTermsOfServiceUserHasLanguageCriterion
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_language', $criterion->getTypeIdent());
-        $this->assertEquals(true, $criterion->hasUniqueNature());
+        $this->assertSame('usr_language', $criterion->getTypeIdent());
+        $this->assertTrue($criterion->hasUniqueNature());
 
         return $criterion;
     }
 
     /**
-     * @param ilTermsOfServiceCriterionTypeGUI $gui
-     * @param string                           $httpCriterionSelectionBodyParameter
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,
         string $httpCriterionSelectionBodyParameter
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $form = $this->getFormMock();
 
         $radioGroup = $this->getRadioGroupMock();
@@ -72,13 +88,11 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      * @depends testInstanceCanBeCreated
-     * @return ilTermsOfServiceUserHasLanguageCriterion
      */
     public function testFormUserInterfaceElementsAreProperlyBuilt(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
-    ) : ilTermsOfServiceUserHasLanguageCriterion {
+    ): ilTermsOfServiceUserHasLanguageCriterion {
         $httpCriterionSelectionBodyParameter = 'criterion';
         $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
@@ -90,18 +104,17 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $languageSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $languageSelection);
-        $this->assertEquals($languageSelection->getValue(), $this->expectedInitialValue);
+        $this->assertSame($languageSelection->getValue(), $this->expectedInitialValue);
 
         return $criterion;
     }
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      */
     public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
-    ) : void {
+    ): void {
         $httpCriterionSelectionBodyParameter = 'criterion';
         $httpCriterionConfigBodyParameter = $criterion->getTypeIdent() . '_lng';
 
@@ -113,24 +126,23 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
             ->expects($this->once())
             ->method('getInput')
             ->with($httpCriterionConfigBodyParameter)
-            ->willReturnCallback(function () {
+            ->willReturnCallback(function (): string {
                 return $this->expectedAfterFormSubmitValue;
             });
 
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['lng']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['lng']);
         $this->assertEquals($this->getCriterionConfig(['lng' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
      */
     public function testTypeIdentPresentationIsANonEmptyString(
         ilTermsOfServiceUserHasLanguageCriterion $criterion
-    ) : void {
+    ): void {
         $gui = $criterion->ui($this->lng);
 
         $actual = $gui->getIdentPresentation();
@@ -139,7 +151,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         $this->assertNotEmpty($actual);
     }
 
-    public function languageProvider() : array
+    public function languageProvider(): array
     {
         return [
             'English Language' => [$this->expectedInitialValue, $this->englishLanguageTranslation],
@@ -149,11 +161,9 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param string $lng
-     * @param string $translation
      * @dataProvider languageProvider
      */
-    public function testValuePresentationMatchesExpectation(string $lng, string $translation) : void
+    public function testValuePresentationMatchesExpectation(string $lng, string $translation): void
     {
         $language = $this->getLanguageMock();
 
@@ -173,10 +183,10 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($translation, $actual->getContent());
+        $this->assertSame($translation, $actual->getContent());
     }
 
-    public function failingConfigProvider() : array
+    public function failingConfigProvider(): array
     {
         $criterion = $this->getInstance();
 
@@ -194,7 +204,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         ];
     }
 
-    public function succeedingConfigProvider() : array
+    public function succeedingConfigProvider(): array
     {
         $criterion = $this->getInstance();
 
@@ -205,14 +215,12 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
-     * @param ilTermsOfServiceCriterionConfig          $config
      * @dataProvider failingConfigProvider
      */
     public function testEvaluationFailsIfUserLanguageDoesNotMatchDefinedLanguage(
         ilTermsOfServiceUserHasLanguageCriterion $criterion,
         ilTermsOfServiceCriterionConfig $config
-    ) : void {
+    ): void {
         $user = $this->getUserMock();
 
         $user
@@ -223,14 +231,12 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     }
 
     /**
-     * @param ilTermsOfServiceUserHasLanguageCriterion $criterion
-     * @param ilTermsOfServiceCriterionConfig          $config
      * @dataProvider succeedingConfigProvider
      */
     public function testEvaluationSucceedsIfUserLanguageDoesMatchDefinedLanguage(
         ilTermsOfServiceUserHasLanguageCriterion $criterion,
         ilTermsOfServiceCriterionConfig $config
-    ) : void {
+    ): void {
         $user = $this->getUserMock();
 
         $user

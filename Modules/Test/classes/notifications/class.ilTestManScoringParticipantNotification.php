@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMailNotification.php';
@@ -6,45 +7,41 @@ require_once 'Services/Mail/classes/class.ilMailNotification.php';
 
 class ilTestManScoringParticipantNotification extends ilMailNotification
 {
-    private $userId = null;
-    private $questionGuiList = null;
-    private $notificationData = null;
-    
     public function __construct($userId, $testRefId)
     {
         parent::__construct();
 
         $this->setRecipient($userId);
         $this->setRefId($testRefId);
-        
+
         $this->initLanguage($this->getRecipient());
         $this->getLanguage()->loadLanguageModule('assessment');
 
         $this->initMail();
     }
-    
-    public function send()
+
+    public function send(): void
     {
         $this->buildSubject();
-        
+
         $this->buildBody();
 
         $this->sendMail(
             $this->getRecipients()
         );
     }
-    
-    private function buildSubject()
+
+    private function buildSubject(): void
     {
         $info = $this->getAdditionalInformation();
-        
+
         $this->setSubject(sprintf($this->getLanguageText('tst_notify_manscoring_done_body_msg_subject'), $info['test_title']));
     }
-    
-    private function buildBody()
+
+    private function buildBody(): void
     {
         //	Salutation
-        
+
         $this->setBody(
             ilMail::getSalutation($this->getRecipient(), $this->getLanguage())
         );
@@ -54,20 +51,20 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
 
         $this->appendBody($this->getLanguageText('tst_notify_manscoring_done_body_msg_topic'));
         $this->appendBody("\n\n");
-        
+
         $info = $this->getAdditionalInformation();
-        
+
         $this->appendBody($this->getLanguageText('obj_tst') . ': ' . $info['test_title']);
         $this->appendBody("\n");
         $this->appendBody($this->getLanguageText('pass') . ': ' . $info['test_pass']);
         $this->appendBody("\n\n");
-        
+
         foreach ($info['questions_gui_list'] as $questionId => $questionGui) {
             $points = $info['questions_scoring_data'][$questionId]['points'];
             $feedback = $info['questions_scoring_data'][$questionId]['feedback'];
-            
+
             $feedback = $this->convertFeedbackForMail($feedback);
-            
+
             $this->appendBody($this->getLanguageText('tst_question') . ': ' . $questionGui->object->getTitle());
             $this->appendBody("\n");
             $this->appendBody($this->getLanguageText('tst_reached_points') . ': ' . $points);
@@ -77,36 +74,36 @@ class ilTestManScoringParticipantNotification extends ilMailNotification
         }
 
         //	Task (What do I have to do?
-        
+
         /* NOTHING REQUIRED FOR PARTICIPANT */
-        
+
         //	Explanation (Why do I receive the following message?)
-        
+
         $this->appendBody("\n");
         $this->appendBody($this->getLanguageText('tst_notify_manscoring_done_body_msg_reason'));
-                
+
         //	Signature
-        
+
         $this->getMail()->appendInstallationSignature(true);
     }
-    
-    private function setRecipient($userId)
+
+    private function setRecipient($userId): void
     {
         $this->setRecipients(array($userId));
     }
-    
+
     private function getRecipient()
     {
         return current($this->getRecipients());
     }
-    
-    private function convertFeedbackForMail($feedback)
+
+    private function convertFeedbackForMail($feedback): ?string
     {
         if (strip_tags($feedback) != $feedback) {
             $feedback = preg_replace('/<br(.*\/)>/m', "\n", $feedback);
             $feedback = strip_tags($feedback);
         }
-        
+
         return $feedback;
     }
 }

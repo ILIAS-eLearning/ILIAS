@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -20,14 +36,14 @@ class SortationTest extends ILIAS_UI_TestBase
         'date_asc' => 'Oldest',
     ];
 
-    private function getFactory() : I\Component\ViewControl\Factory
+    private function getFactory(): I\Component\ViewControl\Factory
     {
         return new I\Component\ViewControl\Factory(
             new SignalGenerator()
         );
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getFactory();
         $sortation = $f->sortation($this->options);
@@ -35,7 +51,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $sortation->getSelectSignal());
     }
 
-    public function testAttributes() : void
+    public function testAttributes(): void
     {
         $f = $this->getFactory();
         $s = $f->sortation($this->options);
@@ -54,7 +70,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertEquals($signal, $s->withOnSort($signal)->getTriggeredSignals()[0]->getSignal());
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -64,7 +80,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    public function testRenderingWithJsBinding() : void
+    public function testRenderingWithJsBinding(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
@@ -76,7 +92,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->getSortationExpectedHTML(true), $html);
     }
 
-    protected function getSortationExpectedHTML(bool $with_id = false) : string
+    protected function getSortationExpectedHTML(bool $with_id = false): string
     {
         $id = "";
         $button1_id = "id_1";
@@ -100,14 +116,14 @@ EOT;
         return $this->normalizeHTML($expected);
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function button() : C\Button\Factory
+        return new class () extends NoUIFactory {
+            public function button(): C\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
-            public function dropdown() : C\Dropdown\Factory
+            public function dropdown(): C\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }

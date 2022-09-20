@@ -1,74 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Like\StandardGUIRequest;
 
 /**
  * User interface for like feature
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesLike
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLikeGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLikeData $data;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected StandardGUIRequest $request;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected int $obj_id;
+    protected string $obj_type;
+    protected int $sub_obj_id;
+    protected string $sub_obj_type;
+    protected int $news_id;
+    protected string $dom_id;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var string
-     */
-    protected $obj_type;
-
-    /**
-     * @var int
-     */
-    protected $sub_obj_id;
-
-    /**
-     * @var string
-     */
-    protected $sub_obj_type;
-
-    /**
-     * @var int
-     */
-    protected $news_id;
-
-    /**
-     * @var string dom id
-     */
-    protected $dom_id;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $language;
-
-    /**
-     * ilLikeGUI constructor.
-     * @param ilLikeData $data
-     * @param ilTemplate|null $main_tpl
-     */
-    public function __construct(\ilLikeData $data, \ilTemplate $main_tpl = null)
-    {
+    public function __construct(
+        \ilLikeData $data,
+        ?\ilTemplate $main_tpl = null
+    ) {
         global $DIC;
 
         $this->main_tpl = ($main_tpl == null)
@@ -79,34 +52,30 @@ class ilLikeGUI
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $this->ui = $DIC->ui();
-        $this->lng = $DIC->language();
 
         $this->data = $data;
 
         $this->lng->loadLanguageModule("like");
+        $this->request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
 
         $this->initJavascript();
     }
 
-    /**
-     * Init javascript
-     */
-    protected function initJavascript()
+    protected function initJavascript(): void
     {
         $this->main_tpl->addJavaScript("./Services/Like/js/Like.js");
     }
 
-
-    /**
-     * Set Object.
-     *
-     * @param       int             $a_obj_id               Object ID
-     * @param       string          $a_obj_type             Object Type
-     * @param       int             $a_sub_obj_id           Subobject ID
-     * @param       string          $a_sub_obj_type         Subobject Type
-     */
-    public function setObject($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "", $a_news_id = 0)
-    {
+    public function setObject(
+        int $a_obj_id,
+        string $a_obj_type,
+        int $a_sub_obj_id = 0,
+        string $a_sub_obj_type = "",
+        int $a_news_id = 0
+    ): void {
         $this->obj_id = $a_obj_id;
         $this->obj_type = $a_obj_type;
         $this->sub_obj_id = $a_sub_obj_id;
@@ -116,11 +85,7 @@ class ilLikeGUI
             $this->sub_obj_type . "_" . $this->news_id;
     }
 
-    /**
-     * Execute command
-     * @return string
-     */
-    public function executeCommand()
+    public function executeCommand(): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -137,18 +102,7 @@ class ilLikeGUI
         return "";
     }
 
-    /**
-     * Get HTML
-     *
-     * @param $a_obj_id
-     * @param $a_obj_type
-     * @param int $a_sub_obj_id
-     * @param string $a_sub_obj_type
-     * @param int $a_news_id
-     * @return string
-     * @throws ilLikeDataException
-     */
-    public function getHTML()
+    public function getHTML(): string
     {
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
@@ -184,13 +138,12 @@ class ilLikeGUI
 
     /**
      * Render emo counters
-     *
-     * @param $modal_signal
-     * @return string
      * @throws ilLikeDataException
      */
-    protected function renderEmoCounters($modal_signal = null, $unavailable = false)
-    {
+    protected function renderEmoCounters(
+        ILIAS\UI\Component\Signal $modal_signal = null,
+        bool $unavailable = false
+    ): string {
         $ilCtrl = $this->ctrl;
 
         $tpl = new ilTemplate("tpl.emo_counters.html", true, true, "Services/Like");
@@ -231,25 +184,27 @@ class ilLikeGUI
         return $tpl->get();
     }
 
-
-    /**
-     * Get glyph for const
-     *
-     * @param int $a_const
-     * @return \ILIAS\UI\Component\Glyph\Glyph|null
-     */
-    protected function getGlyphForConst($a_const, $unavailable = false)
-    {
+    protected function getGlyphForConst(
+        int $a_const,
+        bool $unavailable = false
+    ): ?\ILIAS\UI\Component\Symbol\Glyph\Glyph {
         $f = $this->ui->factory();
         $like = null;
         switch ($a_const) {
-            case ilLikeData::TYPE_LIKE: $like = $f->symbol()->glyph()->like(); break;
-            case ilLikeData::TYPE_DISLIKE: $like = $f->symbol()->glyph()->dislike(); break;
-            case ilLikeData::TYPE_LOVE: $like = $f->symbol()->glyph()->love(); break;
-            case ilLikeData::TYPE_LAUGH: $like = $f->symbol()->glyph()->laugh(); break;
-            case ilLikeData::TYPE_ASTOUNDED: $like = $f->symbol()->glyph()->astounded(); break;
-            case ilLikeData::TYPE_SAD: $like = $f->symbol()->glyph()->sad(); break;
-            case ilLikeData::TYPE_ANGRY: $like = $f->symbol()->glyph()->angry(); break;
+            case ilLikeData::TYPE_LIKE: $like = $f->symbol()->glyph()->like();
+                break;
+            case ilLikeData::TYPE_DISLIKE: $like = $f->symbol()->glyph()->dislike();
+                break;
+            case ilLikeData::TYPE_LOVE: $like = $f->symbol()->glyph()->love();
+                break;
+            case ilLikeData::TYPE_LAUGH: $like = $f->symbol()->glyph()->laugh();
+                break;
+            case ilLikeData::TYPE_ASTOUNDED: $like = $f->symbol()->glyph()->astounded();
+                break;
+            case ilLikeData::TYPE_SAD: $like = $f->symbol()->glyph()->sad();
+                break;
+            case ilLikeData::TYPE_ANGRY: $like = $f->symbol()->glyph()->angry();
+                break;
         }
         if ($unavailable) {
             $like = $like->withUnavailableAction();
@@ -257,15 +212,14 @@ class ilLikeGUI
         return $like;
     }
 
-
-
     /**
-     * Render emoticons
+     * Render emoticons (asynch)
      */
-    public function renderEmoticons()
+    public function renderEmoticons(): void
     {
         $ilCtrl = $this->ctrl;
         $r = $this->ui->renderer();
+        $glyphs = [];
 
         $ilCtrl->saveParameter($this, "modal_show_sig_id");
 
@@ -302,15 +256,14 @@ class ilLikeGUI
     }
 
     /**
-     * Save expresseion
-     *
+     * Save expression (asynch)
      * @throws ilLikeDataException
      */
-    protected function saveExpression()
+    protected function saveExpression(): void
     {
-        $exp_key = (int) $_GET["exp"];
-        $exp_val = (int) $_GET["val"];
-        $modal_show_sig_id = ilUtil::stripSlashes($_GET["modal_show_sig_id"]);
+        $exp_key = $this->request->getExpressionKey();
+        $exp_val = $this->request->getValue();
+        $modal_show_sig_id = $this->request->getModalSignalId();
         $show_signal = new \ILIAS\UI\Implementation\Component\Signal($modal_show_sig_id);
 
         if ($exp_val) {
@@ -340,10 +293,12 @@ class ilLikeGUI
 
 
     /**
-     * Render modal
+     * Render modal (asynch)
+     * @throws ilDateTimeException
      * @throws ilLikeDataException
+     * @throws ilWACException
      */
-    public function renderModal()
+    public function renderModal(): void
     {
         $user = $this->user;
 
@@ -386,41 +341,24 @@ class ilLikeGUI
         exit;
     }
 
-
     /**
-     * Get unicode for const
-     *
-     * @param int $a_const
-     * @return string
+     * Get expression text for const
      */
-    /*
-    static public function getCharacter($a_const)
-    {
-        $tpl = new ilTemplate("tpl.unicodes.html", true, true, "Services/Like");
-        $tpl->touchBlock("u".$a_const);
-        return $tpl->get();
-    }*/
-
-    /**
-     * Get expresseion text for const
-     *
-     * @param int $a_const
-     * @return string
-     */
-    public static function getExpressionText($a_const)
-    {
+    public static function getExpressionText(
+        int $a_const
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();
 
         switch ($a_const) {
-            case ilLikeData::TYPE_LIKE: return $lng->txt("like"); break;
-            case ilLikeData::TYPE_DISLIKE: return $lng->txt("dislike"); break;
-            case ilLikeData::TYPE_LOVE: return $lng->txt("love"); break;
-            case ilLikeData::TYPE_LAUGH: return $lng->txt("laugh"); break;
-            case ilLikeData::TYPE_ASTOUNDED: return $lng->txt("astounded"); break;
-            case ilLikeData::TYPE_SAD: return $lng->txt("sad"); break;
-            case ilLikeData::TYPE_ANGRY: return $lng->txt("angry"); break;
+            case ilLikeData::TYPE_LIKE: return $lng->txt("like");
+            case ilLikeData::TYPE_DISLIKE: return $lng->txt("dislike");
+            case ilLikeData::TYPE_LOVE: return $lng->txt("love");
+            case ilLikeData::TYPE_LAUGH: return $lng->txt("laugh");
+            case ilLikeData::TYPE_ASTOUNDED: return $lng->txt("astounded");
+            case ilLikeData::TYPE_SAD: return $lng->txt("sad");
+            case ilLikeData::TYPE_ANGRY: return $lng->txt("angry");
         }
         return "";
     }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Link;
 
@@ -15,7 +31,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -31,7 +47,7 @@ class Renderer extends AbstractComponentRenderer
     protected function setStandardVars(
         string $tpl_name,
         Component\Link\Link $component
-    ) : Template {
+    ): Template {
         $tpl = $this->getTemplate($tpl_name, true, true);
         $action = $component->getAction();
         $label = $component->getLabel();
@@ -45,7 +61,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderStandard(
         Component\Link\Standard $component
-    ) : string {
+    ): string {
         $tpl_name = "tpl.standard.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
         return $tpl->get();
@@ -54,12 +70,11 @@ class Renderer extends AbstractComponentRenderer
     protected function renderBulky(
         Component\Link\Bulky $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl_name = "tpl.bulky.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
-
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);
 
@@ -76,7 +91,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [
             Component\Link\Standard::class,

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'libs/composer/vendor/autoload.php';
@@ -13,11 +14,11 @@ require_once 'libs/composer/vendor/autoload.php';
 class assFormulaQuestionTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
+    protected $backup_dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
-
         $lng = $this->getMockBuilder(\ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -27,6 +28,11 @@ class assFormulaQuestionTest extends assBaseTestCase
         $this->setGlobalVariable('lng', $lng);
     }
 
+    protected function tearDown(): void
+    {
+        global $DIC;
+        $DIC = $this->backup_dic;
+    }
 
     /**
      * @dataProvider simpleRatedCalculationsData
@@ -44,7 +50,7 @@ class assFormulaQuestionTest extends assBaseTestCase
         $userResult,
         $userResultUnit,
         $expectedResult
-    ) {
+    ): void {
         $isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
         $this->assertEquals($expectedResult, $isCorrect);
     }
@@ -52,8 +58,15 @@ class assFormulaQuestionTest extends assBaseTestCase
     /**
      *
      */
-    public function simpleRatedCalculationsData()
+    public function simpleRatedCalculationsData(): array
     {
+        global $DIC;
+
+        $this->backup_dic = $DIC;
+        $DIC = new ILIAS\DI\Container([
+            'tpl' => $this->getMockBuilder(ilGlobalTemplateInterface::class)
+                          ->getMock()
+        ]);
         $points = 5;
         $precision = 2;
 
@@ -114,7 +127,7 @@ class assFormulaQuestionTest extends assBaseTestCase
         $v3->setVariable('$v3');
         $v4->setUnit(null);
         $v4->setVariable('$v4');
-        
+
         $r1 = new assFormulaQuestionResult(
             '$r1',
             0,
@@ -205,18 +218,18 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             assFormulaQuestionResult::RESULT_DEC
         );
-        
+
         // RESULT_FRAC
         $v5 = new assFormulaQuestionVariable('$v5', 1, 20, null, 1);
         $v6 = new assFormulaQuestionVariable('$v6', 1, 10, null, 1);
         $v5->setValue(1);
         $v6->setValue(3);
-        
+
         $v7 = new assFormulaQuestionVariable('$v7', 1, 20, null, 1);
         $v8 = new assFormulaQuestionVariable('$v8', 1, 10, null, 1);
         $v7->setValue(2);
         $v8->setValue(4);
-        
+
         $r7 = new assFormulaQuestionResult(
             '$r7',
             0,
@@ -232,7 +245,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             assFormulaQuestionResult::RESULT_FRAC
         );
-        
+
         $r8 = new assFormulaQuestionResult(
             '$r8',
             0,
@@ -248,18 +261,18 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             assFormulaQuestionResult::RESULT_FRAC
         );
-        
+
         // RESULT_CO_FRAC
         $v9 = clone $v7;
         $v9->setVariable('$v9');
         $v10 = clone $v8;
         $v10->setVariable('$v10');
-        
+
         $v11 = clone $v7;
         $v11->setVariable('$v11');
         $v12 = clone $v8;
         $v12->setVariable('$v12');
-        
+
         $r9 = new assFormulaQuestionResult(
             '$r9',
             0,
@@ -275,7 +288,7 @@ class assFormulaQuestionTest extends assBaseTestCase
             33,
             assFormulaQuestionResult::RESULT_CO_FRAC
         );
-        
+
         $r10 = new assFormulaQuestionResult(
             '$r10',
             0,

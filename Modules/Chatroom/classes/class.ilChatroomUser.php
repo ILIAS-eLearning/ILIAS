@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomUser
@@ -18,10 +35,10 @@ class ilChatroomUser
         $this->user = $user;
         $this->room = $chatroom;
     }
-    
-    public function enabledBroadcastTyping() : bool
+
+    public function enabledBroadcastTyping(): bool
     {
-        return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+        return ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing'));
     }
 
     /**
@@ -29,7 +46,7 @@ class ilChatroomUser
      * is created, stored in SESSION, and returned.
      * @return int
      */
-    public function getUserId() : int
+    public function getUserId(): int
     {
         $user_id = $this->user->getId();
 
@@ -39,7 +56,7 @@ class ilChatroomUser
                 return $session[$this->room->getRoomId()]['user_id'];
             }
 
-            $user_id = mt_rand(-99999, -20);
+            $user_id = random_int(-99999, -20);
 
             $session[$this->room->getRoomId()]['user_id'] = $user_id;
             ilSession::set('chat', $session);
@@ -53,7 +70,7 @@ class ilChatroomUser
      * will be returned.
      * @return string
      */
-    public function getUsername() : string
+    public function getUsername(): string
     {
         if ($this->username) {
             return $this->username;
@@ -75,7 +92,7 @@ class ilChatroomUser
      * Sets and stores given username in SESSION
      * @param string $username
      */
-    public function setUsername(string $username) : void
+    public function setUsername(string $username): void
     {
         $this->username = htmlspecialchars($username);
 
@@ -86,9 +103,9 @@ class ilChatroomUser
 
     /**
      * Returns an array of chat-name suggestions
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
-    public function getChatNameSuggestions() : array
+    public function getChatNameSuggestions(): array
     {
         $options = [];
 
@@ -103,18 +120,16 @@ class ilChatroomUser
         return $options;
     }
 
-    public function buildAnonymousName() : string
+    public function buildAnonymousName(): string
     {
-        $anonymous_name = str_replace(
+        return str_replace(
             '#',
-            (string) mt_rand(0, 10000),
+            (string) random_int(0, 10000),
             $this->room->getSetting('autogen_usernames')
         );
-
-        return $anonymous_name;
     }
 
-    public function buildFullname() : string
+    public function buildFullname(): string
     {
         $tmp = $this->user->getPref('public_profile');
         $this->user->setPref('public_profile', 'y');
@@ -128,19 +143,19 @@ class ilChatroomUser
      * Returns first letter of users firstname, followed by dot lastname
      * @return string
      */
-    public function buildShortname() : string
+    public function buildShortname(): string
     {
         $firstname = $this->user->getFirstname();
 
         return $firstname[0] . '. ' . $this->user->getLastname();
     }
 
-    public function buildLogin() : string
+    public function buildLogin(): string
     {
         return $this->user->getLogin();
     }
 
-    public function buildUniqueUsername(string $username) : string
+    public function buildUniqueUsername(string $username): string
     {
         global $DIC;
 
@@ -173,7 +188,7 @@ class ilChatroomUser
      * @param int|null $roomId
      * @return array
      */
-    public static function getUserInformation(array $usrIds, ?int $roomId = null) : array
+    public static function getUserInformation(array $usrIds, ?int $roomId = null): array
     {
         global $DIC;
 

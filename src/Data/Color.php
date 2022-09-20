@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -35,7 +37,7 @@ class Color
     /**
      * Get the valule for red.
      */
-    public function r() : int
+    public function r(): int
     {
         return $this->r;
     }
@@ -43,7 +45,7 @@ class Color
     /**
      * Get the valule for green.
      */
-    public function g() : int
+    public function g(): int
     {
         return $this->g;
     }
@@ -51,7 +53,7 @@ class Color
     /**
      * Get the valule for blue.
      */
-    public function b() : int
+    public function b(): int
     {
         return $this->b;
     }
@@ -61,7 +63,7 @@ class Color
      *
      * @return int[]
      */
-    public function asArray() : array
+    public function asArray(): array
     {
         return array(
             $this->r,
@@ -73,7 +75,7 @@ class Color
     /**
      * Return color-value in hex-format.
      */
-    public function asHex() : string
+    public function asHex(): string
     {
         $hex = '#';
         foreach ($this->asArray() as $value) {
@@ -85,23 +87,21 @@ class Color
     /**
      * Return string with RGB-notation
      */
-    public function asRGBString() : string
+    public function asRGBString(): string
     {
         return 'rgb(' . implode(', ', $this->asArray()) . ')';
     }
 
     /**
-    * Based on https://de.wikipedia.org/wiki/Luminanz
-    * this function decides if the color can be considered "dark".
-    * With a dark background, i.e., a lighter (white) color should be used
-    * for the foreground.
-    */
-    public function isDark() : bool
+     * Based on https://de.wikipedia.org/wiki/Luminanz
+     * this function decides if the color can be considered "dark".
+     * With a dark background, i.e., a lighter (white) color should be used
+     * for the foreground.
+     */
+    public function isDark(): bool
     {
         $sum = 0.299 * $this->r + 0.587 * $this->g + 0.114 * $this->b;
-        if ($sum < 128) {
-            return true;
-        }
-        return false;
+
+        return $sum < 128;
     }
 }

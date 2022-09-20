@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * @var ilDBInterface
      */
     protected $db = null;
-    
+
     /**
      * object instance of current test
      *
@@ -24,37 +25,37 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     protected $testOBJ = null;
 
     private $id = null;
-    
+
     private $poolId = null;
 
     /** @var null|int */
     private $poolRefId = null;
-    
+
     private $poolTitle = null;
-    
+
     private $poolPath = null;
-    
+
     private $poolQuestionCount = null;
-    
+
     // fau: taxFilter/typeFilter - new class variables
     #private $originalFilterTaxId = null;
-    
+
     #private $originalFilterTaxNodeId = null;
 
     #private $mappedFilterTaxId = null;
 
     #private $mappedFilterTaxNodeId = null;
-    
+
     /**
      * @var array taxId => [nodeId, ...]
      */
     private $originalTaxonomyFilter = array();
-    
+
     /**
      * @var array taxId => [nodeId, ...]
      */
     private $mappedTaxonomyFilter = array();
-    
+
     /**
      * @var array
      */
@@ -66,11 +67,11 @@ class ilTestRandomQuestionSetSourcePoolDefinition
      * @var array
      */
     private $lifecycleFilter = array();
-    
+
     private $questionAmount = null;
-    
+
     private $sequencePosition = null;
-    
+
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
     {
         $this->db = $db;
@@ -86,67 +87,67 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         return $this->id;
     }
-    
+
     public function setPoolId($poolId)
     {
         $this->poolId = $poolId;
     }
-    
+
     public function getPoolId()
     {
         return $this->poolId;
     }
 
-    public function getPoolRefId() : ?int
+    public function getPoolRefId(): ?int
     {
         return $this->poolRefId;
     }
 
-    public function setPoolRefId(?int $poolRefId) : void
+    public function setPoolRefId(?int $poolRefId): void
     {
         $this->poolRefId = $poolRefId;
     }
-    
+
     public function setPoolTitle($poolTitle)
     {
         $this->poolTitle = $poolTitle;
     }
-    
+
     public function getPoolTitle()
     {
         return $this->poolTitle;
     }
-    
+
     public function setPoolPath($poolPath)
     {
         $this->poolPath = $poolPath;
     }
-    
+
     public function getPoolPath()
     {
         return $this->poolPath;
     }
-    
+
     public function setPoolQuestionCount($poolQuestionCount)
     {
         $this->poolQuestionCount = $poolQuestionCount;
     }
-    
+
     public function getPoolQuestionCount()
     {
         return $this->poolQuestionCount;
     }
-    
+
     // fau: taxFilter/typeFilter - new setters/getters
     /**
      * get the original taxonomy filter conditions
      * @return array	taxId => [nodeId, ...]
      */
-    public function getOriginalTaxonomyFilter()
+    public function getOriginalTaxonomyFilter(): array
     {
         return $this->originalTaxonomyFilter;
     }
-    
+
     /**
      * set the original taxonomy filter condition
      * @param  array taxId => [nodeId, ...]
@@ -155,17 +156,17 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->originalTaxonomyFilter = $filter;
     }
-    
+
     /**
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
      */
-    private function getOriginalTaxonomyFilterForDbValue()
+    private function getOriginalTaxonomyFilterForDbValue(): ?string
     {
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
         return empty($this->originalTaxonomyFilter) ? null : serialize($this->originalTaxonomyFilter);
     }
-    
+
     /**
      * get the original taxonomy filter from database value
      * @param null|string		serialized taxonomy filter
@@ -175,16 +176,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         // TODO-RND2017: migrate to separate table for common selections by e.g. statistics
         $this->originalTaxonomyFilter = empty($value) ? array() : unserialize($value);
     }
-    
+
     /**
      * get the mapped taxonomy filter conditions
      * @return 	array	taxId => [nodeId, ...]
      */
-    public function getMappedTaxonomyFilter()
+    public function getMappedTaxonomyFilter(): array
     {
         return $this->mappedTaxonomyFilter;
     }
-    
+
     /**
      * set the original taxonomy filter condition
      * @param array 	taxId => [nodeId, ...]
@@ -193,16 +194,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->mappedTaxonomyFilter = $filter;
     }
-    
+
     /**
      * get the original taxonomy filter for insert into the database
      * @return null|string		serialized taxonomy filter
      */
-    private function getMappedTaxonomyFilterForDbValue()
+    private function getMappedTaxonomyFilterForDbValue(): ?string
     {
         return empty($this->mappedTaxonomyFilter) ? null : serialize($this->mappedTaxonomyFilter);
     }
-    
+
     /**
      * get the original taxonomy filter from database value
      * @param null|string		serialized taxonomy filter
@@ -211,8 +212,8 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->mappedTaxonomyFilter = empty($value) ? array() : unserialize($value);
     }
-    
-    
+
+
     /**
      * set the mapped taxonomy filter from original by applying a keys map
      * @param ilQuestionPoolDuplicatedTaxonomiesKeysMap $taxonomiesKeysMap
@@ -228,26 +229,26 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             $this->mappedTaxonomyFilter[$taxonomiesKeysMap->getMappedTaxonomyId($taxId)] = $mappedNodeIds;
         }
     }
-    
+
     public function setTypeFilter($typeFilter = array())
     {
         $this->typeFilter = $typeFilter;
     }
-    
-    public function getTypeFilter()
+
+    public function getTypeFilter(): array
     {
         return $this->typeFilter;
     }
-    
+
     /**
      * get the question type filter for insert into the database
      * @return null|string		serialized type filter
      */
-    private function getTypeFilterForDbValue()
+    private function getTypeFilterForDbValue(): ?string
     {
         return empty($this->typeFilter) ? null : serialize($this->typeFilter);
     }
-    
+
     /**
      * get the question type filter from database value
      * @param null|string		serialized type filter
@@ -256,15 +257,15 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->typeFilter = empty($value) ? array() : unserialize($value);
     }
-    
+
     /**
      * @return array
      */
-    public function getLifecycleFilter()
+    public function getLifecycleFilter(): array
     {
         return $this->lifecycleFilter;
     }
-    
+
     /**
      * @param array $lifecycleFilter
      */
@@ -272,15 +273,15 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->lifecycleFilter = $lifecycleFilter;
     }
-    
+
     /**
      * @return null|string		serialized lifecycle filter
      */
-    public function getLifecycleFilterForDbValue()
+    public function getLifecycleFilterForDbValue(): ?string
     {
         return empty($this->lifecycleFilter) ? null : serialize($this->lifecycleFilter);
     }
-    
+
     /**
      * @param null|string		serialized lifecycle filter
      */
@@ -288,7 +289,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->lifecycleFilter = empty($dbValue) ? array() : unserialize($dbValue);
     }
-    
+
     /*
     public function setOriginalFilterTaxId($originalFilterTaxId)
     {
@@ -336,24 +337,24 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         $this->questionAmount = $questionAmount;
     }
-    
+
     public function getQuestionAmount()
     {
         return $this->questionAmount;
     }
-    
+
     public function setSequencePosition($sequencePosition)
     {
         $this->sequencePosition = $sequencePosition;
     }
-    
+
     public function getSequencePosition()
     {
         return $this->sequencePosition;
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     /**
      * @param array $dataArray
      */
@@ -361,46 +362,58 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     {
         foreach ($dataArray as $field => $value) {
             switch ($field) {
-                case 'def_id':				$this->setId($value);						break;
-                case 'pool_fi':				$this->setPoolId($value);					break;
-                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null); break;
-                case 'pool_title':			$this->setPoolTitle($value);				break;
-                case 'pool_path':			$this->setPoolPath($value);					break;
-                case 'pool_quest_count':	$this->setPoolQuestionCount($value);		break;
-                // fau: taxFilter - use new db fields
-                #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
-                #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
-                #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
-                #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
-                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);	break;
-                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);		break;
-                case 'type_filter':			$this->setTypeFilterFromDbValue($value);	break;
-                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);	break;
-                // fau.
-                case 'quest_amount':		$this->setQuestionAmount($value);			break;
-                case 'sequence_pos':		$this->setSequencePosition($value);			break;
+                case 'def_id':				$this->setId($value);
+                    break;
+                case 'pool_fi':				$this->setPoolId($value);
+                    break;
+                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null);
+                    break;
+                case 'pool_title':			$this->setPoolTitle($value);
+                    break;
+                case 'pool_path':			$this->setPoolPath($value);
+                    break;
+                case 'pool_quest_count':	$this->setPoolQuestionCount($value);
+                    break;
+                    // fau: taxFilter - use new db fields
+                    #case 'origin_tax_fi':		$this->setOriginalFilterTaxId($value);		break;
+                    #case 'origin_node_fi':		$this->setOriginalFilterTaxNodeId($value);	break;
+                    #case 'mapped_tax_fi':		$this->setMappedFilterTaxId($value);		break;
+                    #case 'mapped_node_fi':		$this->setMappedFilterTaxNodeId($value);	break;
+                case 'origin_tax_filter':	$this->setOriginalTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'mapped_tax_filter':	$this->setMappedTaxonomyFilterFromDbValue($value);
+                    break;
+                case 'type_filter':			$this->setTypeFilterFromDbValue($value);
+                    break;
+                case 'lifecycle_filter':			$this->setLifecycleFilterFromDbValue($value);
+                    break;
+                    // fau.
+                case 'quest_amount':		$this->setQuestionAmount($value);
+                    break;
+                case 'sequence_pos':		$this->setSequencePosition($value);
+                    break;
             }
         }
     }
-    
+
     /**
      * @param integer $poolId
      * @return boolean
      */
-    public function loadFromDb($id)
+    public function loadFromDb($id): bool
     {
         $res = $this->db->queryF(
             "SELECT * FROM tst_rnd_quest_set_qpls WHERE def_id = %s",
             array('integer'),
             array($id)
         );
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $this->initFromArray($row);
-            
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -491,16 +504,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 
         $this->setId($nextId);
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
-    public function getPoolInfoLabel(ilLanguage $lng)
+
+    public function getPoolInfoLabel(ilLanguage $lng): string
     {
         $pool_path = $this->getPoolPath();
         if (is_int($this->getPoolRefId()) && ilObject::_lookupObjId($this->getPoolRefId())) {
             $path = new ilPathGUI();
             $path->enableTextOnly(true);
-            $pool_path = $path->getPath(ROOT_FOLDER_ID, $this->getPoolRefId());
+            $pool_path = $path->getPath(ROOT_FOLDER_ID, (int) $this->getPoolRefId());
         }
 
         $poolInfoLabel = sprintf(
@@ -509,7 +522,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             $pool_path,
             $this->getPoolQuestionCount()
         );
-        
+
         return $poolInfoLabel;
     }
 

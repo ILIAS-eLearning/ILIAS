@@ -1,17 +1,31 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitPermissionGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilOrgUnitPermission extends ActiveRecord
 {
-    const PARENT_TEMPLATE = -1;
-    const TABLE_NAME = 'il_orgu_permissions';
+    public const PARENT_TEMPLATE = -1;
+    public const TABLE_NAME = 'il_orgu_permissions';
     /**
      * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -19,66 +33,53 @@ class ilOrgUnitPermission extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id = 0;
+    protected ?int $id = 0;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $context_id = 0;
+    protected int $context_id = 0;
     /**
-     * @var \ilOrgUnitOperation[]
-     *
+     * @var ilOrgUnitOperation[]
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     2048
      */
-    protected $operations = [];
+    protected array $operations = [];
     /**
-     * @var \ilOrgUnitOperation[]
+     * @var ilOrgUnitOperation[]
      */
-    protected $possible_operations = [];
+    protected array $possible_operations = [];
     /**
      * @var int[]
      */
-    protected $selected_operation_ids = [];
+    protected array $selected_operation_ids = [];
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $parent_id = self::PARENT_TEMPLATE;
+    protected int $parent_id = self::PARENT_TEMPLATE;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $position_id = 0;
+    protected int $position_id = 0;
+    protected ?ilOrgUnitOperationContext $context = null;
     /**
-     * @var \ilOrgUnitOperationContext
-     */
-    protected $context;
-    /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $protected = false;
-    /**
-     * @var bool
-     */
-    protected $newly_created = false;
+    protected bool $protected = false;
+    protected bool $newly_created = false;
 
-
-    public function update()
+    public function update(): void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');
@@ -86,8 +87,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::update();
     }
 
-
-    public function create() : void
+    public function create(): void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');
@@ -95,8 +95,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::create();
     }
 
-
-    public function delete()
+    public function delete(): void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');
@@ -104,8 +103,7 @@ class ilOrgUnitPermission extends ActiveRecord
         parent::delete();
     }
 
-
-    public function afterObjectLoad()
+    public function afterObjectLoad(): void
     {
         $this->possible_operations = ilOrgUnitOperationQueries::getOperationsForContextId($this->getContextId());
         $this->operations = is_array($this->operations) ? $this->operations : array();
@@ -115,212 +113,131 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->context = ilOrgUnitOperationContextQueries::findById($this->getContextId());
     }
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-
     /**
      * @return int
      */
-    public function getContextId()
+    public function getContextId(): int
     {
         return $this->context_id;
     }
 
-
     /**
      * @param int $context_id
      */
-    public function setContextId($context_id)
+    public function setContextId(int $context_id): void
     {
         $this->context_id = $context_id;
     }
 
-
     /**
-     * @return \ilOrgUnitOperation[]
+     * @return ilOrgUnitOperation[]
      */
-    public function getOperations()
+    public function getOperations(): array
     {
         return $this->operations;
     }
 
-
     /**
-     * @param \ilOrgUnitOperation[] $operations
+     * @param ilOrgUnitOperation[] $operations
      */
-    public function setOperations($operations)
+    public function setOperations(array $operations): void
     {
         $this->operations = $operations;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getParentId()
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
-
-    /**
-     * @param int $parent_id
-     */
-    public function setParentId($parent_id)
+    public function setParentId(int $parent_id)
     {
         $this->parent_id = $parent_id;
     }
 
-
-    /**
-     * @return \ilOrgUnitOperation[]
-     */
-    public function getPossibleOperations()
+    public function getPossibleOperations(): array
     {
         return $this->possible_operations;
     }
 
-
-    /**
-     * @return int[]
-     */
-    public function getSelectedOperationIds()
+    public function getSelectedOperationIds(): array
     {
         return $this->selected_operation_ids;
     }
 
-
-    /**
-     * @param $operation_id
-     *
-     * @return bool
-     */
-    public function isOperationIdSelected($operation_id)
+    public function isOperationIdSelected(string $operation_id): bool
     {
         return in_array($operation_id, $this->selected_operation_ids);
     }
 
-
-    /**
-     * @return \ilOrgUnitOperationContext
-     */
-    public function getContext()
+    public function getContext(): ?ilOrgUnitOperationContext
     {
         return $this->context;
     }
 
-
-    /**
-     * @param \ilOrgUnitOperationContext $context
-     */
-    public function setContext($context)
+    public function setContext(ilOrgUnitOperationContext $context)
     {
         $this->context = $context;
     }
 
-
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getPositionId()
+    public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-
-    /**
-     * @param int $position_id
-     */
-    public function setPositionId($position_id)
+    public function setPositionId(int $position_id)
     {
         $this->position_id = $position_id;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isTemplate()
+    public function isTemplate(): bool
     {
-        return ($this->getParentId() == self::PARENT_TEMPLATE);
+        return ($this->getParentId() === self::PARENT_TEMPLATE);
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isDedicated()
+    public function isDedicated(): bool
     {
         return ($this->getParentId() != self::PARENT_TEMPLATE);
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isProtected()
+    public function isProtected(): bool
     {
         return $this->protected;
     }
 
-
-    /**
-     * @param bool $protected
-     */
-    public function setProtected($protected)
+    public function setProtected(bool $protected): void
     {
         $this->protected = $protected;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isNewlyCreated()
+    public function isNewlyCreated(): bool
     {
         return $this->newly_created;
     }
 
-
-    /**
-     * @param bool $newly_created
-     */
-    public function setNewlyCreated($newly_created)
+    public function setNewlyCreated(bool $newly_created)
     {
         $this->newly_created = $newly_created;
     }
 
-
-    /**
-     * @param $field_name
-     *
-     * @return mixed|string
-     */
     public function sleep($field_name)
     {
         switch ($field_name) {
@@ -336,11 +253,9 @@ class ilOrgUnitPermission extends ActiveRecord
         return parent::sleep($field_name);
     }
 
-
     /**
      * @param $field_name
      * @param $field_value
-     *
      * @return mixed
      */
     public function wakeUp($field_name, $field_value)

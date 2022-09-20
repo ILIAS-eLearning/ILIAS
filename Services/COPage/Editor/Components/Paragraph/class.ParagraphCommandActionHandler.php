@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\Paragraph;
 
@@ -43,7 +46,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -81,7 +84,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function insertCommand(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $updated = $this->insertParagraph($body["data"]["pcid"], $body["data"]["after_pcid"], $body["data"]["content"], $body["data"]["characteristic"], $body["data"]["fromPlaceholder"]);
 
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
@@ -119,14 +122,14 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
 
     protected function autoInsertCommand(
         array $body
-    ) : Server\Response {
+    ): Server\Response {
         return $this->insertCommand($body, true);
     }
 
     protected function updateCommand(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $updated = $this->updateParagraph($body["data"]["pcid"], $body["data"]["content"], $body["data"]["characteristic"]);
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
     }
@@ -155,7 +158,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         );
     }
 
-    protected function autoUpdateCommand(array $body) : Server\Response
+    protected function autoUpdateCommand(array $body): Server\Response
     {
         return $this->updateCommand($body, true);
     }
@@ -163,7 +166,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function split(
         array $body,
         bool $auto = false
-    ) : Server\Response {
+    ): Server\Response {
         $page = $this->page_gui->getPageObject();
 
         $pcid = ":" . $body["data"]["pcid"];
@@ -213,7 +216,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     protected function getFullIdForPCId(
         \ilPageObject $page,
         string $pc_id
-    ) : string {
+    ): string {
         $id = "pg:";
         if (!in_array($pc_id, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pc_id]);
@@ -226,7 +229,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         string $pcid,
         string $content,
         string $characteristic
-    ) : string {
+    ): string {
         $content = str_replace("&nbsp;", " ", $content);
         return "<div id='" .
             $pcid . "' class='ilc_text_block_" .
@@ -239,7 +242,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPageUnknownPCTypeException
      * @throws \ilDateTimeException
      */
-    protected function sectionClassCommand(array $body) : Server\Response
+    protected function sectionClassCommand(array $body): Server\Response
     {
         $insert_mode = $body["data"]["insert_mode"];
         $after_pcid = $body["data"]["after_pcid"];
@@ -256,18 +259,20 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             $updated = $this->insertParagraph($pcid, $after_pcid, $content, $characteristic);
         }
 
+
         /** @var \ilPageObject $page */
         if ($updated) {
             $page = $this->page_gui->getPageObject();
             $page->addHierIDs();
             $parent = $page->getParentContentObjectForPcId($pcid);
+
             // case 1: parent section exists and new characteristic is not empty
             if (!is_null($parent) && $parent->getType() == "sec" && $new_section_characteristic != "") {
                 $parent->setCharacteristic($new_section_characteristic);
                 $updated = $page->update();
             }
             // case 2: move from none to section
-            if ((is_null($parent) || $parent->getType() != "sec") && $old_section_characteristic == "" && $new_section_characteristic != "") {
+            elseif ((is_null($parent) || $parent->getType() != "sec") && $old_section_characteristic == "" && $new_section_characteristic != "") {
                 $sec = new \ilPCSection($page);
                 $hier_ids = $page->getHierIdsForPCIds([$pcid]);
                 $sec->create($page, $hier_ids[$pcid], $pcid);
@@ -278,11 +283,29 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $page->addHierIDs();
                 $par = $page->getContentObjectForPcId($pcid);
                 $sec = $page->getContentObjectForPcId($sec_pcid);
+                // note: we want the pcid of the Section itself here
                 $sec_node_pc_id = $sec->getNode()->first_child()->get_attribute("PCID");
                 $hier_ids = $page->getHierIdsForPCIds([$sec_node_pc_id]);
                 $node = $par->getNode();
                 $node->unlink_node();
                 $page->insertContentNode($node, $hier_ids[$sec_node_pc_id], IL_INSERT_CHILD, $sec_node_pc_id);
+                $updated = $page->update();
+            }            // case 3: move from section to none
+            elseif ((!is_null($parent) && $parent->getType() == "sec") && $old_section_characteristic != "" && $new_section_characteristic == "") {
+                // note: we want the pcid of the PageContent element of the Section here
+                $sec_node_pc_id = $parent->getNode()->get_attribute("PCID");
+                $sec_node_hier_id = $page->getHierIdForPCId($sec_node_pc_id);
+                // all kids of the section
+                $childs_reverse = array_reverse($parent->getNode()->first_child()->child_nodes());
+                foreach ($childs_reverse as $child) {
+                    // unlink kid
+                    $child->unlink_node();
+                    // insert after section
+                    $page->insertContentNode($child, $sec_node_hier_id, IL_INSERT_AFTER, $sec_node_pc_id, true);
+                }
+                // unlink section
+                $node = $parent->getNode();
+                $node->unlink_node();
                 $updated = $page->update();
             }
         }
@@ -292,7 +315,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     /**
      * Merge with previous paragraph
      */
-    protected function mergePrevious(array $body) : Server\Response
+    protected function mergePrevious(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -318,7 +341,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @throws \ilCOPageUnknownPCTypeException
      * @throws \ilDateTimeException
      */
-    protected function cancelCommand(array $body) : Server\Response
+    protected function cancelCommand(array $body): Server\Response
     {
         $remove_section_for_pcid = $body["data"]["removeSectionFromPcid"];
         $par_text = $body["data"]["paragraphText"];
@@ -362,7 +385,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
     /**
      * Delete paragraph
      */
-    protected function deleteCommand(array $body) : Server\Response
+    protected function deleteCommand(array $body): Server\Response
     {
         $pcids = [$body["data"]["pcid"]];
 
@@ -384,7 +407,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function getIdForPCId(string $pcid) : string
+    protected function getIdForPCId(string $pcid): string
     {
         $page = $this->page_gui->getPageObject();
         $id = "pg:";

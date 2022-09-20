@@ -1,18 +1,31 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueContainer extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_bt_value";
     }
 
-
     /**
-     * @var int
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -20,255 +33,170 @@ class ValueContainer extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id;
+    protected ?int $id = null;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $has_parent_task;
+    protected ?int $has_parent_task = null;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $parent_task_id;
+    protected ?int $parent_task_id = null;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $hash;
+    protected ?string $hash = null;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $type;
+    protected ?string $type = null;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $class_path;
+    protected ?string $class_path = null;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $class_name;
+    protected ?string $class_name = null;
     /**
-     * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  clob
      */
-    protected $serialized;
+    protected ?string $serialized = null;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $bucket_id;
+    protected ?int $bucket_id = null;
     /**
-     * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $position;
+    protected ?int $position = null;
 
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getHasParenttask()
+    public function getHasParenttask(): int
     {
         return $this->has_parent_task;
     }
 
-
-    /**
-     * @param int $has_parent_task
-     */
-    public function setHasParenttask($has_parent_task)
+    public function setHasParenttask(int $has_parent_task): void
     {
         $this->has_parent_task = $has_parent_task;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getParentTaskid()
+    public function getParentTaskid(): int
     {
         return $this->parent_task_id;
     }
 
-
-    /**
-     * @param int $parent_task_id
-     */
-    public function setParentTaskid($parent_task_id)
+    public function setParentTaskid(int $parent_task_id): void
     {
         $this->parent_task_id = $parent_task_id;
     }
 
-
     /**
      * @return string|null
      */
-    public function getHash()
+    public function getHash(): string
     {
         return $this->hash;
     }
 
-
     /**
      * @param string|null $hash may be null for thunk values.
      */
-    public function setHash($hash)
+    public function setHash(?string $hash): void
     {
         $this->hash = $hash;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
+    public function setType(string $type): void
     {
         $this->type = $type;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getClassPath()
+    public function getClassPath(): string
     {
         return $this->class_path;
     }
 
-
-    /**
-     * @param string $class_path
-     */
-    public function setClassPath($class_path)
+    public function setClassPath(string $class_path): void
     {
         $this->class_path = $class_path;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getClassName()
+    public function getClassName(): string
     {
         return $this->class_name;
     }
 
-
-    /**
-     * @param string $class_name
-     */
-    public function setClassName($class_name)
+    public function setClassName(string $class_name): void
     {
         $this->class_name = $class_name;
     }
 
-
     /**
      * @return string|null
      */
-    public function getSerialized()
+    public function getSerialized(): string
     {
         return $this->serialized;
     }
 
-
     /**
      * @param string|null $serialized May be null for thunk values.
      */
-    public function setSerialized($serialized)
+    public function setSerialized(?string $serialized): void
     {
         $this->serialized = $serialized;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getBucketId()
+    public function getBucketId(): int
     {
         return $this->bucket_id;
     }
 
-
-    /**
-     * @param int $bucket_id
-     */
-    public function setBucketId($bucket_id)
+    public function setBucketId(int $bucket_id): void
     {
         $this->bucket_id = $bucket_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition($position)
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
-
 }

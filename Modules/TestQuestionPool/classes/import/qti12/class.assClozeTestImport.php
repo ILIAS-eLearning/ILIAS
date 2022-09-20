@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for cloze question imports
@@ -19,7 +31,7 @@ class assClozeTestImport extends assQuestionImport
     *
     * Receives parameters from a QTI parser and creates a valid ILIAS question object
     *
-    * @param object $item The QTI item object
+    * @param ilQTIItem $item The QTI item object
     * @param integer $questionpool_id The id of the parent questionpool
     * @param integer $tst_id The id of the parent test if the question is part of a test
     * @param object $tst_object A reference to the parent test object
@@ -27,13 +39,13 @@ class assClozeTestImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
         // empty session variable for imported xhtml mobs
-        unset($_SESSION["import_mob_xhtml"]);
+        ilSession::clear('import_mob_xhtml');
         $presentation = $item->getPresentation();
         $duration = $item->getDuration();
 
@@ -49,7 +61,7 @@ class assClozeTestImport extends assQuestionImport
                 $item->getIliasSourceNic()
             );
         }
-            
+
         $clozetext = array();
         $shuffle = 0;
         $now = getdate();
@@ -62,13 +74,13 @@ class assClozeTestImport extends assQuestionImport
                     $materialString = $this->object->QTIMaterialToString(
                         $presentation->material[$entry["index"]]
                     );
-                    
+
                     if ($questiontext === '&nbsp;') {
                         $questiontext = $materialString;
                     } else {
                         array_push($clozetext, $materialString);
                     }
-                    
+
                     break;
                 case "response":
                     $response = $presentation->response[$entry["index"]];
@@ -78,8 +90,8 @@ class assClozeTestImport extends assQuestionImport
                     switch (strtolower(get_class($response->getRenderType()))) {
                         case "ilqtirenderfib":
                             switch ($response->getRenderType()->getFibtype()) {
-                                case FIBTYPE_DECIMAL:
-                                case FIBTYPE_INTEGER:
+                                case ilQTIRenderFib::FIBTYPE_DECIMAL:
+                                case ilQTIRenderFib::FIBTYPE_INTEGER:
                                     array_push(
                                         $gaps,
                                         array(
@@ -93,7 +105,7 @@ class assClozeTestImport extends assQuestionImport
                                     );
                                     break;
                                 default:
-                                case FIBTYPE_STRING:
+                                case ilQTIRenderFib::FIBTYPE_STRING:
                                     array_push(
                                         $gaps,
                                         array("ident" => $response->getIdent(),
@@ -162,7 +174,7 @@ class assClozeTestImport extends assQuestionImport
                                         "points" => $setvar->getContent(),
                                         "answerorder" => count($gaps[$gi]["answers"]),
                                         "action" => $setvar->getAction()
-                                        
+
                                     ));
                                 } elseif ($g["type"] == CLOZE_NUMERIC) {
                                     array_push($gaps[$gi]["answers"], array(
@@ -236,15 +248,15 @@ class assClozeTestImport extends assQuestionImport
                 }
             }
         }
-    
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $textgap_rating = $item->getMetadataEntry("textgaprating");
         $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
         $this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
@@ -265,7 +277,7 @@ class assClozeTestImport extends assQuestionImport
             foreach ($gap["answers"] as $index => $answer) {
                 include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
-                $gapanswer->setGapSize($gap["gap_size"]);
+                $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
                     case CLOZE_SELECT:
                         $clozegap->setShuffle($answer["shuffle"]);
@@ -275,17 +287,17 @@ class assClozeTestImport extends assQuestionImport
                         $gapanswer->setUpperBound($gap["maxnumber"]);
                         break;
                 }
-                $clozegap->setGapSize($gap["gap_size"]);
+                $clozegap->setGapSize((int) ($gap["gap_size"] ?? 0));
                 $clozegap->addItem($gapanswer);
                 array_push($gapcontent, $answer["answertext"]);
             }
             $this->object->addGapAtIndex($clozegap, $gapidx);
             $gaptext[$gap["ident"]] = "[gap]" . join(",", $gapcontent) . "[/gap]";
         }
-    
+
         $this->object->setQuestion($questiontext);
         $clozetext = join("", $clozetext);
-        
+
         foreach ($gaptext as $idx => $val) {
             $clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
         }
@@ -308,10 +320,10 @@ class assClozeTestImport extends assQuestionImport
         }
         $questiontext = $this->object->getQuestion();
         $clozetext = $this->object->getClozeText();
-        if (is_array($_SESSION["import_mob_xhtml"])) {
+        if (is_array(ilSession::get("import_mob_xhtml"))) {
             include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
             include_once "./Services/RTE/classes/class.ilRTE.php";
-            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            foreach (ilSession::get("import_mob_xhtml") as $mob) {
                 if ($tst_id > 0) {
                     $importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
                 } else {
@@ -319,7 +331,7 @@ class assClozeTestImport extends assQuestionImport
                 }
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 $clozetext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $clozetext);
@@ -352,9 +364,12 @@ class assClozeTestImport extends assQuestionImport
         $this->object->saveToDb();
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+                $this->importSuggestedSolution(
+                    $this->object->getId(),
+                    $suggested_solution["solution"]->getContent(),
+                    $suggested_solution["gap_index"]
+                );
             }
-            $this->object->saveToDb();
         }
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
@@ -372,18 +387,18 @@ class assClozeTestImport extends assQuestionImport
         }
         $this->object->saveToDb();
     }
-    
+
     /**
      * @param string $ident
      * @return ilAssSpecificFeedbackIdentifier
      */
-    protected function buildFeedbackIdentifier($ident)
+    protected function buildFeedbackIdentifier($ident): ilAssSpecificFeedbackIdentifier
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
         $fbIdentifier = new ilAssSpecificFeedbackIdentifier();
-        
+
         $ident = explode('_', $ident);
-        
+
         if (count($ident) > 1) {
             $fbIdentifier->setQuestionIndex($ident[0]);
             $fbIdentifier->setAnswerIndex($ident[1]);
@@ -391,7 +406,7 @@ class assClozeTestImport extends assQuestionImport
             $fbIdentifier->setQuestionIndex($ident[0]);
             $fbIdentifier->setAnswerIndex(0);
         }
-        
+
         return $fbIdentifier;
     }
 }

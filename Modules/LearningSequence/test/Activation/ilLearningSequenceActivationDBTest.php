@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -11,19 +27,19 @@ class ilLearningSequenceActivationDBTest extends TestCase
      */
     protected $db;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->db = $this->createMock(ilDBInterface::class);
     }
 
-    public function testCreateObjectMinimal() : void
+    public function testCreateObjectMinimal(): void
     {
         $obj = new ilLearningSequenceActivationDB($this->db);
 
         $this->assertInstanceOf(ilLearningSequenceActivationDB::class, $obj);
     }
 
-    public function testGetActivationForRefIdWithoutData() : void
+    public function testGetActivationForRefIdWithoutData(): void
     {
         $sql =
              'SELECT ref_id, online, effective_online, activation_start_ts, activation_end_ts' . PHP_EOL
@@ -74,7 +90,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $this->assertNull($settings->getActivationEnd());
     }
 
-    public function testGetActivationForRefIdWithData() : void
+    public function testGetActivationForRefIdWithData(): void
     {
         $start_date = new DateTime('2021-07-21 08:19');
         $end_date = new DateTime('2021-07-21 08:20');
@@ -129,7 +145,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $this->assertEquals($end_date, $settings->getActivationEnd());
     }
 
-    public function testDeleteForRefId() : void
+    public function testDeleteForRefId(): void
     {
         $sql =
              'DELETE FROM lso_activation' . PHP_EOL
@@ -152,7 +168,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
         $obj->deleteForRefId(44);
     }
 
-    public function testStore() : void
+    public function testStore(): void
     {
         $start_date = new DateTime('2021-07-21 08:19');
         $end_date = new DateTime('2021-07-21 08:20');

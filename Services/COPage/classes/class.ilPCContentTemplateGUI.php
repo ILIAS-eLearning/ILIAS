@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCContentTemplateGUI
@@ -25,7 +28,7 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
 {
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -40,7 +43,7 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -58,10 +61,10 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
     /**
      * Insert content template
      */
-    public function insert() : void
+    public function insert(): void
     {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
         $form = $this->initForm();
         $tpl->setContent($form->getHTML());
@@ -70,11 +73,11 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
     /**
      * Init creation from
      */
-    public function initForm() : ilPropertyFormGUI
+    public function initForm(): ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         // edit form
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -101,10 +104,10 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
     /**
      * Insert the template
      */
-    public function create() : void
+    public function create(): void
     {
         $tpl = $this->tpl;
-        
+
         $form = $this->initForm();
         if ($form->checkInput()) {
             $this->content_obj = new ilPCContentTemplate($this->getPage());

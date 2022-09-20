@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCContentIncludeGUI
@@ -27,7 +30,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -41,7 +44,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -59,7 +62,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     /**
      * Insert new resources component form.
      */
-    public function insert() : void
+    public function insert(): void
     {
         switch ($this->sub_command) {
             case "selectPool":
@@ -75,11 +78,11 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
                 break;
         }
     }
-    
+
     /**
      * Insert page snippet from media pool
      */
-    public function insertFromPool() : void
+    public function insertFromPool(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -123,7 +126,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     /**
      * Pool Selection
      */
-    public function poolSelection() : void
+    public function poolSelection(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -143,7 +146,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     /**
      * create new content include in dom and update page in db
      */
-    public function create() : void
+    public function create(): void
     {
         $ids = $this->request->getIntArray("id");
         if (count($ids) > 0) {
@@ -170,10 +173,10 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     /**
      * Select concrete pool
      */
-    public function selectPool() : void
+    public function selectPool(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $this->edit_repo->setMediaPool($this->request->getInt("pool_ref_id"));
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         $ilCtrl->redirect($this, "insert");

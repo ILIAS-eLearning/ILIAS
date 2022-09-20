@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,43 +27,31 @@
 * Lucene query input form gui
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneQueryInputGUI extends ilTextInputGUI
 {
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_title, $a_postvar)
+    public function checkInput(): bool
     {
-        parent::__construct($a_title, $a_postvar);
-    }
-    
-    public function checkInput() : bool
-    {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        
         $ok = parent::checkInput();
-        
-        $query = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        
+
+        $query = '';
+        if ($this->http->wrapper()->post()->has($this->getPostVar())) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar(),
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         if (!$ok or !strlen($query)) {
             return false;
         }
-        
-        include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
         try {
             ilLuceneQueryParser::validateQuery($query);
             return true;
         } catch (ilLuceneQueryParserException $e) {
-            $this->setAlert($lng->txt($e->getMessage()));
+            $this->setAlert($this->lng->txt($e->getMessage()));
             return false;
         }
     }

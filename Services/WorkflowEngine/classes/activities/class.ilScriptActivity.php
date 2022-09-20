@@ -1,17 +1,27 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilScriptActivity
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
@@ -19,26 +29,18 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
     private $context;
 
-    /** @var string $method */
-    private $method = '';
+    /** @var string|Closure|null */
+    private $method;
 
-    /** @var string $name */
-    protected $name;
+    protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setMethod($value)
+    /** @param string|Closure|null $value */
+    public function setMethod($value): void
     {
         $this->method = $value;
     }
@@ -48,7 +50,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @see $setting_value
      *
-     * @return string
+     * @return string|Closure|null
      */
     public function getScript()
     {
@@ -57,10 +59,9 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Executes this action according to its settings.
-     *
      * @return void
      */
-    public function execute()
+    public function execute(): void
     {
         $method = $this->method;
         $return_value = $this->context->getContext()->$method($this);
@@ -79,18 +80,12 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
         return $this->context;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

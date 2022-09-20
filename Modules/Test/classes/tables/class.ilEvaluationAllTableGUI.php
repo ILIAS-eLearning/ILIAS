@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
@@ -16,7 +31,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
     protected $anonymity;
-    
+
     /**
      * flag for offering question hints
      *
@@ -29,17 +44,17 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
-        
+
         $this->setId("tst_eval_all");
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->setFormName('evaluation_all');
         $this->setStyle('table', 'fullwidth');
         $this->addColumn($lng->txt("name"), "name", "");
         $this->addColumn($lng->txt("login"), "login", "");
-        
+
         $this->anonymity = $anonymity;
         $this->offeringQuestionHintsEnabled = $offeringQuestionHintsEnabled;
 
@@ -66,15 +81,15 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 if (strcmp($c, 'zipcode') == 0) {
                     $this->addColumn($this->lng->txt("zipcode"), 'zipcode', '');
                 }
-                
+
                 if ($this->isFieldEnabledEnoughByAdministration('country') && $c == 'country') {
                     $this->addColumn($this->lng->txt("country"), 'country', '');
                 }
-                
+
                 if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country') {
                     $this->addColumn($this->lng->txt("country"), 'sel_country', '');
                 }
-                
+
                 if (strcmp($c, 'department') == 0) {
                     $this->addColumn($this->lng->txt("department"), 'department', '');
                 }
@@ -83,16 +98,16 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+
         $this->addColumn($lng->txt("tst_reached_points"), "reached", "");
-        
+
         if ($this->offeringQuestionHintsEnabled) {
             $this->addColumn($lng->txt("tst_question_hints_requested_hint_count_header"), "hint_count", "");
         }
-        
+
         $this->addColumn($lng->txt("tst_mark"), "mark", "");
-        
-        if ($this->parent_obj->object->getECTSOutput()) {
+
+        if ($this->parent_obj->getObject()->getECTSOutput()) {
             foreach ($this->getSelectedColumns() as $c) {
                 if (strcmp($c, 'ects_grade') == 0) {
                     $this->addColumn($this->lng->txt("ects_grade"), 'ects_grade', '');
@@ -121,10 +136,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
     /**
     * Should this field be sorted numeric?
-    *
     * @return	boolean		numeric ordering; default is false
     */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'name':
@@ -145,8 +159,8 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 break;
         }
     }
-    
-    public function getSelectableColumns()
+
+    public function getSelectableColumns(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -196,14 +210,14 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 "txt" => $lng->txt("matriculation"),
                 "default" => false
             );
-            if ($this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+            if ($this->parent_obj->getObject()->isShowExamIdInTestResultsEnabled()) {
                 $cols["exam_id"] = array(
                     "txt" => $lng->txt("exam_id_label"),
                     "default" => false
                 );
             }
         }
-        if ($this->parent_obj->object->getECTSOutput()) {
+        if ($this->parent_obj->getObject()->getECTSOutput()) {
             $cols["ects_grade"] = array(
                 "txt" => $lng->txt("ects_grade"),
                 "default" => false
@@ -215,13 +229,13 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
-        
+
         // name
         include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("name"), "name");
@@ -230,8 +244,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setSize(20);
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["name"] = $ti->getValue();
-        
+
         // group
         $ti = new ilTextInputGUI($lng->txt("grp"), "group");
         $ti->setMaxLength(64);
@@ -239,8 +252,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setSize(20);
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["group"] = $ti->getValue();
-        
+
         // course
         $ti = new ilTextInputGUI($lng->txt("course"), "course");
         $ti->setMaxLength(64);
@@ -248,80 +260,78 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setValidationRegexp('/^[^%]*$/is');
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["course"] = $ti->getValue();
-        
+
         // passed tests
         include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
         $si = new ilCheckboxInputGUI($this->lng->txt("passed_only"), "passed_only");
         //		$si->setOptionTitle();
         $this->addFilterItem($si);
         $si->readFromSession();
-        $this->filter["passedonly"] = $si->getValue();
     }
 
     /**
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($data)
+    protected function fillRow(array $a_set): void
     {
-        $this->tpl->setVariable("NAME", $data['name']);
-        $this->tpl->setVariable("LOGIN", $data['login']);
+        $this->tpl->setVariable("NAME", $a_set['name']);
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
         foreach ($this->getSelectedColumns() as $c) {
             if (!$this->anonymity) {
                 if (strcmp($c, 'gender') == 0) {
                     $this->tpl->setCurrentBlock('gender');
-                    $this->tpl->setVariable("GENDER", $this->lng->txt('gender_' . $data['gender']));
+                    $this->tpl->setVariable("GENDER", strlen($a_set['gender']) ? $this->lng->txt('gender_' . $a_set['gender']) : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'email') == 0) {
                     $this->tpl->setCurrentBlock('email');
-                    $this->tpl->setVariable("EMAIL", strlen($data['email']) ? $data['email'] : '&nbsp;');
+                    $this->tpl->setVariable("EMAIL", strlen($a_set['email']) ? $a_set['email'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'institution') == 0) {
                     $this->tpl->setCurrentBlock('institution');
-                    $this->tpl->setVariable("INSTITUTION", strlen($data['institution']) ? $data['institution'] : '&nbsp;');
+                    $this->tpl->setVariable("INSTITUTION", strlen($a_set['institution']) ? $a_set['institution'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'street') == 0) {
                     $this->tpl->setCurrentBlock('street');
-                    $this->tpl->setVariable("STREET", strlen($data['street']) ? $data['street'] : '&nbsp;');
+                    $this->tpl->setVariable("STREET", strlen($a_set['street']) ? $a_set['street'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'city') == 0) {
                     $this->tpl->setCurrentBlock('city');
-                    $this->tpl->setVariable("CITY", strlen($data['city']) ? $data['city'] : '&nbsp;');
+                    $this->tpl->setVariable("CITY", strlen($a_set['city']) ? $a_set['city'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'zipcode') == 0) {
                     $this->tpl->setCurrentBlock('zipcode');
-                    $this->tpl->setVariable("ZIPCODE", strlen($data['zipcode']) ? $data['zipcode'] : '&nbsp;');
+                    $this->tpl->setVariable("ZIPCODE", strlen($a_set['zipcode']) ? $a_set['zipcode'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($this->isFieldEnabledEnoughByAdministration('country') && $c == 'country') {
                     $this->tpl->setCurrentBlock('country');
-                    $this->tpl->setVariable("COUNTRY", strlen($data['country']) ? $data['country'] : '&nbsp;');
+                    $this->tpl->setVariable("COUNTRY", strlen($a_set['country']) ? $a_set['country'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if ($this->isFieldEnabledEnoughByAdministration('sel_country') && $c == 'sel_country') {
                     $this->tpl->setCurrentBlock('country');
-                    $this->tpl->setVariable("COUNTRY", strlen($data['sel_country']) ? $this->getCountryTranslation($data['sel_country']) : '&nbsp;');
+                    $this->tpl->setVariable("COUNTRY", strlen($a_set['sel_country']) ? $this->getCountryTranslation($a_set['sel_country']) : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'department') == 0) {
                     $this->tpl->setCurrentBlock('department');
-                    $this->tpl->setVariable("DEPARTMENT", strlen($data['department']) ? $data['department'] : '&nbsp;');
+                    $this->tpl->setVariable("DEPARTMENT", strlen($a_set['department']) ? $a_set['department'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'matriculation') == 0) {
                     $this->tpl->setCurrentBlock('matriculation');
-                    $this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
+                    $this->tpl->setVariable("MATRICULATION", strlen($a_set['matriculation']) ? $a_set['matriculation'] : '&nbsp;');
                     $this->tpl->parseCurrentBlock();
                 }
                 if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
                     $this->tpl->setCurrentBlock('exam_id');
-                    $examId = is_string($data['exam_id']) && strlen($data['exam_id']) ? $data['exam_id'] : '&nbsp;';
+                    $examId = is_string($a_set['exam_id']) && strlen($a_set['exam_id']) ? $a_set['exam_id'] : '&nbsp;';
                     $this->tpl->setVariable('EXAM_ID', $examId);
                     $this->tpl->parseCurrentBlock();
                 }
@@ -329,28 +339,28 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
             if ($this->parent_obj->object->getECTSOutput()) {
                 if (strcmp($c, 'ects_grade') == 0) {
                     $this->tpl->setCurrentBlock('ects_grade');
-                    $this->tpl->setVariable("ECTS_GRADE", $data['ects_grade']);
+                    $this->tpl->setVariable("ECTS_GRADE", $a_set['ects_grade']);
                     $this->tpl->parseCurrentBlock();
                 }
             }
         }
-        $reachedPercent = !$data['max'] ? 0 : $data['reached'] / $data['max'] * 100;
-        $reached = $data['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $data['max'] . " (" . sprintf("%2.2f", $reachedPercent) . " %)";
+        $reachedPercent = !$a_set['max'] ? 0 : $a_set['reached'] / $a_set['max'] * 100;
+        $reached = $a_set['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['max'] . " (" . sprintf("%2.2f", $reachedPercent) . " %)";
         $this->tpl->setVariable("REACHED", $reached);
-        
+
         if ($this->offeringQuestionHintsEnabled) {
-            $this->tpl->setVariable("HINT_COUNT", $data['hint_count']);
+            $this->tpl->setVariable("HINT_COUNT", $a_set['hint_count']);
         }
 
-        $data['answered'] = $data['questions_worked_through'] . " " . strtolower($this->lng->txt("of")) . " " . $data['number_of_questions'] . " (" . sprintf("%2.2f", $data['answered']) . " %" . ")";
+        $a_set['answered'] = $a_set['questions_worked_through'] . " " . strtolower($this->lng->txt("of")) . " " . $a_set['number_of_questions'] . " (" . sprintf("%2.2f", $a_set['answered']) . " %" . ")";
 
-        $this->tpl->setVariable("MARK", $data['mark']);
-        $this->tpl->setVariable("ANSWERED", $data['answered']);
-        $this->tpl->setVariable("WORKING_TIME", $data['working_time']);
-        $this->tpl->setVariable("DETAILED", $data['details']);
+        $this->tpl->setVariable("MARK", $a_set['mark']);
+        $this->tpl->setVariable("ANSWERED", $a_set['answered']);
+        $this->tpl->setVariable("WORKING_TIME", $a_set['working_time']);
+        $this->tpl->setVariable("DETAILED", $a_set['details']);
     }
-    
-    public function getSelectedColumns()
+
+    public function getSelectedColumns(): array
     {
         $scol = parent::getSelectedColumns();
 
@@ -358,9 +368,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         if (!is_array($cols)) {
             $cols = array();
         }
-        
+
         $fields_to_unset = array_diff(array_keys($scol), array_keys($cols));
-        
+
         foreach ($fields_to_unset as $key) {
             unset($scol[$key]);
         }
@@ -373,11 +383,11 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         return $this->lng->txt('meta_c_' . $countryCode);
     }
 
-    protected function isFieldEnabledEnoughByAdministration($fieldIdentifier)
+    protected function isFieldEnabledEnoughByAdministration($fieldIdentifier): bool
     {
         global $DIC;
         $ilSetting = $DIC['ilSetting'];
-        
+
         if ($ilSetting->get("usr_settings_hide_" . $fieldIdentifier)) { // visible
             return false;
         }
@@ -389,15 +399,15 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         if (!$ilSetting->get('usr_settings_visib_lua_' . $fieldIdentifier)) { // visib_lua
             return false;
         }
-        
+
         if ($ilSetting->get("usr_settings_disable_" . $fieldIdentifier)) { // changeable
             return false;
         }
-        
+
         if (!$ilSetting->get('usr_settings_changeable_lua_' . $fieldIdentifier)) { // changeable_lua
             return false;
         }
-        
+
         return true;
     }
 }

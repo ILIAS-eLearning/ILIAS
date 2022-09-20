@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -11,36 +25,24 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use ILIAS\FileUpload\MimeType;
 
 /*
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilExcel
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public const FORMAT_XML = "Xlsx";
+    public const FORMAT_BIFF = "Xls";
+    protected string $format;
+
+    protected ilLanguage $lng;
+    protected Spreadsheet $workbook;
+    protected string $type;
 
     /**
-     * @var PhpOffice\PhpSpreadsheet\
-     */
-    protected $workbook; // [PhpSpreadsheet]
-    
-    /**
-     * @var string
-     */
-    protected $type; // [string]
-    
-    const FORMAT_XML = "Xlsx";
-    const FORMAT_BIFF = "Xls";
-    
-    /**
-     * Constructor
-     *
-     * @return self
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
     public function __construct()
     {
@@ -58,80 +60,73 @@ class ilExcel
 
     /**
      * Loads a spreadsheet from file
-     * @param $filename
      */
-    public function loadFromFile($filename)
+    public function loadFromFile(string $filename): void
     {
         $this->workbook = IOFactory::load($filename);
     }
-    
+
     //
     // type/format
     //
-    
+
     /**
      * Get valid file formats
-     *
-     * @return array
      */
-    public function getValidFormats()
+    public function getValidFormats(): array
     {
         return array(self::FORMAT_XML, self::FORMAT_BIFF);
     }
-    
+
     /**
      * Set file format
-     *
-     * @param string $a_format
      */
-    public function setFormat($a_format)
+    public function setFormat(string $a_format): void
     {
         if (in_array($a_format, $this->getValidFormats())) {
             $this->format = $a_format;
         }
     }
-    
-    
+
+
     //
     // sheets
     //
-    
+
     /**
      * Add sheet
      *
-     * @param string $a_name
-     * @param bool $a_activate
-     * @return int index
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function addSheet($a_name, $a_activate = true)
-    {
+    public function addSheet(
+        string $a_name,
+        bool $a_activate = true
+    ): int {
         #20749
         // see Worksheet::$_invalidCharacters;
         $invalid = array('*', ':', '/', '\\', '?', '[', ']', '\'-','\'');
-        
+
         $a_name = str_replace($invalid, "", $a_name);
-        
+
         // #19056 - phpExcel only allows 31 chars
         // see https://github.com/PHPOffice/PHPExcel/issues/79
-        $a_name = ilUtil::shortenText($a_name, 31);
-        
+        $a_name = ilStr::shortenTextExtended($a_name, 31);
+
         $sheet = new Worksheet($this->workbook, $a_name);
         $this->workbook->addSheet($sheet);
         $new_index = $this->workbook->getSheetCount() - 1;
-        
-        if ((bool) $a_activate) {
+
+        if ($a_activate) {
             $this->setActiveSheet($new_index);
         }
-        
+
         return $new_index;
     }
-    
+
     /**
-     * Set active sheet
-     *
-     * @param int $a_index
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function setActiveSheet($a_index)
+    public function setActiveSheet(int $a_index): void
     {
         $this->workbook->setActiveSheetIndex($a_index);
     }
@@ -139,10 +134,8 @@ class ilExcel
 
     /**
      * Returns number of sheets
-     *
-     * @return int
      */
-    public function getSheetCount()
+    public function getSheetCount(): int
     {
         return $this->workbook->getSheetCount();
     }
@@ -150,30 +143,24 @@ class ilExcel
 
     /**
      * Return the current sheet title
-     *
-     * @return string
      */
-    public function getSheetTitle()
+    public function getSheetTitle(): string
     {
         return $this->workbook->getActiveSheet()->getTitle();
     }
-    
-    
+
+
     //
     // cells
     //
-    
+
     /**
      * Prepare value for cell
-     *
      * @param mixed $a_value
      * @return mixed
      */
     protected function prepareValue($a_value)
     {
-        $lng = $this->lng;
-        
-        // :TODO: does this make sense?
         if (is_bool($a_value)) {
             $a_value = $this->prepareBooleanValue($a_value);
         } elseif ($a_value instanceof ilDateTime) {
@@ -181,13 +168,13 @@ class ilExcel
         } elseif (is_string($a_value)) {
             $a_value = $this->prepareString($a_value);
         }
-        
+
         return $a_value;
     }
 
     /**
      * @param ilDateTime $a_value
-     * @return string
+     * @return false|float
      */
     protected function prepareDateValue(ilDateTime $a_value)
     {
@@ -204,50 +191,39 @@ class ilExcel
         return $a_value;
     }
 
-    /**
-     * @param bool $a_value
-     * @return string
-     */
-    protected function prepareBooleanValue($a_value)
+    protected function prepareBooleanValue(bool $a_value): string
     {
         $lng = $this->lng;
 
         return $a_value ? $lng->txt('yes') : $lng->txt('no');
     }
 
-    /**
-     * @param string $a_value
-     * @return string
-     */
-    protected function prepareString($a_value)
+    protected function prepareString(string $a_value): string
     {
         return strip_tags($a_value); // #14542
     }
 
     /**
-     * Set date format
+     * Set date format of cell
      *
      * @param Cell $a_cell
      * @param mixed $a_value
      */
-    protected function setDateFormat(Cell $a_cell, $a_value)
+    protected function setDateFormat(Cell $a_cell, $a_value): void
     {
         if ($a_value instanceof ilDate) {
-            // :TODO: i18n?
             $a_cell->getStyle()->getNumberFormat()->setFormatCode("dd.mm.yyyy");
         } elseif ($a_value instanceof ilDateTime) {
-            // :TODO: i18n?
             $a_cell->getStyle()->getNumberFormat()->setFormatCode("dd.mm.yyyy hh:mm:ss");
         }
     }
-    
+
     /**
      * Set cell value by coordinates
-     *
-     * @param string $a_coords
+     * @param string $a_coords Coordinate of the cell, eg: 'A1'
      * @param mixed $a_value
      */
-    public function setCellByCoordinates($a_coords, $a_value)
+    public function setCellByCoordinates($a_coords, $a_value): void
     {
         if ($a_value instanceof ilDateTime) {
             $wb = $this->workbook->getActiveSheet()->setCellValue(
@@ -276,11 +252,14 @@ class ilExcel
      * @param int   $a_row
      * @param int   $a_col
      * @param mixed $a_value
-     * @param null  $a_datatype
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @param ?string  $a_datatype Explicit data type, see DataType::TYPE_*
      */
-    public function setCell($a_row, $a_col, $a_value, $a_datatype = null)
-    {
+    public function setCell(
+        int $a_row,
+        int $a_col,
+        $a_value,
+        ?string $a_datatype = null
+    ): void {
         $col = $this->columnIndexAdjustment($a_col);
 
         if (!is_null($a_datatype)) {
@@ -313,16 +292,19 @@ class ilExcel
             );
         }
     }
-    
+
     /**
      * Set cell values from array
      *
      * @param array $a_values
      * @param string $a_top_left
-     * @param mixed $a_null_value
+     * @param mixed $a_null_value Value in source array that stands for blank cell
      */
-    public function setCellArray(array $a_values, $a_top_left = "A1", $a_null_value = null)
-    {
+    public function setCellArray(
+        array $a_values,
+        string $a_top_left = "A1",
+        $a_null_value = null
+    ): void {
         foreach ($a_values as $row_idx => $cols) {
             if (is_array($cols)) {
                 foreach ($cols as $col_idx => $col_value) {
@@ -332,65 +314,52 @@ class ilExcel
                 $a_values[$row_idx] = $this->prepareValue($cols);
             }
         }
-        
+
         $this->workbook->getActiveSheet()->fromArray($a_values, $a_null_value, $a_top_left);
     }
 
 
     /**
      * Returns the value of a cell
-     *
-     * @param int $a_row
-     * @param int $a_col
-     *
      * @return mixed
      */
-    public function getCell($a_row, $a_col)
-    {
+    public function getCell(
+        int $a_row,
+        int $a_col
+    ) {
         $col = $this->columnIndexAdjustment($a_col);
-
         return $this->workbook->getActiveSheet()->getCellByColumnAndRow($col, $a_row)->getValue();
     }
 
-
     /**
      * Returns the active sheet as an array
-     *
-     * @return array
      */
-    public function getSheetAsArray()
+    public function getSheetAsArray(): array
     {
         return $this->workbook->getActiveSheet()->toArray();
     }
 
-
     /**
      * Returns the number of columns the sheet contains
-     *
-     * @return int
      */
-    public function getColumnCount()
+    public function getColumnCount(): int
     {
         return Coordinate::columnIndexFromString($this->workbook->getActiveSheet()->getHighestDataColumn());
     }
 
     /**
      * Get column "name" from number
-     *
-     * @param int $a_col
-     * @return string
      */
-    public function getColumnCoord($a_col)
+    public function getColumnCoord(int $a_col): string
     {
         $col = $this->columnIndexAdjustment($a_col);
-
         return Coordinate::stringFromColumnIndex($col);
     }
-    
+
     /**
      * Set all existing columns on all sheets to autosize
      */
-    protected function setGlobalAutoSize()
+    protected function setGlobalAutoSize(): void
     {
         // this may change the active sheet
         foreach ($this->workbook->getWorksheetIterator() as $worksheet) {
@@ -403,143 +372,132 @@ class ilExcel
             }
         }
     }
-    
+
     //
     // deliver/save
     //
-    
+
     /**
      * Prepare workbook for storage/delivery
      */
-    protected function prepareStorage($a_file_name)
+    protected function prepareStorage(string $a_file_name): string
     {
         $this->setGlobalAutoSize();
         $this->workbook->setActiveSheetIndex(0);
-        
+
         switch ($this->format) {
             case self::FORMAT_BIFF:
                 if (!stristr($a_file_name, ".xls")) {
                     $a_file_name .= ".xls";
                 }
                 break;
-            
+
             case self::FORMAT_XML:
                 if (!stristr($a_file_name, ".xlsx")) {
                     $a_file_name .= ".xlsx";
                 }
                 break;
         }
-        
+
         return $a_file_name;
     }
-    
+
     /**
      * Send workbook to client
-     *
-     * @param string $a_file_name
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function sendToClient($a_file_name)
+    public function sendToClient(string $a_file_name): void
     {
         $a_file_name = $this->prepareStorage($a_file_name);
         switch ($this->format) {
             case self::FORMAT_BIFF:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__VND_MS_EXCEL;
+                $a_mime_type = MimeType::APPLICATION__VND_MS_EXCEL;
                 break;
 
             case self::FORMAT_XML:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET;
+                $a_mime_type = MimeType::APPLICATION__VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET;
                 break;
             default:
-                $a_mime_type = ilMimeTypeUtil::APPLICATION__OCTET_STREAM;
+                $a_mime_type = MimeType::APPLICATION__OCTET_STREAM;
                 break;
         }
-        $tmp_name = ilUtil::ilTempnam();
+        $tmp_name = ilFileUtils::ilTempnam();
 
         $writer = IOFactory::createWriter($this->workbook, $this->format);
         $writer->save($tmp_name);
 
         ilFileDelivery::deliverFileAttached($tmp_name, $a_file_name, $a_mime_type, true);
     }
-    
+
     /**
      * Save workbook to file
      *
-     * @param string $a_file full path
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function writeToFile($a_file)
+    public function writeToFile(string $a_file): void
     {
         $a_file = $this->prepareStorage($a_file);
-        
+
         $writer = IOFactory::createWriter($this->workbook, $this->format);
         $writer->save($a_file);
     }
 
-
     /**
-     * @return string
-     * @throws \PHPExcel_Reader_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function writeToTmpFile()
+    public function writeToTmpFile(): string
     {
         $writer = IOFactory::createWriter($this->workbook, $this->format);
-        $filename = ilUtil::ilTempnam();
+        $filename = ilFileUtils::ilTempnam();
         $writer->save($filename);
-        
+
         return $filename;
     }
 
-    //
-    // style (:TODO: more options?)
-    //
-    
     /**
      * Set cell(s) to bold
-     *
-     * @param string $a_coords
      */
-    public function setBold($a_coords)
+    public function setBold(string $a_coords): void
     {
         $this->workbook->getActiveSheet()->getStyle($a_coords)->getFont()->setBold(true);
     }
-    
+
     /**
      * Set cell(s) colors
-     *
-     * @param string $a_coords
-     * @param string $a_background
-     * @param string $a_font
      */
-    public function setColors($a_coords, $a_background, $a_font = null)
-    {
+    public function setColors(
+        string $a_coords,
+        string $a_background,
+        string $a_font = null
+    ): void {
         $opts = array(
             'fill' => array(
                 'fillType' => Fill::FILL_SOLID,
                 'color' => array('rgb' => $a_background)
             )
         );
-        
+
         if ($a_font) {
             $opts['font'] = array(
                 'color' => array('rgb' => $a_font)
             );
         }
-        
+
         $this->workbook->getActiveSheet()->getStyle($a_coords)->applyFromArray($opts);
     }
-    
+
     /**
      * Toggle cell(s) borders
-     *
-     * @param string $a_coords
-     * @param bool $a_top
-     * @param bool $a_right
-     * @param bool $a_bottom
-     * @param bool $a_left
      */
-    public function setBorders($a_coords, $a_top, $a_right = false, $a_bottom = false, $a_left = false)
-    {
+    public function setBorders(
+        string $a_coords,
+        bool $a_top,
+        bool $a_right = false,
+        bool $a_bottom = false,
+        bool $a_left = false
+    ): void {
         $style = $this->workbook->getActiveSheet()->getStyle($a_coords);
-        
+
         // :TODO: border styles?
         if ($a_top) {
             $style->getBorders()->getTop()->setBorderStyle(Border::BORDER_THIN);
@@ -557,13 +515,11 @@ class ilExcel
 
     /**
      * Get cell coordinate (e.g. "B2") for column and row number
-     *
-     * @param int $pColumn
-     * @param int $pRow
-     * @return string
      */
-    public function getCoordByColumnAndRow($pColumn = 1, $pRow = 1)
-    {
+    public function getCoordByColumnAndRow(
+        int $pColumn = 1,
+        int $pRow = 1
+    ): string {
         $col = $this->columnIndexAdjustment($pColumn);
         $columnLetter = Coordinate::stringFromColumnIndex($col);
 
@@ -571,24 +527,22 @@ class ilExcel
     }
 
     /**
-     * @param $a_row int
-     * @param $a_column int
-     * @param $a_path
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function addLink($a_row, $a_column, $a_path)
-    {
+    public function addLink(
+        int $a_row,
+        int $a_column,
+        string $a_path
+    ): void {
         $column = $this->columnIndexAdjustment($a_column);
-
         $this->workbook->getActiveSheet()->getCellByColumnAndRow($column, $a_row)->getHyperlink()->setUrl($a_path);
     }
 
     /**
      * Adjustment needed because of migration PHPExcel to PhpSpreadsheet.
      * PhpExcel column was 0 index based and PhpSpreadshet set this index to 1
-     * @param $column
-     * @return int
      */
-    public function columnIndexAdjustment(int $column) : int
+    public function columnIndexAdjustment(int $column): int
     {
         return ++$column;
     }
@@ -597,7 +551,7 @@ class ilExcel
      * @param string $coordinatesRange A coordinates range string like 'A1:B5'
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function mergeCells(string $coordinatesRange) : void
+    public function mergeCells(string $coordinatesRange): void
     {
         $this->workbook->getActiveSheet()->mergeCells($coordinatesRange);
     }

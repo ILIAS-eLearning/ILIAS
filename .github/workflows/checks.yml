@@ -8,10 +8,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0]
+        php: [8.0, 8.1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -22,7 +24,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --no-interaction --no-progress
+        run: composer update && composer install --no-interaction --no-progress
 
       - name: PHP Unit Test 
         run: CI/PHPUnit/run_tests.sh
@@ -33,10 +35,26 @@ jobs:
         run: CI/PHP-CS-Fixer/run_check.sh
         env:
           GHRUN: "yes"
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}
+
+      - name: Language Sort Check
+        run: CI/sort_langfile_entries.sh check
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}
 
       - name: Special Char Checker
         run: CI/Special-Char-Checker/special-char-checker.sh
         env:
           GHRUN: "yes"
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}
+
+      - name: Copyright Check
+        run: CI/Copyright-Checker/copyright-checker.sh
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}

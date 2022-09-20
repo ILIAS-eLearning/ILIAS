@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
@@ -16,32 +17,32 @@ class ilTestSkillLevelThresholdImporter
      * @var integer
      */
     protected $targetTestId = null;
-    
+
     /**
      * @var integer
      */
     protected $importInstallationId = null;
-    
+
     /**
      * @var ilImportMapping
      */
     protected $importMappingRegistry = null;
-    
+
     /**
      * @var ilAssQuestionSkillAssignmentList
      */
     protected $importedQuestionSkillAssignmentList = null;
-    
+
     /**
      * @var ilTestSkillLevelThresholdImportList
      */
     protected $importThresholdList = null;
-    
+
     /**
      * @var ilAssQuestionAssignedSkillList
      */
     protected $failedThresholdImportSkillList = null;
-    
+
     /**
      * ilTestSkillLevelThresholdImporter constructor.
      */
@@ -49,15 +50,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->failedThresholdImportSkillList = new ilAssQuestionAssignedSkillList();
     }
-    
+
     /**
      * @return int
      */
-    public function getTargetTestId()
+    public function getTargetTestId(): ?int
     {
         return $this->targetTestId;
     }
-    
+
     /**
      * @param int $targetTestId
      */
@@ -65,15 +66,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->targetTestId = $targetTestId;
     }
-    
+
     /**
      * @return int
      */
-    public function getImportInstallationId()
+    public function getImportInstallationId(): ?int
     {
         return $this->importInstallationId;
     }
-    
+
     /**
      * @param int $importInstallationId
      */
@@ -81,15 +82,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->importInstallationId = $importInstallationId;
     }
-    
+
     /**
      * @return ilImportMapping
      */
-    public function getImportMappingRegistry()
+    public function getImportMappingRegistry(): ?ilImportMapping
     {
         return $this->importMappingRegistry;
     }
-    
+
     /**
      * @param ilImportMapping $importMappingRegistry
      */
@@ -97,15 +98,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->importMappingRegistry = $importMappingRegistry;
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getImportedQuestionSkillAssignmentList()
+    public function getImportedQuestionSkillAssignmentList(): ?ilAssQuestionSkillAssignmentList
     {
         return $this->importedQuestionSkillAssignmentList;
     }
-    
+
     /**
      * @param ilAssQuestionSkillAssignmentList $importedQuestionSkillAssignmentList
      */
@@ -113,15 +114,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->importedQuestionSkillAssignmentList = $importedQuestionSkillAssignmentList;
     }
-    
+
     /**
      * @return ilTestSkillLevelThresholdImportList
      */
-    public function getImportThresholdList()
+    public function getImportThresholdList(): ?ilTestSkillLevelThresholdImportList
     {
         return $this->importThresholdList;
     }
-    
+
     /**
      * @param ilTestSkillLevelThresholdImportList $importThresholdList
      */
@@ -129,15 +130,15 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->importThresholdList = $importThresholdList;
     }
-    
+
     /**
      * @return ilAssQuestionAssignedSkillList
      */
-    public function getFailedThresholdImportSkillList()
+    public function getFailedThresholdImportSkillList(): ?ilAssQuestionAssignedSkillList
     {
         return $this->failedThresholdImportSkillList;
     }
-    
+
     /**
      * @param ilAssQuestionAssignedSkillList $failedThresholdImportSkillList
      */
@@ -145,88 +146,88 @@ class ilTestSkillLevelThresholdImporter
     {
         $this->failedThresholdImportSkillList = $failedThresholdImportSkillList;
     }
-    
+
     /**
      */
     public function import()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $importedLevelThresholdList = new ilTestSkillLevelThresholdList($ilDB);
-        
+
         foreach ($this->getImportedQuestionSkillAssignmentList()->getUniqueAssignedSkills() as $skillData) {
             /* @var ilBasicSkill $skill */
             $skill = $skillData['skill'];
-            
+
             $importSkillBaseId = $this->getImportMappingRegistry()->getMapping(
                 'Modules/Test',
                 'skl_base_id_reverse',
                 $skillData['skill_base_id']
             );
-            
+
             $importSkillTrefId = $this->getImportMappingRegistry()->getMapping(
                 'Modules/Test',
                 'skl_tref_id_reverse',
                 $skillData['skill_tref_id']
             );
-            
+
             $levelThresholds = $this->getImportThresholdList()->getThresholdsByImportSkill(
                 $importSkillBaseId,
                 $importSkillTrefId
             );
-            
+
             $existingLevels = $skill->getLevelData();
-            
+
             if (count($levelThresholds) != count($existingLevels)) {
                 $this->getFailedThresholdImportSkillList()->addSkill(
                     $skillData['skill_base_id'],
                     $skillData['skill_tref_id']
                 );
-                
+
                 continue;
             }
-            
+
             for ($i = 0, $max = count($existingLevels); $i < $max; $i++) {
                 $existingLevelData = $existingLevels[$i];
 
                 /* @var ilTestSkillLevelThresholdImport $importLevelThreshold */
                 $importLevelThreshold = $levelThresholds[$i];
-                
+
                 if ($importLevelThreshold->getOrderIndex() != $existingLevelData['nr']) {
                     $this->getFailedThresholdImportSkillList()->addSkill(
                         $skillData['skill_base_id'],
                         $skillData['skill_tref_id']
                     );
-                    
+
                     continue(2);
                 }
-                
+
                 if (!is_numeric($importLevelThreshold->getThreshold())) {
                     continue(2);
                 }
-                
+
                 $mappedLevelId = $this->getLevelIdMapping($importLevelThreshold->getImportLevelId());
-                
+
                 $threshold = new ilTestSkillLevelThreshold($ilDB);
                 $threshold->setTestId($this->getTargetTestId());
                 $threshold->setSkillBaseId($skillData['skill_base_id']);
                 $threshold->setSkillTrefId($skillData['skill_tref_id']);
                 $threshold->setSkillLevelId($mappedLevelId);
                 $threshold->setThreshold($importLevelThreshold->getThreshold());
-                
+
                 $importedLevelThresholdList->addThreshold($threshold);
             }
         }
-        
+
         $importedLevelThresholdList->saveToDb();
     }
-    
+
     /**
      * @param $importLevelId
      * @return integer
      */
-    protected function getLevelIdMapping($importLevelId)
+    protected function getLevelIdMapping($importLevelId): int
     {
         /*
                 $r = ilBasicSkill::getLevelIdForImportId($a_source_inst_id,
@@ -235,7 +236,7 @@ class ilTestSkillLevelThresholdImporter
                 $results[] = array("level_id" => $rec["id"], "creation_date" =>
                 $rec["creation_date"]);
         */
-        
+
         $result = ilBasicSkill::getLevelIdForImportId($this->getImportInstallationId(), $importLevelId);
         $mostNewLevelData = current($result);
         return $mostNewLevelData['level_id'];

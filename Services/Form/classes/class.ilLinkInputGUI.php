@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a external and/or internal link in a property form.
@@ -62,22 +67,22 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
         $this->requested_postvar = $this->str("postvar");
     }
-    
+
     /**
      * Set allowed link types (LIST, BOTH, INT, EXT)
      *
      * @param string $a_val self::LIST|self::BOTH|self::INT|self::EXT
      */
-    public function setAllowedLinkTypes(string $a_val) : void
+    public function setAllowedLinkTypes(string $a_val): void
     {
         $this->allowed_link_types = $a_val;
     }
-    
-    public function getAllowedLinkTypes() : string
+
+    public function getAllowedLinkTypes(): string
     {
         return $this->allowed_link_types;
     }
-    
+
     /**
      * Set internal link default
      *
@@ -87,17 +92,17 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     public function setInternalLinkDefault(
         string $a_type,
         int $a_obj = 0
-    ) : void {
+    ): void {
         $this->int_link_default_type = $a_type;
         $this->int_link_default_obj = $a_obj;
     }
-    
+
     /**
      * Set internal link filter types
      *
      * @param array $a_val filter types
      */
-    public function setInternalLinkFilterTypes(array $a_val) : void
+    public function setInternalLinkFilterTypes(array $a_val): void
     {
         $this->int_link_filter_types = $a_val;
     }
@@ -107,7 +112,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      *
      * @return string[]
      */
-    public static function getTypeToAttrType() : array
+    public static function getTypeToAttrType(): array
     {
         return self::$iltypemap;
     }
@@ -117,7 +122,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      *
      * @return string[]
      */
-    public static function getAttrTypeToType() : array
+    public static function getAttrTypeToType(): array
     {
         return array_flip(self::$iltypemap);
     }
@@ -127,12 +132,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      *
      * @param bool $a_val filter list is white list
      */
-    public function setFilterWhiteList(bool $a_val) : void
+    public function setFilterWhiteList(bool $a_val): void
     {
         $this->filter_white_list = $a_val;
     }
-    
-    public function getFilterWhiteList() : bool
+
+    public function getFilterWhiteList(): bool
     {
         return $this->filter_white_list;
     }
@@ -140,12 +145,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     /**
      * @param int max length for external links
      */
-    public function setExternalLinkMaxLength(int $a_max) : void
+    public function setExternalLinkMaxLength(int $a_max): void
     {
         $this->external_link_max_length = $a_max;
     }
 
-    public function getExternalLinkMaxLength() : int
+    public function getExternalLinkMaxLength(): int
     {
         return $this->external_link_max_length;
     }
@@ -170,7 +175,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                     $link_gui->filterLinkType($t);
                 }
                 $link_gui->setFilterWhiteList($this->getFilterWhiteList());
-                $link_gui->setMode("asynch");
 
                 $ret = $ilCtrl->forwardCommand($link_gui);
                 break;
@@ -179,15 +183,15 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 var_dump($cmd);
                 //exit();
         }
-        
+
         return $ret;
     }
-    
+
     /**
      * Set Value.
      * @param string $a_value
      */
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
@@ -196,14 +200,14 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      * Get Value.
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
-        switch ($a_values[$this->getPostVar() . "_mode"]) {
+        switch ($a_values[$this->getPostVar() . "_mode"] ?? null) {
             case "int":
                 if ($a_values[$this->getPostVar() . "_ajax_type"] &&
                     $a_values[$this->getPostVar() . "_ajax_id"]) {
@@ -231,10 +235,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return    bool        Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         // debugging
         // return false;
 
@@ -256,7 +260,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                         return false;
                     }
                     break;
-                    
+
                 case "int":
                     if (!$ajax_type || !$ajax_id) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
@@ -274,7 +278,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         $ajax_type = $this->str($this->getPostVar() . "_ajax_type");
         $ajax_id = $this->str($this->getPostVar() . "_ajax_id");
@@ -295,7 +299,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         return $value;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -312,11 +316,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             case self::EXT:
                 $has_ext = true;
                 break;
-            
+
             case self::INT:
                 $has_int = true;
                 break;
-            
+
             case self::BOTH:
                 $has_int = true;
                 $has_ext = true;
@@ -332,13 +336,13 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         }
         if (!$this->getRequired()) {
             // see #0021274
-//			$has_radio = true;
+            $has_radio = true;
         }
-        
+
         // external
         if ($has_ext) {
             $title = $has_radio ? $lng->txt("url") : "";
-            
+
             // external
             $ti = new ilTextInputGUI($title, $this->getPostVar());
             $ti->setMaxLength($this->getExternalLinkMaxLength());
@@ -350,9 +354,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         if ($has_int) {
             $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
             $link = array(get_class($this->getParentForm()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
-            $link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
+            $link = $ilCtrl->getLinkTargetByClass($link, "", '', true, false);
             $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->requested_postvar);
-                                
+
             $no_disp_class = (strpos($this->getValue(), "|"))
                 ? ""
                 : " ilNoDisplay";
@@ -362,30 +366,34 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             $itpl->setVariable("TXT_EDIT", $lng->txt("form_get_link"));
             $itpl->setVariable("CSS_REMOVE", $no_disp_class);
             $itpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
-                        
+
             $ne = new ilNonEditableValueGUI($lng->txt("object"), $this->getPostVar() . "_val", true);
-                        
+
             // hidden field for selected value
             $hidden_type = new ilHiddenInputGUI($this->getPostVar() . "_ajax_type");
             $hidden_id = new ilHiddenInputGUI($this->getPostVar() . "_ajax_id");
             $hidden_target = new ilHiddenInputGUI($this->getPostVar() . "_ajax_target");
         }
-        
+
         // mode
         if ($has_radio) {
             $ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
             $ext->addSubItem($ti);
-            
-            $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
-            $int->addSubItem($ne);
-            
+
+            if ($has_int) {
+                $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
+                $int->addSubItem($ne);
+            }
+
             $mode = new ilRadioGroupInputGUI("", $this->getPostVar() . "_mode");
             if (!$this->getRequired()) {
                 $no = new ilRadioOption($lng->txt("form_no_link"), "no");
                 $mode->addOption($no);
             }
             $mode->addOption($ext);
-            $mode->addOption($int);
+            if ($has_int) {
+                $mode->addOption($int);
+            }
         } else {
             $mode = new ilHiddenInputGUI($this->getPostVar() . "_mode");
             if ($has_int) {
@@ -422,44 +430,46 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             // #15647
             if ($has_int && self::isInternalLink($value)) {
                 $mode->setValue("int");
-                                
+
                 $value_trans = self::getTranslatedValue($value);
-                
+
                 $value = explode("|", $value);
                 $hidden_type->setValue($value[0]);
                 $hidden_id->setValue($value[1]);
-                $hidden_target->setValue($value[2]);
-                
+                $hidden_target->setValue($value[2] ?? "");
+
                 $itpl->setVariable("VAL_OBJECT_TYPE", $value_trans["type"]);
                 $itpl->setVariable("VAL_OBJECT_NAME", $value_trans["name"]);
-                if ($value[2] != "") {
+                if (($value[2] ?? "") != "") {
                     $itpl->setVariable("VAL_TARGET_FRAME", "(" . $value[2] . ")");
                 }
             } elseif ($has_ext) {
                 $mode->setValue("ext");
-                
+
                 $ti->setValue($value);
             }
         } elseif (!$this->getRequired()) {
             $mode->setValue("no");
         }
-        
+
         // #10185 - default for external urls
         if ($has_ext && !$ti->getValue()) {
             $ti->setValue("https://");
         }
-        
-        $ne->setValue($itpl->get());
-            
+
+        if ($has_int) {
+            $ne->setValue($itpl->get());
+        }
+
         // to html
         if ($has_radio) {
             $html = $mode->render();
         } else {
             $html = $mode->getToolbarHTML();
-            
+
             if ($has_ext) {
                 $html .= $ti->getToolbarHTML();
-            } else {
+            } elseif ($has_int) {
                 $html .= $ne->render() .
                     '<div class="help-block">' . $ne->getInfo() . '</div>';
             }
@@ -474,11 +484,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $hidden_id->getToolbarHTML() .
                 $hidden_target->getToolbarHTML();
         }
-        
+
         return $html;
     }
-    
-    public function getContentOutsideFormTag() : string
+
+    public function getContentOutsideFormTag(): string
     {
         if ($this->getAllowedLinkTypes() == self::INT ||
             $this->getAllowedLinkTypes() == self::BOTH ||
@@ -488,8 +498,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         }
         return "";
     }
-    
-    public static function isInternalLink(string $a_value) : bool
+
+    public static function isInternalLink(string $a_value): bool
     {
         if (strpos($a_value, "|")) {
             $parts = explode("|", $a_value);
@@ -497,7 +507,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 // numeric id
                 if (is_numeric($parts[1])) {
                     // simple type
-                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0], $matches)) {
+                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0])) {
                         return true;
                     }
                 }
@@ -505,46 +515,47 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         }
         return false;
     }
-    
-    public static function getTranslatedValue(string $a_value) : array
+
+    public static function getTranslatedValue(string $a_value): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         $value = explode("|", $a_value);
-        
+        if ($value === false || $value === []) {
+            return [];
+        }
         switch ($value[0]) {
             case "media":
                 $type = $lng->txt("obj_mob");
-                $name = ilObject::_lookupTitle($value[1]);
+                $name = ilObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "page":
                 $type = $lng->txt("obj_pg");
-                $name = ilLMPageObject::_lookupTitle($value[1]);
+                $name = ilLMPageObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "chap":
                 $type = $lng->txt("obj_st");
-                $name = ilStructureObject::_lookupTitle($value[1]);
+                $name = ilStructureObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "term":
                 $type = $lng->txt("term");
-                $name = ilGlossaryTerm::_lookGlossaryTerm($value[1]);
+                $name = ilGlossaryTerm::_lookGlossaryTerm((int) $value[1]);
                 break;
 
             default:
                 $type = $lng->txt("obj_" . $value[0]);
-                $name = ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
+                $name = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $value[1]));
                 break;
         }
-        
         return array("type" => $type, "name" => $name);
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -558,15 +569,14 @@ class ilLinkInputGUI extends ilFormPropertyGUI
      *
      * @return array (with keys "Type", "Target" and "TargetFrame")
      */
-    public function getIntLinkAttributes() : array
+    public function getIntLinkAttributes(): ?array
     {
         $val = explode("|", $this->getInput());
-
-        $ret = false;
+        $ret = null;
         $type = "";
         $target = "";
-        if (self::isInternalLink($this->str($this->getPostVar()))) {
-            $target_frame = $val[2];
+        if (self::isInternalLink($this->getInput())) {
+            $target_frame = $val[2] ?? "";
             $map = self::getTypeToAttrType();
             if (isset($map[$val[0]])) {
                 $type = $map[$val[0]];
@@ -595,18 +605,18 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         }
         return $ret;
     }
-    
+
     public function setValueByIntLinkAttributes(
         string $a_type,
         string $a_target,
         string $a_target_frame = ""
-    ) : void {
+    ): void {
         $t = explode("_", $a_target);
         $target_id = $t[3];
         $type = "";
         $map = self::getAttrTypeToType();
         if ($a_type == "RepositoryItem") {
-            $type = ilObject::_lookupType($target_id, true);
+            $type = ilObject::_lookupType((int) $target_id, true);
         } elseif (isset($map[$a_type])) {
             $type = $map[$a_type];
         }
@@ -617,5 +627,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             }
             $this->setValue($val);
         }
+    }
+
+    public function getOnloadCode(): array
+    {
+        return [
+            ilInternalLinkGUI::getOnloadCode("")
+        ];
     }
 }

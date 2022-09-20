@@ -1,7 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -20,22 +21,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 class ilMMItemInformation implements ItemInformation
 {
     private const ICON_ID = 'icon_id';
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    private $ui_factory;
-    /**
-     * @var Services
-     */
-    private $storage;
-    /**
-     * @var array
-     */
-    private $translations = [];
-    /**
-     * @var array
-     */
-    private $items = [];
+
+    private Services $storage;
+    private array $translations;
+    private array $items;
 
     /**
      * ilMMItemInformation constructor.
@@ -43,15 +32,15 @@ class ilMMItemInformation implements ItemInformation
     public function __construct()
     {
         global $DIC;
-        $this->items        = ilMMItemStorage::getArray('identification');
+        $this->items = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage      = $DIC['resource_storage'];
+        $this->storage = $DIC['resource_storage'];
     }
 
     /**
      * @inheritDoc
      */
-    public function customTranslationForUser(hasTitle $item) : hasTitle
+    public function customTranslationForUser(hasTitle $item): hasTitle
     {
         /**
          * @var $item isItem
@@ -60,14 +49,22 @@ class ilMMItemInformation implements ItemInformation
         static $usr_language_key;
         static $default_language;
 
-        if (!$usr_language_key) {
+        // see https://mantis.ilias.de/view.php?id=32276
+        if (!isset($usr_language_key) && $DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
+            $usr_language_key = $DIC->http()->wrapper()->query()->has('lang')
+                ? $DIC->http()->wrapper()->query()->retrieve('lang', $DIC->refinery()->to()->string())
+                : null;
+        }
+
+        if (!isset($usr_language_key)) {
             $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
         }
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
         if ($item instanceof RepositoryLink && empty($item->getTitle())) {
-            $item = $item->withTitle(($item->getRefId() > 0) ?
+            $item = $item->withTitle(
+                ($item->getRefId() > 0) ?
                 \ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($item->getRefId())) :
                 ""
             );
@@ -84,12 +81,12 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function customPosition(isItem $item) : isItem
+    public function customPosition(isItem $item): isItem
     {
         return $item->withPosition($this->getPosition($item));
     }
 
-    private function getPosition(isItem $item) : int
+    private function getPosition(isItem $item): int
     {
         if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
             return (int) $this->items[$item->getProviderIdentification()->serialize()]['position'];
@@ -101,7 +98,7 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function isItemActive(isItem $item) : bool
+    public function isItemActive(isItem $item): bool
     {
         $serialize = $item->getProviderIdentification()->serialize();
         if (isset($this->items[$serialize]['active'])) {
@@ -113,12 +110,12 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function getParent(isChild $item) : IdentificationInterface
+    public function getParent(isItem $item): IdentificationInterface
     {
         global $DIC;
-        $parent_string = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$parent_string]['parent_identification'])) {
-            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
+        $serialized = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$serialized]['parent_identification'])) {
+            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$serialized]['parent_identification']);
         }
 
         return $item->getParent();
@@ -127,7 +124,7 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function customSymbol(hasSymbol $item) : hasSymbol
+    public function customSymbol(hasSymbol $item): hasSymbol
     {
         $id = $item->getProviderIdentification()->serialize();
         if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {

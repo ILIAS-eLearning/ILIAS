@@ -1,67 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilMMAbstractItemGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMAbstractItemGUI
+abstract class ilMMAbstractItemGUI
 {
-    const IDENTIFIER = 'identifier';
     use Hasher;
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ILIAS\HTTP\Services
-     */
-    protected $http;
-    /**
-     * @var ilMMItemRepository
-     */
-    protected $repository;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilMMTabHandling
-     */
-    protected $tab_handling;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**
-     * @var ilTree
-     */
-    public $tree;
-    /**
-     * @var ilObjMainMenuAccess
-     */
-    protected $access;
+    public const IDENTIFIER = 'identifier';
+    public const CMD_FLUSH = 'flush';
 
+    protected UIServices $ui;
+
+    protected Services $http;
+
+    protected ilMMItemRepository $repository;
+
+    protected ilToolbarGUI $toolbar;
+
+    protected ilMMTabHandling $tab_handling;
+
+    protected ilTabsGUI $tabs;
+
+    public ilLanguage $lng;
+
+    protected ilCtrl $ctrl;
+
+    public ilGlobalTemplateInterface $tpl;
+
+    public ilTree $tree;
+
+    protected ilObjMainMenuAccess $access;
 
     /**
      * ilMMAbstractItemGUI constructor.
-     *
      * @param ilMMTabHandling $tab_handling
-     *
      * @throws Throwable
      */
     public function __construct(ilMMTabHandling $tab_handling)
@@ -83,15 +78,13 @@ class ilMMAbstractItemGUI
         $this->lng->loadLanguageModule('form');
     }
 
-
     /**
      * @param string $standard
      * @param string $delete
-     *
      * @return string
      * @throws ilException
      */
-    protected function determineCommand(string $standard, string $delete) : string
+    protected function determineCommand(string $standard, string $delete): string
     {
         $this->access->checkAccessAndThrowException('visible,read');
         $cmd = $this->ctrl->getCmd();
@@ -111,12 +104,11 @@ class ilMMAbstractItemGUI
         return $cmd;
     }
 
-
     /**
      * @return ilMMItemFacadeInterface
      * @throws Throwable
      */
-    protected function getMMItemFromRequest() : ilMMItemFacadeInterface
+    protected function getMMItemFromRequest(): ilMMItemFacadeInterface
     {
         $r = $this->http->request();
         $get = $r->getQueryParams();
@@ -131,4 +123,13 @@ class ilMMAbstractItemGUI
 
         return $this->repository->getItemFacadeForIdentificationString($identification);
     }
+
+    protected function flush(): void
+    {
+        $this->repository->flushLostItems();
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_subitem_flushed"), true);
+        $this->cancel();
+    }
+
+    abstract protected function cancel(): void;
 }

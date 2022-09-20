@@ -1,117 +1,85 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
 
 /**
- * @author Jesús López Reyes <lopez@leifos.com>
- * @version $Id$
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\DI\UIServices;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\Services as HttpServices;
+
+/**
+ * @author  Jesús López Reyes <lopez@leifos.com>
+ * @version $Id$
  * @ingroup ServicesCalendar
  */
 class ilCalendarViewGUI
 {
-    const CAL_PRESENTATION_DAY = 1;
-    const CAL_PRESENTATION_WEEK = 2;
-    const CAL_PRESENTATION_MONTH = 3;
-    const CAL_PRESENTATION_AGENDA_LIST = 9;
+    public const CAL_PRESENTATION_UNDEFINED = 0;
+    public const CAL_PRESENTATION_DAY = 1;
+    public const CAL_PRESENTATION_WEEK = 2;
+    public const CAL_PRESENTATION_MONTH = 3;
+    public const CAL_PRESENTATION_AGENDA_LIST = 9;
 
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
+    protected int $presentation_type = self::CAL_PRESENTATION_UNDEFINED;
+    protected bool $view_with_appointments = false;
+    protected ilDate $seed;
+    protected int $ch_user_id = 0;
+    protected ?string $period_end_day = null;
 
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilCtrlInterface $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLogger $logger;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ?ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilComponentFactory $component_factory;
+    protected ilTabsGUI $tabs_gui;
+    protected RefineryFactory $refinery;
+    protected HttpServices $http;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var integer
-     */
-    protected $presentation_type;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
-
-    /**
-     * @var \ILIAS\UI
-     */
-    protected $ui;
-
-    /**
-     * @var bool true if the displayed view contains appointments.
-     */
-    protected $view_with_appointments;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    
-    /**
-     * @var string
-     */
-    protected $seed;
-    
-    /**
-     * @var int
-     */
-    protected $ch_user_id = 0;
-
-    
-
-    /**
-     *
-     * @param ilDate $seed
-     * @param int $presentation_type
-     */
-    public function __construct(ilDate $seed, $presentation_type)
+    public function __construct(ilDate $seed, int $presentation_type)
     {
         $this->seed = $seed;
         $this->initialize($presentation_type);
     }
-    
-    
-    public function setConsulationHoursUserId($a_user_id)
+
+    public function setConsulationHoursUserId(int $a_user_id): void
     {
         $this->ch_user_id = $a_user_id;
     }
-    
-    /**
-     *
-     */
-    public function getConsultationHoursUserId()
+
+    public function getConsultationHoursUserId(): int
     {
         return $this->ch_user_id;
     }
 
-
-    
-    
-
-    /**
-     * View initialization
-     * @param integer $a_calendar_presentation_type
-     */
-    public function initialize($a_calendar_presentation_type)
+    public function initialize(int $a_calendar_presentation_type): void
     {
         global $DIC;
+
+        $this->component_factory = $DIC['component.factory'];
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
@@ -119,84 +87,122 @@ class ilCalendarViewGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->tabs_gui = $DIC->tabs();
-        $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->presentation_type = $a_calendar_presentation_type;
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
-        //by default "download files" button is not displayed.
+        $this->logger = $DIC->logger()->cal();
         $this->view_with_appointments = false;
-
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         if ($this->presentation_type == self::CAL_PRESENTATION_DAY ||
             $this->presentation_type == self::CAL_PRESENTATION_WEEK) {
-            iljQueryUtil::initjQuery($this->tpl);
-            $this->tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
+            iljQueryUtil::initjQuery($this->main_tpl);
+            $this->main_tpl->addJavaScript('./Services/Calendar/js/calendar_appointment.js');
         }
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
-    /**
-     * Get app for id
-     *
-     * @param
-     * @return
-     */
-    public function getCurrentApp()
+    protected function initAppointmentIdFromQuery(): int
+    {
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initInitialDateFromQuery(): string
+    {
+        if ($this->http->wrapper()->query()->has('idate')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'idate',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
+    }
+
+    protected function initInitialDateTimeFromQuery(): int
+    {
+        if ($this->http->wrapper()->query()->has('dt')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'dt',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initBookingUserFromQuery(): int
+    {
+        if ($this->http->wrapper()->query()->has('bkid')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'bkid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    public function getCurrentApp(): ?array
     {
         // @todo: this needs optimization
         $events = $this->getEvents();
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $_GET["app_id"]) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery()) {
                 return $item;
             }
         }
         return null;
     }
 
-    /**
-     * Get events
-     * @todo public or protected
-     * @param
-     * @return
-     */
-    public function getEvents()
+    public function getEvents(): array
     {
         $user = $this->user->getId();
-        
+
+        $schedule = null;
         switch ($this->presentation_type) {
             case self::CAL_PRESENTATION_AGENDA_LIST:
 
                 //if($this->period_end_day == "")
                 //{
-                    $this->period = ilCalendarAgendaListGUI::getPeriod();
+                $this->period = ilCalendarAgendaListGUI::getPeriod();
 
-                    $end_date = clone $this->seed;
-                    switch ($this->period) {
-                        case ilCalendarAgendaListGUI::PERIOD_DAY:
-                            $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
-                            $end_date->increment(IL_CAL_DAY, 1);
-                            break;
+                $end_date = clone $this->seed;
+                switch ($this->period) {
+                    case ilCalendarAgendaListGUI::PERIOD_DAY:
+                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_DAY, $user, true);
+                        $end_date->increment(IL_CAL_DAY, 1);
+                        break;
 
-                        case ilCalendarAgendaListGUI::PERIOD_WEEK:
-                            $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK, $user, true);
-                            $end_date->increment(IL_CAL_WEEK, 1);
-                            break;
+                    case ilCalendarAgendaListGUI::PERIOD_WEEK:
+                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK, $user, true);
+                        $end_date->increment(IL_CAL_WEEK, 1);
+                        break;
 
-                        case ilCalendarAgendaListGUI::PERIOD_MONTH:
-                            $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user, true);
-                            $end_date->increment(IL_CAL_MONTH, 1);
-                            break;
+                    case ilCalendarAgendaListGUI::PERIOD_MONTH:
+                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user, true);
+                        $end_date->increment(IL_CAL_MONTH, 1);
+                        break;
 
-                        case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
-                            $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_HALF_YEAR, $user, true);
-                            $end_date->increment(IL_CAL_MONTH, 6);
-                            break;
-                        default:
-                            // default is week ?!
-                            $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK, $user, true);
-                            $end_date->increment(IL_CAL_WEEK, 1);
-                            break;
-                    }
-                    $this->period_end_day = $end_date->get(IL_CAL_DATE);
-                    $schedule->setPeriod($this->seed, $end_date);
+                    case ilCalendarAgendaListGUI::PERIOD_HALF_YEAR:
+                        $schedule = new ilCalendarSchedule(
+                            $this->seed,
+                            ilCalendarSchedule::TYPE_HALF_YEAR,
+                            $user,
+                            true
+                        );
+                        $end_date->increment(IL_CAL_MONTH, 6);
+                        break;
+                    default:
+                        // default is week ?!
+                        $schedule = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK, $user, true);
+                        $end_date->increment(IL_CAL_WEEK, 1);
+                        break;
+                }
+                $this->period_end_day = $end_date->get(IL_CAL_DATE);
+                $schedule->setPeriod($this->seed, $end_date);
 
                 //}
                 /*else
@@ -220,18 +226,15 @@ class ilCalendarViewGUI
 
         $schedule->addSubitemCalendars(true);
         $schedule->calculate();
-        $ev = $schedule->getScheduledEvents();
-        return $ev;
+        return $schedule->getScheduledEvents();
     }
 
-
     /**
-     * Get start/end date for item
-     *
-     * @param array $item item
-     * @return array
+     * @param $item
+     * @return array<{start: ilDate|ilDateTime, end: ilDate|ilDateTime}>
+     * @throws ilDateTimeException
      */
-    public function getDatesForItem($item)
+    public function getDatesForItem($item): array
     {
         $start = $item["dstart"];
         $end = $item["dend"];
@@ -247,13 +250,10 @@ class ilCalendarViewGUI
 
     /**
      * Get modal for appointment (see similar code in ilCalendarBlockGUI)
+     * @todo fix envent initialisation
      */
-    public function getModalForApp()
+    public function getModalForApp(): void
     {
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-        $ctrl = $this->ctrl;
-        
         // set return class
         $this->ctrl->setReturn($this, '');
 
@@ -262,112 +262,104 @@ class ilCalendarViewGUI
 
         //item => array containing ilcalendary object, dstart of the event , dend etc.
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $_GET["app_id"] && $item['dstart'] == (int) $_GET['dt']) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateTimeFromQuery()) {
                 $dates = $this->getDatesForItem($item);
                 // content of modal
-                include_once("./Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php");
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);
-                $content = $ctrl->getHTML($next_gui);
+                $content = $this->ctrl->getHTML($next_gui);
 
                 //plugins can change the modal title.
-
                 $modal_title = ilDatePresentation::formatPeriod($dates["start"], $dates["end"]);
                 $modal_title = $this->getModalTitleByPlugins($modal_title);
-                $modal = $f->modal()->roundtrip($modal_title, $f->legacy($content))->withCancelButtonLabel("close");
-
-                echo $r->renderAsync($modal);
+                $modal = $this->ui_factory->modal()->roundtrip(
+                    $modal_title,
+                    $this->ui_factory->legacy($content)
+                )->withCancelButtonLabel("close");
+                echo $this->ui_renderer->renderAsync($modal);
             }
         }
         exit();
     }
 
     /**
-     * @param $a_calendar_entry
-     * @param $a_dstart
-     * @param string $a_title_forced  //used in plugins to rename the shy button title.
+     * @param ilCalendarEntry $a_calendar_entry
+     * @param string          $a_dstart
+     * @param string          $a_title_forced //used in plugins to rename the shy button title.
      * @return string  shy button html
      */
-    public function getAppointmentShyButton($a_calendar_entry, $a_dstart, $a_title_forced = "")
-    {
-        $f = $this->ui_factory;
-        $r = $this->ui_renderer;
-        
+    public function getAppointmentShyButton(
+        ilCalendarEntry $a_calendar_entry,
+        string $a_dstart,
+        string $a_title_forced = ""
+    ): string {
         $this->ctrl->setParameter($this, "app_id", $a_calendar_entry->getEntryId());
-        
+
         if ($this->getConsultationHoursUserId()) {
             $this->ctrl->setParameter($this, 'chuid', $this->getConsultationHoursUserId());
         }
         $this->ctrl->setParameter($this, 'dt', $a_dstart);
         $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
         $url = $this->ctrl->getLinkTarget($this, "getModalForApp", "", true, false);
-        $this->ctrl->setParameter($this, "app_id", $_GET["app_id"]);
-        $this->ctrl->setParameter($this, "dt", $_GET["dt"]);
-        $this->ctrl->setParameter($this, 'seed', $_GET["seed"]);
+        $this->ctrl->setParameter($this, "app_id", $this->initAppointmentIdFromQuery());
+        $this->ctrl->setParameter($this, "dt", $this->initInitialDateTimeFromQuery());
+        $this->ctrl->setParameter($this, 'seed', $this->seed->get(IL_CAL_DATE));
 
-        $modal = $f->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
+        $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
 
         //Day view presents the titles with the full length.(agenda:class.ilCalendarAgendaListGUI.php)
         if ($this->presentation_type == self::CAL_PRESENTATION_DAY) {
-            $title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle(false) : $a_title_forced;
+            $title = ($a_title_forced == "") ? $a_calendar_entry->getPresentationTitle(false) : $a_title_forced;
         } else {
-            $title = ($a_title_forced == "")? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
+            $title = ($a_title_forced == "") ? $a_calendar_entry->getPresentationTitle() : $a_title_forced;
         }
-
-
-        $comps = [$f->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
-
-        return $r->render($comps);
+        $comps = [$this->ui_factory->button()->shy($title, "#")->withOnClick($modal->getShowSignal()), $modal];
+        return $this->ui_renderer->render($comps);
     }
 
-    //get active plugins.
-    public function getActivePlugins($a_slot_id)
+    /**
+     * @param string $a_slot_id
+     * @return Iterator <ilPlugin>
+     */
+    public function getActivePlugins(string $a_slot_id): Iterator
     {
-        global $DIC;
-
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $res = array();
-
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", $a_slot_id) as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "Calendar",
-                $a_slot_id,
-                $plugin_name
-            );
-        }
-
-        return $res;
+        return $this->component_factory->getActivePluginsInSlot($a_slot_id);
     }
 
-    public function getModalTitleByPlugins($a_current_title)
+    public function getModalTitleByPlugins(string $a_current_title): string
     {
         $modal_title = $a_current_title;
         //demo of plugin execution.
         //"capm" is the plugin slot id for Appointment presentations (modals)
         foreach ($this->getActivePlugins("capm") as $plugin) {
-            $modal_title = ($new_title = $plugin->editModalTitle($a_current_title))? $new_title : $a_current_title;
+            $modal_title = ($new_title = $plugin->editModalTitle($a_current_title)) ? $new_title : $a_current_title;
         }
         return $modal_title;
     }
 
     /**
-     * @param $a_cal_entry
-     * @param $a_start_date
-     * @param $a_content
-     * @param $a_tpl needed to adding elements in the template like extra content inside the event container
+     * @param ilCalendarEntry $a_cal_entry
+     * @param int             $a_start_date
+     * @param string          $a_content
+     * @param ilTemplate      $a_tpl needed to adding elements in the template like extra content inside the event container
      * @return string
      */
-    public function getContentByPlugins($a_cal_entry, $a_start_date, $a_content, $a_tpl)
-    {
+    public function getContentByPlugins(
+        ilCalendarEntry $a_cal_entry,
+        int $a_start_date,
+        string $a_content,
+        ilTemplate $a_tpl
+    ): string {
         $content = $a_content;
 
         //"capg" is the plugin slot id for AppointmentCustomGrid
         foreach ($this->getActivePlugins("capg") as $plugin) {
-            $plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date));
+            $plugin->setAppointment($a_cal_entry, new ilDateTime($a_start_date, IL_CAL_UNIX));
 
             if ($new_title = $plugin->editShyButtonTitle()) {
-                $a_tpl->setVariable('EVENT_CONTENT', $this->getAppointmentShyButton($a_cal_entry, $a_start_date, $new_title));
+                $a_tpl->setVariable(
+                    'EVENT_CONTENT',
+                    $this->getAppointmentShyButton($a_cal_entry, (string) $a_start_date, $new_title)
+                );
             }
 
             if ($glyph = $plugin->addGlyph()) {
@@ -386,24 +378,20 @@ class ilCalendarViewGUI
             }
         }
         if ($content == $a_content) {
-            return false;
+            return '';
         }
-
         return $content;
     }
 
     /**
      * Add download link to toolbar
-     *
-     * //TODO rename this method to something like addToolbarDonwloadFiles
-     * @param
-     * @return
      */
-    public function addToolbarActions()
+    public function addToolbarFileDownload(): void
     {
         $settings = ilCalendarSettings::_getInstance();
 
         if ($settings->isBatchFileDownloadsEnabled()) {
+            $num_events = 0;
             if ($this->presentation_type == self::CAL_PRESENTATION_AGENDA_LIST) {
                 $num_events = $this->countEventsInView();
             }
@@ -415,7 +403,7 @@ class ilCalendarViewGUI
 
                 // file download
                 $add_button = $f->button()->standard(
-                    $lng->txt("cal_download_files"),
+                    $this->lng->txt("cal_download_files"),
                     $ctrl->getLinkTarget($this, "downloadFiles")
                 );
                 $toolbar->addSeparator();
@@ -427,24 +415,21 @@ class ilCalendarViewGUI
     /**
      * Download files related to the appointments showed in the current calendar view (day,week,month,list). Not modals
      */
-    public function downloadFiles()
+    public function downloadFiles(): void
     {
-        include_once './Services/Calendar/classes/BackgroundTasks/class.ilDownloadFilesBackgroundTask.php';
-        $download_job = new ilDownloadFilesBackgroundTask($GLOBALS['DIC']->user()->getId());
-
+        $download_job = new ilDownloadFilesBackgroundTask($this->user->getId());
         $download_job->setBucketTitle($this->getBucketTitle());
         $download_job->setEvents($this->getEvents());
         if ($download_job->run()) {
-            ilUtil::sendSuccess($this->lng->txt('cal_download_files_started'), true);
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('cal_download_files_started'), true);
         }
-        $GLOBALS['DIC']->ctrl()->redirect($this);
+        $this->ctrl->redirect($this);
     }
 
     /**
      * get proper label to add in the background task popover
-     * @return string
      */
-    public function getBucketTitle()
+    public function getBucketTitle(): string
     {
         //definition of bucket titles here: 21365
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
@@ -486,7 +471,6 @@ class ilCalendarViewGUI
                         break;
                 }
         }
-
         return $bucket_title;
     }
 
@@ -494,14 +478,13 @@ class ilCalendarViewGUI
      * get the events starting between 2 dates based in seed + view options.
      * @return int number of events in the calendar list view.
      */
-    public function countEventsInView()
+    public function countEventsInView(): int
     {
         $start = $this->seed;
         $end = clone $start;
         $get_list_option = ilCalendarAgendaListGUI::getPeriod();
         switch ($get_list_option) {
             case ilCalendarAgendaListGUI::PERIOD_DAY:
-                //$end->increment(IL_CAL_DAY,1);
                 break;
             case ilCalendarAgendaListGUI::PERIOD_MONTH:
                 $end->increment(IL_CAL_MONTH, 1);

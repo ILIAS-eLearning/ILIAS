@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableGUI.php';
@@ -8,10 +9,7 @@ require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableG
  */
 class ilLocalUnitCategoryTableGUI extends ilUnitCategoryTableGUI
 {
-    /**
-     *
-     */
-    protected function populateTitle()
+    protected function populateTitle(): void
     {
         if ($this->getParentObject()->isCRUDContext()) {
             $this->setTitle($this->lng->txt('un_local_units') . ': ' . $this->lng->txt('categories'));

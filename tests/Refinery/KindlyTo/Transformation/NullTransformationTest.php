@@ -1,29 +1,37 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-require_once('./libs/composer/vendor/autoload.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use ILIAS\Tests\Refinery\TestCase;
 use ILIAS\Refinery\ConstraintViolationException;
 
-/**
- * Test kind transformation to null
- */
 class NullTransformationTest extends TestCase
 {
-    /**
-     * NullTransformation
-     */
-    protected $transformation;
+    private NullTransformation $transformation;
 
-    public function setUp() : void
+    protected function setUp(): void
     {
         $this->transformation = new NullTransformation();
     }
 
-    public function NullTestDataProvider()
+    public function NullTestDataProvider(): array
     {
         return [
             'empty string' => ['', true],
@@ -42,8 +50,11 @@ class NullTransformationTest extends TestCase
 
     /**
      * @dataProvider NullTestDataProvider
+     * @param mixed $value
+     * @param bool $valid
+     * @throws Exception
      */
-    public function testNullTransformation($value, bool $valid)
+    public function testNullTransformation($value, bool $valid): void
     {
         if (!$valid) {
             $this->expectException(ConstraintViolationException::class);

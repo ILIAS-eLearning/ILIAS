@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,18 +23,18 @@
 class ilFolderImporter extends ilXmlImporter
 {
     private ?ilObject $folder = null;
-    
 
-    public function init() : void
+
+    public function init(): void
     {
     }
-    
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $this->folder = ilObjectFactory::getInstanceByObjId($new_id, false);
-        } elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
-            $this->folder = ilObjectFactory::getInstanceByRefId($new_id, false);
+            $this->folder = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+        } elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', '0')) {
+            $this->folder = ilObjectFactory::getInstanceByRefId((int) $new_id, false);
         } elseif (!$this->folder instanceof ilObjFolder) {
             $this->folder = new ilObjFolder();
             $this->folder->create();
@@ -41,7 +43,7 @@ class ilFolderImporter extends ilXmlImporter
         try {
             $parser = new ilFolderXmlParser($this->folder, $a_xml);
             $parser->start();
-            $a_mapping->addMapping('Modules/Folder', 'fold', $a_id, $this->folder->getId());
+            $a_mapping->addMapping('Modules/Folder', 'fold', $a_id, (string) $this->folder->getId());
         } catch (ilSaxParserException $e) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }

@@ -1,13 +1,33 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map;
 
 use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Iterator;
 
 /**
  * Class Map
@@ -16,32 +36,34 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
  */
 class Map implements Filterable, Walkable
 {
-
-    /**
-     * @var ArrayObject
-     */
-    protected $raw;
+    private ArrayObject $raw;
     /**
      * @var Closure[]
      */
-    protected $filters = [];
-    /**
-     * @var ArrayObject
-     */
-    private $filtered;
+    private array $filters = [];
+    private ArrayObject $filtered;
+    private MainMenuItemFactory $factory;
 
     /**
      * Tree constructor.
      */
-    public function __construct()
+    public function __construct(MainMenuItemFactory $factory)
     {
         $this->raw = new ArrayObject();
+        $this->factory = $factory;
+    }
+
+    private function getSorter(): Closure
+    {
+        return function (isItem $item_one, isItem $item_two): int {
+            return $item_one->getPosition() - $item_two->getPosition();
+        };
     }
 
     /**
      * @param isItem $item
      */
-    public function add(isItem $item) : void
+    public function add(isItem $item): void
     {
         $serialize = $item->getProviderIdentification()->serialize();
         if (0 < strlen($serialize)) {
@@ -52,7 +74,7 @@ class Map implements Filterable, Walkable
     /**
      * @param isItem ...$items
      */
-    public function addMultiple(isItem ...$items) : void
+    public function addMultiple(isItem ...$items): void
     {
         foreach ($items as $item) {
             $this->add($item);
@@ -63,9 +85,9 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return isItem
      */
-    public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromRaw(IdentificationInterface $identification): isItem
     {
-        if($this->raw->offsetExists($identification->serialize())) {
+        if ($this->raw->offsetExists($identification->serialize())) {
             $item = $this->raw->offsetGet($identification->serialize());
 
             return $item ?? $this->getLostItem($identification);
@@ -77,7 +99,7 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return isItem
      */
-    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
+    public function getSingleItemFromFilter(IdentificationInterface $identification): isItem
     {
         $this->applyFilters();
 
@@ -91,7 +113,7 @@ class Map implements Filterable, Walkable
     /**
      * @param IdentificationInterface $identification
      */
-    public function remove(IdentificationInterface $identification) : void
+    public function remove(IdentificationInterface $identification): void
     {
         $this->raw->offsetUnset($identification->serialize());
     }
@@ -100,32 +122,28 @@ class Map implements Filterable, Walkable
      * @param IdentificationInterface $identification
      * @return bool
      */
-    public function existsInFilter(IdentificationInterface $identification) : bool
+    public function existsInFilter(IdentificationInterface $identification): bool
     {
         $this->applyFilters();
 
         return $this->filtered->offsetExists($identification->serialize());
     }
 
-    /**
-     * @return bool
-     */
-    public function has() : bool
+    public function has(): bool
     {
         return $this->raw->count() > 0;
     }
 
-    private function applyFilters() : void
+
+    private function applyFilters(): void
     {
-        if ($this->filtered === null) {
+        if (!isset($this->filtered)) {
             $this->filtered = new ArrayObject($this->raw->getArrayCopy());
         }
         if (count($this->filters) > 0) {
-            $filter_copy = [];
-            if ($this->filtered === null) {
+            if (!isset($this->filtered)) {
                 $filter_copy = $this->raw->getArrayCopy();
-            }
-            if ($this->filtered instanceof ArrayObject) {
+            } else {
                 $filter_copy = $this->filtered->getArrayCopy();
             }
             foreach ($this->filters as $filter) {
@@ -137,9 +155,9 @@ class Map implements Filterable, Walkable
     }
 
     /**
-     * @return \Generator|isItem[]
+     * @return Iterator<\ArrayObject>
      */
-    public function getAllFromFilter() : \Generator
+    public function getAllFromFilter(): Iterator
     {
         $this->applyFilters();
 
@@ -149,10 +167,10 @@ class Map implements Filterable, Walkable
     /**
      * @inheritDoc
      */
-    public function walk(Closure $c) : void
+    public function walk(Closure $c): void
     {
         $this->applyFilters();
-        $to_walk = (array) $this->filtered;
+        $to_walk = (array) $this->filtered->getArrayCopy();
         array_walk($to_walk, $c);
         $this->filtered = new ArrayObject($to_walk);
     }
@@ -160,62 +178,35 @@ class Map implements Filterable, Walkable
     /**
      * @inheritDoc
      */
-    public function filter(Closure $c) : void
+    public function filter(Closure $c): void
     {
         $this->filters[] = $c;
     }
 
-    public function sort() : void
+    public function sort(): void
     {
         $this->applyFilters();
-        $sorter = function (isItem $item_one, isItem $item_two) : int {
-            /**
-             * @var $parent isParent
-             */
-            if ($item_one instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_one->getParent());
-                $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
-            } else {
-                $position_item_one = $item_one->getPosition();
-            }
 
-            if ($item_two instanceof isChild) {
-                $parent = $this->getSingleItemFromFilter($item_two->getParent());
-                $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
-            } else {
-                $position_item_two = $item_two->getPosition();
-            }
+        $this->filtered->uasort($this->getSorter());
 
-            return $position_item_one <=> $position_item_two;
-        };
-
-        $this->filtered->uasort($sorter);
-
-        $this->walk(static function (isItem &$item) use ($sorter) : isItem {
+        $replace_children_sorted = function (isItem &$item) {
             if ($item instanceof isParent) {
                 $children = $item->getChildren();
-                uasort($children, $sorter);
+                uasort($children, $this->getSorter());
                 $item = $item->withChildren($children);
             }
-            return $item;
-        });
+        };
+        $this->walk($replace_children_sorted);
     }
 
-    /**
-     * @param IdentificationInterface $identification
-     * @return Lost
-     */
-    private function getLostItem(IdentificationInterface $identification) : Lost
+    private function getLostItem(IdentificationInterface $identification): Lost
     {
-        global $DIC;
-
-        return $DIC->globalScreen()->mainBar()->custom(Lost::class, new NullIdentification($identification))
-                   ->withAlwaysAvailable(true)
-                   ->withNonAvailableReason($DIC->ui()->factory()->legacy("{$DIC->language()->txt('mme_lost_item_reason')}"))
-                   ->withVisibilityCallable(
-                       function () use ($DIC) {
-                           return (bool) ($DIC->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));
-                       }
-                   )->withTitle($DIC->language()->txt("mme_lost_item_title"));
+        return $this->factory->custom(Lost::class, new NullIdentification($identification))
+                             ->withAlwaysAvailable(true)
+                             ->withVisibilityCallable(
+                                 function (): bool {
+                                     return false;
+                                 }
+                             )->withTitle('Lost');
     }
 }

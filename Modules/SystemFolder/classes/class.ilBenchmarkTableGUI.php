@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Benchmark table
@@ -36,14 +50,14 @@ class ilBenchmarkTableGUI extends ilTable2GUI
 
         switch ($this->mode) {
             case "slowest_first":
-                $this->setData(ilUtil::sortArray($a_records, "time", "desc", true));
+                $this->setData(ilArrayUtil::sortArray($a_records, "time", "desc", true));
                 $this->setTitle($lng->txt("adm_db_bench_slowest_first"));
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
                 break;
 
             case "sorted_by_sql":
-                $this->setData(ilUtil::sortArray($a_records, "sql", "asc"));
+                $this->setData(ilArrayUtil::sortArray($a_records, "sql", "asc"));
                 $this->setTitle($lng->txt("adm_db_bench_sorted_by_sql"));
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
@@ -63,7 +77,6 @@ class ilBenchmarkTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt("adm_time"));
                 $this->addColumn($this->lng->txt("adm_sql"));
                 break;
-
         }
 
         $this->setEnableHeader(true);
@@ -73,7 +86,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
 
         //		$this->addMultiCommand("", $lng->txt(""));
-//		$this->addCommandButton("", $lng->txt(""));
+        //		$this->addCommandButton("", $lng->txt(""));
     }
 
     /**
@@ -140,7 +153,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
             $data[$table]["time"] += $r["time"];
         }
         if (count($data) > 0) {
-            $data = ilUtil::sortArray($data, "time", "desc", true);
+            $data = ilArrayUtil::sortArray($data, "time", "desc", true);
         }
 
         return $data;
@@ -149,7 +162,7 @@ class ilBenchmarkTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

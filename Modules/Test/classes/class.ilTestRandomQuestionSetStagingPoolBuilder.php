@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
@@ -34,7 +35,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     public function rebuild(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
     {
         $this->reset();
-        
+
         // fau: taxFilter/typeFilter - copy only the needed questions, and copy every question only once
         // TODO-RND2017: remove non cheap methods and rename cheap ones
         #$this->build($sourcePoolDefinitionList);
@@ -47,7 +48,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         $this->removeMirroredTaxonomies();
 
         $this->removeStagedQuestions();
-        
+
         $this->cleanupTestSettings();
     }
 
@@ -100,7 +101,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
     }
 
-    private function stageQuestionsFromSourcePool($sourcePoolId)
+    private function stageQuestionsFromSourcePool($sourcePoolId): array
     {
         $questionIdMapping = array();
 
@@ -124,26 +125,26 @@ class ilTestRandomQuestionSetStagingPoolBuilder
 
         return $questionIdMapping;
     }
-    
+
     // fau: taxFilter/typeFilter - select only the needed questions, and copy every question only once
     private function buildCheap(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
     {
         // TODO-RND2017: refactor using assQuestionList and wrap with assQuestionListCollection for unioning
-         
+
         $questionIdMappingPerPool = array();
-        
+
         // select questions to be copied by the definitions
         // note: a question pool may appear many times in this list
-        
+
         /* @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
         foreach ($sourcePoolDefinitionList as $definition) {
             $taxFilter = $definition->getOriginalTaxonomyFilter();
             $typeFilter = $definition->getTypeFilter();
             $lifecycleFilter = $definition->getLifecycleFilter();
-            
+
             if (!empty($taxFilter)) {
                 require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-                
+
                 $filterItems = null;
                 foreach ($taxFilter as $taxId => $nodeIds) {
                     $taxItems = array();
@@ -155,18 +156,18 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                             $taxId,
                             $nodeId
                         );
-                        
+
                         foreach ($nodeItems as $nodeItem) {
                             $taxItems[] = $nodeItem['item_id'];
                         }
                     }
-                    
+
                     $filterItems = isset($filterItems) ? array_intersect($filterItems, array_unique($taxItems)) : array_unique($taxItems);
                 }
 
                 // stage only the questions applying to the tax/type filter
                 // and save the duplication map for later use
-                
+
                 $questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
                     $definition->getPoolId(),
                     $questionIdMappingPerPool,
@@ -177,7 +178,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             } else {
                 // stage only the questions applying to the tax/type filter
                 // and save the duplication map for later use
-                
+
                 $questionIdMappingPerPool = $this->stageQuestionsFromSourcePoolCheap(
                     $definition->getPoolId(),
                     $questionIdMappingPerPool,
@@ -187,14 +188,14 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                 );
             }
         }
-        
+
         // copy the taxonomies to the test and map them
         foreach ($questionIdMappingPerPool as $sourcePoolId => $questionIdMapping) {
             $taxonomiesKeysMap = $this->mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping);
             $this->applyMappedTaxonomiesKeys($sourcePoolDefinitionList, $taxonomiesKeysMap, $sourcePoolId);
         }
     }
-    
+
     private function stageQuestionsFromSourcePoolCheap($sourcePoolId, $questionIdMappingPerPool, $filterIds = null, $typeFilter = null, $lifecycleFilter = null)
     {
         $query = 'SELECT question_id FROM qpl_questions WHERE obj_fi = %s AND complete = %s AND original_id IS NULL';
@@ -208,15 +209,15 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             $query .= ' AND ' . $this->db->in('lifecycle', $lifecycleFilter, false, 'text');
         }
         $res = $this->db->queryF($query, array('integer', 'text'), array($sourcePoolId, 1));
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($questionIdMappingPerPool[$sourcePoolId])) {
                 $questionIdMappingPerPool[$sourcePoolId] = array();
             }
             if (!isset($questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ])) {
                 $question = assQuestion::_instantiateQuestion($row['question_id']);
-                $duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
-                
+                $duplicateId = $question->duplicate(true, '', '', '', $this->testOBJ->getId());
+
                 $nextId = $this->db->nextId('tst_rnd_cpy');
                 $this->db->insert('tst_rnd_cpy', array(
                     'copy_id' => array('integer', $nextId),
@@ -224,7 +225,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                     'qst_fi' => array('integer', $duplicateId),
                     'qpl_fi' => array('integer', $sourcePoolId)
                 ));
-                
+
                 $questionIdMappingPerPool[$sourcePoolId][ $row['question_id'] ] = $duplicateId;
             }
         }
@@ -233,7 +234,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     }
     // fau.
 
-    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping)
+    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
 
@@ -263,17 +264,17 @@ class ilTestRandomQuestionSetStagingPoolBuilder
                 #$definition->setMappedFilterTaxId(
                 #	$taxonomiesKeysMap->getMappedTaxonomyId($definition->getOriginalFilterTaxId())
                 #);
-                
+
                 #$definition->setMappedFilterTaxNodeId(
                 #	$taxonomiesKeysMap->getMappedTaxNodeId($definition->getOriginalFilterTaxNodeId())
                 #);
-                
+
                 $definition->mapTaxonomyFilter($taxonomiesKeysMap);
                 // fau.
             }
         }
     }
-    
+
     private function cleanupTestSettings()
     {
         $this->testOBJ->setResultFilterTaxIds(array());

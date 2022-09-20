@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUserAvatarFactory
@@ -8,25 +25,14 @@
  */
 class ilUserAvatarFactory
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
 
-    /**
-     * ilUserAvatarFactory constructor.
-     * @param \ILIAS\DI\Container $dic
-     */
     public function __construct(\ILIAS\DI\Container $dic)
     {
         $this->dic = $dic;
     }
 
-    /**
-     * @param string $size
-     * @return ilUserAvatar
-     */
-    public function avatar($size)
+    public function avatar(string $size): ilUserAvatar
     {
         if ((int) $this->dic->settings()->get('letter_avatars')) {
             return $this->letter();
@@ -35,19 +41,12 @@ class ilUserAvatarFactory
         return $this->file($size);
     }
 
-    /**
-     * @return ilUserAvatarLetter
-     */
-    public function letter()
+    public function letter(): ilUserAvatarLetter
     {
         return new ilUserAvatarLetter();
     }
 
-    /**
-     * @param string $size
-     * @return ilUserAvatarFile
-     */
-    public function file($size)
+    public function file(string $size): ilUserAvatarFile
     {
         return new ilUserAvatarFile($size);
     }

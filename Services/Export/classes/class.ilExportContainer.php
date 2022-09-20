@@ -1,39 +1,47 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Export Container
- *
- * @author	Stefan Meyer <meyer@leifos.com>
+ * @author    Stefan Meyer <meyer@leifos.com>
  */
 class ilExportContainer extends ilExport
 {
-    private $cont_export_dir = '';
-    private $cont_manifest_writer = null;
-    private $eo = null;
-    
-    
+    private string $cont_export_dir = '';
+    private ?ilXmlWriter $cont_manifest_writer = null;
+    private ilExportOptions $eo;
+
     /**
      * Constructor
      * @param ilExportOptions $eo
-     * @return
      */
     public function __construct(ilExportOptions $eo)
     {
         $this->eo = $eo;
         parent::__construct();
     }
-    
+
     /**
-     * Export a container
-     *
-     * @param object $a_type
-     * @param object $a_obj_id
-     * @param object $a_target_release
-     * @return
+     * @inheritDoc
      */
-    public function exportObject($a_type, $a_id, $a_target_release = "")
+    public function exportObject(string $a_type, int $a_id, string $a_target_release = ""): array
     {
         $log = $GLOBALS['DIC']->logger()->exp();
 
@@ -42,32 +50,29 @@ class ilExportContainer extends ilExport
             $v = explode(".", ILIAS_VERSION_NUMERIC);
             $a_target_release = $v[0] . "." . $v[1] . ".0";
         }
-                
+
         // Create base export directory
         ilExport::_createExportDirectory($a_id, "xml", $a_type);
         $export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
         $ts = time();
         $sub_dir = $ts . "__" . IL_INST_ID . "__" . $a_type . "_" . $a_id;
-        
+
         $this->cont_export_dir = $export_dir . DIRECTORY_SEPARATOR . $sub_dir;
-        ilUtil::makeDirParents($this->cont_export_dir);
-        
+        ilFileUtils::makeDirParents($this->cont_export_dir);
+
         $log->debug('Using base directory: ' . $this->export_run_dir);
-        
+
         $this->manifestWriterBegin($a_type, $a_id, $a_target_release);
         $this->addContainer();
         $this->addSubitems($a_id, $a_type, $a_target_release);
         $this->manifestWriterEnd($a_type, $a_id, $a_target_release);
 
-        ilUtil::zip($this->cont_export_dir, $this->cont_export_dir . '.zip');
-        ilUtil::delDir($this->cont_export_dir);
+        ilFileUtils::zip($this->cont_export_dir, $this->cont_export_dir . '.zip');
+        ilFileUtils::delDir($this->cont_export_dir);
+        return [];
     }
-    
-    /**
-     * Write container manifest
-     * @return
-     */
-    protected function manifestWriterBegin($a_type, $a_id, $a_target_release)
+
+    protected function manifestWriterBegin(string $a_type, int $a_id, string $a_target_release): void
     {
         $this->cont_manifest_writer = new ilXmlWriter();
         $this->cont_manifest_writer->xmlHeader();
@@ -78,58 +83,44 @@ class ilExportContainer extends ilExport
                 "Title" => ilObject::_lookupTitle($a_id),
                 "TargetRelease" => $a_target_release,
                 "InstallationId" => IL_INST_ID,
-                "InstallationUrl" => ILIAS_HTTP_PATH)
+                "InstallationUrl" => ILIAS_HTTP_PATH
+            )
         );
     }
-    
-    /**
-     * Add container description
-     * @return
-     */
-    protected function addContainer()
+
+    protected function addContainer(): void
     {
     }
-    
-    
-    /**
-     * Add subitems
-     * @param object $a_id
-     * @param object $a_type
-     * @return
-     */
-    protected function addSubitems($a_id, $a_type, $a_target_release)
+
+    protected function addSubitems(int $a_id, string $a_type, string $a_target_release): void
     {
-        global $DIC;
-
-        $logger =
-
         $set_number = 1;
         foreach ($this->eo->getSubitemsForExport() as $ref_id) {
             // get last export file
             $obj_id = ilObject::_lookupObjId($ref_id);
-            
+
             $expi = ilExportFileInfo::lookupLastExport($obj_id, 'xml', $a_target_release);
-            
+
             if (!$expi instanceof ilExportFileInfo) {
                 $this->log->warning('Cannot find export file for refId ' . $ref_id . ', type ' . ilObject::_lookupType($a_id));
                 continue;
             }
-            
+
             $exp_dir = ilExport::_getExportDirectory($obj_id, 'xml', ilObject::_lookupType($obj_id));
             $exp_full = $exp_dir . DIRECTORY_SEPARATOR . $expi->getFilename();
-            
+
             $this->log->debug('Zip path ' . $exp_full);
-            
+
             // Unzip
-            ilUtil::unzip($exp_full, true, false);
-            
+            ilFileUtils::unzip($exp_full, true, false);
+
             // create set directory
-            ilUtil::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
-            
+            ilFileUtils::makeDirParents($this->cont_export_dir . DIRECTORY_SEPARATOR . 'set_' . $set_number);
+
             // cut .zip
             $new_path_rel = 'set_' . $set_number . DIRECTORY_SEPARATOR . $expi->getBasename();
             $new_path_abs = $this->cont_export_dir . DIRECTORY_SEPARATOR . $new_path_rel;
-            
+
             $this->log->debug($new_path_rel . ' ' . $new_path_abs);
 
             // Move export
@@ -137,9 +128,9 @@ class ilExportContainer extends ilExport
                 $exp_dir . DIRECTORY_SEPARATOR . $expi->getBasename(),
                 $new_path_abs
             );
-            
+
             $this->log->debug($exp_dir . DIRECTORY_SEPARATOR . $expi->getBasename() . ' -> ' . $new_path_abs);
-            
+
             // Delete latest container xml of source
             if ($a_id == $obj_id) {
                 $expi->delete();
@@ -148,7 +139,7 @@ class ilExportContainer extends ilExport
                     unlink($exp_full);
                 }
             }
-            
+
             $this->cont_manifest_writer->xmlElement(
                 'ExportSet',
                 array(
@@ -156,20 +147,11 @@ class ilExportContainer extends ilExport
                     'Type' => ilObject::_lookupType($obj_id)
                 )
             );
-            
-            
             ++$set_number;
         }
     }
-    
-    /**
-     * Write manifest footer
-     * @param object $a_type
-     * @param object $a_id
-     * @param object $a_target_release
-     * @return
-     */
-    protected function manifestWriterEnd($a_type, $a_id, $a_target_release)
+
+    protected function manifestWriterEnd(string $a_type, int $a_id, string $a_target_release): void
     {
         $this->cont_manifest_writer->xmlEndTag('Manifest');
         $this->log->debug($this->cont_export_dir . DIRECTORY_SEPARATOR . 'manifest.xml');

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 
@@ -65,92 +81,92 @@ class ilChatroomSetupConfig implements Setup\Config
         $this->deletion_time = $deletion_time;
     }
 
-    public function getAddress() : string
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function getPort() : int
+    public function getPort(): int
     {
         return $this->port;
     }
 
-    public function getSubDirectory() : string
+    public function getSubDirectory(): string
     {
         return $this->sub_directory;
     }
 
-    public function getProtocol() : string
+    public function getProtocol(): string
     {
         return $this->protocol;
     }
 
-    public function getCert() : string
+    public function getCert(): string
     {
         return $this->cert;
     }
 
-    public function getKey() : string
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function getDhparam() : string
+    public function getDhparam(): string
     {
         return $this->dhparam;
     }
 
-    public function getLog() : string
+    public function getLog(): string
     {
         return $this->log;
     }
 
-    public function getLogLevel() : string
+    public function getLogLevel(): string
     {
         return $this->log_level;
     }
 
-    public function getErrorLog() : string
+    public function getErrorLog(): string
     {
         return $this->error_log;
     }
 
-    public function hasIliasProxy() : bool
+    public function hasIliasProxy(): bool
     {
         return $this->ilias_proxy;
     }
 
-    public function getIliasUrl() : string
+    public function getIliasUrl(): string
     {
         return $this->ilias_url;
     }
 
-    public function hasClientProxy() : bool
+    public function hasClientProxy(): bool
     {
         return $this->client_proxy;
     }
 
-    public function getClientUrl() : string
+    public function getClientUrl(): string
     {
         return $this->client_url;
     }
 
-    public function hasDeletionMode() : bool
+    public function hasDeletionMode(): bool
     {
         return $this->deletion_mode;
     }
 
-    public function getDeletionUnit() : string
+    public function getDeletionUnit(): string
     {
         return $this->deletion_unit;
     }
 
-    public function getDeletionValue() : int
+    public function getDeletionValue(): int
     {
         return $this->deletion_value;
     }
 
-    public function getDeletionTime() : string
+    public function getDeletionTime(): string
     {
         return $this->deletion_time;
     }

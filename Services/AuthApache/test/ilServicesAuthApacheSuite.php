@@ -1,6 +1,20 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use PHPUnit\Framework\TestSuite;
 
@@ -8,13 +22,13 @@ use PHPUnit\Framework\TestSuite;
  * Class ilServicesAuthApacheSuite
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilServicesAuthApacheSuite extends TestSuite
+final class ilServicesAuthApacheSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 
-        require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
+        require_once __DIR__ . '/ilWhiteListUrlValidatorTest.php';
         $suite->addTestSuite('ilWhiteListUrlValidatorTest');
 
         return $suite;

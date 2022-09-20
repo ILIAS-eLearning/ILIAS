@@ -1,28 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * Class ilWebDAVMountInstructionsModalGUI
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\Lightbox;
+
 class ilWebDAVMountInstructionsModalGUI
 {
-    /**
-     * ID of the <div>-element, which contains the mount instructions
-     */
-    public const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
+    private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';
 
-    /**
-     * ilWebDAVMountInstructionsModalGUI constructor.
-     * @param \ILIAS\UI\Factory $a_ui_factory
-     * @param \ILIAS\UI\Renderer $a_ui_renderer
-     * @param ilLanguage $a_lng
-     */
-    public function __construct(ILIAS\UI\Factory $a_ui_factory, ILIAS\UI\Renderer $a_ui_renderer, ilLanguage $a_lng)
+    protected ilWebDAVMountInstructionsRepositoryImpl $repository;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilLanguage $lng;
+    private Lightbox $modal;
+
+    private function __construct(ilWebDAVMountInstructionsRepositoryImpl $repository, Factory $ui_factory, Renderer $ui_renderer, ilLanguage $lng)
     {
-        global $DIC;
-        $this->repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
-        $this->ui_factory = $a_ui_factory;
-        $this->ui_renderer = $a_ui_renderer;
-        $this->lng = $a_lng;
+        $this->repository = $repository;
+        $this->ui_factory = $ui_factory;
+        $this->ui_renderer = $ui_renderer;
+        $this->lng = $lng;
 
         try {
             $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
@@ -36,46 +51,34 @@ class ilWebDAVMountInstructionsModalGUI
         $this->modal = $this->ui_factory->modal()->lightbox($page);
     }
 
-    /**
-     * @return string
-     */
-    public function getRenderedModal()
+    private function getRenderedModal(): string
     {
         return $this->ui_renderer->render($this->modal);
     }
 
-    /**
-     * @return string
-     */
-    public function getModalShowSignalId()
+    private function getModalShowSignalId(): string
     {
         return $this->modal->getShowSignal()->getId();
     }
 
-    /** @var ilWebDAVMountInstructionsModalGUI */
-    private static $instance = null;
-    private static $modal_already_rendered = false;
+    private static bool $modal_already_rendered = false;
 
-    /**
-     * This is kind of a singleton pattern. But instead of getting creating only one instance of this class, an object
-     * will be created which will only be rendered once into the global template.
-     */
-    public static function maybeRenderWebDAVModalInGlobalTpl()
+    public static function maybeRenderWebDAVModalInGlobalTpl(): void
     {
-        global $DIC;
-        if (!self::$modal_already_rendered) {
-            if (self::$instance == null) {
-                global $DIC;
-                self::$instance = new ilWebDAVMountInstructionsModalGUI($DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
-            }
-
-            self::$modal_already_rendered = true;
-            $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . self::$instance->getModalShowSignalId() . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
-
-            $webdav_modal_html = self::$instance->getRenderedModal() . $js_function;
-
-            $tpl = $DIC->ui()->mainTemplate();
-            $tpl->setVariable('WEBDAV_MODAL', $webdav_modal_html);
+        if (self::$modal_already_rendered) {
+            return;
         }
+
+        global $DIC;
+        $repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
+        $instance = new ilWebDAVMountInstructionsModalGUI($repository, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
+
+        self::$modal_already_rendered = true;
+        $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . $instance->getModalShowSignalId() . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
+
+        $webdav_modal_html = $instance->getRenderedModal() . $js_function;
+
+        $tpl = $DIC->ui()->mainTemplate();
+        $tpl->setVariable('WEBDAV_MODAL', $webdav_modal_html);
     }
 }

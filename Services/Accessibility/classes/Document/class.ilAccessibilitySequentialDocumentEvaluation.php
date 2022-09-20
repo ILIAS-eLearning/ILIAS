@@ -1,33 +1,34 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Interface ilAccessibilitySequentialDocumentEvaluation
  */
 class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocumentEvaluation
 {
-    /** @var ilAccessibilityDocumentCriteriaEvaluation */
-    protected $evaluation;
-
-    /** @var ilObjUser */
-    protected $user;
-
+    protected ilAccessibilityDocumentCriteriaEvaluation $evaluation;
+    protected ilObjUser $user;
     /** @var ilAccessibilityDocument[]|null */
-    protected $matchingDocuments = null;
-
+    protected ?array $matchingDocuments = null;
     /** @var ilAccessibilitySignableDocument[] */
-    protected $possibleDocuments = [];
+    protected ?array $possibleDocuments = [];
+    protected ilLogger $log;
 
-    /** @var ilLogger */
-    protected $log;
-
-    /**
-     * ilAccessibilityDocumentLogicalAndCriteriaEvaluation constructor.
-     * @param ilAccessibilityDocumentCriteriaEvaluation $evaluation
-     * @param ilObjUser                                  $user
-     * @param ilLogger                                   $log
-     * @param ilAccessibilitySignableDocument[]         $possibleDocuments
-     */
     public function __construct(
         ilAccessibilityDocumentCriteriaEvaluation $evaluation,
         ilObjUser $user,
@@ -43,7 +44,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
     /**
      * @return ilAccessibilitySignableDocument[]
      */
-    protected function getMatchingDocuments() : array
+    protected function getMatchingDocuments(): array
     {
         if (null === $this->matchingDocuments) {
             $this->matchingDocuments = [];
@@ -69,10 +70,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
         return $this->matchingDocuments;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function document() : ilAccessibilitySignableDocument
+    public function document(): ilAccessibilitySignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
         if (count($matchingDocuments) > 0) {
@@ -86,10 +84,7 @@ class ilAccessibilitySequentialDocumentEvaluation implements ilAccessibilityDocu
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasDocument() : bool
+    public function hasDocument(): bool
     {
         return count($this->getMatchingDocuments()) > 0;
     }

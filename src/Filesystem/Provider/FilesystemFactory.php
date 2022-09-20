@@ -5,6 +5,19 @@ namespace ILIAS\Filesystem\Provider;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface FilesystemFactory
  *
@@ -17,7 +30,6 @@ use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
  */
 interface FilesystemFactory
 {
-
     /**
      * Creates a local filesystem instance with the given configuration.
      *
@@ -29,5 +41,5 @@ interface FilesystemFactory
      * @since   5.3
      * @version 1.0
      */
-    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem;
+    public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem;
 }

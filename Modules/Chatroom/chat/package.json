@@ -1,16 +1,16 @@
 {
   "name": "ILIAS-Chat",
   "description": "ILIAS CHAT",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "dependencies": {
     "async": "^3.2",
     "mysql": "^2.18.1",
     "node-mysql": "^0.4.2",
-    "node-schedule": "^2.0.0",
+    "node-schedule": "^2.1.0",
     "node-uuid": "^1.4.8",
-    "express": "^4.17.1",
-    "socket.io": "^4.2.0",
-    "socket.io-client": "^4.2.0",
+    "express": "^4.17.3",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "winston": "^2.4.1"
   }
 }

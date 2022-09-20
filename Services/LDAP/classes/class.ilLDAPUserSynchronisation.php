@@ -1,39 +1,41 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/LDAP/classes/class.ilLDAPServer.php';
-include_once './Services/LDAP/exceptions/class.ilLDAPSynchronisationForbiddenException.php';
-include_once './Services/LDAP/exceptions/class.ilLDAPAccountMigrationRequiredException.php';
+declare(strict_types=1);
 
 /**
- * Synchronization of user accounts used in auth container ldap, radius , cas,...
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Synchronization of user accounts used in auth container ldap, cas,...
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPUserSynchronisation
 {
-    private $authmode = 0;
+    private string $authmode;
+    private ilLDAPServer $server;
+    private string $extaccount = '';
+    private string $intaccount = '';
 
-    private $server = null;
+    private array $user_data = array();
+    private bool $force_creation = false;
+    private bool $force_read_ldap_data = false;
+    private ilLogger $logger;
 
-    private $extaccount = '';
-    private $intaccount = '';
-
-    private $user_data = array();
-    
-    private $force_creation = false;
-    private $force_read_ldap_data = false;
-
-    private $logger;
-
-
-    /**
-     * Constructor
-     *
-     * @param string $a_auth_mode
-     */
-    public function __construct($a_authmode, $a_server_id)
+    public function __construct(string $a_authmode, int $a_server_id)
     {
         global $DIC;
 
@@ -45,34 +47,31 @@ class ilLDAPUserSynchronisation
      * Get current ldap server
      * @return ilLDAPServer $server
      */
-    public function getServer()
+    public function getServer(): ilLDAPServer
     {
         return $this->server;
     }
 
     /**
      * Get Auth Mode
-     * @return int authmode
      */
-    public function getAuthMode()
+    public function getAuthMode(): string
     {
         return $this->authmode;
     }
 
     /**
      * Set external account (unique for each auth mode)
-     * @param string $a_ext
      */
-    public function setExternalAccount($a_ext)
+    public function setExternalAccount(string $a_ext): void
     {
         $this->extaccount = $a_ext;
     }
 
     /**
      * Get external accocunt
-     * @return <type>
      */
-    public function getExternalAccount()
+    public function getExternalAccount(): string
     {
         return $this->extaccount;
     }
@@ -81,50 +80,39 @@ class ilLDAPUserSynchronisation
      * Get ILIAS unique internal account name
      * @return string internal account
      */
-    public function getInternalAccount()
+    public function getInternalAccount(): ?string
     {
         return $this->intaccount;
     }
-    
+
     /**
      * Force cration of user accounts (Account migration enabled)
-     * @param bool $a_force
      */
-    public function forceCreation($a_force)
+    public function forceCreation(bool $a_force): void
     {
         $this->force_creation = $a_force;
     }
-    
-    public function forceReadLdapData($a_status)
+
+    public function forceReadLdapData(bool $a_status): void
     {
         $this->force_read_ldap_data = $a_status;
-    }
-
-    /**
-     * Check if creation of user account is forced (account migration)
-     * @return bool
-     */
-    public function isCreationForced()
-    {
-        return (bool) $this->force_creation;
     }
 
     /**
      * Get user data
      * @return array $user_data
      */
-    public function getUserData()
+    public function getUserData(): array
     {
-        return (array) $this->user_data;
+        return $this->user_data;
     }
 
     /**
      * Set user data
-     * @param array $a_data
      */
-    public function setUserData($a_data)
+    public function setUserData(array $a_data): void
     {
-        $this->user_data = (array) $a_data;
+        $this->user_data = $a_data;
     }
 
     /**
@@ -134,10 +122,10 @@ class ilLDAPUserSynchronisation
      * @throws ilLDAPSynchronisationForbiddenException if user synchronisation is disabled
      * @throws ilLDAPSynchronisationFailedException bind failure
      */
-    public function sync()
+    public function sync(): string
     {
         $this->readInternalAccount();
-        
+
         if (!$this->getInternalAccount()) {
             ilLoggerFactory::getLogger('auth')->debug('Creating new account');
             $this->handleCreation();
@@ -162,14 +150,14 @@ class ilLDAPUserSynchronisation
      * @throws ilLDAPSynchronisationForbiddenException
      * @throws ilLDAPAccountMigrationRequiredException
      */
-    protected function handleCreation()
+    protected function handleCreation(): void
     {
         // Disabled sync on login
         if (!$this->getServer()->enabledSyncOnLogin()) {
             throw new ilLDAPSynchronisationForbiddenException('User synchronisation forbidden.');
         }
         // Account migration
-        if ($this->getServer()->isAccountMigrationEnabled() and !$this->isCreationForced()) {
+        if (!$this->force_creation && $this->getServer()->isAccountMigrationEnabled()) {
             $this->readUserData();
             throw new ilLDAPAccountMigrationRequiredException('Account migration check required.');
         }
@@ -177,16 +165,13 @@ class ilLDAPUserSynchronisation
 
     /**
      * Update user account and role assignments
-     * @return bool
      */
-    protected function performUpdate()
+    protected function performUpdate(): bool
     {
-        include_once './Services/User/classes/class.ilUserCreationContext.php';
         ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
-        include_once 'Services/LDAP/classes/class.ilLDAPAttributeToUser.php';
         $update = new ilLDAPAttributeToUser($this->getServer());
-        if ($this->isCreationForced()) {
+        if ($this->force_creation) {
             $update->addMode(ilLDAPAttributeToUser::MODE_INITIALIZE_ROLES);
         }
         $update->setNewUserAuthMode($this->getAuthMode());
@@ -208,7 +193,7 @@ class ilLDAPUserSynchronisation
      * In case of auth mode != 'ldap' start a query with external account name against ldap server
      * @throws ilLDAPSynchronisationFailedException
      */
-    protected function readUserData() : bool
+    protected function readUserData(): bool
     {
         // Add internal account to user data
         $this->user_data['ilInternalAccount'] = $this->getInternalAccount();
@@ -235,7 +220,7 @@ class ilLDAPUserSynchronisation
      * Read internal account of user
      * @throws UnexpectedValueException
      */
-    protected function readInternalAccount()
+    protected function readInternalAccount(): void
     {
         if (!$this->getExternalAccount()) {
             throw new UnexpectedValueException('No external account given.');
@@ -248,11 +233,10 @@ class ilLDAPUserSynchronisation
 
     /**
      * Check if an update is required
-     * @return bool
      */
-    protected function isUpdateRequired()
+    protected function isUpdateRequired(): bool
     {
-        if ($this->isCreationForced()) {
+        if ($this->force_creation) {
             return true;
         }
         if (!$this->getInternalAccount()) {
@@ -260,13 +244,11 @@ class ilLDAPUserSynchronisation
         }
 
         // Check attribute mapping on login
-        include_once './Services/LDAP/classes/class.ilLDAPAttributeMapping.php';
         if (ilLDAPAttributeMapping::hasRulesForUpdate($this->getServer()->getServerId())) {
             return true;
         }
 
         // Check if there is any change in role assignments
-        include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRule.php';
         if (ilLDAPRoleAssignmentRule::hasRulesForUpdate()) {
             return true;
         }
@@ -276,9 +258,8 @@ class ilLDAPUserSynchronisation
 
     /**
      * Init LDAP server
-     * @param int $a_server_id
      */
-    protected function initServer($a_auth_mode, $a_server_id)
+    protected function initServer(string $a_auth_mode, int $a_server_id): void
     {
         $this->authmode = $a_auth_mode;
         $this->server = ilLDAPServer::getInstanceByServerId($a_server_id);

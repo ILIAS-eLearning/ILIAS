@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution;
 
@@ -17,7 +31,7 @@ class ilExPeerReview
     protected ilExAssignment$assignment;
     protected int $assignment_id;
     protected ilLogger $log;
-        
+
     public function __construct(
         ilExAssignment $a_assignment
     ) {
@@ -29,11 +43,11 @@ class ilExPeerReview
         $this->assignment_id = $a_assignment->getId();
         $this->log = ilLoggerFactory::getLogger("exc");
     }
-    
-    public function hasPeerReviewGroups() : bool
+
+    public function hasPeerReviewGroups(): bool
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query("SELECT count(*) cnt" .
             " FROM exc_assignment_peer" .
             " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
@@ -44,12 +58,12 @@ class ilExPeerReview
     /**
      * @return int[]
      */
-    protected function getValidPeerReviewUsers() : array
+    protected function getValidPeerReviewUsers(): array
     {
         $ilDB = $this->db;
-        
+
         $user_ids = array();
-        
+
         // returned / assigned ?!
         $set = $ilDB->query("SELECT DISTINCT(user_id)" .
             " FROM exc_returned" .
@@ -58,14 +72,14 @@ class ilExPeerReview
         while ($row = $ilDB->fetchAssoc($set)) {
             $user_ids[] = (int) $row["user_id"];
         }
-        
+
         return $user_ids;
     }
-    
-    public function initPeerReviews() : bool
+
+    public function initPeerReviews(): bool
     {
         $ilDB = $this->db;
-                
+
         // see #22246
         if (!$this->assignment->afterDeadlineStrict()) {
             return false;
@@ -88,43 +102,46 @@ class ilExPeerReview
         }
         return true;
     }
-    
-    public function resetPeerReviews() : array
+
+    /**
+     * @return int[]|string[]
+     */
+    public function resetPeerReviews(): array
     {
         $ilDB = $this->db;
-        
+
         $all = array();
-        
+
         if ($this->hasPeerReviewGroups()) {
             foreach ($this->getAllPeerReviews(false) as $peer_id => $reviews) {
                 foreach (array_keys($reviews) as $giver_id) {
                     $all[] = $giver_id;
-                    
+
                     foreach ($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit) {
                         $crit->setPeerReviewContext($this->assignment, $giver_id, $peer_id);
                         $crit->resetReview();
                     }
                 }
             }
-            
+
             // peer groups
             $ilDB->manipulate("DELETE FROM exc_assignment_peer" .
                 " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
         }
-        
+
         return $all;
     }
-    
-    public function validatePeerReviewGroups() : ?array
+
+    public function validatePeerReviewGroups(): ?array
     {
         if ($this->hasPeerReviewGroups()) {
             $all_exc = ilExerciseMembers::_getMembers($this->assignment->getExerciseId());
             $all_valid = $this->getValidPeerReviewUsers(); // only returned
-            
+
             $peer_ids = $invalid_peer_ids = $invalid_giver_ids = $all_reviews = array();
             foreach ($this->getAllPeerReviews(false) as $peer_id => $reviews) {
                 $peer_ids[] = $peer_id;
-                
+
                 if (!in_array($peer_id, $all_valid) ||
                     !in_array($peer_id, $all_exc)) {
                     $invalid_peer_ids[] = $peer_id;
@@ -139,7 +156,7 @@ class ilExPeerReview
                 }
             }
             $invalid_giver_ids = array_unique($invalid_giver_ids);
-            
+
             $missing_user_ids = array();
             foreach ($all_valid as $user_id) {
                 // a missing peer is also a missing giver
@@ -147,18 +164,18 @@ class ilExPeerReview
                     $missing_user_ids[] = $user_id;
                 }
             }
-            
+
             $not_returned_ids = array();
             foreach ($all_exc as $user_id) {
                 if (!in_array($user_id, $all_valid)) {
                     $not_returned_ids[] = $user_id;
                 }
             }
-                        
+
             return array(
-                "invalid" => (sizeof($missing_user_ids) ||
-                    sizeof($invalid_peer_ids) ||
-                    sizeof($invalid_giver_ids)),
+                "invalid" => (count($missing_user_ids) ||
+                    count($invalid_peer_ids) ||
+                    count($invalid_giver_ids)),
                 "missing_user_ids" => $missing_user_ids,
                 "not_returned_ids" => $not_returned_ids,
                 "invalid_peer_ids" => $invalid_peer_ids,
@@ -172,7 +189,7 @@ class ilExPeerReview
     public function getPeerReviewValues(
         int $a_giver_id,
         int $a_peer_id
-    ) : array {
+    ): array {
         $peer = null;
         foreach ($this->getPeerReviewsByGiver($a_giver_id) as $item) {
             if ($item["peer_id"] == $a_peer_id) {
@@ -193,13 +210,13 @@ class ilExPeerReview
         }
         return [];
     }
-    
-    public function getPeerReviewsByGiver(int $a_user_id) : array
+
+    public function getPeerReviewsByGiver(int $a_user_id): array
     {
         $ilDB = $this->db;
-        
+
         $res = array();
-        
+
         if ($this->initPeerReviews()) {
             $idx = 0;
             $set = $ilDB->query("SELECT *" .
@@ -212,14 +229,14 @@ class ilExPeerReview
                 $res[] = $row;
             }
         }
-        
+
         return $res;
     }
-    
+
     public function getPeerMaskedId(
         int $a_giver_id,
         int $a_peer_id
-    ) : int {
+    ): int {
         foreach ($this->getPeerReviewsByGiver($a_giver_id) as $peer) {
             if ($peer["peer_id"] == $a_peer_id) {
                 return (int) $peer["seq"];
@@ -227,11 +244,11 @@ class ilExPeerReview
         }
         return 0;
     }
-    
-    protected function validatePeerReview(array $a_data) : bool
+
+    protected function validatePeerReview(array $a_data): bool
     {
         $all_empty = true;
-        
+
         // see getPeerReviewValues()
         $values = null;
         $data = $a_data["pcomment"];
@@ -242,12 +259,12 @@ class ilExPeerReview
                 $values = array("text" => $data);
             }
         }
-        
+
         /* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria) */
         if (!$values) {
             return false;
         }
-        
+
         foreach ($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit) {
             $crit_id = $crit->getId()
                 ? $crit->getId()
@@ -264,18 +281,18 @@ class ilExPeerReview
                 $all_empty = false;
             }
         }
-        
+
         return !$all_empty;
     }
-    
+
     public function getPeerReviewsByPeerId(
         int $a_user_id,
         bool $a_only_valid = false
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $res = array();
-        
+
         $idx = 0;
         $set = $ilDB->query("SELECT *" .
             " FROM exc_assignment_peer" .
@@ -291,15 +308,15 @@ class ilExPeerReview
                 $res[] = $row;
             }
         }
-        
+
         return $res;
     }
-    
+
     public function getAllPeerReviews(
         bool $a_only_valid = true
-    ) : array {
+    ): array {
         $ilDB = $this->db;
-        
+
         $res = array();
 
         $set = $ilDB->query("SELECT *" .
@@ -313,16 +330,16 @@ class ilExPeerReview
                 $res[$row["peer_id"]][$row["giver_id"]] = $valid;
             }
         }
-        
+
         return $res;
     }
-    
+
     public function hasPeerReviewAccess(
         int $a_peer_id
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         $set = $ilDB->query("SELECT ass_id" .
             " FROM exc_assignment_peer" .
             " WHERE giver_id = " . $ilDB->quote($ilUser->getId(), "integer") .
@@ -331,24 +348,24 @@ class ilExPeerReview
         $row = $ilDB->fetchAssoc($set);
         return (bool) $row["ass_id"];
     }
-    
+
     public function updatePeerReviewTimestamp(
         int $a_peer_id
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         $ilDB->manipulate("UPDATE exc_assignment_peer" .
             " SET tstamp = " . $ilDB->quote(ilUtil::now(), "timestamp") .
             " WHERE giver_id = " . $ilDB->quote($ilUser->getId(), "integer") .
             " AND peer_id = " . $ilDB->quote($a_peer_id, "integer") .
             " AND ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
     }
-    
+
     public function updatePeerReview(
         int $a_peer_id,
         array $a_values
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
@@ -366,23 +383,23 @@ class ilExPeerReview
             " WHERE giver_id = " . $ilDB->quote($ilUser->getId(), "integer") .
             " AND peer_id = " . $ilDB->quote($a_peer_id, "integer") .
             " AND ass_id = " . $ilDB->quote($this->assignment_id, "integer");
-        
+
         $ilDB->manipulate($sql);
     }
-    
+
     public function countGivenFeedback(
         bool $a_validate = true,
         int $a_user_id = null
-    ) : int {
+    ): int {
         $ilDB = $this->db;
         $ilUser = $this->user;
-        
+
         if (!$a_user_id) {
             $a_user_id = $ilUser->getId();
         }
-        
+
         $cnt = 0;
-        
+
         $set = $ilDB->query("SELECT *" .
             " FROM exc_assignment_peer" .
             " WHERE ass_id = " . $ilDB->quote($this->assignment_id, "integer") .
@@ -393,14 +410,14 @@ class ilExPeerReview
                 $cnt++;
             }
         }
-        
+
         return $cnt;
     }
-    
-    protected function getMaxPossibleFeedbacks() : int
+
+    protected function getMaxPossibleFeedbacks(): int
     {
         $ilDB = $this->db;
-        
+
         // check if number of returned assignments is lower than assignment peer min
         $set = $ilDB->query("SELECT COUNT(DISTINCT(user_id)) cnt" .
             " FROM exc_returned" .
@@ -409,63 +426,63 @@ class ilExPeerReview
         $cnt = (int) $cnt["cnt"];
         return $cnt - 1;
     }
-    
-    public function getNumberOfMissingFeedbacksForReceived() : int
+
+    public function getNumberOfMissingFeedbacksForReceived(): int
     {
         $max = $this->getMaxPossibleFeedbacks();
-        
+
         // #16160 - forever alone
-        if (!$max) {
+        if ($max === 0) {
             return 0;
         }
-        
+
         // are all required or just 1?
         if (!$this->assignment->getPeerReviewSimpleUnlock()) {
             $needed = $this->assignment->getPeerReviewMin();
         } else {
             $needed = 1;
         }
-                
+
         // there could be less participants than stated in the min required setting
         $min = min($max, $needed);
-                
+
         return max(0, $min - $this->countGivenFeedback());
     }
-        
-    public function isFeedbackValidForPassed(int $a_user_id) : bool
+
+    public function isFeedbackValidForPassed(int $a_user_id): bool
     {
         // peer feedback is not required for passing
         if ($this->assignment->getPeerReviewValid() == ilExAssignment::PEER_REVIEW_VALID_NONE) {
             return true;
         }
-    
+
         // #16227 - no processing before reaching the peer review period
         if (!$this->assignment->afterDeadlineStrict()) {
             return false;
         }
-        
+
         // forever alone - should be valid
         $max = $this->getMaxPossibleFeedbacks();
-        if (!$max) {
+        if ($max === 0) {
             return true;
         }
-        
+
         $no_of_feedbacks = $this->countGivenFeedback(true, $a_user_id);
-                        
+
         switch ($this->assignment->getPeerReviewValid()) {
             case ilExAssignment::PEER_REVIEW_VALID_ONE:
                 return (bool) $no_of_feedbacks;
-                
+
             case ilExAssignment::PEER_REVIEW_VALID_ALL:
                 // there could be less participants than stated in the min required setting
                 $min = min($max, $this->assignment->getPeerReviewMin());
-                
+
                 return (($min - $no_of_feedbacks) < 1);
         }
         return false;
     }
 
-    public static function lookupGiversWithPendingFeedback(int $a_ass_id) : array
+    public static function lookupGiversWithPendingFeedback(int $a_ass_id): array
     {
         global $DIC;
 
@@ -479,7 +496,7 @@ class ilExPeerReview
         );
 
         while ($row = $ilDB->fetchAssoc($set)) {
-            array_push($user_ids, $row["giver_id"]);
+            $user_ids[] = $row["giver_id"];
         }
 
         return $user_ids;

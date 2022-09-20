@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -27,9 +29,9 @@ abstract class ilADTDBBridge
         $this->setADT($a_adt);
     }
 
-    abstract protected function isValidADT(ilADT $a_adt) : bool;
+    abstract protected function isValidADT(ilADT $a_adt): bool;
 
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->isValidADT($a_adt)) {
             throw new \InvalidArgumentException('ADTDBBridge Type mismatch.');
@@ -37,17 +39,17 @@ abstract class ilADTDBBridge
         $this->adt = $a_adt;
     }
 
-    public function getADT() : ilADT
+    public function getADT(): ilADT
     {
         return $this->adt;
     }
 
-    public function setTable(string $a_table) : void
+    public function setTable(string $a_table): void
     {
         $this->table = $a_table;
     }
 
-    public function getTable() : ?string
+    public function getTable(): ?string
     {
         return $this->table;
     }
@@ -56,7 +58,7 @@ abstract class ilADTDBBridge
      * Set element id (aka DB column[s] [prefix])
      * @param string $a_value
      */
-    public function setElementId(string $a_value) : void
+    public function setElementId(string $a_value): void
     {
         $this->id = $a_value;
     }
@@ -65,7 +67,7 @@ abstract class ilADTDBBridge
      * Get element id
      * @return string | null
      */
-    public function getElementId() : ?string
+    public function getElementId(): ?string
     {
         return $this->id;
     }
@@ -74,16 +76,21 @@ abstract class ilADTDBBridge
      * Set primary fields (in MDB2 format)
      * @param array $a_value
      */
-    public function setPrimary(array $a_value) : void
+    public function setPrimary(array $a_value): void
     {
         $this->primary = $a_value;
+    }
+
+    public function getAdditionalPrimaryFields(): array
+    {
+        return [];
     }
 
     /**
      * Get primary fields
      * @return array
      */
-    public function getPrimary() : array
+    public function getPrimary(): array
     {
         return $this->primary;
     }
@@ -93,7 +100,7 @@ abstract class ilADTDBBridge
      * @return string
      * @see ilADTActiveRecord (:TODO: needed for multi)
      */
-    public function buildPrimaryWhere() : string
+    public function buildPrimaryWhere(): string
     {
         $sql = [];
         foreach ($this->primary as $field => $def) {
@@ -106,22 +113,22 @@ abstract class ilADTDBBridge
      * Import DB values to ADT
      * @param array $a_row
      */
-    abstract public function readRecord(array $a_row) : void;
+    abstract public function readRecord(array $a_row): void;
 
     /**
      * Prepare ADT values for insert
      * @param array &$a_fields
      */
-    abstract public function prepareInsert(array &$a_fields) : void;
+    abstract public function prepareInsert(array &$a_fields): void;
 
     /**
      * After insert hook to enable sub-tables
      */
-    public function afterInsert() : void
+    public function afterInsert(): void
     {
     }
 
-    public function prepareUpdate(array &$a_fields) : void
+    public function prepareUpdate(array &$a_fields): void
     {
         $this->prepareInsert($a_fields);
     }
@@ -129,14 +136,14 @@ abstract class ilADTDBBridge
     /**
      * After update hook to enable sub-tables
      */
-    public function afterUpdate() : void
+    public function afterUpdate(): void
     {
     }
 
     /**
      * After delete hook to enable sub-tables
      */
-    public function afterDelete() : void
+    public function afterDelete(): void
     {
     }
 
@@ -144,7 +151,7 @@ abstract class ilADTDBBridge
      * true if table storage relies on the default 'value' column
      * @return bool
      */
-    public function supportsDefaultValueColumn() : bool
+    public function supportsDefaultValueColumn(): bool
     {
         return true;
     }

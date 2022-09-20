@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -10,67 +12,46 @@
  */
 class ilTestAnswerOptionalQuestionsConfirmationGUI extends ilConfirmationGUI
 {
-    /**
-     * @var string
-     */
-    protected $cancelCmd;
+    protected ?string $cancelCmd;
 
-    /**
-     * @var string
-     */
-    protected $confirmCmd;
+    protected ?string $confirmCmd;
 
-    /**
-     * @param ilLanguage $lng
-     */
     public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
-        
+
         $this->cancelCmd = null;
         $this->confirmCmd = null;
     }
 
-    /**
-     * @return string
-     */
-    public function getCancelCmd()
+    public function getCancelCmd(): ?string
     {
         return $this->cancelCmd;
     }
 
-    /**
-     * @param string $cancelCmd
-     */
-    public function setCancelCmd($cancelCmd)
+    public function setCancelCmd(string $cancelCmd): void
     {
         $this->cancelCmd = $cancelCmd;
     }
 
-    /**
-     * @return string
-     */
-    public function getConfirmCmd()
+    public function getConfirmCmd(): ?string
     {
         return $this->confirmCmd;
     }
 
-    /**
-     * @param string $confirmCmd
-     */
-    public function setConfirmCmd($confirmCmd)
+    public function setConfirmCmd(string $confirmCmd): void
     {
         $this->confirmCmd = $confirmCmd;
     }
-    
-    public function build($isFixedTest)
+
+    public function build(bool $isFixedTest): void
     {
         $this->setHeaderText($this->buildHeaderText($isFixedTest));
         $this->setCancel($this->lng->txt('back'), $this->getCancelCmd());
         $this->setConfirm($this->lng->txt('proceed'), $this->getConfirmCmd());
     }
-    
-    private function buildHeaderText($isFixedTest)
+
+    private function buildHeaderText(bool $isFixedTest): string
     {
         if ($isFixedTest) {
             return $this->lng->txt('tst_optional_questions_confirmation_fixed_test');

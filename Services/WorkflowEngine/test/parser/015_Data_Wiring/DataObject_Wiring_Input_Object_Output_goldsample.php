@@ -14,7 +14,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			public function __construct()
 			{
 		
-			$this->defineInstanceVar("DataInput_1", "ioval1", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataInput_1", "ioval1");
 			$this->registerInputVar("DataInput_1", array());
 
 			$this->defineInstanceVar("DataOutput_1","ioval1" );
@@ -34,9 +34,9 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_Task_1_outputDataEmitter->setName($_v_Task_1_outputDataEmitter);
 			$_v_Task_1->addEmitter($_v_Task_1_outputDataEmitter);
 		
-			$this->defineInstanceVar("DataObject_1","dataObject", false, "", "mixed", "undefined" );
+			$this->defineInstanceVar("DataObject_1","dataObject");
 		
-			$this->defineInstanceVar("DataObjectReference_1","ioval1", true, "DataObject_1" );
+			$this->defineInstanceVar("DataObjectReference_1","ioval1");
 		
 			$_v_Task_2 = new ilBasicNode($this);
 			$this->addNode($_v_Task_2);

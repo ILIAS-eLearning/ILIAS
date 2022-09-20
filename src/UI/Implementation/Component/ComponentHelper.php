@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component;
 
@@ -13,24 +29,19 @@ use Closure;
  */
 trait ComponentHelper
 {
-    private ?string $canonical_name = null;
-
     /**
      * Default implementation uses the namespace of the component up to and excluding
      * "Component", reverses the order and adds spaces. Also does cache.
      */
-    public function getCanonicalName() : string
+    public function getCanonicalName(): string
     {
-        if ($this->canonical_name === null) {
-            $this->canonical_name = $this->getCanonicalNameByFullyQualifiedName();
-        }
-        return $this->canonical_name;
+        return $this->getCanonicalNameByFullyQualifiedName();
     }
 
     /**
      * Does the calculation required for getCanonicalName.
      */
-    protected function getCanonicalNameByFullyQualifiedName() : string
+    protected function getCanonicalNameByFullyQualifiedName(): string
     {
         $cls = explode("\\", get_class($this));
         $name = [];
@@ -47,7 +58,7 @@ trait ComponentHelper
      *
      * @throws	InvalidArgumentException	if $check = false
      */
-    protected function checkArg(string $which, bool $check, string $message) : void
+    protected function checkArg(string $which, bool $check, string $message): void
     {
         if (!$check) {
             throw new InvalidArgumentException("Argument '$which': $message");
@@ -60,7 +71,7 @@ trait ComponentHelper
      * @param	mixed	$value
      * @throws	InvalidArgumentException	if $value is no string
      */
-    protected function checkStringArg(string $which, $value) : void
+    protected function checkStringArg(string $which, $value): void
     {
         $this->checkArg($which, is_string($value), $this->wrongTypeMessage("string", $value));
     }
@@ -71,7 +82,7 @@ trait ComponentHelper
      * @param	mixed	$value
      * @throws	InvalidArgumentException	if $value is no string or Signal
      */
-    protected function checkStringOrSignalArg(string $which, $value) : void
+    protected function checkStringOrSignalArg(string $which, $value): void
     {
         $this->checkArg(
             $which,
@@ -86,7 +97,7 @@ trait ComponentHelper
      * @param	mixed	$value
      * @throws	InvalidArgumentException	if $value is no bool
      */
-    protected function checkBoolArg(string $which, $value) : void
+    protected function checkBoolArg(string $which, $value): void
     {
         $this->checkArg($which, is_bool($value), $this->wrongTypeMessage("bool", $value));
     }
@@ -97,7 +108,7 @@ trait ComponentHelper
      * @param	mixed	$value
      * @throws	InvalidArgumentException	if $check = false
      */
-    protected function checkArgInstanceOf(string $which, $value, string $class) : void
+    protected function checkArgInstanceOf(string $which, $value, string $class): void
     {
         $this->checkArg($which, $value instanceof $class, $this->wrongTypeMessage($class, $value));
     }
@@ -108,7 +119,7 @@ trait ComponentHelper
      * @param	mixed	$value
      * @throws	InvalidArgumentException	if $check = false
      */
-    protected function checkArgIsElement(string $which, $value, array $array, string $name) : void
+    protected function checkArgIsElement(string $which, $value, array $array, string $name): void
     {
         if (!is_object($value)) {
             $message = "expected $name, got '$value'";
@@ -125,7 +136,7 @@ trait ComponentHelper
      * @param	Closure			$message	create an error message from key and value
      * @throws	InvalidArgumentException	if any element is not an instance of $classes
      */
-    protected function checkArgList(string $which, array &$values, Closure $check, Closure $message) : void
+    protected function checkArgList(string $which, array &$values, Closure $check, Closure $message): void
     {
         $failed_k = null;
         $failed_v = null;
@@ -154,7 +165,7 @@ trait ComponentHelper
      * @param	string|string[]		$classes		name(s) of classes
      * @throws	InvalidArgumentException	if any element is not an instance of $classes
      */
-    protected function checkArgListElements(string $which, array &$values, $classes) : void
+    protected function checkArgListElements(string $which, array &$values, $classes): void
     {
         $classes = $this->toArray($classes);
         $this->checkArgList($which, $values, function ($_, $value) use (&$classes) {
@@ -179,7 +190,7 @@ trait ComponentHelper
      *
      * @param	mixed	$value
      */
-    protected function toArray($value) : array
+    protected function toArray($value): array
     {
         if (is_array($value)) {
             return $value;
@@ -190,7 +201,7 @@ trait ComponentHelper
     /**
      * @param mixed $value
      */
-    protected function wrongTypeMessage(string $expected, $value) : string
+    protected function wrongTypeMessage(string $expected, $value): string
     {
         $type = gettype($value);
         if (!is_object($value) && !is_array($value)) {

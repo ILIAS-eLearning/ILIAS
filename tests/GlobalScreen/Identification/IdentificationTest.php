@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\GlobalScreen\MainMenu;
 
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
@@ -11,6 +27,7 @@ use ilPlugin;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
+use LogicException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -27,7 +44,7 @@ require_once('./libs/composer/vendor/autoload.php');
 class IdentificationTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
-    const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
+    public const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
      * @var Mockery\MockInterface|ProviderFactory
      */
@@ -40,16 +57,13 @@ class IdentificationTest extends TestCase
      * @var Mockery\MockInterface|ilPlugin
      */
     private $plugin_mock;
-    /**
-     * @var IdentificationFactory
-     */
-    private $identification;
+    private IdentificationFactory $identification;
 
 
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -67,17 +81,18 @@ class IdentificationTest extends TestCase
     }
 
 
-    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong()
+    public function testMustThrowExceptionSinceSerializedIdentificationIsTooLong(): void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER) + 1);
-        $this->expectException(\LogicException::class);
+        $this->expectException(LogicException::class);
         $this->identification->core($this->provider_mock)->identifier($string);
     }
 
 
-    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength()
+    public function testMustNotThrowExceptionSinceSerializedIdentificationIsExactLength(): void
     {
         $string = str_repeat("x", SerializerInterface::MAX_LENGTH - strlen(self::MOCKED_PROVIDER_CLASSNAME) - strlen(CoreSerializer::DIVIDER));
         $this->identification->core($this->provider_mock)->identifier($string);
+        $this->assertTrue(true); // No Exception is thrown
     }
 }

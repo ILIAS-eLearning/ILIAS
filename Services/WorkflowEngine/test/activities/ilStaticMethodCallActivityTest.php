@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,25 +15,26 @@
  */
 class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp(): void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        
+
         // Basic node
         require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
-        
+
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-        
+
         require_once './Services/WorkflowEngine/classes/activities/class.ilStaticMethodCallActivity.php';
     }
-    
-    public function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -41,12 +43,12 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext()
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $activity = new ilStaticMethodCallActivity($this->node);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -55,67 +57,67 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetIncludeFilename()
+    public function testSetGetIncludeFilename(): void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
         $expected = 'Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
-        
+
         // Act
         $activity->setIncludeFilename($expected);
         $actual = $activity->getIncludeFilename();
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
 
-    public function testSetGetClassAndMethodName()
+    public function testSetGetClassAndMethodName(): void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
         $expected = 'ilWorkflowUtils::targetMethod';
-        
+
         // Act
         $activity->setClassAndMethodName($expected);
         $actual = $activity->getClassAndMethodName();
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testSetGetParameters()
+
+    public function testSetGetParameters(): void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
         $expected = array('homer', 'marge', 'bart', 'lisa', 'maggy');
-        
+
         // Act
         $activity->setParameters($expected);
         $actual = $activity->getParameters();
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
-    
-    public function testExecute()
+
+    public function testExecute(): void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
         $file = 'Services/WorkflowEngine/test/activities/ilStaticMethodCallActivityTest.php';
         $class_and_method = 'ilStaticMethodCallActivityTest::executionTargetMethod';
         $parameters = array('homer', 'marge', 'bart', 'lisa', 'maggy');
-        
+
         // Act
         $activity->setIncludeFilename($file);
         $activity->setClassAndMethodName($class_and_method);
         $activity->setParameters($parameters);
         $activity->execute();
-        
+
         // Assert
         $this->assertTrue(true, 'There dont seem to be problems here.');
     }
-    
-    public static function executionTargetMethod($context, $param)
+
+    public static function executionTargetMethod($context, $param): bool
     {
         $parameters = array(
           'homer' => 'homer', 0 => 'homer',
@@ -128,27 +130,27 @@ class ilStaticMethodCallActivityTest extends ilWorkflowEngineBaseTest
         if ($context == null) {
             throw new Exception('Something went wrong with the context.');
         }
-        
+
         if ($param[0] != $parameters) {
             throw new Exception('Something went wrong with the parameters.');
         }
-        
+
         return true;
     }
-    
-    public function testGetContext()
+
+    public function testGetContext(): void
     {
         // Arrange
         $activity = new ilStaticMethodCallActivity($this->node);
-        
+
         // Act
         $actual = $activity->getContext();
-        
+
         // Assert
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

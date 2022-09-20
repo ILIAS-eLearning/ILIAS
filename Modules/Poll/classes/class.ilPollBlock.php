@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Custom block for polls
@@ -9,16 +26,13 @@
  */
 class ilPollBlock extends ilCustomBlock
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilObjPoll $poll;
+    protected array $answers = [];
+    protected bool $visible = false;
+    protected bool $active = false;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -26,41 +40,26 @@ class ilPollBlock extends ilCustomBlock
         $this->lng = $DIC->language();
     }
 
-    protected $poll; // [ilObjPoll]
-    protected $answers; // [array]
-    protected $visible; // [bool]
-    protected $active; // [bool]
-    
     /**
      * Set ref id (needed for poll access)
-     *
-     * @param int $a_id
      */
-    public function setRefId($a_id)
+    public function setRefId(int $a_id): void
     {
         $this->poll = new ilObjPoll($a_id, true);
         $this->answers = $this->poll->getAnswers();
     }
-    
-    /**
-     * Get poll object
-     *
-     * @return ilObjPoll
-     */
-    public function getPoll()
+
+    public function getPoll(): ilObjPoll
     {
         return $this->poll;
     }
-    
+
     /**
      * Check if user will see any content (vote/result)
-     *
-     * @param int $a_user_id
-     * @return boolean
      */
-    public function hasAnyContent($a_user_id, $a_ref_id)
+    public function hasAnyContent(int $a_user_id, int $a_ref_id): bool
     {
-        if (!sizeof($this->answers)) {
+        if (!count($this->answers)) {
             return false;
         }
 
@@ -68,65 +67,65 @@ class ilPollBlock extends ilCustomBlock
         if (!$this->active) {
             return false;
         }
-        
+
         if (!$this->mayVote($a_user_id) &&
             !$this->maySeeResults($a_user_id)) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function mayVote($a_user_id)
+
+    public function mayVote(int $a_user_id): bool
     {
         if (!$this->active) {
             return false;
         }
-        
-        if ($a_user_id == ANONYMOUS_USER_ID) {
+
+        if ($a_user_id === ANONYMOUS_USER_ID) {
             return false;
         }
-        
+
         if ($this->poll->hasUserVoted($a_user_id)) {
             return false;
         }
-        
+
         if ($this->poll->getVotingPeriod() &&
             ($this->poll->getVotingPeriodBegin() > time() ||
             $this->poll->getVotingPeriodEnd() < time())) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function mayNotResultsYet()
+
+    public function mayNotResultsYet(): bool
     {
-        if ($this->poll->getViewResults() == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
+        if ($this->poll->getViewResults() === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
             $this->poll->getVotingPeriod() &&
             $this->poll->getVotingPeriodEnd() > time()) {
             return true;
         }
         return false;
     }
-    
-    public function maySeeResults($a_user_id) : bool
+
+    public function maySeeResults(int $a_user_id): bool
     {
         if (!$this->active) {
             return false;
         }
-        
+
         switch ($this->poll->getViewResults()) {
             case ilObjPoll::VIEW_RESULTS_NEVER:
                 return false;
-                
+
             case ilObjPoll::VIEW_RESULTS_ALWAYS:
                 // fallthrough
-                
-            // #12023 - see mayNotResultsYet()
+
+                // #12023 - see mayNotResultsYet()
             case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:
                 return true;
-                
+
             case ilObjPoll::VIEW_RESULTS_AFTER_VOTE:
                 if ($this->poll->hasUserVoted($a_user_id)) {
                     return true;
@@ -135,15 +134,15 @@ class ilPollBlock extends ilCustomBlock
         }
         return false;
     }
-    
-    public function getMessage($a_user_id) : ?string
+
+    public function getMessage(int $a_user_id): ?string
     {
-        if (!sizeof($this->answers)) {
+        if (!count($this->answers)) {
             return $this->lng->txt("poll_block_message_no_answers");
         }
-        
+
         if (!$this->active) {
-            if (!$this->poll->isOnline()) {
+            if ($this->poll->getOfflineStatus()) {
                 return $this->lng->txt("poll_block_message_offline");
             }
             if ($this->poll->getAccessBegin() > time()) {
@@ -157,19 +156,16 @@ class ilPollBlock extends ilCustomBlock
 
     /**
      * Show Results as (Barchart or Piechart)
-     * @return int
-     *
      */
-    public function showResultsAs()
+    public function showResultsAs(): int
     {
         return $this->poll->getShowResultsAs();
     }
 
     /**
-     * Are Comments enabled or disabled
-     * @return bool
+     * Are comments enabled or disabled
      */
-    public function showComments()
+    public function showComments(): bool
     {
         return $this->poll->getShowComments();
     }

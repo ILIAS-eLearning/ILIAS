@@ -1,75 +1,52 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclRecordEditGUI
- *
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Marcel Raimann <mr@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
- *
  */
 class ilDclRecordEditGUI
 {
-
     /**
      * Possible redirects after saving/updating a record - use GET['redirect'] to set constants
-     *
      */
-    const REDIRECT_RECORD_LIST = 1;
-    const REDIRECT_DETAIL = 2;
-    /**
-     * @var bool
-     */
-    protected $tableview_id;
-    /**
-     * @var int
-     */
-    protected $record_id;
-    /**
-     * @var int
-     */
-    protected $table_id;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilObjDataCollectionGUI
-     */
-    protected $parent_obj;
-    /**
-     * @var ilDclBaseRecordModel
-     */
-    protected $record;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilDclPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilDclTableView
-     */
-    protected $tableview;
+    public const REDIRECT_RECORD_LIST = 1;
+    public const REDIRECT_DETAIL = 2;
 
+    protected ?int $tableview_id = null;
+    protected int $record_id = 0;
+    protected int $table_id = 1;
+    protected ilDclTable $table;
+    protected ilObjDataCollectionGUI $parent_obj;
+    protected ilDclBaseRecordModel $record;
+    protected ilCtrl $ctrl;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilDclPropertyFormGUI $form;
+    protected ilDclTableView $tableview;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilObjDataCollectionGUI $parent_obj
@@ -77,76 +54,95 @@ class ilDclRecordEditGUI
     public function __construct(ilObjDataCollectionGUI $parent_obj)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
 
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->user = $ilUser;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->user = $DIC['ilUser'];
         $this->parent_obj = $parent_obj;
-        $this->record_id = $_REQUEST['record_id'];
-        $this->table_id = $_REQUEST['table_id'];
-        $this->tableview_id = $_REQUEST['tableview_id'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        if ($this->http->wrapper()->query()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->query()->retrieve(
+                'record_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->post()->retrieve(
+                'record_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->query()->has('table_id')) {
+            $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        }
+        if ($this->http->wrapper()->post()->has('table_id')) {
+            $this->table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        }
+        if ($this->http->wrapper()->query()->has('tableview_id')) {
+            $this->tableview_id = $this->http->wrapper()->query()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($this->http->wrapper()->post()->has('tableview_id')) {
+            $this->tableview_id = $this->http->wrapper()->post()->retrieve(
+                'tableview_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         if (!$this->tableview_id) {
             $this->tableview_id = ilDclCache::getTableCache($this->table_id)
-                                         ->getFirstTableViewId($this->parent_obj->ref_id);
+                                            ->getFirstTableViewId($this->parent_obj->getRefId());
         }
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
 
-
-    /**
-     * @return bool
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $this->getRecord();
 
         $cmd = $this->ctrl->getCmd();
-        switch ($cmd) {
-            default:
-                $this->$cmd();
-                break;
-        }
-
-        return true;
+        $this->$cmd();
     }
 
-
-    /**
-     *
-     */
-    public function getRecord()
+    public function getRecord(): void
     {
-        if ($_GET['mode']) {
+        $hasMode = $this->http->wrapper()->query()->has('mode');
+        if ($hasMode) {
+            $mode = $this->http->wrapper()->query()->retrieve('mode', $this->refinery->kindlyTo()->int());
+
             $this->ctrl->saveParameter($this, 'mode');
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $_GET['mode']);
+            $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $mode);
         }
         $this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $this->tableview_id);
         $this->ctrl->saveParameter($this, 'redirect');
         if ($this->record_id) {
             $this->record = ilDclCache::getRecordCache($this->record_id);
-            if (!($this->record->hasPermissionToEdit($this->parent_obj->ref_id) and $this->record->hasPermissionToView($this->parent_obj->ref_id)) && !$this->record->hasPermissionToDelete($this->parent_obj->ref_id)) {
+            if (!($this->record->hasPermissionToEdit($this->parent_obj->getRefId()) and $this->record->hasPermissionToView($this->parent_obj->getRefId())) && !$this->record->hasPermissionToDelete($this->parent_obj->getRefId())) {
                 $this->accessDenied();
             }
             $this->table = $this->record->getTable();
             $this->table_id = $this->table->getId();
         } else {
             $this->table = ilDclCache::getTableCache($this->table_id);
-            if (!ilObjDataCollectionAccess::hasAddRecordAccess($_GET['ref_id'])) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
                 $this->accessDenied();
             }
         }
     }
 
-
     /**
      * Create new record gui
      */
-    public function create()
+    public function create(): void
     {
         $this->initForm();
         if ($this->ctrl->isAsynch()) {
@@ -160,11 +156,10 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Record edit gui
      */
-    public function edit()
+    public function edit(): void
     {
         $this->initForm();
         $this->cleanupTempFiles();
@@ -181,13 +176,11 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Delete confirmation
-     *
      * @throws ilDclException
      */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
@@ -196,7 +189,7 @@ class ilDclRecordEditGUI
 
         $all_fields = $this->table->getRecordFields();
         $record_data = "";
-        foreach ($all_fields as $key => $field) {
+        foreach ($all_fields as $field) {
             $field_record = ilDclCache::getRecordFieldCache($record, $field);
 
             $record_representation = ilDclCache::getRecordRepresentation($field_record);
@@ -212,46 +205,43 @@ class ilDclRecordEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-
     /**
      * Cancel deletion
      */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
     }
 
-
     /**
      * Remove record
      */
-    public function delete()
+    public function delete(): void
     {
         $record = ilDclCache::getRecordCache($this->record_id);
 
-        if (!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record)) {
+        if (!$this->table->hasPermissionToDeleteRecord($this->parent_obj->getRefId(), $record)) {
             $this->accessDenied();
 
             return;
         }
 
         $record->doDelete();
-        ilUtil::sendSuccess($this->lng->txt("dcl_record_deleted"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("dcl_record_deleted"), true);
         $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
     }
-
 
     /**
      * Return All fields and values from a record ID. If this method is requested over AJAX,
      * data is returned in JSON format
-     *
      * @param int $record_id
-     *
      * @return array
      */
-    public function getRecordData($record_id = 0)
+    public function getRecordData(int $record_id = 0): array
     {
-        $record_id = ($record_id) ? $record_id : $_GET['record_id'];
+        $get_record_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+
+        $record_id = ($record_id) ?: $get_record_id;
         $return = array();
         if ($record_id) {
             $record = ilDclCache::getRecordCache((int) $record_id);
@@ -267,13 +257,11 @@ class ilDclRecordEditGUI
         return $return;
     }
 
-
     /**
      * init Form
-     *
      * @move move parts to RecordRepresentationGUI
      */
-    public function initForm()
+    public function initForm(): void
     {
         $this->form = new ilDclPropertyFormGUI();
         $prefix = ($this->ctrl->isAsynch()) ? 'dclajax' : 'dcl'; // Used by datacolleciton.js to select input elements
@@ -303,7 +291,7 @@ class ilDclRecordEditGUI
                     continue; // Fields calculating values at runtime, e.g. ilDclFormulaFieldModel do not have input
                 }
 
-                if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) && $field_setting->isLocked(!$this->record_id)) {
+                if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) && $field_setting->isLocked(!$this->record_id)) {
                     $item->setDisabled(true);
                 }
 
@@ -312,7 +300,10 @@ class ilDclRecordEditGUI
 
                 // If creation mode
                 if (!$this->record_id) {
-                    $default_value = ilDclTableViewBaseDefaultValue::findSingle($field_setting->getFieldObject()->getDatatypeId(), $field_setting->getId());
+                    $default_value = ilDclTableViewBaseDefaultValue::findSingle(
+                        $field_setting->getFieldObject()->getDatatypeId(),
+                        $field_setting->getId()
+                    );
 
                     if ($default_value !== null) {
                         if ($item instanceof ilDclCheckboxInputGUI) {
@@ -335,7 +326,7 @@ class ilDclRecordEditGUI
                 $ownerField = $this->table->getField('owner');
                 $inputfield = ilDclCache::getFieldRepresentation($ownerField)->getInputField($this->form);
 
-                if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) && $field_setting->isLockedEdit()) {
+                if (!ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) && $field_setting->isLockedEdit()) {
                     $inputfield->setDisabled(true);
                 } else {
                     $inputfield->setRequired(true);
@@ -364,13 +355,10 @@ class ilDclRecordEditGUI
         $this->ctrl->setParameter($this, "record_id", $this->record_id);
     }
 
-
     /**
      * Set values from object to form
-     *
-     * @return bool
      */
-    public function setFormValues()
+    public function setFormValues(): bool
     {
         //Get Record-Values
         $record_obj = ilDclCache::getRecordCache($this->record_id);
@@ -389,28 +377,30 @@ class ilDclRecordEditGUI
         return true;
     }
 
-
     /**
      * Cancel Update
      */
-    public function cancelUpdate()
+    public function cancelUpdate(): void
     {
         $this->checkAndPerformRedirect(true);
     }
 
-
     /**
      * Cancel Save
      */
-    public function cancelSave()
+    public function cancelSave(): void
     {
         $this->cancelUpdate();
     }
 
-
-    public function saveConfirmation(ilDclBaseRecordModel $record_obj, $filehash)
+    /**
+     * @throws ilCtrlException
+     * @throws ilDateTimeException
+     * @throws ilDclException
+     */
+    public function saveConfirmation(ilDclBaseRecordModel $record_obj, string $filehash): void
     {
-        $permission = ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id);
+        $permission = ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId());
         if ($permission) {
             $all_fields = $this->table->getRecordFields();
         } else {
@@ -419,13 +409,13 @@ class ilDclRecordEditGUI
 
         $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
         $record_obj->setTableId($this->table_id);
-        $record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
+        $record_obj->setLastUpdate($date_obj);
         $record_obj->setLastEditBy($this->user->getId());
 
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $header_text = $this->lng->txt('dcl_confirm_storing_records');
-        if (!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->ref_id)
+        if (!$permission && !ilObjDataCollectionAccess::hasEditAccess($this->parent_obj->getRefId())
             && !$this->table->getEditByOwner()
             && !$this->table->getEditPerm()
         ) {
@@ -447,7 +437,13 @@ class ilDclRecordEditGUI
             if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
                 && $record_field->getValue() == null
             ) {
-                $empty_fileuploads['field_' . $field->getId()] = array("name" => "", "type" => "", "tmp_name" => "", "error" => 4, "size" => 0);
+                $empty_fileuploads['field_' . $field->getId()] = [
+                    "name" => "",
+                    "type" => "",
+                    "tmp_name" => "",
+                    "error" => 4,
+                    "size" => 0
+                ];
             }
             $record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
@@ -470,11 +466,10 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * Save record
      */
-    public function save()
+    public function save(): void
     {
         global $DIC;
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
@@ -482,15 +477,27 @@ class ilDclRecordEditGUI
         $this->initForm();
 
         // if save confirmation is enabled: Temporary file-uploads need to be handled
-        if ($this->table->getSaveConfirmation() && isset($_POST['save_confirmed']) && isset($_POST['ilfilehash']) && !isset($this->record_id) && !$this->ctrl->isAsynch()) {
-            ilDclPropertyFormGUI::rebuildTempFileByHash($_POST['ilfilehash']);
+        $has_save_confirmed = $this->http->wrapper()->post()->has('format');
+        $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
+        $has_record_id = $this->http->wrapper()->post()->has('ilfilehash');
+
+        if ($this->table->getSaveConfirmation() && $has_save_confirmed && $has_ilfilehash && $has_record_id && !$this->ctrl->isAsynch()) {
+            $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+
+            ilDclPropertyFormGUI::rebuildTempFileByHash($ilfilehash);
+
+            $has_empty_fileuploads = $this->http->wrapper()->post()->has('empty_fileuploads');
 
             //handle empty fileuploads, since $_FILES has to have an entry for each fileuploadGUI
-            if (json_decode($_POST['empty_fileuploads']) && $_POST['empty_fileuploads'] != '') {
-                $_FILES = $_FILES + json_decode($_POST['empty_fileuploads'], true);
+            if ($has_empty_fileuploads) {
+                $empty_fileuploads = $this->http->wrapper()->post()->retrieve(
+                    'empty_fileuploads',
+                    $this->refinery->kindlyTo()->string()
+                );
+                if (json_decode($empty_fileuploads)) {
+                    $_FILES = $_FILES + json_decode($empty_fileuploads, true);
+                }
             }
-
-            unset($_SESSION['record_form_values']);
         }
 
         $valid = $this->form->checkInput();
@@ -499,12 +506,12 @@ class ilDclRecordEditGUI
         $unchanged_obj = $record_obj;
         $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
         $record_obj->setTableId($this->table_id);
-        $record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
+        $record_obj->setLastUpdate($date_obj);
         $record_obj->setLastEditBy($this->user->getId());
 
         $create_mode = !isset($this->record_id);
 
-        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id) || $create_mode) {
+        if (ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()) || $create_mode) {
             $all_fields = $this->table->getRecordFields();
         } else {
             $all_fields = $this->table->getEditableFields(!$this->record_id);
@@ -529,7 +536,10 @@ class ilDclRecordEditGUI
 
         if ($valid) {
             if ($create_mode) {
-                if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->ref_id, $this->table_id))) {
+                if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord(
+                    $this->parent_obj->getRefId(),
+                    $this->table_id
+                ))) {
                     $this->accessDenied();
 
                     return;
@@ -538,7 +548,10 @@ class ilDclRecordEditGUI
                 // when save_confirmation is enabled, not yet confirmed and we have not an async-request => prepare for displaying confirmation
                 if ($this->table->getSaveConfirmation() && $this->form->getInput('save_confirmed') == null && !$this->ctrl->isAsynch()) {
                     // temporary store fileuploads (reuse code from ilPropertyFormGUI)
-                    $hash = $_POST["ilfilehash"];
+                    $hash = $this->http->wrapper()->post()->retrieve(
+                        'ilfilehash',
+                        $this->refinery->kindlyTo()->string()
+                    );
                     foreach ($_FILES as $field => $data) {
                         if (is_array($data["tmp_name"])) {
                             foreach ($data["tmp_name"] as $idx => $upload) {
@@ -547,19 +560,40 @@ class ilDclRecordEditGUI
                                         if ($file && is_uploaded_file($file)) {
                                             $file_name = $data["name"][$idx][$idx2];
                                             $file_type = $data["type"][$idx][$idx2];
-                                            $this->form->keepTempFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
+                                            $this->form->keepTempFileUpload(
+                                                $hash,
+                                                $field,
+                                                $file,
+                                                $file_name,
+                                                $file_type,
+                                                $idx,
+                                                $idx2
+                                            );
                                         }
                                     }
                                 } else {
                                     if ($upload && is_uploaded_file($upload)) {
                                         $file_name = $data["name"][$idx];
                                         $file_type = $data["type"][$idx];
-                                        $this->form->keepTempFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+                                        $this->form->keepTempFileUpload(
+                                            $hash,
+                                            $field,
+                                            $upload,
+                                            $file_name,
+                                            $file_type,
+                                            $idx
+                                        );
                                     }
                                 }
                             }
                         } else {
-                            $this->form->keepTempFileUpload($hash, $field, $data["tmp_name"], $data["name"], $data["type"]);
+                            $this->form->keepTempFileUpload(
+                                $hash,
+                                $field,
+                                $data["tmp_name"],
+                                $data["name"],
+                                $data["type"]
+                            );
                         }
                     }
 
@@ -574,14 +608,14 @@ class ilDclRecordEditGUI
                 }
 
                 $record_obj->setOwner($this->user->getId());
-                $record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+                $record_obj->setCreateDate($date_obj);
                 $record_obj->setTableId($this->table_id);
                 $record_obj->doCreate();
 
                 $this->record_id = $record_obj->getId();
                 $create_mode = true;
             } else {
-                if (!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id)) {
+                if (!$record_obj->hasPermissionToEdit($this->parent_obj->getRefId())) {
                     $this->accessDenied();
 
                     return;
@@ -593,7 +627,7 @@ class ilDclRecordEditGUI
                 $field_setting = $field->getViewSetting($this->tableview_id);
 
                 if ($field_setting->isVisibleInForm($create_mode) &&
-                    (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id))) {
+                    (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->getRefId()))) {
                     // set all visible fields
                     $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
                 } elseif ($create_mode) {
@@ -610,13 +644,19 @@ class ilDclRecordEditGUI
 
             // Do we need to set a new owner for this record?
             if (!$create_mode && $this->tableview->getFieldSetting('owner')->isVisibleEdit()) {
-                $owner_id = ilObjUser::_lookupId($_POST['field_owner']);
-                if (!$owner_id) {
-                    $this->sendFailure($this->lng->txt('user_not_known'));
+                if ($this->http->wrapper()->post()->has('field_owner')) {
+                    $field_owner = $this->http->wrapper()->post()->retrieve(
+                        'field_owner',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                    $owner_id = ilObjUser::_lookupId($field_owner);
+                    if (!$owner_id) {
+                        $this->sendFailure($this->lng->txt('user_not_known'));
 
-                    return;
+                        return;
+                    }
+                    $record_obj->setOwner($owner_id);
                 }
-                $record_obj->setOwner($owner_id);
             }
 
             $dispatchEvent = "update";
@@ -648,7 +688,7 @@ class ilDclRecordEditGUI
             $this->ctrl->setParameter($this, "record_id", $this->record_id);
 
             if (!$this->ctrl->isAsynch()) {
-                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
 
             $this->checkAndPerformRedirect();
@@ -657,7 +697,10 @@ class ilDclRecordEditGUI
                 $this->record_id = $record_obj->getId();
                 $this->initForm();
                 $this->setFormValues();
-                echo ilUtil::getSystemMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
+                echo ilUtil::getSystemMessageHTML(
+                    $this->lng->txt('msg_obj_modified'),
+                    'success'
+                ) . $this->form->getHTML();
                 exit();
             } else {
                 $this->ctrl->redirectByClass("ildclrecordlistgui", "listRecords");
@@ -675,15 +718,17 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
-     * Checkes to what view (table or detail) should be redirected and performs redirect
-     *
+     * Checks to what view (table or detail) should be redirected and performs redirect
      */
-    protected function checkAndPerformRedirect($force_redirect = false)
+    protected function checkAndPerformRedirect(bool $force_redirect = false): void
     {
-        if ($force_redirect || (isset($_GET['redirect']) && !$this->ctrl->isAsynch())) {
-            switch ((int) $_GET['redirect']) {
+        $hasRedirect = $this->http->wrapper()->query()->has('redirect');
+
+        if ($force_redirect || ($hasRedirect && !$this->ctrl->isAsynch())) {
+            $redirect = $this->http->wrapper()->query()->retrieve('redirect', $this->refinery->kindlyTo()->int());
+
+            switch ($redirect) {
                 case self::REDIRECT_DETAIL:
                     $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
                     $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);
@@ -699,11 +744,10 @@ class ilDclRecordEditGUI
         }
     }
 
-
-    protected function accessDenied()
+    protected function accessDenied(): void
     {
         if (!$this->ctrl->isAsynch()) {
-            ilUtil::sendFailure($this->lng->txt('dcl_msg_no_perm_edit'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_no_perm_edit'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         } else {
             echo $this->lng->txt('dcl_msg_no_perm_edit');
@@ -711,19 +755,15 @@ class ilDclRecordEditGUI
         }
     }
 
-
-    /**
-     * @param $message
-     */
-    protected function sendFailure($message)
+    protected function sendFailure(string $message): void
     {
-        $keep = ($this->ctrl->isAsynch()) ? false : true;
+        $keep = !$this->ctrl->isAsynch();
         $this->form->setValuesByPost();
         if ($this->ctrl->isAsynch()) {
             echo ilUtil::getSystemMessageHTML($message, 'failure') . $this->form->getHTML();
             exit();
         } else {
-            ilUtil::sendFailure($message, $keep);
+            $this->tpl->setOnScreenMessage('failure', $message, $keep);
 
             // Fill locked fields on edit mode - otherwise they are empty (workaround)
             if (isset($this->record_id)) {
@@ -747,18 +787,17 @@ class ilDclRecordEditGUI
         }
     }
 
-
     /**
      * This function is only used by the ajax request if searching for ILIAS references. It builds the html for the search results.
      */
-    public function searchObjects()
+    public function searchObjects(): void
     {
-        $search = $_POST['search_for'];
-        $dest = $_POST['dest'];
+        $search = $this->http->wrapper()->post()->retrieve('search_for', $this->refinery->kindlyTo()->string());
+        $dest = $this->http->wrapper()->post()->retrieve('dest', $this->refinery->kindlyTo()->string());
         $html = "";
         $query_parser = new ilQueryParser($search);
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             $html .= $query_parser->getMessage() . "<br />";
@@ -780,7 +819,10 @@ class ilDclRecordEditGUI
             foreach ((array) $entry['refs'] as $reference) {
                 $path = new ilPathGUI();
                 $tpl->setCurrentBlock('result');
-                $tpl->setVariable('RESULT_PATH', $path->getPath(ROOT_FOLDER_ID, $reference) . " » " . $entry['title']);
+                $tpl->setVariable(
+                    'RESULT_PATH',
+                    $path->getPath(ROOT_FOLDER_ID, (int) $reference) . " » " . $entry['title']
+                );
                 $tpl->setVariable('RESULT_REF', $reference);
                 $tpl->setVariable('FIELD_ID', $dest);
                 $tpl->parseCurrentBlock();
@@ -792,21 +834,17 @@ class ilDclRecordEditGUI
         exit;
     }
 
-
-    protected function getLanguageJsKeys()
+    protected function getLanguageJsKeys(): string
     {
         return "<script>ilDataCollection.strings.add_value='" . $this->lng->txt('add_value') . "';</script>";
     }
 
-
     /**
      * Parse search results
-     *
      * @param ilObject[] $a_res
-     *
      * @return array
      */
-    protected function parseSearchResults($a_res)
+    protected function parseSearchResults(array $a_res): array
     {
         $rows = array();
         foreach ($a_res as $obj_id => $references) {
@@ -821,23 +859,19 @@ class ilDclRecordEditGUI
         return $rows;
     }
 
-
     /**
      * Cleanup temp-files
      */
-    protected function cleanupTempFiles()
+    protected function cleanupTempFiles(): void
     {
-        $ilfilehash = (isset($_POST['ilfilehash'])) ? $_POST['ilfilehash'] : null;
-        if ($ilfilehash != null) {
+        $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
+        if ($has_ilfilehash) {
+            $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
             $this->form->cleanupTempFiles($ilfilehash);
         }
     }
 
-
-    /**
-     * @return ilDclPropertyFormGUI
-     */
-    public function getForm()
+    public function getForm(): ilDclPropertyFormGUI
     {
         return $this->form;
     }

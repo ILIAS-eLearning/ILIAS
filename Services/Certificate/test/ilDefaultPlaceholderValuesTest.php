@@ -1,12 +1,29 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
-    public function testGetPlaceholderValues() : void
+    public function testGetPlaceholderValues(): void
     {
         $objectMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
@@ -125,10 +142,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
@@ -143,7 +160,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
         $result = $placeHolderObject->getPlaceholderValues(100, 200);
 
         $this->assertEquals(
-            array(
+            [
                 'USER_LOGIN' => 'a_login',
                 'USER_FULLNAME' => 'Niels Theen',
                 'USER_FIRSTNAME' => 'Niels',
@@ -162,12 +179,12 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'DATETIME_COMPLETED' => '',
                 'DATE' => '2018-09-10',
                 'DATETIME' => '2018-09-10 12:01:33'
-            ),
+            ],
             $result
         );
     }
 
-    public function testGetPlaceholderValuesForPreview() : void
+    public function testGetPlaceholderValuesForPreview(): void
     {
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
@@ -201,10 +218,10 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('getPlaceholderValues')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $userDefinePlaceholderMock->method('getPlaceholderValuesForPreview')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeHolderObject = new ilDefaultPlaceholderValues(
             $objectHelper,
@@ -221,8 +238,8 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
             10
         );
 
-        $this->assertEquals(
-            array(
+        $this->assertSame(
+            [
                 'USER_LOGIN' => 'Something',
                 'USER_FULLNAME' => 'Something',
                 'USER_FIRSTNAME' => 'Something',
@@ -241,7 +258,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'DATETIME' => '2018-09-09 14:00:30',
                 'DATE_COMPLETED' => '2018-09-09',
                 'DATETIME_COMPLETED' => '2018-09-09 14:00:30'
-            ),
+            ],
             $result
         );
     }

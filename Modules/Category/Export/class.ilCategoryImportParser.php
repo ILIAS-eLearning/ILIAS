@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Category Import Parser
  *
@@ -17,7 +30,7 @@ class ilCategoryImportParser extends ilSaxParser
     public int $parent_cnt;
     public int $withrol;
     protected ilLogger $cat_log;
-    protected ?ilObjCategory $category;
+    protected ?ilObjCategory $category = null;
     protected string $default_language = "";
     protected string $cur_spec_lang = "";
     protected string $cur_title = "";
@@ -45,20 +58,15 @@ class ilCategoryImportParser extends ilSaxParser
         $this->parent[$this->parent_cnt] = $a_parent;
         $this->parent_cnt++;
         $this->withrol = $withrol;
-        
+
         parent::__construct($a_xml_file);
     }
 
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-    }
-
-    public function startParsing()
-    {
-        parent::startParsing();
     }
 
     // generate a tag with given name and attributes
@@ -66,10 +74,10 @@ class ilCategoryImportParser extends ilSaxParser
         string $type,
         string $name,
         array $attr = null
-    ) {
+    ): string {
         $tag = "<";
 
-        if ($type == "end") {
+        if ($type === "end") {
             $tag .= "/";
         }
 
@@ -86,7 +94,13 @@ class ilCategoryImportParser extends ilSaxParser
         return $tag;
     }
 
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs): void
     {
         switch ($a_name) {
             case "Category":
@@ -101,30 +115,32 @@ class ilCategoryImportParser extends ilSaxParser
                 $this->parent[$this->parent_cnt++] = $this->category->getRefId();
                 break;
 
-        case "CategorySpec":
-          $this->cur_spec_lang = $a_attribs["Language"];
-          break;
-
+            case "CategorySpec":
+                $this->cur_spec_lang = $a_attribs["Language"];
+                break;
         }
     }
 
-
-    public function handlerEndTag($a_xml_parser, $a_name)
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name): void
     {
         switch ($a_name) {
             case "Category":
-                unset($this->category);
-                unset($this->parent[$this->parent_cnt - 1]);
+                unset($this->category, $this->parent[$this->parent_cnt - 1]);
                 $this->parent_cnt--;
                 break;
 
             case "CategorySpec":
-                $is_def = 0;
-                if ($this->cur_spec_lang == $this->default_language) {
+                $is_def = '0';
+                if ($this->cur_spec_lang === $this->default_language) {
                     $this->category->setTitle($this->cur_title);
                     $this->category->setDescription($this->cur_description);
                     $this->category->update();
-                    $is_def = 1;
+                    $is_def = '1';
                 }
                 $this->category->addTranslation(
                     $this->cur_title,
@@ -146,14 +162,18 @@ class ilCategoryImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data): void
     {
         // i don't know why this is necessary, but
         // the parser seems to convert "&gt;" to ">" and "&lt;" to "<"
         // in character data, but we don't want that, because it's the
         // way we mask user html in our content, so we convert back...
-        $a_data = str_replace("<", "&lt;", $a_data);
-        $a_data = str_replace(">", "&gt;", $a_data);
+        $a_data = str_replace(["<", ">"], ["&lt;", "&gt;"], $a_data);
 
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
         $a_data = preg_replace("/\n/", "", $a_data);

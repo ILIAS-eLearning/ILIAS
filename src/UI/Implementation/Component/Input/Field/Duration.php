@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -35,11 +51,11 @@ class Duration extends Group implements C\Input\Field\Duration
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         $inputs = [
-            $field_factory->dateTime('start'),
-            $field_factory->dateTime('end')
+            $field_factory->dateTime($lng->txt('duration_default_label_start')),
+            $field_factory->dateTime($lng->txt('duration_default_label_end'))
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -54,9 +70,9 @@ class Duration extends Group implements C\Input\Field\Duration
      * of a duration - in this case, null is being returned.
      *
      */
-    protected function addTransformation() : void
+    protected function addTransformation(): void
     {
-        $duration = $this->refinery->custom()->transformation(function ($v) {
+        $duration = $this->refinery->custom()->transformation(function ($v): ?array {
             list($from, $until) = $v;
             if ($from && $until) {
                 return ['start' => $from, 'end' => $until, 'interval' => $from->diff($until)];
@@ -69,12 +85,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * Input is valid, if start is before end.
      */
-    protected function addValidation() : void
+    protected function addValidation(): void
     {
         $txt_id = 'duration_end_must_not_be_earlier_than_start';
-        $error = function (callable $txt, $value) use ($txt_id) {
-            return $txt($txt_id, $value);
-        };
+        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             if (is_null($v)) {
                 return true;
@@ -89,7 +103,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withFormat(DateFormat $format) : C\Input\Field\Duration
+    public function withFormat(DateFormat $format): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->format = $format;
@@ -100,7 +114,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getFormat() : DateFormat
+    public function getFormat(): DateFormat
     {
         return $this->format;
     }
@@ -108,12 +122,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyFormat() : void
+    protected function applyFormat(): void
     {
         $this->inputs = array_map(
-            function ($input) {
-                return $input->withFormat($this->getFormat());
-            },
+            fn ($input) => $input->withFormat($this->getFormat()),
             $this->inputs
         );
     }
@@ -121,7 +133,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withMinValue(DateTimeImmutable $date) : C\Input\Field\Duration
+    public function withMinValue(DateTimeImmutable $date): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->min_date = $date;
@@ -132,12 +144,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyMinValue()
+    protected function applyMinValue(): void
     {
         $this->inputs = array_map(
-            function ($input) {
-                return $input->withMinValue($this->getMinValue());
-            },
+            fn ($input) => $input->withMinValue($this->getMinValue()),
             $this->inputs
         );
     }
@@ -145,7 +155,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getMinValue() : ?DateTimeImmutable
+    public function getMinValue(): ?DateTimeImmutable
     {
         return $this->min_date;
     }
@@ -153,7 +163,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withMaxValue(DateTimeImmutable $date) : C\Input\Field\Duration
+    public function withMaxValue(DateTimeImmutable $date): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->max_date = $date;
@@ -164,12 +174,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyMaxValue() : void
+    protected function applyMaxValue(): void
     {
         $this->inputs = array_map(
-            function ($inpt) {
-                return $inpt->withMaxValue($this->getMaxValue());
-            },
+            fn ($inpt) => $inpt->withMaxValue($this->getMaxValue()),
             $this->inputs
         );
     }
@@ -177,7 +185,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getMaxValue() : ?DateTimeImmutable
+    public function getMaxValue(): ?DateTimeImmutable
     {
         return $this->max_date;
     }
@@ -185,7 +193,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withTimeOnly(bool $time_only) : C\Input\Field\Duration
+    public function withTimeOnly(bool $time_only): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->with_time_only = $time_only;
@@ -196,12 +204,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyWithTimeOnly() : void
+    protected function applyWithTimeOnly(): void
     {
         $this->inputs = array_map(
-            function ($input) {
-                return $input->withTimeOnly($this->getTimeOnly());
-            },
+            fn ($input) => $input->withTimeOnly($this->getTimeOnly()),
             $this->inputs
         );
     }
@@ -209,7 +215,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getTimeOnly() : bool
+    public function getTimeOnly(): bool
     {
         return $this->with_time_only;
     }
@@ -217,7 +223,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withUseTime(bool $with_time) : C\Input\Field\Duration
+    public function withUseTime(bool $with_time): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->with_time = $with_time;
@@ -228,7 +234,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getUseTime() : bool
+    public function getUseTime(): bool
     {
         return $this->with_time;
     }
@@ -236,12 +242,10 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * apply format to inputs
      */
-    protected function applyWithUseTime() : void
+    protected function applyWithUseTime(): void
     {
         $this->inputs = array_map(
-            function ($input) {
-                return $input->withUseTime($this->getUseTime());
-            },
+            fn ($input) => $input->withUseTime($this->getUseTime()),
             $this->inputs
         );
     }
@@ -249,15 +253,12 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function withTimezone(string $tz) : C\Input\Field\Duration
+    public function withTimezone(string $tz): C\Input\Field\Duration
     {
         $clone = clone $this;
         $clone->timezone = $tz;
         $clone->inputs = array_map(
-            function ($input) use ($tz) {
-                return $input->withTimezone($tz);
-
-            },
+            fn ($input) => $input->withTimezone($tz),
             $clone->inputs
         );
         return $clone;
@@ -266,7 +267,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getTimezone() : ?string
+    public function getTimezone(): ?string
     {
         return $this->timezone;
     }
@@ -274,7 +275,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return true;
     }
@@ -282,7 +283,7 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Refinery\Custom\Constraint
+    protected function getConstraintForRequirement(): ?Refinery\Custom\Constraint
     {
         return null;
     }
@@ -290,10 +291,9 @@ class Duration extends Group implements C\Input\Field\Duration
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
-        return function ($id) {
-            return "var combinedDuration = function() {
+        return fn ($id) => "var combinedDuration = function() {
 				var options = [];
 				$('#$id').find('input').each(function() {
 					options.push($(this).val());
@@ -304,6 +304,15 @@ class Duration extends Group implements C\Input\Field\Duration
 				il.UI.input.onFieldUpdate(event, '$id', combinedDuration());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', combinedDuration());";
-        };
+    }
+
+    public function withLabels(string $start_label, string $end_label): C\Input\Field\Duration
+    {
+        $clone = clone $this;
+        $clone->inputs = [
+            $clone->inputs[0]->withLabel($start_label),
+            $clone->inputs[1]->withLabel($end_label)
+        ];
+        return $clone;
     }
 }

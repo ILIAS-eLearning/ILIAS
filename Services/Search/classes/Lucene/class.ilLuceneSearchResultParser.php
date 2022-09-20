@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,56 +27,51 @@
 * Parses Lucene search results
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneSearchResultParser
 {
-    private $xml;
-    
+    private string $xml;
+
     /**
      * Constructor
-     * @param string search result
-     * @return
      */
-    public function __construct($a_xml)
+    public function __construct(string $a_xml)
     {
         $this->xml = $a_xml;
     }
-    
+
 
     /**
      * get xml
      * @param
-     * @return
+     * @return string
      */
-    public function getXML()
+    public function getXML(): string
     {
         return $this->xml;
     }
-    
+
     /**
      * Parse XML
-     * @param object ilLuceneSearchResult
-     * @return
      */
-    public function parse(ilLuceneSearchResult $result)
+    public function parse(ilLuceneSearchResult $result): ilLuceneSearchResult
     {
         if (!strlen($this->getXML())) {
             return $result;
         }
         $hits = new SimpleXMLElement($this->getXML());
         $result->setLimit($result->getLimit() + (int) ((string) $hits['limit']));
-        $result->setMaxScore((string) $hits['maxScore']);
-        $result->setTotalHits((string) $hits['totalHits']);
-        
+        $result->setMaxScore((int) $hits['maxScore']);
+        $result->setTotalHits((int) $hits['totalHits']);
+
         foreach ($hits->children() as $object) {
             if (isset($object['absoluteScore'])) {
-                $result->addObject((string) $object['id'], (float) $object['absoluteScore']);
+                $result->addObject((int) $object['id'], (float) $object['absoluteScore']);
             } else {
-                $result->addObject((string) $object['id'], (float) $object->Item[0]['absoluteScore']);
+                $result->addObject((int) $object['id'], (float) $object->Item[0]['absoluteScore']);
             }
         }
         return $result;

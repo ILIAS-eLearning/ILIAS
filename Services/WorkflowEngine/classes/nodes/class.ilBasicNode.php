@@ -1,24 +1,31 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Workflow Node of the petri net based workflow engine.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilBasicNode extends ilBaseNode
 {
-    /** @var bool $is_forward_condition_event*/
-    public $is_forward_condition_event;
-
-    /** @var string $ident */
-    public $ident;
+    public bool $is_forward_condition_event;
+    public string $ident;
 
     /**
      * Default constructor.
@@ -28,9 +35,9 @@ class ilBasicNode extends ilBaseNode
     public function __construct(ilWorkflow $context)
     {
         $this->context = $context;
-        $this->detectors = array();
-        $this->emitters = array();
-        $this->activities = array();
+        $this->detectors = [];
+        $this->emitters = [];
+        $this->activities = [];
         $this->active = false;
         $this->is_forward_condition_node = false;
         $this->is_forward_condition_event = false;
@@ -40,12 +47,12 @@ class ilBasicNode extends ilBaseNode
     /**
      * Activates the node.
      */
-    public function activate()
+    public function activate(): void
     {
         if ($this->isActive()) {
             return;
         }
-        
+
         $this->active = true;
 
         foreach ($this->detectors as $detector) {
@@ -58,7 +65,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Deactivates the node.
      */
-    public function deactivate()
+    public function deactivate(): void
     {
         $this->active = false;
         foreach ($this->detectors as $detector) {
@@ -70,14 +77,14 @@ class ilBasicNode extends ilBaseNode
     /**
      * Checks, if the preconditions of the node to transit are met.
      *
-     * @return boolean True, if node is ready to transit.
+     * @return null|bool True, if node is ready to transit.
      */
-    public function checkTransitionPreconditions()
+    public function checkTransitionPreconditions(): ?bool
     {
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
         foreach ($this->detectors as $detector) {
-            if ($isPreconditionMet == true) {
+            if ($isPreconditionMet === true) {
                 $isPreconditionMet = $detector->getDetectorState();
             }
         }
@@ -90,24 +97,24 @@ class ilBasicNode extends ilBaseNode
      * Basically, this checks for preconditions and transits, returning true or
      * false if preconditions are not met, aka detectors are not fully satisfied.
      *
-     * @return boolean True, if transition succeeded.
+     * @return bool True, if transition succeeded.
      */
-    public function attemptTransition()
+    public function attemptTransition(): bool
     {
-        if ($this->checkTransitionPreconditions() == true) {
+        if ($this->checkTransitionPreconditions() === true) {
             $this->executeTransition();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Executes all attached activities.
      */
-    private function executeActivities()
+    private function executeActivities(): void
     {
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
@@ -117,9 +124,9 @@ class ilBasicNode extends ilBaseNode
     /**
      * Executes all attached emitters.
      */
-    private function executeEmitters()
+    private function executeEmitters(): void
     {
-        if (count($this->emitters) != 0) {
+        if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
                 $emitter->emit();
             }
@@ -129,7 +136,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Executes the transition, calls all activities and emitters to execute.
      */
-    public function executeTransition()
+    public function executeTransition(): void
     {
         $this->deactivate();
         $this->executeActivities();
@@ -141,8 +148,6 @@ class ilBasicNode extends ilBaseNode
      * This method is called by detectors, that just switched to being satisfied.
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
-     *
-     * @return mixed|void
      */
     public function notifyDetectorSatisfaction(ilDetector $detector)
     {
@@ -151,18 +156,12 @@ class ilBasicNode extends ilBaseNode
         }
     }
 
-    /**
-     * @return boolean
-     */
-    public function isForwardConditionNode()
+    public function isForwardConditionNode(): bool
     {
         return $this->is_forward_condition_node;
     }
 
-    /**
-     * @param boolean $is_forward_condition_node
-     */
-    public function setIsForwardConditionNode($is_forward_condition_node)
+    public function setIsForwardConditionNode(bool $is_forward_condition_node): void
     {
         $this->is_forward_condition_node = $is_forward_condition_node;
     }
@@ -174,7 +173,7 @@ class ilBasicNode extends ilBaseNode
      *
      * @param ilNode $activated_node
      */
-    public function deactivateForwardConditionNodes(ilNode $activated_node)
+    public function deactivateForwardConditionNodes(ilNode $activated_node): void
     {
         if ($this->is_forward_condition_node) {
             foreach ($this->emitters as $emitter) {
@@ -192,7 +191,7 @@ class ilBasicNode extends ilBaseNode
         }
     }
 
-    public function pingbackToPredecessorNodes()
+    public function pingbackToPredecessorNodes(): void
     {
         /** @var ilSimpleDetector $detector */
         foreach ($this->detectors as $detector) {

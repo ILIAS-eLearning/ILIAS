@@ -1,4 +1,24 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilStudyProgrammeType
@@ -8,175 +28,93 @@
  */
 class ilStudyProgrammeType
 {
-
     /**
      * Folder in ILIAS webdir to store the icons
      */
-    const WEB_DATA_FOLDER = 'prg_data';
+    private const WEB_DATA_FOLDER = 'prg_data';
+
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
+
+    protected string $default_lang = '';
+    protected int $owner;
+    protected DateTime $create_date;
+    protected DateTime $last_update;
+    protected string $icon;
+    protected ilLog $log;
+    protected ilObjUser $user;
+    protected array $active_plugins;
+    protected ilLanguage $lng;
+    protected array $translations;
+    protected array $changed_translations = array();
+
+    protected int $id = 0;
+    protected ilStudyProgrammeTypeRepository $type_repo;
+    protected Filesystem $webdir;
+
+    protected ilComponentFactory $component_factory;
 
 
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
-
-    /**
-     * @var int
-     */
-    protected $id = 0;
-
-    /**
-     * @var string
-     */
-    protected $default_lang = '';
-
-    /**
-     * @var int
-     */
-    protected $owner;
-
-    /**
-     * @var DateTime
-     */
-    protected $create_date;
-
-    /**
-     * @var string
-     */
-    protected $last_update;
-
-    /**
-     * @var string
-     */
-    protected $icon;
-
-    /**
-     * @var array
-     */
-    protected $amd_records_assigned;
-
-    /**
-     * @var array
-     */
-    protected static $amd_records_available;
-
-    /**
-     * @var ilLog
-     */
-    protected $log;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
-     * @var array
-     */
-    protected $active_plugins;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var array
-     */
-    protected $translations;
-    /**
-     * @var array with the changed TypeTranslations
-     */
-    protected $changed_translations = array();
-
-    /**
-     * @param int $a_id
-     *
-     * @throws ilStudyProgrammeTypeException
-     */
     public function __construct(
         int $id,
         ilStudyProgrammeTypeRepository $type_repo,
         ILIAS\Filesystem\Filesystem $webdir,
-        ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
-        ilObjUser $user
+        ilObjUser $user,
+        ilComponentFactory $component_factory
     ) {
         $this->id = $id;
         $this->type_repo = $type_repo;
         $this->webdir = $webdir;
-        $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->user = $user;
+        $this->component_factory = $component_factory;
     }
 
     /**
      * Get the title of an StudyProgramme type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the translation of the default language is substituted.
      * If a language code is provided, returns title for the given language or null.
-     *
-     * @param string $a_lang_code
-     *
-     * @return null|string
      */
-    public function getTitle(string $a_lang_code = '') : string
+    public function getTitle(string $a_lang_code = ''): string
     {
         return (string) $this->getTranslation('title', $a_lang_code);
     }
 
-
     /**
      * Set title of StudyProgramme type.
      * If no lang code is given, sets title for default language.
-     *
-     * @param        $a_title
-     * @param string $a_lang_code
      */
-    public function setTitle(string $title, string $lang_code = '')
+    public function setTitle(string $title, string $lang_code = ''): void
     {
-        $lang = ($lang_code) ? $lang_code : $this->getDefaultLang();
+        $lang = ($lang_code) ?: $this->getDefaultLang();
         $this->setTranslation('title', $title, $lang);
     }
-
 
     /**
      * Get the description of an StudyProgramme type. If no language code is given, a translation in the user-language is
      * returned. If no such translation exists, the description of the default language is substituted.
      * If a language code is provided, returns description for the given language or null.
-     *
-     * @param string $a_lang_code
-     *
-     * @return null|string
      */
-    public function getDescription(string $lang_code = '') : string
+    public function getDescription(string $lang_code = ''): string
     {
         return (string) $this->getTranslation('description', $lang_code);
     }
 
-
     /**
      * Set description of StudyProgramme type.
      * If no lang code is given, sets description for default language.
-     *
-     * @param        $a_description
-     * @param string $a_lang_code
      */
-    public function setDescription(string $description, string $lang_code = '')
+    public function setDescription(string $description, string $lang_code = ''): void
     {
-        $lang = ($lang_code) ? $lang_code : $this->getDefaultLang();
+        $lang = ($lang_code) ?: $this->getDefaultLang();
         $this->setTranslation('description', $description, $lang);
     }
 
-
     /**
      * Update the Icons of assigned objects.
-     *
-     * @return void
      */
-    public function updateAssignedStudyProgrammesIcons()
+    public function updateAssignedStudyProgrammesIcons(): void
     {
         $obj_ids = $this->type_repo->getStudyProgrammeIdsByTypeId($this->getId());
 
@@ -187,23 +125,22 @@ class ilStudyProgrammeType
         }
     }
 
-
     /**
      * Assign a given AdvancedMDRecord to this type.
      * If the AMDRecord is already assigned, nothing is done. If the AMDRecord cannot be assigned to StudyProgrammes/Types,
      * an Exception is thrown. Otherwise the AMDRecord is assigned (relation gets stored in DB).
      *
-     * @param int $a_record_id
-     *
      * @throws ilStudyProgrammeTypePluginException
      * @throws ilStudyProgrammeTypeException
      */
-    public function assignAdvancedMDRecord(int $record_id)
+    public function assignAdvancedMDRecord(int $record_id): void
     {
         $assigned_amd_records = $this->type_repo->getAssignedAMDRecordIdsByType($this->getId());
         if (!in_array($record_id, $assigned_amd_records)) {
             if (!in_array($record_id, $this->type_repo->getAllAMDRecordIds())) {
-                throw new ilStudyProgrammeTypeException("AdvancedMDRecord with ID {$record_id} cannot be assigned to StudyProgramme types");
+                throw new ilStudyProgrammeTypeException(
+                    "AdvancedMDRecord with ID $record_id cannot be assigned to StudyProgramme types"
+                );
             }
             /** @var ilStudyProgrammeTypeHookPlugin $plugin */
             $disallowed = array();
@@ -221,7 +158,8 @@ class ilStudyProgrammeType
             $record_ids = $assigned_amd_records;
             $record_ids[] = $record_id;
 
-            $exists = array_shift($this->type_repo->getAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id));
+            $amd_records = $this->type_repo->getAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id);
+            $exists = array_shift($amd_records);
 
             if (!$exists) {
                 $advanced_meta = $this->type_repo->createAMDRecord();
@@ -234,7 +172,6 @@ class ilStudyProgrammeType
             foreach ($this->type_repo->getAssignedAMDRecordIdsByType($this->getId()) as $prg_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
         }
     }
 
@@ -242,11 +179,9 @@ class ilStudyProgrammeType
     /**
      * Deassign a given AdvancedMD record from this type.
      *
-     * @param int $a_record_id
-     *
      * @throws ilStudyProgrammeTypePluginException
      */
-    public function deassignAdvancedMdRecord(int $record_id)
+    public function deassignAdvancedMdRecord(int $record_id): void
     {
         $record_ids = $this->type_repo->getAssignedAMDRecordIdsByType($this->getId());
         $key = array_search($record_id, $record_ids);
@@ -274,19 +209,15 @@ class ilStudyProgrammeType
             foreach ($this->type_repo->getStudyProgrammeIdsByTypeId($this->getId()) as $prg_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
             }
-            $this->amd_records_assigned = null; // Force reload of assigned objects
         }
     }
-
 
     /**
      * Resize and store an icon file for this object
      *
      * @param array $file_data The array containing file information from the icon from PHPs $_FILES array
-     *
-     * @return bool
      */
-    public function processAndStoreIconFile(array $file_data) : bool
+    public function processAndStoreIconFile(array $file_data): bool
     {
         if (!$this->updateable()) {
             return false;
@@ -298,23 +229,20 @@ class ilStudyProgrammeType
             $this->webdir->createDir($this->getIconPath());
         }
 
-        $filename = $this->getIcon() ? $this->getIcon() : $file_data['name'];
-
         if ($this->webdir->has($this->getIconPath(true))) {
             $this->webdir->delete($this->getIconPath(true));
         }
 
-        $stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], "r"));
+        $stream = ILIAS\Filesystem\Stream\Streams::ofResource(fopen($file_data["tmp_name"], 'rb'));
         $this->webdir->writeStream($this->getIconPath(true), $stream);
 
         return true;
     }
 
-
     /**
      * Remove the icon file on disk
      */
-    public function removeIconFile()
+    public function removeIconFile(): void
     {
         if (!$this->updateable()) {
             return;
@@ -329,48 +257,42 @@ class ilStudyProgrammeType
         }
     }
 
-
     /**
      * Protected
      */
 
     /**
      * Helper method to return a translation for a given member and language
-     *
-     * @param $a_member
-     * @param $a_lang_code
-     *
-     * @return null|string
      */
-    protected function getTranslation(string $member, string $lang_code)
+    protected function getTranslation(string $member, string $lang_code): ?string
     {
-        $lang = ($lang_code) ? $lang_code : $this->user->getLanguage();
+        $lang = ($lang_code) ?: $this->user->getLanguage();
 
         $trans_obj = $this->loadTranslation($lang);
         if (!is_null($trans_obj)) {
-            $translation = $trans_obj[$member];
+            $translation = $trans_obj[$member] ?? null;
             // If the translation does exist but is an empty string and there was no lang code given,
             // substitute default language anyway because an empty string provides no information
             if (!$lang_code && !$translation) {
                 $trans_obj = $this->loadTranslation($this->getDefaultLang());
 
-                return $trans_obj[$member];
+                return $trans_obj[$member] ?? null;
             }
 
             return $translation;
-        } else {
-            // If no lang code was given and there was no translation found, return string in default language
-            if (!$lang_code) {
-                $trans_obj = $this->loadTranslation($this->getDefaultLang());
-
-                return $trans_obj[$member];
-            }
-
-            return null;
         }
+
+        // If no lang code was given and there was no translation found, return string in default language
+        if (!$lang_code) {
+            $trans_obj = $this->loadTranslation($this->getDefaultLang());
+
+            return $trans_obj[$member] ?? null;
+        }
+
+        return null;
     }
 
-    protected function loadTranslation(string $lang_code)
+    protected function loadTranslation(string $lang_code): ?array
     {
         if (isset($this->translations[$lang_code])) {
             return $this->translations[$lang_code];
@@ -390,10 +312,8 @@ class ilStudyProgrammeType
 
     /**
      * Helper function to check if this type can be updated
-     *
-     * @return bool
      */
-    protected function updateable() : bool
+    protected function updateable(): bool
     {
         foreach ($this->getActivePlugins() as $plugin) {
             if (!$plugin->allowUpdate($this->getId())) {
@@ -404,31 +324,26 @@ class ilStudyProgrammeType
         return true;
     }
 
-
     /**
      * Getters & Setters
      */
 
-    /**
-     * @param array $translations
-     */
-    public function setTranslations(array $translations)
+    public function setTranslations(array $translations): void
     {
         $this->translations = $translations;
     }
 
-
-    protected function setTranslation($a_member, $a_value, $a_lang_code)
+    protected function setTranslation(string $member, string $value, string $lang_code): void
     {
-        $a_value = trim($a_value);
+        $value = trim($value);
         // If the value is identical, quit early and do not execute plugin checks
-        $existing_translation = $this->getTranslation($a_member, $a_lang_code);
-        if ($existing_translation == $a_value) {
+        $existing_translation = $this->getTranslation($member, $lang_code);
+        if ($existing_translation == $value) {
             return;
         }
         // #19 Title should be unique per language
-        //        if ($a_value && $a_member == 'title') {
-        //            if (ilStudyProgrammeTypeTranslation::exists($this->getId(), 'title', $a_lang_code, $a_value)) {
+        //        if ($value && $member == 'title') {
+        //            if (ilStudyProgrammeTypeTranslation::exists($this->getId(), 'title', $lang_code, $value)) {
         //                throw new ilStudyProgrammeTypeException($this->lng->txt('prg_type_msg_title_already_exists'));
         //            }
         //        }
@@ -437,12 +352,10 @@ class ilStudyProgrammeType
         /** @var ilStudyProgrammeTypeHookPlugin $plugin */
         foreach ($this->getActivePlugins() as $plugin) {
             $allowed = true;
-            if ($a_member == 'title') {
-                $allowed = $plugin->allowSetTitle($this->getId(), $a_lang_code, $a_value);
-            } else {
-                if ($a_member == 'description') {
-                    $allowed = $plugin->allowSetDescription($this->getId(), $a_lang_code, $a_value);
-                }
+            if ($member === 'title') {
+                $allowed = $plugin->allowSetTitle($this->getId(), $lang_code, $value);
+            } elseif ($member === 'description') {
+                $allowed = $plugin->allowSetDescription($this->getId(), $lang_code, $value);
             }
             if (!$allowed) {
                 $disallowed[] = $plugin;
@@ -450,76 +363,56 @@ class ilStudyProgrammeType
             }
         }
         if (count($disallowed)) {
-            $msg = sprintf($this->lng->txt('prg_type_msg_setting_member_prevented'), $a_value, implode(', ', $titles));
+            $msg = sprintf($this->lng->txt('prg_type_msg_setting_member_prevented'), $value, implode(', ', $titles));
             throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
         }
         $trans_obj = $this->type_repo->getTranslationByTypeIdMemberLang(
             $this->getId(),
-            $a_member,
-            $a_lang_code
+            $member,
+            $lang_code
         );
         if (!$trans_obj) {
             $trans_obj = $this->type_repo->createTypeTranslation();
             $trans_obj->setPrgTypeId($this->getId());
-            $trans_obj->setLang($a_lang_code);
-            $trans_obj->setMember($a_member);
+            $trans_obj->setLang($lang_code);
+            $trans_obj->setMember($member);
         }
-        $trans_obj->setValue($a_value);
+        $trans_obj->setValue($value);
         $this->type_repo->updateTypeTranslation($trans_obj);
-        $this->translations[$a_lang_code][$a_member] = $a_value;
-        $this->changed_translations[$a_lang_code][] = $trans_obj;
+        $this->translations[$lang_code][$member] = $value;
+        $this->changed_translations[$lang_code][] = $trans_obj;
     }
 
 
-    public function getTranslations() : ?array
+    public function getTranslations(): ?array
     {
         return $this->translations;
     }
 
-    /**
-     * @param int $owner
-     */
-    public function setOwner(int $owner)
+    public function setOwner(int $owner): void
     {
         $this->owner = $owner;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getOwner()
+    public function getOwner(): int
     {
         return $this->owner;
     }
 
-
-    /**
-     * @param string $last_update
-     */
-    public function setLastUpdate($last_update)
+    public function setLastUpdate(DateTime $last_update): void
     {
         $this->last_update = $last_update;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getLastUpdate()
+    public function getLastUpdate(): DateTime
     {
         return $this->last_update;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
-
 
     /**
      * Set new Icon filename.
@@ -529,36 +422,27 @@ class ilStudyProgrammeType
      *
      * If you want to delete the icon, set call ilStudyProgrammeType::removeIconFile() first and set an empty string here.
      *
-     * @param string $icon
-     *
      * @throws ilStudyProgrammeTypeException
      */
-    public function setIcon(string $icon)
+    public function setIcon(string $icon): void
     {
-        if ($icon and !preg_match('/\.(svg)$/', $icon)) {
+        if ($icon && !preg_match('/\.(svg)$/', $icon)) {
             throw new ilStudyProgrammeTypeException('Icon must be set with file extension svg');
         }
         $this->icon = $icon;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getIcon()
+    public function getIcon(): string
     {
         return $this->icon;
     }
-
 
     /**
      * Return the path to the icon
      *
      * @param bool $append_filename If true, append filename of icon
-     *
-     * @return string
      */
-    public function getIconPath(bool $append_filename = false)
+    public function getIconPath(bool $append_filename = false): string
     {
         $path = self::WEB_DATA_FOLDER . '/' . 'type_' . $this->getId() . '/';
         if ($append_filename) {
@@ -568,65 +452,37 @@ class ilStudyProgrammeType
         return $path;
     }
 
-
-    /**
-     * @param string $default_lang
-     *
-     * @throws ilStudyProgrammeTypePluginException
-     */
-    public function setDefaultLang(string $default_lang)
+    public function setDefaultLang(string $default_lang): void
     {
         $this->default_lang = $default_lang;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDefaultLang() : string
+    public function getDefaultLang(): string
     {
         return $this->default_lang;
     }
 
-
-    /**
-     * @param string $create_date
-     */
-    public function setCreateDate(DateTime $create_date)
+    public function setCreateDate(DateTime $create_date): void
     {
         $this->create_date = $create_date;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getCreateDate()
+    public function getCreateDate(): DateTime
     {
         return $this->create_date;
     }
 
-    public function getRepository() : ilStudyProgrammeTypeRepository
+    public function getRepository(): ilStudyProgrammeTypeRepository
     {
         return $this->type_repo;
     }
 
-    protected function getActivePlugins()
+    protected function getActivePlugins(): Iterator
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk');
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl_name) {
-                /** @var ilStudyProgrammeTypeHookPlugin $plugin */
-                $plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl_name);
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsInSlot("prgtypehk");
     }
 
-    public function changedTranslations() : array
+    public function changedTranslations(): array
     {
         return $this->changed_translations;
     }

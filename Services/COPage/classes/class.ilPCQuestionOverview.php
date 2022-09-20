@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Question overview page content element
@@ -22,12 +25,12 @@ class ilPCQuestionOverview extends ilPageContent
 {
     public php4DOMElement $qover_node;
 
-    public function init() : void
+    public function init(): void
     {
         $this->setType("qover");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->qover_node = $a_node->first_child();		// this is the question overview node
@@ -37,7 +40,7 @@ class ilPCQuestionOverview extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->qover_node = $this->dom->create_element("QuestionOverview");
@@ -48,7 +51,7 @@ class ilPCQuestionOverview extends ilPageContent
     /**
      * Set short message
      */
-    public function setShortMessage(bool $a_val) : void
+    public function setShortMessage(bool $a_val): void
     {
         if ($a_val) {
             $this->qover_node->set_attribute("ShortMessage", "y");
@@ -59,7 +62,7 @@ class ilPCQuestionOverview extends ilPageContent
         }
     }
 
-    public function getShortMessage() : bool
+    public function getShortMessage(): bool
     {
         if (is_object($this->qover_node)) {
             if ($this->qover_node->get_attribute("ShortMessage") == "y") {
@@ -68,8 +71,8 @@ class ilPCQuestionOverview extends ilPageContent
         }
         return false;
     }
-    
-    public function setListWrongQuestions(bool $a_val) : void
+
+    public function setListWrongQuestions(bool $a_val): void
     {
         if ($a_val) {
             $this->qover_node->set_attribute("ListWrongQuestions", "y");
@@ -80,7 +83,7 @@ class ilPCQuestionOverview extends ilPageContent
         }
     }
 
-    public function getListWrongQuestions() : bool
+    public function getListWrongQuestions(): bool
     {
         if (is_object($this->qover_node)) {
             if ($this->qover_node->get_attribute("ListWrongQuestions") == "y") {

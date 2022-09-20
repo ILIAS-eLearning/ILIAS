@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup;
 
@@ -15,7 +31,7 @@ interface Agent
     /**
      * Does this agent require a configuration?
      */
-    public function hasConfig() : bool;
+    public function hasConfig(): bool;
 
     /**
      * Agents must be able to tell how to create a configuration from a
@@ -23,7 +39,7 @@ interface Agent
      *
      * @throw LogicException if Agent has no Config
      */
-    public function getArrayToConfigTransformation() : Transformation;
+    public function getArrayToConfigTransformation(): Transformation;
 
     /**
      * Get the goals the agent wants to achieve on setup.
@@ -33,7 +49,7 @@ interface Agent
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */
-    public function getInstallObjective(Config $config = null) : Objective;
+    public function getInstallObjective(Config $config = null): Objective;
 
     /**
      * Get the goal the agent wants to achieve on update.
@@ -51,14 +67,14 @@ interface Agent
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */
-    public function getUpdateObjective(Config $config = null) : Objective;
+    public function getUpdateObjective(Config $config = null): Objective;
 
     /**
      * Get the goal the agent wants to achieve to build artifacts.
      *
      * @throw InvalidArgumentException if Config does not match the Agent.
      */
-    public function getBuildArtifactObjective() : Objective;
+    public function getBuildArtifactObjective(): Objective;
 
     /**
      * Get the objective to be achieved when status is requested.
@@ -70,7 +86,7 @@ interface Agent
      *
      * This is supposed to inform about any kind of metrics regarding the component.
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective;
+    public function getStatusObjective(Metrics\Storage $storage): Objective;
 
     /**
      * Get a named map of migrations available for this Agent.
@@ -79,12 +95,16 @@ interface Agent
      *
      * @return array<string,Migration>|Migration[]
      */
-    public function getMigrations() : array;
+    public function getMigrations(): array;
 
     /**
-     * Get a named objective from this agent.
+     * Gets all named objectives
+     * The keys of the returned array are the commands.
      *
-     * @throw InvalidArgumentException if there is no such objective.
+     * Only the AgentCollection should return an array where the cmd of the named objective is the array key.
+     *
+     * @param Config|null $config
+     * @return array<string|int, ObjectiveConstructor>
      */
-    public function getNamedObjective(string $name, Config $config = null) : Objective;
+    public function getNamedObjectives(?Config $config = null): array;
 }

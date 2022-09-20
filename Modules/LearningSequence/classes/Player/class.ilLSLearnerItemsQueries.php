@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\View;
 
@@ -30,19 +46,18 @@ class ilLSLearnerItemsQueries
     /**
      * @return LSLearnerItem[]
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->progress_db->getLearnerItems($this->usr_id, $this->ls_ref_id);
     }
 
-    public function getCurrentItemRefId() : int
+    public function getCurrentItemRefId(): int
     {
-        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]);
-        $ref_id = max(0, $current[$this->usr_id]); //0 or greater
-        return $ref_id;
+        $current = $this->states_db->getCurrentItemsFor($this->ls_ref_id, [$this->usr_id]); //0 or greater
+        return max(0, $current[$this->usr_id]);
     }
 
-    public function getCurrentItemPosition() : int
+    public function getCurrentItemPosition(): int
     {
         $current_position = 0;
         $items = $this->getItems();
@@ -54,7 +69,7 @@ class ilLSLearnerItemsQueries
         return $current_position;
     }
 
-    public function getStateFor(LSItem $ls_item, View $view) : ILIAS\KioskMode\State
+    public function getStateFor(LSItem $ls_item, View $view): ILIAS\KioskMode\State
     {
         $states = $this->states_db->getStatesFor($this->ls_ref_id, [$this->usr_id]);
         $states = $states[$this->usr_id];
@@ -71,7 +86,7 @@ class ilLSLearnerItemsQueries
         ILIAS\KioskMode\State $state,
         int $state_item_ref_id,
         int $current_item_ref_id
-    ) : void {
+    ): void {
         $this->states_db->updateState(
             $this->ls_ref_id,
             $this->usr_id,
@@ -81,7 +96,7 @@ class ilLSLearnerItemsQueries
         );
     }
 
-    public function getFirstAccess() : string
+    public function getFirstAccess(): string
     {
         $first_access = $this->states_db->getFirstAccessFor($this->ls_ref_id, [$this->usr_id]);
         return $first_access[$this->usr_id];

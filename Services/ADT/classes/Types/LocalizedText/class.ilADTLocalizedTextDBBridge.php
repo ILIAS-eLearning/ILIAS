@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,7 +9,7 @@
  */
 class ilADTLocalizedTextDBBridge extends ilADTDBBridge
 {
-    public function getTable() : ?string
+    public function getTable(): ?string
     {
         return 'adv_md_values_ltext';
     }
@@ -15,7 +17,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      * @inheritDoc
      */
-    protected function isValidADT(ilADT $adt) : bool
+    protected function isValidADT(ilADT $adt): bool
     {
         return $adt instanceof ilADTLocalizedText;
     }
@@ -23,7 +25,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      * @inheritDoc
      */
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
         $default_language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
@@ -45,7 +47,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      * @inheritDoc
      */
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         $a_fields[$this->getElementId()] = [ilDBConstants::T_TEXT, $this->getADT()->getText()];
     }
@@ -53,15 +55,22 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      *
      */
-    public function afterInsert() : void
+    public function afterInsert(): void
     {
         $this->afterUpdate();
+    }
+
+    public function getAdditionalPrimaryFields(): array
+    {
+        return [
+            'value_index' => [ilDBConstants::T_TEXT, '']
+        ];
     }
 
     /**
      *
      */
-    public function afterUpdate() : void
+    public function afterUpdate(): void
     {
         if (!$this->getADT()->getCopyOfDefinition()->supportsTranslations()) {
             return;
@@ -73,9 +82,10 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      * delete translations
      */
-    protected function deleteTranslations() : void
+    protected function deleteTranslations(): void
     {
-        $this->db->manipulate($q =
+        $this->db->manipulate(
+            $q =
             'delete from ' . $this->getTable() . ' ' .
             'where ' . $this->buildPrimaryWhere() . ' ' .
             'and value_index != ' . $this->db->quote('', ilDBConstants::T_TEXT)
@@ -85,7 +95,7 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     /**
      * Save all translations
      */
-    protected function insertTranslations() : void
+    protected function insertTranslations(): void
     {
         foreach ($this->getADT()->getTranslations() as $language => $value) {
             $fields = $this->getPrimary();

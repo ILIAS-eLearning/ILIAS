@@ -1,7 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Importer class for sessions
@@ -12,26 +28,17 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilSessionImporter extends ilXmlImporter
 {
+    protected ilSessionDataSet $ds;
 
-    /**
-     * Initialisation
-     */
-    public function init() : void
+    public function init(): void
     {
-        include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
         $this->ds = new ilSessionDataSet();
         $this->ds->setDSPrefix("ds");
     }
 
-
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping): void
     {
-        $this->ds->setTargetId($a_mapping->getTargetId());
+        $this->ds->setTargetId((string) $a_mapping->getTargetId());
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

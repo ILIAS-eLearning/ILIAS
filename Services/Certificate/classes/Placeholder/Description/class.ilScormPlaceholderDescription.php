@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -9,19 +26,16 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ilLanguage $language;
     private array $placeholder;
-    private ilObject $object;
     private ilObjectLP $learningProgressObject;
 
     public function __construct(
-        ilObject $object,
+        private ilObject $object,
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,
         ?ilObjectLP $learningProgressObject = null,
         ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
-
-        $this->object = $object;
 
         if (null === $language) {
             $language = $DIC->language();
@@ -47,8 +61,12 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         $this->placeholder['SCORM_TITLE'] = $language->txt('certificate_ph_scormtitle');
         $this->placeholder['SCORM_POINTS'] = $language->txt('certificate_ph_scormpoints');
         $this->placeholder['SCORM_POINTS_MAX'] = $language->txt('certificate_ph_scormmaxpoints');
-        $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
-        $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
+        $this->placeholder['DATE_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_date_completed')
+        );
+        $this->placeholder['DATETIME_COMPLETED'] = ilLegacyFormElementsUtil::prepareFormOutput(
+            $language->txt('certificate_ph_datetime_completed')
+        );
     }
 
     /**
@@ -57,7 +75,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * @param ilTemplate|null $template
      * @return string - [PLACEHOLDER] => 'description'
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(ilTemplate $template = null): string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.scorm_description.html', true, true, 'Services/Certificate');
@@ -75,7 +93,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
 
         $collection = $this->learningProgressObject->getCollectionInstance();
         $items = [];
-        if ($collection) {
+        if ($collection !== null) {
             $items = $collection->getPossibleItems();
         }
 
@@ -95,7 +113,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         }
         $template->parseCurrentBlock();
 
-        if ($collection) {
+        if ($collection !== null) {
             $counter = 0;
             foreach ($items as $item_id => $sahs_item) {
                 if ($collection->isAssignedEntry($item_id)) {
@@ -119,7 +137,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * the the description as array value.
      * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions() : array
+    public function getPlaceholderDescriptions(): array
     {
         return $this->placeholder;
     }

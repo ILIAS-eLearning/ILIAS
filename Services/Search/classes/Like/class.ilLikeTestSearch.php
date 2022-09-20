@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,21 +29,15 @@
 * Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilTestSearch.php';
 
 class ilLikeTestSearch extends ilTestSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition(): string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         foreach ($this->getFields() as $field) {
             $tmp_field[$field] = 'text';
         }
@@ -53,7 +49,7 @@ class ilLikeTestSearch extends ilTestSearch
                 if ($counter++) {
                     $and .= " OR ";
                 }
-                $and .= $ilDB->like($field, 'text', '%' . $word . '%');
+                $and .= $this->db->like($field, 'text', '%' . $word . '%');
             }
         }
         return $and;

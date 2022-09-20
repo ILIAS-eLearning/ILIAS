@@ -1,58 +1,92 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilFileObjectToStorageMigrationHelper
 {
-    protected $base_path = '/var/iliasdata/ilias/default/ilFile';
-    /**
-     * @var Iterator
-     */
-    protected $iterator;
-    /**
-     * @var int
-     */
-    private $remaining;
-
+    protected string $base_path = '/var/iliasdata/ilias/default/ilFile';
     public const MIGRATED = ".migrated";
+    protected ilDBInterface $database;
 
     /**
-     * ilFileObjectToStorageMigrationHelper constructor.
-     * @param string $base_path
-     * @param string $regex
+     * @param string        $base_path
+     * @param ilDBInterface $database
      */
-    public function __construct(string $base_path, string $regex)
+    public function __construct(string $base_path, ilDBInterface $database)
     {
         $this->base_path = $base_path;
-        $this->iterator = new RecursiveDirectoryIterator(
-            $base_path,
-            FilesystemIterator::KEY_AS_PATHNAME
-            | FilesystemIterator::CURRENT_AS_FILEINFO
-            | FilesystemIterator::SKIP_DOTS
-        );
-        $this->iterator = new RecursiveIteratorIterator($this->iterator, RecursiveIteratorIterator::SELF_FIRST);
-        $this->iterator = new RegexIterator($this->iterator, $regex, RegexIterator::GET_MATCH);
-        $this->iterator = new CallbackFilterIterator($this->iterator, static function ($path) {
-            return is_readable($path[0]) && !file_exists(rtrim($path[0], "/") . "/" . self::MIGRATED);
-        });
-
-        $this->remaining = iterator_count($this->iterator);
-        $this->iterator->rewind();
+        $this->database = $database;
     }
 
-    public function rewind() : void
+    public function getNext(): ilFileObjectToStorageDirectory
     {
-        $this->iterator->rewind();
+        do {
+            $next_id = $this->getNextFileId();
+            $path = $this->createPathFromId($next_id);
+            $path_found = file_exists($path);
+            if (!$path_found) {
+                $this->database->update(
+                    'file_data',
+                    ['rid' => ['text', 'unknown']],
+                    ['file_id' => ['integer', $next_id]]
+                );
+            } else {
+                return new ilFileObjectToStorageDirectory($next_id, $path);
+            }
+        } while (!$path_found);
     }
 
-    public function getAmountOfItems() : int
+    private function getNextFileId(): int
     {
-        return $this->remaining;
+        $query = "SELECT file_id 
+                    FROM file_data 
+                    WHERE 
+                        (rid IS NULL OR rid = '')
+                        AND (file_id != ''  AND file_id IS NOT NULL) 
+                    LIMIT 1;";
+        $r = $this->database->query($query);
+        $d = $this->database->fetchObject($r);
+        if (!isset($d->file_id) || null === $d->file_id || '' === $d->file_id) {
+            throw new LogicException("error fetching file_id");
+        }
+
+        return (int) $d->file_id;
     }
 
-    public function getNext() : ilFileObjectToStorageDirectory
-    {
-        $item = $this->iterator->current();
-        $this->iterator->next();
 
-        return new ilFileObjectToStorageDirectory((int) $item[1], $item[0]);
+    private function createPathFromId(int $file_id): string
+    {
+        $path = [];
+        $found = false;
+        $num = $file_id;
+        $path_string = '';
+        for ($i = 3; $i > 0; $i--) {
+            $factor = pow(100, $i);
+            if (($tmp = (int) ($num / $factor)) or $found) {
+                $path[] = $tmp;
+                $num = $num % $factor;
+                $found = true;
+            }
+        }
+
+        if (count($path)) {
+            $path_string = (implode('/', $path) . '/');
+        }
+
+        return $this->base_path . '/' . $path_string . 'file_' . $file_id;
     }
 }

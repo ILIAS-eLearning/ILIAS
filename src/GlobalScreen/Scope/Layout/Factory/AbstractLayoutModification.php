@@ -1,51 +1,57 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
 use Closure;
 use LogicException;
 use ReflectionFunction;
+use ReflectionException;
 
 /**
  * Class AbstractLayoutModification
- *
  * @package ILIAS\GlobalScreen\Scope\Layout\Factory
  */
 abstract class AbstractLayoutModification implements LayoutModification
 {
+    private int $priority;
+    private ?Closure $modification = null;
 
-    /**
-     * @var int
-     */
-    private $priority;
-    /**
-     * @var Closure
-     */
-    private $modification = null;
-
-
-    /**
-     * @inheritDoc
-     */
-    public function isFinal() : bool
+    public function isFinal(): bool
     {
         return false;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function getPriority() : int
+    public function getPriority(): int
     {
         return $this->priority ?? LayoutModification::PRIORITY_LOW;
     }
 
-
     /**
      * @inheritDoc
      */
-    final public function withPriority(int $priority) : LayoutModification
+    final public function withPriority(int $priority): LayoutModification
     {
-        if ((self::PRIORITY_LOW <= $priority) && ($priority <= self::PRIORITY_HIGH)) {
+        if ((self::PRIORITY_LOW > $priority) || ($priority > self::PRIORITY_HIGH)) {
             throw new LogicException("\$priority MUST be between LayoutModification::PRIORITY_LOW, LayoutModification::PRIORITY_MEDIUM or LayoutModification::PRIORITY_HIGH");
         }
         $clone = clone $this;
@@ -54,11 +60,10 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
-    final public function withHighPriority() : LayoutModification
+    final public function withHighPriority(): LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_HIGH;
@@ -66,11 +71,10 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
-    final public function withLowPriority() : LayoutModification
+    final public function withLowPriority(): LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_LOW;
@@ -78,13 +82,11 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @param Closure $closure
-     *
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
-    final public function withModification(Closure $closure) : LayoutModification
+    final public function withModification(Closure $closure): LayoutModification
     {
         $clone = clone $this;
         $clone->modification = $closure;
@@ -92,29 +94,26 @@ abstract class AbstractLayoutModification implements LayoutModification
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
-    final public function getModification() : Closure
+    final public function getModification(): Closure
     {
         return $this->modification;
     }
 
-
     /**
      * @inheritDoc
      */
-    final public function hasValidModification() : bool
+    final public function hasValidModification(): bool
     {
         return ($this->modification instanceof Closure && $this->checkClosure());
     }
 
-
     /**
      * @return bool
      */
-    private function checkClosure() : bool
+    private function checkClosure(): bool
     {
         $closure = $this->modification;
         $return_type = $this->getClosureReturnType();
@@ -140,7 +139,7 @@ abstract class AbstractLayoutModification implements LayoutModification
                     return false;
                 }
             }
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return false;
         }
 

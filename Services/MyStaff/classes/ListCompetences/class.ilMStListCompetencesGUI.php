@@ -1,70 +1,61 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\DI\Container;
 
 /**
  * Class ilMStListCompetencesGUI
- *
  * @author            Martin Studer <ms@studer-raimann.ch>
- *
  * @ilCtrl_IsCalledBy ilMStListCompetencesGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesSkillsGUI
  * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesProfilesGUI
  */
 class ilMStListCompetencesGUI
 {
-    const CMD_APPLY_FILTER = 'applyFilter';
-    const CMD_INDEX = 'index';
-    const CMD_GET_ACTIONS = "getActions";
-    const CMD_RESET_FILTER = 'resetFilter';
-    const SUB_TAB_SKILLS = 'skills';
-    /**
-     * @var ilTable2GUI
-     */
-    protected $table;
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-    /**
-     * @var Container
-     */
-    private $dic;
+    public const CMD_APPLY_FILTER = 'applyFilter';
+    public const CMD_INDEX = 'index';
+    public const CMD_GET_ACTIONS = "getActions";
+    public const CMD_RESET_FILTER = 'resetFilter';
+    public const SUB_TAB_SKILLS = 'skills';
+    protected ilTable2GUI $table;
+    protected ilMyStaffAccess $access;
+    private Container $dic;
+    private \ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @param Container $dic
-     */
-    public function __construct(Container $dic = null)
+    public function __construct(Container $dic)
     {
-        if (is_null($dic)) {
-            global $DIC;
-            $dic = $DIC;
-        }
+        $this->main_tpl = $dic->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
         $this->dic = $dic;
     }
 
-
-    /**
-     *
-     */
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
         } else {
-            ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->dic->language()->txt("permission_denied"), true);
             $this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
         }
     }
 
-
-    /**
-     *
-     */
-    public function executeCommand()
+    final public function executeCommand(): void
     {
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
@@ -87,11 +78,7 @@ class ilMStListCompetencesGUI
         }
     }
 
-
-    /**
-     * @param string $subtab_active
-     */
-    protected function addSubTabs(string $subtab_active) : void
+    protected function addSubTabs(string $subtab_active): void
     {
         $this->dic->language()->loadLanguageModule('skmg');
         $this->dic->tabs()->addSubTab(
@@ -106,20 +93,12 @@ class ilMStListCompetencesGUI
         $this->dic->tabs()->activateSubTab($subtab_active);
     }
 
-
-    /**
-     *
-     */
-    public function index()
+    final public function index(): void
     {
         $this->dic->ctrl()->redirectByClass(ilMStListCompetencesSkillsGUI::class);
     }
 
-
-    /**
-     *
-     */
-    public function getActions()
+    final public function getActions(): void
     {
         $mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
         $mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
@@ -129,7 +108,11 @@ class ilMStListCompetencesGUI
 
             if ($this->dic->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
                 $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+                $selection->addItem(
+                    ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                    '',
+                    $link
+                );
             };
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
@@ -145,8 +128,12 @@ class ilMStListCompetencesGUI
                 }
             }
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($this->dic->ctrl()
-                ->getLinkTarget($this, self::CMD_INDEX)));
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
+                $selection,
+                $mst_co_usr_id,
+                rawurlencode($this->dic->ctrl()
+                                       ->getLinkTarget($this, self::CMD_INDEX))
+            );
 
             echo $selection->getHTML(true);
         }

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -13,20 +29,20 @@ use ILIAS\UI\Implementation\Component as IC;
  */
 class MessageBoxTest extends ILIAS_UI_TestBase
 {
-    public function getMessageBoxFactory() : IC\MessageBox\Factory
+    public function getMessageBoxFactory(): IC\MessageBox\Factory
     {
         return new IC\MessageBox\Factory();
     }
-    public function getButtonFactory() : IC\Button\Factory
+    public function getButtonFactory(): IC\Button\Factory
     {
         return new IC\Button\Factory();
     }
-    public function getLinkFactory() : IC\Link\Factory
+    public function getLinkFactory(): IC\Link\Factory
     {
         return new IC\Link\Factory();
     }
 
-    public function messagebox_type_provider() : array
+    public function messagebox_type_provider(): array
     {
         return array( array(C\MessageBox\MessageBox::FAILURE)
         , array(C\MessageBox\MessageBox::SUCCESS)
@@ -41,10 +57,10 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     , C\MessageBox\MessageBox::CONFIRMATION => "alert-warning"
     );
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function listing() : IC\Listing\Factory
+        return new class () extends NoUIFactory {
+            public function listing(): IC\Listing\Factory
             {
                 return new IC\Listing\Factory();
             }
@@ -54,7 +70,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_implements_factory_interface(string $factory_method) : void
+    public function test_implements_factory_interface(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
 
@@ -65,7 +81,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_messagebox_types(string $factory_method) : void
+    public function test_messagebox_types(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.");
@@ -77,7 +93,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_messagebox_messagetext(string $factory_method) : void
+    public function test_messagebox_messagetext(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $g = $f->$factory_method("Lorem ipsum dolor sit amet.");
@@ -89,7 +105,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_with_buttons(string $factory_method) : void
+    public function test_with_buttons(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -105,7 +121,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_with_links(string $factory_method) : void
+    public function test_with_links(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $lf = $this->getLinkFactory();
@@ -124,7 +140,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_with_buttons_and_links(string $factory_method) : void
+    public function test_with_buttons_and_links(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -145,7 +161,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_render_simple(string $factory_method) : void
+    public function test_render_simple(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $r = $this->getDefaultRenderer();
@@ -162,7 +178,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_render_with_buttons(string $factory_method) : void
+    public function test_render_with_buttons(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();
@@ -185,7 +201,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_render_with_links(string $factory_method) : void
+    public function test_render_with_links(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $lf = $this->getLinkFactory();
@@ -211,7 +227,7 @@ class MessageBoxTest extends ILIAS_UI_TestBase
     /**
      * @dataProvider messagebox_type_provider
      */
-    public function test_render_with_buttons_and_links(string $factory_method) : void
+    public function test_render_with_buttons_and_links(string $factory_method): void
     {
         $f = $this->getMessageBoxFactory();
         $bf = $this->getButtonFactory();

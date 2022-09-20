@@ -1,12 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\Examples\Popover\Standard;
+
+use ILIAS\UI\Implementation\Component\ReplaceContentSignal;
 
 function show_popover_with_dynamic_changing_content()
 {
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     // This example shows how to change the content of a popover dynamically with ajax requests.
     // Each popover offers a signal to replace its content, similar to the show signal which shows the popover.
@@ -19,11 +25,11 @@ function show_popover_with_dynamic_changing_content()
     $url = $_SERVER['REQUEST_URI'];
 
     // This is an ajax request to render the overview page showing the three buttons
-    if (isset($_GET['page']) && $_GET['page'] == 'overview') {
+    if ($request_wrapper->has('page') && $request_wrapper->retrieve('page', $refinery->kindlyTo()->string()) == 'overview') {
         // Note: The ID of the replace signal is sent explicitly as GET parameter. This is a proof of concept
         // and may be subject to change, as the framework could send such parameters implicitly.
-        $signalId = $_GET['replaceSignal'];
-        $replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceContentSignal($signalId);
+        $signalId = $request_wrapper->retrieve('replaceSignal', $refinery->kindlyTo()->string());
+        $replaceSignal = new ReplaceContentSignal($signalId);
         $button1 = $factory->button()->standard('Go to page 1', '#')
             ->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=1&replaceSignal=' . $signalId));
         $button2 = $factory->button()->standard('Go to page 2', '#')
@@ -36,13 +42,13 @@ function show_popover_with_dynamic_changing_content()
     }
 
     // This is an ajax request to render a page
-    if (isset($_GET['page'])) {
-        $page = (int) $_GET['page'];
-        $signalId = $_GET['replaceSignal'];
-        $replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceContentSignal($signalId);
+    if ($request_wrapper->has('page')) {
+        $page = $request_wrapper->retrieve('page', $refinery->kindlyTo()->int());
+        $signalId = $request_wrapper->retrieve('replaceSignal', $refinery->kindlyTo()->string());
+        $replaceSignal = new ReplaceContentSignal($signalId);
         $button = $factory->button()->standard('Back to Overview', '#')
             ->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=overview&replaceSignal=' . $signalId));
-        $intro = $factory->legacy("<p>You are viewing page {$page}</p>");
+        $intro = $factory->legacy("<p>You are viewing page $page</p>");
         echo $renderer->renderAsync([$intro, $button]);
         exit();
     }

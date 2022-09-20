@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -38,7 +40,7 @@ class ilObjRootFolderListGUI extends ilObjectListGUI
             ->standardRequest();
     }
 
-    public function init()
+    public function init(): void
     {
         $this->copy_enabled = false;
         $this->delete_enabled = true;
@@ -52,12 +54,12 @@ class ilObjRootFolderListGUI extends ilObjectListGUI
         $this->commands = ilObjRootFolderAccess::_getCommands();
     }
 
-    public function getCommandLink($a_cmd)
+    public function getCommandLink(string $cmd): string
     {
         global $ilCtrl;
 
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+        $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->root_request->getRefId());
 
         return $cmd_link;

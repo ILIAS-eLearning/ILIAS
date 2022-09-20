@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -36,10 +39,10 @@ class ilRSSButtonGUI
     public static function get(
         string $a_type,
         string $a_href = ""
-    ) : string {
+    ): string {
         $tpl = new ilTemplate("tpl.rss_icon.html", true, true, "Services/News");
 
-        if ($a_href != "") {
+        if ($a_href !== "") {
             $tpl->setCurrentBlock("a_start");
             $tpl->setVariable("HREF", $a_href);
             $tpl->parseCurrentBlock();

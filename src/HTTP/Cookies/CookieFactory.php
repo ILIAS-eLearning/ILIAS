@@ -2,6 +2,19 @@
 
 namespace ILIAS\HTTP\Cookies;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Interface CookieFactory
  *
@@ -14,16 +27,13 @@ namespace ILIAS\HTTP\Cookies;
  */
 interface CookieFactory
 {
-
     /**
      * Create a new cookie with the given name and value.
      *
      * @param string      $name  The unique cookie name.
      * @param null|string $value Cookie value.
-     *
-     * @return Cookie
      */
-    public function create(string $name, string $value = null) : Cookie;
+    public function create(string $name, string $value = null): Cookie;
 
 
     /**
@@ -31,10 +41,8 @@ interface CookieFactory
      *
      * @param string      $name  The unique cookie name.
      * @param null|string $value Cookie value.
-     *
-     * @return Cookie
      */
-    public function createRememberedForLongTime(string $name, string $value = null) : Cookie;
+    public function createRememberedForLongTime(string $name, string $value = null): Cookie;
 
 
     /**
@@ -42,18 +50,14 @@ interface CookieFactory
      * This is useful if the cookie should be deleted at the client end.
      *
      * @param string $name Cookie name.
-     *
-     * @return Cookie
      */
-    public function createExpired(string $name) : Cookie;
+    public function createExpired(string $name): Cookie;
 
 
     /**
      * Creates the cookie from the cookie string.
      *
      * @param string $string Cookie string.
-     *
-     * @return Cookie
      */
-    public function fromSetCookieString(string $string) : Cookie;
+    public function fromSetCookieString(string $string): Cookie;
 }

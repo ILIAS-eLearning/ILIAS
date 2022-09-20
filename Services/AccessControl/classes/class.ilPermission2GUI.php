@@ -1,137 +1,141 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+declare(strict_types=1);
 
 /**
-* Class ilPermissionGUI
-* RBAC related output
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @version $Id: class.ilPermissionGUI.php 20310 2009-06-23 12:57:19Z smeyer $
-*
-*
-* @ingroup	ServicesAccessControl
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
+/**
+ * Class ilPermissionGUI
+ * RBAC related output
+ * @author     Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup    ServicesAccessControl
+ */
 class ilPermission2GUI
 {
-    protected $gui_obj = null;
-    protected $ilErr = null;
-    protected $ctrl = null;
-    protected $lng = null;
-    const TAB_POSITION_PERMISSION_SETTINGS = "position_permission_settings";
+    private const TAB_POSITION_PERMISSION_SETTINGS = "position_permission_settings";
 
+    protected object $gui_obj;
+    protected ilErrorHandling $ilErr;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilObjectDefinition $objDefinition;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilRbacAdmin $rbacadmin;
+    protected ilObjectDataCache $objectDataCache;
+    protected ilTabsGUI $tabs;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
-    public function __construct($a_gui_obj)
+    private array $roles = [];
+    private int $num_roles = 0;
+
+    public function __construct(object $a_gui_obj)
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $objDefinition = $DIC['objDefinition'];
-        $tpl = $DIC['tpl'];
-        $tree = $DIC['tree'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilErr = $DIC['ilErr'];
-        $lng = $DIC['lng'];
-        
-        if (!isset($ilErr)) {
-            $ilErr = new ilErrorHandling();
-            $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr,'errorHandler'));
-        } else {
-            $this->ilErr = &$ilErr;
-        }
-
-        $this->objDefinition = &$objDefinition;
-        $this->tpl = &$tpl;
-        $this->lng = &$lng;
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->objectDataCache = $DIC['ilObjDataCache'];
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("rbac");
-
-        $this->ctrl = &$ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacreview = $DIC->rbac()->review();
+        $this->rbacadmin = $DIC->rbac()->admin();
+        $this->tabs = $DIC->tabs();
+        $this->ilErr = $DIC['ilErr'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->gui_obj = $a_gui_obj;
-        
-        $this->roles = array();
-        $this->num_roles = 0;
     }
-    
-
-
-    
 
     // show owner sub tab
-    public function owner()
+    public function owner(): void
     {
         $this->__initSubTabs("owner");
-        
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "owner"));
         $form->setTitle($this->lng->txt("info_owner_of_object"));
-        
+
         $login = new ilTextInputGUI($this->lng->txt("login"), "owner");
         $login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
-            'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));
+                                                                      'ilRepositorySearchGUI'
+        ), 'doUserAutoComplete', '', true));
         $login->setRequired(true);
         $login->setSize(50);
         $login->setInfo($this->lng->txt("chown_warning"));
-        $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
+        $login->setValue(ilObjUser::_lookupLogin($this->gui_obj->getObject()->getOwner()));
         $form->addItem($login);
-        
         $form->addCommandButton("changeOwner", $this->lng->txt("change_owner"));
-        
         $this->tpl->setContent($form->getHTML());
     }
-    
-    public function changeOwner()
+
+    public function changeOwner(): void
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$user_id = ilObjUser::_lookupId($_POST['owner'])) {
-            ilUtil::sendFailure($this->lng->txt('user_not_known'));
-            $this->owner();
-            return true;
+        $owner = '';
+        if ($this->http->wrapper()->post()->has('owner')) {
+            $owner = $this->http->wrapper()->post()->retrieve(
+                'owner',
+                $this->refinery->kindlyTo()->string()
+            );
         }
-        
-        // no need to change?
-        if ($user_id != $this->gui_obj->object->getOwner()) {
-            $this->gui_obj->object->setOwner($user_id);
-            $this->gui_obj->object->updateOwner();
-            $ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());
+        if (!$user_id = ilObjUser::_lookupId($owner)) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('user_not_known'));
+            $this->owner();
+            return;
+        }
 
-            include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+        // no need to change?
+        if ($user_id != $this->gui_obj->getObject()->getOwner()) {
+            $this->gui_obj->getObject()->setOwner($user_id);
+            $this->gui_obj->getObject()->updateOwner();
+            $this->objectDataCache->deleteCachedEntry($this->gui_obj->getObject()->getId());
+
             if (ilRbacLog::isActive()) {
-                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
+                ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->getObject()->getRefId(), array($user_id));
             }
         }
-        
-        ilUtil::sendSuccess($this->lng->txt('owner_updated'), true);
 
-        if (!$rbacsystem->checkAccess("edit_permission", $this->gui_obj->object->getRefId())) {
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('owner_updated'), true);
+
+        if (!$this->rbacsystem->checkAccess("edit_permission", $this->gui_obj->getObject()->getRefId())) {
             $this->ctrl->redirect($this->gui_obj);
-            return true;
+            return;
         }
-
         $this->ctrl->redirect($this, 'owner');
-        return true;
     }
-    
+
     // init sub tabs
-    public function __initSubTabs($a_cmd)
+    public function __initSubTabs(string $a_cmd): void
     {
-        global $DIC;
+        $perm = $a_cmd == 'perm';
+        $perm_positions = $a_cmd == ilPermissionGUI::CMD_PERM_POSITIONS;
+        $info = $a_cmd == 'perminfo';
+        $owner = $a_cmd == 'owner';
+        $log = $a_cmd == 'log';
 
-        $ilTabs = $DIC['ilTabs'];
-
-        $perm = ($a_cmd == 'perm') ? true : false;
-        $perm_positions = ($a_cmd == ilPermissionGUI::CMD_PERM_POSITIONS) ? true : false;
-        $info = ($a_cmd == 'perminfo') ? true : false;
-        $owner = ($a_cmd == 'owner') ? true : false;
-        $log = ($a_cmd == 'log') ? true : false;
-
-        $ilTabs->addSubTabTarget(
+        $this->tabs->addSubTabTarget(
             "permission_settings",
             $this->ctrl->getLinkTarget($this, "perm"),
             "",
@@ -140,19 +144,26 @@ class ilPermission2GUI
             $perm
         );
 
-        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->object->getId())) {
-            $ilTabs->addSubTabTarget(self::TAB_POSITION_PERMISSION_SETTINGS, $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS), "", "", "", $perm_positions);
+        if (ilOrgUnitGlobalSettings::getInstance()->isPositionAccessActiveForObject($this->gui_obj->getObject()->getId())) {
+            $this->tabs->addSubTabTarget(
+                self::TAB_POSITION_PERMISSION_SETTINGS,
+                $this->ctrl->getLinkTarget($this, ilPermissionGUI::CMD_PERM_POSITIONS),
+                "",
+                "",
+                "",
+                $perm_positions
+            );
         }
-                                 
-        $ilTabs->addSubTabTarget(
+
+        $this->tabs->addSubTabTarget(
             "info_status_info",
-            $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilobjectpermissionstatusgui"), "perminfo"),
+            $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilobjectpermissionstatusgui"), "perminfo"),
             "",
             "",
             "",
             $info
         );
-        $ilTabs->addSubTabTarget(
+        $this->tabs->addSubTabTarget(
             "owner",
             $this->ctrl->getLinkTarget($this, "owner"),
             "",
@@ -161,9 +172,8 @@ class ilPermission2GUI
             $owner
         );
 
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         if (ilRbacLog::isActive()) {
-            $ilTabs->addSubTabTarget(
+            $this->tabs->addSubTabTarget(
                 "rbac_log",
                 $this->ctrl->getLinkTarget($this, "log"),
                 "",
@@ -173,34 +183,30 @@ class ilPermission2GUI
             );
         }
     }
-    
-    public function log()
+
+    public function log(): void
     {
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         if (!ilRbacLog::isActive()) {
             $this->ctrl->redirect($this, "perm");
         }
 
         $this->__initSubTabs("log");
 
-        include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function applyLogFilter()
+    public function applyLogFilter(): void
     {
-        include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();
         $table->writeFilterToSession();
         $this->log();
     }
 
-    public function resetLogFilter()
+    public function resetLogFilter(): void
     {
-        include_once "Services/AccessControl/classes/class.ilRbacLogTableGUI.php";
-        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->object->getRefId());
+        $table = new ilRbacLogTableGUI($this, "log", $this->gui_obj->getObject()->getRefId());
         $table->resetOffset();
         $table->resetFilter();
         $this->log();

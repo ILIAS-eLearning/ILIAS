@@ -6,7 +6,7 @@ div.il_Preconditions {
 div.il_PreconditionsTitel {
 	margin-top: 3px;
 	text-align: left;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 [dir="rtl"] div.il_PreconditionsTitel {
@@ -19,15 +19,19 @@ div.ilPreconditionItem {
 
 /* Repository */
 div.ilContainerListItemOuter {
-	padding: @panel-body-padding @padding-large-horizontal;
+	padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 	zoom: 1;
+
+	.subitem {
+		margin-right: -@il-padding-xlarge-horizontal;
+	}
 }
 [dir="rtl"] div.ilContainerListItemOuter {
 	display: table;
 }
 div.tblfooter {
 	&.ilContainerListFooter {
-		font-size: 100%;
+		font-size: @il-font-size-base;
 		padding: 3px 0 0 10px;
 		text-align: left;
 		> input {
@@ -49,7 +53,7 @@ input[name^="position[blocks]"] {
 
 [dir="rtl"] .ilContainerListFooter {
 	padding-left: 0;
-	padding-right: 15px;
+	padding-right: @il-padding-xlarge-horizontal;
 }
 
 div.ilListItemSection {
@@ -58,8 +62,7 @@ div.ilListItemSection {
 }
 
 div.ilContainerListItemOuterHighlight {
-	padding: 15px;
-	background-color: #ffffd9;
+	background-color: @il-highlight-bg;
 	zoom: 1;
 }
 
@@ -73,7 +76,7 @@ div.ilContainerListItemCB {
 	width: 25px;*/
 	display: table-cell;
 	vertical-align: top;
-	padding-right: 10px;
+	padding-right: @il-padding-xlarge-horizontal;
 
 	img{
 		width: 20px;
@@ -93,7 +96,7 @@ div.ilContainerListItemIcon {
 }
 div.ilContainerListItemIcon a {
 	display: block;
-	margin-top: -3px;
+	margin-top: -@il-padding-small-vertical;
 }
 
 [dir="rtl"] div.ilContainerListItemIcon {
@@ -101,18 +104,18 @@ div.ilContainerListItemIcon a {
 }
 
 div.ilContainerListItemIconCB {
-	margin-left: 25px;
+	margin-left: @il-padding-xlarge-horizontal;
 }
 
 [dir="rtl"] div.ilContainerListItemIconCB {
 	margin-left: 0;
-	margin-right: 25px;
+	margin-right: @il-padding-xlarge-horizontal;
 }
 
 div[class^="il_editarea"] .ilContainerListItemOuter img,
 img.ilListItemIcon {
-	width: 35px;
-	height: 35px;
+	width: @il-icon-size-medium;
+	height: @il-icon-size-medium;
 	max-width: none;
 }
 
@@ -139,25 +142,30 @@ div.ilContainerListItemContentCB {
 }
 
 div.il_ContainerListItem {
-	margin: 2px 0;
-	padding-left: 8px;
+	margin: @il-padding-small-vertical 0;
+	padding-left: @il-padding-base;
 	width:100%;
 }
 
 [dir="rtl"] div.il_ContainerListItem {
 	padding-left: 0;
-	padding-right: 8px;
+	padding-right: @il-padding-base;
 }
 
 .ilContainerBlockHeader {
 	background-color: @il-main-dark-bg;
-	padding: @panel-heading-padding;
-	font-weight: 400;
+	padding: @il-panel-heading-padding;
+	font-weight: @il-font-weight-base;
 	text-align: left;
 	vertical-align: middle;
 	h3{
 		margin: 0;
-		color: @panel-heading-color;
+		color: @il-panel-heading-color;
+	}
+	//See headings overlays input field in sorting view 32364
+	.form-control {
+		width: auto;
+		display: inline-block;
 	}
 }
 
@@ -188,6 +196,10 @@ div.il_ContainerListItem {
 	width: 100%;
 	clear: both;
 	margin-bottom: 20px;
+	border: @il-panel-border;
+	border-radius: @il-panel-border-radius;
+	-webkit-box-shadow: @il-panel-shadow;
+    box-shadow: @il-panel-shadow;
 }
 
 div#cont_paste_explorer_tree ul.il_Explorer {
@@ -219,7 +231,7 @@ div#ilContRepIntro img {
 
 .ilContObjectiveIntro {
 	background-color: @il-main-dark-bg;
-	padding: 1px 15px;
+	padding: @il-padding-xs-vertical @il-padding-xlarge-horizontal;
 }
 
 .ilContObjectivesViewTestItem {
@@ -229,13 +241,9 @@ div#ilContRepIntro img {
 
 
 .ilContainerTileRows {
-	margin: 0px -15px 0 -15px;
-	padding: @padding-large-vertical @padding-large-horizontal;
+	margin: 0px -@il-padding-xlarge-horizontal 0 -@il-padding-xlarge-horizontal;
+	padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 	background-color: @il-main-bg;
-
-	>.il-deck{
-		margin: 0 5px;
-	}
 }
 
 .ilContainerTileRows .card-no-highlight {
@@ -254,5 +262,24 @@ div#ilContRepIntro img {
 	padding: 15px 10px;
 	background-color: @il-main-dark-bg;
 	text-align: center;
-	margin: 0 -15px;
+	margin: 0 -@il-padding-xlarge-horizontal;
+}
+
+.il_ContainerListItem .navbar-form .modal .radio {
+       display: block;
+}
+
+.il_ContainerListItem .navbar-form .modal .form-group {
+       display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .radio {
+	display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .form-group {
+	display: block;
+}
+.il_ContainerItemTitle .btn {
+	font-size: @il-font-size-large;
 }

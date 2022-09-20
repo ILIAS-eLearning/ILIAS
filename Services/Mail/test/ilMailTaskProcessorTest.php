@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -15,12 +31,15 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     private ilLanguage $languageMock;
     private Container $dicMock;
     private ilLogger $loggerMock;
+    protected const SOME_USER_ID = 113;
 
     /**
      * @throws ReflectionException
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -35,10 +54,10 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
-    public function testOneTask() : void
+    public function testOneTask(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -74,7 +93,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObject = new ilMailValueObject(
@@ -104,10 +123,10 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
-    public function testRunTwoTasks() : void
+    public function testRunTwoTasks(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -143,7 +162,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -181,10 +200,10 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     }
 
     /**
-     * @throws ilException
+     * @throws ilMailException
      * @throws ReflectionException
      */
-    public function testRunThreeTasksInDifferentBuckets() : void
+    public function testRunThreeTasksInDifferentBuckets(): void
     {
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -220,7 +239,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];
@@ -270,11 +289,11 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
 
     /**
      * @throws ReflectionException
-     * @throws ilException
+     * @throws ilMailException
      */
-    public function testRunHasWrongTypeAndWillResultInException() : void
+    public function testRunHasWrongTypeAndWillResultInException(): void
     {
-        $this->expectException(ilException::class);
+        $this->expectException(ilMailException::class);
 
         $taskManager = $this->getMockBuilder(BasicTaskManager::class)
             ->onlyMethods(['run'])
@@ -310,7 +329,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             $this->loggerMock,
             $this->dicMock,
             new ilMailValueObjectJsonService(),
-            'SomeAnonymousUserId'
+            self::SOME_USER_ID
         );
 
         $mailValueObjects = [];

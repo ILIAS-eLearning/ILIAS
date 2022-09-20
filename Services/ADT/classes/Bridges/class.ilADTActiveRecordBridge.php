@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -19,14 +21,14 @@ abstract class ilADTActiveRecordBridge
         $this->setADT($a_adt);
     }
 
-    abstract protected function isValidADT(ilADT $a_adt) : bool;
+    abstract protected function isValidADT(ilADT $a_adt): bool;
 
     /**
      * Set ADT
      * @param ilADT $a_adt
      * @throws InvalidArgumentException
      */
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->isValidADT($a_adt)) {
             throw new \InvalidArgumentException('ADTActiveRecordBridge Type mismatch.');
@@ -38,17 +40,17 @@ abstract class ilADTActiveRecordBridge
      * Get ADT
      * @return ilADT
      */
-    public function getADT() : ilADT
+    public function getADT(): ilADT
     {
         return $this->adt;
     }
 
-    public function setTable(string $a_table) : void
+    public function setTable(string $a_table): void
     {
         $this->table = $a_table;
     }
 
-    public function getTable() : ?string
+    public function getTable(): ?string
     {
         return $this->table;
     }
@@ -57,7 +59,7 @@ abstract class ilADTActiveRecordBridge
      * Set element id (aka DB column[s] [prefix])
      * @param string $a_value
      */
-    public function setElementId(string $a_value) : void
+    public function setElementId(string $a_value): void
     {
         $this->id = $a_value;
     }
@@ -66,7 +68,7 @@ abstract class ilADTActiveRecordBridge
      * Get element id
      * @return string | null
      */
-    public function getElementId() : ?string
+    public function getElementId(): ?string
     {
         return $this->id;
     }
@@ -75,7 +77,7 @@ abstract class ilADTActiveRecordBridge
      * Set primary fields (in MDB2 format)
      * @param string[] $a_value
      */
-    public function setPrimary(array $a_value) : void
+    public function setPrimary(array $a_value): void
     {
         $this->primary = $a_value;
     }
@@ -84,7 +86,7 @@ abstract class ilADTActiveRecordBridge
      * Get primary fields
      * @return string[]
      */
-    public function getPrimary() : array
+    public function getPrimary(): array
     {
         return $this->primary;
     }
@@ -93,19 +95,19 @@ abstract class ilADTActiveRecordBridge
      * Convert ADT to active record fields
      * @return array
      */
-    abstract public function getActiveRecordFields() : array;
+    abstract public function getActiveRecordFields(): array;
 
     /**
      * Get field value
      * @param string $a_field_name
-     * @return mixed
+     * @return
      */
-    abstract public function getFieldValue(string $a_field_name) : mixed;
+    abstract public function getFieldValue(string $a_field_name);
 
     /**
      * Set field value
      * @param string $a_field_name
-     * @param mixed  $a_field_value
+     * @param string|int       $a_field_value
      */
-    abstract public function setFieldValue(string $a_field_name, mixed $a_field_value) : void;
+    abstract public function setFieldValue(string $a_field_name, $a_field_value): void;
 }

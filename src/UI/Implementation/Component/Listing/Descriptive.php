@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
@@ -22,12 +38,8 @@ class Descriptive implements C\Listing\Descriptive
         $this->checkArgList(
             "Descriptive List items",
             $items,
-            function ($k, $v) {
-                return is_string($k) && (is_string($v) || $v instanceof C\Component);
-            },
-            function ($k, $v) {
-                return "expected keys of type string and values of type string|Component, got ($k => $v)";
-            }
+            fn ($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
+            fn ($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
         );
 
         $this->items = $items;
@@ -36,17 +48,13 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function withItems(array $items) : C\Listing\Descriptive
+    public function withItems(array $items): C\Listing\Descriptive
     {
         $this->checkArgList(
             "Descriptive List items",
             $items,
-            function ($k, $v) {
-                return is_string($k) && (is_string($v) || $v instanceof C\Component);
-            },
-            function ($k, $v) {
-                return "expected keys of type string and values of type string|Component, got ($k => $v)";
-            }
+            fn ($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
+            fn ($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
         );
 
         $clone = clone $this;
@@ -57,7 +65,7 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

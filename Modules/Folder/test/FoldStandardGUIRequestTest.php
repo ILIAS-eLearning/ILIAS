@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -9,18 +11,11 @@ use PHPUnit\Framework\TestCase;
  */
 class FoldStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Folder\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Folder\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -37,7 +32,7 @@ class FoldStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId()
+    public function testRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -55,7 +50,7 @@ class FoldStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId()
+    public function testNoRefId(): void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +67,7 @@ class FoldStandardGUIRequestTest extends TestCase
     /**
      * Test base class
      */
-    public function testBaseClass()
+    public function testBaseClass(): void
     {
         $request = $this->getRequest(
             [
@@ -90,7 +85,7 @@ class FoldStandardGUIRequestTest extends TestCase
     /**
      * Test cmd class
      */
-    public function testCmdClass()
+    public function testCmdClass(): void
     {
         $request = $this->getRequest(
             [
@@ -108,7 +103,7 @@ class FoldStandardGUIRequestTest extends TestCase
     /**
      * Test user id
      */
-    public function testUserId()
+    public function testUserId(): void
     {
         $request = $this->getRequest(
             [

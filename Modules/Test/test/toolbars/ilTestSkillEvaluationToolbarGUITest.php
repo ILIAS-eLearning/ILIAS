@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,8 +11,10 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestSkillEvaluationToolbarGUI $toolbarGUI;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $this->setGlobalVariable("lng", $lng_mock);
@@ -24,12 +28,12 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillEvaluationToolbarGUI::class, $this->toolbarGUI);
     }
 
-    public function testAvailableSkillProfiles() : void
+    public function testAvailableSkillProfiles(): void
     {
         $expected = ["test1", "test2", "test3"];
 
@@ -38,7 +42,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->toolbarGUI->getAvailableSkillProfiles());
     }
 
-    public function testNoSkillProfileOptionEnabled() : void
+    public function testNoSkillProfileOptionEnabled(): void
     {
         $this->toolbarGUI->setNoSkillProfileOptionEnabled(true);
         $this->assertTrue($this->toolbarGUI->isNoSkillProfileOptionEnabled());
@@ -47,13 +51,13 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
         $this->assertFalse($this->toolbarGUI->isNoSkillProfileOptionEnabled());
     }
 
-    public function testSelectedEvaluationMode() : void
+    public function testSelectedEvaluationMode(): void
     {
         $this->toolbarGUI->setSelectedEvaluationMode("testString");
         $this->assertEquals("testString", $this->toolbarGUI->getSelectedEvaluationMode());
     }
 
-    public function testFetchSkillProfileParam() : void
+    public function testFetchSkillProfileParam(): void
     {
         $result = ilTestSkillEvaluationToolbarGUI::fetchSkillProfileParam(
             [ilTestSkillEvaluationToolbarGUI::SKILL_PROFILE_PARAM => "102"]

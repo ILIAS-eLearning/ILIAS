@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,57 +13,54 @@ class ilTestSkillLevelThresholdImportList implements Iterator
     protected $originalSkillTitles = array();
     protected $originalSkillPaths = array();
     protected $importedSkillLevelThresholds = array();
-    
+
     public function addOriginalSkillTitle($skillBaseId, $skillTrefId, $originalSkillTitle)
     {
         $this->originalSkillTitles["{$skillBaseId}:{$skillTrefId}"] = $originalSkillTitle;
     }
-    
+
     public function addOriginalSkillPath($skillBaseId, $skillTrefId, $originalSkillPath)
     {
         $this->originalSkillPaths["{$skillBaseId}:{$skillTrefId}"] = $originalSkillPath;
     }
-    
+
     public function addSkillLevelThreshold(ilTestSkillLevelThresholdImport $importedSkillLevelThreshold)
     {
         $this->importedSkillLevelThresholds[] = $importedSkillLevelThreshold;
     }
-    
-    public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId)
+
+    public function getThresholdsByImportSkill($importSkillBaseId, $importSkillTrefId): array
     {
         $thresholds = array();
-        
+
         foreach ($this as $skillLevelThreshold) {
             if ($skillLevelThreshold->getImportSkillBaseId() != $importSkillBaseId) {
                 continue;
             }
-            
+
             if ($skillLevelThreshold->getImportSkillTrefId() != $importSkillTrefId) {
                 continue;
             }
-            
+
             $thresholds[] = $skillLevelThreshold;
         }
-        
+
         return $thresholds;
     }
-    
+
     /**
      * @return ilTestSkillLevelThresholdImport
      */
-    public function current()
+    public function current(): ilTestSkillLevelThresholdImport
     {
         return current($this->importedSkillLevelThresholds);
     }
-    
-    /**
-     * @return ilTestSkillLevelThresholdImport
-     */
+
     public function next()
     {
         return next($this->importedSkillLevelThresholds);
     }
-    
+
     /**
      * @return integer|bool
      */
@@ -70,15 +68,15 @@ class ilTestSkillLevelThresholdImportList implements Iterator
     {
         return key($this->importedSkillLevelThresholds);
     }
-    
+
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return key($this->importedSkillLevelThresholds) !== null;
     }
-    
+
     /**
      * @return ilTestSkillLevelThresholdImport|bool
      */

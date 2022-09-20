@@ -1,6 +1,26 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
+<?php
+
+declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
+use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -12,6 +32,10 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUserUtil;
 use ilUtil;
+use ILIAS\GlobalScreen\Services;
+use ILIAS\DI\UIServices;
+use ilLanguage;
+use ILIAS\GlobalScreen\Client\CallbackHandler;
 
 /**
  * Class StandardPagePartProvider
@@ -23,22 +47,10 @@ class StandardPagePartProvider implements PagePartProvider
     use isSupportedTrait;
     use SlateSessionStateCode;
 
-    /**
-     * @var Legacy
-     */
-    protected $content;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $gs;
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ilLanguage
-     */
-    protected $lang;
+    protected Legacy $content;
+    protected Services $gs;
+    protected UIServices $ui;
+    protected ilLanguage $lang;
 
     /**
      * @inheritDoc
@@ -54,7 +66,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getContent() : ?Legacy
+    public function getContent(): ?Legacy
     {
         return $this->content ?? $this->ui->factory()->legacy("");
     }
@@ -62,16 +74,17 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMetaBar() : ?MetaBar
+    public function getMetaBar(): ?MetaBar
     {
         $this->gs->collector()->metaBar()->collectOnce();
         if (!$this->gs->collector()->metaBar()->hasItems()) {
             return null;
         }
-        $f        = $this->ui->factory();
+        $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
         foreach ($this->gs->collector()->metaBar()->getItemsForUIRepresentation() as $item) {
+            /** @var $item isGlobalScreenItem */
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);
@@ -84,21 +97,22 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getMainBar() : ?MainBar
+    public function getMainBar(): ?MainBar
     {
         $this->gs->collector()->mainmenu()->collectOnce();
-        if (!$this->gs->collector()->mainmenu()->hasItems()) {
+        if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
+            && !$this->gs->collector()->tool()->hasVisibleItems()) {
             return null;
         }
 
-        $f        = $this->ui->factory();
+        $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
         foreach ($this->gs->collector()->mainmenu()->getItemsForUIRepresentation() as $item) {
             /**
              * @var $component Combined
              */
-            $component  = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
+            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
             $identifier = $this->hash($item->getProviderIdentification()->serialize());
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -107,7 +121,7 @@ class StandardPagePartProvider implements PagePartProvider
         }
 
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
+        $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("icon_tool.svg"), $this->lang->txt('more'));
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
@@ -116,18 +130,20 @@ class StandardPagePartProvider implements PagePartProvider
              * @var $main_bar MainBar
              */
             foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
+                /** @var $tool isToolItem */
                 if (!$tool instanceof isToolItem) {
                     continue;
                 }
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
 
-                $identifier   = $this->hash($tool->getProviderIdentification()->serialize());
+                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $close_button = null;
                 if ($tool->hasCloseCallback()) {
                     $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
+                        $key_item = CallbackHandler::KEY_ITEM;
                         return "$('#$id').on('click', function(){
                             $.ajax({
-                                url: 'src/GlobalScreen/Client/callback_handler.php?item=$identifier'
+                                url: 'src/GlobalScreen/Client/callback_handler.php?$key_item=$identifier'
                             }).done(function() {
                                 console.log('done closing');
                             });
@@ -144,13 +160,13 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getBreadCrumbs() : ?Breadcrumbs
+    public function getBreadCrumbs(): ?Breadcrumbs
     {
         // TODO this currently gets the items from ilLocatorGUI, should that serve be removed with
         // something like GlobalScreen\Scope\Locator\Item
         global $DIC;
 
-        $f      = $this->ui->factory();
+        $f = $this->ui->factory();
         $crumbs = [];
         foreach ($DIC['ilLocator']->getItems() as $item) {
             if (empty($item['title']) || empty($item['link'])) {
@@ -165,23 +181,48 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getLogo() : ?Image
+    public function getLogo(): ?Image
     {
-        $std_logo      = ilUtil::getImagePath("HeaderIcon.svg");
-        $std_logo_link = ilUserUtil::getStartingPointAsUrl();
-        if (!$std_logo_link) {
-            $std_logo_link = "./goto.php?target=root_1";
-        }
+        $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
 
         return $this->ui->factory()->image()
                         ->standard($std_logo, "ILIAS")
-                        ->withAction($std_logo_link);
+                        ->withAction($this->getStartingPointAsUrl());
     }
 
     /**
      * @inheritDoc
      */
-    public function getSystemInfos() : array
+    public function getResponsiveLogo(): ?Image
+    {
+        $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
+
+        return $this->ui->factory()->image()
+                        ->standard($responsive_logo, "ILIAS")
+                        ->withAction($this->getStartingPointAsUrl());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFaviconPath(): string
+    {
+        return ilUtil::getImagePath("favicon.ico");
+    }
+
+    protected function getStartingPointAsUrl(): string
+    {
+        $std_logo_link = ilUserUtil::getStartingPointAsUrl();
+        if (!$std_logo_link) {
+            $std_logo_link = "./goto.php?target=root_1";
+        }
+        return $std_logo_link;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSystemInfos(): array
     {
         $system_infos = [];
 
@@ -190,13 +231,12 @@ class StandardPagePartProvider implements PagePartProvider
         }
 
         return $system_infos;
-
     }
 
     /**
      * @inheritDoc
      */
-    public function getFooter() : ?Footer
+    public function getFooter(): ?Footer
     {
         return $this->ui->factory()->mainControls()->footer([]);
     }
@@ -204,7 +244,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return 'title';
     }
@@ -212,7 +252,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getShortTitle() : string
+    public function getShortTitle(): string
     {
         return 'short';
     }
@@ -220,7 +260,7 @@ class StandardPagePartProvider implements PagePartProvider
     /**
      * @inheritDoc
      */
-    public function getViewTitle() : string
+    public function getViewTitle(): string
     {
         return 'view';
     }

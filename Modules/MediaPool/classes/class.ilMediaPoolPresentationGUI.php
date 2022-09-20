@@ -1,52 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Top level GUI class for media pools.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilMediaPoolPresentationGUI: ilObjMediaPoolGUI
- *
- * @ingroup ModulesMediaPool
  */
-class ilMediaPoolPresentationGUI
+class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected \ILIAS\MediaPool\StandardGUIRequest $request;
+    protected ilCtrl $ctrl;
+    protected ilAccessHandler $access;
+    protected ilNavigationHistory $nav_history;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilObjectDefinition $objDefinition;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objDefinition;
-
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
@@ -57,25 +41,24 @@ class ilMediaPoolPresentationGUI
         $lng = $DIC->language();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        
+
         $lng->loadLanguageModule("content");
 
         $this->ctrl = $ilCtrl;
-
         // initiate variables
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->objDefinition = $objDefinition;
         $DIC->globalScreen()->tool()->context()->claim()->repository();
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilMediaPoolGSToolProvider::SHOW_FOLDERS_TOOL, true);
+
+        $this->request = $DIC->mediaPool()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
-    /**
-     * execute command
-     * @return mixed
-     * @throws ilCtrlException
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -84,24 +67,23 @@ class ilMediaPoolPresentationGUI
         $next_class = $this->ctrl->getNextClass($this);
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $this->request->getRefId())) {
             $ilNavigationHistory->addItem(
-                $_GET["ref_id"],
-                "ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=" . $_GET["ref_id"],
+                $this->request->getRefId(),
+                "ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=" . $this->request->getRefId(),
                 "mep"
             );
         }
 
         switch ($next_class) {
             case "ilobjmediapoolgui":
-                $mep_gui = new ilObjMediaPoolGUI($_GET["ref_id"]);
+                $mep_gui = new ilObjMediaPoolGUI($this->request->getRefId());
                 $ilCtrl->forwardCommand($mep_gui);
                 break;
 
             default:
                 $this->ctrl->setCmdClass("ilobjmediapoolgui");
-                return $this->executeCommand();
-                break;
+                $this->executeCommand();
         }
     }
 }

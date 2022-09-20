@@ -1,4 +1,18 @@
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 import ACTIONS from "../actions/paragraph-action-types.js";
 import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
@@ -91,23 +105,25 @@ export default class ParagraphUIActionHandler {
           break;
 
         case PAGE_ACTIONS.COMPONENT_SWITCH:
-          if (params.oldComponentState === page_model.STATE_COMPONENT_INSERT) {
-            this.sendInsertCommand(
-              params.oldPcid,
-              page_model.getCurrentInsertPCId(),
-              page_model.getPCModel(params.oldPcid),
-              page_model
-            );
-            this.ui.handleSaveOnInsert();
-          } else {
-            this.sendUpdateCommand(
-              params.oldPcid,
-              page_model.getPCModel(params.oldPcid),
-              page_model
-            );
-            this.ui.handleSaveOnEdit();
+          if (page_model.getComponentState() !== page_model.STATE_COMPONENT_SERVER_CMD) {
+            if (params.oldComponentState === page_model.STATE_COMPONENT_INSERT) {
+              this.sendInsertCommand(
+                params.oldPcid,
+                page_model.getCurrentInsertPCId(),
+                page_model.getPCModel(params.oldPcid),
+                page_model
+              );
+              this.ui.handleSaveOnInsert();
+            } else {
+              this.sendUpdateCommand(
+                params.oldPcid,
+                page_model.getPCModel(params.oldPcid),
+                page_model
+              );
+              this.ui.handleSaveOnEdit();
+            }
+            this.ui.editParagraph(page_model.getCurrentPCId(), params.switchToEnd);
           }
-          this.ui.editParagraph(page_model.getCurrentPCId(), params.switchToEnd);
           break;
       }
     }
@@ -265,6 +281,15 @@ export default class ParagraphUIActionHandler {
 
       }
     }
+
+    switch (page_model.getComponentState()) {
+      case page_model.STATE_COMPONENT_SERVER_CMD:
+        this.ui.disableEditing();
+        break;
+      default:
+        //this.ui.enableButtons();
+        break;
+    }
   }
 
   sendInsertCommand(pcid, target_pcid, pcmodel, page_model) {
@@ -332,6 +357,8 @@ export default class ParagraphUIActionHandler {
   }
 
   handleSaveResponse(pcid, pl, page_model) {
+    const dispatch = this.dispatcher;
+    const af = this.actionFactory;
     const still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
     if (pl.error) {
       this.ui.showError(pl.error);
@@ -342,6 +369,11 @@ export default class ParagraphUIActionHandler {
       if (pl.last_update && still_editing) {
         this.ui.showLastUpdate(pl.last_update);
       }
+    }
+
+    // this is the case, if we return to the page (the page is put in STATE_SERVER_CMD state)
+    if (page_model.getState() === page_model.STATE_SERVER_CMD) {
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     }
   }
 
@@ -358,11 +390,11 @@ export default class ParagraphUIActionHandler {
         page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
+    // directly go to "EDIT" mode, since server "knows" all elements now
+    dispatch.dispatch(af.paragraph().editor().splitPostProcessing());
     this.client.sendCommand(insert_action).then(result => {
       this.ui.autoSaveEnded();
       const pl = result.getPayload();
-
-      dispatch.dispatch(af.paragraph().editor().splitPostProcessing());
 
       this.handleSaveResponseSplit(pl, page_model);
     });
@@ -389,9 +421,12 @@ export default class ParagraphUIActionHandler {
   handleSectionClass(oldCharacteristic, newCharacteristic, page_model) {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
+
     this.ui.setSectionClass(page_model.getCurrentPCId(), newCharacteristic);
 
     const is_insert = (page_model.getComponentState() === page_model.STATE_COMPONENT_INSERT);
+    page_model.setComponentState(page_model.STATE_COMPONENT_SERVER_CMD);
+
     const secClassAction = af.paragraph().command().sectionClass(
       page_model.getCurrentPCId(),
       page_model.getCurrentInsertPCId(),
@@ -409,8 +444,11 @@ export default class ParagraphUIActionHandler {
       if (is_insert) {
         dispatch.dispatch(af.paragraph().editor().autoInsertPostProcessing());
       }
+      this.ui.enableEditing();
+      page_model.setComponentState(page_model.STATE_COMPONENT_EDIT);
 
-      if (oldCharacteristic === "" && newCharacteristic !== "") {
+      if ((oldCharacteristic === "" && newCharacteristic !== "") ||
+        (oldCharacteristic !== "" && newCharacteristic === "")) {
         this.ui.pageModifier.handlePageReloadResponse(result);
         let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + page_model.getCurrentPCId() + "']");
         //this.ui.tinyWrapper.setGhostAt(content_el);
@@ -418,6 +456,7 @@ export default class ParagraphUIActionHandler {
         //this.ui.tinyWrapper.copyInputToGhost();
         this.ui.tinyWrapper.stopEditing();
         this.ui.editParagraph(page_model.getCurrentPCId());
+        this.ui.syncTiny();
       }
     });
 

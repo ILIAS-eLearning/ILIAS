@@ -41,7 +41,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get the Pattern to match relevant informations for an Expression
      * @return string
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         return '/\[(\d+)\]/';
     }
@@ -53,7 +53,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches): void
     {
         $this->answer_index = $matches[1][0];
     }
@@ -61,7 +61,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
     /**
      * @return int
      */
-    public function getQuestionIndex()
+    public function getQuestionIndex(): ?int
     {
         return null;
     }
@@ -69,7 +69,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
     /**
      * @return int
      */
-    public function getAnswerIndex()
+    public function getAnswerIndex(): int
     {
         return $this->answer_index;
     }
@@ -78,7 +78,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return 'R[' . $this->answer_index . ']';
     }
@@ -87,7 +87,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return "Aktuelle Frage mit Anwort " . $this->answer_index . " beantwortet ";
     }

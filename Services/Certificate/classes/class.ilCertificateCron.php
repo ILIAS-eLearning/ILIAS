@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 
@@ -9,42 +25,26 @@ use ILIAS\DI\Container;
  */
 class ilCertificateCron extends ilCronJob
 {
-    public const DEFAULT_SCHEDULE_HOURS = 1;
-
     protected ?ilLanguage $lng;
-    private ?ilCertificateQueueRepository $queueRepository;
-    private ?ilCertificateTemplateRepository $templateRepository;
-    private ?ilUserCertificateRepository $userRepository;
-    private ?ilLogger $logger;
-    private ?ilCertificateValueReplacement $valueReplacement;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private Container $dic;
-    private ?ilSetting $settings;
+    private ?Container $dic;
 
     public function __construct(
-        ?ilCertificateQueueRepository $queueRepository = null,
-        ?ilCertificateTemplateRepository $templateRepository = null,
-        ?ilUserCertificateRepository $userRepository = null,
-        ?ilCertificateValueReplacement $valueReplacement = null,
-        ?ilLogger $logger = null,
+        private ?ilCertificateQueueRepository $queueRepository = null,
+        private ?ilCertificateTemplateRepository $templateRepository = null,
+        private ?ilUserCertificateRepository $userRepository = null,
+        private ?ilCertificateValueReplacement $valueReplacement = null,
+        private ?ilLogger $logger = null,
         ?Container $dic = null,
         ?ilLanguage $language = null,
-        ?ilCertificateObjectHelper $objectHelper = null,
-        ?ilSetting $setting = null
+        private ?ilCertificateObjectHelper $objectHelper = null,
+        private ?ilSetting $settings = null,
+        private ?ilCronManager $cronManager = null
     ) {
         if (null === $dic) {
             global $DIC;
             $dic = $DIC;
         }
         $this->dic = $dic;
-
-        $this->queueRepository = $queueRepository;
-        $this->templateRepository = $templateRepository;
-        $this->userRepository = $userRepository;
-        $this->valueReplacement = $valueReplacement;
-        $this->logger = $logger;
-        $this->objectHelper = $objectHelper;
-        $this->settings = $setting;
 
         if ($dic && isset($dic['lng'])) {
             $language = $dic->language();
@@ -54,17 +54,17 @@ class ilCertificateCron extends ilCronJob
         $this->lng = $language;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt('cert_cron_task_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt('cert_cron_task_desc');
     }
 
-    public function init() : void
+    public function init(): void
     {
         if (null === $this->dic) {
             global $DIC;
@@ -75,6 +75,10 @@ class ilCertificateCron extends ilCronJob
 
         if (null === $this->logger) {
             $this->logger = $this->dic->logger()->cert();
+        }
+
+        if (null === $this->cronManager) {
+            $this->cronManager = $this->dic->cron()->manager();
         }
 
         if (null === $this->queueRepository) {
@@ -102,7 +106,7 @@ class ilCertificateCron extends ilCronJob
         }
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         $this->init();
 
@@ -118,7 +122,7 @@ class ilCertificateCron extends ilCronJob
             return $result;
         }
 
-        $this->logger->info('START - Begin with cron job to create user certificates from templates');
+        $this->logger->debug('START - Begin with cron job to create user certificates from templates');
 
         $entries = $this->queueRepository->getAllEntriesFromQueue();
 
@@ -153,7 +157,7 @@ class ilCertificateCron extends ilCronJob
         }
 
         $result->setStatus($status);
-        if (count($succeededGenerations) > 0) {
+        if ($succeededGenerations !== []) {
             $result->setMessage(sprintf(
                 'Generated %s certificate(s) in run. Result: %s',
                 count($succeededGenerations),
@@ -166,50 +170,46 @@ class ilCertificateCron extends ilCronJob
         return $result;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return 'certificate';
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_IN_MINUTES;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return 1;
     }
 
     /**
-     * @param int                     $entryCounter
-     * @param ilCertificateQueueEntry $entry
-     * @param array                   $succeededGenerations
-     * @return array
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
-     * @throws ilObjectNotFoundException|JsonException
+     * @throws ilObjectNotFoundException
      */
-    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
+    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations): array
     {
         if ($entryCounter > 0 && $entryCounter % 10 === 0) {
-            ilCronManager::ping($this->getId());
+            $this->cronManager->ping($this->getId());
         }
 
         $this->logger->debug('Entry found will start of processing the entry');
 
-        /** @var $entry ilCertificateQueueEntry */
+        /** @var ilCertificateQueueEntry $entry */
         $class = $entry->getAdapterClass();
         $this->logger->debug('Adapter class to be executed "' . $class . '"');
 
@@ -290,7 +290,9 @@ class ilCertificateCron extends ilCronJob
             'usr_id: ' . $userId
         ]);
 
-        $this->queueRepository->removeFromQueue($entry->getId());
+        if ($entry->getId() !== null) {
+            $this->queueRepository->removeFromQueue($entry->getId());
+        }
 
         $this->dic->event()->raise(
             'Services/Certificate',

@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -39,10 +53,11 @@ class ilDownloadSubmissionsBackgroundTask
 
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
         $this->task_manager = $DIC->backgroundTasks()->taskManager();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->exc();
     }
 
-    public function run() : bool
+    public function run(): bool
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
@@ -72,7 +87,7 @@ class ilDownloadSubmissionsBackgroundTask
             $download_name = ilExSubmission::getDirectoryNameFromUserData($this->participant_id);
             $bucket->setTitle($this->getParticipantBucketTitle());
         } else {
-            $download_name = ilUtil::getASCIIFilename(ilExAssignment::lookupTitle($this->ass_id));
+            $download_name = ilFileUtils::getASCIIFilename(ilExAssignment::lookupTitle($this->ass_id));
             $bucket->setTitle($download_name);
         }
 
@@ -89,7 +104,7 @@ class ilDownloadSubmissionsBackgroundTask
         return true;
     }
 
-    protected function getParticipantBucketTitle() : string
+    protected function getParticipantBucketTitle(): string
     {
         $name = ilObjUser::_lookupName($this->participant_id);
         return ucfirst($name['lastname']) . ", " . ucfirst($name['firstname']);

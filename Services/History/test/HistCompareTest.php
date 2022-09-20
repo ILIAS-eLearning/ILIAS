@@ -11,22 +11,22 @@ class HistCompareTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Test compare
      */
-    public function testCompare()
+    public function testCompare(): void
     {
         $this->assertEquals(
-            1,
+            -1,
             ilHistory::_compareHistArray(
                 ["date" => "2021-12-01"],
                 ["date" => "2021-12-03"],
@@ -37,10 +37,10 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 2
      */
-    public function testCompare2()
+    public function testCompare2(): void
     {
         $this->assertEquals(
-            -1,
+            1,
             ilHistory::_compareHistArray(
                 ["date" => "2021-12-01"],
                 ["date" => "2021-11-03"],
@@ -51,7 +51,7 @@ class HistCompareTest extends TestCase
     /**
      * Test compare 3
      */
-    public function testCompare3()
+    public function testCompare3(): void
     {
         $this->assertEquals(
             0,

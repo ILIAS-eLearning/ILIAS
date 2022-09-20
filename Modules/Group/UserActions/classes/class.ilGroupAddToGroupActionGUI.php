@@ -1,5 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,55 +16,62 @@
  */
 class ilGroupAddToGroupActionGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
 
-    /**
-     * Constructor
-     *
-     * @param
-     */
     public function __construct()
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->user = $DIC->user();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
 
         $this->lng->loadLanguageModule("grp");
         $this->ctrl->saveParameter($this, array("user_id", "modal_exists"));
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    protected function initGroupRefIdFromQuery(): int
+    {
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('grp_act_par_ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'grp_act_par_ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $ref_id;
+    }
+
+    protected function initUserIdFromQuery(): int
+    {
+        $user_id = 0;
+        if ($this->http->wrapper()->query()->has('user_id')) {
+            $user_id = $this->http->wrapper()->query()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $user_id;
+    }
+
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
         $user = $this->user;
@@ -67,7 +80,6 @@ class ilGroupAddToGroupActionGUI
         $cmd = $ctrl->getCmd("show");
 
         if ($cmd == "show") {
-            include_once("./Modules/Group/UserActions/classes/class.ilGroupUserActionProvider.php");
             $ca = ilGroupUserActionProvider::getCommandAccess($user->getId());
             if (count($ca) == 0) {
                 return;
@@ -97,20 +109,15 @@ class ilGroupAddToGroupActionGUI
                 }
         }
     }
-
-    /**
-     * Show
-     */
-    public function show()
+    public function show(): void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
         $toolbar = new ilToolbarGUI();
 
         // button use existing group
-        $url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
+        $url1 = $ctrl->getLinkTarget($this, "selectGroup", "", true);
         $button1 = $this->ui->factory()->button()->standard($lng->txt("grp_use_existing"), "#")
             ->withOnLoadCode(function ($id) use ($url1) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url1', 'il_grp_action_modal_content'); return false;})";
@@ -118,7 +125,7 @@ class ilGroupAddToGroupActionGUI
         $toolbar->addComponent($button1);
 
         // button create new group
-        $url2 = $ctrl->getLinkTarget($this, "selectParent", "", true, false);
+        $url2 = $ctrl->getLinkTarget($this, "selectParent", "", true);
         $button2 = $this->ui->factory()->button()->standard($lng->txt("grp_create_new"), "#")
             ->withOnLoadCode(function ($id) use ($url2) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url2', 'il_grp_action_modal_content'); return false;})";
@@ -131,16 +138,18 @@ class ilGroupAddToGroupActionGUI
         );
     }
 
-    /**
-     * Send response
-     *
-     * @param string $a_content
-     */
-    public function sendResponse($a_content)
+    public function sendResponse(string $a_content): void
     {
         $lng = $this->lng;
 
-        if ($_GET["modal_exists"] == 1) {
+        $modal_exists = false;
+        if ($this->http->wrapper()->query()->has('modal_exists')) {
+            $modal_exists = (bool) $this->http->wrapper()->query()->retrieve(
+                'modal_exists',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($modal_exists) {
             echo $this->ui->renderer()->renderAsync($this->ui->factory()->legacy($a_content));
         } else {
             $mtpl = new ilTemplate("tpl.grp_add_to_grp_modal_content.html", true, true, "./Modules/Group/UserActions");
@@ -158,47 +167,33 @@ class ilGroupAddToGroupActionGUI
     }
 
 
-    /**
-     * Select group
-     *
-     * @param
-     * @return
-     */
-    public function selectGroup()
+    public function selectGroup(): void
     {
         $tree = $this->tree;
 
-        include_once("./Modules/Group/UserActions/classes/class.ilGroupActionTargetExplorerGUI.php");
         $exp = new ilGroupActionTargetExplorerGUI($this, "selectGroup");
 
         $exp->setClickableType("grp");
         $exp->setTypeWhiteList(array("root", "cat", "crs", "fold", "grp"));
-        $exp->setPathOpen((int) $tree->readRootId());
+        $exp->setPathOpen($tree->readRootId());
 
         if (!$exp->handleCommand()) {
             $this->sendResponse($exp->getHTML());
         }
-
         exit;
     }
 
-    /**
-     * Confirm add user to group
-     *
-     * @param
-     * @return
-     */
-    public function confirmAddUser()
+    public function confirmAddUser(): void
     {
         $ctrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
-        include_once("./Services/Membership/classes/class.ilParticipants.php");
-        include_once './Services/Membership/classes/class.ilParticipants.php';
-        $participants = ilParticipants::getInstanceByObjId(ilObject::_lookupObjId((int) $_GET["grp_act_ref_id"]));
-        if ($participants->isMember((int) $_GET["user_id"])) {
-            $url = $ctrl->getLinkTarget($this, "selectGroup", "", true, false);
+        $ref_id = $this->initGroupRefIdFromQuery();
+        $user_id = $this->initUserIdFromQuery();
+
+        $participants = ilParticipants::getInstanceByObjId(ilObject::_lookupObjId($ref_id));
+        if ($participants->isMember($user_id)) {
+            $url = $ctrl->getLinkTarget($this, "selectGroup", "", true);
             $button = $this->ui->factory()->button()->standard($lng->txt("back"), "#")
                 ->withOnLoadCode(function ($id) use ($url) {
                     return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
@@ -206,16 +201,16 @@ class ilGroupAddToGroupActionGUI
 
             echo
                 ilUtil::getSystemMessageHTML($lng->txt("grp_user_already_in_group") . "<br>" .
-                    $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation((int) $_GET["user_id"]) . "<br>" .
-                    $lng->txt("obj_grp") . ": " . ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])), "failure") .
+                    $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation($user_id) . "<br>" .
+                    $lng->txt("obj_grp") . ": " . ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), "failure") .
                 $this->ui->renderer()->renderAsync($button);
             exit;
         }
 
 
         // button create new group
-        $ctrl->setParameter($this, "grp_act_ref_id", $_GET["grp_act_ref_id"]);
-        $url = $ctrl->getLinkTarget($this, "addUser", "", true, false);
+        $ctrl->setParameter($this, "grp_act_ref_id", $ref_id);
+        $url = $ctrl->getLinkTarget($this, "addUser", "", true);
         $button = $this->ui->factory()->button()->standard($lng->txt("grp_add_user"), "#")
             ->withOnLoadCode(function ($id) use ($url) {
                 return "$('#$id').on('click', function() {il.Util.ajaxReplaceInner('$url', 'il_grp_action_modal_content'); return false;})";
@@ -223,35 +218,26 @@ class ilGroupAddToGroupActionGUI
 
         echo
             ilUtil::getSystemMessageHTML($lng->txt("grp_sure_add_user_to_group") . "<br>" .
-                $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation((int) $_GET["user_id"]) . "<br>" .
-                $lng->txt("obj_grp") . ": " . ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_ref_id"])), "question") .
+                $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation($user_id) . "<br>" .
+                $lng->txt("obj_grp") . ": " . ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), "question") .
             $this->ui->renderer()->renderAsync($button);
         exit;
     }
 
-    /**
-     * Add user
-     *
-     * @param
-     */
-    public function addUser()
+    public function addUser(): void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
-        $user_id = (int) $_GET["user_id"];
+        $ref_id = $this->initGroupRefIdFromQuery();
+        $user_id = $this->initUserIdFromQuery();
 
         // @todo: check permission
 
-        include_once("./Modules/Group/classes/class.ilObjGroup.php");
-        $group = new ilObjGroup((int) $_GET["grp_act_ref_id"]);
-
-        include_once './Services/Membership/classes/class.ilParticipants.php';
+        $group = new ilObjGroup($ref_id);
         $participants = ilParticipants::getInstanceByObjId($group->getId());
 
-        $participants->add($user_id, IL_GRP_MEMBER);
+        $participants->add($user_id, ilParticipants::IL_GRP_MEMBER);
 
-        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
         $participants->sendNotification(
             ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
             $user_id
@@ -262,91 +248,80 @@ class ilGroupAddToGroupActionGUI
         exit;
     }
 
-    /**
-     * Select group
-     *
-     * @param
-     * @return
-     */
-    public function selectParent()
+    public function selectParent(): void
     {
         $tree = $this->tree;
         $lng = $this->lng;
-        $tpl = $this->tpl;
 
-        include_once("./Modules/Group/UserActions/classes/class.ilGroupActionTargetExplorerGUI.php");
         $exp = new ilGroupActionTargetExplorerGUI($this, "selectParent", true);
 
         $exp->setTypeWhiteList(array("root", "cat", "crs"));
-        $exp->setPathOpen((int) $tree->readRootId());
+        $exp->setPathOpen($tree->readRootId());
 
         if (!$exp->handleCommand()) {
-            $this->sendResponse(ilUtil::getSystemMessageHTML($lng->txt("grp_no_perm_to_add_create_first"), "info") .
+            $this->sendResponse(ilUtil::getSystemMessageHTML($lng->txt("grp_no_perm_to_add_create_first")) .
                 $exp->getHTML());
         }
 
         exit;
     }
 
-    /**
-     * Create group
-     *
-     * @param
-     * @return
-     */
-    public function createGroup($form = null)
+    public function createGroup($form = null): void
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
+
+        $ref_id = $this->initGroupRefIdFromQuery();
 
         if ($form == null) {
             $form = $this->getGroupCreationForm();
         }
         $this->ctrl->saveParameter($this, "grp_act_par_ref_id");
-        $form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true, false));
+        $form->setFormAction($this->ctrl->getLinkTarget($this, "confirmCreateGroupAndAddUser", "", true));
 
-        echo ilUtil::getSystemMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["grp_act_par_ref_id"])), $lng->txt("grp_create_new_grp_in")), "info") .
+        echo ilUtil::getSystemMessageHTML(str_replace("%1", ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)), $lng->txt("grp_create_new_grp_in")), "info") .
             $form->getHTML();
         exit;
     }
 
-    protected function getGroupCreationForm()
+
+    protected function getGroupCreationForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
 
+        $ref_id = $this->initGroupRefIdFromQuery();
+
         $group_gui = new ilObjGroupGUI("", 0, true);
-        $group_gui->setCreationMode(true);
-        // workaround for bug #22748 (which is triggered, if a didactic template for groups exist which is limited to a rep node)
-        $ref_id = $_GET["ref_id"];
-        $_GET["ref_id"] = $_GET["grp_act_par_ref_id"];
+        $group_gui->setCreationMode();
         $form = $group_gui->initForm("create", true);
-        $_GET["ref_id"] = $ref_id;
         $form->clearCommandButtons();
         $form->addCommandButton("save", $lng->txt("grp_next"));
         $form->setShowTopButtons(false);
         return $form;
     }
 
-    /**
-     * Save group
-     *
-     * @param
-     * @return
-     */
-    public function confirmCreateGroupAndAddUser()
+    public function confirmCreateGroupAndAddUser(): void
     {
-        $ctrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
+        $user_id = $this->initUserIdFromQuery();
+        $title = '';
+        if ($this->http->wrapper()->post()->has('title')) {
+            $title = $this->http->wrapper()->post()->retrieve(
+                'title',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         $form = $this->getGroupCreationForm();
+
+
+
         if (!$form->checkInput()) {
             $this->createGroup($form);
             return;
         }
 
         $this->ctrl->saveParameter($this, "grp_act_par_ref_id");
-        $form->setFormAction($this->ctrl->getLinkTarget($this, "createGroupAndAddUser", "", true, false));
+        $form->setFormAction($this->ctrl->getLinkTarget($this, "createGroupAndAddUser", "", true));
         $form->setValuesByPost();
 
         $button = $this->ui->factory()->button()->standard($lng->txt("grp_create_and_add_user"), "#")
@@ -356,26 +331,20 @@ class ilGroupAddToGroupActionGUI
 
         echo
             ilUtil::getSystemMessageHTML($lng->txt("grp_sure_create_group_add_user") . "<br>" .
-                $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation($_GET["user_id"]) . "<br>" .
-                $lng->txt("obj_grp") . ": " . $_POST["title"], "question") .
+                $lng->txt("obj_user") . ": " . ilUserUtil::getNamePresentation($user_id) . "<br>" .
+                $lng->txt("obj_grp") . ": " . $title, "question") .
             "<div class='ilNoDisplay'>" . $form->getHTML() . "</div>" .
             "<div class='ilRight'>" . $this->ui->renderer()->renderAsync($button) . "</div>";
 
         exit;
     }
 
-    /**
-     * Create group and add user
-     *
-     * @param
-     * @return
-     */
-    public function createGroupAndAddUser()
+    public function createGroupAndAddUser(): void
     {
         $lng = $this->lng;
-        $tpl = $this->tpl;
 
-        $user_id = (int) $_GET["user_id"];
+        $user_id = $this->initUserIdFromQuery();
+        $ref_id = $this->initGroupRefIdFromQuery();
         $form = $this->getGroupCreationForm();
 
         $form->checkInput();
@@ -383,14 +352,13 @@ class ilGroupAddToGroupActionGUI
         $group_gui = new ilObjGroupGUI("", 0, true);
 
         // create instance
-        include_once("./Modules/Group/classes/class.ilObjGroup.php");
         $newObj = new ilObjGroup();
         $newObj->setType("grp");
         $newObj->setTitle($form->getInput("title"));
         $newObj->setDescription($form->getInput("desc"));
         $newObj->create();
 
-        $group_gui->putObjectInTree($newObj, (int) $_GET["grp_act_par_ref_id"]);
+        $group_gui->putObjectInTree($newObj, $ref_id);
 
         // apply didactic template?
         $dtpl = $group_gui->getDidacticTemplateVar("dtpl");
@@ -401,19 +369,16 @@ class ilGroupAddToGroupActionGUI
         $group_gui->afterSave($newObj, false);
 
 
-        include_once './Services/Membership/classes/class.ilParticipants.php';
         $participants = ilParticipants::getInstanceByObjId($newObj->getId());
 
-        $participants->add($user_id, IL_GRP_MEMBER);
+        $participants->add($user_id, ilParticipants::IL_GRP_MEMBER);
 
-        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
         $participants->sendNotification(
             ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER,
             $user_id
         );
 
 
-        include_once("./Services/Link/classes/class.ilLink.php");
         $url = ilLink::_getLink($newObj->getRefId());
         echo ilUtil::getSystemMessageHTML($lng->txt("grp_created_and_user_been_added"), "success");
         echo "<script>setTimeout(function (){ window.location.replace('$url');}, 1500);</script>";

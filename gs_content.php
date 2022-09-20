@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Client;
+<?php
+
+namespace ILIAS\GlobalScreen\Client;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -14,7 +16,6 @@ class ContentRenderer
         \ilContext::init(\ilContext::CONTEXT_WAC);
         \ilInitialisation::initILIAS();
         global $DIC;
-        $DIC->ctrl()->setTargetScript('ilias.php');
 
         $GS = $DIC->globalScreen();
 
@@ -31,7 +32,8 @@ class ContentRenderer
             $component = $f->button()->bulky(
                 $f->symbol()->glyph()->login(),
                 $DIC->language()->txt('login'),
-                'login.php?client_id=' . rawurlencode(CLIENT_ID) . '&cmd=force_login&lang=' . $DIC->user()->getCurrentLanguage());
+                'login.php?client_id=' . rawurlencode(CLIENT_ID) . '&cmd=force_login&lang=' . $DIC->user()->getCurrentLanguage()
+            );
         } else {
             $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, true);
         }

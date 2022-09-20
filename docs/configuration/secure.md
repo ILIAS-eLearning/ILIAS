@@ -610,8 +610,8 @@ This is a NGINX recommended configuration. (note: inside the `%DOCROOT%/data` no
 ```
     server {
         [...]
+        set $root $document_root;
         location ~ /data/ {
-            set $root $document_root;
             rewrite ^/data/(.*)/(.*)/(.*)$ /Services/WebAccessChecker/wac.php last;
 
             location ~ [^/]\.php(/|$) { access_log off; log_not_found off; deny all; }

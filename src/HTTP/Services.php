@@ -1,4 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\HTTP;
 
@@ -8,6 +25,8 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
+use ILIAS\HTTP\Agent\AgentDetermination;
+use ILIAS\HTTP\Duration\DurationFactory;
 
 /**
  * Class Services
@@ -17,18 +36,12 @@ use ILIAS\DI\Container;
  */
 class Services implements GlobalHttpState
 {
-    /**
-     * @var RawHTTPServices
-     */
-    protected $raw;
-    /**
-     * @var WrapperFactory
-     */
-    protected $wrapper;
+    protected GlobalHttpState $raw;
+    protected WrapperFactory $wrapper;
+    protected AgentDetermination $agent;
 
     /**
      * Services constructor.
-     * @param Container $dic
      */
     public function __construct(Container $dic)
     {
@@ -36,15 +49,19 @@ class Services implements GlobalHttpState
             $dic['http.response_sender_strategy'],
             $dic['http.cookie_jar_factory'],
             $dic['http.request_factory'],
-            $dic['http.response_factory']
+            $dic['http.response_factory'],
+            $dic['http.duration_factory']
         );
         $this->wrapper = new WrapperFactory($this->raw->request());
+        $this->agent = new AgentDetermination();
     }
 
-    /**
-     * @return WrapperFactory
-     */
-    public function wrapper() : WrapperFactory
+    public function durations(): DurationFactory
+    {
+        return $this->raw->durations();
+    }
+
+    public function wrapper(): WrapperFactory
     {
         return $this->wrapper;
     }
@@ -53,7 +70,7 @@ class Services implements GlobalHttpState
      * @deprecated Please use $this->wrapper()
      * @see        Services::wrapper();
      */
-    public function raw() : GlobalHttpState
+    public function raw(): RawHTTPServices
     {
         return $this->raw;
     }
@@ -63,7 +80,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function request() : RequestInterface
+    public function request(): RequestInterface
     {
         return $this->raw()->request();
     }
@@ -73,7 +90,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function response() : ResponseInterface
+    public function response(): ResponseInterface
     {
         return $this->raw()->response();
     }
@@ -83,7 +100,7 @@ class Services implements GlobalHttpState
      * @see        Services::wrapper();
      * @inheritDoc
      */
-    public function cookieJar() : CookieJar
+    public function cookieJar(): CookieJar
     {
         return $this->raw()->cookieJar();
     }
@@ -91,7 +108,7 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveRequest(ServerRequestInterface $request) : void
+    public function saveRequest(ServerRequestInterface $request): void
     {
         $this->raw()->saveRequest($request);
     }
@@ -99,7 +116,7 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function saveResponse(ResponseInterface $response) : void
+    public function saveResponse(ResponseInterface $response): void
     {
         $this->raw()->saveResponse($response);
     }
@@ -107,14 +124,18 @@ class Services implements GlobalHttpState
     /**
      * @inheritDoc
      */
-    public function sendResponse() : void
+    public function sendResponse(): void
     {
         $this->raw()->sendResponse();
     }
 
-    public function close() : void
+    public function close(): void
     {
         $this->raw()->close();
     }
 
+    public function agent(): AgentDetermination
+    {
+        return $this->agent;
+    }
 }

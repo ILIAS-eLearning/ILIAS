@@ -1,46 +1,46 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+declare(strict_types=1);
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilSessionReminderGUI
 {
-    /** @var ilSessionReminder */
-    protected $sessionReminder;
+    private ilSessionReminder $sessionReminder;
+    private ilGlobalTemplateInterface $page;
+    private ilLanguage $lng;
 
-    /** @var \ilGlobalTemplateInterface */
-    protected $page;
-
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /**
-     * @param ilSessionReminder $sessionReminder
-     * @param ilGlobalTemplateInterface $page
-     * @param ilLanguage $language
-     */
     public function __construct(
         ilSessionReminder $sessionReminder,
         ilGlobalTemplateInterface $page,
-        \ilLanguage $language
+        ilLanguage $language
     ) {
         $this->sessionReminder = $sessionReminder;
         $this->page = $page;
         $this->lng = $language;
     }
 
-    /**
-     *
-     */
-    public function populatePage() : void
+    public function populatePage(): void
     {
         if (!$this->sessionReminder->isActive()) {
             return;
         }
 
         iljQueryUtil::initjQuery($this->page);
-        ilYuiUtil::initCookie();
 
         $this->page->addJavaScript('./Services/Authentication/js/session_reminder.js');
 

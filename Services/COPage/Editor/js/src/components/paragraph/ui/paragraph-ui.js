@@ -4,7 +4,21 @@ import TinyWrapper from "./tiny-wrapper.js";
 import TINY_CB from "./tiny-wrapper-cb-types.js";
 import AutoSave from "./auto-save.js";
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -790,6 +804,12 @@ export default class ParagraphUI {
           wrapper.switchToEnd();
         }
       }
+      
+      const ed = wrapper.tiny;
+      ed.shortcuts.add('meta+b', '', function() {parUI.cmdSpan('Strong');});
+      ed.shortcuts.add('meta+u', '', function() {parUI.cmdSpan('Important');});
+      ed.shortcuts.add('meta+i', '', function() {parUI.cmdSpan('Emph');});
+
     });
   }
 
@@ -889,6 +909,23 @@ export default class ParagraphUI {
 
 
     this.toolSlate.setContentFromComponent("Paragraph", "menu");
+    console.log("*** SHOW TOOLBAR");
+
+    let map = {};
+    map[ACTIONS.SELECTION_REMOVE_FORMAT] = () => ef.selectionRemoveFormat();
+    map[ACTIONS.SELECTION_KEYWORD] = () => ef.selectionKeyword();
+    map[ACTIONS.SELECTION_TEX] = () => ef.selectionTex();
+    map[ACTIONS.SELECTION_FN] = () => ef.selectionFn();
+    map[ACTIONS.SELECTION_ANCHOR] = () => ef.selectionAnchor();
+    map[ACTIONS.LIST_BULLET] = () => ef.listBullet();
+    map[ACTIONS.LIST_NUMBER] = () => ef.listNumber();
+    map[ACTIONS.LIST_OUTDENT] = () => ef.listOutdent();
+    map[ACTIONS.LIST_INDENT] = () => ef.listIndent();
+    map[ACTIONS.LINK_WIKI] = () => ef.linkWiki();
+    map[ACTIONS.LINK_INTERNAL] = () => ef.linkInternal();
+    map[ACTIONS.LINK_EXTERNAL] = () => ef.linkExternal();
+    map[ACTIONS.LINK_USER] = () => ef.linkUser();
+    map[PAGE_ACTIONS.COMPONENT_CANCEL] = () => action.page().editor().componentCancel();
 
     document.querySelectorAll("[data-copg-ed-type='par-action']").forEach(char_button => {
       const actionType = char_button.dataset.copgEdAction;
@@ -939,23 +976,8 @@ export default class ParagraphUI {
           break;
 
         default:
-          let map = {};
-          map[ACTIONS.SELECTION_REMOVE_FORMAT] = ef.selectionRemoveFormat();
-          map[ACTIONS.SELECTION_KEYWORD] = ef.selectionKeyword();
-          map[ACTIONS.SELECTION_TEX] = ef.selectionTex();
-          map[ACTIONS.SELECTION_FN] = ef.selectionFn();
-          map[ACTIONS.SELECTION_ANCHOR] = ef.selectionAnchor();
-          map[ACTIONS.LIST_BULLET] = ef.listBullet();
-          map[ACTIONS.LIST_NUMBER] = ef.listNumber();
-          map[ACTIONS.LIST_OUTDENT] = ef.listOutdent();
-          map[ACTIONS.LIST_INDENT] = ef.listIndent();
-          map[ACTIONS.LINK_WIKI] = ef.linkWiki();
-          map[ACTIONS.LINK_INTERNAL] = ef.linkInternal();
-          map[ACTIONS.LINK_EXTERNAL] = ef.linkExternal();
-          map[ACTIONS.LINK_USER] = ef.linkUser();
-          map[PAGE_ACTIONS.COMPONENT_CANCEL] = action.page().editor().componentCancel();
           char_button.addEventListener("click", (event) => {
-            dispatch.dispatch(map[actionType]);
+            dispatch.dispatch(map[actionType]());
           });
           break;
       }
@@ -1019,16 +1041,23 @@ export default class ParagraphUI {
       cnt++;
     });
 
-
-    /*
-    pcarea.querySelectorAll("div", (d) => {
-    })
-    const contentDiv = pcarea.getElementsByTagName('div')[1];
-    console.log(pcid);
-    console.log(pcarea);
-    console.log(contentDiv);
-    contentDiv.remove();*/
     pcarea.innerHTML = pcarea.innerHTML + content;
+
+    // replacing the content may move the editing area, so
+    // we need to synch the tiny position
+    this.syncTiny();
+  }
+
+  // ugly but it does not work right away for whatever reason,
+  // e.g. in replaceRenderedParagraph, direct after inserting the new content
+  syncTiny() {
+    const w = this.tinyWrapper;
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 100);
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 300);
   }
 
   showLastUpdate(last_update) {
@@ -1037,13 +1066,13 @@ export default class ParagraphUI {
 
   setSectionClass(pcid, characteristic) {
     const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
-    this.log(currentPar);
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
-    this.log(parentComp);
-    if (parentComp && parentComp.dataset.cname === "Section") {
-      parentComp.childNodes[1].className = "ilc_section_" + characteristic + " ilCOPageSection";
+    if (parentComp && parentComp.dataset.cname === "Section" && characteristic !== "") {
+      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
+      contentDiv.className = "ilc_section_" + characteristic + " ilCOPageSection";
     }
     this.setSectionClassSelector(characteristic);
+    this.tinyWrapper.synchInputRegion();
   }
 
   /**
@@ -1055,7 +1084,8 @@ export default class ParagraphUI {
     const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
     if (parentComp && parentComp.dataset.cname === "Section") {
-      parentComp.childNodes[1].classList.forEach((c) => {
+      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
+      contentDiv.classList.forEach((c) => {
         if (c.substr(0, 12) === "ilc_section_") {
           secClass = c.substr(12);
         }
@@ -1067,6 +1097,8 @@ export default class ParagraphUI {
   setSectionClassSelector(i) {
     if (i === "") {
       i = il.Language.txt("cont_no_block");
+    } else {
+      i = document.querySelector("[data-copg-ed-par-class='" + i + "'] div.ilc_section_" + i).innerHTML;
     }
     const fc = document.querySelector(".ilSectionClassSelector .dropdown button");
     if (fc) {
@@ -1181,6 +1213,44 @@ export default class ParagraphUI {
 
   clearError() {
     this.pageModifier.clearError();
+  }
+
+  disableButtons() {
+    document.querySelectorAll("#iltinymenu button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+
+  enableButtons() {
+    document.querySelectorAll("#iltinymenu button").forEach(el => {
+      el.disabled = false;
+    });
+  }
+
+  showLoader() {
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = '';
+    }
+  }
+
+  hideLoader() {
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = 'none';
+    }
+  }
+
+  disableEditing() {
+    this.disableButtons();
+    this.tinyWrapper.disable();
+    this.showLoader();
+  }
+
+  enableEditing() {
+    this.enableButtons();
+    this.tinyWrapper.enable();
+    this.hideLoader();
   }
 
 }

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,14 +23,12 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
 * Class ilObjRootFolderAccess
 *
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 */
 class ilObjSearchSettingsAccess extends ilObjectAccess

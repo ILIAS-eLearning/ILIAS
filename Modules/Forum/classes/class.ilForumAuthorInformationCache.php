@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilForumAuthorInformationCache
@@ -19,7 +36,7 @@ class ilForumAuthorInformationCache
     /**
      * @param int[] $usr_ids
      */
-    public static function preloadUserObjects(array $usr_ids) : void
+    public static function preloadUserObjects(array $usr_ids): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -28,7 +45,7 @@ class ilForumAuthorInformationCache
         self::$requested_usr_ids = array_merge(self::$requested_usr_ids, $usr_ids_to_request);
         self::$requested_usr_ids_key_map = array_flip(self::$requested_usr_ids);
 
-        if ($usr_ids_to_request) {
+        if ($usr_ids_to_request !== []) {
             $in = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
             $query = "
 				SELECT ud.usr_id, od.create_date, login, firstname, lastname, ud.title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_upload
@@ -47,14 +64,13 @@ class ilForumAuthorInformationCache
             );
 
             while ($row = $ilDB->fetchAssoc($res)) {
-                $user = new ilObjUser;
+                $user = new ilObjUser();
                 $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);
                 $user->setTitle($row['title']);
                 $user->setFirstname($row['firstname']);
                 $user->setLastname($row['lastname']);
-                $user->create_date = $row['create_date']; // create_date is currently a public member, has to be changed in future evtl.
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);
@@ -64,9 +80,9 @@ class ilForumAuthorInformationCache
         }
     }
 
-    public static function getUserObjectById(int $usr_id) : ?ilObjUser
+    public static function getUserObjectById(int $usr_id): ?ilObjUser
     {
-        if (!$usr_id) {
+        if ($usr_id === 0) {
             return null;
         }
 

@@ -1,6 +1,9 @@
 <?php
-require_once 'Services/Exceptions/classes/class.ilException.php';
 
- class ilIndividualAssessmentException extends ilException
- {
- }
+declare(strict_types=1);
+
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
+class ilIndividualAssessmentException extends ilException
+{
+}

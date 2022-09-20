@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -11,14 +27,17 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author Michael Jansen <mjansen@databay.de>
  *
  */
-class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
     private ServerRequestInterface $httpRequest;
     private ilCtrl $ctrl;
     private ilSetting $settings;
+    private ilLogger $logger;
 
     public function __construct(ServerRequestInterface $httpRequest, ilCtrl $ctrl)
     {
+        global $DIC;
+        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = new ilSetting('apache_auth');
@@ -29,7 +48,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
      * Check if an authentication attempt should be done when login page has been called.
      * Redirects in case no apache authentication has been tried before (GET['passed_sso'])
      */
-    public function tryAuthenticationOnLoginPage() : void
+    public function tryAuthenticationOnLoginPage(): void
     {
         $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
         if ('' === $cmd) {
@@ -76,17 +95,17 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
         );
     }
 
-    protected function getSettings() : ilSetting
+    protected function getSettings(): ilSetting
     {
         return $this->settings;
     }
 
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
-        $this->getLogger()->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
-        $this->getLogger()->debug($mappingFieldName);
+        $this->logger->dump($this->httpRequest->getServerParams(), ilLogLevel::DEBUG);
+        $this->logger->debug($mappingFieldName);
 
         switch ($this->getSettings()->get('apache_auth_username_config_type')) {
             case ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
@@ -101,7 +120,7 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
         }
     }
 
-    public function hasValidTargetUrl() : bool
+    public function hasValidTargetUrl(): bool
     {
         $targetUrl = trim((string) ($this->httpRequest->getQueryParams()['r'] ?? ''));
         if ($targetUrl === '') {
@@ -118,12 +137,10 @@ class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implemen
             }
         }
 
-        $validator = new ilWhiteListUrlValidator($targetUrl, $validDomains);
-
-        return $validator->isValid();
+        return (new ilWhiteListUrlValidator($targetUrl, $validDomains))->isValid();
     }
 
-    public function getTargetUrl() : string
+    public function getTargetUrl(): string
     {
         return ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
     }

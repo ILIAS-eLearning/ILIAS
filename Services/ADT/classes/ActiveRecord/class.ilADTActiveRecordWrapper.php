@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -25,7 +27,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         $this->arConnector = new arConnectorDB();
     }
 
-    protected function getActiveRecordFieldTypeFromMDB2(string $a_mdb2_type) : ?string
+    protected function getActiveRecordFieldTypeFromMDB2(string $a_mdb2_type): ?string
     {
         // currently they are all the same
         switch ($a_mdb2_type) {
@@ -47,7 +49,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return null;
     }
 
-    protected function initFieldList() : void
+    protected function initFieldList(): void
     {
         $this->fields = new arFieldList($this);
 
@@ -76,23 +78,26 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         }
     }
 
-    public function getConnectorContainerName() : string
+    public function getConnectorContainerName(): string
     {
         return $this->properties->getTable();
     }
 
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         throw new \RuntimeException('Not implemented yet');
     }
 
-    public function getPrimaryFieldValue() : string
+    public function getPrimaryFieldValue(): string
     {
         $primaries = $this->properties->getPrimary();
         $primary = array_shift($primaries);
         return $primary[1];
     }
 
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function sleep($field_name)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
@@ -102,6 +107,10 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         return false;
     }
 
+
+    /**
+     * @todo types extended from ActiveRecord
+     */
     public function wakeUp($field_name, $field_value)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {

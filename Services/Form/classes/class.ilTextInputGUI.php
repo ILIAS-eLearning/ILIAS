@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a text property in a property form.
@@ -45,7 +50,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         string $a_postvar = ""
     ) {
         global $DIC;
-
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
         $this->setInputType("text");
@@ -56,7 +60,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -73,77 +77,77 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         return $this->value;
     }
 
-    public function setValidationFailureMessage(string $a_msg) : void
+    public function setValidationFailureMessage(string $a_msg): void
     {
         $this->validationFailureMessage = $a_msg;
     }
-    
-    public function getValidationFailureMessage() : string
+
+    public function getValidationFailureMessage(): string
     {
         return $this->validationFailureMessage;
     }
 
-    public function setValidationRegexp(string $a_value) : void
+    public function setValidationRegexp(string $a_value): void
     {
         $this->validationRegexp = $a_value;
     }
 
-    public function getValidationRegexp() : string
+    public function getValidationRegexp(): string
     {
         return $this->validationRegexp;
     }
 
-    public function setMaxLength(int $a_maxlength) : void
+    public function setMaxLength(int $a_maxlength): void
     {
         $this->maxlength = $a_maxlength;
     }
 
-    public function getMaxLength() : int
+    public function getMaxLength(): int
     {
         return $this->maxlength;
     }
 
-    public function setSize(int $a_size) : void
+    public function setSize(int $a_size): void
     {
         $this->size = $a_size;
     }
 
-    public function setInlineStyle(string $a_style) : void
+    public function setInlineStyle(string $a_style): void
     {
         $this->style_css = $a_style;
     }
-    
-    public function getInlineStyle() : string
+
+    public function getInlineStyle(): string
     {
         return $this->style_css;
     }
-    
-    public function setCssClass(string $a_class) : void
+
+    public function setCssClass(string $a_class): void
     {
         $this->css_class = $a_class;
     }
-    
-    public function getCssClass() : string
+
+    public function getCssClass(): string
     {
         return $this->css_class;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
-    public function setSuffix(string $a_value) : void
+    public function setSuffix(string $a_value): void
     {
         $this->suffix = $a_value;
     }
 
-    public function getSuffix() : string
+    public function getSuffix(): string
     {
         return $this->suffix;
     }
@@ -152,30 +156,30 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
      * set input type
      * @param string $a_type input type password | text
      */
-    public function setInputType(string $a_type) : void
+    public function setInputType(string $a_type): void
     {
         $this->input_type = $a_type;
     }
 
-    public function getInputType() : string
+    public function getInputType(): string
     {
         return $this->input_type;
     }
 
-    public function setSubmitFormOnEnter(bool $a_val) : void
+    public function setSubmitFormOnEnter(bool $a_val): void
     {
         $this->submit_form_on_enter = $a_val;
     }
-    
-    public function getSubmitFormOnEnter() : bool
+
+    public function getSubmitFormOnEnter(): bool
     {
         return $this->submit_form_on_enter;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         if (!$this->getMulti()) {
             if ($this->getRequired() && trim($this->str($this->getPostVar())) == "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
@@ -211,7 +215,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 }
             }
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
@@ -226,7 +230,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         return $this->strArray($this->getPostVar());
     }
 
-    public function getDataSource() : string
+    public function getDataSource(): string
     {
         return $this->ajax_datasource;
     }
@@ -234,33 +238,33 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     public function setDataSource(
         string $href,
         string $a_delimiter = null
-    ) : void {
+    ): void {
         $this->ajax_datasource = $href;
         $this->ajax_datasource_delimiter = $a_delimiter;
     }
-    
-    public function setDataSourceSubmitOnSelection(bool $a_stat) : void
+
+    public function setDataSourceSubmitOnSelection(bool $a_stat): void
     {
         $this->ajax_datasource_commit = $a_stat;
     }
-    
-    public function getDataSourceSubmitOnSelection() : bool
+
+    public function getDataSourceSubmitOnSelection(): bool
     {
         return $this->ajax_datasource_commit;
     }
-    
-    public function setDataSourceSubmitUrl(string $a_url) : void
+
+    public function setDataSourceSubmitUrl(string $a_url): void
     {
         $this->ajax_datasource_commit_url = $a_url;
     }
 
-    public function getDataSourceSubmitUrl() : string
+    public function getDataSourceSubmitUrl(): string
     {
         return $this->ajax_datasource_commit_url;
     }
-    
-    
-    public function setMultiValues(array $a_values) : void
+
+
+    public function setMultiValues(array $a_values): void
     {
         foreach ($a_values as $idx => $value) {
             $a_values[$idx] = trim($value);
@@ -270,28 +274,25 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         }
         parent::setMultiValues($a_values);
     }
-    
-    public function render(string $a_mode = "") : string
+
+    public function render(string $a_mode = ""): string
     {
-        /**
-         * @var $lng ilLanguage
-         */
         $lng = $this->lng;
-        
+
         $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_text_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getInlineStyle())) {
             $tpl->setCurrentBlock("stylecss");
-            $tpl->setVariable("CSS_STYLE", ilUtil::prepareFormOutput($this->getInlineStyle()));
+            $tpl->setVariable("CSS_STYLE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getCssClass())) {
             $tpl->setCurrentBlock("classcss");
-            $tpl->setVariable('CLASS_CSS', ilUtil::prepareFormOutput($this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {
@@ -317,12 +318,13 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         if (strlen($this->getSuffix())) {
             $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
         }
-        
+
         $postvar = $this->getPostVar();
         if ($this->getMulti() && substr($postvar, -2) != "[]") {
             $postvar .= "[]";
         }
-        
+
+        $tpl->setVariable("POST_VAR", $postvar);
         if ($this->getDisabled()) {
             if ($this->getMulti()) {
                 $value = $this->getMultiValues();
@@ -339,21 +341,21 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 $tpl->setVariable("HIDDEN_INPUT", $hidden);
             }
             $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
-        } else {
-            $tpl->setVariable("POST_VAR", $postvar);
         }
 
         // use autocomplete feature?
         if ($this->getDataSource()) {
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
-            
+
+            $jstpl = new ilTemplate("tpl.prop_text_autocomplete.js", true, true, "Services/Form");
+
             if ($this->getMulti()) {
-                $tpl->setCurrentBlock("ac_multi");
-                $tpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
-                $tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
-                $tpl->parseCurrentBlock();
-                
+                $jstpl->setCurrentBlock("ac_multi");
+                $jstpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
+                $jstpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
+                $jstpl->parseCurrentBlock();
+
                 // set to fields that start with autocomplete selector
                 $sel_auto = '[id^="' . $this->getFieldId() . '"]';
             } else {
@@ -361,24 +363,25 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 $sel_auto = "#" . $this->getFieldId();
             }
 
-            $tpl->setCurrentBlock("autocomplete_bl");
+            $jstpl->setCurrentBlock("autocomplete_bl");
             if (!$this->ajax_datasource_delimiter and !$this->getDataSourceSubmitOnSelection()) {
-                $tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
+                $jstpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
             } elseif ($this->getDataSourceSubmitOnSelection()) {
-                $tpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
-                $tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
+                $jstpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
+                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
             } else {
-                $tpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
-                $tpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
+                $jstpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
+                $jstpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
             }
-            $tpl->parseCurrentBlock();
+            $jstpl->parseCurrentBlock();
 
-            $tpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
+            $jstpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
+            $this->global_tpl->addOnloadCode($jstpl->get());
         }
-        
+
         if ($a_mode == "toolbar") {
             // block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
             // -moz-inline-stack for FF2
@@ -391,23 +394,23 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         if ($this->isHtmlAutoCompleteDisabled()) {
             $tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
         }
-        
+
         if ($this->getRequired()) {
             $tpl->setVariable("REQUIRED", "required=\"required\"");
         }
-        
+
         // multi icons
         if ($this->getMulti() && !$a_mode && !$this->getDisabled()) {
             $tpl->touchBlock("inline_in_bl");
             $tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
         }
 
-        $tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
+        $tpl->setVariable("ARIA_LABEL", ilLegacyFormElementsUtil::prepareFormOutput($this->getTitle()));
 
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -415,25 +418,25 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         $a_tpl->setVariable("PROP_GENERIC", $html);
         $a_tpl->parseCurrentBlock();
     }
-    
-    public function getTableFilterHTML() : string
+
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;
     }
 
-    public function getToolbarHTML() : string
+    public function getToolbarHTML(): string
     {
         $html = $this->render("toolbar");
         return $html;
     }
 
-    public function setDisableHtmlAutoComplete(bool $autocomplete) : void
+    public function setDisableHtmlAutoComplete(bool $autocomplete): void
     {
         $this->autocomplete_disabled = $autocomplete;
     }
 
-    public function isHtmlAutoCompleteDisabled() : bool
+    public function isHtmlAutoCompleteDisabled(): bool
     {
         return $this->autocomplete_disabled;
     }

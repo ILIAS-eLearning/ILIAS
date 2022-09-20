@@ -1,45 +1,49 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitTypeFormGUI
- *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
 class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
 {
+    protected ilOrgUnitType $type;
+    //protected ilObjectGUI $parent_gui;
+    protected ilOrgUnitTypeGUI $parent_gui;
 
-    /**
-     * @var ilOrgUnitType
-     */
-    protected $type;
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
-
-    public function __construct($parent_gui, ilOrgUnitType $type)
+    public function __construct(ilOrgUnitTypeGUI $parent_gui, ilOrgUnitType $type)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        //$this->tpl =  $DIC->ui()->mainTemplate();
+        $this->global_tpl =  $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
+        $this->http = $DIC->http();
     }
-
 
     /**
      * Save object (create or update)
-     *
-     * @return bool
      */
-    public function saveObject()
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             return false;
@@ -49,17 +53,16 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
 
             return true;
         } catch (ilException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
 
             return false;
         }
     }
 
-
     /**
      * Add all fields to the form
      */
-    protected function initForm()
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $title = $this->type->getId() ? $this->lng->txt('orgu_type_edit') : $this->lng->txt('orgu_type_add');
@@ -86,13 +89,10 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         }
     }
 
-
     /**
      * Check validity of form and pass values from form to object
-     *
-     * @return bool
      */
-    protected function fillObject()
+    private function fillObject(): bool
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
@@ -109,21 +109,19 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
                 $this->type->setDescription($description, $lang_code);
             }
         } catch (ilOrgUnitTypePluginException $e) {
-            ilUtil::sendFailure($e->getMessage());
+            $this->global_tpl->setOnScreenMessage('failure', $e->getMessage());
             $success = false;
         }
 
         return $success;
     }
 
-
     /**
      * Add a text and textarea input per language
-     *
-     * @param $a_lang_code
      */
-    protected function addTranslationInputs($a_lang_code)
+    private function addTranslationInputs(string $a_lang_code): void
     {
+        $a_lang_code = $a_lang_code ?? '';
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt("meta_l_{$a_lang_code}"));
         $this->addItem($section);
@@ -131,7 +129,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
         $item->setValue($this->type->getTitle($a_lang_code));
         $this->addItem($item);
         $item = new ilTextAreaInputGUI($this->lng->txt('description'), "description_{$a_lang_code}");
-        $item->setValue($this->type->getDescription($a_lang_code));
+        $desc = $this->type->getDescription($a_lang_code) ?? '';
+        $item->setValue($desc);
         $this->addItem($item);
     }
 }

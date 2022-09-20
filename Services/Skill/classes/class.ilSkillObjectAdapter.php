@@ -26,7 +26,7 @@ class ilSkillObjectAdapter implements ilSkillObjectAdapterInterface
     {
     }
 
-    public function getObjIdForRefId(int $a_ref_id) : int
+    public function getObjIdForRefId(int $a_ref_id): int
     {
         $trigger_obj_id = ($a_ref_id > 0)
             ? ilObject::_lookupObjId($a_ref_id)
@@ -35,12 +35,12 @@ class ilSkillObjectAdapter implements ilSkillObjectAdapterInterface
         return $trigger_obj_id;
     }
 
-    public function getTypeForObjId(int $a_obj_id) : ?string
+    public function getTypeForObjId(int $a_obj_id): ?string
     {
         return ilObject::_lookupType($a_obj_id);
     }
 
-    public function getTitleForObjId(int $a_obj_id) : string
+    public function getTitleForObjId(int $a_obj_id): string
     {
         return ilObject::_lookupTitle($a_obj_id);
     }

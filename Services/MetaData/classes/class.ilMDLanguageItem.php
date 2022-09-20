@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,69 +23,190 @@
     +-----------------------------------------------------------------------------+
 */
 
-
 /**
-* Meta Data class Language codes and translations
-*
-* @package ilias-core
-* @version $Id$
-*/
-
+ * Meta Data class Language codes and translations
+ * @package ilias-core
+ * @version $Id$
+ */
 class ilMDLanguageItem
 {
-    public $language_code;
-    public $possible_language_codes = array();
+    private string $language_code;
 
-
-    public function __construct($a_code)
+    public function __construct(string $a_code)
     {
         $this->language_code = $a_code;
     }
 
-
-    public function getLanguageCode()
+    public function getLanguageCode(): string
     {
-        $lang = ilMDLanguageItem::_getPossibleLanguageCodes();
+        $lang = self::_getPossibleLanguageCodes();
         if (in_array($this->language_code, $lang)) {
             return $this->language_code;
         }
-        return false;
+        return '';
     }
 
-
-    /*
-     * @static
+    /**
+     * @return string[]
      */
-    public static function _getPossibleLanguageCodes()
+    public static function _getPossibleLanguageCodes(): array
     {
-        return array("aa","ab","af","am","ar","as","ay","az","ba","be","bg","bh",
-                     "bi","bn","bo","br","ca","co","cs","cy","da","de","dz","el","en","eo",
-                     "es","et","eu","fa","fi","fj","fo","fr","fy","ga","gd","gl","gn","gu",
-                     "ha","he","hi","hr","hu","hy","ia","ie","ik","id","is","it","iu","ja",
-                     "jv","ka","kk","kl","km","kn","ko","ks","ku","ky","la","ln",
-                     "lo","lt","lv","mg","mi","mk","ml","mn","mo","mr","ms","mt",
-                     "my","na","ne","nl","no","oc","om","or","pa","pl","ps","pt",
-                     "qu","rm","rn","ro",
-                     "ru","rw",
-                     "sa","sd","sg","sh","si","sk","sl","sm","sn","so","sq","sr","ss","st",
-                     "su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts",
-                     "tt","tw","ug","uk","ur","uz","vi","vo","wo","xh","yi","yo","za","zh",
-                     "zu");
+        return array(
+            "aa",
+            "ab",
+            "af",
+            "am",
+            "ar",
+            "as",
+            "ay",
+            "az",
+            "ba",
+            "be",
+            "bg",
+            "bh",
+            "bi",
+            "bn",
+            "bo",
+            "br",
+            "ca",
+            "co",
+            "cs",
+            "cy",
+            "da",
+            "de",
+            "dz",
+            "el",
+            "en",
+            "eo",
+            "es",
+            "et",
+            "eu",
+            "fa",
+            "fi",
+            "fj",
+            "fo",
+            "fr",
+            "fy",
+            "ga",
+            "gd",
+            "gl",
+            "gn",
+            "gu",
+            "ha",
+            "he",
+            "hi",
+            "hr",
+            "hu",
+            "hy",
+            "ia",
+            "ie",
+            "ik",
+            "id",
+            "is",
+            "it",
+            "iu",
+            "ja",
+            "jv",
+            "ka",
+            "kk",
+            "kl",
+            "km",
+            "kn",
+            "ko",
+            "ks",
+            "ku",
+            "ky",
+            "la",
+            "ln",
+            "lo",
+            "lt",
+            "lv",
+            "mg",
+            "mi",
+            "mk",
+            "ml",
+            "mn",
+            "mo",
+            "mr",
+            "ms",
+            "mt",
+            "my",
+            "na",
+            "ne",
+            "nl",
+            "no",
+            "oc",
+            "om",
+            "or",
+            "pa",
+            "pl",
+            "ps",
+            "pt",
+            "qu",
+            "rm",
+            "rn",
+            "ro",
+            "ru",
+            "rw",
+            "sa",
+            "sd",
+            "sg",
+            "sh",
+            "si",
+            "sk",
+            "sl",
+            "sm",
+            "sn",
+            "so",
+            "sq",
+            "sr",
+            "ss",
+            "st",
+            "su",
+            "sv",
+            "sw",
+            "ta",
+            "te",
+            "tg",
+            "th",
+            "ti",
+            "tk",
+            "tl",
+            "tn",
+            "to",
+            "tr",
+            "ts",
+            "tt",
+            "tw",
+            "ug",
+            "uk",
+            "ur",
+            "uz",
+            "vi",
+            "vo",
+            "wo",
+            "xh",
+            "yi",
+            "yo",
+            "za",
+            "zh",
+            "zu"
+        );
     }
 
-    /*
-     * @static
+    /**
+     * @return array<string, string>
      */
-    public static function _getLanguages()
+    public static function _getLanguages(): array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $lng->loadLanguageModule("meta");
 
         $langs = array();
-        foreach (ilMDLanguageItem::_getPossibleLanguageCodes() as $lngcode) {
+        foreach (self::_getPossibleLanguageCodes() as $lngcode) {
             $langs[$lngcode] = $lng->txt("meta_l_" . $lngcode);
         }
         asort($langs);

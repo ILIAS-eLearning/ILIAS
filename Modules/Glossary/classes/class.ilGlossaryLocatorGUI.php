@@ -1,34 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Glossary\Presentation\PresentationGUIRequest;
 
 /**
  * Glossary Locator GUI
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesGlossary
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilGlossaryLocatorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected PresentationGUIRequest $presentation_request;
+    protected ?ilGlossaryDefinition $definition = null;
+    protected ?ilGlossaryTerm $term = null;
+    protected ilCtrl $ctrl;
+    protected ilLocatorGUI $locator;
 
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    public $mode;
-    public $temp_var;
-    public $tree;
-    public $obj;
-    public $lng;
-    public $tpl;
-
+    public string $mode;
+    public string $temp_var;
+    public ilTree $tree;
+    public ilObjGlossary $glossary;
+    public ilLanguage $lng;
+    public ilGlobalTemplateInterface $tpl;
 
     public function __construct()
     {
@@ -45,46 +52,50 @@ class ilGlossaryLocatorGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->tree = $tree;
+        $this->presentation_request = $DIC->glossary()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
     }
 
-    public function setTemplateVariable($a_temp_var)
+    public function setTemplateVariable(string $a_temp_var): void
     {
         $this->temp_var = $a_temp_var;
     }
 
-    public function setTerm(&$a_term)
+    public function setTerm(ilGlossaryTerm $a_term): void
     {
         $this->term = $a_term;
     }
 
-    public function setGlossary(&$a_glossary)
+    public function setGlossary(ilObjGlossary $a_glossary): void
     {
         $this->glossary = $a_glossary;
     }
 
-    public function setDefinition(&$a_def)
+    public function setDefinition(ilGlossaryDefinition $a_def): void
     {
         $this->definition = $a_def;
     }
 
-    public function setMode($a_mode)
+    public function setMode(string $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
     /**
-    * display locator
-    */
-    public function display()
+     * display locator
+     */
+    public function display(): void
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        
+
         // repository links
         $ilLocator->addRepositoryItems();
-        
+
         // glossary link
         $title = $this->glossary->getTitle();
         if ($this->mode == "edit") {
@@ -97,14 +108,18 @@ class ilGlossaryLocatorGUI
             }
         }
         $ilLocator->addItem($title, $link, "");
-        
+
         if (is_object($this->term) && $this->mode != "edit") {
             $ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $this->term->getId());
             $ilLocator->addItem(
                 $this->term->getTerm(),
                 $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "listDefinitions")
             );
-            $ilCtrl->setParameterByClass("ilglossarypresentationgui", "term_id", $_GET["term_id"]);
+            $ilCtrl->setParameterByClass(
+                "ilglossarypresentationgui",
+                "term_id",
+                $this->presentation_request->getTermId()
+            );
         }
 
         if (is_object($this->definition)) {
@@ -112,12 +127,16 @@ class ilGlossaryLocatorGUI
             if ($this->mode == "edit") {
                 $link = $ilCtrl->getLinkTargetByClass("ilglossarydefpagegui", "edit");
             } else {
-                $ilCtrl->setParameterByClass("ilglossarypresentationgui", "def", $_GET["def"]);
+                $ilCtrl->setParameterByClass(
+                    "ilglossarypresentationgui",
+                    "def",
+                    $this->presentation_request->getDefinitionId()
+                );
                 $link = $ilCtrl->getLinkTargetByClass("ilglossarypresentationgui", "view");
             }
             $ilLocator->addItem($title, $link);
         }
-        
+
         $tpl->setLocator();
     }
 }

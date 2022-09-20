@@ -1,136 +1,102 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
- * Class ilTable2GUI
- *
  * @author	Alex Killing <alex.killing@gmx.de>
  * @author	Sascha Hofmann <shofmann@databay.de>
+ *
+ * @deprecated 11
  */
 class ilTable2GUI extends ilTableGUI
 {
+    public const FILTER_TEXT = 1;
+    public const FILTER_SELECT = 2;
+    public const FILTER_DATE = 3;
+    public const FILTER_LANGUAGE = 4;
+    public const FILTER_NUMBER_RANGE = 5;
+    public const FILTER_DATE_RANGE = 6;
+    public const FILTER_DURATION_RANGE = 7;
+    public const FILTER_DATETIME_RANGE = 8;
+    public const FILTER_CHECKBOX = 9;
+    public const EXPORT_EXCEL = 1;
+    public const EXPORT_CSV = 2;
+    public const ACTION_ALL_LIMIT = 1000;
+    protected string $requested_tmpl_delete;
+    protected string $requested_tmpl_create;
+    protected string $requested_nav_par2 = "";
+    protected string $requested_nav_par = "";
+    protected string $requested_nav_par1 = "";
+    protected ?\ILIAS\Table\TableGUIRequest $table_request = null;
+    protected array $selected_columns = [];
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ?object $parent_obj = null;
+    protected string $parent_cmd = "";
+    protected string $close_command = "";
+    private string $unique_id = "";
+    private string $headerHTML = "";
+    protected string $top_anchor = "il_table_top";
+    protected array $filters = array();
+    protected array $optional_filters = array();
+    protected string $filter_cmd = 'applyFilter';
+    protected string $reset_cmd = 'resetFilter';
+    protected int $filter_cols = 5;
+    protected bool $ext_sort = false;
+    protected bool $ext_seg = false;
+    protected string $context = "";
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected array $mi_sel_buttons = [];
+    protected bool $disable_filter_hiding = false;
+    protected bool $top_commands = true;
+    protected array $selectable_columns = array();
+    protected array $selected_column = array();
+    protected bool $show_templates = false;
+    protected bool $show_rows_selector = true; // JF, 2014-10-27
+    protected bool $rows_selector_off = false;
 
-    /**
-     * @var object
-     */
-    protected $parent_obj;
-
-    /**
-     * @var string
-     */
-    protected $parent_cmd;
-
-    protected $close_command = "";
-    private $unique_id;
-    private $headerHTML;
-    protected $top_anchor = "il_table_top";
-    protected $filters = array();
-    protected $optional_filters = array();
-    protected $filter_cmd = 'applyFilter';
-    protected $reset_cmd = 'resetFilter';
-    protected $filter_cols = 5;
-    protected $ext_sort = false;
-    protected $ext_seg = false;
-    protected $context = "";
-
-    protected $mi_sel_buttons = [];
-    protected $disable_filter_hiding = false;
-    protected $top_commands = true;
-    protected $selectable_columns = array();
-    protected $selected_column = array();
-    protected $show_templates = false;
-    protected $show_rows_selector = true; // JF, 2014-10-27
-    protected $rows_selector_off = false;
-
-    protected $nav_determined = false;
-    protected $limit_determined = false;
-    protected $filters_determined = false;
-    protected $columns_determined = false;
-    protected $open_form_tag = true;
-    protected $close_form_tag = true;
-
-    protected $export_formats = [];
-    protected $export_mode;
-    protected $print_mode;
-
-    protected $enable_command_for_all;
-    protected $restore_filter; // [bool]
-    protected $restore_filter_values; // [bool]
-    
-    /**
-     * @var bool
-     */
-    protected $default_filter_visibility = false;
-
-    protected $sortable_fields = array();
-    /**
-     * @var bool
-     */
-    protected $prevent_double_submission = true;
-
-    /**
-     * @var string
-     */
-    protected $row_selector_label;
-
-    /**
-     * @var bool
-     */
-    protected $select_all_on_top = false;
-
-    protected $sel_buttons = [];
-
-    /** @var string */
-    protected $nav_value = '';
-
-    /** @var string */
-    protected $noentriestext = '';
-
-    /** @var string */
-    protected $css_row = '';
-
-    /** @var string */
-    protected $display_as_block = false;
-
-    /** @var string */
-    protected $description = '';
-
-    const FILTER_TEXT = 1;
-    const FILTER_SELECT = 2;
-    const FILTER_DATE = 3;
-    const FILTER_LANGUAGE = 4;
-    const FILTER_NUMBER_RANGE = 5;
-    const FILTER_DATE_RANGE = 6;
-    const FILTER_DURATION_RANGE = 7;
-    const FILTER_DATETIME_RANGE = 8;
-    const FILTER_CHECKBOX = 9;
-
-    const EXPORT_EXCEL = 1;
-    const EXPORT_CSV = 2;
-
-    const ACTION_ALL_LIMIT = 1000;
-
-    /**
-     * @var string
-     */
-    protected $id;
-    protected $custom_prev_next;
-    protected $reset_cmd_txt;
-
+    protected bool $nav_determined = false;
+    protected bool $limit_determined = false;
+    protected bool $filters_determined = false;
+    protected bool $columns_determined = false;
+    protected bool $open_form_tag = true;
+    protected bool $close_form_tag = true;
+    protected array $export_formats = [];
+    protected bool $export_mode = false;
+    protected bool $print_mode = false;
+    protected bool $enable_command_for_all = false;
+    protected bool $restore_filter = false;
+    protected array $restore_filter_values = [];
+    protected bool $default_filter_visibility = false;
+    protected array $sortable_fields = array();
+    protected bool $prevent_double_submission = true;
+    protected string $row_selector_label = "";
+    protected bool $select_all_on_top = false;
+    protected array $sel_buttons = [];
+    protected string $nav_value = '';
+    protected string $noentriestext = '';
+    protected string $css_row = '';
+    protected bool $display_as_block = false;
+    protected string $description = '';
+    protected string $id = "";
+    protected bool $custom_prev_next = false;
+    protected string $reset_cmd_txt = "";
     protected string $defaultorderfield = "";
     protected string $defaultorderdirection = "";
-
     protected array $column = [];
     protected bool $datatable = false;
     protected bool $num_info = false;
@@ -150,24 +116,33 @@ class ilTable2GUI extends ilTableGUI
     protected string $filter_cmd_txt = "";
     protected string $custom_prev = "";
     protected string $custom_next = "";
+    protected ?array $raw_post_data = null;
+    protected \ilGlobalTemplateInterface $main_tpl;
 
     /**
-     * ilTable2GUI constructor.
-     *
-     * @param object $a_parent_obj ob  Mostly ILIAS-GUI-Classes
-     * @param string $a_parent_cmd
-     * @param string $a_template_context
+     * @param object|null $a_parent_obj upper GUI class, which calls ilTable2GUI
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "")
-    {
+    public function __construct(
+        ?object $a_parent_obj,
+        string $a_parent_cmd = "",
+        string $a_template_context = ""
+    ) {
         global $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
+        if (isset($DIC["http"])) {
+            $this->table_request = new \ILIAS\Table\TableGUIRequest(
+                $DIC->http(),
+                $DIC->refinery()
+            );
+        }
+        $this->getRequestedValues();
         parent::__construct([], false);
-        $this->unique_id = md5(uniqid());
+        $this->unique_id = md5(uniqid('', true));
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
         $this->buttons = array();
@@ -185,65 +160,59 @@ class ilTable2GUI extends ilTableGUI
         $this->setContext($a_template_context);
 
         // activate export mode
-        if (isset($_GET[$this->prefix . "_xpt"])) {
-            $this->export_mode = (int) $_GET[$this->prefix . "_xpt"];
-        }
+        if (isset($this->table_request)) {
+            $this->export_mode = $this->table_request->getExportMode($this->prefix);
 
-        // template handling
-        if (isset($_GET[$this->prefix . "_tpl"])) {
-            $this->restoreTemplate($_GET[$this->prefix . "_tpl"]);
+            // template handling
+            if ($this->table_request->getTemplate($this->prefix) != "") {
+                $this->restoreTemplate($this->table_request->getTemplate($this->prefix));
+            }
         }
 
         $this->determineLimit();
         $this->setIsDataTable(true);
         $this->setEnableNumInfo(true);
         $this->determineSelectedColumns();
+
+        $this->raw_post_data = [];
+        if (isset($DIC["http"])) {
+            $this->raw_post_data = $DIC->http()->request()->getParsedBody();
+        }
     }
 
-    /**
-     * Set open form tag
-     *
-     * @param	boolean	open form tag
-     */
-    public function setOpenFormTag($a_val)
+    protected function getRequestedValues(): void
+    {
+        if (is_null($this->table_request)) {
+            return;
+        }
+        $this->requested_nav_par = $this->table_request->getNavPar($this->getNavParameter());
+        $this->requested_nav_par1 = $this->table_request->getNavPar($this->getNavParameter(), 1);
+        $this->requested_nav_par2 = $this->table_request->getNavPar($this->getNavParameter(), 2);
+        $this->requested_tmpl_create = $this->table_request->getTemplCreate();
+        $this->requested_tmpl_delete = $this->table_request->getTemplDelete();
+    }
+
+    public function setOpenFormTag(bool $a_val): void
     {
         $this->open_form_tag = $a_val;
     }
 
-    /**
-     * Get open form tag
-     *
-     * @return	boolean	open form tag
-     */
-    public function getOpenFormTag()
+    public function getOpenFormTag(): bool
     {
         return $this->open_form_tag;
     }
 
-    /**
-     * Set close form tag
-     *
-     * @param	boolean	close form tag
-     */
-    public function setCloseFormTag($a_val)
+    public function setCloseFormTag(bool $a_val): void
     {
         $this->close_form_tag = $a_val;
     }
 
-    /**
-     * Get close form tag
-     *
-     * @return	boolean	close form tag
-     */
-    public function getCloseFormTag()
+    public function getCloseFormTag(): bool
     {
         return $this->close_form_tag;
     }
 
-    /**
-     * Determine the limit
-     */
-    public function determineLimit()
+    public function determineLimit(): void
     {
         global $DIC;
 
@@ -257,19 +226,19 @@ class ilTable2GUI extends ilTableGUI
         }
 
         $limit = 0;
-        if (isset($_GET[$this->prefix . "_trows"])) {
-            $this->storeProperty("rows", $_GET[$this->prefix . "_trows"]);
-            $limit = $_GET[$this->prefix . "_trows"];
+        if (isset($this->table_request) && !is_null($this->table_request->getRows($this->prefix))) {
+            $this->storeProperty("rows", $this->table_request->getRows($this->prefix));
+            $limit = $this->table_request->getRows($this->prefix) ?? 0;
             $this->resetOffset();
         }
 
         if ($limit == 0) {
-            $rows = $this->loadProperty("rows");
+            $rows = (int) $this->loadProperty("rows");
             if ($rows > 0) {
                 $limit = $rows;
             } else {
                 if (is_object($ilUser)) {
-                    $limit = $ilUser->getPref("hits_per_page");
+                    $limit = (int) $ilUser->getPref("hits_per_page");
                 } else {
                     $limit = 40;
                 }
@@ -282,18 +251,14 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Get selectable columns
-     *
-     * @return		array	key: column id, val: true/false -> default on/off
+     * @return array key: column id, val: true/false -> default on/off
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns(): array
     {
-        return array();
+        return [];
     }
 
-    /**
-     * Determine selected columns
-     */
-    public function determineSelectedColumns()
+    public function determineSelectedColumns(): void
     {
         if ($this->columns_determined) {
             return;
@@ -303,8 +268,7 @@ class ilTable2GUI extends ilTableGUI
         $sel_fields = [];
         $stored = false;
         if ($old_sel != "") {
-            $sel_fields =
-                @unserialize($old_sel);
+            $sel_fields = unserialize($old_sel);
             $stored = true;
         }
         if (!is_array($sel_fields)) {
@@ -314,14 +278,22 @@ class ilTable2GUI extends ilTableGUI
 
         $this->selected_columns = array();
         $set = false;
+
+        $fsh = false;
+        $fs = [];
+        if (isset($this->table_request)) {
+            $fs = $this->table_request->getFS($this->getId());
+            $fsh = $this->table_request->getFSH($this->getId());
+        }
+
         foreach ($this->getSelectableColumns() as $k => $c) {
             $this->selected_column[$k] = false;
 
-            $new_column = (!isset($sel_fields[$k]) || $sel_fields[$k] === null);
+            $new_column = (!isset($sel_fields[$k]));
 
-            if (isset($_POST["tblfsh" . $this->getId()]) && $_POST["tblfsh" . $this->getId()]) {
+            if ($fsh) {
                 $set = true;
-                if (is_array($_POST["tblfs" . $this->getId()]) && in_array($k, $_POST["tblfs" . $this->getId()])) {
+                if (in_array($k, $fs)) {
                     $this->selected_column[$k] = true;
                 }
             } elseif ($stored && !$new_column) {	// take stored values
@@ -336,9 +308,13 @@ class ilTable2GUI extends ilTableGUI
             }
 
             // Optional filters
-            if (isset($_POST["tblff" . $this->getId()]) && $_POST["tblff" . $this->getId()]) {
+            $ff = [];
+            if (isset($this->table_request)) {
+                $ff = $this->table_request->getFF($this->getId());
+            }
+            if (count($ff) > 0) {
                 $set = true;
-                if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
+                if (in_array($k, $ff)) {
                     $this->selected_column[$k] = true;
                 }
             }
@@ -351,24 +327,12 @@ class ilTable2GUI extends ilTableGUI
         $this->columns_determined = true;
     }
 
-    /**
-     * Is given column selected?
-     *
-     * @param	string	column name
-     * @return	boolean
-     */
-    public function isColumnSelected($a_col)
+    public function isColumnSelected(string $col): bool
     {
-        return $this->selected_column[$a_col];
+        return $this->selected_column[$col] ?? false;
     }
 
-    /**
-     * Get selected columns
-     *
-     * @param
-     * @return
-     */
-    public function getSelectedColumns()
+    public function getSelectedColumns(): array
     {
         $scol = array();
         foreach ($this->selected_column as $k => $v) {
@@ -379,10 +343,7 @@ class ilTable2GUI extends ilTableGUI
         return $scol;
     }
 
-    /**
-     * Execute command.
-     */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $ilCtrl = $this->ctrl;
 
@@ -392,285 +353,158 @@ class ilTable2GUI extends ilTableGUI
             case 'ilformpropertydispatchgui':
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $this->initFilter();
-                $item = $this->getFilterItemByPostVar($_GET["postvar"]);
+                /** @var ilFormPropertyGUI $item */
+                $item = $this->getFilterItemByPostVar(
+                    $this->table_request->getPostVar()
+                );
                 $form_prop_dispatch->setItem($item);
-                return $ilCtrl->forwardCommand($form_prop_dispatch);
-                break;
-
+                return (bool) $ilCtrl->forwardCommand($form_prop_dispatch);
         }
         return false;
     }
 
-    /**
-    * Reset offset
-    */
-    public function resetOffset($a_in_determination = false)
+    public function resetOffset(bool $a_in_determination = false): void
     {
         if (!$this->nav_determined && !$a_in_determination) {
             $this->determineOffsetAndOrder();
         }
         $this->nav_value = $this->getOrderField() . ":" . $this->getOrderDirection() . ":0";
-        $_GET[$this->getNavParameter()] =
-            $_POST[$this->getNavParameter() . "1"] =
-            $this->nav_value;
-        //echo $this->nav_value;
+        $this->requested_nav_par = $this->requested_nav_par1 = $this->nav_value;
         $this->setOffset(0);
     }
 
-    /**
-    * Init filter. Overwrite this to initialize all filter input property
-    * objects.
-    */
-    public function initFilter()
+    public function initFilter(): void
     {
     }
 
-    /**
-    * Get parent object
-    *
-    * @return	object		parent GUI object
-    */
-    public function getParentObject()
+    public function getParentObject(): ?object
     {
         return $this->parent_obj;
     }
 
-    /**
-    * Get parent command
-    *
-    * @return	string		get parent gui object default command
-    */
-    public function getParentCmd()
+    public function getParentCmd(): string
     {
         return $this->parent_cmd;
     }
 
-    /**
-    * Set top anchor
-    *
-    * @param	string	top anchor
-    */
-    public function setTopAnchor($a_val)
+    public function setTopAnchor(string $a_val): void
     {
         $this->top_anchor = $a_val;
     }
 
-    /**
-    * Get top anchor
-    *
-    * @return	string	top anchor
-    */
-    public function getTopAnchor()
+    public function getTopAnchor(): string
     {
         return $this->top_anchor;
     }
 
-    /**
-    * Set text for an empty table.
-    *
-    * @param	string	$a_text	Text
-    */
-    public function setNoEntriesText($a_text)
+    public function setNoEntriesText(string $a_text): void
     {
         $this->noentriestext = $a_text;
     }
 
-    /**
-    * Get text for an empty table.
-    *
-    * @return	string	Text
-    */
-    public function getNoEntriesText()
+    public function getNoEntriesText(): string
     {
         return $this->noentriestext;
     }
 
-    /**
-    * Set is data table
-    *
-    * @param	boolean		is data table
-    */
-    public function setIsDataTable($a_val)
+    public function setIsDataTable(bool $a_val): void
     {
         $this->datatable = $a_val;
     }
 
-    /**
-    * Get is data table
-    *
-    * @return	boolean		is data table
-    */
-    public function getIsDataTable()
+    public function getIsDataTable(): bool
     {
         return $this->datatable;
     }
 
-    /**
-    * Set Enable Title.
-    *
-    * @param	boolean	$a_enabletitle	Enable Title
-    */
-    public function setEnableTitle($a_enabletitle)
+    public function setEnableTitle(bool $a_enabletitle): void
     {
         $this->enabled["title"] = $a_enabletitle;
     }
 
-    /**
-    * Get Enable Title.
-    *
-    * @return	boolean	Enable Title
-    */
-    public function getEnableTitle()
+    public function getEnableTitle(): bool
     {
         return $this->enabled["title"];
     }
 
-    /**
-    * Set Enable Header.
-    *
-    * @param	boolean	$a_enableheader	Enable Header
-    */
-    public function setEnableHeader($a_enableheader)
+    public function setEnableHeader(bool $a_enableheader): void
     {
         $this->enabled["header"] = $a_enableheader;
     }
 
-    /**
-    * Get Enable Header.
-    *
-    * @return	boolean	Enable Header
-    */
-    public function getEnableHeader()
+    public function getEnableHeader(): bool
     {
         return $this->enabled["header"];
     }
 
-    /**
-    * Set enable num info
-    *
-    * @param	boolean		enable number of records info
-    */
-    public function setEnableNumInfo($a_val)
+    public function setEnableNumInfo(bool $a_val): void
     {
         $this->num_info = $a_val;
     }
 
-    /**
-    * Get enable num info
-    *
-    * @return	boolean		enable number of records info
-    */
-    public function getEnableNumInfo()
+    public function getEnableNumInfo(): bool
     {
         return $this->num_info;
     }
 
-    /**
-    * Set title and title icon
-    */
-    final public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
-    {
+    final public function setTitle(
+        string $a_title,
+        string $a_icon = "",
+        string $a_icon_alt = ""
+    ): void {
         parent::setTitle($a_title, $a_icon, $a_icon_alt);
     }
 
-    /**
-    * Set description
-    *
-    * @param	string description
-    */
-    public function setDescription($a_val)
+    public function setDescription(string $a_val): void
     {
         $this->description = $a_val;
     }
 
-    /**
-    * Get description
-    *
-    * @return	string	description
-    */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-    * set order column
-    *
-    * @param	string	(array) field name for ordering
-    */
-    public function setOrderField($a_order_field)
+    public function setOrderField(string $a_order_field): void
     {
         $this->order_field = $a_order_field;
     }
 
-    public function getOrderField()
+    public function getOrderField(): string
     {
         return $this->order_field;
     }
 
-    final public function setData($a_data)
+    final public function setData(array $a_data): void
     {
-        // check column names against given data (to ensure proper sorting)
-        if (defined('DEVMODE') && DEVMODE &&
-            $this->enabled["header"] && $this->enabled["sort"] &&
-            $this->columns_determined && is_array($this->column) &&
-            is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting()) {
-            $check = $a_data;
-            $check = array_keys(array_shift($check));
-            foreach ($this->column as $col) {
-                if ($col["sort_field"] && !in_array($col["sort_field"], $check)) {
-                    $invalid[] = $col["sort_field"];
-                }
-            }
-
-            // this triggers an error, if some columns are not set for some rows
-            // which may just be a representation of "null" values, e.g.
-            // ilAdvancedMDValues:queryForRecords works that way.
-/*			if(sizeof($invalid))
-            {
-                trigger_error("The following columns are defined as sortable but".
-                    " cannot be found in the given data: ".implode(", ", $invalid).
-                    ". Sorting will not work properly.", E_USER_WARNING);
-            }*/
-        }
-
         $this->row_data = $a_data;
-        if (!is_array($this->row_data)) {
-            $this->row_data = [];
-        }
     }
 
-    final public function getData()
+    final public function getData(): array
     {
         return $this->row_data;
     }
 
-    final public function dataExists()
+    final public function dataExists(): bool
     {
-        if (is_array($this->row_data)) {
-            if (count($this->row_data) > 0) {
-                return true;
-            }
-        }
-        return false;
+        return count($this->row_data) > 0;
     }
 
-    final public function setPrefix($a_prefix)
+    final public function setPrefix(string $a_prefix): void
     {
         $this->prefix = $a_prefix;
+        $this->getRequestedValues();
     }
 
-    final public function getPrefix()
+    final public function getPrefix(): string
     {
         return $this->prefix;
     }
 
-    /**
-    * Add filter item. Filter items are property form inputs that implement
-    * the ilTableFilterItem interface
-    */
-    final public function addFilterItem($a_input_item, $a_optional = false)
-    {
+    final public function addFilterItem(
+        ilTableFilterItem $a_input_item,
+        bool $a_optional = false
+    ): void {
         $a_input_item->setParentTable($this);
         if (!$a_optional) {
             $this->filters[] = $a_input_item;
@@ -690,15 +524,14 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Add filter by standard type
-     *
-     * @param	string	$id
-     * @param	int		$type
-     * @param	bool	$a_optional
-     * @param	string	$caption
-     * @return	object
+     * @throws Exception
      */
-    public function addFilterItemByMetaType($id, $type = self::FILTER_TEXT, $a_optional = false, $caption = null)
-    {
+    public function addFilterItemByMetaType(
+        string $id,
+        int $type = self::FILTER_TEXT,
+        bool $a_optional = false,
+        string $caption = ""
+    ): ?ilTableFilterItem {
         global $DIC;
 
         $lng = $DIC->language();	// constructor may not be called here, if initFilter is being called in subclasses before parent::__construct
@@ -744,8 +577,8 @@ class ilTable2GUI extends ilTableGUI
                 $combi_item = new ilNumberInputGUI("", $id . "_to");
                 $item->addCombinationItem("to", $combi_item, $lng->txt("to"));
                 $item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
-                $item->setMaxLength(7);
-                $item->setSize(20);
+                //$item->setMaxLength(7);
+                //$item->setSize(20);
                 break;
 
             case self::FILTER_DATE_RANGE:
@@ -785,7 +618,7 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             default:
-                return false;
+                return null;
         }
 
         $this->addFilterItem($item, $a_optional);
@@ -793,10 +626,7 @@ class ilTable2GUI extends ilTableGUI
         return $item;
     }
 
-    /**
-    * Get filter items
-    */
-    final public function getFilterItems($a_optionals = false)
+    final public function getFilterItems(bool $a_optionals = false): array
     {
         if (!$a_optionals) {
             return $this->filters;
@@ -804,7 +634,7 @@ class ilTable2GUI extends ilTableGUI
         return $this->optional_filters;
     }
 
-    final public function getFilterItemByPostVar($a_post_var)
+    final public function getFilterItemByPostVar(string $a_post_var): ?ilTableFilterItem
     {
         foreach ($this->getFilterItems() as $item) {
             if ($item->getPostVar() == $a_post_var) {
@@ -816,67 +646,38 @@ class ilTable2GUI extends ilTableGUI
                 return $item;
             }
         }
-        return false;
+        return null;
     }
 
-    /**
-    * Set filter columns
-    *
-    * @param	int		number of filter columns
-    */
-    public function setFilterCols($a_val)
+    public function setFilterCols(int $a_val): void
     {
         $this->filter_cols = $a_val;
     }
 
-    /**
-    * Get filter columns
-    *
-    * @return	int		number of filter columns
-    */
-    public function getFilterCols()
+    public function getFilterCols(): int
     {
         return $this->filter_cols;
     }
 
-    /**
-    * Set disable filter hiding
-    *
-    * @param	boolean			disable filter hiding
-    */
-    public function setDisableFilterHiding($a_val = true)
+    public function setDisableFilterHiding(bool $a_val = true): void
     {
         $this->disable_filter_hiding = $a_val;
     }
 
-    /**
-    * Get disable filter hiding
-    *
-    * @return	boolean
-    */
-    public function getDisableFilterHiding()
+    public function getDisableFilterHiding(): bool
     {
         return $this->disable_filter_hiding;
     }
 
     /**
      * Is given filter selected?
-     *
-     * @param	string	column name
-     * @return	boolean
      */
-    public function isFilterSelected($a_col)
+    public function isFilterSelected(string $a_col): bool
     {
-        return $this->selected_filter[$a_col];
+        return (bool) $this->selected_filter[$a_col];
     }
 
-    /**
-     * Get selected filters
-     *
-     * @param
-     * @return
-     */
-    public function getSelectedFilters()
+    public function getSelectedFilters(): array
     {
         $sfil = array();
         foreach ($this->selected_filter as $k => $v) {
@@ -887,13 +688,7 @@ class ilTable2GUI extends ilTableGUI
         return $sfil;
     }
 
-    /**
-     * Determine selected filters
-     *
-     * @param
-     * @return
-     */
-    public function determineSelectedFilters()
+    public function determineSelectedFilters(): void
     {
         if ($this->filters_determined) {
             return;
@@ -904,7 +699,7 @@ class ilTable2GUI extends ilTableGUI
         $sel_filters = null;
         if ($old_sel != "") {
             $sel_filters =
-                @unserialize($old_sel);
+                unserialize($old_sel);
             $stored = true;
         }
         if (!is_array($sel_filters)) {
@@ -919,20 +714,16 @@ class ilTable2GUI extends ilTableGUI
 
             $this->selected_filter[$k] = false;
 
-            if (isset($_POST["tblfsf" . $this->getId()])) {
+            if ($this->table_request->getFSF($this->getId())) {
                 $set = true;
-                if (
-                    isset($_POST["tblff" . $this->getId()]) &&
-                    is_array($_POST["tblff" . $this->getId()]) &&
-                    in_array($k, $_POST["tblff" . $this->getId()])
-                ) {
+                if (in_array($k, $this->table_request->getFF($this->getId()))) {
                     $this->selected_filter[$k] = true;
                 } else {
                     $item->setValue(null);
                     $item->writeToSession();
                 }
             } elseif ($stored) {	// take stored values
-                $this->selected_filter[$k] = $sel_filters[$k];
+                $this->selected_filter[$k] = $sel_filters[$k] ?? "";
             }
         }
 
@@ -943,423 +734,244 @@ class ilTable2GUI extends ilTableGUI
         $this->filters_determined = true;
     }
 
-    /**
-    * Set custom previous/next links
-    */
-    public function setCustomPreviousNext($a_prev_link, $a_next_link)
-    {
+    public function setCustomPreviousNext(
+        string $a_prev_link,
+        string $a_next_link
+    ): void {
         $this->custom_prev_next = true;
         $this->custom_prev = $a_prev_link;
         $this->custom_next = $a_next_link;
     }
 
-    /**
-    * Set Form action parameter.
-    *
-    * @param	string	$a_form_action	Form action
-    * @param	bvool	$a_multipart	Form multipart status
-    */
-    final public function setFormAction($a_form_action, $a_multipart = false)
-    {
+    final public function setFormAction(
+        string $a_form_action,
+        bool $a_multipart = false
+    ): void {
         $this->form_action = $a_form_action;
-        $this->form_multipart = (bool) $a_multipart;
+        $this->form_multipart = $a_multipart;
     }
 
-    /**
-    * Get Form action parameter.
-    *
-    * @return	string	Form action
-    */
-    final public function getFormAction()
+    final public function getFormAction(): string
     {
         return $this->form_action;
     }
 
-    /**
-    * Set Form name.
-    *
-    * @param	string	$a_formname	Form name
-    */
-    public function setFormName($a_formname = "")
+    public function setFormName(string $a_name = ""): void
     {
-        $this->formname = $a_formname;
+        $this->formname = $a_name;
     }
 
-    /**
-    * Get Form name.
-    *
-    * @return	string	Form name
-    */
-    public function getFormName()
+    public function getFormName(): string
     {
         return $this->formname;
     }
 
-    /**
-    * Set id
-    *
-    * @param	string	element id
-    */
-    public function setId($a_val)
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
         if ($this->getPrefix() == "") {
             $this->setPrefix($a_val);
         }
+        if (strlen($this->id) > 30) {
+            throw new ilException("Table ID to long (max. 30 char): " . $this->id);
+        }
     }
 
-    /**
-    * Get element id
-    *
-    * @return	string	id
-    */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-    * Set display as block
-    *
-    * @param	boolean	display as block
-    */
-    public function setDisplayAsBlock($a_val)
+    public function setDisplayAsBlock(bool $a_val): void
     {
         $this->display_as_block = $a_val;
     }
 
-    /**
-    * Get display as block
-    *
-    * @return	boolean		display as block
-    */
-    public function getDisplayAsBlock()
+    public function getDisplayAsBlock(): bool
     {
         return $this->display_as_block;
     }
 
-    /**
-    * Get the name of the checkbox that should be toggled with a select all button
-    *
-    * @return	string	name of the checkbox
-    */
-    public function getSelectAllCheckbox()
-    {
-        return $this->select_all_checkbox;
-    }
-
-    /**
-     * Set the name of the checkbox that should be toggled with a select all button
-     *
-     * @param string $a_select_all_checkbox name of the checkbox
-     * @param bool $a_select_all_on_top Show select all on top of table
-     */
-    public function setSelectAllCheckbox($a_select_all_checkbox, $a_select_all_on_top = false)
-    {
+    public function setSelectAllCheckbox(
+        string $a_select_all_checkbox,
+        bool $a_select_all_on_top = false
+    ): void {
         $this->select_all_checkbox = $a_select_all_checkbox;
         $this->select_all_on_top = $a_select_all_on_top;
     }
 
-    /**
-    * Set external sorting
-    *
-    * @param	boolean		data is sorted externally
-    */
-    public function setExternalSorting($a_val)
+    public function setExternalSorting(bool $a_val): void
     {
         $this->ext_sort = $a_val;
     }
 
-    /**
-    * Get external sorting
-    *
-    * @return	boolean		data is sorted externally
-    */
-    public function getExternalSorting()
+    public function getExternalSorting(): bool
     {
         return $this->ext_sort;
     }
 
-    /**
-    * Set filter command
-    *
-    * @param	string		filter command
-    * @param	string		filter caption
-    */
-    public function setFilterCommand($a_val, $a_caption = "")
-    {
+    public function setFilterCommand(
+        string $a_val,
+        string $a_caption = ""
+    ): void {
         $this->filter_cmd = $a_val;
         $this->filter_cmd_txt = $a_caption;
     }
 
-    /**
-    * Get filter command
-    *
-    * @return	string		filter command
-    */
-    public function getFilterCommand()
+    public function getFilterCommand(): string
     {
         return $this->filter_cmd;
     }
 
-    /**
-    * Set reset filter command
-    *
-    * @param	string		reset command
-    * @param	string		reset caption
-    */
-    public function setResetCommand($a_val, $a_caption = null)
-    {
+    public function setResetCommand(
+        string $a_val,
+        string $a_caption = ""
+    ): void {
         $this->reset_cmd = $a_val;
         $this->reset_cmd_txt = $a_caption;
     }
 
-    /**
-    * Get reset filter command
-    *
-    * @return	string		reset command
-    */
-    public function getResetCommand()
+    public function getResetCommand(): string
     {
         return $this->reset_cmd;
     }
 
-    /**
-    * Set external segmentation
-    *
-    * @param	boolean		data is segmented externally
-    */
-    public function setExternalSegmentation($a_val)
+    public function setExternalSegmentation(bool $a_val): void
     {
         $this->ext_seg = $a_val;
     }
 
-    /**
-    * Get external segmentation
-    *
-    * @return	boolean		data is segmented externally
-    */
-    public function getExternalSegmentation()
+    public function getExternalSegmentation(): bool
     {
         return $this->ext_seg;
     }
 
     /**
-    * Set row template.
-    *
-    * @param	string	$a_template			Template file name.
-    * @param	string	$a_template_dir		Service/Module directory.
-    */
-    final public function setRowTemplate($a_template, $a_template_dir = "")
+     * Set row template.
+     * @param	string $a_template     Template file name.
+     * @param	string $a_template_dir Service/Module directory.
+     */
+    final public function setRowTemplate(string $a_template, string $a_template_dir = ""): void
     {
         $this->row_template = $a_template;
         $this->row_template_dir = $a_template_dir;
     }
 
-    /**
-    * Set Default order field.
-    *
-    * @param	string	$a_defaultorderfield	Default order field
-    */
-    public function setDefaultOrderField($a_defaultorderfield)
+    public function setDefaultOrderField(string $a_defaultorderfield): void
     {
         $this->defaultorderfield = $a_defaultorderfield;
     }
 
-    /**
-    * Get Default order field.
-    *
-    * @return	string	Default order field
-    */
-    public function getDefaultOrderField()
+    public function getDefaultOrderField(): string
     {
         return $this->defaultorderfield;
     }
 
-    /**
-    * Set Default order direction.
-    *
-    * @param	string	$a_defaultorderdirection	Default order direction
-    */
-    public function setDefaultOrderDirection($a_defaultorderdirection)
+
+    public function setDefaultOrderDirection(string $a_defaultorderdirection): void
     {
         $this->defaultorderdirection = $a_defaultorderdirection;
     }
 
-    /**
-    * Get Default order direction.
-    *
-    * @return	string	Default order direction
-    */
-    public function getDefaultOrderDirection()
+    public function getDefaultOrderDirection(): string
     {
         return $this->defaultorderdirection;
     }
-    
-    /**
-     * Set default filter visiblity
-     * @param bool $a_status
-     */
-    public function setDefaultFilterVisiblity($a_status)
+
+    public function setDefaultFilterVisiblity(bool $a_status): void
     {
         $this->default_filter_visibility = $a_status;
     }
-    
-    /**
-     * Get default filter visibility
-     * @return bool
-     */
-    public function getDefaultFilterVisibility()
+
+    public function getDefaultFilterVisibility(): bool
     {
         return $this->default_filter_visibility;
     }
-    
-    /*
-     * Removes all command buttons from the table
-     *
-     * @access	public
-     */
-    public function clearCommandButtons()
+
+    public function clearCommandButtons(): void
     {
         $this->buttons = array();
     }
 
-    /**
-    * Add Command button
-    *
-    * @param	string	Command
-    * @param	string	Text
-    */
-    public function addCommandButton($a_cmd, $a_text, $a_onclick = '', $a_id = "", $a_class = null)
-    {
+    public function addCommandButton(
+        string $a_cmd,
+        string $a_text,
+        string $a_onclick = '',
+        string $a_id = "",
+        string $a_class = ""
+    ): void {
         $this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, 'onclick' => $a_onclick,
             "id" => $a_id, "class" => $a_class);
     }
 
-    /**
-     * Add Command button instance
-
-     * @param ilButtonBase $a_button
-     */
-    public function addCommandButtonInstance(ilButtonBase $a_button)
+    public function addCommandButtonInstance(ilButtonBase $a_button): void
     {
         $this->buttons[] = $a_button;
     }
 
     /**
-    * Add Selection List + Command button
-    *
-    * @param	string	selection input variable name
-    * @param	array	selection options ("value" => text")
-    * @param	string	command
-    * @param	string	button text
-    *
-    * @deprecated
-    */
-    public function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
-    {
-        echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try to move the drop-down to ilToolbarGUI.";
-        //		$this->sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
-    }
-
-    /**
-    * Add Selection List + Command button
-    * for selected items
-    *
-    * @param	string	selection input variable name
-    * @param	array	selection options ("value" => text")
-    * @param	string	command
-    * @param	string	button text
-    */
-    public function addMultiItemSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
-    {
+     * @param string $a_sel_var selection input variable name
+     * @param array  $a_options selection options ("value" => text")
+     * @param string $a_cmd command
+     * @param string $a_text button text
+     * @param string $a_default_selection
+     * @return void
+     */
+    public function addMultiItemSelectionButton(
+        string $a_sel_var,
+        array $a_options,
+        string $a_cmd,
+        string $a_text,
+        string $a_default_selection = ''
+    ): void {
         $this->mi_sel_buttons[] = array("sel_var" => $a_sel_var, "options" => $a_options, "selected" => $a_default_selection, "cmd" => $a_cmd, "text" => $a_text);
         $this->addHiddenInput("cmd_sv[" . $a_cmd . "]", $a_sel_var);
     }
 
-
-
-    /**
-    * Add command for closing table.
-    *
-    * @param	string	$a_link		closing link
-     * @deprecated
-    */
-    public function setCloseCommand($a_link)
+    public function setCloseCommand(string $a_link): void
     {
         $this->close_command = $a_link;
     }
 
-    /**
-    * Add Command button
-    *
-    * @param	string	Command
-    * @param	string	Text
-    */
-    public function addMultiCommand($a_cmd, $a_text)
+    public function addMultiCommand(string $a_cmd, string $a_text): void
     {
         $this->multi[] = array("cmd" => $a_cmd, "text" => $a_text);
     }
 
-    /**
-    * Add Hidden Input field
-    *
-    * @param	string	Name
-    * @param	string	Value
-    */
-    public function addHiddenInput($a_name, $a_value)
+    public function addHiddenInput(string $a_name, string $a_value): void
     {
         $this->hidden_inputs[] = array("name" => $a_name, "value" => $a_value);
     }
 
-    /**
-    * Add Header Command (Link)  (Image needed for now)
-    *
-    * @param	string	href
-    * @param	string	text
-    */
-    public function addHeaderCommand($a_href, $a_text, $a_target = "", $a_img = "")
-    {
+    public function addHeaderCommand(
+        string $a_href,
+        string $a_text,
+        string $a_target = "",
+        string $a_img = ""
+    ): void {
         $this->header_commands[] = array("href" => $a_href, "text" => $a_text,
             "target" => $a_target, "img" => $a_img);
     }
 
-    /**
-    * Set top commands (display command buttons on top of table, too)
-    *
-    * @param	boolean		top commands true/false
-    */
-    public function setTopCommands($a_val)
+    public function setTopCommands(bool $a_val): void
     {
         $this->top_commands = $a_val;
     }
 
-    /**
-    * Get top commands (display command buttons on top of table, too)
-    *
-    * @return	boolean		top commands true/false
-    */
-    public function getTopCommands()
+    public function getTopCommands(): bool
     {
         return $this->top_commands;
     }
 
-    /**
-     * Add a column to the header.
-     *
-     * @param	string		Text
-     * @param	string		Sort field name (corresponds to data array field)
-     * @param	string		Width string
-     */
     final public function addColumn(
-        $a_text,
-        $a_sort_field = "",
-        $a_width = "",
-        $a_is_checkbox_action_column = false,
-        $a_class = "",
-        $a_tooltip = "",
-        $a_tooltip_with_html = false
-    ) {
+        string $a_text,
+        string $a_sort_field = "",
+        string $a_width = "",
+        bool $a_is_checkbox_action_column = false,
+        string $a_class = "",
+        string $a_tooltip = "",
+        bool $a_tooltip_with_html = false
+    ): void {
         $this->column[] = array(
             "text" => $a_text,
             "sort_field" => $a_sort_field,
@@ -1367,7 +979,7 @@ class ilTable2GUI extends ilTableGUI
             "is_checkbox_action_column" => $a_is_checkbox_action_column,
             "class" => $a_class,
             "tooltip" => $a_tooltip,
-            "tooltip_html" => (bool) $a_tooltip_with_html
+            "tooltip_html" => $a_tooltip_with_html
             );
         if ($a_sort_field != "") {
             $this->sortable_fields[] = $a_sort_field;
@@ -1376,12 +988,12 @@ class ilTable2GUI extends ilTableGUI
     }
 
 
-    final public function getNavParameter()
+    final public function getNavParameter(): string
     {
         return $this->prefix . "_table_nav";
     }
 
-    public function setOrderLink($sort_field, $order_dir)
+    public function setOrderLink(string $key, string $order_dir): void
     {
         global $DIC;
 
@@ -1390,17 +1002,14 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $hash = "";
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $hash = "#" . $this->getTopAnchor();
-        }
 
-        $old = $_GET[$this->getNavParameter()] ?? '';
+        $old = $this->requested_nav_par ?? '';
 
         // set order link
         $ilCtrl->setParameter(
             $this->parent_obj,
             $this->getNavParameter(),
-            $sort_field . ":" . $order_dir . ":" . $this->offset
+            $key . ":" . $order_dir . ":" . $this->offset
         );
         $this->tpl->setVariable(
             "TBL_ORDER_LINK",
@@ -1415,12 +1024,12 @@ class ilTable2GUI extends ilTableGUI
         );
     }
 
-    public function fillHeader()
+    public function fillHeader(): void
     {
         $lng = $this->lng;
 
         $allcolumnswithwidth = true;
-        foreach ((array) $this->column as $idx => $column) {
+        foreach ($this->column as $idx => $column) {
             if (!strlen($column["width"])) {
                 $allcolumnswithwidth = false;
             } elseif ($column["width"] == "1") {
@@ -1429,7 +1038,7 @@ class ilTable2GUI extends ilTableGUI
             }
         }
         if ($allcolumnswithwidth) {
-            foreach ((array) $this->column as $column) {
+            foreach ($this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
                 $width = (is_numeric($column["width"]))
                     ? $column["width"] . "px"
@@ -1439,7 +1048,7 @@ class ilTable2GUI extends ilTableGUI
             }
         }
         $ccnt = 0;
-        foreach ((array) $this->column as $column) {
+        foreach ($this->column as $column) {
             $ccnt++;
             //tooltip
             if ($column["tooltip"] != "") {
@@ -1464,8 +1073,8 @@ class ilTable2GUI extends ilTableGUI
             }
             if (
                 !$this->enabled["sort"] ||
-                $column["sort_field"] == "" &&
-                !($column["is_checkbox_action_column"] && $this->select_all_on_top)
+                (($column["sort_field"] == "") &&
+                    !($column["is_checkbox_action_column"] && $this->select_all_on_top))
             ) {
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
@@ -1498,7 +1107,7 @@ class ilTable2GUI extends ilTableGUI
             }
             if (($column["sort_field"] == $this->order_field) && ($this->order_direction != "")) {
                 $this->tpl->setCurrentBlock("tbl_order_image");
-                if ($this->order_direction == "asc") {
+                if ($this->order_direction === "asc") {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-up");
                 } else {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-down");
@@ -1547,17 +1156,13 @@ class ilTable2GUI extends ilTableGUI
     }
 
     /**
-    * Anything that must be done before HTML is generated
-    */
-    protected function prepareOutput()
+     * Anything that must be done before HTML is generated
+     */
+    protected function prepareOutput(): void
     {
     }
 
-
-    /**
-    * Determine offset and order
-    */
-    public function determineOffsetAndOrder($a_omit_offset = false)
+    public function determineOffsetAndOrder(bool $a_omit_offset = false): void
     {
         global $DIC;
 
@@ -1567,22 +1172,20 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if ($this->nav_determined) {
-            return true;
+            return;
         }
 
-        if (isset($_POST[$this->getNavParameter() . "1"]) && $_POST[$this->getNavParameter() . "1"] != "") {
-            if ($_POST[$this->getNavParameter() . "1"] != ($_POST[$this->getNavParameter()] ?? "")) {
-                $this->nav_value = $_POST[$this->getNavParameter() . "1"];
+        if ($this->requested_nav_par1 != "") {
+            if ($this->requested_nav_par1 != ($this->requested_nav_par ?? "")) {
+                $this->nav_value = $this->requested_nav_par1;
             } elseif (
-                isset($_POST[$this->getNavParameter() . "2"]) &&
-                $_POST[$this->getNavParameter() . "2"] != $_POST[$this->getNavParameter()]
+                $this->requested_nav_par2 != "" &&
+                $this->requested_nav_par2 != $this->requested_nav_par
             ) {
-                $this->nav_value = $_POST[$this->getNavParameter() . "2"];
+                $this->nav_value = $this->requested_nav_par2;
             }
-        } elseif (isset($_GET[$this->getNavParameter()])) {
-            $this->nav_value = $_GET[$this->getNavParameter()];
-        } elseif (isset($_SESSION[$this->getNavParameter()]) != "") {
-            $this->nav_value = $_SESSION[$this->getNavParameter()];
+        } elseif ($this->requested_nav_par != "") {
+            $this->nav_value = $this->requested_nav_par;
         }
 
         if ($this->nav_value == "" && $this->getId() != "" && $ilUser->getId() != ANONYMOUS_USER_ID) {
@@ -1623,7 +1226,7 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    public function storeNavParameter()
+    public function storeNavParameter(): void
     {
         if ($this->getOrderField() != "") {
             $this->storeProperty("order", $this->getOrderField());
@@ -1631,17 +1234,16 @@ class ilTable2GUI extends ilTableGUI
         if ($this->getOrderDirection() != "") {
             $this->storeProperty("direction", $this->getOrderDirection());
         }
-        //echo "-".$this->getOffset()."-";
-        if ($this->getOffset() !== "") {
-            $this->storeProperty("offset", $this->getOffset());
+        if ($this->getOffset() > 0) {
+            $this->storeProperty("offset", (string) $this->getOffset());
         }
     }
 
 
     /**
-    * Get HTML
-    */
-    public function getHTML()
+     * Get HTML
+     */
+    public function getHTML(): string
     {
         global $DIC;
 
@@ -1660,7 +1262,7 @@ class ilTable2GUI extends ilTableGUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && $this->getId() == "") {
+        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 
@@ -1668,11 +1270,8 @@ class ilTable2GUI extends ilTableGUI
             // set form action
             if ($this->form_action != "" && $this->getOpenFormTag()) {
                 $hash = "";
-                if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-                    $hash = "#" . $this->getTopAnchor();
-                }
 
-                if ((bool) $this->form_multipart) {
+                if ($this->form_multipart) {
                     $this->tpl->touchBlock("form_multipart_bl");
                 }
 
@@ -1707,7 +1306,7 @@ class ilTable2GUI extends ilTableGUI
         if ($this->dataExists()) {
             // sort
             if (!$this->getExternalSorting() && $this->enabled["sort"]) {
-                $data = ilUtil::sortArray(
+                $data = ilArrayUtil::sortArray(
                     $data,
                     $this->getOrderField(),
                     $this->getOrderDirection(),
@@ -1736,7 +1335,7 @@ class ilTable2GUI extends ilTableGUI
 
             foreach ($data as $set) {
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->css_row = ($this->css_row != "tblrow1")
+                $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
                 $this->tpl->setVariable("CSS_ROW", $this->css_row);
@@ -1751,7 +1350,7 @@ class ilTable2GUI extends ilTableGUI
                 ? $this->getNoEntriesText()
                 : $lng->txt("no_items");
 
-            $this->css_row = ($this->css_row != "tblrow1")
+            $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
 
@@ -1777,26 +1376,18 @@ class ilTable2GUI extends ilTableGUI
     }
 
     /**
-    * Should this field be sorted numeric?
-    *
-    * @return	boolean		numeric ordering; default is false
-    */
-    public function numericOrdering($a_field)
+     * Should this field be sorted numeric?
+     */
+    public function numericOrdering(string $a_field): bool
     {
         return false;
     }
 
-    /**
-    * render table
-    * @access	public
-    */
-    public function render()
+    public function render(): string
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
 
         $this->tpl->setVariable("CSS_TABLE", $this->getStyle("table"));
-        //$this->tpl->setVariable("DATA_TABLE", (int) $this->getIsDataTable());
         if ($this->getId() != "") {
             $this->tpl->setVariable("ID", 'id="' . $this->getId() . '"');
         }
@@ -1847,13 +1438,12 @@ class ilTable2GUI extends ilTableGUI
                             "SRC_IMG_LINK",
                             $command["img"]
                         );
-                        $this->tpl->parseCurrentBlock();
                     } else {
                         $this->tpl->setCurrentBlock("head_cmd");
                         $this->tpl->setVariable("TXT_HEAD_CMD", $command["text"]);
                         $this->tpl->setVariable("HREF_HEAD_CMD", $command["href"]);
-                        $this->tpl->parseCurrentBlock();
                     }
+                    $this->tpl->parseCurrentBlock();
                 }
             }
 
@@ -1891,9 +1481,9 @@ class ilTable2GUI extends ilTableGUI
     }
 
     /**
-    * Render Filter section
-    */
-    private function renderFilter()
+     * Render Filter section
+     */
+    private function renderFilter(): void
     {
         global $DIC;
 
@@ -2010,12 +1600,10 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("filter_buttons");
                 $this->tpl->setVariable("CMD_APPLY", $this->filter_cmd);
                 $this->tpl->setVariable("TXT_APPLY", $this->filter_cmd_txt
-                    ? $this->filter_cmd_txt
-                    : $lng->txt("apply_filter"));
+                    ?: $lng->txt("apply_filter"));
                 $this->tpl->setVariable("CMD_RESET", $this->reset_cmd);
                 $this->tpl->setVariable("TXT_RESET", $this->reset_cmd_txt
-                    ? $this->reset_cmd_txt
-                    : $lng->txt("reset_filter"));
+                    ?: $lng->txt("reset_filter"));
             } elseif (count($opt_filter) > 0) {
                 $this->tpl->setCurrentBlock("optional_filter_hint");
                 $this->tpl->setVariable('TXT_OPT_HINT', $lng->txt('optional_filter_hint'));
@@ -2029,9 +1617,12 @@ class ilTable2GUI extends ilTableGUI
             // (keep) filter hidden?
             if (!$this->isFilterVisible()) {
                 if (!$this->getDisableFilterHiding()) {
-                    $this->tpl->setCurrentBlock("filter_hidden");
-                    $this->tpl->setVariable("FI_ID", $this->getId());
-                    $this->tpl->parseCurrentBlock();
+                    $id = $this->getId();
+                    $this->main_tpl->addOnLoadCode("
+                        ilTableHideFilter['atfil_$id'] = true;
+                        ilTableHideFilter['tfil_$id'] = true;
+                        ilTableHideFilter['dtfil_$id'] = true;
+                    ");
                 }
             }
         }
@@ -2039,9 +1630,8 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Check if filter is visible: manually shown (session, db) or default value set
-     * @return bool
      */
-    protected function isFilterVisible()
+    protected function isFilterVisible(): bool
     {
         $prop = $this->loadProperty('filter');
         if ($prop === '0' || $prop === '1') {
@@ -2049,16 +1639,14 @@ class ilTable2GUI extends ilTableGUI
         }
         return $this->getDefaultFilterVisibility();
     }
-    
+
     /**
      * Check if filter element is based on adv md
-     *
-     * @param ilAdvancedMDRecordGUI $a_gui
-     * @param type $a_element
-     * @return boolean
      */
-    protected function isAdvMDFilter(ilAdvancedMDRecordGUI $a_gui, $a_element)
-    {
+    protected function isAdvMDFilter(
+        ilAdvancedMDRecordGUI $a_gui,
+        ilTableFilterItem $a_element
+    ): bool {
         foreach ($a_gui->getFilterElements(false) as $item) {
             if ($item === $a_element) {
                 return true;
@@ -2067,10 +1655,7 @@ class ilTable2GUI extends ilTableGUI
         return false;
     }
 
-    /**
-    * Write filter values to session
-    */
-    public function writeFilterToSession()
+    public function writeFilterToSession(): void
     {
         $advmd_record_gui = null;
         if (method_exists($this, "getAdvMDRecordGUI")) {
@@ -2084,7 +1669,7 @@ class ilTable2GUI extends ilTableGUI
             }
 
             if ($item->checkInput()) {
-                $item->setValueByArray($_POST);
+                $item->setValueByArray($this->raw_post_data);
                 $item->writeToSession();
             }
         }
@@ -2095,7 +1680,7 @@ class ilTable2GUI extends ilTableGUI
             }
 
             if ($item->checkInput()) {
-                $item->setValueByArray($_POST);
+                $item->setValueByArray($this->raw_post_data);
                 $item->writeToSession();
             }
         }
@@ -2105,17 +1690,12 @@ class ilTable2GUI extends ilTableGUI
         }
 
         // #13209
-        unset($_REQUEST["tbltplcrt"]);
-        unset($_REQUEST["tbltpldel"]);
+        $this->requested_tmpl_create = "";
+        $this->requested_tmpl_delete = "";
     }
 
-    /**
-    * Reset filter
-    */
-    public function resetFilter()
+    public function resetFilter(): void
     {
-        $lng = $this->lng;
-
         $filter = $this->getFilterItems();
         $opt_filter = $this->getFilterItems(true);
 
@@ -2135,27 +1715,23 @@ class ilTable2GUI extends ilTableGUI
         }
 
         // #13209
-        unset($_REQUEST["tbltplcrt"]);
-        unset($_REQUEST["tbltpldel"]);
+        $this->requested_tmpl_create = "";
+        $this->requested_tmpl_delete = "";
     }
 
     /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    *
-    * @param	array	$a_set		data array
-    */
-    protected function fillRow($a_set)
+     * Standard Version of Fill Row. Most likely to
+     * be overwritten by derived class.
+     * @param array $a_set data array
+     */
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable("VAL_" . strtoupper($key), $value);
         }
     }
 
-    /**
-    * Fill footer row
-    */
-    public function fillFooter()
+    public function fillFooter(): void
     {
         global $DIC;
 
@@ -2214,19 +1790,11 @@ class ilTable2GUI extends ilTableGUI
         // table footer linkbar
         if ($this->enabled["linkbar"] && $this->enabled["footer"] && $this->limit != 0
              && $this->max_count > 0) {
-            $layout = array(
-                            "link" => $this->footer_style,
-                            "prev" => $this->footer_previous,
-                            "next" => $this->footer_next,
-                            );
-            //if (!$this->getDisplayAsBlock())
-            //{
             $linkbar = $this->getLinkbar("1");
             $this->tpl->setCurrentBlock("tbl_footer_linkbar");
             $this->tpl->setVariable("LINKBAR", $linkbar);
             $this->tpl->parseCurrentBlock();
             $linkbar = true;
-            //}
             $footer = true;
         }
 
@@ -2252,13 +1820,13 @@ class ilTable2GUI extends ilTableGUI
 
         if ($this->getShowTemplates() && is_object($ilUser)) {
             // template handling
-            if (isset($_REQUEST["tbltplcrt"]) && $_REQUEST["tbltplcrt"]) {
-                if ($this->saveTemplate($_REQUEST["tbltplcrt"])) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_created"));
+            if ($this->requested_tmpl_create != "") {
+                if ($this->saveTemplate($this->requested_tmpl_create)) {
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_created"));
                 }
-            } elseif (isset($_REQUEST["tbltpldel"]) && $_REQUEST["tbltpldel"]) {
-                if ($this->deleteTemplate($_REQUEST["tbltpldel"])) {
-                    ilUtil::sendSuccess($lng->txt("tbl_template_deleted"));
+            } elseif ($this->requested_tmpl_delete != "") {
+                if ($this->deleteTemplate($this->requested_tmpl_delete)) {
+                    $this->main_tpl->setOnScreenMessage('success', $lng->txt("tbl_template_deleted"));
                 }
             }
 
@@ -2270,7 +1838,7 @@ class ilTable2GUI extends ilTableGUI
             $templates = $storage->getNames($this->getContext(), $ilUser->getId());
 
             // form to delete template
-            if (sizeof($templates)) {
+            if (count($templates) > 0) {
                 $overlay = new ilOverlayGUI($delete_id);
                 $overlay->setTrigger($list_id . "_delete");
                 $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
@@ -2315,7 +1883,7 @@ class ilTable2GUI extends ilTableGUI
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($list_id);
             $alist->addItem($lng->txt("tbl_template_create"), "create", "#");
-            if (sizeof($templates)) {
+            if (count($templates) > 0) {
                 $alist->addItem($lng->txt("tbl_template_delete"), "delete", "#");
                 foreach ($templates as $name) {
                     $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", urlencode($name));
@@ -2344,7 +1912,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
                     $this->tpl->setVariable("FILA_ID", $this->getId());
                     if ($this->getId() != "") {
-                        $this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=" .
+                        $this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorageGUI&table_id=" .
                             $this->getId() . "&cmd=showFilter&user_id=" . $ilUser->getId());
                     }
                     $this->tpl->parseCurrentBlock();
@@ -2354,7 +1922,7 @@ class ilTable2GUI extends ilTableGUI
                         $this->tpl->setCurrentBlock("filter_deactivation");
                         $this->tpl->setVariable("TXT_HIDE", $lng->txt("hide_filter"));
                         if ($this->getId() != "") {
-                            $this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=" .
+                            $this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorageGUI&table_id=" .
                                 $this->getId() . "&cmd=hideFilter&user_id=" . $ilUser->getId());
                             $this->tpl->setVariable("FILD_ID", $this->getId());
                         }
@@ -2397,12 +1965,12 @@ class ilTable2GUI extends ilTableGUI
                         $alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
                         $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_trows", "");
                     }
-                    $alist->setListTitle($this->getRowSelectorLabel() ? $this->getRowSelectorLabel() : $lng->txt("rows"));
+                    $alist->setListTitle($this->getRowSelectorLabel() ?: $lng->txt("rows"));
                     $this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
                 }
 
                 // export
-                if (sizeof($this->export_formats) && $this->dataExists()) {
+                if (count($this->export_formats) > 0 && $this->dataExists()) {
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_xpt");
@@ -2426,14 +1994,7 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-    * Get previous/next linkbar.
-    *
-    * @author Sascha Hofmann <shofmann@databay.de>
-    *
-    * @return	array	linkbar or false on error
-    */
-    public function getLinkbar($a_num)
+    public function getLinkbar(string $a_num): ?string
     {
         global $DIC;
 
@@ -2443,9 +2004,6 @@ class ilTable2GUI extends ilTableGUI
         $lng = $this->lng;
 
         $hash = "";
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization")) {
-            $hash = "#" . $this->getTopAnchor();
-        }
 
         $link = $ilCtrl->getLinkTargetByClass(get_class($this->parent_obj), $this->parent_cmd) .
             "&" . $this->getNavParameter() . "=" .
@@ -2480,20 +2038,11 @@ class ilTable2GUI extends ilTableGUI
 
             // previous link
             if ($this->custom_prev_next && $this->custom_prev != "") {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $LinkBar .= "<a href=\"" . $this->custom_prev . $hash . "\">" . $layout_prev . "</a>";
             } elseif ($this->getOffset() >= 1 && !$this->custom_prev_next) {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $prevoffset = $this->getOffset() - $this->getLimit();
                 $LinkBar .= "<a href=\"" . $link . $prevoffset . $hash . "\">" . $layout_prev . "</a>";
             } else {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $LinkBar .= '<span class="ilTableFootLight">' . $layout_prev . "</span>";
             }
 
@@ -2506,34 +2055,25 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>";
 
             // show next link (if not last page)
+            $LinkBar .= $sep;
             if ($this->custom_prev_next && $this->custom_next != "") {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $LinkBar .= "<a href=\"" . $this->custom_next . $hash . "\">" . $layout_next . "</a>";
             } elseif (!(($this->getOffset() / $this->getLimit()) == ($pages - 1)) && ($pages != 1) &&
                 !$this->custom_prev_next) {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $newoffset = $this->getOffset() + $this->getLimit();
                 $LinkBar .= "<a href=\"" . $link . $newoffset . $hash . "\">" . $layout_next . "</a>";
             } else {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
                 $LinkBar .= '<span class="ilTableFootLight">' . $layout_next . "</span>";
             }
 
             $sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 
             if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next) {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
-                $LinkBar .= "" .
+                $LinkBar .= $sep;
+
+                $LinkBar .=
                     '<label for="tab_page_sel_' . $a_num . '">' . $lng->txt("page") . '</label> ' .
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $this->nav_value,
                         $this->getNavParameter() . $a_num,
                         $offset_arr,
@@ -2544,17 +2084,15 @@ class ilTable2GUI extends ilTableGUI
                         array("id" => "tab_page_sel_" . $a_num,
                         "onchange" => "ilTablePageSelection(this, 'cmd[" . $this->parent_cmd . "]')")
                     );
-                //' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-                    //$lng->txt("ok").'" />';
             }
 
             return $LinkBar;
         } else {
-            return false;
+            return null;
         }
     }
 
-    public function fillHiddenRow()
+    public function fillHiddenRow(): void
     {
         $hidden_row = false;
         if (count($this->hidden_inputs)) {
@@ -2570,16 +2108,15 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-    * Fill Action Row.
-    */
-    public function fillActionRow()
+    public function fillActionRow(): void
     {
         $lng = $this->lng;
 
         // action row
         $action_row = false;
         $arrow = false;
+        $txt = "";
+        $cmd = "";
 
         // add selection buttons
         if (count($this->sel_buttons) > 0) {
@@ -2587,7 +2124,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("sel_button");
                 $this->tpl->setVariable(
                     "SBUTTON_SELECT",
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $button["selected"],
                         $button["sel_var"],
                         $button["options"],
@@ -2603,7 +2140,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setCurrentBlock("sel_top_button");
                     $this->tpl->setVariable(
                         "SBUTTON_SELECT",
-                        ilUtil::formSelect(
+                        ilLegacyFormElementsUtil::formSelect(
                             $button["selected"],
                             $button["sel_var"],
                             $button["options"],
@@ -2678,7 +2215,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("mi_sel_button");
                 $this->tpl->setVariable(
                     "MI_BUTTON_SELECT",
-                    ilUtil::formSelect(
+                    ilLegacyFormElementsUtil::formSelect(
                         $button["selected"],
                         $button["sel_var"],
                         $button["options"],
@@ -2694,7 +2231,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setCurrentBlock("mi_top_sel_button");
                     $this->tpl->setVariable(
                         "MI_BUTTON_SELECT",
-                        ilUtil::formSelect(
+                        ilLegacyFormElementsUtil::formSelect(
                             $button["selected"],
                             $button["sel_var"] . "_2",
                             $button["options"],
@@ -2726,7 +2263,7 @@ class ilTable2GUI extends ilTableGUI
             }
             $this->tpl->setVariable(
                 "SELECT_CMDS",
-                ilUtil::formSelect("", "selected_cmd", $sel, false, true)
+                ilLegacyFormElementsUtil::formSelect("", "selected_cmd", $sel, false, true)
             );
             $this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
             $this->tpl->parseCurrentBlock();
@@ -2747,14 +2284,13 @@ class ilTable2GUI extends ilTableGUI
                 }
                 $this->tpl->setVariable(
                     "SELECT_CMDS",
-                    ilUtil::formSelect("", "selected_cmd2", $sel, false, true)
+                    ilLegacyFormElementsUtil::formSelect("", "selected_cmd2", $sel, false, true)
                 );
                 $this->tpl->setVariable("TXT_EXECUTE", $lng->txt("execute"));
                 $this->tpl->parseCurrentBlock();
             }
         } elseif (count($this->multi) == 1 && $this->dataExists()) {
             $this->tpl->setCurrentBlock("tbl_single_cmd");
-            $sel = array();
             foreach ($this->multi as $mc) {
                 $cmd = $mc['cmd'];
                 $txt = $mc['text'];
@@ -2767,7 +2303,6 @@ class ilTable2GUI extends ilTableGUI
 
             if ($this->getTopCommands()) {
                 $this->tpl->setCurrentBlock("tbl_top_single_cmd");
-                $sel = array();
                 foreach ($this->multi as $mc) {
                     $cmd = $mc['cmd'];
                     $txt = $mc['text'];
@@ -2802,23 +2337,12 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-     * set header html
-     *
-     * @param string $html
-     */
-    public function setHeaderHTML($html)
+    public function setHeaderHTML(string $html): void
     {
         $this->headerHTML = $html;
     }
 
-    /**
-     * Store table property
-     *
-     * @param	string	$type
-     * @param	mixed	$value
-     */
-    public function storeProperty($type, $value)
+    public function storeProperty(string $type, string $value): void
     {
         global $DIC;
 
@@ -2828,19 +2352,13 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            $tab_prop = new ilTablePropertiesStorage();
+            $tab_prop = new ilTablePropertiesStorageGUI();
 
             $tab_prop->storeProperty($this->getId(), $ilUser->getId(), $type, $value);
         }
     }
 
-    /**
-     * Load table property
-     *
-     * @param	string	$type
-     * @return	mixed
-     */
-    public function loadProperty($type)
+    public function loadProperty(string $type): ?string
     {
         global $DIC;
 
@@ -2850,7 +2368,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            $tab_prop = new ilTablePropertiesStorage();
+            $tab_prop = new ilTablePropertiesStorageGUI();
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
         }
@@ -2859,10 +2377,8 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * get current settings for order, limit, columns and filter
-     *
-     * @return array
      */
-    public function getCurrentState()
+    public function getCurrentState(): array
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();
@@ -2901,31 +2417,28 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Get current filter value
-     *
-     * @param ilFormPropertyGUI $a_item
      * @return mixed
      */
-    protected function getFilterValue(ilFormPropertyGUI $a_item)
+    protected function getFilterValue(ilTableFilterItem $a_item)
     {
         if (method_exists($a_item, "getChecked")) {
-            return $a_item->getChecked();
+            return (string) $a_item->getChecked();
         } elseif (method_exists($a_item, "getValue")) {
-            return $a_item->getValue();
+            return $a_item->getValue() ?: "";
         } elseif (method_exists($a_item, "getDate")) {
             return $a_item->getDate()->get(IL_CAL_DATE);
         }
+        return "";
     }
 
     /**
-     * Set current filter value
-     *
-     * @param ilFormPropertyGUI $a_item
-     * @param mixed $a_value
+     * @param string|array|null $a_value
+     * @throws ilDateTimeException
      */
-    protected function SetFilterValue(ilFormPropertyGUI $a_item, $a_value)
+    protected function setFilterValue(ilTableFilterItem $a_item, $a_value): void
     {
         if (method_exists($a_item, "setChecked")) {
-            $a_item->setChecked($a_value);
+            $a_item->setChecked((bool) $a_value);
         } elseif (method_exists($a_item, "setValue")) {
             $a_item->setValue($a_value);
         } elseif (method_exists($a_item, "setDate")) {
@@ -2934,75 +2447,45 @@ class ilTable2GUI extends ilTableGUI
         $a_item->writeToSession();
     }
 
-    /**
-     * Set context
-     *
-     * @param	string	$id
-     */
-    public function setContext($id)
+    public function setContext(string $id): void
     {
         if (trim($id)) {
             $this->context = $id;
         }
     }
 
-    /**
-     * Get context
-     *
-     * @return	string
-     */
-    public function getContext()
+    public function getContext(): string
     {
         return $this->context;
     }
 
     /**
      * Toggle rows-per-page selector
-     *
-     * @param	bool	$a_value
      */
-    public function setShowRowsSelector($a_value)
+    public function setShowRowsSelector(bool $a_value): void
     {
-        $this->show_rows_selector = (bool) $a_value;
+        $this->show_rows_selector = $a_value;
     }
 
-    /**
-     * Get rows-per-page selector state
-     *
-     * @return	bool
-     */
-    public function getShowRowsSelector()
+    public function getShowRowsSelector(): bool
     {
         return $this->show_rows_selector;
     }
 
-    /**
-     * Toggle templates
-     *
-     * @param	bool	$a_value
-     */
-    public function setShowTemplates($a_value)
+    public function setShowTemplates(bool $a_value): void
     {
-        $this->show_templates = (bool) $a_value;
+        $this->show_templates = $a_value;
     }
 
-    /**
-     * Get template state
-     *
-     * @return	bool
-     */
-    public function getShowTemplates()
+    public function getShowTemplates(): bool
     {
         return $this->show_templates;
     }
 
     /**
      * Restore state from template
-     *
-     * @param	string	$a_name
-     * @return	bool
      */
-    public function restoreTemplate($a_name)
+    public function restoreTemplate(string $a_name): bool
     {
         global $DIC;
 
@@ -3034,25 +2517,22 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Save current state as template
-     *
-     * @param	string	$a_name
-     * @return	bool
      */
-    public function saveTemplate($a_name)
+    public function saveTemplate(string $a_name): bool
     {
         global $DIC;
 
         $ilUser = $DIC->user();
 
-        $a_name = ilUtil::prepareFormOutput($a_name, true);
+        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
             $storage = new ilTableTemplatesStorage();
 
             $state = $this->getCurrentState();
-            $state["filter_values"] = serialize($state["filter_values"]);
-            $state["selfields"] = serialize($state["selfields"]);
-            $state["selfilters"] = serialize($state["selfilters"]);
+            $state["filter_values"] = serialize($state["filter_values"] ?? null);
+            $state["selfields"] = serialize($state["selfields"] ?? null);
+            $state["selfilters"] = serialize($state["selfilters"] ?? null);
 
             $storage->store($this->getContext(), $ilUser->getId(), $a_name, $state);
             return true;
@@ -3060,19 +2540,13 @@ class ilTable2GUI extends ilTableGUI
         return false;
     }
 
-    /**
-     * Delete template
-     *
-     * @param	string	$a_name
-     * @return	bool
-     */
-    public function deleteTemplate($a_name)
+    public function deleteTemplate(string $a_name): bool
     {
         global $DIC;
 
         $ilUser = $DIC->user();
 
-        $a_name = ilUtil::prepareFormOutput($a_name, true);
+        $a_name = ilLegacyFormElementsUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
             $storage = new ilTableTemplatesStorage();
@@ -3082,10 +2556,7 @@ class ilTable2GUI extends ilTableGUI
         return false;
     }
 
-    /**
-    * Get limit.
-    */
-    public function getLimit()
+    public function getLimit(): int
     {
         if ($this->getExportMode() || $this->getPrintMode()) {
             return 9999;
@@ -3093,10 +2564,7 @@ class ilTable2GUI extends ilTableGUI
         return parent::getLimit();
     }
 
-    /**
-    * Get offset.
-    */
-    public function getOffset()
+    public function getOffset(): int
     {
         if ($this->getExportMode() || $this->getPrintMode()) {
             return 0;
@@ -3106,10 +2574,8 @@ class ilTable2GUI extends ilTableGUI
 
     /**
      * Set available export formats
-     *
-     * @param	array	$formats
      */
-    public function setExportFormats(array $formats)
+    public function setExportFormats(array $formats): void
     {
         $this->export_formats = array();
 
@@ -3124,47 +2590,32 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-     * Toogle print mode
-     * @param	bool	$a_value
-     */
-    public function setPrintMode($a_value = false)
+    public function setPrintMode(bool $a_value = false): void
     {
-        $this->print_mode = (bool) $a_value;
+        $this->print_mode = $a_value;
     }
 
-    /**
-     * Get print mode
-     * @return	bool	$a_value
-     */
-    public function getPrintMode()
+    public function getPrintMode(): bool
     {
         return $this->print_mode;
     }
 
-    /**
-     * Was export activated?
-     *
-     * @return	int
-     */
-    public function getExportMode()
+    public function getExportMode(): bool
     {
         return $this->export_mode;
     }
 
     /**
-    * Export and optionally send current table data
-    *
-    * @param	int	$format
-    */
-    public function exportData($format, $send = false)
+     * Export and optionally send current table data
+     */
+    public function exportData(string $format, bool $send = false): void
     {
         if ($this->dataExists()) {
             // #9640: sort
             if (!$this->getExternalSorting() && $this->enabled["sort"]) {
                 $this->determineOffsetAndOrder(true);
 
-                $this->row_data = ilUtil::sortArray(
+                $this->row_data = ilArrayUtil::sortArray(
                     $this->row_data,
                     $this->getOrderField(),
                     $this->getOrderDirection(),
@@ -3178,8 +2629,7 @@ class ilTable2GUI extends ilTableGUI
                 case self::EXPORT_EXCEL:
                     $excel = new ilExcel();
                     $excel->addSheet($this->title
-                        ? $this->title
-                        : $this->lng->txt("export"));
+                        ?: $this->lng->txt("export"));
                     $row = 1;
 
                     ob_start();
@@ -3240,22 +2690,20 @@ class ilTable2GUI extends ilTableGUI
     /**
      * Add meta information to excel export. Likely to
      * be overwritten by derived class.
-     *
-     * @param	ilExcel	$a_excel	excel wrapper
-     * @param	int		$a_row		row counter
+     * @param	ilExcel	$a_excel excel wrapper
+     * @param	int		$a_row   row counter
      */
-    protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row): void
     {
     }
 
     /**
      * Excel Version of Fill Header. Likely to
      * be overwritten by derived class.
-     *
-     * @param	ilExcel	$a_excel	excel wrapper
-     * @param	int		$a_row		row counter
+     * @param	ilExcel	$a_excel excel wrapper
+     * @param	int		$a_row   row counter
      */
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row): void
     {
         $col = 0;
         foreach ($this->column as $column) {
@@ -3270,12 +2718,11 @@ class ilTable2GUI extends ilTableGUI
     /**
     * Excel Version of Fill Row. Most likely to
     * be overwritten by derived class.
-    *
-    * @param	ilExcel	$a_excel	excel wrapper
-    * @param	int		$a_row		row counter
-    * @param	array	$a_set		data array
+    * @param	ilExcel $a_excel excel wrapper
+    * @param	int     $a_row   row counter
+    * @param	array   $a_set   data array
     */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
         $col = 0;
         foreach ($a_set as $value) {
@@ -3289,20 +2736,18 @@ class ilTable2GUI extends ilTableGUI
     /**
      * Add meta information to csv export. Likely to
      * be overwritten by derived class.
-     *
-     * @param	object	$a_csv			current file
+     * @param	ilCSVWriter $a_csv current file
      */
-    protected function fillMetaCSV($a_csv)
+    protected function fillMetaCSV(ilCSVWriter $a_csv): void
     {
     }
 
     /**
      * CSV Version of Fill Header. Likely to
      * be overwritten by derived class.
-     *
-     * @param	object	$a_csv			current file
+     * @param	ilCSVWriter $a_csv current file
      */
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv): void
     {
         foreach ($this->column as $column) {
             $title = strip_tags($column["text"]);
@@ -3314,13 +2759,12 @@ class ilTable2GUI extends ilTableGUI
     }
 
     /**
-    * CSV Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    *
-    * @param	object	$a_csv			current file
-    * @param	array	$a_set			data array
-    */
-    protected function fillRowCSV($a_csv, $a_set)
+     * CSV Version of Fill Row. Most likely to
+     * be overwritten by derived class.
+     * @param	ilCSVWriter $a_csv current file
+     * @param	array       $a_set data array
+     */
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
         foreach ($a_set as $key => $value) {
             if (is_array($value)) {
@@ -3331,22 +2775,12 @@ class ilTable2GUI extends ilTableGUI
         $a_csv->addRow();
     }
 
-    /**
-     * Enable actions for all entries in current result
-     *
-     * @param bool $a_value
-     */
-    public function setEnableAllCommand($a_value)
+    public function setEnableAllCommand(bool $a_value): void
     {
-        $this->enable_command_for_all = (bool) $a_value;
+        $this->enable_command_for_all = $a_value;
     }
 
-    /**
-     * Get maximum number of entries to enable actions for all
-     *
-     * @return int
-     */
-    public static function getAllCommandLimit()
+    public static function getAllCommandLimit(): int
     {
         global $DIC;
 
@@ -3360,44 +2794,27 @@ class ilTable2GUI extends ilTableGUI
         return $limit;
     }
 
-    /**
-     * @param string $row_selector_label
-     */
-    public function setRowSelectorLabel($row_selector_label)
+    public function setRowSelectorLabel(string $row_selector_label): void
     {
         $this->row_selector_label = $row_selector_label;
-        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRowSelectorLabel()
+    public function getRowSelectorLabel(): string
     {
         return $this->row_selector_label;
     }
 
-    /**
-     * Set prevent double submission
-     *
-     * @param bool $a_val prevent double submission
-     */
-    public function setPreventDoubleSubmission($a_val)
+    public function setPreventDoubleSubmission(bool $a_val): void
     {
         $this->prevent_double_submission = $a_val;
     }
 
-    /**
-     * Get prevent double submission
-     *
-     * @return bool prevent double submission
-     */
-    public function getPreventDoubleSubmission()
+    public function getPreventDoubleSubmission(): bool
     {
         return $this->prevent_double_submission;
     }
 
-    public function setLimit($a_limit = 0, $a_default_limit = 0)
+    public function setLimit(int $a_limit = 0, int $a_default_limit = 0): void
     {
         parent::setLimit($a_limit, $a_default_limit);
 

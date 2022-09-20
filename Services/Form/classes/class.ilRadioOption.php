@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents an option in a radio group
@@ -25,7 +30,7 @@ class ilRadioOption
     protected string $info = "";
     protected array $sub_items = array();
     protected bool $disabled = false;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_value = "",
@@ -35,43 +40,43 @@ class ilRadioOption
         $this->setValue($a_value);
         $this->setInfo($a_info);
     }
-    
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setInfo(string $a_info) : void
+    public function setInfo(string $a_info): void
     {
         $this->info = $a_info;
     }
 
-    public function getInfo() : string
+    public function getInfo(): string
     {
         return $this->info;
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function setDisabled(bool $a_disabled) : void
+
+    public function setDisabled(bool $a_disabled): void
     {
         $this->disabled = $a_disabled;
     }
-    
-    public function getDisabled() : bool
+
+    public function getDisabled(): bool
     {
         return $this->disabled;
     }
@@ -79,17 +84,17 @@ class ilRadioOption
     /**
      * @param ilFormPropertyGUI|ilFormSectionHeaderGUI $a_item
      */
-    public function addSubItem($a_item) : void
+    public function addSubItem($a_item): void
     {
         $this->sub_items[] = $a_item;
     }
 
-    public function getSubItems() : array
+    public function getSubItems(): array
     {
         return $this->sub_items;
     }
 
-    public function getSubInputItemsRecursive() : array
+    public function getSubInputItemsRecursive(): array
     {
         $subInputItems = array();
 

@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumDraftsTableGUI
@@ -7,12 +24,9 @@
  */
 class ilForumDraftsTableGUI extends ilTable2GUI
 {
-    protected bool $mayEdit = false;
-
-    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, bool $mayEdit)
+    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, protected bool $mayEdit)
     {
-        $this->mayEdit = $mayEdit;
-        $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->object->getId());
+        $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->getObject()->getId());
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->initTableColumns();
@@ -20,7 +34,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'Modules/Forum');
     }
 
-    public function initTableColumns() : void
+    public function initTableColumns(): void
     {
         $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('drafts'), '');
@@ -30,7 +44,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -42,11 +56,14 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             );
         }
 
-        $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-            in_array($a_set['draft_id'], $selected_draft_ids, true),
-            'draft_ids[]',
-            $a_set['draft_id']
-        ));
+        $this->tpl->setVariable(
+            'VAL_CHECK',
+            ilLegacyFormElementsUtil::formCheckbox(
+                in_array($a_set['draft_id'], $selected_draft_ids, true),
+                'draft_ids[]',
+                (string) $a_set['draft_id']
+            )
+        );
 
         if ($this->mayEdit) {
             $this->ctrl->setParameter($this->getParentObject(), 'draft_id', $a_set['draft_id']);

@@ -1,8 +1,24 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\MyStaff\ListCertificates;
 
-use Certificate\API\Data\UserCertificateDto;
+use ILIAS\Certificate\API\Data\UserCertificateDto;
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
@@ -18,26 +34,13 @@ use ilUserSearchOptions;
 
 /**
  * Class ilMStListCertificatesTableGUI
- *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
 class ilMStListCertificatesTableGUI extends ilTable2GUI
 {
+    protected array $filter = array();
+    protected ilMyStaffAccess $access;
 
-    /**
-     * @var array
-     */
-    protected $filter = array();
-    /**
-     * @var ilMyStaffAccess
-     */
-    protected $access;
-
-
-    /**
-     * @param ilMStListCertificatesGUI $parent_obj
-     * @param string                   $parent_cmd
-     */
     public function __construct(ilMStListCertificatesGUI $parent_obj, $parent_cmd = ilMStListCertificatesGUI::CMD_INDEX)
     {
         global $DIC;
@@ -70,11 +73,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-
-    /**
-     *
-     */
-    protected function parseData() : void
+    private function parseData(): void
     {
         global $DIC;
 
@@ -101,11 +100,15 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             'end' => intval($this->getLimit()),
         );
         $this->setMaxCount(count($data));
+
+        // Workaround because the fillRow Method only accepts arrays
+        $data = array_map(function (UserCertificateDto $it): array {
+            return [$it];
+        }, $data);
         $this->setData($data);
     }
 
-
-    public function initFilter()
+    final public function initFilter(): void
     {
         global $DIC;
 
@@ -115,8 +118,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->filter['obj_title'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                ->txt("name"), "user");
+        $item = new ilTextInputGUI(
+            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
+                                                                                                                     ->txt("name"),
+            "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -136,11 +142,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-
-    /**
-     * @return array
-     */
-    public function getSelectableColumns() : array
+    final public function getSelectableColumns(): array
     {
         global $DIC;
 
@@ -204,11 +206,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         return $cols;
     }
 
-
-    /**
-     *
-     */
-    private function addColumns()
+    private function addColumns(): void
     {
         global $DIC;
 
@@ -229,24 +227,32 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
-     * @param UserCertificateDto $user_certificate_dto
+     * @param array<UserCertificateDto> $a_set
+     * @return void
+     * @throws \JsonException
+     * @throws \ilDateTimeException
+     * @throws \ilTemplateException
      */
-    public function fillRow($user_certificate_dto)
+    final public function fillRow(array $a_set): void
     {
         global $DIC;
 
+        $set = array_pop($a_set);
+
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $user_certificate_dto, $user_certificate_dto);
+        }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId())));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId()))
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
@@ -258,7 +264,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE', (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -273,48 +282,35 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
         $actions->setAsynch(false);
-        $actions->setId($user_certificate_dto->getCertificateId());
-        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $user_certificate_dto->getDownloadLink());
+        $actions->setId($set->getCertificateId());
+        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $set->getDownloadLink());
 
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
-
-    /**
-     * @param ilExcel            $a_excel excel wrapper
-     * @param int                $a_row
-     * @param UserCertificateDto $user_certificate_dto
-     */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $user_certificate_dto)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set): void
     {
+        $set = array_pop($a_set);
+
         $col = 0;
-        foreach ($this->getFieldValuesForExport($user_certificate_dto) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
     }
 
-
-    /**
-     * @param ilCSVWriter        $a_csv
-     * @param UserCertificateDto $user_certificate_dto
-     */
-    protected function fillRowCSV($a_csv, $user_certificate_dto)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set): void
     {
-        foreach ($this->getFieldValuesForExport($user_certificate_dto) as $k => $v) {
+        $set = array_pop($a_set);
+
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();
     }
 
-
-    /**
-     * @param UserCertificateDto $user_certificate_dto
-     *
-     * @return array
-     */
-    protected function getFieldValuesForExport(UserCertificateDto $user_certificate_dto)
+    private function getFieldValuesForExport(UserCertificateDto $user_certificate_dto): array
     {
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;

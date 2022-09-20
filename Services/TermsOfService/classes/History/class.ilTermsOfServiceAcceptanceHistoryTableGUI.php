@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -10,23 +27,16 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
     protected int $numRenderedCriteria = 0;
-    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
         string $command,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        Factory $uiFactory,
-        Renderer $uiRenderer,
+        protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
+        protected Factory $uiFactory,
+        protected Renderer $uiRenderer,
         ilGlobalTemplateInterface $globalTemplate
     ) {
-        $this->criterionTypeFactory = $criterionTypeFactory;
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
-
         $this->setId('tos_acceptance_history');
         $this->setFormName('tos_acceptance_history');
 
@@ -41,7 +51,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setExternalSegmentation(true);
 
         iljQueryUtil::initjQuery($globalTemplate);
-        ilYuiUtil::initPanel($globalTemplate);
+        ilYuiUtil::initPanel(false, $globalTemplate);
         ilYuiUtil::initOverlay($globalTemplate);
         $globalTemplate->addJavaScript('./Services/Form/js/Form.js');
 
@@ -54,7 +64,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setResetCommand('resetAcceptanceHistoryFilter');
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -104,7 +114,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ];
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('ts' === $column) {
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
@@ -117,12 +127,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    protected function getUniqueCriterionListingAttribute() : string
+    protected function getUniqueCriterionListingAttribute(): string
     {
         return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
     }
 
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -152,7 +162,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -166,12 +176,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return 'ts' === $a_field;
     }
 
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $ul = new ilTextInputGUI(
             $this->lng->txt('login') . '/' . $this->lng->txt('email') . '/' . $this->lng->txt('name'),

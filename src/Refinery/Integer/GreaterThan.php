@@ -1,26 +1,39 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
+use ilLanguage;
 
-class GreaterThan extends CustomConstraint
+class GreaterThan extends Constraint
 {
-    protected int $min;
-
-    public function __construct(int $min, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $min, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->min = $min;
         parent::__construct(
-            function ($value) {
-                return $value > $this->min;
+            static function ($value) use ($min): bool {
+                return $value > $min;
             },
-            function ($txt, $value) {
-                return $txt("not_greater_than", $value, $this->min);
+            static function ($txt, $value) use ($min): string {
+                return (string) $txt("not_greater_than", $value, $min);
             },
             $data_factory,
             $lng

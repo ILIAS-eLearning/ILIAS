@@ -1,283 +1,183 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+declare(strict_types=1);
+
+/* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * User interface class for maps
- *
- * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
 abstract class ilMapGUI
 {
-    protected $mapid;		// string
-    protected $width = "500px";		// string
-    protected $height = "300px";		// string
-    protected $latitude;	// string
-    protected $longitude;
-    protected $zoom;
-    protected $enabletypecontrol = false;
-    protected $enableupdatelistener = false;
-    protected $enablenavigationcontrol = false;
-    protected $enablelargemapcontrol = false;
-    protected $user_marker = array();
-    
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected string $map_id;
+    protected string $width;
+    protected string $height;
+    protected string $latitude;
+    protected string $longitude;
+    protected ?int $zoom;
+    protected bool $enable_type_control;
+    protected bool $enable_update_listener;
+    protected bool $enable_navigation_control;
+    /** @var int[] */
+    protected array $user_marker;
+    protected bool $large_map_control;
+    protected bool $central_marker;
+
     public function __construct()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-            
-        $lng->loadLanguageModule("maps");
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+
+        $this->lng->loadLanguageModule("maps");
+
+        $this->map_id = "";
+        $this->width = "500px";
+        $this->height = "300px";
+        $this->latitude = "";
+        $this->longitude = "";
+        $this->zoom = null;
+        $this->enable_type_control = false;
+        $this->enable_update_listener = false;
+        $this->enable_navigation_control = false;
+        $this->user_marker = [];
+        $this->large_map_control = false;
+        $this->central_marker = false;
     }
 
-    /**
-    * Set Map ID.
-    *
-    * @param	string	$a_mapid	Map ID
-    */
-    public function setMapId($a_mapid)
+    public function setMapId(string $map_id): ilMapGUI
     {
-        $this->mapid = $a_mapid;
-        return $this;
-    }
-    
-    /**
-    * Get Map ID.
-    *
-    * @return	string	Map ID
-    */
-    public function getMapId()
-    {
-        return $this->mapid;
-    }
-
-    /**
-    * Set Width.
-    *
-    * @param	string	$a_width	Width
-    */
-    public function setWidth($a_width)
-    {
-        $this->width = $a_width;
+        $this->map_id = $map_id;
         return $this;
     }
 
-    /**
-    * Get Width.
-    *
-    * @return	string	Width
-    */
-    public function getWidth()
+    public function getMapId(): string
+    {
+        return $this->map_id;
+    }
+
+    public function setWidth(string $width): ilMapGUI
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    public function getWidth(): string
     {
         return $this->width;
     }
 
-    /**
-    * Set Height.
-    *
-    * @param	string	$a_height	Height
-    */
-    public function setHeight($a_height)
+    public function setHeight(string $height): ilMapGUI
     {
-        $this->height = $a_height;
+        $this->height = $height;
         return $this;
     }
 
-    /**
-    * Get Height.
-    *
-    * @return	string	Height
-    */
-    public function getHeight()
+    public function getHeight(): string
     {
         return $this->height;
     }
 
-    /**
-    * Set Latitude.
-    *
-    * @param	string	$a_latitude	Latitude
-    */
-    public function setLatitude($a_latitude)
+    public function setLatitude(string $latitude): ilMapGUI
     {
-        $this->latitude = $a_latitude;
+        $this->latitude = $latitude;
         return $this;
     }
 
-    /**
-    * Get Latitude.
-    *
-    * @return	string	Latitude
-    */
-    public function getLatitude()
+    public function getLatitude(): string
     {
         return $this->latitude;
     }
 
-    /**
-    * Set Longitude.
-    *
-    * @param	string	$a_longitude	Longitude
-    */
-    public function setLongitude($a_longitude)
+    public function setLongitude(string $longitude): ilMapGUI
     {
-        $this->longitude = $a_longitude;
+        $this->longitude = $longitude;
         return $this;
     }
 
-    /**
-    * Get Longitude.
-    *
-    * @return	string	Longitude
-    */
-    public function getLongitude()
+    public function getLongitude(): string
     {
         return $this->longitude;
     }
 
-    /**
-    * Set Zoom.
-    *
-    * @param	int	$a_zoom	Zoom
-    */
-    public function setZoom($a_zoom)
+    public function setZoom(?int $zoom): ilMapGUI
     {
-        $this->zoom = $a_zoom;
+        $this->zoom = $zoom;
         return $this;
     }
 
-    /**
-    * Get Zoom.
-    *
-    * @return	int	Zoom
-    */
-    public function getZoom()
+    public function getZoom(): ?int
     {
         return $this->zoom;
     }
 
-    /**
-    * Set Use Map Type Control.
-    *
-    * @param	boolean	$a_enabletypecontrol	Use Map Type Control
-    */
-    public function setEnableTypeControl($a_enabletypecontrol)
+    public function setEnableTypeControl(bool $enable_type_control): ilMapGUI
     {
-        $this->enabletypecontrol = $a_enabletypecontrol;
+        $this->enable_type_control = $enable_type_control;
         return $this;
     }
 
-    /**
-    * Get Use Map Type Control.
-    *
-    * @return	boolean	Use Map Type Control
-    */
-    public function getEnableTypeControl()
+    public function getEnableTypeControl(): bool
     {
-        return $this->enabletypecontrol;
+        return $this->enable_type_control;
     }
 
-    /**
-    * Set Use Navigation Control.
-    *
-    * @param	boolean	$a_enablenavigationcontrol	Use Navigation Control
-    */
-    public function setEnableNavigationControl($a_enablenavigationcontrol)
+    public function setEnableNavigationControl(bool $enable_navigation_control): ilMapGUI
     {
-        $this->enablenavigationcontrol = $a_enablenavigationcontrol;
+        $this->enable_navigation_control = $enable_navigation_control;
         return $this;
     }
 
-    /**
-    * Get Use Navigation Control.
-    *
-    * @return	boolean	Use Navigation Control
-    */
-    public function getEnableNavigationControl()
+    public function getEnableNavigationControl(): bool
     {
-        return $this->enablenavigationcontrol;
+        return $this->enable_navigation_control;
     }
 
-    /**
-    * Set Activate Update Listener.
-    *
-    * @param	boolean	$a_enableupdatelistener	Activate Update Listener
-    */
-    public function setEnableUpdateListener($a_enableupdatelistener)
+    public function setEnableUpdateListener(bool $enable_update_listener): ilMapGUI
     {
-        $this->enableupdatelistener = $a_enableupdatelistener;
+        $this->enable_update_listener = $enable_update_listener;
         return $this;
     }
 
-    /**
-    * Get Activate Update Listener.
-    *
-    * @return	boolean	Activate Update Listener
-    */
-    public function getEnableUpdateListener()
+    public function getEnableUpdateListener(): bool
     {
-        return $this->enableupdatelistener;
+        return $this->enable_update_listener;
     }
 
-    /**
-    * Set Large Map Control.
-    *
-    * @param	boolean	$a_largemapcontrol	Large Map Control
-    */
-    public function setEnableLargeMapControl($a_largemapcontrol)
+    public function setEnableLargeMapControl(bool $large_map_control): ilMapGUI
     {
-        $this->largemapcontrol = $a_largemapcontrol;
+        $this->large_map_control = $large_map_control;
         return $this;
     }
 
-    /**
-    * Get Large Map Control.
-    *
-    * @return	boolean	Large Map Control
-    */
-    public function getEnableLargeMapControl()
+    public function getEnableLargeMapControl(): bool
     {
-        return $this->largemapcontrol;
+        return $this->large_map_control;
     }
 
-    /**
-    * Enable Central Marker.
-    *
-    * @param	boolean	$a_centralmarker	Central Marker
-    */
-    public function setEnableCentralMarker($a_centralmarker)
+    public function setEnableCentralMarker(bool $central_marker): ilMapGUI
     {
-        $this->centralmarker = $a_centralmarker;
+        $this->central_marker = $central_marker;
         return $this;
     }
 
-    /**
-    * Get Enable Central Marker.
-    *
-    * @return	boolean	Central Marker
-    */
-    public function getEnableCentralMarker()
+    public function getEnableCentralMarker(): bool
     {
-        return $this->centralmarker;
+        return $this->central_marker;
     }
 
-    /**
-    * Add user marker
-    *
-    * @param	int		$a_user_id		User ID
-    */
-    public function addUserMarker($a_user_id)
+    public function addUserMarker(int $user_id): ilMapGUI
     {
-        return $this->user_marker[] = $a_user_id;
+        $this->user_marker[] = $user_id;
+        return $this;
     }
 
-    /**
-    * Get HTML
-    */
-    abstract public function getHtml();
-    
+    abstract public function getHtml(): string;
+
     /**
     * Get User List HTML (to be displayed besides the map)
     */
-    abstract public function getUserListHtml();
+    abstract public function getUserListHtml(): string;
 }

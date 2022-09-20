@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceAcceptanceHistoryProvider
@@ -7,7 +24,7 @@
  */
 class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDatabaseDataProvider
 {
-    protected function getSelectPart(array $params, array $filter) : string
+    protected function getSelectPart(array $params, array $filter): string
     {
         $fields = [
             'tos_acceptance_track.tosv_id',
@@ -24,7 +41,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return implode(', ', $fields);
     }
 
-    protected function getFromPart(array $params, array $filter) : string
+    protected function getFromPart(array $params, array $filter): string
     {
         $joins = [
             'INNER JOIN tos_acceptance_track ON tos_acceptance_track.usr_id = ud.usr_id',
@@ -35,7 +52,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return 'usr_data ud ' . implode(' ', $joins);
     }
 
-    protected function getWherePart(array $params, array $filter) : string
+    protected function getWherePart(array $params, array $filter): string
     {
         $where = [];
 
@@ -73,17 +90,17 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return implode(' AND ', $where);
     }
 
-    protected function getGroupByPart(array $params, array $filter) : string
+    protected function getGroupByPart(array $params, array $filter): string
     {
         return '';
     }
 
-    protected function getHavingPart(array $params, array $filter) : string
+    protected function getHavingPart(array $params, array $filter): string
     {
         return '';
     }
 
-    protected function getOrderByPart(array $params, array $filter) : string
+    protected function getOrderByPart(array $params, array $filter): string
     {
         if (isset($params['order_field'])) {
             if (!is_string($params['order_field'])) {

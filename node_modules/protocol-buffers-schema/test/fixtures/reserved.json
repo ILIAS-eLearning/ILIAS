@@ -2,9 +2,22 @@
   "syntax": 3,
   "package": null,
   "imports": [],
-  "enums": [],
-  "extends": [],
-  "options": {},
+  "enums": [
+    {
+      "name": "ReservedEnum",
+      "values": {
+        "x": {
+          "value": 1,
+          "options": []
+        },
+        "y": {
+          "value": 10,
+          "options": []
+        }
+      },
+      "options": {}
+    }
+  ],
   "messages": [
     {
       "name": "Reserved",
@@ -36,5 +49,7 @@
         }
       ]
     }
-  ]
+  ],
+  "options": {},
+  "extends": []
 }

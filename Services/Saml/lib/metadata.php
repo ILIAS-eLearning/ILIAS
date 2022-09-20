@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 // ilias-patch: begin
 use SAML2\Constants;
 use SimpleSAML\Auth\Source;
@@ -15,8 +31,9 @@ use SimpleSAML\Utils\Auth;
 use SimpleSAML\Utils\Config\Metadata;
 use SimpleSAML\Utils\Crypto;
 use SimpleSAML\XHTML\Template;
+use Symfony\Component\VarExporter\VarExporter;
 
-chdir(dirname(__FILE__));
+chdir(__DIR__);
 
 $ilias_main_directory = './';
 $cookie_path = dirname($_SERVER['PHP_SELF']);
@@ -37,7 +54,7 @@ if (!is_file(getcwd() . '/ilias.ini.php')) {
 $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 
 if (isset($_GET["client_id"])) {
-    if ($cookie_path == "\\") {
+    if ($cookie_path === "\\") {
         $cookie_path = '/';
     }
 
@@ -108,7 +125,7 @@ foreach ($slob as $binding) {
     }
     $metaArray20['SingleLogoutService'][] = [
         'Binding' => $binding,
-        'Location' => $slol,
+        'Location' => $spconfig->getString('SingleLogoutServiceLocation', $slol),
     ];
 }
 
@@ -284,10 +301,12 @@ if ($spconfig->hasValue('contacts')) {
 // add technical contact
 $email = $config->getString('technicalcontact_email', 'na@example.org');
 if ($email && $email !== 'na@example.org') {
-    $techcontact['emailAddress'] = $email;
-    $techcontact['name'] = $config->getString('technicalcontact_name', null);
-    $techcontact['contactType'] = 'technical';
-    $metaArray20['contacts'][] = Metadata::getContact($techcontact);
+    $techcontact = [
+        'emailAddress' => $email,
+        'name' => $config->getString('technicalcontact_name', null),
+        'contactType' => 'technical'
+    ];
+    $metaArray20['contacts'][] = \SimpleSAML\Utils\Config\Metadata::getContact($techcontact);
 }
 
 // add certificate
@@ -331,9 +350,7 @@ $metaBuilder->addOrganizationInfo($metaArray20);
 
 $xml = $metaBuilder->getEntityDescriptorText();
 
-unset($metaArray20['UIInfo']);
-unset($metaArray20['metadata-set']);
-unset($metaArray20['entityid']);
+unset($metaArray20['UIInfo'], $metaArray20['metadata-set'], $metaArray20['entityid']);
 
 // sanitize the attributes array to remove friendly names
 if (isset($metaArray20['attributes']) && is_array($metaArray20['attributes'])) {
@@ -350,7 +367,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
     $t->data['header'] = 'saml20-sp'; // TODO: Replace with headerString in 2.0
     $t->data['headerString'] = Translate::noop('metadata_saml20-sp');
     $t->data['metadata'] = htmlspecialchars($xml);
-    $t->data['metadataflat'] = '$metadata[' . var_export($entityId, true) . '] = ' . var_export($metaArray20, true) . ';';
+    $t->data['metadataflat'] = '$metadata[' . var_export($entityId, true) . '] = ' . VarExporter::export($metaArray20) . ';';
     // ilias-patch: begin
     $t->data['metaurl'] = $iliasHttpPath . "/metadata.php{$sourceId}/" . CLIENT_ID;
     // ilias-patch: end
@@ -358,7 +375,7 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
 } else {
     header('Content-Type: application/samlmetadata+xml');
     // ilias-patch: begin
-    $ascii_filename = ilUtil::getASCIIFilename($sourceId);
+    $ascii_filename = ilFileUtils::getASCIIFilename($sourceId);
     header("Content-Disposition:attachment; filename=\"" . $ascii_filename . "\"");
     // ilias-patch: end
     echo($xml);

@@ -1,106 +1,89 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
-include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroup.php';
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Description of class
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilConsultationHourGroupTableGUI extends ilTable2GUI
 {
-    private $user_id = 0;
-    
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     * @param type $a_user_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id)
+    private int $user_id = 0;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_user_id)
     {
         $this->user_id = $a_user_id;
         $this->setId('chgrp_' . $this->user_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
         $this->initTable();
     }
-    
+
     /**
      * Init table
      */
-    protected function initTable()
+    protected function initTable(): void
     {
         $this->setRowTemplate('tpl.ch_group_row.html', 'Services/Calendar');
-        
-        $this->setTitle($GLOBALS['DIC']['lng']->txt('cal_ch_grps'));
-        $this->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this->getParentObject(), $this->getParentCmd()));
-        
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('title'), 'title');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('cal_ch_assigned_apps'), 'apps');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('cal_ch_max_books'), 'max_books');
-        $this->addColumn($GLOBALS['DIC']['lng']->txt('actions'), '');
-        
+
+        $this->setTitle($this->lng->txt('cal_ch_grps'));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
+
+        $this->addColumn($this->lng->txt('title'), 'title');
+        $this->addColumn($this->lng->txt('cal_ch_assigned_apps'), 'apps');
+        $this->addColumn($this->lng->txt('cal_ch_max_books'), 'max_books');
+        $this->addColumn($this->lng->txt('actions'), '');
+
         $this->enable('sort');
         $this->enable('header');
         $this->enable('num_info');
-        
         $this->setDefaultOrderField('title');
     }
-    
-    /**
-     * Fill row
-     * @param type $a_set
-     */
-    public function fillRow($a_set)
-    {
-        global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        
+    /**
+     * @inheritDoc
+     */
+    protected function fillRow(array $a_set): void
+    {
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable('MAX_BOOKINGS', $a_set['max_books']);
         $this->tpl->setVariable('ASSIGNED', $a_set['assigned']);
-        
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+
         $list = new ilAdvancedSelectionListGUI();
         $list->setId('act_chgrp_' . $this->user_id . '_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
 
-        $ilCtrl->setParameter($this->getParentObject(), 'grp_id', $a_set['id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $a_set['id']);
         $list->addItem(
             $this->lng->txt('edit'),
             '',
-            $ilCtrl->getLinkTarget($this->getParentObject(), 'editGroup')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'editGroup')
         );
-        
+
         // add members
         if ($a_set['assigned']) {
             $list->addItem(
                 $this->lng->txt('cal_ch_assign_participants'),
                 '',
-                $ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
+                $this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', '')
             );
         }
-        
+
         $list->addItem(
             $this->lng->txt('delete'),
             '',
-            $ilCtrl->getLinkTarget($this->getParentObject(), 'confirmDeleteGroup')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteGroup')
         );
-        
+
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
 
-
     /**
      * Parse Groups
-     * @param array $groups
+     * @param ilConsultationHourGroup[] $groups
      */
-    public function parse(array $groups)
+    public function parse(array $groups): void
     {
         $rows = array();
         $counter = 0;

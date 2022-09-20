@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
@@ -58,7 +59,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return boolean True, if the numeric question is complete for use, otherwise false
      */
-    public function isComplete() : bool
+    public function isComplete(): bool
     {
         if (
             strlen($this->title)
@@ -76,9 +77,14 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "") : void
+    public function saveToDb($original_id = ""): void
     {
-        $this->saveQuestionDataToDb($original_id);
+        if ($original_id == "") {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
+
         $this->saveAdditionalQuestionDataToDb();
         $this->saveAnswerSpecificDataToDb();
         parent::saveToDb($original_id);
@@ -89,12 +95,12 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param integer $question_id A unique key which defines the multiple choice test in the database
      */
-    public function loadFromDb($question_id) : void
+    public function loadFromDb($question_id): void
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+
         $result = $ilDB->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
             array("integer"),
@@ -104,24 +110,24 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             require_once './Services/RTE/classes/class.ilRTE.php';
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setMaxChars($data["maxnumofchars"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -158,7 +164,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return void|integer Id of the clone or nothing.
      */
-    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null): int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
@@ -167,16 +173,16 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         // duplicate the question in database
         $this_id = $this->getId();
         $thisObjId = $this->getObjId();
-        
+
         $clone = $this;
         require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
         $original_id = assQuestion::_getOriginalId($this->id);
         $clone->id = -1;
-        
+
         if ((int) $testObjId > 0) {
             $clone->setObjId($testObjId);
         }
-        
+
         if ($title) {
             $clone->setTitle($title);
         }
@@ -240,11 +246,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $clone->id;
     }
 
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = ""): int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -283,13 +288,13 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $this->upper_limit;
     }
 
-    public function setLowerLimit($a_limit)
+    public function setLowerLimit($a_limit): void
     {
         $a_limit = str_replace(',', '.', $a_limit);
         $this->lower_limit = $a_limit;
     }
 
-    public function setUpperLimit($a_limit)
+    public function setUpperLimit($a_limit): void
     {
         $a_limit = str_replace(',', '.', $a_limit);
         $this->upper_limit = $a_limit;
@@ -300,7 +305,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @see $points
      */
-    public function getMaximumPoints() : float
+    public function getMaximumPoints(): float
     {
         return $this->getPoints();
     }
@@ -313,7 +318,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         }
 
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $points);
-        
+
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
@@ -366,7 +371,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return boolean TRUE if the value is in the range, FALSE otherwise
      */
-    public function contains($value)
+    public function contains($value): bool
     {
         require_once './Services/Math/classes/class.EvalMath.php';
         $eval = new EvalMath();
@@ -381,42 +386,42 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         }
         return false;
     }
-    
-    protected function isValidNumericSubmitValue($submittedValue)
+
+    protected function isValidNumericSubmitValue($submittedValue): bool
     {
         if (is_numeric($submittedValue)) {
             return true;
         }
-        
+
         if (preg_match('/^[-+]{0,1}\d+\/\d+$/', $submittedValue)) {
             return true;
         }
-        
+
         return false;
     }
-    
-    public function validateSolutionSubmit() : bool
+
+    public function validateSolutionSubmit(): bool
     {
         if (strlen($this->getSolutionSubmit()) && !$this->isValidNumericSubmitValue($this->getSolutionSubmit())) {
-            ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
             return false;
         }
-        
+
         return true;
     }
-    
-    public function getSolutionSubmit()
+
+    public function getSolutionSubmit(): string
     {
         return trim(str_replace(",", ".", $_POST["numeric_result"]));
     }
-    
-    public function isValidSolutionSubmit($numeric_solution)
+
+    public function isValidSolutionSubmit($numeric_solution): bool
     {
         require_once './Services/Math/classes/class.EvalMath.php';
         $math = new EvalMath();
         $math->suppress_errors = true;
         $result = $math->evaluate($numeric_solution);
-        
+
         return !(
             ($result === false || $result === true) && strlen($numeric_solution) > 0
         );
@@ -430,7 +435,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData($active_id, $pass = null, $authorized = true): bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
@@ -450,9 +455,13 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $numeric_result, $ilDB, $active_id, $pass, $authorized) {
             $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
 
-            $row = $ilDB->fetchAssoc($result);
-            $update = $row["solution_id"];
-            if ($update) {
+            $update = -1;
+            if ($ilDB->numRows($result) != 0) {
+                $row = $ilDB->fetchAssoc($result);
+                $update = $row["solution_id"];
+            }
+
+            if ($update != -1) {
                 if (strlen($numeric_result)) {
                     $this->updateCurrentSolution($update, trim($numeric_result), null, $authorized);
                     $entered_values++;
@@ -498,7 +507,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $returnvalue;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
         $numericSolution = $this->getSolutionSubmit();
         $previewSession->setParticipantsSolution($numericSolution);
@@ -519,7 +528,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
         $ilDB->manipulateF(
             "INSERT INTO " . $this->getAdditionalTableName(
-                                                   ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
+            ) . " (question_fi, maxnumofchars) VALUES (%s, %s)",
             array( "integer", "integer" ),
             array(
                                 $this->getId(),
@@ -547,7 +556,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 							 VALUES (%s, %s, %s, %s, %s, %s, %s)",
             array( 'integer', 'integer', 'text', 'text', 'float', 'integer', 'integer' ),
             array( $next_id, $this->id, $this->getLowerLimit(), $this->getUpperLimit(
-                            ), $this->getPoints(), 0, time() )
+            ), $this->getPoints(), 0, time() )
         );
     }
 
@@ -556,7 +565,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return integer The question type of the question
      */
-    public function getQuestionType() : string
+    public function getQuestionType(): string
     {
         return "assNumeric";
     }
@@ -576,7 +585,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param integer $maxchars The maximum number of characters
      */
-    public function setMaxChars($maxchars)
+    public function setMaxChars($maxchars): void
     {
         $this->maxchars = $maxchars;
     }
@@ -586,7 +595,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return string The additional table name
      */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName(): string
     {
         return "qpl_qst_numeric";
     }
@@ -595,7 +604,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      * Collects all text in the question which could contain media objects
      * which were created with the Rich Text Editor
      */
-    public function getRTETextWithMediaObjects() : string
+    public function getRTETextWithMediaObjects(): string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -603,7 +612,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass): int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -612,7 +621,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         $i = 1;
         $worksheet->setCell($startrow + $i, 0, $this->lng->txt("result"));
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
-        
+
         $worksheet->setBold($worksheet->getColumnCoord(0) . ($startrow + $i));
         if (strlen($solutions[0]["value1"])) {
             $worksheet->setCell($startrow + $i, 1, $solutions[0]["value1"]);
@@ -630,7 +639,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression): array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -640,7 +649,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes(): array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -657,7 +666,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass): ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;

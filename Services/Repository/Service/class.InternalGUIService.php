@@ -1,17 +1,22 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Repository;
 
@@ -37,7 +42,7 @@ class InternalGUIService
         $this->initGUIServices($DIC);
     }
 
-    public function administration() : Administration\GUIService
+    public function administration(): Administration\GUIService
     {
         return new Administration\GUIService(
             $this->domain_service,
@@ -45,7 +50,7 @@ class InternalGUIService
         );
     }
 
-    public function pluginSlot() : PluginSlot\GUIService
+    public function pluginSlot(): PluginSlot\GUIService
     {
         return new PluginSlot\GUIService(
             $this->domain_service,
@@ -53,7 +58,7 @@ class InternalGUIService
         );
     }
 
-    public function trash() : Trash\GUIService
+    public function trash(): Trash\GUIService
     {
         return new Trash\GUIService(
             $this->domain_service,
@@ -61,7 +66,7 @@ class InternalGUIService
         );
     }
 
-    public function standardRequest() : StandardGUIRequest
+    public function standardRequest(): StandardGUIRequest
     {
         return new StandardGUIRequest(
             $this->http(),

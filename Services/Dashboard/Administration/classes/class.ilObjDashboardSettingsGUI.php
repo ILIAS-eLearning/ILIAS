@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\UI\Component\Input\Field\FormInput;
+
 /**
  * Dashboard settings
  *
@@ -47,7 +49,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
         $this->ui = $DIC->ui();
-        
+
         $this->type = 'dshs';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
@@ -58,7 +60,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->side_panel_settings = new ilDashboardSidePanelSettingsRepository();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -86,7 +88,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -108,7 +110,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $this->setSettingsSubTabs("general");
         $ui = $this->ui;
@@ -116,7 +118,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($ui->renderer()->renderAsync($form));
     }
 
-    public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function initForm(): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -124,7 +126,6 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $lng = $this->lng;
 
         $side_panel = $this->side_panel_settings;
-
 
         $fields["enable_favourites"] = $f->input()->field()->checkbox($lng->txt("dash_enable_favourites"))
             ->withValue($this->viewSettings->enabledSelectedItems());
@@ -141,7 +142,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withValue($this->viewSettings->enabledMemberships());
 
         // main panel
-        $section1 = $f->input()->field()->section($fields, $lng->txt("dash_main_panel"));
+        $section1 = $f->input()->field()->section($this->maybeDisable($fields), $lng->txt("dash_main_panel"));
 
         $sp_fields = [];
         foreach ($side_panel->getValidModules() as $mod) {
@@ -150,7 +151,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
         // side panel
-        $section2 = $f->input()->field()->section($sp_fields, $lng->txt("dash_side_panel"));
+        $section2 = $f->input()->field()->section($this->maybeDisable($sp_fields), $lng->txt("dash_side_panel"));
 
         $form_action = $ctrl->getLinkTarget($this, "saveSettings");
         return $f->input()->container()->form()->standard(
@@ -159,13 +160,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
         $side_panel = $this->side_panel_settings;
-        
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+
+        if (!$this->canWrite()) {
+            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
             $ilCtrl->redirect($this, "editSettings");
         }
 
@@ -182,12 +184,12 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
 
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $ilCtrl->redirect($this, "editSettings");
     }
-    
 
-    public function setSettingsSubTabs(string $a_active) : void
+
+    public function setSettingsSubTabs(string $a_active): void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -222,13 +224,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $tabs->activateSubTab($a_active);
     }
 
-    protected function editViewCoursesGroups() : void
+    protected function editViewCoursesGroups(): void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
         $ui_renderer = $this->ui_renderer;
 
-        $tabs->activateTab("pd_settings");
+        $tabs->activateTab("settings");
         $this->setSettingsSubTabs("view_courses_groups");
 
         $form = $this->getViewSettingsForm($this->viewSettings->getMembershipsView());
@@ -236,7 +238,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    protected function getViewSettingsForm(int $view) : \ILIAS\UI\Component\Input\Container\Form\Standard
+    protected function getViewSettingsForm(int $view): \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -260,7 +262,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             ->withOption('tile', $lng->txt("dash_tile"));
         $default_pres = $default_pres->withValue($this->viewSettings->getDefaultPresentationByView($view));
         $sec_presentation = $ui_factory->input()->field()->section(
-            ["avail_pres" => $avail_pres, "default_pres" => $default_pres],
+            $this->maybeDisable(["avail_pres" => $avail_pres, "default_pres" => $default_pres]),
             $lng->txt("dash_presentation")
         );
 
@@ -277,7 +279,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         }
         $default_sort = $default_sort->withValue($this->viewSettings->getDefaultSortingByView($view));
         $sec_sortation = $ui_factory->input()->field()->section(
-            ["avail_sort" => $avail_sort, "default_sort" => $default_sort],
+            $this->maybeDisable(["avail_sort" => $avail_sort, "default_sort" => $default_sort]),
             $lng->txt("dash_sortation")
         );
 
@@ -290,7 +292,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function saveViewCoursesGroups() : void
+    protected function saveViewCoursesGroups(): void
     {
         $this->saveViewSettings(
             $this->viewSettings->getMembershipsView(),
@@ -298,13 +300,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function editViewFavourites() : void
+    protected function editViewFavourites(): void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
         $ui_renderer = $this->ui_renderer;
 
-        $tabs->activateTab("pd_settings");
+        $tabs->activateTab("settings");
         $this->setSettingsSubTabs("view_favourites");
 
         $view = $this->viewSettings->getSelectedItemsView();
@@ -314,7 +316,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $main_tpl->setContent($ui_renderer->render($form));
     }
 
-    protected function saveViewFavourites() : void
+    protected function saveViewFavourites(): void
     {
         $this->saveViewSettings(
             $this->viewSettings->getSelectedItemsView(),
@@ -322,11 +324,16 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         );
     }
 
-    protected function saveViewSettings(int $view, string $redirect_cmd) : void
+    protected function saveViewSettings(int $view, string $redirect_cmd): void
     {
         $request = $this->request;
         $lng = $this->lng;
         $ctrl = $this->ctrl;
+
+        if (!$this->canWrite()) {
+            ilUtil::sendFailure($this->lng->txt('no_permission'), true);
+            $ctrl->redirect($this, $redirect_cmd);
+        }
 
         $form = $this->getViewSettingsForm($view);
         $form = $form->withRequest($request);
@@ -342,7 +349,27 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             $form_data['presentation']['avail_pres'] ?: []
         );
 
-        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+        $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         $ctrl->redirect($this, $redirect_cmd);
+    }
+
+    /**
+     * @param FormInput[] $fields
+     * @return FormInput[]
+     */
+    private function maybeDisable(array $fields): array
+    {
+        if ($this->canWrite()) {
+            return $fields;
+        }
+
+        return array_map(static function (FormInput $field): FormInput {
+            return $field->withDisabled(true);
+        }, $fields);
+    }
+
+    private function canWrite(): bool
+    {
+        return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
     }
 }

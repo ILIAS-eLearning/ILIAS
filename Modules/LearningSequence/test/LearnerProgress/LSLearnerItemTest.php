@@ -1,30 +1,46 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class LSLearnerItemTest extends TestCase
 {
-    const TYPE = "type";
-    const TITLE = "tile";
-    const DESC = "description";
-    const ICON_PATH = "icon_path";
-    const IS_ONLINE = true;
-    const ORDER_NUMBER = 10;
-    const REF_ID = 30;
-    const USER_ID = 6;
-    const LP_STATUS = 2;
-    const AVAILABILITY_STATUS = 3;
+    public const TYPE = "type";
+    public const TITLE = "tile";
+    public const DESC = "description";
+    public const ICON_PATH = "icon_path";
+    public const IS_ONLINE = true;
+    public const ORDER_NUMBER = 10;
+    public const REF_ID = 30;
+    public const USER_ID = 6;
+    public const LP_STATUS = 2;
+    public const AVAILABILITY_STATUS = 3;
 
     protected ilLSPostCondition $post_condition;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->post_condition = new ilLSPostCondition(666, 'always');
     }
 
-    public function testCreate() : LSLearnerItem
+    public function testCreate(): LSLearnerItem
     {
         $ls_item = new LSItem(
             self::TYPE,
@@ -54,7 +70,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithPostCondition(LSItem $object)
+    public function testTurnedOffWithPostCondition(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withPostCondition($this->post_condition);
@@ -63,7 +79,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOrderNumber(LSItem $object)
+    public function testTurnedOffWithOrderNumber(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withOrderNumber(self::ORDER_NUMBER);
@@ -72,7 +88,7 @@ class LSLearnerItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testTurnedOffWithOnline(LSItem $object)
+    public function testTurnedOffWithOnline(LSItem $object): void
     {
         $this->expectException(LogicException::class);
         $object->withOnline(self::IS_ONLINE);

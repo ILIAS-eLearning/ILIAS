@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -14,7 +15,7 @@ class ilTestQuestionSideListGUI
      * @var ilCtrl
      */
     protected $ctrl;
-    
+
     /**
      * @var ilLanguage
      */
@@ -24,7 +25,7 @@ class ilTestQuestionSideListGUI
      * @var ilTestPlayerAbstractGUI
      */
     private $targetGUI;
-    
+
     /**
      * @var array
      */
@@ -53,7 +54,7 @@ class ilTestQuestionSideListGUI
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-            
+
         $this->questionSummaryData = array();
         $this->currentSequenceElement = null;
         $this->disabled = false;
@@ -62,7 +63,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return ilTestPlayerAbstractGUI
      */
-    public function getTargetGUI()
+    public function getTargetGUI(): ilTestPlayerAbstractGUI
     {
         return $this->targetGUI;
     }
@@ -78,7 +79,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return array
      */
-    public function getQuestionSummaryData()
+    public function getQuestionSummaryData(): array
     {
         return $this->questionSummaryData;
     }
@@ -94,7 +95,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return int
      */
-    public function getCurrentSequenceElement()
+    public function getCurrentSequenceElement(): ?int
     {
         return $this->currentSequenceElement;
     }
@@ -110,7 +111,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    public function getCurrentPresentationMode()
+    public function getCurrentPresentationMode(): string
     {
         return $this->currentPresentationMode;
     }
@@ -126,7 +127,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return boolean
      */
-    public function isDisabled()
+    public function isDisabled(): bool
     {
         return $this->disabled;
     }
@@ -142,7 +143,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return ilPanelGUI
      */
-    private function buildPanel()
+    private function buildPanel(): ilPanelGUI
     {
         require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
@@ -155,27 +156,27 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    private function renderList()
+    private function renderList(): string
     {
         $tpl = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
 
         foreach ($this->getQuestionSummaryData() as $row) {
-            $title = ilUtil::prepareFormOutput($row['title']);
+            $title = ilLegacyFormElementsUtil::prepareFormOutput($row['title']);
 
             if (strlen($row['description'])) {
-                $description = " title=\"{$row['description']}\" ";
+                $description = " title=\"" . htmlspecialchars($row['description']) . "\" ";
             } else {
                 $description = "";
             }
 
             $active = ($row['sequence'] == $this->getCurrentSequenceElement()) ? ' active' : '';
-            
+
             $class = (
                 $row['worked_through'] ? 'answered' . $active : 'unanswered' . $active
             );
 
             $headerclass = ($row['sequence'] == $this->getCurrentSequenceElement()) ? 'bold' : '';
-            
+
             if ($row['marked']) {
                 $tpl->setCurrentBlock("mark_icon");
                 $tpl->setVariable("ICON_SRC", ilUtil::getImagePath('marked.svg'));
@@ -183,7 +184,7 @@ class ilTestQuestionSideListGUI
                 $tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($this->isDisabled() || $row['disabled']) {
                 $tpl->setCurrentBlock('disabled_entry');
                 $tpl->setVariable('CLASS', $class);
@@ -214,7 +215,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    public function getHTML()
+    public function getHTML(): string
     {
         $panel = $this->buildPanel();
         $panel->setBody($this->renderList());
@@ -225,7 +226,7 @@ class ilTestQuestionSideListGUI
      * @param $row
      * @return string
      */
-    private function buildLink($sequenceElement)
+    private function buildLink($sequenceElement): string
     {
         $this->ctrl->setParameter(
             $this->getTargetGUI(),

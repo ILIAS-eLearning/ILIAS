@@ -1,13 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 /**
- * Cron job application base class
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesCron
- */
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 abstract class ilCronJob
 {
     public const SCHEDULE_TYPE_DAILY = 1;
@@ -21,76 +31,72 @@ abstract class ilCronJob
 
     protected ?int $schedule_type = null;
     protected ?int $schedule_value = null;
-    protected ?Closure $dateTimeProviver = null;
+    protected ?Closure $date_time_provider = null;
 
-    private function checkSchedule(?int $a_ts_last_run, ?int $a_schedule_type, ?int $a_schedule_value) : bool
+    private function checkSchedule(?DateTimeImmutable $last_run, ?int $schedule_type, ?int $schedule_value): bool
     {
-        if (null === $a_schedule_type) {
+        if (null === $schedule_type) {
             return false;
         }
 
-        if (null === $a_ts_last_run) {
+        if (null === $last_run) {
             return true;
         }
 
-        $now = time();
-        if ($this->dateTimeProviver !== null) {
-            $get_datetime = $this->dateTimeProviver;
-            $now = $get_datetime()->getTimestamp();
+        $now = new DateTimeImmutable('@' . time());
+        if ($this->date_time_provider !== null) {
+            $now = ($this->date_time_provider)();
         }
 
-        switch ($a_schedule_type) {
+        switch ($schedule_type) {
             case self::SCHEDULE_TYPE_DAILY:
-                $last = date('Y-m-d', $a_ts_last_run);
-                $ref = date('Y-m-d', $now);
+                $last = $last_run->format('Y-m-d');
+                $ref = $now->format('Y-m-d');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_WEEKLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y-W', $a_ts_last_run);
-                $ref = date('Y-W', $now);
+                $last = $last_run->format('Y-W');
+                $ref = $now->format('Y-W');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_MONTHLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y-n', $a_ts_last_run);
-                $ref = date('Y-n', $now);
+                $last = $last_run->format('Y-n');
+                $ref = $now->format('Y-n');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_QUARTERLY:
-                $last = date('Y', $a_ts_last_run) . '-' . ceil(((int) date('n', $a_ts_last_run)) / 3);
-                $ref = date('Y', $now) . '-' . ceil(((int) date('n', $now)) / 3);
+                $last = $last_run->format('Y') . '-' . ceil(((int) $last_run->format('n')) / 3);
+                $ref = $now->format('Y') . '-' . ceil(((int) $now->format('n')) / 3);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_YEARLY:
-                $d = date('Y-m-d H:i:s', $a_ts_last_run);
-                $last = date('Y', $a_ts_last_run);
-                $ref = date('Y', $now);
+                $last = $last_run->format('Y');
+                $ref = $now->format('Y');
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_IN_MINUTES:
-                $diff = floor(($now - $a_ts_last_run) / 60);
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / 60);
+                return ($diff >= $schedule_value);
 
             case self::SCHEDULE_TYPE_IN_HOURS:
-                $diff = floor(($now - $a_ts_last_run) / (60 * 60));
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60));
+                return ($diff >= $schedule_value);
 
             case self::SCHEDULE_TYPE_IN_DAYS:
-                $diff = floor(($now - $a_ts_last_run) / (60 * 60 * 24));
-                return ($diff >= $a_schedule_value);
+                $diff = floor(($now->getTimestamp() - $last_run->getTimestamp()) / (60 * 60 * 24));
+                return ($diff >= $schedule_value);
         }
 
         return false;
     }
 
     /**
-     * @param Closure|null $dateTimeProviver
+     * @param Closure|null $date_time_provider
      */
-    public function setDateTimeProviver(?Closure $dateTimeProviver) : void
+    public function setDateTimeProvider(?Closure $date_time_provider): void
     {
-        if ($dateTimeProviver !== null) {
-            $r = new ReflectionFunction($dateTimeProviver);
+        if ($date_time_provider !== null) {
+            $r = new ReflectionFunction($date_time_provider);
             $return_type = $r->getReturnType();
             if ($return_type !== null) {
                 $return_type = $return_type->getName();
@@ -103,7 +109,7 @@ abstract class ilCronJob
                 ));
             }
 
-            $r = new ReflectionFunction($dateTimeProviver);
+            $r = new ReflectionFunction($date_time_provider);
             $parameters = $r->getParameters();
             if ($parameters !== []) {
                 throw new InvalidArgumentException(
@@ -112,32 +118,32 @@ abstract class ilCronJob
             }
         }
 
-        $this->dateTimeProviver = $dateTimeProviver;
+        $this->date_time_provider = $date_time_provider;
     }
 
     public function isDue(
-        ?int $a_ts_last_run,
-        ?int $a_schedule_type,
-        ?int $a_schedule_value,
-        bool $a_manual = false
-    ) : bool {
-        if ($a_manual) {
+        ?DateTimeImmutable $last_run,
+        ?int $schedule_type,
+        ?int $schedule_value,
+        bool $is_manually_executed = false
+    ): bool {
+        if ($is_manually_executed) {
             return true;
         }
 
         if (!$this->hasFlexibleSchedule()) {
-            $a_schedule_type = $this->getDefaultScheduleType();
-            $a_schedule_value = $this->getDefaultScheduleValue();
+            $schedule_type = $this->getDefaultScheduleType();
+            $schedule_value = $this->getDefaultScheduleValue();
         }
 
-        return $this->checkSchedule($a_ts_last_run, $a_schedule_type, $a_schedule_value);
+        return $this->checkSchedule($last_run, $schedule_type, $schedule_value);
     }
 
     /**
      * Get current schedule type (if flexible)
      * @return int|null
      */
-    public function getScheduleType() : ?int
+    public function getScheduleType(): ?int
     {
         if ($this->schedule_type && $this->hasFlexibleSchedule()) {
             return $this->schedule_type;
@@ -150,7 +156,7 @@ abstract class ilCronJob
      * Get current schedule value (if flexible)
      * @return int|null
      */
-    public function getScheduleValue() : ?int
+    public function getScheduleValue(): ?int
     {
         if ($this->schedule_value && $this->hasFlexibleSchedule()) {
             return $this->schedule_value;
@@ -164,7 +170,7 @@ abstract class ilCronJob
      * @param int|null $a_type
      * @param int|null $a_value
      */
-    public function setSchedule(?int $a_type, ?int $a_value) : void
+    public function setSchedule(?int $a_type, ?int $a_value): void
     {
         if (
             $a_value &&
@@ -180,7 +186,7 @@ abstract class ilCronJob
      * Get all available schedule types
      * @return int[]
      */
-    public function getAllScheduleTypes() : array
+    public function getAllScheduleTypes(): array
     {
         return [
             self::SCHEDULE_TYPE_DAILY,
@@ -197,7 +203,7 @@ abstract class ilCronJob
     /**
      * @return int[]
      */
-    public function getScheduleTypesWithValues() : array
+    public function getScheduleTypesWithValues(): array
     {
         return [
             self::SCHEDULE_TYPE_IN_MINUTES,
@@ -210,57 +216,62 @@ abstract class ilCronJob
      * Returns a collection of all valid schedule types for a specific job
      * @return int[]
      */
-    public function getValidScheduleTypes() : array
+    public function getValidScheduleTypes(): array
     {
         return $this->getAllScheduleTypes();
     }
 
-    public function isManuallyExecutable() : bool
+    public function isManuallyExecutable(): bool
     {
         return true;
     }
 
-    public function hasCustomSettings() : bool
+    public function hasCustomSettings(): bool
     {
         return false;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form): void
     {
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form): bool
     {
         return true;
     }
 
-    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active): void
     {
     }
 
-    public function activationWasToggled(bool $a_currently_active) : void
+    /**
+     * Important: This method is (also) called from the setup process, where the constructor of an ilCronJob ist NOT executed.
+     * Furthermore only few dependencies may be available in the $DIC.
+     * @param ilDBInterface $db
+     * @param ilSetting $setting
+     * @param bool $a_currently_active
+     * @return void
+     */
+    public function activationWasToggled(ilDBInterface $db, ilSetting $setting, bool $a_currently_active): void
     {
-        // we cannot use ilObject or any higher level construct here
-        // this may be called from setup, so it is limited to handling ilSetting/ilDB mostly
     }
 
-    abstract public function getId() : string;
+    abstract public function getId(): string;
 
-    abstract public function getTitle() : string;
+    abstract public function getTitle(): string;
 
-    abstract public function getDescription() : string;
+    abstract public function getDescription(): string;
 
     /**
      * Is to be activated on "installation", does only work for ILIAS core cron jobs
-     * @return bool
      */
-    abstract public function hasAutoActivation() : bool;
+    abstract public function hasAutoActivation(): bool;
 
-    abstract public function hasFlexibleSchedule() : bool;
+    abstract public function hasFlexibleSchedule(): bool;
 
-    abstract public function getDefaultScheduleType() : int;
+    abstract public function getDefaultScheduleType(): int;
 
-    abstract public function getDefaultScheduleValue() : ?int;
+    abstract public function getDefaultScheduleValue(): ?int;
 
-    abstract public function run() : ilCronJobResult;
+    abstract public function run(): ilCronJobResult;
 }

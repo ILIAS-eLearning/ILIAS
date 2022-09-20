@@ -1,7 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBuddySystemBaseStateTest
@@ -14,8 +29,10 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 
     protected ilBuddySystemRelation $relation;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
+        parent::setUp();
+
         $this->relation = new ilBuddySystemRelation(
             $this->getInitialState(),
             self::RELATION_OWNER_ID,
@@ -25,5 +42,5 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
         );
     }
 
-    abstract public function getInitialState() : ilBuddySystemRelationState;
+    abstract public function getInitialState(): ilBuddySystemRelationState;
 }

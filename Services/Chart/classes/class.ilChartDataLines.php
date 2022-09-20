@@ -1,72 +1,60 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChartData.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Chart data lines series
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ServicesChart
  */
 class ilChartDataLines extends ilChartData
 {
-    protected $line_width; // [int]
-    protected $steps; // [bool] lines
-    
-    protected function getTypeString()
+    protected ?int $line_width = null;
+    protected bool $steps = false;
+
+    protected function getTypeString(): string
     {
         return "lines";
     }
-    
-    /**
-     * Set line width
-     *
-     * @param int $a_value
-     */
-    public function setLineWidth($a_value)
+
+    public function setLineWidth(int $a_value): void
     {
-        $this->line_width = (int) $a_value;
+        $this->line_width = $a_value;
     }
 
-    /**
-     * Get line width
-     *
-     * @return int
-     */
-    public function getLineWidth()
+    public function getLineWidth(): ?int
     {
         return $this->line_width;
     }
 
-    /**
-     * Set line steps
-     *
-     * @param bool $a_value
-     */
-    public function setLineSteps($a_value)
+    public function setLineSteps(bool $a_value): void
     {
-        $this->steps = (bool) $a_value;
+        $this->steps = $a_value;
     }
 
-    /**
-     * Get line steps
-     *
-     * @return bool
-     */
-    public function getLineSteps()
+    public function getLineSteps(): bool
     {
         return $this->steps;
     }
-    
-    protected function parseDataOptions(array &$a_options)
+
+    protected function parseDataOptions(array &$a_options): void
     {
         $width = $this->getLineWidth();
         if ($width !== null) {
             $a_options["lineWidth"] = $width;
         }
-        
+
         if ($this->getLineSteps()) {
             $a_options["steps"] = true;
         }

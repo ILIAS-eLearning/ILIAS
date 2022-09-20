@@ -1,27 +1,32 @@
 <?php
 
 /**
- * Class ilBiblLibraryPresentationGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * Class ilBiblLibraryPresentationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblLibraryPresentationGUI
 {
-
-    /**
-     * @var \ilBiblLibraryInterface
-     */
-    protected $library;
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
-
+    protected \ilBiblLibraryInterface $library;
+    protected \ilBiblFactoryFacade $facade;
 
     /**
      * ilBiblLibraryPresentationGUI constructor.
-     *
-     * @param \ilBiblLibraryInterface $library
      */
     public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
     {
@@ -29,20 +34,15 @@ class ilBiblLibraryPresentationGUI
         $this->facade = $facade;
     }
 
-
     /**
-     * @param \ilBiblEntry $entry
-     * @param              $type
-     *
-     * @return string
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
-     *
-     *
      */
-    public function generateLibraryLink(ilBiblEntry $entry, $type)
+    public function generateLibraryLink(ilBiblEntry $entry, string $type): string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
         $type = $this->facade->typeFactory()->getInstanceForString($type);
+        $attr = [];
+        $prefix = '';
         switch ($type->getId()) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 $prefix = "bib_default_";
@@ -71,11 +71,11 @@ class ilBiblLibraryPresentationGUI
         }
 
         $url_params = "?";
-        if (sizeof($attr) == 1) {
-            if (($attr[0] == "doi") || ($attr[0] == "pmid")) {
+        if (count($attr) === 1) {
+            if (($attr[0] === "doi") || ($attr[0] === "pmid")) {
                 $url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix)
                     . "%3A" . $attributes[$prefix . $attr[0]];
-            } elseif ($attr[0] == "do") {
+            } elseif ($attr[0] === "do") {
                 $url_params .= "id=" . $this->formatAttribute($attr[0], $type, $attributes, $prefix)
                     . "i%3A" . $attributes[$prefix . $attr[0]];
             } else {
@@ -94,58 +94,38 @@ class ilBiblLibraryPresentationGUI
             }
         }
 
-        // return full link
-        $full_link = $this->library->getUrl() . $url_params;
-
-        return $full_link;
+        return $this->library->getUrl() . $url_params;
     }
 
-
     /**
-     * @param \ilBiblFactoryFacadeInterface $bibl_factory_facade
-     * @param \ilBiblEntry                  $entry
-     *
-     * @return string
+     * @return string|void
      */
     public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry)
     {
         if ($this->library->getImg()) {
             $button = ilImageLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
             $button->setImage($this->library->getImg(), false);
-            $button->setTarget('_blank');
-
-            return $button->render();
+            $button->addCSSClass("btn");
+            $button->addCSSClass("btn-default");
         } else {
             $button = ilLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
-            $button->setTarget('_blank');
-            $button->setCaption('bibl_link_online');
-
-            return $button->render();
         }
+        $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
+        $button->setTarget('_blank');
+        $button->setCaption('bibl_link_online');
+
+        return $button->render();
     }
 
-
     /**
-     * @param String $a
-     * @param String $type
-     * @param array  $attributes
-     * @param String $prefix
-     *
-     * @return String
      * @deprecated REFACTOR type via type factory verwenden
-     *
-     *
      */
-    public function formatAttribute($a, $type, $attributes, $prefix)
+    public function formatAttribute(string $a, ilBiblTypeInterface $type, array $attributes, string $prefix): string
     {
-        if ($type == 'ris') {
+        if ($type->getStringRepresentation() === 'ris') {
             switch ($a) {
-                case 'ti':
-                    $a = "title";
-                    break;
                 case 't1':
+                case 'ti':
                     $a = "title";
                     break;
                 case 'au':
@@ -168,7 +148,7 @@ class ilBiblLibraryPresentationGUI
                     $a = "volume";
                     break;
             }
-        } elseif ($type = 'bib') {
+        } elseif ($type->getStringRepresentation() === 'bib') {
             switch ($a) {
                 case 'number':
                     $a = "issue";

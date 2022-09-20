@@ -1,12 +1,28 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
 class ilLearnerProgressDBStub extends ilLearnerProgressDB
 {
-    protected function getLearningProgressFor(int $usr_id, LSItem $ls_item) : int
+    protected function getLearningProgressFor(int $usr_id, LSItem $ls_item): int
     {
         return 20;
     }
@@ -24,21 +40,21 @@ class ilLearnerProgressDBTest extends TestCase
      */
     protected $access;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->items_db = $this->createMock(ilLSItemsDB::class);
         $this->access = $this->createMock(ilAccess::class);
         $this->obj_data_cache = $this->createMock(ilObjectDataCache::class);
     }
 
-    public function testCreateObject() : void
+    public function testCreateObject(): void
     {
         $obj = new ilLearnerProgressDB($this->items_db, $this->access, $this->obj_data_cache);
 
         $this->assertInstanceOf(ilLearnerProgressDB::class, $obj);
     }
 
-    public function testGetLearnerItemsWithoutData() : void
+    public function testGetLearnerItemsWithoutData(): void
     {
         $this->items_db
             ->expects($this->once())
@@ -54,7 +70,7 @@ class ilLearnerProgressDBTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testGetLearnerItemsWithNonVisibleLSItem() : void
+    public function testGetLearnerItemsWithNonVisibleLSItem(): void
     {
         $ls_item = $this->createMock(LSItem::class);
 
@@ -90,7 +106,7 @@ class ilLearnerProgressDBTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    public function testGetLearnerItemsWithVisibleLSItem() : void
+    public function testGetLearnerItemsWithVisibleLSItem(): void
     {
         $ls_item = $this->createMock(LSItem::class);
 

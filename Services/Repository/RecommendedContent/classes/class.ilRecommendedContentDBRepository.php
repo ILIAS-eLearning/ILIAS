@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Recommended content db repository
@@ -31,7 +34,7 @@ class ilRecommendedContentDBRepository
 {
     protected ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -40,7 +43,7 @@ class ilRecommendedContentDBRepository
             : $db;
     }
 
-    public function addRoleRecommendation(int $role_id, int $ref_id) : void
+    public function addRoleRecommendation(int $role_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -54,7 +57,7 @@ class ilRecommendedContentDBRepository
         );
     }
 
-    public function removeRoleRecommendation(int $role_id, int $ref_id) : void
+    public function removeRoleRecommendation(int $role_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -66,7 +69,7 @@ class ilRecommendedContentDBRepository
         );
     }
 
-    public function addObjectRecommendation(int $user_id, int $ref_id) : void
+    public function addObjectRecommendation(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -79,7 +82,7 @@ class ilRecommendedContentDBRepository
         }
     }
 
-    public function removeObjectRecommendation(int $user_id, int $ref_id) : void
+    public function removeObjectRecommendation(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -91,7 +94,7 @@ class ilRecommendedContentDBRepository
         );
     }
 
-    public function removeRecommendationsOfRefId(int $ref_id) : void
+    public function removeRecommendationsOfRefId(int $ref_id): void
     {
         $db = $this->db;
 
@@ -110,7 +113,7 @@ class ilRecommendedContentDBRepository
         );
     }
 
-    public function removeRecommendationsOfUser(int $user_id) : void
+    public function removeRecommendationsOfUser(int $user_id): void
     {
         $db = $this->db;
 
@@ -122,7 +125,7 @@ class ilRecommendedContentDBRepository
         );
     }
 
-    public function removeRecommendationsOfRole(int $role_id) : void
+    public function removeRecommendationsOfRole(int $role_id): void
     {
         $db = $this->db;
 
@@ -135,7 +138,7 @@ class ilRecommendedContentDBRepository
     }
 
     // Does object recommendation exist?
-    protected function ifExistsObjectRecommendation(int $user_id, int $ref_id) : bool
+    protected function ifExistsObjectRecommendation(int $user_id, int $ref_id): bool
     {
         $db = $this->db;
 
@@ -151,7 +154,7 @@ class ilRecommendedContentDBRepository
         return false;
     }
 
-    public function declineObjectRecommendation(int $user_id, int $ref_id) : void
+    public function declineObjectRecommendation(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -178,10 +181,10 @@ class ilRecommendedContentDBRepository
     /**
      * Get recommendations of roles
      *
-     * @param $role_ids int[] role ids
+     * @param int[] $role_ids
      * @return int[] ref ids of recommendations
      */
-    public function getRecommendationsOfRoles(array $role_ids) : array
+    public function getRecommendationsOfRoles(array $role_ids): array
     {
         $db = $this->db;
 
@@ -189,14 +192,15 @@ class ilRecommendedContentDBRepository
             "SELECT DISTINCT ref_id FROM rep_rec_content_role " .
             " WHERE " . $db->in("role_id", $role_ids, false, "integer")
         );
-        return array_column($db->fetchAll($set), "ref_id");
+
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
     }
-    
+
     /**
      * Get user object recommendations
      * @return int[] ref ids of recommendations
      */
-    protected function getUserObjectRecommendations(int $user_id) : array
+    protected function getUserObjectRecommendations(int $user_id): array
     {
         $db = $this->db;
 
@@ -206,14 +210,15 @@ class ilRecommendedContentDBRepository
             ["integer", "integer"],
             [$user_id, false]
         );
-        return array_column($db->fetchAll($set), "ref_id");
+
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
     }
 
     /**
      * Get declined user object recommendations
      * @return int[] ref ids of declined recommendations
      */
-    protected function getDeclinedUserObjectRecommendations(int $user_id) : array
+    protected function getDeclinedUserObjectRecommendations(int $user_id): array
     {
         $db = $this->db;
 
@@ -223,16 +228,16 @@ class ilRecommendedContentDBRepository
             ["integer", "integer"],
             [$user_id, true]
         );
-        return array_column($db->fetchAll($set), "ref_id");
-    }
 
+        return array_map('intval', array_column($db->fetchAll($set), "ref_id"));
+    }
 
     /**
      * Open recommendations of user (by role or object, without declined ones)
      * @param int[] $role_ids
      * @return int[] ref ids of open recommendations
      */
-    public function getOpenRecommendationsOfUser(int $user_id, array $role_ids) : array
+    public function getOpenRecommendationsOfUser(int $user_id, array $role_ids): array
     {
         // recommendations of role
         $role_recommendations = $this->getRecommendationsOfRoles($role_ids);
@@ -244,8 +249,8 @@ class ilRecommendedContentDBRepository
 
         // filter declined recommendations
         $declined_recommendations = $this->getDeclinedUserObjectRecommendations($user_id);
-        return array_filter($recommendations, function ($i) use ($declined_recommendations) {
-            return !in_array($i, $declined_recommendations);
+        return array_filter($recommendations, static function (int $i) use ($declined_recommendations): bool {
+            return !in_array($i, $declined_recommendations, true);
         });
     }
 }

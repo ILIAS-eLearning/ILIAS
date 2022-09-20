@@ -1,50 +1,53 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
-* Class ilLMObject
-*
-* Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Class ilLMObject
+ *
+ * Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilLMObject
 {
-    const CHAPTER_TITLE = "st_title";
-    const PAGE_TITLE = "pg_title";
-    const NO_HEADER = "none";
+    public const CHAPTER_TITLE = "st_title";
+    public const PAGE_TITLE = "pg_title";
+    public const NO_HEADER = "none";
+    protected string $layout = "";
+    protected string $import_id = "";
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    public $lm_id;
-    public $type;
-    public $id;
-    public $meta_data;
-    public $data_record;		// assoc array of lm_data record
-    public $content_object;
-    public $title;
-    public $short_title;
-    public $description;
-    public $active = true;
+    protected ilObjUser $user;
+    public int $lm_id = 0;
+    public string $type = "";
+    public int $id = 0;
+    public ?array $data_record;		// assoc array of lm_data record
+    public ilObjLearningModule $content_object;
+    public string $title = "";
+    public string $short_title = "";
+    public string $description = "";
+    public bool $active = true;
     protected static $data_records = array();
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-    * @param	object		$a_content_obj		content object (digi book or learning module)
-    */
-    public function __construct($a_content_obj, $a_id = 0)
-    {
+    public function __construct(
+        ilObjLearningModule $a_content_obj,
+        int $a_id = 0
+    ) {
         global $DIC;
         $this->user = $DIC->user();
 
@@ -60,17 +63,14 @@ class ilLMObject
 
     /**
      * Meta data update listener
-     *
      * Important note: Do never call create() or update()
      * method of ilObject here. It would result in an
      * endless loop: update object -> update meta -> update
      * object -> ...
      * Use static _writeTitle() ... methods instead.
-     *
      * @param string $a_element md element
-     * @return boolean success
      */
-    public function MDUpdateListener($a_element)
+    public function MDUpdateListener(string $a_element): void
     {
         switch ($a_element) {
             case 'General':
@@ -87,7 +87,7 @@ class ilLMObject
                     break;
                 }
                 break;
-                
+
             case 'Educational':
                 $obj_lp = ilObjectLP::getInstance($this->getLMId());
                 if (in_array(
@@ -97,17 +97,16 @@ class ilLMObject
                     ilLPStatusWrapper::_refreshStatus($this->getLMId());
                 }
                 break;
-            
+
             default:
         }
-        return true;
     }
 
 
     /**
-    * lookup named identifier (ILIAS_NID)
-    */
-    public static function _lookupNID($a_lm_id, $a_lm_obj_id, $a_type)
+     * lookup named identifier (ILIAS_NID)
+     */
+    public static function _lookupNID(int $a_lm_id, int $a_lm_obj_id, string $a_type): ?string
     {
         $md = new ilMD($a_lm_id, $a_lm_obj_id, $a_type);
         $md_gen = $md->getGeneral();
@@ -119,15 +118,15 @@ class ilLMObject
                 }
             }
         }
-        
-        return false;
+
+        return null;
     }
 
 
     /**
-    * create meta data entry
-    */
-    public function createMetaData()
+     * create meta data entry
+     */
+    public function createMetaData(): void
     {
         $ilUser = $this->user;
 
@@ -139,14 +138,12 @@ class ilLMObject
         $md_creator->setKeywordLanguage($ilUser->getPref('language'));
         $md_creator->setLanguage($ilUser->getPref('language'));
         $md_creator->create();
-
-        return true;
     }
 
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    public function updateMetaData(): void
     {
         $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
@@ -164,9 +161,9 @@ class ilLMObject
 
 
     /**
-    * delete meta data entry
-    */
-    public function deleteMetaData()
+     * delete meta data entry
+     */
+    public function deleteMetaData(): void
     {
         // Delete meta data
         $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
@@ -176,14 +173,14 @@ class ilLMObject
 
 
     /**
-    * this method should only be called by class ilLMObjectFactory
-    */
-    public function setDataRecord($a_record)
+     * this method should only be called by class ilLMObjectFactory
+     */
+    public function setDataRecord(array $a_record): void
     {
         $this->data_record = $a_record;
     }
 
-    public function read()
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -195,20 +192,18 @@ class ilLMObject
         }
 
         $this->type = $this->data_record["type"];
-        $this->setImportId($this->data_record["import_id"]);
-        $this->setTitle($this->data_record["title"]);
-        $this->setShortTitle($this->data_record["short_title"]);
-        $this->setLayout($this->data_record["layout"]);
+        $this->setImportId((string) $this->data_record["import_id"]);
+        $this->setTitle((string) $this->data_record["title"]);
+        $this->setShortTitle((string) $this->data_record["short_title"]);
+        $this->setLayout((string) $this->data_record["layout"]);
     }
 
 
     /**
      * Preload data records by lm
-     *
-     * @param integer $a_lm_id lm id
      * @return int number of preloaded records
      */
-    public static function preloadDataByLM($a_lm_id)
+    public static function preloadDataByLM(int $a_lm_id): int
     {
         global $DIC;
 
@@ -224,61 +219,34 @@ class ilLMObject
         return count(self::$data_records);
     }
 
-
-    /**
-     * set title of lm object
-     *
-     * @param	string		$a_title	title of chapter or page
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * get title of lm object
-     *
-     * @return	string		title of chapter or page
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * set short title of lm object
-     *
-     * @param	string		$a_title	short title of chapter or page
-     */
-    public function setShortTitle($a_title)
+    public function setShortTitle(string $a_title): void
     {
         $this->short_title = $a_title;
     }
 
-    /**
-     * get short title of lm object
-     *
-     * @return	string		short title of chapter or page
-     */
-    public function getShortTitle()
+    public function getShortTitle(): string
     {
         return $this->short_title;
     }
 
-
-    /**
-     * Lookup title
-     *
-     * @param	int		lm object id
-     */
-    protected static function _lookup($a_obj_id, $a_field)
+    protected static function _lookup(int $a_obj_id, string $a_field): string
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         if (isset(self::$data_records[$a_obj_id])) {
-            return self::$data_records[$a_obj_id][$a_field];
+            return self::$data_records[$a_obj_id][$a_field] ?? "";
         }
 
         $query = "SELECT " . $a_field . " FROM lm_data WHERE obj_id = " .
@@ -286,38 +254,20 @@ class ilLMObject
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec[$a_field];
+        return $obj_rec[$a_field] ?? "";
     }
 
-    /**
-     * Lookup title
-     *
-     * @param int $a_obj_id object id
-     * @return string
-     */
-    public static function _lookupTitle($a_obj_id)
+    public static function _lookupTitle(int $a_obj_id): string
     {
         return self::_lookup($a_obj_id, "title");
     }
 
-    /**
-     * Lookup short title
-     *
-     * @param int $a_obj_id object id
-     * @return string
-     */
-    public static function _lookupShortTitle($a_obj_id)
+    public static function _lookupShortTitle(int $a_obj_id): string
     {
         return self::_lookup($a_obj_id, "short_title");
     }
 
-    /**
-    * Lookup type
-    *
-    * @param	int		id of pg st
-    * @param	int		id of lm object [optional]
-    */
-    public static function _lookupType($a_obj_id, $a_lm_id = 0)
+    public static function _lookupType(int $a_obj_id, int $a_lm_id = 0): string
     {
         global $DIC;
 
@@ -342,7 +292,7 @@ class ilLMObject
     }
 
 
-    public static function _writeTitle($a_obj_id, $a_title)
+    public static function _writeTitle(int $a_obj_id, string $a_title): void
     {
         global $DIC;
 
@@ -355,94 +305,77 @@ class ilLMObject
     }
 
 
-    public function setDescription($a_description)
+    public function setDescription(string $a_description): void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setType($a_type)
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setLMId($a_lm_id)
+    public function setLMId(int $a_lm_id): void
     {
         $this->lm_id = $a_lm_id;
     }
 
-    public function getLMId()
+    public function getLMId(): int
     {
         return $this->lm_id;
     }
 
-    public function setContentObject(&$a_content_obj)
+    public function setContentObject(ilObjLearningModule $a_content_obj): void
     {
         $this->content_object = $a_content_obj;
     }
 
-    public function &getContentObject()
+    public function getContentObject(): ilObjLearningModule
     {
         return $this->content_object;
     }
 
-    public function setId($a_id)
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getImportId()
+    public function getImportId(): string
     {
         return $this->import_id;
     }
 
-    public function setImportId($a_id)
+    public function setImportId(string $a_id): void
     {
         $this->import_id = $a_id;
     }
 
-    /**
-    * Set layout
-    *
-    * @param	string	layout
-    */
-    public function setLayout($a_val)
+    public function setLayout(string $a_val): void
     {
         $this->layout = $a_val;
     }
-    
-    /**
-    * Get layout
-    *
-    * @return	string	layout
-    */
-    public function getLayout()
+
+    public function getLayout(): string
     {
         return $this->layout;
     }
-    
-    /**
-    * write import id to db (static)
-    *
-    * @param	int		$a_id				lm object id
-    * @param	string	$a_import_id		import id
-    * @access	public
-    */
-    public static function _writeImportId($a_id, $a_import_id)
+
+    public static function _writeImportId(int $a_id, string $a_import_id): void
     {
         global $DIC;
 
@@ -457,7 +390,7 @@ class ilLMObject
         $ilDB->manipulate($q);
     }
 
-    public function create($a_upload = false)
+    public function create(bool $a_upload = false): void
     {
         $ilDB = $this->db;
 
@@ -488,10 +421,7 @@ class ilLMObject
         }
     }
 
-    /**
-    * update complete object
-    */
-    public function update()
+    public function update(): void
     {
         $ilDB = $this->db;
 
@@ -509,60 +439,53 @@ class ilLMObject
 
 
     /**
-    * update public access flags in lm_data for all pages of a content object
-    * @static
-    * @access	public
-    * @param	array	page ids
-    * @param	integer	content object id
-    * @return	of the jedi
-    */
-    public static function _writePublicAccessStatus($a_pages, $a_cont_obj_id)
-    {
+     * update public access flags in lm_data for all pages of a content object
+     */
+    public static function _writePublicAccessStatus(
+        array $a_pages,
+        int $a_cont_obj_id
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilLog = $DIC["ilLog"];
         $ilErr = $DIC["ilErr"];
-        
+
         if (!is_array($a_pages)) {
             $a_pages = array(0);
-            /*$message = sprintf('ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_pages must be an array');
-            $ilLog->write($message,$ilLog->WARNING);
-            $ilErr->raiseError($message,$ilErr->MESSAGE);
-            return false;*/
         }
-        
+
         if (empty($a_cont_obj_id)) {
-            $message = sprintf('ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_cont_obj_id is empty');
+            $message = 'ilLMObject::_writePublicAccessStatus(): Invalid parameter! $a_cont_obj_id is empty';
             $ilLog->write($message, $ilLog->WARNING);
             $ilErr->raiseError($message, $ilErr->MESSAGE);
-            return false;
+            return;
         }
-        
+
         // update structure entries: if at least one page of a chapter is public set chapter to public too
         $lm_tree = new ilTree($a_cont_obj_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
         $lm_tree->readRootId();
-        
+
         // get all st entries of cont_obj
         $q = "SELECT obj_id FROM lm_data " .
              "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
              "AND type = 'st'";
         $r = $ilDB->query($q);
-        
+
         // add chapters with a public page to a_pages
         while ($row = $ilDB->fetchAssoc($r)) {
             $childs = $lm_tree->getChilds($row["obj_id"]);
-            
+
             foreach ($childs as $page) {
-                if ($page["type"] == "pg" and in_array($page["obj_id"], $a_pages)) {
-                    array_push($a_pages, $row["obj_id"]);
+                if ($page["type"] === "pg" and in_array($page["obj_id"], $a_pages)) {
+                    $a_pages[] = $row["obj_id"];
                     break;
                 }
             }
         }
-        
+
         // update public access status of all pages of cont_obj
         $q = "UPDATE lm_data SET " .
              "public_access = CASE " .
@@ -573,31 +496,31 @@ class ilLMObject
              "WHERE lm_id = " . $ilDB->quote($a_cont_obj_id, "integer") . " " .
              "AND " . $ilDB->in("type", array("pg", "st"), false, "text");
         $ilDB->manipulate($q);
-        
-        return true;
     }
-    
-    public static function _isPagePublic($a_node_id, $a_check_public_mode = false)
-    {
+
+    public static function _isPagePublic(
+        int $a_node_id,
+        bool $a_check_public_mode = false
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();
         $ilLog = $DIC["ilLog"];
 
         if (empty($a_node_id)) {
-            $message = sprintf('ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty');
+            $message = 'ilLMObject::_isPagePublic(): Invalid parameter! $a_node_id is empty';
             $ilLog->write($message, $ilLog->WARNING);
             return false;
         }
-        
+
         if ($a_check_public_mode === true) {
-            $lm_id = ilLMObject::_lookupContObjId($a_node_id);
+            $lm_id = ilLMObject::_lookupContObjID($a_node_id);
 
             $q = "SELECT public_access_mode FROM content_object WHERE id = " .
                 $ilDB->quote($lm_id, "integer");
             $r = $ilDB->query($q);
             $row = $ilDB->fetchAssoc($r);
-            
+
             if ($row["public_access_mode"] == "complete") {
                 return true;
             }
@@ -607,17 +530,14 @@ class ilLMObject
             $ilDB->quote($a_node_id, "integer");
         $r = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($r);
-        
+
         return ilUtil::yn2tf($row["public_access"]);
     }
 
-    /**
-    * delete lm object data
-    */
-    public function delete($a_delete_meta_data = true)
+    public function delete(bool $a_delete_meta_data = true): void
     {
         $ilDB = $this->db;
-        
+
         $query = "DELETE FROM lm_data WHERE obj_id = " .
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
@@ -626,22 +546,18 @@ class ilLMObject
     }
 
     /**
-    * get current object id for import id (static)
-    *
-    * import ids can exist multiple times (if the same learning module
-    * has been imported multiple times). we get the object id of
-    * the last imported object, that is not in trash
-    *
-    * @param	int		$a_import_id		import id
-    *
-    * @return	int		id
-    */
-    public static function _getIdForImportId($a_import_id)
+     * get current object id for import id (static)
+     *
+     * import ids can exist multiple times (if the same learning module
+     * has been imported multiple times). we get the object id of
+     * the last imported object, that is not in trash
+     */
+    public static function _getIdForImportId(string $a_import_id): int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $q = "SELECT obj_id FROM lm_data WHERE import_id = " .
             $ilDB->quote($a_import_id, "text") . " " .
             " ORDER BY create_date DESC";
@@ -661,30 +577,28 @@ class ilLMObject
     }
 
     /**
-    * Get all items for an import ID
-    *
-    * (only for items notnot in trash)
-    *
-    * @param	int		$a_import_id		import id
-    *
-    * @return	int		id
-    */
-    public static function _getAllObjectsForImportId($a_import_id, $a_in_lm = 0)
-    {
+     * Get all items for an import ID
+     *
+     * (only for items notnot in trash)
+     */
+    public static function _getAllObjectsForImportId(
+        string $a_import_id,
+        int $a_in_lm = 0
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $where = ($a_in_lm > 0)
             ? " AND lm_id = " . $ilDB->quote($a_in_lm, "integer") . " "
             : "";
-        
+
         $q = "SELECT * FROM lm_data WHERE import_id = " .
             $ilDB->quote($a_import_id, "text") . " " .
             $where .
             " ORDER BY create_date DESC";
         $obj_set = $ilDB->query($q);
-        
+
         $items = array();
         while ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
             // check, whether lm is not trashed
@@ -697,18 +611,14 @@ class ilLMObject
     }
 
     /**
-    * checks wether a lm content object with specified id exists or not
-    *
-    * @param	int		$id		id
-    *
-    * @return	boolean		true, if lm content object exists
-    */
-    public static function _exists($a_id)
+     * checks wether a lm content object with specified id exists or not
+     */
+    public static function _exists(int $a_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (is_int(strpos($a_id, "_"))) {
             $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
         }
@@ -723,15 +633,14 @@ class ilLMObject
         }
     }
 
-    /**
-    * static
-    */
-    public static function getObjectList($lm_id, $type = "")
-    {
+    public static function getObjectList(
+        int $lm_id,
+        string $type = ""
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $type_str = ($type != "")
             ? "AND type = " . $ilDB->quote($type, "text") . " "
             : "";
@@ -753,14 +662,15 @@ class ilLMObject
 
 
     /**
-    * delete all objects of content object (digi book / learning module)
-    */
-    public static function _deleteAllObjectData(&$a_cobj)
-    {
+     * delete all objects of content object (digi book / learning module)
+     */
+    public static function _deleteAllObjectData(
+        ilObjLearningModule $a_cobj
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $query = "SELECT * FROM lm_data " .
             "WHERE lm_id= " . $ilDB->quote($a_cobj->getId(), "integer");
         $obj_set = $ilDB->query($query);
@@ -772,14 +682,12 @@ class ilLMObject
                 $lm_obj->delete(true);
             }
         }
-
-        return true;
     }
 
     /**
-    * get learning module / digibook id for lm object
-    */
-    public static function _lookupContObjID($a_id)
+     * get learning module id for lm object
+     */
+    public static function _lookupContObjID(int $a_id): int
     {
         global $DIC;
 
@@ -800,23 +708,24 @@ class ilLMObject
     /**
     * put this object into content object tree
     */
-    public static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
-    {
+    public static function putInTree(
+        ilLMObject $a_obj,
+        int $a_parent_id = 0,
+        int $a_target_node_id = 0
+    ): void {
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
-        
-        $tree = new ilTree($a_obj->getContentObject()->getId());
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
+
+        $tree = new ilLMTree($a_obj->getContentObject()->getId());
 
         // determine parent
-        $parent_id = ($a_parent_id != "")
+        $parent_id = ($a_parent_id != 0)
             ? $a_parent_id
             : $tree->getRootId();
 
         // determine target
-        if ($a_target_node_id != "") {
+        if ($a_target_node_id != 0) {
             $target = $a_target_node_id;
         } else {
             // determine last child that serves as predecessor
@@ -829,7 +738,7 @@ class ilLMObject
             }
 
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -844,31 +753,29 @@ class ilLMObject
     }
 
     /**
-    * Get learningmodule tree
-    *
-    * @param	int		learning module object id
-    *
-    * @return	object		tree object
-    */
-    public static function getTree($a_cont_obj_id)
-    {
-        $tree = new ilTree($a_cont_obj_id);
-        $tree->setTableNames('lm_tree', 'lm_data');
-        $tree->setTreeTablePK("lm_id");
+     * Get learning module tree
+     */
+    public static function getTree(
+        int $a_cont_obj_id
+    ): ilLMTree {
+        $tree = new ilLMTree($a_cont_obj_id);
         $tree->readRootId();
-        
+
         return $tree;
     }
-    
+
     /**
-    * Copy a set of chapters/pages into the clipboard
-    */
-    public static function clipboardCut($a_cont_obj_id, $a_ids)
-    {
+     * Copy a set of chapters/pages into the clipboard
+     */
+    public static function clipboardCut(
+        int $a_cont_obj_id,
+        array $a_ids
+    ): void {
         $tree = ilLMObject::getTree($a_cont_obj_id);
-        
+        $cut_ids = [];
+
         if (!is_array($a_ids)) {
-            return false;
+            return;
         } else {
             // get all "top" ids, i.e. remove ids, that have a selected parent
             foreach ($a_ids as $id) {
@@ -884,9 +791,9 @@ class ilLMObject
                 }
             }
         }
-        
+
         ilLMObject::clipboardCopy($a_cont_obj_id, $cut_ids);
-        
+
         // remove the objects from the tree
         // note: we are getting chapters which are *not* in the tree
         // we do not delete any pages/chapters here
@@ -899,19 +806,21 @@ class ilLMObject
     }
 
     /**
-    * Copy a set of chapters/pages into the clipboard
-    */
-    public static function clipboardCopy($a_cont_obj_id, $a_ids)
-    {
+     * Copy a set of chapters/pages into the clipboard
+     */
+    public static function clipboardCopy(
+        int $a_cont_obj_id,
+        array $a_ids
+    ): void {
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         $tree = ilLMObject::getTree($a_cont_obj_id);
-        
+
         $ilUser->clipboardDeleteObjectsOfType("pg");
         $ilUser->clipboardDeleteObjectsOfType("st");
-        
+
         // put them into the clipboard
         $time = date("Y-m-d H:i:s", time());
         $order = 0;
@@ -933,40 +842,42 @@ class ilLMObject
                     }
                 }
             }
-            $order = ($curnode["lft"] > 0)
+            $order = (($curnode["lft"] ?? 0) > 0)
                 ? $curnode["lft"]
                 : (int) ($order + 1);
             $ilUser->addObjectToClipboard(
                 $id,
-                ilLMObject::_lookupType($id),
-                ilLMObject::_lookupTitle($id),
+                self::_lookupType($id),
+                self::_lookupTitle($id),
                 0,
                 $time,
                 $order
             );
         }
     }
-    
+
     /**
-    * Paste item (tree) from clipboard to current lm
-    */
+     * Paste item (tree) from clipboard to current lm
+     */
     public static function pasteTree(
-        $a_target_lm,
-        $a_item_id,
-        $a_parent_id,
-        $a_target,
-        $a_insert_time,
-        &$a_copied_nodes,
-        $a_as_copy = false,
-        $a_source_lm = null
-    ) {
+        ilObjLearningModule $a_target_lm,
+        int $a_item_id,
+        int $a_parent_id,
+        int $a_target,
+        string $a_insert_time,
+        array &$a_copied_nodes,
+        bool $a_as_copy = false,
+        ?ilObjLearningModule $a_source_lm = null
+    ): int {
         global $DIC;
 
+        $item = null;
         $ilUser = $DIC->user();
         $ilLog = $DIC["ilLog"];
-        
+
         $item_lm_id = ilLMObject::_lookupContObjID($a_item_id);
         $item_type = ilLMObject::_lookupType($a_item_id);
+        /** @var ilObjLearningModule $lm_obj */
         $lm_obj = ilObjectFactory::getInstanceByObjId($item_lm_id);
         if ($item_type == "st") {
             $item = new ilStructureObject($lm_obj, $a_item_id);
@@ -979,19 +890,19 @@ class ilLMObject
 
         if ($item_lm_id != $a_target_lm->getId() && !$a_as_copy) {
             // @todo: check whether st is NOT in tree
-            
+
             // "move" metadata to new lm
             $md = new ilMD($item_lm_id, $item->getId(), $item->getType());
             $new_md = $md->cloneMD($a_target_lm->getId(), $item->getId(), $item->getType());
-            
+
             // update lm object
             $item->setLMId($a_target_lm->getId());
             $item->setContentObject($a_target_lm);
             $item->update();
-            
+
             // delete old meta data set
             $md->deleteAll();
-            
+
             if ($item_type == "pg") {
                 $page = $item->getPageObject();
                 $page->buildDom();
@@ -1006,19 +917,19 @@ class ilLMObject
         } else {
             $target_item = $item;
         }
-        
+
         $ilLog->write("Putting into tree type " . $target_item->getType() .
             "Item ID: " . $target_item->getId() . ", Parent: " . $a_parent_id . ", " .
             "Target: " . $a_target . ", Item LM:" . $target_item->getContentObject()->getId());
-        
+
         ilLMObject::putInTree($target_item, $a_parent_id, $a_target);
-        
+
         if ($a_source_lm == null) {
             $childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
         } else {
             $childs = $a_source_lm->lm_tree->getChilds($item->getId());
             foreach ($childs as $k => $child) {
-                $childs[$k]["id"] = $childs[$k]["child"];
+                $childs[$k]["id"] = $child["child"];
             }
         }
 
@@ -1027,25 +938,26 @@ class ilLMObject
                 $a_target_lm,
                 $child["id"],
                 $target_item->getId(),
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 $a_insert_time,
                 $a_copied_nodes,
                 $a_as_copy,
                 $a_source_lm
             );
         }
-        
+
         return $target_item->getId();
         // @todo: write history (see pastePage)
     }
 
     /**
-    * Save titles for lm objects
-    *
-    * @param	array		titles (key is ID, value is title)
-    */
-    public static function saveTitles($a_lm, $a_titles, $a_lang = "-")
-    {
+     * Save titles for lm objects
+     */
+    public static function saveTitles(
+        ilObjLearningModule $a_lm,
+        array $a_titles,
+        string $a_lang = "-"
+    ): void {
         if ($a_lang == "") {
             $a_lang = "-";
         }
@@ -1076,15 +988,17 @@ class ilLMObject
     }
 
     /**
-    * Update internal links, after multiple pages have been copied
-    */
-    public static function updateInternalLinks($a_copied_nodes, $a_parent_type = "lm")
-    {
+     * Update internal links, after multiple pages have been copied
+     */
+    public static function updateInternalLinks(
+        array $a_copied_nodes,
+        string $a_parent_type = "lm"
+    ): void {
         $all_fixes = array();
         foreach ($a_copied_nodes as $original_id => $copied_id) {
             $copied_type = ilLMObject::_lookupType($copied_id);
             $copy_lm = ilLMObject::_lookupContObjID($copied_id);
-            
+
             if ($copied_type == "pg") {
                 foreach (ilPageObject::lookupTranslations($a_parent_type, $copied_id) as $l) {
                     //
@@ -1095,10 +1009,10 @@ class ilLMObject
                     $tpg->buildDom();
                     $il = $tpg->getInternalLinks();
                     $targets = array();
-                    foreach ($il as $l) {
-                        $targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
-                            "id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
-                            "inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
+                    foreach ($il as $l2) {
+                        $targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l2["Target"]),
+                            "id" => (int) ilInternalLink::_extractObjIdOfTarget($l2["Target"]),
+                            "inst" => (int) ilInternalLink::_extractInstOfTarget($l2["Target"]));
                     }
                     $fix = array();
                     foreach ($targets as $target) {
@@ -1132,7 +1046,7 @@ class ilLMObject
                         //echo "<br>--".$copied_id;
                         //var_dump($fix);
                         $t = ilObject::_lookupType($copy_lm);
-                        if (is_array($all_fixes[$t . ":" . $copied_id])) {
+                        if (isset($all_fixes[$t . ":" . $copied_id])) {
                             $all_fixes[$t . ":" . $copied_id] += $fix;
                         } else {
                             $all_fixes[$t . ":" . $copied_id] = $fix;
@@ -1140,10 +1054,9 @@ class ilLMObject
                     }
                 }
             }
-            
+
             if ($copied_type == "pg" ||
                 $copied_type == "st") {
-                
                 //
                 // 2. Incoming links to the original pages
                 //
@@ -1153,9 +1066,8 @@ class ilLMObject
                 // C->A			C2->A		(C already copied)
                 $original_lm = ilLMObject::_lookupContObjID($original_id);
                 $original_type = ilObject::_lookupType($original_lm);
-                
+
                 if ($original_lm != $copy_lm) {
-                
                     // This gets sources that link to A+B (so we have C here)
                     // (this also does already the trick when instance map areas are given in C)
                     // int_link, where target_type, target_id, target_inst -> ok
@@ -1164,12 +1076,12 @@ class ilLMObject
                         $original_id,
                         0
                     );
-                    
+
                     // mobs linking to $original_id
                     // map_area, where link_type, target -> ok
                     $mobs = ilMapArea::_getMobsForTarget("int", "il__" . $copied_type .
                         "_" . $original_id);
-                    
+
                     // pages using these mobs
                     foreach ($mobs as $mob) {
                         // mob_usage, where id -> ok
@@ -1190,11 +1102,11 @@ class ilLMObject
                     foreach ($sources as $source) {
                         $stype = explode(":", $source["type"]);
                         $source_type = $stype[1];
-    
+
                         if ($source_type == "pg" || $source_type == "st") {
                             // first of all: source must be in original lm
                             $src_lm = ilLMObject::_lookupContObjID($source["id"]);
-                            
+
                             if ($src_lm == $original_lm) {
                                 // check, if a copy if the source is already in the same lm
                                 // now we look for the latest copy of C in LM2
@@ -1216,7 +1128,7 @@ class ilLMObject
                     if (count($fix) > 0) {
                         foreach ($fix as $page_id => $fix_array) {
                             $t = ilObject::_lookupType($copy_lm);
-                            if (is_array($all_fixes[$t . ":" . $page_id])) {
+                            if (isset($all_fixes[$t . ":" . $page_id])) {
                                 $all_fixes[$t . ":" . $page_id] += $fix_array;
                             } else {
                                 $all_fixes[$t . ":" . $page_id] = $fix_array;
@@ -1226,7 +1138,7 @@ class ilLMObject
                 }
             }
         }
-        
+
         foreach ($all_fixes as $pg => $fixes) {
             $pg = explode(":", $pg);
             foreach (ilPageObject::lookupTranslations($pg[0], $pg[1]) as $l) {
@@ -1237,11 +1149,11 @@ class ilLMObject
             }
         }
     }
-    
+
     /**
-    * Check for unique types (all pages or all chapters)
-    */
-    public static function uniqueTypesCheck($a_items)
+     * Check for unique types (all pages or all chapters)
+     */
+    public static function uniqueTypesCheck(array $a_items): bool
     {
         $types = array();
         if (is_array($a_items)) {
@@ -1258,19 +1170,19 @@ class ilLMObject
     }
 
     /**
-    * Write layout setting
-    *
-    * @param	int		lm object id
-    * @param	string	layout
-    */
-    public static function writeLayout($a_obj_id, $a_layout, $a_lm = null)
-    {
+     * Write layout setting
+     */
+    public static function writeLayout(
+        int $a_obj_id,
+        string $a_layout,
+        ?ilObjLearningModule $a_lm = null
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $t = ilLMObject::_lookupType($a_obj_id);
-        
+
         if ($t == "pg") {
             $query = "UPDATE lm_data SET " .
                 " layout = " . $ilDB->quote($a_layout, "text") .
@@ -1291,13 +1203,11 @@ class ilLMObject
             }
         }
     }
-    
+
     /**
-    * Lookup type
-    *
-    * @param	int		lm object id
-    */
-    public static function lookupLayout($a_obj_id)
+     * Lookup type
+     */
+    public static function lookupLayout(int $a_obj_id): string
     {
         global $DIC;
 
@@ -1313,31 +1223,29 @@ class ilLMObject
 
     /**
      * Get pages of chapter
-     *
-     * @param
-     * @return
      */
-    public static function getPagesOfChapter($a_lm_id, $a_chap_id)
-    {
+    public static function getPagesOfChapter(
+        int $a_lm_id,
+        int $a_chap_id
+    ): array {
         // update structure entries: if at least one page of a chapter is public set chapter to public too
         $lm_tree = new ilTree($a_lm_id);
         $lm_tree->setTableNames('lm_tree', 'lm_data');
         $lm_tree->setTreeTablePK("lm_id");
         $lm_tree->readRootId();
-        
+
         $childs = $lm_tree->getChildsByType($a_chap_id, "pg");
 
         return $childs;
     }
-    
+
     /**
      * Get all objects of learning module
-     *
-     * @param
-     * @return
      */
-    public static function _getAllLMObjectsOfLM($a_lm_id, $a_type = "")
-    {
+    public static function _getAllLMObjectsOfLM(
+        int $a_lm_id,
+        string $a_type = ""
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1360,26 +1268,20 @@ class ilLMObject
     ////
     //// Export ID handling
     ////
-    
-    /**
-     * Save export id
-     *
-     * @param
-     * @return
-     */
-    public static function saveExportId($a_lm_id, $a_lmobj_id, $a_exp_id, $a_type = "pg")
-    {
-        global $DIC;
 
-        $ilDB = $DIC->database();
-
+    public static function saveExportId(
+        int $a_lm_id,
+        int $a_lmobj_id,
+        string $a_exp_id,
+        string $a_type = "pg"
+    ): void {
+        $entries = ilMDIdentifier::_getEntriesForObj(
+            $a_lm_id,
+            $a_lmobj_id,
+            $a_type
+        );
         if (trim($a_exp_id) == "") {
             // delete export ids, if existing
-            $entries = ilMDIdentifier::_getEntriesForObj(
-                $a_lm_id,
-                $a_lmobj_id,
-                $a_type
-            );
 
             foreach ($entries as $id => $e) {
                 if ($e["catalog"] == "ILIAS_NID") {
@@ -1390,11 +1292,6 @@ class ilLMObject
             }
         } else {
             // update existing entry
-            $entries = ilMDIdentifier::_getEntriesForObj(
-                $a_lm_id,
-                $a_lmobj_id,
-                $a_type
-            );
 
             $updated = false;
             foreach ($entries as $id => $e) {
@@ -1420,14 +1317,11 @@ class ilLMObject
         }
     }
 
-    /**
-     * Get export ID
-     *
-     * @param
-     * @return
-     */
-    public static function getExportId($a_lm_id, $a_lmobj_id, $a_type = "pg")
-    {
+    public static function getExportId(
+        int $a_lm_id,
+        int $a_lmobj_id,
+        string $a_type = "pg"
+    ): string {
         // look for export id
         $entries = ilMDIdentifier::_getEntriesForObj(
             $a_lm_id,
@@ -1440,67 +1334,62 @@ class ilLMObject
                 return $e["entry"];
             }
         }
+        return "";
     }
 
     /**
      * Does export ID exist in lm?
-     *
-     * @param
-     * @return
      */
-    public function existsExportID($a_lm_id, $a_exp_id, $a_type = "pg")
-    {
+    public function existsExportID(
+        int $a_lm_id,
+        int $a_exp_id,
+        string $a_type = "pg"
+    ): bool {
         return ilMDIdentifier::existsIdInRbacObject($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
     }
 
     /**
      * Get duplicate export IDs (count export ID usages)
      */
-    public static function getDuplicateExportIDs($a_lm_id, $a_type = "pg")
-    {
+    public static function getDuplicateExportIDs(
+        int $a_lm_id,
+        string $a_type = "pg"
+    ): array {
         $entries = ilMDIdentifier::_getEntriesForRbacObj($a_lm_id, $a_type);
         $res = array();
         foreach ($entries as $e) {
             if ($e["catalog"] == "ILIAS_NID") {
                 if (ilLMObject::_exists($e["obj_id"])) {
-                    $res[trim($e["entry"])]++;
+                    $res[trim($e["entry"])] = ($res[trim($e["entry"])] ?? 0) + 1;
                 }
             }
         }
         return $res;
     }
-    
-    /**
-     * Does export ID exist in lm?
-     *
-     * @param
-     * @return
-     */
-    public function getExportIDInfo($a_lm_id, $a_exp_id, $a_type = "pg")
-    {
+
+    public function getExportIDInfo(
+        int $a_lm_id,
+        int $a_exp_id,
+        string $a_type = "pg"
+    ): array {
         $data = ilMDIdentifier::readIdData($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
         return $data;
     }
 
-    /**
-     * Get affective title
-     *
-     * @param
-     * @return
-     */
-    public static function _getPresentationTitle(
-        $a_node,
-        $a_mode = self::PAGE_TITLE,
-        $a_include_numbers = false,
-        $a_time_scheduled_activation = false,
-        $a_force_content = false,
-        $a_lm_id = 0,
-        $a_lang = "-"
-    ) {
+    // Get effective title
+    public static function _getNodePresentationTitle(
+        array $a_node,
+        string $a_mode = self::PAGE_TITLE,
+        bool $a_include_numbers = false,
+        bool $a_time_scheduled_activation = false,
+        bool $a_force_content = false,
+        int $a_lm_id = 0,
+        string $a_lang = "-"
+    ): string {
         if ($a_lang == "") {
             $a_lang = "-";
         }
-        
+
         if ($a_node["type"] == "st") {
             return ilStructureObject::_getPresentationTitle(
                 $a_node["child"],
@@ -1524,14 +1413,10 @@ class ilLMObject
         }
     }
 
-    /**
-     * Get short titles
-     *
-     * @param
-     * @return array
-     */
-    public static function getShortTitles($a_lm_id, $a_lang = "-")
-    {
+    public static function getShortTitles(
+        int $a_lm_id,
+        string $a_lang = "-"
+    ): array {
         global $DIC;
 
         $db = $DIC->database();
@@ -1552,14 +1437,11 @@ class ilLMObject
         return $title_data;
     }
 
-    /**
-     * Write short title
-     *
-     * @param integer $a_id object id
-     * @param string $a_short_title short title
-     */
-    public static function writeShortTitle($a_id, $a_short_title, $a_lang = "-")
-    {
+    public static function writeShortTitle(
+        int $a_id,
+        string $a_short_title,
+        string $a_lang = "-"
+    ): void {
         global $DIC;
 
         $db = $DIC->database();

@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Setup\Agent;
 
@@ -28,7 +44,7 @@ class NullAgent implements Agent
     /**
       * @inheritdocs
       */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return false;
     }
@@ -36,7 +52,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getArrayToConfigTransformation() : Transformation
+    public function getArrayToConfigTransformation(): Transformation
     {
         throw new \LogicException(
             self::class . " has no config."
@@ -46,7 +62,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getInstallObjective(Config $config = null) : Objective
+    public function getInstallObjective(Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -54,7 +70,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getUpdateObjective(Config $config = null) : Objective
+    public function getUpdateObjective(Config $config = null): Objective
     {
         return new NullObjective();
     }
@@ -62,7 +78,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getBuildArtifactObjective() : Objective
+    public function getBuildArtifactObjective(): Objective
     {
         return new NullObjective();
     }
@@ -70,7 +86,7 @@ class NullAgent implements Agent
     /**
      * @inheritdocs
      */
-    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    public function getStatusObjective(Metrics\Storage $storage): Objective
     {
         return new NullObjective();
     }
@@ -78,18 +94,13 @@ class NullAgent implements Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
+    public function getNamedObjectives(?Config $config = null): array
     {
-        throw new \InvalidArgumentException(
-            self::class . " has no named objectives."
-        );
+        return [];
     }
 }

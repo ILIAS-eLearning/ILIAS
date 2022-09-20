@@ -1,37 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 final class ilWebDAVMountInstructionsDocument
 {
-    /** @var int */
-    private $id;
-
-    /** @var string */
-    private $title;
-
-    /** @var string */
-    private $uploaded_instructions;
-
-    /** @var string */
-    private $processed_instructions;
-
-    /** @var string */
-    private $language;
-
-    /** @var null */
-    private $creation_ts;
-
-    /** @var null */
-    private $modification_ts;
-
-    /** @var int */
-    private $owner_usr_id;
-
-    /** @var int */
-    private $last_modified_usr_id;
-
-    /** @var int */
-    private $sorting;
+    private int $id;
+    private string $title;
+    private string $uploaded_instructions;
+    private string $processed_instructions;
+    private string $language;
+    private string $creation_ts;
+    private string $modification_ts;
+    private int $owner_usr_id;
+    private int $last_modified_usr_id;
+    private int $sorting;
 
     public function __construct(
         int $a_id = 0,
@@ -39,8 +37,8 @@ final class ilWebDAVMountInstructionsDocument
         string $a_uploaded_instructions = "",
         string $a_processed_instructions = "",
         string $a_language = "",
-        $a_creation_ts = 0,
-        $a_modification_ts = 0,
+        string $a_creation_ts = '',
+        string $a_modification_ts = '',
         int $a_owner_usr_id = 0,
         int $a_last_modified_usr_id = 0,
         int $a_sorting = 0
@@ -57,91 +55,53 @@ final class ilWebDAVMountInstructionsDocument
         $this->sorting = $a_sorting;
     }
 
-    /**
-     * @return int
-     */
-    public function getId() : int
+    public function getId(): int
     {
-        return (int) $this->id;
+        return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return string
-     */
-    public function getUploadedInstructions() : string
+    public function getUploadedInstructions(): string
     {
         return $this->uploaded_instructions;
     }
 
-    /**
-     * @return string
-     */
-    public function getProcessedInstructions() : string
+    public function getProcessedInstructions(): string
     {
         return $this->processed_instructions;
     }
 
-    /**
-     * @return string
-     */
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }
 
-    /**
-     * @return null
-     */
-    public function getCreationTs()
+    public function getCreationTs(): string
     {
         return $this->creation_ts;
     }
 
-    /**
-     * @return null
-     */
-    public function getModificationTs()
+    public function getModificationTs(): string
     {
         return $this->modification_ts;
     }
 
-    /**
-     * @return int
-     */
-    public function getOwnerUsrId() : int
+    public function getOwnerUsrId(): int
     {
         return $this->owner_usr_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getLastModificationUsrId() : int
+    public function getLastModificationUsrId(): int
     {
         return $this->last_modified_usr_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getSorting() : int
+    public function getSorting(): int
     {
         return $this->sorting;
-    }
-
-    public function withSorting($a_sorting) : ilWebDAVMountInstructionsDocument
-    {
-        $clone = clone $this;
-        $clone->sorting = $a_sorting;
-
-        return $clone;
     }
 }

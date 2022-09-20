@@ -27,9 +27,10 @@ import java.io.FileFilter;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.settings.ConfigurationException;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -40,7 +41,7 @@ import de.ilias.services.settings.ConfigurationException;
 public class ObjectDefinitionReader {
 
 	
-	private static Logger logger = Logger.getLogger(ObjectDefinitionReader.class);
+	private static Logger logger = LogManager.getLogger(ObjectDefinitionReader.class);
 	private static HashMap<File, ObjectDefinitionReader> instances = new HashMap<File, ObjectDefinitionReader>();
 	
 	public static final String objectPropertyName = "LuceneObjectDefinition.xml";

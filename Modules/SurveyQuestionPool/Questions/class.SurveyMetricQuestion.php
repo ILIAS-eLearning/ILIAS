@@ -1,277 +1,179 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Metric survey question
- *
  * The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
  * for metric survey question types.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class SurveyMetricQuestion extends SurveyQuestion
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    public const SUBTYPE_NON_RATIO = 3;
+    public const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
+    public const SUBTYPE_RATIO_ABSOLUTE = 5;
 
-    const SUBTYPE_NON_RATIO = 3;
-    const SUBTYPE_RATIO_NON_ABSOLUTE = 4;
-    const SUBTYPE_RATIO_ABSOLUTE = 5;
-    
-    /**
-    * Question subtype
-    *
-    * A question subtype (Multiple choice single response or multiple choice multiple response)
-    *
-    * @var integer
-    */
-    public $subtype;
+    public int $subtype;
 
-    /**
-    * The minimum value for the metric question
-    *
-    * @var double
-    */
-    public $minimum;
+    public ?float $minimum;
+    public ?float $maximum;
 
-    /**
-    * The maximum value for the metric question
-    *
-    * @var double
-    */
-    public $maximum;
-
-    /**
-    * SurveyMetricQuestion constructor
-    *
-    * The constructor takes possible arguments an creates an instance of the SurveyMetricQuestion object.
-    *
-    * @param string $title A title string to describe the question
-    * @param string $description A description string to describe the question
-    * @param string $author A string containing the name of the questions author
-    * @param integer $owner A numerical ID to identify the owner/creator
-    * @access public
-    */
-    public function __construct($title = "", $description = "", $author = "", $questiontext = "", $owner = -1, $subtype = self::SUBTYPE_NON_RATIO)
-    {
+    public function __construct(
+        string $title = "",
+        string $description = "",
+        string $author = "",
+        string $questiontext = "",
+        int $owner = -1,
+        int $subtype = self::SUBTYPE_NON_RATIO
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
         parent::__construct($title, $description, $author, $questiontext, $owner);
-        
+
         $this->subtype = $subtype;
-        $this->minimum = "";
-        $this->maximum = "";
-    }
-    
-    /**
-    * Sets the question subtype
-    *
-    * @param integer $subtype The question subtype
-    * @access public
-    * @see $subtype
-    */
-    public function setSubtype($subtype = self::SUBTYPE_NON_RATIO)
-    {
-        $this->subtype = $subtype;
+        $this->minimum = null;
+        $this->maximum = null;
     }
 
-    /**
-    * Sets the minimum value
-    *
-    * @param double $minimum The minimum value
-    * @access public
-    * @see $minimum
-    */
-    public function setMinimum($minimum = 0)
+    public function setSubtype(int $a_subtype = self::SUBTYPE_NON_RATIO): void
     {
-        if ($minimum !== null) {
-            $minimum = (float) $minimum;
-        }
-        if (!$minimum) {
-            $minimum = null;
-        }
+        $this->subtype = $a_subtype;
+    }
+
+    public function setMinimum(?float $minimum = null): void
+    {
         $this->minimum = $minimum;
     }
 
-    /**
-    * Sets the maximum value
-    *
-    * @param double $maximum The maximum value
-    * @access public
-    * @see $maximum
-    */
-    public function setMaximum($maximum = "")
+    public function setMaximum(?float $maximum = null): void
     {
-        if ($maximum !== null) {
-            $maximum = (float) $maximum;
-        }
-        if (!$maximum) {
-            $maximum = null;
-        }
         $this->maximum = $maximum;
     }
 
-    /**
-    * Gets the question subtype
-    *
-    * @return integer The question subtype
-    * @access public
-    * @see $subtype
-    */
-    public function getSubtype()
+    public function getSubtype(): ?int
     {
         return $this->subtype;
     }
-    
-    /**
-    * Returns the minimum value of the question
-    *
-    * @return double The minimum value of the question
-    * @access public
-    * @see $minimum
-    */
-    public function getMinimum()
+
+    public function getMinimum(): ?float
     {
-        if ((strlen($this->minimum) == 0) && ($this->getSubtype() > 3)) {
+        if (is_null($this->minimum) && $this->getSubtype() > 3) {
             $this->minimum = 0;
         }
-        return (strlen($this->minimum)) ? $this->minimum : null;
+        return $this->minimum;
     }
-    
-    /**
-    * Returns the maximum value of the question
-    *
-    * @return double The maximum value of the question
-    * @access public
-    * @see $maximum
-    */
-    public function getMaximum()
+
+    public function getMaximum(): ?float
     {
-        return (strlen($this->maximum)) ? $this->maximum : null;
+        return $this->maximum;
     }
-    
-    /**
-    * Returns the question data fields from the database
-    *
-    * @param integer $id The question ID from the database
-    * @return array Array containing the question fields and data from the database
-    * @access public
-    */
-    public function getQuestionDataArray($id)
+
+    public function getQuestionDataArray(int $id): array
     {
         $ilDB = $this->db;
-        
+
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question, " . $this->getAdditionalTableName() . " WHERE svy_question.question_id = %s AND svy_question.question_id = " . $this->getAdditionalTableName() . ".question_fi",
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
         }
     }
-    
-    /**
-    * Loads a SurveyMetricQuestion object from the database
-    *
-    * @param integer $id The database id of the metric survey question
-    * @access public
-    */
-    public function loadFromDb($id)
+
+    public function loadFromDb(int $question_id): void
     {
         $ilDB = $this->db;
 
         $result = $ilDB->queryF(
             "SELECT svy_question.*, " . $this->getAdditionalTableName() . ".* FROM svy_question LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = svy_question.question_id WHERE svy_question.question_id = %s",
             array('integer'),
-            array($id)
+            array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->label = $data['label'];
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
-            $this->setSubtype($data["subtype"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->label = (string) $data['label'];
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setSubtype((int) $data["subtype"]);
 
             $result = $ilDB->queryF(
                 "SELECT svy_variable.* FROM svy_variable WHERE svy_variable.question_fi = %s",
                 array('integer'),
-                array($id)
+                array($question_id)
             );
             if ($result->numRows() > 0) {
                 if ($data = $ilDB->fetchAssoc($result)) {
-                    $this->minimum = $data["value1"];
+                    $this->minimum = is_null($data["value1"]) ? null : (float) $data["value1"];
                     if (($data["value2"] < 0) or (strcmp($data["value2"], "") == 0)) {
-                        $this->maximum = "";
+                        $this->maximum = null;
                     } else {
-                        $this->maximum = $data["value2"];
+                        $this->maximum = is_null($data["value2"]) ? null : (float) $data["value2"];
                     }
                 }
             }
         }
-        parent::loadFromDb($id);
+        parent::loadFromDb($question_id);
     }
 
-    /**
-    * Returns true if the question is complete for use
-    *
-    * @result boolean True if the question is complete for use, otherwise false
-    * @access public
-    */
-    public function isComplete()
+    public function isComplete(): bool
     {
-        if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext())
-        ) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return (
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== ''
+        );
     }
-    
-    /**
-    * Saves a SurveyMetricQuestion object to a database
-    *
-    * @access public
-    */
-    public function saveToDb($original_id = "")
+
+    public function saveToDb(int $original_id = 0): int
     {
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
-            $affectedRows = $ilDB->manipulateF(
+        if ($affectedRows === 1) {
+            $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
             );
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, subtype) VALUES (%s, %s)",
                 array('integer', 'text'),
-                array($this->getId(), $this->getSubType())
+                array($this->getId(), $this->getSubtype())
             );
 
             // saving material uris in the database
             $this->saveMaterial();
-            
+
             // save categories
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "DELETE FROM svy_variable WHERE question_fi = %s",
                 array('integer'),
                 array($this->getId())
@@ -283,25 +185,21 @@ class SurveyMetricQuestion extends SurveyQuestion
                 $max = $this->getMaximum();
             }
             $next_id = $ilDB->nextId('svy_variable');
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "INSERT INTO svy_variable (variable_id, category_fi, question_fi, value1, value2, sequence, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                 array('integer','integer','integer','float','float','integer','integer'),
                 array($next_id, 0, $this->getId(), $this->getMinimum(), $max, 0, time())
             );
         }
+        return $affectedRows;
     }
-    
-    /**
-    * Returns an xml representation of the question
-    *
-    * @return string The xml representation of the question
-    * @access public
-    */
-    public function toXML($a_include_header = true, $obligatory_state = "")
-    {
-        $a_xml_writer = new ilXmlWriter;
+
+    public function toXML(
+        bool $a_include_header = true
+    ): string {
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
-        $this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
+        $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
         if (!$a_include_header) {
             $pos = strpos($xml, "?>");
@@ -309,25 +207,20 @@ class SurveyMetricQuestion extends SurveyQuestion
         }
         return $xml;
     }
-    
-    /**
-    * Adds the question XML to a given XMLWriter object
-    *
-    * @param object $a_xml_writer The XMLWriter object
-    * @param boolean $a_include_header Determines wheather or not the XML should be used
-    * @access public
-    */
-    public function insertXML(&$a_xml_writer, $a_include_header = true)
-    {
+
+    public function insertXML(
+        ilXmlWriter $a_xml_writer,
+        bool $a_include_header = true
+    ): void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "subtype" => $this->getSubtype(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
-        
+
         $a_xml_writer->xmlElement("description", null, $this->getDescription());
         $a_xml_writer->xmlElement("author", null, $this->getAuthor());
         $a_xml_writer->xmlStartTag("questiontext");
@@ -336,27 +229,16 @@ class SurveyMetricQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlStartTag("responses");
         switch ($this->getSubtype()) {
+            case 4:
             case 3:
                 $attrs = array(
                     "id" => "0",
                     "format" => "double"
                 );
-                if (strlen($this->getMinimum())) {
+                if ((string) $this->getMinimum() !== '') {
                     $attrs["min"] = $this->getMinimum();
                 }
-                if (strlen($this->getMaximum())) {
-                    $attrs["max"] = $this->getMaximum();
-                }
-                break;
-            case 4:
-                $attrs = array(
-                    "id" => "0",
-                    "format" => "double"
-                );
-                if (strlen($this->getMinimum())) {
-                    $attrs["min"] = $this->getMinimum();
-                }
-                if (strlen($this->getMaximum())) {
+                if ((string) $this->getMaximum() !== '') {
                     $attrs["max"] = $this->getMaximum();
                 }
                 break;
@@ -365,10 +247,10 @@ class SurveyMetricQuestion extends SurveyQuestion
                     "id" => "0",
                     "format" => "integer"
                 );
-                if (strlen($this->getMinimum())) {
+                if ((string) $this->getMinimum() !== '') {
                     $attrs["min"] = $this->getMinimum();
                 }
-                if (strlen($this->getMaximum())) {
+                if ((string) $this->getMaximum() !== '') {
                     $attrs["max"] = $this->getMaximum();
                 }
                 break;
@@ -378,31 +260,27 @@ class SurveyMetricQuestion extends SurveyQuestion
 
         $a_xml_writer->xmlEndTag("responses");
 
-        if (count($this->material)) {
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $this->material["internal_link"], $matches)) {
-                $attrs = array(
-                    "label" => $this->material["title"]
-                );
-                $a_xml_writer->xmlStartTag("material", $attrs);
-                $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
-                if (strcmp($matches[1], "") != 0) {
-                    $intlink = $this->material["internal_link"];
-                }
-                $a_xml_writer->xmlElement("mattext", null, $intlink);
-                $a_xml_writer->xmlEndTag("material");
+        if (count($this->material) && preg_match(
+            "/il_(\d*?)_(\w+)_(\d+)/",
+            $this->material["internal_link"],
+            $matches
+        )) {
+            $attrs = array(
+                "label" => $this->material["title"]
+            );
+            $a_xml_writer->xmlStartTag("material", $attrs);
+            $intlink = "il_" . IL_INST_ID . "_" . $matches[2] . "_" . $matches[3];
+            if (strcmp($matches[1], "") !== 0) {
+                $intlink = $this->material["internal_link"];
             }
+            $a_xml_writer->xmlElement("mattext", null, $intlink);
+            $a_xml_writer->xmlEndTag("material");
         }
-        
+
         $a_xml_writer->xmlEndTag("question");
     }
 
-    /**
-    * Returns the question type ID of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
-    public function getQuestionTypeID()
+    public function getQuestionTypeID(): int
     {
         $ilDB = $this->db;
         $result = $ilDB->queryF(
@@ -411,70 +289,48 @@ class SurveyMetricQuestion extends SurveyQuestion
             array($this->getQuestionType())
         );
         $row = $ilDB->fetchAssoc($result);
-        return $row["questiontype_id"];
+        return (int) $row["questiontype_id"];
     }
 
-    /**
-    * Returns the question type of the question
-    *
-    * @return integer The question type of the question
-    * @access public
-    */
-    public function getQuestionType()
+    public function getQuestionType(): string
     {
         return "SurveyMetricQuestion";
     }
-    
-    /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    * @access public
-    */
-    public function getAdditionalTableName()
+
+    public function getAdditionalTableName(): string
     {
         return "svy_qst_metric";
     }
-    
-    /**
-    * Creates the user data of the svy_answer table from the POST data
-    *
-    * @return array User data according to the svy_answer table
-    * @access public
-    */
-    public function &getWorkingDataFromUserInput($post_data)
+
+    public function getWorkingDataFromUserInput(array $post_data): array
     {
-        $entered_value = $post_data[$this->getId() . "_metric_question"];
+        $entered_value = $post_data[$this->getId() . "_metric_question"] ?? "";
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("value" => $entered_value));
+            $data[] = array("value" => $entered_value);
         }
         return $data;
     }
-    
+
     /**
-    * Checks the input of the active user for obligatory status
-    * and entered values
-    *
-    * @param array $post_data The contents of the $_POST array
-    * @param integer $survey_id The database ID of the active survey
-    * @return string Empty string if the input is ok, an error message otherwise
-    * @access public
-    */
-    public function checkUserInput($post_data, $survey_id)
-    {
+     * @return string Empty string if the input is ok, an error message otherwise
+     */
+    public function checkUserInput(
+        array $post_data,
+        int $survey_id
+    ): string {
         $entered_value = $post_data[$this->getId() . "_metric_question"];
         // replace german notation with international notation
         $entered_value = str_replace(",", ".", $entered_value);
-        
-        if ((!$this->getObligatory($survey_id)) && (strlen($entered_value) == 0)) {
+
+        if ((!$this->getObligatory()) && (strlen($entered_value) == 0)) {
             return "";
         }
-        
+
         if (strlen($entered_value) == 0) {
             return $this->lng->txt("survey_question_obligatory");
         }
-        
+
         if (strlen($this->getMinimum())) {
             if ($entered_value < $this->getMinimum()) {
                 return $this->lng->txt("metric_question_out_of_bounds");
@@ -484,10 +340,8 @@ class SurveyMetricQuestion extends SurveyQuestion
         if (strlen($this->getMaximum())) {
             if (($this->getMaximum() == 1) && ($this->getMaximum() < $this->getMinimum())) {
                 // old &infty; values as maximum
-            } else {
-                if ($entered_value > $this->getMaximum()) {
-                    return $this->lng->txt("metric_question_out_of_bounds");
-                }
+            } elseif ($entered_value > $this->getMaximum()) {
+                return $this->lng->txt("metric_question_out_of_bounds");
             }
         }
 
@@ -495,48 +349,48 @@ class SurveyMetricQuestion extends SurveyQuestion
             return $this->lng->txt("metric_question_not_a_value");
         }
 
-        if (($this->getSubType() == self::SUBTYPE_RATIO_ABSOLUTE) && (intval($entered_value) != doubleval($entered_value))) {
+        if ($this->getSubtype() === self::SUBTYPE_RATIO_ABSOLUTE && ((int) $entered_value != (float) $entered_value)) {
             return $this->lng->txt("metric_question_floating_point");
         }
         return "";
     }
-    
-    public function saveUserInput($post_data, $active_id, $a_return = false)
-    {
+
+    public function saveUserInput(
+        array $post_data,
+        int $active_id,
+        bool $a_return = false
+    ): ?array {
         $ilDB = $this->db;
-        
+
         $entered_value = $post_data[$this->getId() . "_metric_question"];
-        
+
         // replace german notation with international notation
         $entered_value = str_replace(",", ".", $entered_value);
-        
+
         if ($a_return) {
             return array(array("value" => $entered_value, "textanswer" => null));
         }
-        if (strlen($entered_value) == 0) {
-            return;
+
+        if ($entered_value === '') {
+            return null;
         }
-        
+
         $next_id = $ilDB->nextId('svy_answer');
         #20216
         $fields = array();
         $fields['answer_id'] = array("integer", $next_id);
         $fields['question_fi'] = array("integer", $this->getId());
         $fields['active_fi'] = array("integer", $active_id);
-        $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
+        $fields['value'] = array("float", $entered_value);
         $fields['textanswer'] = array("clob", null);
         $fields['tstamp'] = array("integer", time());
 
-        $affectedRows = $ilDB->insert("svy_answer", $fields);
+        $ilDB->insert("svy_answer", $fields);
+
+        return null;
     }
 
-    /**
-    * Import response data from the question import file
-    *
-    * @return array $a_data Array containing the response data
-    * @access public
-    */
-    public function importResponses($a_data)
+    public function importResponses(array $a_data): void
     {
         foreach ($a_data as $id => $data) {
             $this->setMinimum($data["min"]);
@@ -544,69 +398,51 @@ class SurveyMetricQuestion extends SurveyQuestion
         }
     }
 
-    /**
-    * Returns if the question is usable for preconditions
-    *
-    * @return boolean TRUE if the question is usable for a precondition, FALSE otherwise
-    * @access public
-    */
-    public function usableForPrecondition()
+    public function usableForPrecondition(): bool
     {
         return true;
     }
 
-    /**
-    * Returns the available relations for the question
-    *
-    * @return array An array containing the available relations
-    * @access public
-    */
-    public function getAvailableRelations()
+    public function getAvailableRelations(): array
     {
         return array("<", "<=", "=", "<>", ">=", ">");
     }
 
-    /**
-    * Creates a value selection for preconditions
-    *
-    * @param object $template The template for the value selection (usually tpl.svy_svy_add_constraint.html)
-    * @access public
-    */
-    public function outPreconditionSelectValue(&$template)
-    {
+    public function outPreconditionSelectValue(
+        ilTemplate $template
+    ): void {
         $template->setCurrentBlock("textfield");
         $template->setVariable("TEXTFIELD_VALUE", "");
         $template->parseCurrentBlock();
     }
-    
+
     /**
     * Creates a form property for the precondition value
-    *
-    * @return The ILIAS form element
+    * @return ilFormPropertyGUI|null ILIAS form element
     * @access public
     */
-    public function getPreconditionSelectValue($default, $title, $variable)
-    {
+    public function getPreconditionSelectValue(
+        string $default,
+        string $title,
+        string $variable
+    ): ?ilFormPropertyGUI {
         $step3 = new ilNumberInputGUI($title, $variable);
         $step3->setValue($default);
         return $step3;
     }
 
     /**
-    * Creates a text for the input range of the metric question
-    *
-    * @return string Range text
-    * @access private
-    */
-    public function getMinMaxText()
+     * Creates a text for the input range of the metric question
+     */
+    public function getMinMaxText(): string
     {
-        $min = $this->getMinimum();
-        $max = $this->getMaximum();
-        if (strlen($min) && strlen($max)) {
+        $min = (string) $this->getMinimum();
+        $max = (string) $this->getMaximum();
+        if ($min !== '' && $max !== '') {
             return "(" . $min . " " . strtolower($this->lng->txt("to")) . " " . $max . ")";
-        } elseif (strlen($min)) {
+        } elseif ($min !== '') {
             return "(&gt;= " . $min . ")";
-        } elseif (strlen($max)) {
+        } elseif ($max !== '') {
             return "(&lt;= " . $max . ")";
         } else {
             return "";

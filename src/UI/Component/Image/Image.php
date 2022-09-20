@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Component\Image;
 
@@ -26,34 +42,34 @@ interface Image extends Component, JavaScriptBindable, Clickable
     /**
      * Set the source (path) of the image. The complete path to the image has to be provided.
      */
-    public function withSource(string $source) : Image;
+    public function withSource(string $source): Image;
 
     /**
      * Get the source (path) of the image.
      */
-    public function getSource() : string;
+    public function getSource(): string;
 
     /**
      * Get the type of the image
      */
-    public function getType() : string;
+    public function getType(): string;
 
     /**
      * Set the alternative text for screen readers.
      */
-    public function withAlt(string $alt) : Image;
+    public function withAlt(string $alt): Image;
 
 
     /**
      * Get the alternative text for screen readers.
      */
-    public function getAlt() : string;
+    public function getAlt(): string;
 
     /**
      * Get an image like this with an action
      * @param string|Signal[] $action
      */
-    public function withAction($action) : Image;
+    public function withAction($action): Image;
 
     /**
      * Get the action of the image

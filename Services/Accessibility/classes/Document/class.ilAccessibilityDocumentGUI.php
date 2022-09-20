@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
@@ -12,81 +27,28 @@ use ILIAS\UI\Renderer;
  */
 class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 {
-    /** @var ilAccessibilityTableDataProviderFactory */
-    protected $tableDataProviderFactory;
+    protected ilAccessibilityTableDataProviderFactory $tableDataProviderFactory;
+    protected ilObjAccessibilitySettings $accs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilErrorHandling $error;
+    protected ilObjUser $user;
+    protected ilLogger $log;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ILIAS\HTTP\Services $httpState;
+    protected ilToolbarGUI $toolbar;
+    protected FileUpload $fileUpload;
+    protected Filesystems $fileSystems;
+    protected ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory;
+    protected ilHtmlPurifierInterface $documentPurifier;
 
-    /** @var ilObjAccessibilitySettings */
-    protected $accs;
-
-    /** @var ilGlobalPageTemplate */
-    protected $tpl;
-
-    /** @var ilCtrl */
-    protected $ctrl;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilErrorHandling */
-    protected $error;
-
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var ilLogger */
-    protected $log;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var ILIAS\HTTP\Services */
-    protected $httpState;
-
-    /** @var ilToolbarGUI */
-    protected $toolbar;
-
-    /** @var FileUpload */
-    protected $fileUpload;
-
-    /** @var Filesystems */
-    protected $fileSystems;
-
-    /** @var ilAccessibilityCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
-    /** @var ilHtmlPurifierInterface */
-    protected $documentPurifier;
-
-    /**
-     * ilAccessibilityDocumentGUI constructor.
-     * @param ilObjAccessibilitySettings                    $accs
-     * @param ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilGlobalPageTemplate                          $tpl
-     * @param ilObjUser                                     $user
-     * @param ilCtrl                                        $ctrl
-     * @param ilLanguage                                    $lng
-     * @param ilRbacSystem                                  $rbacsystem
-     * @param ilErrorHandling                               $error
-     * @param ilLogger                                      $log
-     * @param ilToolbarGUI                                  $toolbar
-     * @param Services                               $httpState
-     * @param Factory                                       $uiFactory
-     * @param Renderer                                      $uiRenderer
-     * @param Filesystems                                   $fileSystems ,
-     * @param FileUpload                                    $fileUpload
-     * @param ilAccessibilityTableDataProviderFactory    $tableDataProviderFactory
-     * @param ilHtmlPurifierInterface                       $documentPurifier
-     */
     public function __construct(
         ilObjAccessibilitySettings $accs,
         ilAccessibilityCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalPageTemplate $tpl,
+        ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
         ilCtrl $ctrl,
         ilLanguage $lng,
@@ -121,10 +83,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->documentPurifier = $documentPurifier;
     }
 
-    /**
-     *
-     */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -140,10 +99,10 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
 
     /**
-     * @throws ilDateTimeException
      * @throws ilAccessibilityMissingDatabaseAdapterException
+     * @throws ilCtrlException
      */
-    protected function showDocuments() : void
+    protected function showDocuments(): void
     {
         if ($this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $addDocumentBtn = $this->uiFactory->button()->primary(
@@ -168,10 +127,9 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     }
 
     /**
-     * @param ilAccessibilityDocument $document
-     * @return ilAccessibilityDocumentFormGUI
+     * @throws ilCtrlException
      */
-    protected function getDocumentForm(ilAccessibilityDocument $document) : ilAccessibilityDocumentFormGUI
+    protected function getDocumentForm(ilAccessibilityDocument $document): ilAccessibilityDocumentFormGUI
     {
         if ($document->getId() > 0) {
             $this->ctrl->setParameter($this, 'acc_id', $document->getId());
@@ -200,10 +158,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         return $form;
     }
 
-    /**
-     *
-     */
-    protected function saveAddDocumentForm() : void
+    protected function saveAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -211,22 +166,19 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getDocumentForm(new ilAccessibilityDocument());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function showAddDocumentForm() : void
+    protected function showAddDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -236,10 +188,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function showEditDocumentForm() : void
+    protected function showEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -251,10 +200,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function saveEditDocumentForm() : void
+    protected function saveEditDocumentForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -264,13 +210,13 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getDocumentForm($document);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
             if ($form->hasTranslatedInfo()) {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                $this->tpl->setOnScreenMessage('info', $form->getTranslatedInfo(), true);
             }
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -279,7 +225,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     /**
      * @return ilAccessibilityDocument[]
      */
-    protected function getDocumentsByServerRequest() : array
+    protected function getDocumentsByServerRequest(): array
     {
         $documents = [];
 
@@ -305,22 +251,20 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
      * @return ilAccessibilityDocument
      * @throws UnexpectedValueException
      */
-    protected function getFirstDocumentFromList(array $documents) : ilAccessibilityDocument
+    protected function getFirstDocumentFromList(array $documents): ilAccessibilityDocument
     {
         if (1 !== count($documents)) {
             throw new UnexpectedValueException('Expected exactly one document in list');
         }
 
         $document = new ilAccessibilityDocument(0);
+        /** @var ilAccessibilityDocument $document */
         $document = $document->buildFromArray(current($documents));
 
         return $document;
     }
 
-    /**
-     *
-     */
-    protected function deleteDocuments() : void
+    protected function deleteDocuments(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -367,26 +311,20 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         }
     }
 
-    /**
-     * @param array $documents
-     */
-    protected function processDocumentDeletion(array $documents) : void
+    protected function processDocumentDeletion(array $documents): void
     {
         foreach ($documents as $document) {
             /** @var $document ilAccessibilityDocument */
             $document->delete();
         }
 
-        ilUtil::sendSuccess($this->lng->txt('acc_deleted_documents_p'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_deleted_documents_p'), true);
         if (1 === count($documents)) {
-            ilUtil::sendSuccess($this->lng->txt('acc_deleted_documents_s'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_deleted_documents_s'), true);
         }
     }
 
-    /**
-     *
-     */
-    protected function deleteDocument() : void
+    protected function deleteDocument(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -399,10 +337,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->ctrl->redirect($this);
     }
 
-    /**
-     *
-     */
-    protected function saveDocumentSorting() : void
+    protected function saveDocumentSorting(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -431,19 +366,17 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
             }
         }
 
-        ilUtil::sendSuccess($this->lng->txt('acc_saved_sorting'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_saved_sorting'), true);
         $this->ctrl->redirect($this);
     }
 
     /**
-     * @param ilAccessibilityDocument                    $document
-     * @param ilAccessibilityDocumentCriterionAssignment $criterionAssignment
-     * @return ilAccessibilityCriterionFormGUI
+     * @throws ilCtrlException
      */
     protected function getCriterionForm(
         ilAccessibilityDocument $document,
         ilAccessibilityDocumentCriterionAssignment $criterionAssignment
-    ) : ilAccessibilityCriterionFormGUI {
+    ): ilAccessibilityCriterionFormGUI {
         $this->ctrl->setParameter($this, 'acc_id', $document->getId());
 
         if ($criterionAssignment->getId() > 0) {
@@ -471,10 +404,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         return $form;
     }
 
-    /**
-     *
-     */
-    protected function saveAttachCriterionForm() : void
+    protected function saveAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -484,19 +414,16 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getCriterionForm($document, new ilAccessibilityDocumentCriterionAssignment());
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_attached'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_attached'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function showAttachCriterionForm() : void
+    protected function showAttachCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -508,10 +435,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function showChangeCriterionForm() : void
+    protected function showChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -536,10 +460,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function saveChangeCriterionForm() : void
+    protected function saveChangeCriterionForm(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -562,19 +483,16 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
 
         $form = $this->getCriterionForm($document, $criterionAssignment);
         if ($form->saveObject()) {
-            ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_changed'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_changed'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         } elseif ($form->hasTranslatedError()) {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $this->tpl->setOnScreenMessage('failure', $form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
-    public function detachCriterionAssignment() : void
+    public function detachCriterionAssignment(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->accs->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -598,7 +516,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         $document->detachCriterion($criterionAssignment);
         $document->update();
 
-        ilUtil::sendSuccess($this->lng->txt('acc_doc_crit_detached'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('acc_doc_crit_detached'), true);
         $this->ctrl->redirect($this, 'showDocuments');
     }
 }

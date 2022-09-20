@@ -1,52 +1,46 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
-use ILIAS\Data\Password;
 
 class ilVirusScannerSetupConfig implements Setup\Config
 {
-    const VIRUS_SCANNER_NONE = "none";
-    const VIRUS_SCANNER_SOPHOS = "sophos";
-    const VIRUS_SCANNER_ANTIVIR = "antivir";
-    const VIRUS_SCANNER_CLAMAV = "clamav";
-    const VIRUS_SCANNER_ICAP = "icap";
+    public const VIRUS_SCANNER_NONE = "none";
+    private const VIRUS_SCANNER_SOPHOS = "sophos";
+    private const VIRUS_SCANNER_ANTIVIR = "antivir";
+    private const VIRUS_SCANNER_CLAMAV = "clamav";
+    private const VIRUS_SCANNER_ICAP = "icap";
 
-    /**
-     * @var mixed
-     */
-    protected $virus_scanner;
+    protected string $virus_scanner;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_scan;
+    protected ?string $path_to_scan = null;
 
-    /**
-     * @var string|null
-     */
-    protected $path_to_clean;
+    protected ?string $path_to_clean = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_host;
+    protected ?string $icap_host = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_port;
+    protected ?string $icap_port = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_service_name;
+    protected ?string $icap_service_name = null;
 
-    /**
-     * @var string|null
-     */
-    protected $icap_client_path;
+    protected ?string $icap_client_path = null;
 
     public function __construct(
         string $virus_scanner,
@@ -65,17 +59,17 @@ class ilVirusScannerSetupConfig implements Setup\Config
             self::VIRUS_SCANNER_ICAP
         ];
         if (!in_array($virus_scanner, $scanners)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Unknown virus scanner: '$virus_scanner'"
             );
         }
-        if($virus_scanner === self::VIRUS_SCANNER_ICAP) {
+        if ($virus_scanner === self::VIRUS_SCANNER_ICAP) {
             $this->icap_host = $this->toLinuxConvention($icap_host);
             $this->icap_port = $this->toLinuxConvention($icap_port);
             $this->icap_service_name = $this->toLinuxConvention($icap_service_name);
             $this->icap_client_path = $this->toLinuxConvention($icap_client_path);
         } elseif ($virus_scanner !== self::VIRUS_SCANNER_NONE && (!$path_to_scan || !$path_to_clean)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 "Missing path to scan and/or clean commands for virus scanner."
             );
         }
@@ -84,7 +78,7 @@ class ilVirusScannerSetupConfig implements Setup\Config
         $this->path_to_clean = $this->toLinuxConvention($path_to_clean);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -92,37 +86,37 @@ class ilVirusScannerSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getVirusScanner() : string
+    public function getVirusScanner(): string
     {
         return $this->virus_scanner;
     }
 
-    public function getPathToScan() : ?string
+    public function getPathToScan(): ?string
     {
         return $this->path_to_scan;
     }
 
-    public function getPathToClean() : ?string
+    public function getPathToClean(): ?string
     {
         return $this->path_to_clean;
     }
 
-    public function getIcapHost() : ?string
+    public function getIcapHost(): ?string
     {
         return $this->icap_host;
     }
 
-    public function getIcapPort() : ?string
+    public function getIcapPort(): ?string
     {
         return $this->icap_port;
     }
 
-    public function getIcapServiceName() : ?string
+    public function getIcapServiceName(): ?string
     {
         return $this->icap_service_name;
     }
 
-    public function getIcapClientPath() : ?string
+    public function getIcapClientPath(): ?string
     {
         return $this->icap_client_path;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,41 +11,37 @@ use ILIAS\Setup;
  */
 class ilWebServicesConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilWebServicesSetupConfig
-     */
-    protected $config;
+    protected Setup\Config $config;
 
-    public function __construct(\ilWebServicesSetupConfig $config)
+    public function __construct(Setup\Config $config)
     {
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Store information about web services in the settings";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesPopulatedObjective(),
             new \ilSettingsFactoryExistsObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
@@ -62,12 +60,12 @@ class ilWebServicesConfigStoredObjective implements Setup\Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }
 
-    protected function bool2string(bool $value) : string
+    protected function bool2string(bool $value): string
     {
         if ($value) {
             return "1";

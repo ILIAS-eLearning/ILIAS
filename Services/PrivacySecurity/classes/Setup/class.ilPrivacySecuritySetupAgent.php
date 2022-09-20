@@ -1,6 +1,21 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -13,7 +28,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @var Refinery\Factory
      */
-    protected $refinery;
+    protected Refinery\Factory $refinery;
 
     public function __construct(Refinery\Factory $refinery)
     {
@@ -23,7 +38,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function hasConfig() : bool
+    public function hasConfig(): bool
     {
         return true;
     }
@@ -31,19 +46,21 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    public function getConfigInput(Setup\Config $config = null): UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new LogicException("Not yet implemented.");
     }
 
     /**
      * @inheritdoc
      */
-    public function getArrayToConfigTransformation() : Refinery\Transformation
+    public function getArrayToConfigTransformation(): Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilPrivacySecuritySetupConfig(
-                (bool) ($data["https_enabled"] ?? false)
+            return new ilPrivacySecuritySetupConfig(
+                (bool) ($data["https_enabled"] ?? false),
+                (isset($data["auth_duration"])) ? (int) $data["auth_duration"] : null,
+                (isset($data["account_assistance_duration"])) ? (int) $data["account_assistance_duration"] : null
             );
         });
     }
@@ -51,7 +68,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Setup\Config $config = null): Setup\Objective
     {
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/PrivacySecurity",
@@ -63,7 +80,19 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    {
+        if ($config === null || $config instanceof Setup\NullConfig) {
+            return new Setup\Objective\NullObjective();
+        }
+
+        return $this->getInstallObjective($config);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBuildArtifactObjective(): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -71,15 +100,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
-    {
-        return new Setup\Objective\NullObjective();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Setup\Metrics\Storage $storage): Setup\Objective
     {
         return new Setup\Objective\NullObjective();
     }
@@ -87,7 +108,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getMigrations() : array
+    public function getMigrations(): array
     {
         return [];
     }

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Modal;
 
@@ -38,7 +56,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -46,7 +64,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -54,7 +72,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function withFormAction(string $form_action) : M\Interruptive
+    public function withFormAction(string $form_action): M\Interruptive
     {
         $clone = clone $this;
         $clone->form_action = $form_action;
@@ -64,7 +82,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function withAffectedItems(array $items) : M\Interruptive
+    public function withAffectedItems(array $items): M\Interruptive
     {
         $types = array(M\InterruptiveItem::class);
         $this->checkArgListElements('items', $items, $types);
@@ -76,7 +94,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getActionButtonLabel() : string
+    public function getActionButtonLabel(): string
     {
         return $this->action_button_label;
     }
@@ -85,7 +103,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function withActionButtonLabel(string $action_label) : M\Interruptive
+    public function withActionButtonLabel(string $action_label): M\Interruptive
     {
         $clone = clone $this;
         $clone->action_button_label = $action_label;
@@ -95,7 +113,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getCancelButtonLabel() : string
+    public function getCancelButtonLabel(): string
     {
         return $this->cancel_button_label;
     }
@@ -103,7 +121,7 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function withCancelButtonLabel(string $cancel_label) : M\Interruptive
+    public function withCancelButtonLabel(string $cancel_label): M\Interruptive
     {
         $clone = clone $this;
         $clone->cancel_button_label = $cancel_label;
@@ -113,12 +131,12 @@ class Interruptive extends Modal implements M\Interruptive
     /**
      * @inheritdoc
      */
-    public function getAffectedItems() : array
+    public function getAffectedItems(): array
     {
         return $this->items;
     }
 
-    public function getFormAction() : string
+    public function getFormAction(): string
     {
         return $this->form_action;
     }
