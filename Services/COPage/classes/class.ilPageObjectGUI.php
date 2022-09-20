@@ -44,13 +44,13 @@ class ilPageObjectGUI
     protected int $requested_old_nr;
     protected EditGUIRequest $request;
     protected EditSessionRepository $edit_repo;
-    protected string $exp_target_script;
-    protected string $exp_id;
-    protected string $exp_frame;
-    protected string $act_meth;
+    protected string $exp_target_script = "";
+    protected string $exp_id = "";
+    protected string $exp_frame = "";
+    protected string $act_meth = "";
     protected object $act_obj;
-    public string $page_back_title;
-    protected int $notes_parent_id;
+    public string $page_back_title = "";
+    protected int $notes_parent_id = 0;
     protected ilPropertyFormGUI $form;
     protected int $styleid = 0;
     protected bool $enabledpagefocus;
@@ -2754,6 +2754,8 @@ class ilPageObjectGUI
     */
     public function editActivation(): void
     {
+        $this->setBackToEditTabs();
+
         $atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
