@@ -305,6 +305,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 );
             }
 
+            if ($config->getEnableScheduledActivation()) {
+                $items[] = $ui->factory()->link()->standard(
+                    $lng->txt("cont_activation"),
+                    $ctrl->getLinkTarget($this->page_gui, "editActivation")
+                );
+            }
+
             // clipboard
             $items[] = $ui->factory()->link()->standard(
                 $lng->txt("clipboard"),
