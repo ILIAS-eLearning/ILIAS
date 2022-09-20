@@ -162,7 +162,7 @@ $DIC->database()->update("table_name", array(
 
 ## Database Updates
 
-Please have a look into [this document](docs/development/database-updates.md) for
+Please have a look into [this document](../../docs/development/database-updates.md) for
 directions on database migrations and schema updates are to be integrated into the
 system.
 

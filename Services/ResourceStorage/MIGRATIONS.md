@@ -1,9 +1,9 @@
-# How to Migrate a ILIAS-Component to the new ResourceStorage-Service
+# How to Migrate a ILIAS-Component to the ResourceStorage-Service (IRSS)
 
 ## Introduction
 With ILIAS 7 the possibility of migrations was introduced in the setup. Among other things, these are used to transfer files from old structures to the ILIAS Resource Storage Service (IRSS).
 
-Information about migrations in general can be found at [Setup-Readme](./setup/README.md).
+Information about migrations in general can be found at [setup/README](../../setup/README.md).
 
 ## General approach
 Many components store uploaded files from users. These files usually belong to something, let's call this a "thing". A forum post is a thing to which files can be saved. Or an exercise unit is a "thing" to which instruction files can be uploaded. A migration is best targeted at such an isolated use case. It is easier to migrate this use case individually and isolated than all use cases within a component.
@@ -28,7 +28,7 @@ Postings are stored in the "frm_posts" table. This table currently has no direct
 
 First, we introduce a new column in the "frm_posts" table, where we will store the `ResourceCollectionIdentification` during the migration. `ResourceIdentifications` and ResourceCollectionIdentifications can be stored with a 64-character text field. 
 
-Since multiple files can be uploaded per post and not a single file, we use `ResourceCollectionIdentification` and not `ResourceIdentifications`. Infos to collections see [here](./src/ResourceStorage/README.md).
+Since multiple files can be uploaded per post and not a single file, we use `ResourceCollectionIdentification` and not `ResourceIdentifications`. Infos to collections see [here](../../src/ResourceStorage/README.md).
 
 We will introduce a corresponding field in a DB update (e.g. in the existing `ilForumDatabaseUpdateSteps`:
 
@@ -50,7 +50,7 @@ public function step_3(): void
 }
 ```
 
-The actual migration consists is structured as described in [setup/README](./setup/README.md). The following two methods are the most relevant for the migration:
+The actual migration consists is structured as described in [setup/README](../../setup/README.md). The following two methods are the most relevant for the migration:
 
 - public function getPreconditions(Environment $environment): array
 - public function prepare(Environment $environment): void;
@@ -77,7 +77,7 @@ public function prepare(Environment $environment): void
     );
 }
 ```
-What we need for this is a `ResourceStakeholder` for our use case. For more information about Stakeholders see [here](./src/ResourceStorage/README.md).
+What we need for this is a `ResourceStakeholder` for our use case. For more information about Stakeholders see [here](../../src/ResourceStorage/README.md).
 
 The simplest way is to use getRemainingAmountOfSteps to query the database to find out how many "things" still need to be migrated for this use case.
 
