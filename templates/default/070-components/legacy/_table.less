@@ -19,19 +19,8 @@ div.ilCommandRow {
     margin-bottom: 15px;
 }
 
-[dir="rtl"] div.ilCommandRow {
-    text-align: left;
-    padding-right: 0;
-    padding-left: 1%;
-}
-
 div.ilCommandRow.one_side_col {
     padding-right: 22%;
-}
-
-[dir="rtl"] div.ilCommandRow.one_side_col {
-    padding-right: 0;
-    padding-left: 22%;
 }
 
 div.ilAdminRow {
@@ -69,11 +58,6 @@ table.nobackground {
  /* border-top: 1px dotted #c0c0c0; */
 }
 
-[dir="rtl"] .subitem {
- clear: both;
- margin: 0 0 0 -10px;
-}
-
 td.nobackground {
    color: black;
    background-color: inherit;
@@ -104,11 +88,6 @@ td.std, th.std {
    text-align: left;
 }
 
-[dir="rtl"] th,
-[dir="rtl"] td.std, [dir="rtl"] th.std {
-   text-align: right;
-}
-
 .calstd .btn {
    white-space: normal;
 }
@@ -121,10 +100,6 @@ th.option, td.option {
    vertical-align: top;
    text-align: right;
    border-top: 1px solid #9eadba;
-}
-
-[dir="rtl"] th.option, [dir="rtl"] td.option {
-   text-align: left;
 }
 
 td.sub_option {
@@ -143,10 +118,6 @@ td.option_value {
    vertical-align: top;
    text-align: left;
    border-top: 1px solid #9eadba;
-}
-
-[dir="rtl"] td.option_value {
-   text-align: right;
 }
 
 td.option_value_center {
@@ -168,10 +139,6 @@ td.option_desc, p.option_desc {
    text-align: left;
 }
 
-[dir="rtl"] td.option_desc, [dir="rtl"] p.option_desc {
-   text-align: right;
-}
-
 td.boxed {
    border: 1px solid black;
 }
@@ -186,13 +153,6 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
    font-weight: @il-font-weight-base;
 }
 
-[dir="rtl"] a.il_ContainerItemCommand2:link,
-[dir="rtl"] a.il_ContainerItemCommand2:visited,
-[dir="rtl"] a.il_ContainerItemCommand:link,
-[dir="rtl"] a.il_ContainerItemCommand2:visited {
-   margin: 0 0 0 3px;
-}
-
 a.il_ContainerItemCommand2:hover,
 a.il_ContainerItemCommand:hover {
    text-decoration: underline;
@@ -201,10 +161,6 @@ a.il_ContainerItemCommand:hover {
 div.il_ContainerItemCommands2 {
    text-align: right;
    margin: 0 3px 3px;
-}
-
-[dir="rtl"] div.il_ContainerItemCommands2 {
-   text-align: left;
 }
 
 div.il_ContainerItemCommands {
@@ -225,19 +181,11 @@ div.il_ContainerItemTitle {
    padding-bottom: 5px;
 }
 
-[dir="rtl"] div.il_ContainerItemTitle {
-   float: right;
-}
-
 div.il_ItemProperties {
    margin: 2px 0 5px;
    text-align: left;
    font-weight: @il-font-weight-base;
    font-size: @il-font-size-small;
-}
-
-[dir="rtl"] div.il_ItemProperties {
-   text-align: right;
 }
 
 div.il_ItemNotice {
@@ -246,10 +194,6 @@ div.il_ItemNotice {
    font-weight: @il-font-weight-base;
    font-size: @il-font-size-small;
    color: green;
-}
-
-[dir="rtl"] div.il_ItemNotice {
-   text-align: right;
 }
 
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
@@ -272,27 +216,13 @@ div.il_Description, td.il_Description {
    text-align: left;
 }
 
-[dir="rtl"] div.il_Description,
-[dir="rtl"] td.il_Description {
-   text-align: right;
-}
-
 div.il_Description_no_margin, td.il_Description_no_margin {
    font-size: @il-font-size-small;
    font-style: italic;
    text-align: left;
 }
 
-[dir="rtl"] div.il_Description_no_margin,
-[dir="rtl"] td.il_Description_no_margin {
-   text-align: right;
-}
-
 div.il_info {
    font-size: @il-font-size-small;
    text-align: left;
-}
-
-[dir="rtl"] div.il_info {
-   text-align: right;
 }

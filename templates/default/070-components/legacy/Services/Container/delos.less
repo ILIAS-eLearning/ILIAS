@@ -9,10 +9,6 @@ div.il_PreconditionsTitel {
 	font-size: @il-font-size-small;
 }
 
-[dir="rtl"] div.il_PreconditionsTitel {
-	text-align: right;
-}
-
 div.ilPreconditionItem {
 	margin: 0 -10px;
 }
@@ -26,9 +22,7 @@ div.ilContainerListItemOuter {
 		margin-right: -@il-padding-xlarge-horizontal;
 	}
 }
-[dir="rtl"] div.ilContainerListItemOuter {
-	display: table;
-}
+
 div.tblfooter {
 	&.ilContainerListFooter {
 		font-size: @il-font-size-base;
@@ -48,12 +42,6 @@ div.tblfooter {
 
 input[name^="position[blocks]"] {
 	margin: 0 0 0 -2px;
-}
-
-
-[dir="rtl"] .ilContainerListFooter {
-	padding-left: 0;
-	padding-right: @il-padding-xlarge-horizontal;
 }
 
 div.ilListItemSection {
@@ -83,10 +71,6 @@ div.ilContainerListItemCB {
 	}
 }
 
-[dir="rtl"] div.ilContainerListItemCB {
-	/* float: right; */
-}
-
 div.ilContainerListItemIcon {
 	/* margin-top: -3px;
 	   float: left;
@@ -99,17 +83,8 @@ div.ilContainerListItemIcon a {
 	margin-top: -@il-padding-small-vertical;
 }
 
-[dir="rtl"] div.ilContainerListItemIcon {
-	float: right;
-}
-
 div.ilContainerListItemIconCB {
 	margin-left: @il-padding-xlarge-horizontal;
-}
-
-[dir="rtl"] div.ilContainerListItemIconCB {
-	margin-left: 0;
-	margin-right: @il-padding-xlarge-horizontal;
 }
 
 div[class^="il_editarea"] .ilContainerListItemOuter img,
@@ -126,30 +101,15 @@ div.ilContainerListItemContent {
 	width: 100%;
 }
 
-[dir="rtl"] div.ilContainerListItemContent {
-	/* margin-left: 0;
-	margin-right: 35px; */
-}
-
 /* If checkbox is activated, add spacing */
 div.ilContainerListItemContentCB {
 	/* margin-left: 60px; */
-}
-
-[dir="rtl"] div.ilContainerListItemContentCB {
-	/* margin-left: 0;
-	margin-right: 60px; */
 }
 
 div.il_ContainerListItem {
 	margin: @il-padding-small-vertical 0;
 	padding-left: @il-padding-base;
 	width:100%;
-}
-
-[dir="rtl"] div.il_ContainerListItem {
-	padding-left: 0;
-	padding-right: @il-padding-base;
 }
 
 .ilContainerBlockHeader {
@@ -188,10 +148,6 @@ div.il_ContainerListItem {
 	background-image: url("@{il-background-images-path}tree_col.svg");
 }
 
-[dir="rtl"] .ilContainerBlockHeader {
-	text-align: right;
-}
-
 .ilContainerBlock {
 	width: 100%;
 	clear: both;
@@ -206,10 +162,6 @@ div#cont_paste_explorer_tree ul.il_Explorer {
 	margin: 0 0 0 24px;
 }
 
-[dir="rtl"] div#cont_paste_explorer_tree ul.il_Explorer {
-	margin: 0 24px 0 0;
-}
-
 #ilContRepIntro {
 	margin: 20px 0 50px 0;
 	clear:both;
@@ -219,10 +171,6 @@ div#ilContRepIntro img {
 	float: right;
 	width: 150px;
 	height: 150px;
-}
-
-[dir="rtl"] div#ilContRepIntro img {
-	float: left;
 }
 
 .ilContObjectiveObjectListItem {
