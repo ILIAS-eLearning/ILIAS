@@ -3206,6 +3206,8 @@ class ilPageObjectGUI
     */
     public function editActivation()
     {
+        $this->setBackToEditTabs();
+
         $atpl = new ilTemplate("tpl.page_activation.php", true, true, "Services/COPage");
         $this->initActivationForm();
         $this->getActivationFormValues();
