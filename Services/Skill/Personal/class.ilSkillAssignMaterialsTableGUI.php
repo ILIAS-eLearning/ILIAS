@@ -31,6 +31,8 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
     protected int $tref_id = 0;
     protected int $basic_skill_id = 0;
     protected ilSkillTreeNode $skill;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         $a_parent_obj,
@@ -45,6 +47,8 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $ilUser = $DIC->user();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
         if (!$this->ws_tree->readRootId()) {
@@ -105,14 +109,17 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         foreach ($mat as $m) {
             $this->tpl->setCurrentBlock("mat");
             $obj_id = $this->ws_tree->lookupObjectId($m["wsp_id"]);
+            $obj_type = ilObject::_lookupType($obj_id);
+            $mat_icon = $this->ui_fac->symbol()->icon()->standard(
+                $obj_type,
+                $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+                "medium"
+            );
             $this->tpl->setVariable(
                 "MAT_TITLE",
                 ilObject::_lookupTitle($obj_id)
             );
-            $this->tpl->setVariable(
-                "MAT_IMG",
-                ilUtil::img(ilUtil::getImagePath("icon_" . ilObject::_lookupType($obj_id) . ".svg"))
-            );
+            $this->tpl->setVariable("MAT_IMG", $this->ui_ren->render($mat_icon));
             $this->tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
             $ilCtrl->setParameter($this->parent_obj, "wsp_id", $m["wsp_id"]);
             $this->tpl->setVariable("HREF_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "removeMaterial"));

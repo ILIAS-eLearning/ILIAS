@@ -31,6 +31,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     protected int $tref_id = 0;
     protected bool $in_use = false;
     protected bool $manage_perm = false;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct(
         int $a_skill_id,
@@ -47,6 +49,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $this->skill_id = $a_skill_id;
         $this->skill = new ilBasicSkill($a_skill_id);
@@ -166,13 +170,18 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         if (isset($a_set["ressources"]) && is_array($a_set["ressources"])) {
             foreach ($a_set["ressources"] as $rref_id => $ressource) {
                 $robj_id = ilObject::_lookupObjId($rref_id);
-                $robj_img = ilUtil::img(ilObject::_getIcon($robj_id, "tiny"));
+                $robj_type = ilObject::_lookupType($robj_id);
+                $robj_icon = $this->ui_fac->symbol()->icon()->standard(
+                    $robj_type,
+                    $this->lng->txt("icon") . " " . $this->lng->txt($robj_type),
+                    "medium"
+                );
                 $robj_title = ilObject::_lookupTitle($robj_id);
                 $robj_link = ilLink::_getStaticLink($rref_id);
 
                 if ($ressource["imparting"]) {
                     $this->tpl->setCurrentBlock("ressource_sugg");
-                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_IMG", $this->ui_ren->render($robj_icon));
                     $this->tpl->setVariable("RSRC_TITLE", $robj_title);
                     $this->tpl->setVariable("RSRC_URL", $robj_link);
                     $this->tpl->parseCurrentBlock();
@@ -180,7 +189,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 
                 if ($ressource["trigger"]) {
                     $this->tpl->setCurrentBlock("ressource_trigg");
-                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_IMG", $this->ui_ren->render($robj_icon));
                     $this->tpl->setVariable("RSRC_TITLE", $robj_title);
                     $this->tpl->setVariable("RSRC_URL", $robj_link);
                     $this->tpl->parseCurrentBlock();
