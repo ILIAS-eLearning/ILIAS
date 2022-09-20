@@ -58,7 +58,9 @@ class ilRatingGUI
         $params = $DIC->http()->request()->getQueryParams();
         $body = $DIC->http()->request()->getParsedBody();
 
-        $this->requested_ratings = ($body["rating"] ?? null);
+        if (isset($body["rating"]) && is_array($body["rating"])) {
+            $this->requested_ratings = ($body["rating"] ?? null);
+        }
         $this->requested_rating = (int) ($params["rating"] ?? 0);
 
         $lng->loadLanguageModule("rating");
@@ -689,7 +691,7 @@ class ilRatingGUI
         ilRating::resetRatingForUserAndObject(
             $this->obj_id,
             $this->obj_type,
-            $this->sub_obj_id,
+            (int) $this->sub_obj_id,
             $this->sub_obj_type,
             $this->getUserId()
         );
