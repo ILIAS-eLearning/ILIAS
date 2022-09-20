@@ -1411,7 +1411,6 @@ class ilPageObjectGUI
 
         // get title
         $pg_title = $this->getPresentationTitle();
-
         $col_path = '';
         $row_path = '';
         $cell_path = '';
