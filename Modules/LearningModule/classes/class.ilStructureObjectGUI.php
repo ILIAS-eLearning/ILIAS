@@ -917,7 +917,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ctrl->setParameter($this, "multi", ilChapterHierarchyFormGUI::getPostMulti());
         $ctrl->setParameter($this, "node_id", ilChapterHierarchyFormGUI::getPostNodeId());
-        $ctrl->setParameter($this, "first_child", ilChapterHierarchyFormGUI::getPostFirstChild());
+        $ctrl->setParameter($this, "first_child", (int) ilChapterHierarchyFormGUI::getPostFirstChild());
         $ctrl->saveParameter($this, "obj_id");
         $form = $this->initInsertTemplateForm();
         $this->tpl->setContent($ui->renderer()->render($form) . ilLMPageObjectGUI::getLayoutCssFix());
@@ -966,7 +966,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $data["sec"]["title"]
         );
 
-        $ilCtrl->setParameter($this, "highlight", $page_ids);
+        //$ilCtrl->setParameter($this, "highlight", $page_ids);
         $ilCtrl->redirect($this, "showHierarchy", "node_" . $node_id);
     }
 }
