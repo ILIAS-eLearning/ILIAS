@@ -238,14 +238,16 @@ class ilForumCronNotification extends ilCronJob
             $row['ref_id'] = $ref_id;
 
             $container = $this->determineClosestContainer($ref_id);
+            $row['closest_container'] = null;
             if ($container instanceof ilObjCourse || $container instanceof ilObjGroup) {
                 $row['closest_container'] = $container;
             }
 
-            if ($this->existsProviderObject((int) $row['pos_pk'], $notification_type)) {
-                self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient((int) $row['user_id']);
+            $provider_id = isset($row['deleted_id']) ? -((int) $row['deleted_id']) : (int) $row['pos_pk'];
+            if ($this->existsProviderObject($provider_id, $notification_type)) {
+                self::$providerObject[$provider_id . '_' . $notification_type]->addRecipient((int) $row['user_id']);
             } else {
-                $this->addProviderObject($row, $notification_type);
+                $this->addProviderObject($provider_id, $row, $notification_type);
             }
         }
 
@@ -320,19 +322,16 @@ class ilForumCronNotification extends ilCronJob
         return null;
     }
 
-    public function existsProviderObject(int $post_id, int $notification_type): bool
+    public function existsProviderObject(int $provider_id, int $notification_type): bool
     {
-        if (isset(self::$providerObject[$post_id . '_' . $notification_type])) {
-            return true;
-        }
-        return false;
+        return isset(self::$providerObject[$provider_id . '_' . $notification_type]);
     }
 
-    private function addProviderObject(array $row, int $notification_type): void
+    private function addProviderObject(int $provider_id, array $row, int $notification_type): void
     {
         $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
-        self::$providerObject[$row['pos_pk'] . '_' . $notification_type] = $tmp_provider;
-        self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient((int) $row['user_id']);
+        self::$providerObject[$provider_id . '_' . $notification_type] = $tmp_provider;
+        self::$providerObject[$provider_id . '_' . $notification_type]->addRecipient((int) $row['user_id']);
     }
 
     private function resetProviderCache(): void
