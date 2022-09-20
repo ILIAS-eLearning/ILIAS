@@ -1,0 +1,5 @@
+Contact: email security at lists.ilias.de
+Acknowledgments: https://docu.ilias.de/goto_docu_pg_138135_1719.html
+Preferred-Languages: de, en
+Policy: https://github.com/ILIAS-eLearning/ILIAS/blob/release_7/docs/development/security.md
+Expires: 2023-09-20T01:00:00.000Z
