@@ -362,6 +362,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if (isset(self::$preload_list_gui_data[$a_obj_id])) {
             return self::$preload_list_gui_data[$a_obj_id];
         }
-        return [];
+        self::_preloadData([$a_obj_id], []);
+        return self::$preload_list_gui_data[$a_obj_id];
     }
 }
