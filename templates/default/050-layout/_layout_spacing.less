@@ -1,4 +1,4 @@
-//== Base Padding and Border
+//== Spacing
 //
 //## Define common padding, margin and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
 @il-padding-base: 9px;
@@ -46,12 +46,21 @@
 @il-margin-xs-vertical: @il-padding-xs-vertical;
 @il-margin-xs-horizontal: @il-padding-xs-horizontal;
 
-@il-border-radius-base: 0px;
-@il-border-radius-large: 0px;
-@il-border-radius-small: 0px;
+.noMargin {
+	margin: 0;
+}
 
-@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
-@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
-// The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-inner-width: 3px;
-@il-focus-outline-outer-width: 2px;
+/* ----------------- invisible border ------------- */
+div.invisible_border {
+	margin: 15px;
+}
+
+.ilInvisibleBorder {
+	padding: 15px;
+}
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display: block;
+}

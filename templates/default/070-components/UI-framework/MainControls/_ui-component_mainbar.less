@@ -1,5 +1,24 @@
-// mainbar
+//== mainbar
+@il-mainbar-btn-color: white;
+@il-maincontrols-mainbar-bg-color: @il-main-bg;
+@il-mainbar-btn-bg-color: @il-neutral-color;
+@il-mainbar-btn-color-engaged: @il-neutral-color;
+@il-mainbar-btn-bg-color-engaged: @il-main-bg;
+@il-mainbar-tools-btn-bg: @il-warning-color;
+@il-mainbar-tools-btn-bg-engaged: lighten(@il-main-color, 50%);
+@il-mainbar-tools-tab-btn-bg-engaged: white;
+@il-mainbar-tools-tab-btn-bg-disengaged: lighten(@il-main-color, 15%);
+@il-mainbar-tools-bg: @il-main-dark-bg;
 @il-mainbar-tools-item-gap: 3px;
+@il-mainbar-icon-filter: invert(50%);
+@il-mainbar-trigger-icon-filter: brightness(3);
+@il-mainbar-slates-bg-color: @il-main-bg;
+@il-mainbar-btn-height: 80px;
+@il-mainbar-btn-width: 80px;
+@il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
+@il-mainbar-btn-label-size: @il-font-size-xsmall;
+@il-mainbar-trigger-icon-size: 25px;
+@il-mainbar-remove-tools-btn-height: 45px;
 
 //Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
 .focus_hovered_engaged_slate_trigger_mixin{
