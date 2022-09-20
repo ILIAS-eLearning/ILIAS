@@ -10,7 +10,6 @@
 @il-standard-page-header-bg-color: @il-main-bg;
 @il-standard-page-header-page-title-color: @il-text-color;
 @il-standard-page-border-light-color: @il-main-border-color;
-@il-standard-page-content-padding: 20px;
 
 //** metabar
 @il-metabar-entry-height: 60px;
@@ -22,10 +21,6 @@
 //** breadcrumbs
 @il-standard-page-breadcrumbs-height: 33px;
 @il-standard-page-breadcrumbs-bg-color: @il-main-bg;
-@il-standard-page-breadcrumbs-color: @il-link-color;
-@il-standard-page-breadcrumbs-active-color: @il-link-hover-color;
-@il-standard-page-breadcrumbs-divider-color: @il-neutral-light-color;
-@il-standard-page-breadcrumbs-font-weight: @il-font-weight-bold;
 @il-standard-page-breadcrumbs-seperator: " \e606";
 
 //** mainbar
@@ -43,7 +38,6 @@
 @il-mainbar-tools-tab-btn-bg-engaged: white;
 @il-mainbar-tools-tab-btn-bg-disengaged: lighten(@il-main-color, 15%);
 @il-mainbar-tools-bg: @il-main-dark-bg;
-@il-mainbar-tools-item-gap: 3px;
 @il-mainbar-icon-filter: invert(50%);
 @il-mainbar-trigger-icon-filter: brightness(3);
 @il-mainbar-trigger-icon-size: 25px;
@@ -54,10 +48,8 @@
 @il-mode-info-color: @il-warning-color;
 @il-mode-info-border: 3px solid @il-mode-info-color;
 @il-mode-info-height: 30px;
-@il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
 @il-mode-info-text-color: white;
 @il-mode-info-zindex: 1010;
-
 
 //** slates
 @il-slate-bulky-bg-color: @il-main-darker-bg;
@@ -79,7 +71,13 @@
 @il-mainbar-close-slate-btn-height: 45px;
 @il-metabar-close-slate-btn-height: 30px;
 
-//** shadows
+//** Footer
+//** controls background color of the footer.
+@il-footer-bg-color: @il-main-bg;
+//** controls the color of the text in the footer.
+@il-footer-color: @il-text-color;
+
+//** Shadows
 @il-standard-page-shadow-color: rgba(0, 0, 0, .1);
 @il-mainbar-shadow-right: 1px 3px 4px @il-standard-page-shadow-color;
 @il-mainbar-shadow-top: 0 0 4px @il-standard-page-shadow-color;

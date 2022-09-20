@@ -1,5 +1,30 @@
 @import "../../../../../libs/bower/bower_components/webui-popover/src/jquery.webui-popover.less";
 
+//== Popover
+//
+//## Customizes the Popover component
+
+//** Minimal width of the Popover
+@il-popover-min-width: 50px;
+//** Minimal height of the Popover
+@il-popover-min-height: 32px;
+//** Maximal width of the Popover
+@il-popover-max-width: 400px;
+//** Background color of the Popover
+@il-popover-background-color: @il-main-dark-bg;
+//** Background color of the title
+@il-popover-title-background-color: @il-popover-background-color;
+//** Border color of the Popover
+@il-popover-border-color: rgba(0, 0, 0, .2);
+//** Width of the arrow pointing from the Popover to its Triggerer component, e.g. a Button
+@il-popover-arrow-width: 10px;
+//** Background color of the arrow
+@il-popover-arrow-background-color: @il-popover-background-color;
+//** z-index used for the Popover
+@il-popover-z-index: 9999;
+//** Maximum Height of a popover (overflow scroll)
+@il-popover-max-height: 500px;
+
 @popover-bg: @il-popover-background-color;
 @popover-min-width: @il-popover-min-width;
 @popover-min-height: @il-popover-min-height;

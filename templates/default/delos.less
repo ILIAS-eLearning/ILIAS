@@ -1,5 +1,7 @@
 //out: delos.css, sourcemap: true, compress: false
-
+//
+// # ITCSS structure
+// All style code MUST be split into these layers
 
 @import "./010-settings/_index.less";
 @import "./020-dependencies/_index.less";
@@ -9,3 +11,22 @@
 @import "./060-elements/_index.less";
 @import "./070-components/_index.less";
 @import "./080-hacks/_index.less";
+
+// # Relative paths differences
+// SCSS paths are relativ to the SCSS file
+// CSS paths (linked fonts) are relative to the compiled template CSS
+//
+// # Overriding variables
+// For customized system styles you MAY want to change variables when
+// importing partials into the layer index like so:
+//
+// @use "./_example-partial.scss" with (
+//     $example-var: value,
+//     $another-example-var: value
+// );
+//
+// Inside the partials, these variables must have been exposed with !default
+// for this to work e.g.
+//     $example-var: value !default;
+//
+// Imports for the default delos system style MUSTN'T uilize @use ... with ()

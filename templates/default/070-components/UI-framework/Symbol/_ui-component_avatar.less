@@ -1,3 +1,26 @@
+//== Avatar
+//
+//** Size for avatars: used in the header. e.g. standard (and recommended) is @il-icon-size-large
+@il-avatar-size: @il-icon-size-large;
+@il-avatar-size-small: @il-avatar-size / 2;
+@il-avatar-size-large: @il-avatar-size * 2;
+//** border-radius for image avatar
+@il-avatar-border-radius: 50%;
+//** border size for letter avatars
+@il-avatar-border-size: 2px;
+@il-avatar-small-border-size: 0px;
+//** border style for letter avatars
+@il-avatar-border-style: solid;
+//** border color for picture avatars
+@il-avatar-picture-border-color: @il-main-border-color;
+//** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
+@il-avatar-letter-border-color-contrast-lighten: 40%;
+@il-avatar-letter-border-color-contrast-darken: 20%;
+//** change the abbreviations font weight
+@il-avatar-letter-abbreviation-font-weight: @il-font-weight-light;
+//** change the abbreviations font transform
+@il-avatar-letter-abbreviation-font-transform: inherit;
+
 @il-avatar-colors: @il-avatar-letter-color-variants;
 @il-avatar-inner-size: (@il-avatar-size - (2 * @il-avatar-border-size));
 @il-avatar-inner-mobile-size: (@il-avatar-size / 2 );

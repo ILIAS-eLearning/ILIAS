@@ -12,7 +12,7 @@
 
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
-@import "./bootstrap-overrides/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+@import "./overrides/bootstrap/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
 @import "@{bsbase}mixins.less";
 
 // Reset and dependencies
@@ -59,22 +59,22 @@
 
 /* Bootstrap Overrides */
 
-@import "./bootstrap-overrides/code.less";
-@import "./bootstrap-overrides/focus-mixin.less";
-@import "./bootstrap-overrides/forms.less";
-@import "./bootstrap-overrides/grid.less";
-@import "./bootstrap-overrides/navbar.less";
-@import "./bootstrap-overrides/screenreader-only-mixins.less";
+@import "./overrides/bootstrap/code.less";
+@import "./overrides/bootstrap/focus-mixin.less";
+@import "./overrides/bootstrap/forms.less";
+@import "./overrides/bootstrap/grid.less";
+@import "./overrides/bootstrap/navbar.less";
+@import "./overrides/bootstrap/screenreader-only-mixins.less";
 
 /* Bootstrap Additions */
 
-@import "./bootstrap-additions/_dropdown.less";
-@import "./bootstrap-additions/_tables.less";
+@import "./alterations/bootstrap/_dropdown.less";
+@import "./alterations/bootstrap/_tables.less";
 
 /*
-* Other Dependencies - Additions
+* Other Dependencies - Alterations
 */
 
-@import "./_jquery-autocomplete.less";
-@import "./_tinymce-additions.less";
-@import "./_yui2-additions.less";
+@import "./alterations/_dependency-alterations_jquery-autocomplete.less";
+@import "./alterations/_dependency-alterations_tinymce.less";
+@import "./alterations/_dependency-alterations_yui2.less";

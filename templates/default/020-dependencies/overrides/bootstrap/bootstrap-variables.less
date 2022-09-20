@@ -108,7 +108,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 @input-border-radius: 0;
 @input-border-focus: lighten(@il-main-color, 20%);
-@input-height-base: @il-input-height-base;
+@input-height-base: (floor(@il-standard-form-font-size * @il-line-height-base)) + 0.56;
 @input-color-placeholder: @il-text-light-color;
 
 //== Tables
