@@ -314,12 +314,55 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
+        $content = [];
+
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');
 
+        if ($this->http->wrapper()->query()->has('inv_room_ref_id') &&
+            $this->http->wrapper()->query()->has('inv_room_scope') &&
+            $this->http->wrapper()->query()->has('inv_usr_ids')) {
+            $inv_room_ref_id = $this->http->wrapper()->query()->retrieve(
+                'inv_room_ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+            $inv_room_scope = $this->http->wrapper()->query()->retrieve(
+                'inv_room_scope',
+                $this->refinery->kindlyTo()->int()
+            );
+            $inv_usr_ids = $this->http->wrapper()->query()->retrieve(
+                'inv_usr_ids',
+                $this->refinery->in()->series([
+                    $this->refinery->kindlyTo()->string(),
+                    $this->refinery->custom()->transformation(fn (string $value): array => explode(',', $value)),
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+                ])
+            );
+
+            $userlist = [];
+            foreach ($inv_usr_ids as $inv_usr_id) {
+                $login = ilObjUser::_lookupLogin($inv_usr_id);
+                $userlist[] = $login;
+            }
+
+            if ($userlist !== []) {
+                $url = $inv_room_scope !== 0 ? ilLink::_getStaticLink($inv_room_ref_id, 'chtr', true, '_' . $inv_room_scope) : ilLink::_getStaticLink($inv_room_ref_id, 'chtr');
+
+                $content[] = $this->ui_factory->messageBox()->success(
+                    $this->lng->txt('chat_users_have_been_invited') . $this->ui_renderer->render(
+                        $this->ui_factory->listing()->unordered($userlist)
+                    )
+                )->withButtons([
+                    $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
+                ]);
+            }
+        }
+
         $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
         $table->populate();
-        $this->tpl->setContent($table->getHTML());
+        $content[] = $this->ui_factory->legacy($table->getHTML());
+
+        $this->tpl->setContent($this->ui_renderer->render($content));
         $this->tpl->printToStdout();
     }
 
@@ -502,16 +545,8 @@ class ilContactGUI
 
         $ref_id = $room->getRefIdByRoomId($room_id);
 
-        if ($scope) {
-            $url = ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope);
-        } else {
-            $url = ilLink::_getStaticLink($ref_id, 'chtr');
-        }
-        $link = '<div>' . $this->ui_renderer->render(
-            $this->ui_factory->button()->standard($this->lng->txt('goto_invitation_chat'), $url)
-        ) . '</div>';
+        $url = $scope !== 0 ? ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope) : ilLink::_getStaticLink($ref_id, 'chtr');
 
-        $userlist = [];
         foreach ($valid_users as $id) {
             $room->inviteUserToPrivateRoom((int) $id, $scope);
             $room->sendInvitationNotification(
@@ -521,12 +556,11 @@ class ilContactGUI
                 $scope,
                 $url
             );
-            $userlist[] = '<li>' . $valid_user_to_login_map[$id] . '</li>';
         }
 
-        if ($userlist) {
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt('chat_users_have_been_invited') . '<ul>' . implode('', $userlist) . '</ul>' . $link, true);
-        }
+        $this->ctrl->setParameter($this, 'inv_room_ref_id', $ref_id);
+        $this->ctrl->setParameter($this, 'inv_room_scope', (int) $scope);
+        $this->ctrl->setParameter($this, 'inv_usr_ids', implode(',', $valid_users));
 
         $this->ctrl->redirect($this);
     }
