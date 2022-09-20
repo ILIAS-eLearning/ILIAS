@@ -232,7 +232,7 @@ class ilMailMemberSearchGUI
 
         $rcps = [];
         foreach ($this->httpRequest->getParsedBody()['user_ids'] as $usr_id) {
-            $rcps[] = ilObjUser::_lookupLogin($usr_id);
+            $rcps[] = ilObjUser::_lookupLogin((int) $usr_id);
         }
 
         if (array_filter($rcps) === []) {
