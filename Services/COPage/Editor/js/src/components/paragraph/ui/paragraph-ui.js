@@ -1031,7 +1031,19 @@ export default class ParagraphUI {
 
     // replacing the content may move the editing area, so
     // we need to synch the tiny position
-    this.tinyWrapper.synchInputRegion();
+    this.syncTiny();
+  }
+
+  // ugly but it does not work right away for whatever reason,
+  // e.g. in replaceRenderedParagraph, direct after inserting the new content
+  syncTiny() {
+    const w = this.tinyWrapper;
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 100);
+    window.setTimeout(function() {
+      w.synchInputRegion();
+    }, 300);
   }
 
   showLastUpdate(last_update) {
