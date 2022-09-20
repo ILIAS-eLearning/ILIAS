@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignorar em conflito
 common#:#ignore_required_fields#:#Ignorar campos pedidos
 common#:#ignore_required_fields_info#:#Se estiver ativado, pode submeter este formulário sem preencher todos os campos obrigatórios. O novo utilizador tem de adicionar a informação que falta sobre o perfil pessoal após o próximo login.
 common#:#il_astpl_loc_initial#:#Teste inicial
-common#:#il_astpl_loc_initial_desc#:#Modelo de definições para testes iniciais de cursos orientados para objetivos de aprendizagem
 common#:#il_astpl_loc_qualified#:#Teste de qualificação
-common#:#il_astpl_loc_qualified_desc#:#Modelo de definições para testes de qualificação de cursos orientados para objetivos de aprendizagem
 common#:#il_blog_contributor#:#Set
 common#:#il_blog_editor#:#Outubro
 common#:#il_chat_moderator#:#Moderador de chat

@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignoreeri konflikti
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Initial Test
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses
 common#:#il_astpl_loc_qualified#:#Qualifying Test
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Jututoa moderaator

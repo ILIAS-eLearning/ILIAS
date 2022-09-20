@@ -4235,9 +4235,7 @@ common#:#ignore_on_conflict#:#Prezri v primeru konflikta
 common#:#ignore_required_fields#:#Prezri obvezna uporabniška polja
 common#:#ignore_required_fields_info#:#Če je aktivirano, obvezni podatki pri pošiljanju tega obrazca ne bodo več preverjani (če je mogoče). Posledica tega je, da bo moral uporabnik ob naslednji prijavi dopolniti svoj profil.
 common#:#il_astpl_loc_initial#:#Vstopni test
-common#:#il_astpl_loc_initial_desc#:#Predloga nastavitve za vstopni test tečajev, ki so osredotočeni na učne cilje
 common#:#il_astpl_loc_qualified#:#Kvalifikacijski test
-common#:#il_astpl_loc_qualified_desc#:#Predloga nastavitve za kvalifikacijski test tečajev, ki so osredotočeni na učne cilje
 common#:#il_blog_contributor#:#Avtor bloga
 common#:#il_blog_editor#:#Urednik bloga
 common#:#il_chat_moderator#:#Moderator klepeta

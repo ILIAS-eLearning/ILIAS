@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignorer ved konflikt
 common#:#ignore_required_fields#:#Ignore required fields###28 08 2012 new variable
 common#:#ignore_required_fields_info#:#Hvis afkrydset godkendes formularen, selvom ikke alle krævede felter er udfyldt. Brugeren skal så selv udfylde felterne ved næste login.
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_blog_contributor#:#Blog bidragsyder
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Chat moderator

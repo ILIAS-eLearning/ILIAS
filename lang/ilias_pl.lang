@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignoruj przy konflikcie
 common#:#ignore_required_fields#:#Ignoruj pola obowiązkowe dla użytkowników
 common#:#ignore_required_fields_info#:#Jeśli ta opcja jest aktywna, przed wysłaniem wiadomości nie będą sprawdzane pola obowiązkowe (o ile jest to możliwe). Skutkiem tego jest to, że podczas następnego logowania użytkownik będzie musiał uzupełnić swój profil.
 common#:#il_astpl_loc_initial#:#Test początkowy
-common#:#il_astpl_loc_initial_desc#:#Szablon ustawień dla testów początkowych kursów zorientowanych na cel dydaktyczny
 common#:#il_astpl_loc_qualified#:#Test kwalifikujący
-common#:#il_astpl_loc_qualified_desc#:#Szablon ustawień dla testów kwalifikujących kursów zorientowanych na cel dydaktyczny
 common#:#il_blog_contributor#:#Autor blogu
 common#:#il_blog_editor#:#Redaktor blogu
 common#:#il_chat_moderator#:#Moderator czatu

@@ -4202,9 +4202,7 @@ common#:#ignore_on_conflict#:#Ignorar si ocurre un conflicto
 common#:#ignore_required_fields#:#Ignorar campos necesarios
 common#:#ignore_required_fields_info#:#Si se activa puede enviar este formulario sin rellenar todos los campos obligatorios. El nuevo usuario debe añadir la información que falte en el perfil personal después del siguiente inicio de sesión.
 common#:#il_astpl_loc_initial#:#Test Inicial
-common#:#il_astpl_loc_initial_desc#:#Plantilla de Configuración para test inicial de cursos orientados a objetivos de aprendizaje.
 common#:#il_astpl_loc_qualified#:#Test de Calificación
-common#:#il_astpl_loc_qualified_desc#:#Plantilla de Configuración para test de calificación de cursos orientados a objetivos de aprendizaje.
 common#:#il_blog_contributor#:#Contribuidor de Blog
 common#:#il_blog_editor#:#Editor-Blog
 common#:#il_chat_moderator#:#Moderador Chat

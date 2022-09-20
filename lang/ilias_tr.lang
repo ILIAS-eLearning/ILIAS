@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#çatışma yoksay
 common#:#ignore_required_fields#:#Zorunlu Alanları Yoksay
 common#:#ignore_required_fields_info#:#Aktifse, bu form gönderildikten sonra zorunlu alanlar artık kontrol edilmez. İlgili kullanıcı bir sonraki girişinde kişisel profilini tamamlamak zorundadır.
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_blog_contributor#:#Blog Katılımcı
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Sohbet Moderatör

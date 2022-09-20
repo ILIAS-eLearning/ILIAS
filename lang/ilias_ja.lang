@@ -4236,9 +4236,7 @@ common#:#ignore_on_conflict#:#競合を無視
 common#:#ignore_required_fields#:#要求フィールドを無視
 common#:#ignore_required_fields_info#:#アクティブにすると、全必須フィールドを記入しなくても提出する事ができます。新規ユーザは次回ログオン後にパーソナルプロファイル内の不足情報を追記する必要があります。
 common#:#il_astpl_loc_initial#:#初期テスト
-common#:#il_astpl_loc_initial_desc#:#学習目標志向コースの初期テスト用テンプレート設定
 common#:#il_astpl_loc_qualified#:#資格テスト
-common#:#il_astpl_loc_qualified_desc#:#学習目標志向コースの資格テスト用テンプレート設定
 common#:#il_blog_contributor#:#ブログ著者
 common#:#il_blog_editor#:#ブログ編集者
 common#:#il_chat_moderator#:#Chat Moderator

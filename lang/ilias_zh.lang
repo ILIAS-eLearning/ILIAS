@@ -4199,9 +4199,7 @@ common#:#ignore_on_conflict#:#忽略冲突
 common#:#ignore_required_fields#:#忽略所需字段
 common#:#ignore_required_fields_info#:#如果激活，强制性字段在提交这个表单之后不再验证了(如果可能的话)。关心的用户在下次登录之后必需完成他们的个人资料(profile)。
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_blog_contributor#:#博客贡献者
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#聊天版主

@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ellentmondás figyelmen kívül hagyása
 common#:#ignore_required_fields#:#Kötelező mezők figyelmen kívül hagyása
 common#:#ignore_required_fields_info#:#Ha be van kapcsolva, ezt a űrlapot az összes kötelező mező kitöltése nélkül elküldheti. A felhasználóknak a következő bejelentkezésükkor kell megadniuk a személyes adataikban hiányzó információkat.
 common#:#il_astpl_loc_initial#:#Belépő teszt
-common#:#il_astpl_loc_initial_desc#:#Tanulásicél-orientált kurzusok belépő tesztjeinek sablonbeállításai
 common#:#il_astpl_loc_qualified#:#Záró teszt
-common#:#il_astpl_loc_qualified_desc#:#Tanulásicél-orientált kurzusok záró tesztjeinek sablonbeállításai
 common#:#il_blog_contributor#:#Blogszerző
 common#:#il_blog_editor#:#Blogszerkesztő
 common#:#il_chat_moderator#:#Csevegésmoderátor

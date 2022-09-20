@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignora i conflitti
 common#:#ignore_required_fields#:#Ignora campi richiesti
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Test iniziale
-common#:#il_astpl_loc_initial_desc#:#Modello di impostazioni per i test iniziali dei corsi orientati agli obiettivi di apprendimento
 common#:#il_astpl_loc_qualified#:#Test di qualificazione
-common#:#il_astpl_loc_qualified_desc#:#Modello di impostazioni per i test di qualificazione di corsi orientati all'obiettivo di apprendimento
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_blog_editor#:#Blog-Editor
 common#:#il_chat_moderator#:#Moderatore Chat

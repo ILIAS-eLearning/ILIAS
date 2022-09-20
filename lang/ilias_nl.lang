@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Negeer conflict
 common#:#ignore_required_fields#:#Negeren verplichte velden
 common#:#ignore_required_fields_info#:#Indien ingeschakeld zullen verplichte velden, indien mogelijk, niet worden gevalideerd. De betrokken gebruiker zal zijn/haar persoonlijke profile moeten aanpassen na de eerstvolgende login.
 common#:#il_astpl_loc_initial#:#Instaptoets
-common#:#il_astpl_loc_initial_desc#:#Sjablooninstellingen voor instaptoetsen van Leerdoel-gerichte cursus
 common#:#il_astpl_loc_qualified#:#Kwalificatietoets
-common#:#il_astpl_loc_qualified_desc#:#Sjablooninstellingen voor kwalificatietoetsen van Leerdoel-gerichte cursus
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Chat moderator

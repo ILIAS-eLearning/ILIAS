@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignorovat při konfliktu
 common#:#ignore_required_fields#:#Ignorovat vyžadovaná pole
 common#:#ignore_required_fields_info#:#Je-li aktivováno, mandatorní pole po odeslání tohoto formuláře nejsou nadále ověřena (je-li to možné). Příslušný uživatel musí po příštím přihlášení vyplnit tento osobní profil.
 common#:#il_astpl_loc_initial#:#Počáteční test
-common#:#il_astpl_loc_initial_desc#:#Šablona nastavení pro počáteční testy kurzů orientovaných na cíl učení
 common#:#il_astpl_loc_qualified#:#Kvalifikační test
-common#:#il_astpl_loc_qualified_desc#:#Šablona nastavení pro kvalifikační testy kurzů orientovaných na cíl učení
 common#:#il_blog_contributor#:#Přispěvatel Blogu
 common#:#il_blog_editor#:#Blog-Editor
 common#:#il_chat_moderator#:#Moderátor besedy

@@ -4200,9 +4200,7 @@ common#:#ignore_on_conflict#:#Zanemari u slučaju sukoba
 common#:#ignore_required_fields#:#Zanemari obavezna polja
 common#:#ignore_required_fields_info#:#Ako je aktivirano, možete poslati ovaj obrazac bez popunjavanja svih obaveznih polja. Nakon sljedeće prijave, novi korisnik mora dodati podatke koji nedostaju u osobnom profilu.
 common#:#il_astpl_loc_initial#:#Početni test
-common#:#il_astpl_loc_initial_desc#:#Predložak postavki za početne testove tečajeva usmjerenih na ciljeve učenja
 common#:#il_astpl_loc_qualified#:#Kvalifikacijski test
-common#:#il_astpl_loc_qualified_desc#:#Predložak postavki za kvalifikacijske testove tečajeva usmjerenih na ciljeve učenja
 common#:#il_blog_contributor#:#Autor bloga
 common#:#il_blog_editor#:#Urednik bloga
 common#:#il_chat_moderator#:#Moderator razgovora
