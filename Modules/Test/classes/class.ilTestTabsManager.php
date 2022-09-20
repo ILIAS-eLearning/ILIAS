@@ -95,7 +95,7 @@ class ilTestTabsManager
     /**
      * @var array[string]
      */
-    protected $hiddenTabs;
+    protected $hiddenTabs = [];
 
     /**
      * ilTestTabsManager constructor.
