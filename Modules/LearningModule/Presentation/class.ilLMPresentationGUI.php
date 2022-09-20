@@ -856,7 +856,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 true,
                 $this->lng->txt("lm_rating"),
                 false,
-                array("ilcommonactiondispatchergui", "ilratinggui")
+                array("ilcommonactiondispatchergui", "ilratinggui"),
+                true
             );
         }
 
@@ -1161,8 +1162,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function updatePageRating(): void
     {
         $ilUser = $this->user;
-
-        $pg_id = $this->requested_pg_id;
+        $pg_id = $this->getCurrentPageId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
