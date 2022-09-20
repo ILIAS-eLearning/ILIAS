@@ -130,11 +130,14 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             [$this->lng->txt('obj_type') => $obj_type_txt],
             $this->getMetadata((int) $this->object->getId(), $obj_type)
         );
-
         $info = $factory->item()->standard($this->object->getTitle())
             ->withLeadIcon($icon)
-            ->withDescription($this->object->getDescription())
             ->withProperties($props);
+
+        $description = $this->object->getDescription();
+        if ($description != null) {
+            $info->withDescription($description);
+        }
 
         return $info;
     }
