@@ -1145,7 +1145,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $tpl->setVariable('ROWCOL', ' ' . $rowCol);
         $tpl->setVariable('DEPTH', $node->getDepth() - 1);
-        if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
+        if (!$node->isActivated() && ($node->isOwner($this->user->getId())) || $this->is_moderator) {
             $tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
         }
 
