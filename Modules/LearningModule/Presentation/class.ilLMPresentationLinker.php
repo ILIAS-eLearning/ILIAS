@@ -314,7 +314,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         array $int_links
     ): string {
         $ilCtrl = $this->ctrl;
-
         $a_layoutframes = $this->getLayoutLinkTargets();
 
         // Determine whether the view of a learning resource should
