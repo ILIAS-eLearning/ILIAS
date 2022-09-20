@@ -456,6 +456,7 @@ export default class ParagraphUIActionHandler {
         //this.ui.tinyWrapper.copyInputToGhost();
         this.ui.tinyWrapper.stopEditing();
         this.ui.editParagraph(page_model.getCurrentPCId());
+        this.ui.syncTiny();
       }
     });
 

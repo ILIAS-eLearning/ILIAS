@@ -773,6 +773,8 @@ export default class TinyWrapper {
       back_el = back_el.parentNode;
     }
 
+    this.log(back_el);
+
     if (!back_el) {
       return;
     }
