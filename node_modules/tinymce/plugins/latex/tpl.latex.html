@@ -83,8 +83,7 @@
         };
     </script>
     <script language="javascript">
-        //trim the last slash
-        var origin = hostname.replace(/\/$/, "");
+        var origin = new URL(hostname).origin;
 
         function init() {
             document.body.contentEditable = true;

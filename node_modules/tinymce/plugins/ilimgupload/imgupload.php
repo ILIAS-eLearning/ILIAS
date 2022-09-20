@@ -138,7 +138,7 @@ if (isset($_FILES['img_file']) && is_array($_FILES['img_file'])) {
     // check suffixes
     if (!$errors->fields && !$errors->general) {
         $finfo = pathinfo($_FILES['img_file']['name']);
-        $mime_type = ilMimeTypeUtil::getMimeType(
+        $mime_type = \ILIAS\FileUpload\MimeType::getMimeType(
             $_FILES['img_file']['tmp_name'],
             $_FILES['img_file']['name'],
             $_FILES['img_file']['type']
@@ -157,7 +157,7 @@ if (isset($_FILES['img_file']) && is_array($_FILES['img_file'])) {
         !$errors->general &&
         $_FILES['img_file']['tmp_name'] !== ''
     ) {
-        $vir = ilUtil::virusHandling($_FILES['img_file']['tmp_name'], $_FILES['img_file']['name']);
+        $vir = ilVirusScanner::virusHandling($_FILES['img_file']['tmp_name'], $_FILES['img_file']['name']);
         if ($vir[0] === false) {
             $errors->fields[] = [
                 'name' => 'img_file',
