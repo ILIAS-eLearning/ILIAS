@@ -151,13 +151,12 @@ class ilForumMailNotification extends ilMailNotification
                         $this->provider->getPostUpdateUserName($this->getLanguage()),
                         $this->provider->getForumTitle()
                     );
-                    $date = $this->provider->getPostUpdate();
                     $this->sendMailWithAttachments(
                         'frm_noti_subject_upt_post',
                         (int) $rcp,
                         $customText,
                         'content_post_updated',
-                        $date
+                        $this->provider->getPostUpdate()
                     );
                 }
                 break;
@@ -170,13 +169,12 @@ class ilForumMailNotification extends ilMailNotification
                         $this->provider->getPostUpdateUserName($this->getLanguage()),
                         $this->provider->getForumTitle()
                     );
-                    $date = $this->provider->getPostCensoredDate();
                     $this->sendMailWithAttachments(
                         'frm_noti_subject_cens_post',
                         (int) $rcp,
                         $customText,
                         'content_censored_post',
-                        $date
+                        $this->provider->getPostCensoredDate()
                     );
                 }
                 break;
@@ -188,13 +186,12 @@ class ilForumMailNotification extends ilMailNotification
                         $this->getLanguageText('post_uncensored_by'),
                         $this->provider->getPostUpdateUserName($this->getLanguage())
                     );
-                    $date = $this->provider->getPostCensoredDate();
                     $this->sendMailWithAttachments(
                         'frm_noti_subject_uncens_post',
                         (int) $rcp,
                         $customText,
                         'forums_the_post',
-                        $date
+                        $this->provider->getPostCensoredDate()
                     );
                 }
                 break;
@@ -326,7 +323,9 @@ class ilForumMailNotification extends ilMailNotification
         string $action,
         ?string $date
     ): void {
-        $date = $this->createMailDate($date);
+        if (is_string($date)) {
+            $date = $this->createMailDate($date);
+        }
 
         $this->addMailSubject($subject);
 
@@ -349,7 +348,7 @@ class ilForumMailNotification extends ilMailNotification
 
         $this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
         $this->appendBody("\n");
-        if ($date !== '') {
+        if (is_string($date) && $date !== '') {
             $this->appendBody($this->getLanguageText('date') . ": " . $date);
             $this->appendBody("\n");
         }
