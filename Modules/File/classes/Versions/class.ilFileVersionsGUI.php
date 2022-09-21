@@ -227,7 +227,7 @@ class ilFileVersionsGUI
 
         // only add unzip button if the current revision is a zip.
         if (null !== $current_file_revision &&
-            'application/zip' === $current_file_revision->getInformation()->getMimeType()
+            ilObjFileAccess::isZIP($current_file_revision->getInformation()->getMimeType())
         ) {
             $unzip_button = ilLinkButton::getInstance();
             $unzip_button->setCaption($this->lng->txt('unzip'), false);
