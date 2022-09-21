@@ -2297,59 +2297,20 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
 
-        $stpl = new ilTemplate("tpl.lm_menu_object_selector.html", true, true, "Modules/LearningModule");
-
-
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_menu_select_object_to_add"));
 
-        $exp = new ilLMMenuObjectSelector(
-            $this->ctrl->getLinkTarget($this, 'test'),
+        $exp = new ilRepositorySelectorExplorerGUI(
             $this,
-            $this->edit_request->getMenuEntry()
+            "showEntrySelector",
+            $this,
+            "addMenuEntry",
+            "link_ref_id"
         );
-
-        $exp->setExpand($this->requested_lm_menu_expand ?: $this->tree->readRootId());
-        $exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showEntrySelector'));
-        $exp->setTargetGet("ref_id");
-        $exp->setRefId($this->requested_ref_id);
-
-        $sel_types = array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs',
-            "crs", "grp", "book", "tst", "file");
-        $exp->setSelectableTypes($sel_types);
-
-        // build html-output
-        $exp->setOutput(0);
-        $output = $exp->getOutput();
-        // get page ids
-        foreach ($exp->format_options as $node) {
-            if (!($node["container"] ?? false)) {
-                $pages[] = $node["child"] ?? null;
-            }
+        //$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "glo", "fold"));
+        $exp->setClickableTypes(array('mcst', 'mep', 'cat', 'lm','glo','frm','exc','tst','svy', 'chat', 'wiki', 'sahs', "crs", "grp", "book", "tst", "file"));
+        if (!$exp->handleCommand()) {
+            $this->tpl->setContent($exp->getHTML());
         }
-
-        // access mode selector
-        $stpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
-        $stpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
-        $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
-        $select_public_mode = ilLegacyFormElementsUtil::formSelect(
-            $this->lm->getPublicAccessMode(),
-            "lm_public_mode",
-            $modes,
-            false,
-            true
-        );
-        $stpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
-
-        $stpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
-        $stpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $stpl->setVariable("EXPLORER", $output);
-        //$this->tpl->setVariable("ONCLICK", $js_pages);
-        $stpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-        $stpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-        $stpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-        $stpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
-
-        $this->tpl->setContent($stpl->get());
     }
 
     /**
