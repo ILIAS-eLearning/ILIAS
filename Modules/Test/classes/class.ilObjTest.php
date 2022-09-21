@@ -49,6 +49,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     private array $mob_ids;
     private array $file_ids;
     private bool $online;
+    private \ILIAS\Test\InternalRequestService $testrequest;
     protected int $_kiosk;
     public int $test_id;
     public int $invitation = INVITATION_OFF;
@@ -302,6 +303,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         $this->type = "tst";
+        $this->testrequest = $DIC->test()->internal()->request();
 
         $lng->loadLanguageModule("assessment");
         // Defaults:
@@ -9516,7 +9518,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
 
         if ($finalized === true || ($feedback_old !== [] && (int) $feedback_old['finalized_evaluation'] === 1)) {
-            if (!array_key_exists('evaluated', $_POST)) {
+            if (!array_key_exists('evaluated', $this->testrequest->getParsedBody())) {
                 $update_default['finalized_evaluation'] = ['integer', 0];
                 $update_default['finalized_by_usr_id'] = ['integer', 0];
                 $update_default['finalized_tstamp'] = ['integer', 0];
@@ -9659,7 +9661,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array($a_q_id)
         );
         $rec = $ilDB->fetchAssoc($result);
-        return $rec["obj_id"];
+        return $rec["obj_id"] ?? null;
     }
 
     /**
