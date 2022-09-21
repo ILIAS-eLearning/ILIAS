@@ -177,3 +177,7 @@ Multi language support depends always on the parent repository object.
 * new table `copg_multilang`: defines default language per repository obj id (-> "-" records)
 * all `page_object` records with "-" in `lang` field represent the default language (value is not set in page_object -> no dependent tables need to be updated)
 * table `copg_multilang_lang` contains all other languages supported by the repository object
+
+### Text Handling
+
+
