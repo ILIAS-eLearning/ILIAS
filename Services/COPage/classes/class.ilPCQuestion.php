@@ -327,7 +327,7 @@ class ilPCQuestion extends ilPageContent
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
                     $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
-                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) $as["try"] . ", " . ($as["passed"] ? "true" : "null") . ");";
+                    $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) ($as["try"] ?? 0) . ", " . ($as["passed"] ? "true" : "null") . ");";
                 }
             }
         }
