@@ -557,11 +557,10 @@ class ilExplorer
             }
             $tpl_tree->parseCurrentBlock();
         }
-
         $cur_depth = -1;
         foreach ($this->format_options as $key => $options) {
             //echo "-".$options["depth"]."-";
-            if (!$options["visible"]) {
+            if (!($options["visible"] ?? false)) {
                 continue;
             }
 
