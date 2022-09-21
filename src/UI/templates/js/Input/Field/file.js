@@ -80,6 +80,12 @@ il.UI.Input = il.UI.Input || {};
 		let dropzones = [];
 
 		/**
+		 * Holds a list of Files per file input id to remove before sending the form
+		 * @type {Dropzone[]}
+		 */
+		let removal_items = [];
+
+		/**
 		 * @param {string} input_id
 		 * @param {string} upload_url
 		 * @param {string} removal_url
@@ -119,6 +125,8 @@ il.UI.Input = il.UI.Input || {};
 			// because of dropzone.js compatibility.
 			let file_list = document.querySelector(`#${input_id} ${SELECTOR.file_list}`);
 			let action_button = document.querySelector(`#${input_id} ${SELECTOR.dropzone} button`);
+
+			removal_items[input_id] = [];
 
 			dropzones[input_id] = new Dropzone(
 				`#${input_id} ${SELECTOR.dropzone}`,
@@ -184,6 +192,9 @@ il.UI.Input = il.UI.Input || {};
 			dropzone.on('queuecomplete', submitCurrentFormHook);
 			dropzone.on('processing', enableAutoProcessingHook);
 			dropzone.on('success', setResourceStorageIdHook);
+			dropzone.on('error', function (event) {
+				event.stopImmediatePropagation();
+			});
 		}
 
 		// ==========================================
@@ -223,21 +234,9 @@ il.UI.Input = il.UI.Input || {};
 			// the global event listener won't trigger this hook again.
 			removal_glyph.attr('disabled');
 			removal_glyph.css('color', 'grey');
-
-			$.ajax({
-				type: 'GET',
-				url: dropzone.options.removal_url,
-				data: {
-					[dropzone.options.file_identifier]: file_entry_input.val(),
-				},
-				success: json_response => {
-					$(this).closest(SELECTOR.file_list_entry).remove();
-					ajaxResponseSuccessHook(json_response, file_entry);
-				},
-				error: json_response => {
-					ajaxResponseFailureHook(json_response, file_entry);
-				},
-			});
+			// collect the file id for removal.
+			removal_items[input_id].push(file_entry_input.val());
+			$(this).closest(SELECTOR.file_list_entry).remove();
 		}
 
 		/**
@@ -255,8 +254,7 @@ il.UI.Input = il.UI.Input || {};
 			.each(function () {
 				$(this).attr('disabled', true);
 			});
-
-			processCurrentFormDropzones();
+			processCurrentFormDropzones(event);
 		}
 
 		let toggleExpansionGlyphsHook = function () {
@@ -510,20 +508,46 @@ il.UI.Input = il.UI.Input || {};
 			}
 		}
 
-		let processCurrentFormDropzones = function () {
+		let processRemovals = function (input_id, event) {
+			let file_to_remove = removal_items[input_id];
+			let dropzone = dropzones[input_id];
+			for (let i = 0, i_max = file_to_remove.length; i < i_max; i++) {
+				let file_id = file_to_remove[i];
+				$.ajax({
+					type: 'GET',
+					url: dropzone.options.removal_url,
+					data: {
+						[dropzone.options.file_identifier]: file_id,
+					},
+					success: json_response => {
+
+					},
+					error: json_response => {
+
+					},
+				});
+			}
+		}
+
+		let processCurrentFormDropzones = function (event) {
 			// retrieve all file inputs of the current form.
 			let file_inputs = current_form.find(SELECTOR.file_input);
 			current_dropzone_count = file_inputs.length;
 
 			// in case multiple file-inputs were added to ONE form, they
 			// all need to be processed.
+			let errors = null;
 			if (Array.isArray(file_inputs)) {
 				for (let i = 0; i < file_inputs.length; i++) {
-					let dropzone = dropzones[file_inputs[i].attr('id')];
+					let input_id = file_inputs[i].attr('id');
+					let dropzone = dropzones[input_id];
+					processRemovals(input_id, event);
 					dropzone.processQueue();
 				}
 			} else {
-				let dropzone = dropzones[file_inputs.attr('id')];
+				let input_id = file_inputs.attr('id');
+				let dropzone = dropzones[input_id];
+				processRemovals(input_id, event);
 				if (0 !== dropzone.files.length) {
 					dropzone.processQueue();
 				} else {
