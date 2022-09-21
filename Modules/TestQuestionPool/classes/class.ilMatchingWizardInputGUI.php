@@ -31,6 +31,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
+    private string $pending;
     protected $text_name = '';
     protected $image_name = '';
     protected $values = array();
@@ -382,5 +383,15 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
+    }
+
+    public function setPending(string $a_val): void
+    {
+        $this->pending = $a_val;
+    }
+
+    public function getPending(): string
+    {
+        return $this->pending;
     }
 }

@@ -27,6 +27,8 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+    private int $shufflemode = 0;
+
     /**
     * The possible matching pairs of the matching question
     *
@@ -102,6 +104,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->terms = array();
         $this->definitions = array();
         $this->randomGroup = $DIC->refinery()->random();
+    }
+
+    public function getShuffleMode(): int
+    {
+        return $this->shufflemode;
+    }
+
+    public function setShuffleMode(int $shuffle)
+    {
+        $this->shufflemode = $shuffle;
     }
 
     /**
@@ -227,7 +239,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
         $ilDB->insert($this->getAdditionalTableName(), array(
             'question_fi' => array('integer', $this->getId()),
-            'shuffle' => array('text', $this->shuffle),
+            'shuffle' => array('text', $this->getShuffleMode()),
             'matching_type' => array('text', $this->matching_type),
             'thumb_geometry' => array('integer', $this->getThumbGeometry()),
             'matching_mode' => array('text', $this->getMatchingMode())
@@ -274,7 +286,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setThumbGeometry($data["thumb_geometry"]);
-            $this->setShuffle((bool) $data["shuffle"]);
+            $this->setShuffle($data["shuffle"] != '0');
+            $this->setShuffleMode((int)$data['shuffle']);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 
