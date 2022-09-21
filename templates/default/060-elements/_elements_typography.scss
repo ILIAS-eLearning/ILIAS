@@ -1,0 +1,65 @@
+small, sub, sup {
+	font-size: $il-font-size-xsmall;
+}
+
+em, i {
+	font-style: italic;
+}
+
+u {
+	text-decoration: underline;
+}
+
+sub {
+	vertical-align: sub;
+}
+
+sup {
+	vertical-align: super;
+}
+
+/* see bug #15971 */
+sub, sup {
+	position: static;
+}
+
+strong, b {
+	font-weight: $il-font-weight-bold;
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+	/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer.
+	 * All skins which want to support mounting of Webfolders using Internet Explorer
+	 * must explicitly enable AnchorClick behavior.
+	 */
+	behavior: url(#default#AnchorClick);
+	/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+	&:hover {
+		color: $link-hover-color;
+		text-decoration: underline;
+	}
+	
+	@include il-focus();
+}
+
+code {
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
+}
+
+::selection {
+	background: lighten($il-main-color, 50%);
+}
+
+::-moz-selection {
+	background: lighten($il-main-color, 50%);
+}
+
+@media print {
+	h1, h2, h3, h4, h5, h6 {
+		page-break-after: avoid;
+	}
+}

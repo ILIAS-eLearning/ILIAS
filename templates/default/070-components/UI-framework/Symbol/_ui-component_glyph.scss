@@ -1,0 +1,177 @@
+$il-glyph-color: $il-link-color;
+$il-glyph-hover-color: $il-link-hover-color;
+$il-glyph-highlighted-color: $il-warning-color;
+$il-glyph-highlighted-hover-color: $il-warning-color;
+$il-glyph-disabled-color: $il-neutral-light-color;
+
+.glyph {
+	color: $il-glyph-color;
+
+	&.highlighted{
+		color: $il-glyph-highlighted-color;
+		&:hover{
+			color: $il-glyph-highlighted-hover-color;
+		}
+	}
+
+	&.disabled {
+		color: $il-glyph-disabled-color;
+		pointer-events: none;
+	}
+
+	&:hover, &:focus{
+		color: $il-glyph-hover-color;
+		text-decoration: none;
+	}
+
+	.il-counter-spacer {
+		margin-left: $il-counter-margin-left;
+		font-size: $il-counter-font-size;
+		padding: $il-counter-padding;
+		visibility: hidden;
+	}
+}
+
+.glyphicon{
+	&.glyphicon-chevron-left, &.glyphicon-chevron-right{
+		font-weight: 100;
+	}
+}
+
+.il-glyphicon-like, .il-glyphicon-love, .il-glyphicon-dislike:before, .il-glyphicon-laugh:before,
+.il-glyphicon-astounded:before, .il-glyphicon-sad:before, .il-glyphicon-angry:before {
+	font-family: "Open Sans Emoji";
+}
+
+.il-glyphicon-like:before {
+	content: "\1f44d";
+}
+.il-glyphicon-love:before {
+	content: "\2764";
+}
+.il-glyphicon-dislike:before {
+	content: "\1f44e";
+}
+.il-glyphicon-laugh:before {
+	content: "\1f604";
+}
+.il-glyphicon-astounded:before {
+	content: "\1f62e";
+}
+.il-glyphicon-sad:before {
+	content: "\1f625";
+}
+.il-glyphicon-angry:before {
+	content: "\1f620";
+}
+
+// entities for il-icons-glyphs
+.glyphicon-option-horizontal:before {
+	font-family: il-icons;
+	content: "\e602";
+}
+.glyphicon-remove:before {
+	font-family: il-icons;
+	content: "\e082";
+}
+.glyphicon-briefcase:before {
+	font-family: il-icons;
+	content: "\e04b";
+}
+.glyphicon-bell:before {
+	font-family: il-icons;
+	content: "\e027";
+}
+.glyphicon-comment:before {
+	font-family: il-icons;
+	content: "\e04a";
+}
+.glyphicon-envelope:before {
+	font-family: il-icons;
+	content: "\e086";
+}
+.glyphicon-question-sign:before {
+	font-family: il-icons;
+	content: "\e05d";
+}
+.glyphicon-search:before {
+	font-family: il-icons;
+	content: "\e090";
+}
+.glyphicon-user:before {
+	font-family: il-icons;
+	content: "\e005";
+}
+.glyphicon-minus-sign:before {
+	font-family: il-icons;
+	content: "\e065";
+}
+.glyphicon-cog:before {
+	font-family: il-icons;
+	content: "\e09a";
+}
+.glyphicon-login:before {
+	font-family: il-icons;
+	content: "\e066";
+}
+.glyphicon-logout:before {
+	font-family: il-icons;
+	content: "\e065";
+}
+.glyphicon-lang:before {
+	font-family: il-icons;
+	content: "\e618";
+}
+.glyphicon-option-horizontal:before {
+	font-family: il-icons;
+	content: "\e603";
+}
+.glyphicon-option-vertical:before {
+	font-family: il-icons;
+	content: "\e602";
+}
+.glyphicon-minus-sign:before {
+	font-family: il-icons;
+	content: "\e615";
+}
+.glyphicon-plus-sign:before {
+	font-family: il-icons;
+	content: "\e095";
+}
+.glyphicon-triangle-bottom:before {
+	font-family: il-icons;
+	content: "\e604";
+}
+.glyphicon-triangle-right:before {
+	font-family: il-icons;
+	content: "\e606";
+}
+.glyphicon-bulletlist:before {
+	font-family: il-icons;
+	content: "\e900";
+}
+.glyphicon-numberedlist:before {
+	font-family: il-icons;
+	content: "\e901";
+}
+.glyphicon-listindent:before {
+	font-family: il-icons;
+	content: "\e902";
+}
+.glyphicon-listoutdent:before {
+	font-family: il-icons;
+	content: "\e903";
+}
+.glyphicon-filter:before {
+	font-family: il-icons;
+	content: "\e904";
+}
+.glyphicon-triangle-left:before {
+	font-family: il-icons;
+	content: "\e605";
+}
+// change glyphs only for metabar entries
+.glyphicon-user:before {
+	font-family: il-icons;
+	content: "\e001";
+}

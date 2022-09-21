@@ -1,0 +1,163 @@
+/*
+* Hacks & Tweaks
+*/
+
+//please move to template/default/scss/modules/Test when created
+div.ilc_Mob img {
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		height: auto !important;
+	}
+}
+
+// is this really in use?
+div.input {
+	border: 1px solid $il-main-border-dark-color;
+	padding: 3px;
+	text-decoration: none;
+	font-size: $il-font-size-small;
+	background-color: white;
+	overflow: auto;
+}
+div.input:focus {
+	border-color: $il-focus-color;
+}
+
+// used where? Could it be adressed semantically?
+.ilWhiteSpaceNowrap.ilRight {
+	a, .btn-group {
+		padding-left: $il-padding-small-horizontal;
+		border: 1px solid transparent;
+	}
+}
+
+// needed? solve with tools?
+.registration {
+    margin: 5px auto 0;
+    width: 700px;
+}
+
+// used where?
+input[type=text].numeric {
+    text-align: right;
+}
+
+// seems to be hidden in html template
+div.il_TreeIcons {
+	padding: 15px 15px 0 0;
+	margin: 0;
+	float: right;
+}
+
+// add to component for context (if still needed)
+img[src$="icon_checked.svg"] {
+	height: 11px;
+    margin: 0 6px 0 5px;
+    opacity: 0.5;
+    width: 11px;
+}
+
+// too general
+.glyphicon-ok {
+    font-size: $il-font-size-small;
+	text-align: center;
+}
+
+// part of kitchen sink documentation UI
+// Horizontal Scroll Bar for Code, see: #27132
+.code-container{
+	display: grid;
+}
+
+// not in use?
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
+$il-FormColor: $il-text-light-color;
+$il-FormBgColor: $il-main-bg;
+$il-FormInputFontSize: $il-font-size-small;
+
+// from delos_cont.css
+/*
+h1 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 140%;
+	font-weight: normal;
+}
+
+h2 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 130%;
+	font-weight: normal;
+}
+
+h3 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 120%;
+	font-weight: normal;
+}
+
+h4 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 115%;
+	font-weight: normal;
+}
+
+h5 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 110%;
+	font-weight: normal;
+}
+
+h6 {
+	margin-top: 12px;
+	margin-bottom: 8px;
+	font-size: 105%;
+	font-weight: normal;
+}
+
+p {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+pre {
+	font-size: 100%;
+}
+
+img {
+	vertical-align: middle;
+	border: 0 none;
+}
+
+span.latex {
+	color: green;
+	font-weight: bold;
+}
+
+div.framed {
+	border: 1px solid #9eadba;
+	padding: 0 10px;
+	background-color: white;
+	background-image: url(images/FramedBack.png);
+	background-repeat: repeat-x;
+}
+*/
+
+/* no longer in use? */
+div.ilFrame {
+	margin-top: -40px;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 1200px;
+    @include box-shadow(0 0 40px #808080);
+	padding-top: 129px;
+	background-color: $il-main-dark-bg;
+	min-height: 100%;
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		margin: 0;
+		width: 100%;
+	}
+}

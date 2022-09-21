@@ -1,0 +1,73 @@
+//== Toast
+//
+//##
+$il-toast-container-top: $il-standard-page-header-height;
+$il-toast-margin-right: $il-margin-xlarge-horizontal;
+$il-toast-horizontal-division: 20px 1fr 20px;
+$il-toast-transition: all .25s ease-in-out;
+$il-toast-width: 300px;
+$il-toast-z-index: $il-popover-z-index + 1000;
+//Same as Action Menu
+$il-toast-shadow: 3px 9px 9px 0 rgb(0 0 0 / 0.3);
+
+.il-toast-container {
+    position: fixed;
+    z-index: $il-toast-z-index;
+    top: $il-toast-container-top;
+    right: 0;
+    width: $il-toast-width;
+}
+
+.il-toast-container:empty {
+    display: none;
+}
+
+.il-toast-wrapper {
+    overflow: hidden;
+}
+
+.il-toast {
+    margin-left: $il-margin-small-horizontal;
+    margin-top: $il-margin-small-vertical;
+    margin-bottom: $il-line-height-computed;
+    margin-right: $il-toast-margin-right;
+    padding: $il-padding-base;
+    background-color: white;
+    display: grid;
+    grid-template-areas:
+    "icon title close"
+    "none description description"
+    "none actions actions";
+    grid-template-columns: $il-toast-horizontal-division;
+    grid-gap: $il-padding-base;
+    box-shadow: $il-toast-shadow;
+    transform: translateX(150%);
+    transition: $il-toast-transition;
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    .icon {
+        grid-area: icon;
+    }
+
+    .title {
+        grid-area: title;
+    }
+
+    .close {
+        grid-area: close;
+    }
+
+    .description {
+        grid-area: description;
+        font-size: $il-font-size-small;
+    }
+
+    .actions {
+        grid-area: actions;
+        display: flex;
+        flex-direction: column;
+    }
+}

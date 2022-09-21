@@ -1,0 +1,12 @@
+//== Player
+$il-player-audio-width: 100%;
+
+// audio
+.il-audio-container {
+  > button {
+    width: $il-player-audio-width;
+  }
+}
+.il-audio-player {
+  background: $il-neutral-color;
+}

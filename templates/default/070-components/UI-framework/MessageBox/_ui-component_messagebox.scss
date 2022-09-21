@@ -1,0 +1,24 @@
+//== Message Boxes
+//
+//##
+$il-messagebox-link-bullet: "\00BB \0020";
+$il-messagebox-margin-top: 10px;
+$il-messagebox-link-list-margin-top: 15px;
+
+div.alert {
+	div {
+		margin-top: $il-messagebox-margin-top;
+	}
+	ul {
+		margin-top: $il-messagebox-link-list-margin-top;
+		background-color: $il-main-dark-bg;
+		padding: $il-padding-large-vertical $il-padding-large-horizontal;
+		font-size: $il-font-size-small;
+		color: $il-text-light-color;
+		list-style-type: none;
+	}
+	ul > li:before {
+		content: $il-messagebox-link-bullet;
+		/* margin-left: -10px; */
+	}
+}

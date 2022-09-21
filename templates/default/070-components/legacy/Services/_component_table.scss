@@ -1,0 +1,298 @@
+/* Services/Table */
+
+$il-table-head-bg: $il-main-bg;
+$il-data-table-bg: $il-main-bg;
+$il-table-cmd-bg: $il-main-dark-bg;
+
+div.tblfooter {
+	font-weight: $il-font-weight-base;
+	background-color: $il-main-dark-bg;
+	padding: 3px;
+	font-size: $il-font-size-xsmall;
+	text-align: right;
+}
+
+div.ilTableNav {
+	font-weight: $il-font-weight-base;
+	padding: 0 $il-padding-xlarge-horizontal;
+	font-size: $il-font-size-xsmall;
+	text-align: right;
+	table {
+		width: 100%;
+	}
+	select {
+		//See Issue #32398
+		display: inline-block;
+	}
+	.ilFloatRight .ilOverlay{
+		//See Issue #32363
+		display: none;
+	}
+}
+
+td.tblfooter {
+}
+
+tr.tblfooter {
+	color: $il-text-color;
+	font-weight: $il-font-weight-base;
+	background-color: $il-main-dark-bg;
+	border-top: 1px solid $il-main-darker-bg;
+}
+
+.tblrow1 {
+}
+
+.tblrow2 {
+}
+
+
+td.submit {
+	padding: 3px;
+	vertical-align: top;
+	background-color: $il-main-dark-bg;
+}
+
+div.ilTableHeaderTitleBlock {
+	font-weight: $il-font-weight-bold;
+	padding: 3px;
+	font-size: $il-font-size-small;
+	color: $il-text-color;
+	border-bottom: 1px solid $il-main-border-color;
+}
+
+div.ilTableHeaderTitle {
+	margin: $il-padding-xxlarge-vertical 0 0 $il-padding-xlarge-horizontal;
+	padding: 0;
+	+ .ilHeaderDesc {
+		margin: 0 $il-padding-xlarge-horizontal $il-padding-xlarge-vertical;
+	}
+}
+
+h3.ilTableHeaderTitleBlock {
+	font-weight: $il-font-weight-bold;
+	font-size: $il-font-size-base;
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+h3.ilTableHeaderTitle {
+	display: inline;
+}
+
+div.ilTableOuter {
+	padding: 0;
+	background-color: $il-main-dark-bg;
+}
+
+div.ilTableSelectAll {
+	background-color: $il-main-bg;
+	padding: $il-padding-large-vertical $il-padding-xlarge-horizontal;
+	font-size: $il-font-size-small;
+	border-top: 1px solid $il-main-border-color;
+}
+
+div.ilTableSelectAll label {
+	padding-left: 13px;
+}
+
+div.ilTableCommandRow, div.ilTableCommandRowTop {
+	background-color: $il-table-cmd-bg;
+	padding: $il-padding-large-vertical $il-padding-large-horizontal;
+	font-size: $il-font-size-small;
+}
+
+div.ilTableCommandRowTop {
+}
+
+span.ilTableFootLight {
+	color: $il-text-color;
+}
+
+div.ilTableFilterActivator {
+	margin: 0 0 $il-padding-large-vertical $il-padding-large-horizontal;
+}
+
+.ilTableMenuItem {
+	margin: 0 10px 0 0;
+}
+
+
+div.ilTableFilter {
+	padding: 0 0 $il-padding-large-vertical 0;
+	margin: 0;
+}
+
+legend.ilTableFilter {
+	font-size: $il-font-size-xsmall;
+	border: none;
+	padding: 0 $il-padding-xlarge-horizontal;
+	margin: 0;
+	font-weight: $il-font-weight-base;
+	text-align: right;
+	> a {
+		margin-right: -$il-padding-xlarge-horizontal;
+		margin-top: -$il-margin-xxlarge-vertical ;
+	}
+}
+
+fieldset.ilTableFilter {
+	background-color: $il-main-dark-bg;
+	padding: $il-margin-xxlarge-vertical $il-padding-xlarge-horizontal;
+	margin:  $il-margin-large-vertical 0 $il-padding-xlarge-horizontal 0;
+}
+
+div.ilTableFilterLabel {
+	font-style: italic;
+	background-color: $il-main-dark-bg;
+	padding: 3px 0px;
+}
+
+div.ilTableFilterLabel label {
+	margin: 0;
+}
+
+div.ilTableFilterInput {
+	min-width: 150px;
+	padding: 0 0 5px 0;
+}
+
+div.ilTableFilterInput select {
+	width: 100%;
+	max-width: 150px;
+}
+
+div.ilTableFilterInput .radio, div.ilTableFilterInput .checkbox {
+	margin: 0;
+}
+
+td.ilFilterOption {
+	text-align: left;
+	vertical-align: top;
+	font-size: $il-font-size-xsmall;
+	white-space: nowrap;
+	padding: 0 10px 10px 0;
+	min-width: 150px;
+}
+
+
+td.ilFilterType {
+	font-size: $il-font-size-xsmall;
+	font-weight: $il-font-weight-bold;
+	text-align: left;
+	white-space: nowrap;
+	padding: 3px;
+}
+
+div.ilTableContainer {
+	overflow: auto;
+}
+
+.tblheader {
+	font-weight: $il-font-weight-base;
+}
+
+tr.tblheader {
+	font-weight: $il-font-weight-base;
+	background-color: $il-main-dark-bg;
+	font-size: $il-font-size-small;
+	border-bottom: 1px solid $il-main-border-color;
+}
+
+/* ---------------- alternating tablerowcolors ----------------- */
+.tblrow2_mo {
+	background-color: $il-main-darker-bg;
+	color: $il-text-color;
+	padding: 3px;
+}
+
+.tblrow1_mo {
+	background-color: $il-main-bg;
+	color: $il-text-color;
+	padding: 3px;
+}
+
+.tblrow1_mo:hover, .tblrow2_mo:hover {
+	background-color: #d0d0ff;
+}
+
+.tblrowmarked {
+	background-color: $il-highlight-bg;
+	color: $il-text-color;
+	padding: 3px;
+}
+
+.tblrow2top {
+	background-color: $il-main-darker-bg;
+	color: $il-text-color;
+	padding: 3px;
+	vertical-align: top;
+}
+
+.tblrow1top {
+	background-color: $il-main-bg;
+	color: $il-text-color;
+	padding: 3px;
+	vertical-align: top;
+}
+
+.tblrowmarkedtop {
+	background-color: $il-highlight-bg;
+	color: $il-text-color;
+	padding: 3px;
+	vertical-align: top;
+}
+
+div.ilTableCommandRowTop {
+}
+
+.table > thead > tr > th {
+	border-bottom: 1px solid $il-main-border-color;
+	background-color: $il-table-head-bg;
+}
+
+.ilTableOuter .table {
+	background-color: $il-data-table-bg;
+
+	tr {
+		th:first-child, td:first-child {
+			padding-left: $il-padding-xlarge-horizontal;
+		}
+	}
+}
+
+td > img[src$="icon_custom.svg"] {
+    max-width: 32px;
+}
+
+.ilTableCommandRowTop, .ilTableCommandRow {
+	.ilFloatLeft {
+		img, select {
+			display: inline-block;
+		}
+	}
+}
+
+// Because of an issue ion Bootstrap when using Dropdown in Tables we need this. See https://github.com/twbs/bootstrap/issues/11037
+@media (max-width: 767px) {
+  .table-responsive .dropdown-menu,
+  .table-responsive .dropdown-toggle {
+	//position: static !important; // Removed due to https://mantis.ilias.de/view.php?id=22175
+  }
+}
+
+//Note this is fixes the responsive view for the legacy table. In future we should rather move to truly responsive tables.
+//See #27833
+@media only screen and (max-width: $grid-float-breakpoint-max) {
+	.table-responsive{
+		overflow-x: auto;
+		max-width: 94vw;
+	}
+}
+
+@media (min-width: $grid-float-breakpoint-max) {
+	.table-responsive {
+		overflow: visible;
+	}
+}

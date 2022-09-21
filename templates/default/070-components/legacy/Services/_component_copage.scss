@@ -1,0 +1,881 @@
+/* --- Services/COPage ---*/
+
+a.ilEditSubmit {
+	background: url("#{$il-background-images-path}ButtonsBack.png") repeat-x bottom white;
+	padding: 2px;
+	margin: 0;
+	border: 1px solid #bababa;
+	border-bottom-color: $il-neutral-light-color;
+	border-right-color: $il-neutral-light-color;
+	text-decoration: none;
+	font-size: $il-font-size-xsmall;
+	line-height: 14px;
+	cursor: pointer;
+}
+
+input.ilEditSubmit {
+	color: #2255a0;
+	padding: 1px;
+	margin: 0;
+	font-size: $il-font-size-small;
+	line-height: 14px;
+	cursor: pointer;
+	background: url("#{$il-background-images-path}ButtonsBack.png") repeat-x bottom white;
+	border: 1px solid #bababa;
+	border-bottom-color: $il-neutral-light-color;
+	border-right-color: $il-neutral-light-color;
+	&:hover {
+		color: $il-text-hover-color;
+	}
+}
+
+div.ilEditHelpline {
+	margin: 3px 0;
+	padding: 0;
+	font-size: $il-font-size-xsmall;
+	background-color: $il-main-bg;
+	color: black;
+}
+
+select.ilEditSelect {
+	background: none $il-main-bg;
+	border: 1px solid #bbb;
+	padding: 1px;
+	text-decoration: none;
+	font-size: $il-font-size-small;
+}
+
+[data-copg-ed-type='add-area'] {
+	height: 30px;
+}
+
+[data-protected='1'] [data-copg-ed-type='add-area'] {
+	display: none;
+}
+
+
+button.copg-add.dropdown-toggle.btn,
+button.copg-add.dropdown-toggle.btn:focus,
+button.copg-add.dropdown-toggle.btn:hover {
+	padding: 1px 5px;
+	text-align: center;
+	font-size: $font-size-small;
+	background-color: transparent;
+	cursor: pointer;
+	width: 100%;
+	height: 30px;
+	border: 0;
+}
+
+button.copg-add.dropdown-toggle.btn,
+button.copg-add.dropdown-toggle.btn:focus,
+button.copg-add.dropdown-toggle.btn:hover,
+#copg-editor-help {
+
+	.glyphicon-plus-sign, .il-copg-add-text {
+		color: $il-btn-standard-bg;
+		font-size: $il-font-size-large;
+	}
+}
+
+button.copg-add.dropdown-toggle.btn:hover {
+	background-color: lighten($il-btn-standard-bg, 50%);
+	color: $il-text-light-color;
+}
+
+[data-copg-ed-type='add-area'] ul.dropdown-menu {
+	left: 45%;
+}
+button.copg-add:hover {
+	color: lighten($il-secondary-color, 10%);
+	background-color: lighten($il-secondary-color, 52%);
+}
+
+div.il_droparea {
+	padding: 1px 5px;
+	border: 1px dashed $il-main-border-color;
+	color: $il-text-light-color;
+	text-align: center;
+	font-size: $font-size-small;
+	background-color: #fffed1;
+	cursor: pointer;
+	height: 30px;
+}
+
+
+div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
+	border-color: lighten($il-secondary-color, 10%);
+	color: lighten($il-secondary-color, 10%);
+	background-color: lighten($il-secondary-color, 52%);
+}
+
+div.ilCOPGNoPageContent {
+	padding: 20px 5px;
+	color: $il-text-light-color;
+}
+
+
+div.il_editarea_nojs {
+	border-width: 1px dotted $il-main-border-color;
+}
+
+div.il_editarea, div.il_editarea_disabled {
+	border: 2px solid transparent;
+	min-height: 20px;
+	user-select: none;
+}
+
+.copg-state-page, .copg-state-multi {
+	div.il_editarea:hover, div.il_editarea_disabled:hover {
+		border: 2px solid $il-main-color;
+	}
+	[data-protected='1'] div.il_editarea:hover {
+		border: 2px solid transparent;
+	}
+}
+
+div.ilEditLabel {
+	position: absolute;
+	background-color: $il-main-color;
+	color: white;
+	font-size: $il-font-size-small;
+	padding: $il-padding-base-vertical $il-padding-xs-horizontal;
+	margin-top: -$il-line-height-computed;
+	margin-left: -$il-padding-xs-horizontal + 1px;
+	border: 0;
+	height: $il-line-height-computed;
+	display: none;
+	z-index: 1;
+}
+
+.copg-state-page, .copg-state-multi {
+	div.il_editarea:hover > div.ilEditLabel,
+	div.il_editarea_disabled:hover > div.ilEditLabel,
+	.copg-ghost-wrapper div.ilEditLabel {
+		display: block;
+	}
+	[data-protected='1'] div.il_editarea:hover > div.ilEditLabel {
+		display: none;
+	}
+}
+
+div.il_editarea_selected:hover > div.ilEditLabel {
+	background-color: $il-secondary-color;
+}
+
+
+div.ilc_page_Page > div.il_editarea_disabled {
+	padding: 10px;
+}
+
+div.il_editarea_disabled, div.copg-disabled-page {
+	border: 2px dotted $il-warning-color;
+	min-height: 20px;
+}
+
+.ilCopgDisabledText {
+	color: $il-warning-color;
+	position: absolute;
+	font-size: $font-size-small;
+	margin-top: -13px;
+	padding: 2px 5px;
+	background-color: $il-main-dark-bg;
+}
+
+
+div.il_editarea_selected, div.copg-current-edit, #tinytarget_ifr {
+	border-style: solid;
+	border-width: 2px;
+	border-color: lighten($il-secondary-color, 30%);
+}
+
+div.il_editarea_selected:hover {
+	border-color: $il-secondary-color;
+}
+
+div.il_editarea_disabled_selected
+{
+	border: 2px solid $il-warning-color;
+	min-height: 20px;
+}
+
+div.il_editarea_active_selected {
+	border: 2px solid black;
+	min-height: 20px;
+}
+
+.il_editmenu {
+	background-color: $il-main-bg;
+	color: black;
+	font-weight: normal;
+	text-align: left;
+	font-style: normal;
+	text-indent: 0;
+	font-size: $il-font-size-base;
+	z-index: 5000;
+}
+
+table.il_editmenu td {
+	padding: 3px;
+}
+
+
+
+
+div.ilEditVAccordCntr {
+	margin-top: 15px;
+	padding: 5px;
+}
+
+div.ilEditVAccordICntr {
+	background-color: $il-main-bg;
+	margin-bottom: 15px;
+	border: 1px solid #9eadba;
+}
+
+div.ilEditVAccordIHead {
+	padding: 3px;
+	background-color: #e2eaf4;
+	text-align: left;
+	background-repeat: no-repeat;
+	background-position: 3px 4px;
+}
+
+div.ilEditVAccordICont {
+	padding: 10px;
+	background-color: $il-main-bg;
+}
+
+.ilTinyMenuSection .dropdown, .il-copg-button-group .dropdown {
+	display:inline-block;
+}
+.ilTinyMenuSection .dropdown-menu .btn, .il-copg-button-group .dropdown-menu .btn {
+	border: 0;
+}
+
+.ilTinyMenuSection .btn svg {
+	fill: black;
+	margin: -8px;
+}
+
+.ilTinyMenuSection .btn[disabled] svg {
+	fill: #D0D0D0;
+}
+
+div.ilTinyMenuSection, .il-copg-button-group {
+	white-space: nowrap;
+	/* border-right: 1px solid #e0e0e0; */
+	/* padding: 0 10px 4px 0; */
+	margin-right: 10px;
+	margin: 10px 10px 10px 0;
+
+	p {
+		margin-bottom: 5px;
+		padding: 2px 5px;
+		background-color: darken($il-main-dark-bg, 4%);
+	}
+
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		height: 28px;
+		margin: 3px 3px 3px 0px;
+		padding: 0 10px 0 0;
+		border-right: 0 none;
+	}
+}
+
+div.ilTinyMenuSection button.btn {
+	background: $il-main-bg;
+	border: 0;
+	color: black;
+}
+
+div.il-copg-button-group ul.dropdown-menu {
+	right: auto;
+}
+
+div.il-copg-button-group-wide {
+	width: 100%;
+	float: none;
+}
+
+#ilTinyMenuButtons {
+	padding-bottom: 15px;
+	zoom:1;
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		height: 28px;
+		margin: 3px 3px 3px 0;
+		padding: 0 10px 0 0;
+		border-right: 0 none;
+	}
+}
+
+#iltinymenu .bd div.last {
+	float: left;
+	white-space: nowrap;
+	padding: 0 10px 2px 0;
+	border-right: 0;
+	margin: 0;
+}
+
+#iltinymenu {
+	padding: 0 $il-padding-xlarge-horizontal;
+	.bd {
+		div {
+			&.last {
+				float: left;
+				white-space: nowrap;
+				padding: 0 10px 2px 0;
+				border-right: 0;
+				margin: 0;
+			}
+			.small {
+				color: $il-text-light-color;
+				font-style: italic;
+			}
+		}
+	}
+	.btn-default {
+		.mce-ico {
+			color: inherit !important;
+		}
+	}
+	
+	a.btn {
+		min-width: 30px;
+	}
+}
+
+#iltinymenu_bd {
+}
+
+#ilsaving {
+	position: fixed;
+	top: 0;
+	left: 0;
+	text-decoration: blink;
+	z-index: 3;
+}
+
+.ilTinyMenuDropDown span {
+	padding: 2px 0 0 5px;
+	width: 75px;
+	overflow: hidden;
+	display: inline-block;
+	line-height: 1em;
+}
+
+a.ilTinyMenuDropDown {
+	display: inline-block;
+	padding: 0 2px 1px 0;
+}
+
+/* if the ilc_page_cont_PageContainer is declared as being relative in the content.css drop downs will be truncated */
+#ilEditorTD {
+	position: static;
+}
+
+#ilEditorTD p {
+	margin: 0;
+	padding: 0;
+}
+
+/* Page TOC */
+div.ilc_page_toc_PageTOC {
+	font-size: $il-font-size-small;
+	padding: 5px 5px 10px;
+	background-color: $il-main-dark-bg;
+	border: 1px solid #f0f0f0;
+	float: left;
+}
+
+h1.ilc_page_toc_PageTOCHead {
+	margin: 0;
+	font-size: $il-font-size-base;
+	padding: 0;
+	font-weight: bold;
+	text-align: center;
+}
+
+ul.ilc_page_toc_PageTOCList {
+	margin: 0 0 0 10px;
+	padding: 0;
+	list-style: none;
+}
+
+li.ilc_page_toc_PageTOCItem {
+	margin: 5px 0 0;
+	padding: 0;
+	white-space: nowrap;
+}
+
+a.ilc_page_toc_PageTOCLink {
+	color: #03a;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+a.ilc_page_toc_PageTOCLink:hover {
+	color: black;
+}
+
+a.ilc_page_toc_PageTOCLink:visited {
+	color: blue;
+}
+
+/* --- content styles (will move to content.css) --- */
+td.ilc_PageDisabled {
+	padding: 20px;
+	border: 1px solid #9eadba;
+	margin-bottom: 0;
+	border-left: 3px dotted $il-danger-color;
+}
+
+div.ilc_DefinitionHeader {
+	margin: 20px 0 10px 0;
+	padding: 5px 0;
+	border: 1px solid $il-main-border-dark-color;
+	border-width: 1px 0;
+}
+
+table.ilc_Fullscreen {
+	background-color: $il-main-bg;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.ilc_Fullscreen, body.ilc_Fullscreen {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: auto;
+	td > div, td > div > figure > div > iframe {
+		height: 100%;
+		width: 100%;
+	}
+}
+
+div.ilLMMenu {
+	margin: 0 0 5px 10px;
+}
+
+div.ilc_LMMenu {
+	line-height: 22px;
+}
+
+a.ilc_LMMenu {
+	padding: 1px 5px;
+	margin: 2px 0;
+	border: 1px solid $il-main-border-color;
+	background-color: #e6ecf8;
+	white-space: nowrap;
+}
+
+div.ilc_TableOfContents {
+	background-color: $il-main-bg;
+	padding: 20px;
+	border-spacing: 1px;
+	border: 1px solid $il-main-border-color;
+	margin-bottom: 0;
+}
+
+table.ilc_media {
+	background-color: $il-main-bg;
+}
+
+h1.il_LMHead {
+	margin: 12px 15px 6px;
+	font-size: $il-font-size-large;
+	font-weight: normal;
+}
+
+table.ilc_Table {
+	border-collapse: collapse;
+	background-color: $il-main-bg;
+	margin: 10px 0;
+	border-color: #9eadba;
+}
+
+/* COPage Comparison */
+
+div.ilEditModified, div.ilEditDeleted, div.ilEditNew {
+	border: 3px solid;
+	margin-bottom: 2px;
+}
+
+div.ilEditModified {
+	border-color: $il-main-color;
+}
+
+div.ilEditDeleted {
+	border-color: $il-warning-color;
+}
+
+div.ilEditNew {
+	border-color: $il-secondary-color;
+}
+
+.ilCOPGCompareLegend {
+	display: inline-block;
+	margin-top: 5px;
+	padding: 2px;
+}
+
+span.ilDiffDel {
+	background-color: lighten($il-warning-color, 30%);
+}
+
+span.ilDiffIns {
+	background-color: lighten($il-secondary-color, 30%);
+}
+
+a.nostyle:link, a.nostyle:visited {
+	text-decoration: none;
+	color: $il-text-hover-color;
+}
+
+a.nostyle:hover {
+	color: $il-text-hover-color;
+}
+
+#ilEditorPanel_c {
+	z-index: 3000 !important;
+}
+
+#error_panel_c {
+	z-index: 2000 !important;
+}
+
+#ilPageEditLegend {
+	margin: 10px 0;
+	> div {
+		margin: 5px 0;
+	}
+	.il_droparea {
+		&, &:hover {
+			display: inline-block;
+			width: 40px;
+			border-color: #d0d0d0;
+			color: #d0d0d0;
+			background-color: $il-main-dark-bg;
+			cursor: default;
+			height: 21px;
+		}
+	}
+
+	tr > td {
+		padding: $il-padding-base-vertical $il-padding-xlarge-horizontal;
+	}
+
+	tr > td:first-child {
+		white-space: nowrap;
+		text-align: right;
+	}
+
+	img {
+		width: 22px;
+		height: 22px;
+	}
+}
+
+.ilPageEditLegendElement {
+	width: 40px;
+	border: 1px solid #d0d0d0;
+	height: 21px;
+	display: inline-block;
+	font-size: $il-font-size-small;
+	padding: 1px 5px;
+	text-align: center;
+}
+
+.ilCOPGMediaDisabled {
+	padding: 5px;
+	font-size: 0px;
+	line-height: 100%;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+	background-color: darken($il-secondary-color, 20%);
+	color: white;
+}
+
+.ilCOPgEditStyleSelectionItem {
+	padding: 10px;
+	background-color: $il-main-dark-bg;
+	cursor: pointer;
+}
+
+.ilCOPgEditStyleSelectionItem:hover {
+	background-color: $il-highlight-bg;
+}
+
+ul#ilAdvSelListTable_style_selection {
+	overflow: auto;
+	max-height: 400px;
+}
+
+a.ilCOPageSection {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+#ilAdvSelListAnchorText_char_style_selection > span {
+	min-width: auto;
+}
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer {
+	display: table-row;
+}
+
+div.ilc_answers.answer-table div.ilc_qanswer_Answer > div {
+	display: table-cell;
+}
+
+div.ilc_question_SingleChoice .answertext > p, div.ilc_question_MultipleChoice .answertext > p {
+	margin: 0 !important;
+}
+
+div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
+div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
+	padding-right: 10px;
+}
+
+
+div.ilCOPGMediaPrint {
+	background-color: $il-main-dark-bg !important;
+	position: relative !important;
+	background-image: url("#{$il-background-images-path}play.svg") !important;
+	background-position: 50% 50% !important;
+	background-repeat: no-repeat !important;
+	background-size: auto 90% !important;
+	padding: 1px !important;
+}
+
+/* fullscreen iframe */
+.il-copg-mob-fullscreen {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+.il-copg-mob-fullscreen-modal .modal-dialog {
+	width:95%;
+}
+
+.ilTinyParagraphClassSelector ul.dropdown-menu,
+.ilTinyMenuSection > div.dropdown:nth-child(2) > ul.dropdown-menu,
+.ilSectionClassSelector ul.dropdown-menu {
+	right: auto;
+}
+
+#il_prop_cont_characteristic ul.dropdown-menu {
+	right: auto;
+}
+
+
+#iltinymenu .dropdown-menu li {
+	padding: 0;
+}
+
+#tinytarget_ifr > body#tinymce {
+	background-color: inherit;
+}
+
+#tinytarget_ifr {
+	background-color: transparent;
+}
+
+#tinytarget_div {
+
+	position: absolute;
+	top:0;
+	width: 100%;
+	height: 100%;
+
+	div.tox-edit-area {
+		background-color: transparent;
+	}
+
+	.tox-tinymce {
+		border: 0;
+		background-color: transparent;
+	}
+}
+
+.copg-ghost-wrapper {
+	min-height: 20px;
+	position: relative;		/* important for the absolute positioned tinytarget_div */
+}
+
+.copg-input-ghost {
+	visibility: hidden;
+	min-width: 100px;
+}
+
+#copg-editor-slate-content {
+	padding: $il-padding-xlarge-vertical 0px;
+
+	p {
+		padding: 0;
+		margin: 5px 0;
+	}
+
+	p.ilTinyInfo {
+		padding: 4px;
+		width: 100%;
+		@media only screen and (max-width: $grid-float-breakpoint-max) {
+			display: none;
+		}
+	}
+
+	div.alert {
+		margin: 10px 0;
+	}
+	form.form-horizontal {
+		margin-bottom: $il-padding-xlarge-vertical;
+		.ilFormHeader {
+			padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+			h3.ilHeader {
+				font-size: $il-font-size-base;
+			}
+		}
+		.col-sm-4, .col-sm-3, .col-sm-8, .col-sm-9 {
+			width: 100%;
+		}
+		.control-label {
+			text-align: left;
+			font-weight: bold;
+			min-height: auto;
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
+		.ilFormFooter {
+			padding: $il-padding-base-vertical $il-padding-xlarge-horizontal;
+			background-color: $il-main-bg;
+		}
+	}
+
+	> .btn-link {
+		padding: 0px $il-padding-xlarge-horizontal;
+	}
+}
+
+#copg-top-actions {
+	padding: 0 $il-padding-xlarge-horizontal;
+}
+
+.copg-edit-button-group {
+	padding: $il-padding-base-vertical $il-padding-xlarge-horizontal;
+}
+
+p#copg-auto-save {
+	padding: 0;
+	margin: -5px 0 0 0;
+}
+
+.copg-edit-container {
+	border: 1px dashed #d0d0d0;
+}
+[data-protected='1'] .copg-edit-container {
+	border: none;
+}
+
+
+/* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
+#il_EditPage [data-copg-ed-type="add-area"] {
+	position: relative;
+
+	> .dropdown {
+		overflow: hidden;
+		position: static;
+		> ul {
+			position: absolute;
+			z-index: 10;
+		}
+	}
+}
+
+/*
+ this fixes the add drop down click behaviour for touch devices
+ see: https://github.com/twbs/bootstrap/issues/4550#issuecomment-31916049
+ and: https://mantis.ilias.de/view.php?id=29785
+ */
+#il_EditPage .dropdown-backdrop {
+	position: static;
+}
+
+#ed_datatable {
+
+	background-color: $il-main-bg;
+
+	th {
+		background-color: $il-main-dark-bg;
+		.dropdown button {
+			background-color: $il-main-dark-bg;
+			text-align: center;
+			color: $il-text-color;
+			width: 100%;
+			border: 0;
+		}
+	}
+
+	th, td {
+		border: 1px solid #CCCCCC;
+	}
+
+	th {
+		vertical-align: middle;
+	}
+}
+
+.copg-new-content-placeholder,
+.copg-content-placeholder-lso-curriculum {
+	text-align: center;
+	color: $il-text-light-color;
+	padding: 20px;
+}
+
+.il-copg-drag {
+	width: 40px;
+	border: 1px solid $il-main-color;
+	height: 30px;
+	z-index: 100000;
+}
+
+.il-copg-media-cover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	z-index: 9;
+}
+
+.il-copg-edit-list-button {
+	padding: 0;
+	img {
+		filter: invert(100%);
+		width: 26px;
+		height: 25px;
+	}
+}
+
+#il-copg-ed-modal .modal-content {
+	.Whoops.container {
+		.left-panel {
+			position: static;
+			float: left;
+		}
+		.details-container {
+			position: static;
+		}
+	}
+}
+
+.ilPageVideo, .ilPageAudio {
+	button {
+		@include il-focus();
+	}
+}

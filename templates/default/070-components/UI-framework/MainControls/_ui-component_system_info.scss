@@ -1,0 +1,143 @@
+/*
+**************************************************************
+	System Infos
+	change the rule for &.full to
+
+		height: 100%;
+		position: fixed;
+		padding: 100px;
+		top: 0;
+		left: 0;
+		font-size: 2em;
+		line-height: 1.2em;
+
+	to show a fullscreen info
+**************************************************************
+*/
+
+//== System Info
+//
+//##
+/** headline text transform **/
+$il-standard-page-system-info-headline-transform: uppercase;
+$il-standard-page-system-info-headline-font-weight: $il-font-weight-bold;
+/** inline shadow of a message container **/
+$il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+/** border configuration, the color is automatically computed from the three color variants **/
+$il-standard-page-system-info-border-color: $il-main-border-color;
+$il-standard-page-system-info-border-top-and-bottom: none;
+$il-standard-page-system-info-border-left-and-right: none;
+/** nagtive or positive contrast color for text and glyph **/
+$il-standard-page-system-info-contrast: 60%;
+/** contrast threshold for contrast color **/
+$il-standard-page-system-info-contrast-threshold: 43%;
+/** three color variants for neutral, important, breaking Head Infos **/
+$il-standard-page-system-info-color-variant-neutral: lighten($il-main-color, 50%); // looks nice with $il-mainbar-btn-bg-color as well
+$il-standard-page-system-info-color-variant-important: lighten($il-danger-color, 40%);
+$il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 10%);
+
+.il-system-info {
+
+  @mixin head-info-color-variant($variant_name, $base-color){
+    $contrast-color: contrast(greyscale($base-color), darken($base-color, $il-standard-page-system-info-contrast), lighten($base-color, $il-standard-page-system-info-contrast), $il-standard-page-system-info-contrast-threshold);
+    &.il-system-info-#{$variant_name} {
+      // Shadow
+      -webkit-box-shadow: $il-standard-page-system-info-shadow;
+      -moz-box-shadow: $il-standard-page-system-info-shadow;
+      box-shadow: $il-standard-page-system-info-shadow;
+      background-color: $base-color;
+      // Border
+      border-top: $il-standard-page-system-info-border-color $il-standard-page-system-info-border-top-and-bottom;
+      border-bottom: $il-standard-page-system-info-border-color $il-standard-page-system-info-border-top-and-bottom;
+      border-left: $il-standard-page-system-info-border-color $il-standard-page-system-info-border-left-and-right;
+      border-right: $il-standard-page-system-info-border-color $il-standard-page-system-info-border-left-and-right;
+      // Colors
+      color: $contrast-color;
+
+      a.glyph {
+        color: $contrast-color;
+      }
+    }
+
+  }
+  // 3 Color Variants
+  @include head-info-color-variant(neutral, $il-standard-page-system-info-color-variant-neutral);
+  @include head-info-color-variant(important, $il-standard-page-system-info-color-variant-important);
+  @include head-info-color-variant(breaking, $il-standard-page-system-info-color-variant-breaking);
+
+  // General Sizes
+  line-height: $line-height-computed;
+  padding-top: $il-padding-large-vertical;
+  padding-bottom: $il-padding-large-vertical;
+  height: calc($il-padding-large-vertical + $il-padding-large-vertical + $line-height-computed);
+
+
+  // Flex
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  // Show full message
+  &.full {
+    height: auto;
+    overflow: visible;
+  }
+
+  div.il-system-info-content-wrapper {
+    flex-grow: 4;
+    flex-shrink: 1;
+    flex-basis: auto;
+    overflow: hidden;
+
+    span.il-system-info-headline {
+      text-transform: $il-standard-page-system-info-headline-transform;
+      font-weight: $il-standard-page-system-info-headline-font-weight;
+      margin-right: $il-margin-base-horizontal;
+    }
+  }
+
+  div.il-system-info-actions {
+    font-size: $il-font-size-large;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: right;
+    flex-basis: $il-padding-large-horizontal*5;
+
+    :not(:last-child){
+      padding-right: $il-padding-large-horizontal;
+    }
+
+    span.il-system-info-more {
+      display: none;
+    }
+  }
+
+  &:not(:first-child) {
+    border-top: none;
+  }
+}
+
+/*
+**************************************************************
+	Mobile Layout for System Info
+**************************************************************
+*/
+
+@media only screen and (max-width: $grid-float-breakpoint-max) {
+  .il-system_info {
+    border-top: none;
+  }
+}
+
+/*
+**************************************************************
+	Print View
+**************************************************************
+*/
+
+@media print {
+  .il-system-infos {
+    display: none;
+  }
+}

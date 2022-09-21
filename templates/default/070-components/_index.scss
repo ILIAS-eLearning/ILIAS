@@ -1,0 +1,122 @@
+/*
+* Components
+*/
+
+/* UI Framework */
+
+@import "./UI-framework/Breadcrumbs/_ui-component_breadcrumbs.scss";
+@import "./UI-framework/Button/_ui-component_button.scss";
+@import "./UI-framework/Button/_ui-component_tag.scss";
+@import "./UI-framework/Button/_ui-component_toggle.scss";
+@import "./UI-framework/Card/_ui-component_card.scss";
+@import "./UI-framework/Chart/_ui-component_chart.scss";
+@import "./UI-framework/Counter/_ui-component_counter.scss";
+@import "./UI-framework/Deck/_ui-component_deck.scss";
+@import "./UI-framework/Divider/_ui-component_divider.scss";
+@import "./UI-framework/Dropdown/_ui-component_dropdown.scss";
+@import "./UI-framework/Dropzone/_ui-component_dropzone.scss";
+@import "./UI-framework/Input/_ui-component_input.scss";
+@import "./UI-framework/Item/_ui-component_item.scss";
+@import "./UI-framework/Layout/_ui-component_layout.scss";
+@import "./UI-framework/Link/_ui-component_link.scss";
+@import "./UI-framework/Listing/_ui-component_characteristic_value.scss";
+@import "./UI-framework/Listing/_ui-component_workflow.scss";
+@import "./UI-framework/MainControls/_ui-component_maincontrols.scss";
+@import "./UI-framework/Menu/_ui-component_menu.scss";
+@import "./UI-framework/MessageBox/_ui-component_messagebox.scss";
+@import "./UI-framework/Modal/_ui-component_modal.scss";
+@import "./UI-framework/Panel/_ui-component_panel.scss";
+@import "./UI-framework/Player/_ui-component_player.scss";
+@import "./UI-framework/Popover/_ui-component_popover.scss";
+@import "./UI-framework/Symbol/_ui-component_symbol.scss";
+@import "./UI-framework/Table/_ui-component_table.scss";
+@import "./UI-framework/Toast/_ui-component_toast.scss";
+@import "./UI-framework/Tree/_ui-component_tree.scss";
+@import "./UI-framework/ViewControl/_ui-component_viewcontrol.scss";
+
+/* Component parts from old delos.scss */
+
+@import "./legacy/_component_agreement.scss";
+@import "./legacy/_component_alert.scss";
+@import "./legacy/_component_bottom-center-area.scss";
+@import "./legacy/_component_headline.scss";
+@import "./legacy/_component_help.scss";
+@import "./legacy/_component_icon.scss";
+@import "./legacy/_component_LeftNavSpace.scss";
+@import "./legacy/_component_link.scss";
+@import "./legacy/_component_map.scss";
+@import "./legacy/_component_overlay.scss";
+@import "./legacy/_component_permalinks.scss";
+@import "./legacy/_component_rightPanel.scss";
+@import "./legacy/_component_table.scss";
+
+/* Legacy Modules & Services */
+
+@import "./legacy/Modules/_component_bibliographic.scss";
+@import "./legacy/Modules/_component_blog.scss";
+@import "./legacy/Modules/_component_bookingmanager.scss";
+@import "./legacy/Modules/_component_chatroom.scss";
+@import "./legacy/Modules/_component_course.scss";
+@import "./legacy/Modules/_component_datacollection.scss";
+@import "./legacy/Modules/_component_excercise.scss";
+@import "./legacy/Modules/_component_forum.scss";
+@import "./legacy/Modules/_component_learningmodule.scss";
+@import "./legacy/Modules/_component_learningsequence.scss";
+@import "./legacy/Modules/_component_lticonsumer.scss";
+@import "./legacy/Modules/_component_mediacast.scss";
+@import "./legacy/Modules/_component_mediapool.scss";
+@import "./legacy/Modules/_component_orgunit.scss";
+@import "./legacy/Modules/_component_poll.scss";
+@import "./legacy/Modules/_component_portfolio.scss";
+@import "./legacy/Modules/_component_scormaicc.scss";
+@import "./legacy/Modules/_component_survey.scss";
+@import "./legacy/Modules/_component_test.scss";
+@import "./legacy/Modules/_component_wiki.scss";
+@import "./legacy/Modules/_component_workspacefolder.scss";
+
+@import "./legacy/Services/_component_accesscontrol.scss";
+@import "./legacy/Services/_component_accordion.scss";
+@import "./legacy/Services/_component_awareness.scss";
+@import "./legacy/Services/_component_badge.scss";
+@import "./legacy/Services/_component_block.scss";
+@import "./legacy/Services/_component_bookmarks.scss";
+@import "./legacy/Services/_component_calendar.scss";
+@import "./legacy/Services/_component_certificate.scss";
+@import "./legacy/Services/_component_chart.scss";
+@import "./legacy/Services/_component_container.scss";
+@import "./legacy/Services/_component_copage.scss";
+@import "./legacy/Services/_component_fileupload.scss";
+@import "./legacy/Services/_component_form.scss";
+@import "./legacy/Services/_component_help.scss";
+@import "./legacy/Services/_component_infoscreen.scss";
+@import "./legacy/Services/_component_init.scss";
+@import "./legacy/Services/_component_learninghistory.scss";
+@import "./legacy/Services/_component_like.scss";
+@import "./legacy/Services/_component_mail.scss";
+@import "./legacy/Services/_component_mediaobjects.scss";
+@import "./legacy/Services/_component_membership.scss";
+@import "./legacy/Services/_component_navigation.scss";
+@import "./legacy/Services/_component_news.scss";
+@import "./legacy/Services/_component_notes.scss";
+@import "./legacy/Services/_component_object.scss";
+@import "./legacy/Services/_component_onscreenchat.scss";
+@import "./legacy/Services/_component_preview.scss";
+@import "./legacy/Services/_component_rating.scss";
+@import "./legacy/Services/_component_search.scss";
+@import "./legacy/Services/_component_skill.scss";
+@import "./legacy/Services/_component_style.scss";
+@import "./legacy/Services/_component_table.scss";
+@import "./legacy/Services/_component_tags.scss";
+@import "./legacy/Services/_component_termsofservice.scss";
+@import "./legacy/Services/UIComponent/_component_advancedselectionlist.scss";
+@import "./legacy/Services/UIComponent/_component_checklist.scss";
+@import "./legacy/Services/UIComponent/_component_explorer2.scss";
+@import "./legacy/Services/UIComponent/_component_groupedlist.scss";
+@import "./legacy/Services/UIComponent/_component_lightbox.scss";
+@import "./legacy/Services/UIComponent/_component_modal.scss";
+@import "./legacy/Services/UIComponent/_component_progressbar.scss";
+@import "./legacy/Services/UIComponent/_component_tabs.scss";
+@import "./legacy/Services/UIComponent/_component_toolbar.scss";
+@import "./legacy/Services/UIComponent/_component_tooltip.scss";
+@import "./legacy/Services/_component_user.scss";
+@import "./legacy/Services/_component_webdav.scss";

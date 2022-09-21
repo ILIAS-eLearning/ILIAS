@@ -1,0 +1,67 @@
+//== Dropzones
+//
+//## Customizes the Drozpones component
+
+//** Default background color used for dropzones.
+$il-dropzone-bg: $il-main-bg;
+$il-dropzone-bg-inactive: #F4F4F4;
+//** Background color used when a dropzone is highlighted (not when hovered).
+$il-dropzone-highlight-bg: #FFFFD6;
+//** Background color used when a dropzone is hovered.
+$il-dropzone-hover-bg: #FFF9BC;
+$il-dropzone-border-radius: 0px;
+$il-dropzone-border-style: dashed;
+$il-dropzone-border-width: 1px;
+//** Default border color
+$il-dropzone-border-color: $il-main-border-dark-color;
+//** Border color used when a dropzone is hovered.
+$il-dropzone-border-color-hover: darken($il-main-border-dark-color, 10%);
+//** Border of one file after dragging them to the dropzone
+$il-dropzone-filelist-border-color: $il-dropzone-border-color;
+$il-dropzone-filelist-border-type: solid;
+$il-dropzone-filelist-border-width: $il-dropzone-border-width;
+$il-dropzone-filelist-border-radius: $il-dropzone-border-radius;
+
+// Dropzone Styles
+// $author Thibeau Fuhrer <thibeau$sr.solutions>
+.ui-dropzone {
+	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-filelist-border-color;
+	background: $il-dropzone-bg;
+	display: inline-block;
+	margin-bottom: $il-margin-xs-horizontal;
+	width: 100%;
+}
+
+.ui-dropzone-wrapper {
+	background: none;
+	border: none;
+}
+
+.ui-dropzone.highlight {
+	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color;
+	border-radius: $il-dropzone-border-radius;
+	background: $il-dropzone-highlight-bg;
+	padding: calc($il-padding-base-vertical - $il-dropzone-border-width);
+}
+
+.ui-dropzone.highlight-current {
+	border: $il-dropzone-border-width $il-dropzone-border-style $il-dropzone-border-color-hover;
+	background-color: $il-dropzone-hover-bg;
+	padding: calc($il-padding-base-vertical - $il-dropzone-border-width);
+}
+
+.ui-dropzone-message {
+	font-size: $il-font-size-base;
+	margin-bottom: $il-margin-base-vertical;
+	float: right;
+}
+
+.ui-dropzone .form-group {
+	width: 100%;
+}
+
+// fix to enlarge inputs if they are in an ilXYListGUI.
+.ui-dropzone .form-group input,
+.ui-dropzone .form-group textarea {
+	width: 100%;
+}
