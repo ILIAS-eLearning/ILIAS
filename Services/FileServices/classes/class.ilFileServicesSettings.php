@@ -22,7 +22,6 @@ declare(strict_types=1);
 class ilFileServicesSettings
 {
     private ilSetting $settings;
-    private ilRbacSystem $rbac;
     private array $white_list_default = [];
     private array $white_list_negative = [];
     private array $white_list_positive = [];
@@ -39,6 +38,7 @@ class ilFileServicesSettings
         $this->white_list_default = include "Services/FileServices/defaults/default_whitelist.php";
         $this->read();
     }
+
 
     private function read(): void
     {
