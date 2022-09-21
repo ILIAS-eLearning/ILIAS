@@ -155,9 +155,9 @@ class ilOrgUnitPositionGUI extends BaseCommands
             $this->cancel();
         }
         self::initAuthoritiesRenderer();
-        $this->dic()->language()->loadLanguageModule('orgu');
+        $this->language->loadLanguageModule('orgu');
         $position_string = $this->language->txt("position") . ": ";
-        $authority_string = $$this->language->txt("authorities") . ": ";
+        $authority_string = $this->language->txt("authorities") . ": ";
         $user_string = $this->language->txt("user_assignments") . ": ";
         $ilOrgUnitUserAssignmentQueries = ilOrgUnitUserAssignmentQueries::getInstance();
 
