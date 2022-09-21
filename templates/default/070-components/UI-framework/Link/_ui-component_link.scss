@@ -1,0 +1,20 @@
+.il-link{
+	@include il-focus();
+}
+
+
+.il-link.link-bulky {
+	text-decoration: none;
+
+	.icon, .bulky-label{
+		display: inline-block;
+	}
+
+	.icon {
+		text-decoration: none;
+	}
+
+	.bulky-label{
+		color: $text-color;
+	}
+}

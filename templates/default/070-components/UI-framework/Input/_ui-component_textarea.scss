@@ -1,0 +1,6 @@
+@use "sass:math";
+$il-textarea-height: (math.floor(4 * ($il-standard-form-font-size * $il-line-height-base))) + 0.56;
+
+.il-standard-form textarea {
+	height: $il-textarea-height;
+}

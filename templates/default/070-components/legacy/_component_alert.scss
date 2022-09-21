@@ -1,0 +1,25 @@
+// warning inline text
+span.ilAlert {
+	color: $il-warning-color;
+}
+
+span.il_ItemAlertProperty {
+	color: $il-warning-color;
+}
+
+div.ilHeaderAlert {
+	font-size: $il-font-size-small;
+	padding: 0;
+	color: $il-warning-color;
+}
+
+.alert {
+	> a {
+		text-decoration: underline;
+	}
+}
+.alert {
+	> a.btn {
+		text-decoration: none;
+	}
+}

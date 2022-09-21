@@ -1,0 +1,73 @@
+//== Main Colors
+//
+//## The Main Colors used in ILIAS along with their semantics
+//** For Standard Buttons, Main color used in various places, used to be $brand-primary
+$il-main-color: #4c6586;
+//** For Primary Buttons, used to point to interactions with a special importance, used to be $brand-secondary
+$il-secondary-color: #6ea03c;
+//** Used to indicate some success, used to be $brand-success
+$il-success-color: #6ea03c;
+//** Used to indicate some success, used to be $brand-info
+$il-info-color: #dcb496;
+//** Used to indicate some warning or to draw special focus to some element, used to be $brand-warning
+$il-warning-color: #B54F00;
+//** Used to indicate some warning or to draw special focus to some element, used to be $brand-danger
+$il-danger-color: #d00;
+
+//** Neutral Color for various Backgrounds, used to be $gray-dark and $il-neutral-color
+$il-neutral-color: #2c2c2c;
+//** Light version of the $il-neutral-color, used to be $gray-light
+$il-neutral-light-color: #737373;
+
+//** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
+$il-main-bg: white;
+//** Title area of various components such as Panels. Used as e.g. in containers as bg. Used to be $il-secondary-bg
+$il-main-dark-bg: #f9f9f9;
+//** Background of subelements like subforms. Used mainly on the main-dark-bg.
+$il-main-darker-bg: #f0f0f0;
+
+//** Currently used for several highlighting effects, such as hovering
+$il-highlight-bg: lighten($il-main-color, 50%);
+
+//** Used to be $text-color. Can be used on all background colors.
+$il-text-color: #161616;
+//** Used if text is hovered in components such a Dropdowns
+$il-text-hover-color: darken($il-text-color, 10%);
+//** Used e.g. for Bylines in Forms. Used to be $il-light-text-color. For accessibility reasons, the $il-text-color should only be used on the $il-main-bg.
+$il-text-light-color: lighten($il-text-color, 35%);
+
+//** Used to be $link-color
+$il-link-color: $il-main-color;
+//** Used to be $link-hover-color
+$il-link-hover-color: darken($il-link-color, 10%);
+
+//** Used to set focus on interactive elements for keyboard navigation.
+$il-focus-color: #0078D7;
+$il-focus-protection-color: #FFFFFF;
+
+//== Extended Colors
+//
+//## Extended Colors of ILIAS to be used to generate coloring for components like charts.
+
+//** Variant 1 of the extended color set in ILIAS
+$il-extended-color-1: #f3de2c;
+//** Variant 2 of the extended color set in ILIAS
+$il-extended-color-2: #d38000;
+//** Variant 3 of the extended color set in ILIAS
+$il-extended-color-3: #307C88;
+//** Variant 4 of the extended color set in ILIAS
+$il-extended-color-4: #86cb92;
+//** Variant 5 of the extended color set in ILIAS
+$il-extended-color-5: #ce73a8;
+//** Variant 6 of the extended color set in ILIAS
+$il-extended-color-6: #82639e;
+//** Variant 7 of the extended color set in ILIAS
+$il-extended-color-7: #9e7c7d;
+//** Variant 8 of the extended color set in ILIAS
+$il-extended-color-8: #f75e82;
+//** Variant 9 of the extended color set in ILIAS
+$il-extended-color-9: #ea4d54;
+
+//** all variants of letter avatar background colors (MUST be 26), note for a11y reason, they must be in contrast 3x1 to white (foreground color)
+$il-avatar-letter-color-variants: #0e6252, #107360, #aa890a, #c87e0a, #176437, #196f3d, #bf6516, #a04000, #1d6fa5, #1b557a, #bf2718, #81261d, #713b87, #522764, #78848c, #34495e, #2c3e50, #566566, #90175a, #9e2b6e, #d22f10, #666d4e, #715a32, #83693a, #963a30, #e74c3c;
+

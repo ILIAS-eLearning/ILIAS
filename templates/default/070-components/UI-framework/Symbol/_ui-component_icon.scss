@@ -1,0 +1,87 @@
+@use "sass:math";
+//== Icons
+//
+//## Icons are used to represent (and quickly identify) objects.
+
+//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
+$il-icon-font-path: "../../node_modules/bootstrap/fonts/";
+//** if left unchanged, you have to copy all the background images to your skin/images folder. To use the delos background images in your skin, please change this value (in custom less data or in variables.scss of your custom skin) to "../../../../templates/default/images/"
+$il-background-images-path: "./images/";
+
+//** Size for icons: xsmall is used in the tree. e.g.
+$il-icon-size-xsmall: 15px;
+//** Size for icons: Small is used in the tree. e.g.
+$il-icon-size-small: 20px;
+//** Size for icons: Medium is used in the content-listing. e.g.
+$il-icon-size-medium: 35px;
+//** Size for icons: Large is used in the header. e.g.
+$il-icon-size-large: 45px;
+//** Path for standard icons in ILIAS
+$il-standard-icon-path: $il-background-images-path;
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+$il-standard-disabled-icon-filter: grayscale(100%);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+$il-standard-outlined-disabled-icon-filter: contrast(0%);
+
+.icon {
+	display: inline-block;
+	text-align: center;
+
+	.abbreviation {
+		font-weight: $il-font-weight-bold;
+		position: absolute;
+	}
+	img {
+		float:left;
+	}
+
+	&.small {
+		height: $il-icon-size-small;
+		line-height: $il-icon-size-small;
+		.abbreviation {
+			font-size: math.ceil($il-icon-size-small * 0.4);
+			width: $il-icon-size-small;
+		}
+		img {
+			width: $il-icon-size-small;
+			height: $il-icon-size-small;
+		}
+	}
+	&.medium {
+		height: $il-icon-size-medium;
+		line-height: $il-icon-size-medium;
+		.abbreviation {
+			font-size: math.ceil($il-icon-size-medium * 0.4);
+			width: $il-icon-size-medium;
+		}
+		img {
+			height: $il-icon-size-medium;
+		}
+	}
+	&.large {
+		height: $il-icon-size-large;
+		line-height: $il-icon-size-large;
+		.abbreviation {
+			font-size: math.ceil($il-icon-size-large * 0.4);
+		}
+		img {
+			height: $il-icon-size-large;
+		}
+	}
+	&.responsive {
+		width: 100%;
+		line-height: $il-icon-size-medium;
+		.abbreviation {
+			font-size: math.ceil($il-icon-size-medium * 0.4);
+		}
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
+
+	&.disabled {
+		-webkit-filter: $il-standard-disabled-icon-filter; /* Safari 6.0 - 9.0 */
+		filter: $il-standard-disabled-icon-filter;
+	}
+}

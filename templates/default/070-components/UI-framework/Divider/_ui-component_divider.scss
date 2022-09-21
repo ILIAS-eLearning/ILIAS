@@ -1,0 +1,26 @@
+//== Divider
+//
+//##
+$il-divider-bg: $il-main-bg;
+$il-divider-color: $il-text-color;
+$il-divider-color: $il-text-color;
+
+h4.il-divider {
+	padding: $il-padding-small-vertical $il-padding-small-horizontal;
+	margin-bottom: 0px;
+	background-color: $il-divider-bg;
+	display: block;
+	font-size: $il-font-size-small;
+	line-height: $line-height-small;
+	color: $il-divider-color;
+}
+
+hr.il-divider-with-label {
+	display: none;
+}
+
+.il-divider-vertical:before {
+	content: "\2022";
+	padding-left: $il-padding-small-horizontal;
+	padding-right: $il-padding-small-horizontal;
+}

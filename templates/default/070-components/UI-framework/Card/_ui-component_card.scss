@@ -1,0 +1,183 @@
+//== Card
+//
+//##
+$il-card-border: 1px solid $il-main-border-color;
+$il-card-background: $il-main-bg;
+$il-card-highlight-bg: $il-warning-color;
+$il-card-highlight-height: $il-padding-large-vertical;
+$il-card-list-key-color: $il-text-light-color;
+$il-card-repository-head-color: rgba(0, 0, 0, 0.5);
+$il-card-repository-dropdown-border: $il-main-border-color 1px solid;
+$il-card-repository-outlined-icon-filter: brightness(3);
+$il-card-repository-outlined-disabled-icon-filter: $il-card-repository-outlined-icon-filter;
+//** Sets the maximum width of cards in small screens
+$il-card-max-width-xs: 350px;
+$il-card-box-shadow: $il-panel-shadow;
+$il-card-border: $il-panel-border;
+$il-card-border-radius: 0;
+
+.il-card {
+	padding: 0 0 $il-padding-large-vertical 0;
+	width: 100%;
+	position:relative;
+	background-color: $il-card-background;
+	border: $il-card-border;
+	border-radius: $il-card-border-radius;
+	box-shadow: $il-card-box-shadow;
+
+	.il-card-image-container {
+		width: 100%;
+		padding-top: 100%;
+		position: relative;
+
+		a:focus-visible {
+			position: static;
+		}
+	}
+
+	img.img-responsive, img.img-standard {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		max-height: 100%;
+		margin: auto;
+		z-index: 100;
+	}
+
+	/* see bug #24947 */
+	a {
+		overflow: hidden;
+	}
+
+	.card-title {
+		font-size: $il-font-size-base;
+	}
+
+	&.thumbnail{
+		margin-bottom: 0px;
+		font-size: $il-font-size-small;
+		
+		&:focus-within .il-card-repository-head {
+			z-index: 400;
+		}
+		
+		a:focus-visible {
+			overflow: visible;
+		}
+	}
+	.card-highlight {
+		background: $il-card-highlight-bg;
+		height: $il-card-highlight-height;
+		width: 100%;
+	}
+	.card-no-highlight {
+		background-color: transparent;
+		height: $il-card-highlight-height;
+		width: 100%;
+	}
+
+	.caption{
+		padding-top: $il-padding-large-vertical;
+		//See #28508
+		overflow-wrap: break-word;
+		word-break: break-word;
+
+		h5{
+			margin:$il-margin-large-vertical 0 0 0;
+		}
+
+
+		dl{
+			dt{
+				font-weight: $il-font-weight-base;
+				color: $il-text-light-color;
+				padding-top: $il-padding-large-vertical;
+			}
+		}
+	}
+
+	.il-card-repository-head{
+		background-color:$il-card-repository-head-color;
+		position:absolute;
+		top:0;
+		left:0;
+		right:0;
+		height: $il-icon-size-medium + $il-padding-large-horizontal;
+		padding: 0 $il-padding-small-horizontal;
+		z-index: 300;
+
+		.icon {
+			filter: $il-mainbar-trigger-icon-filter;
+		}
+
+		> div {
+			padding: $il-padding-large-vertical $il-padding-small-horizontal;
+			float: left;
+		}
+
+		.il-chart-progressmeter-box {
+			width: $il-icon-size-medium + $il-padding-small-horizontal;
+			height: $il-icon-size-medium + $il-padding-small-vertical;
+
+			> .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
+				max-width: 100%;
+				filter: brightness(1.2);
+			}
+		}
+
+
+		> div.il-card-repository-dropdown {
+			float:right;
+			padding: ($il-padding-large-vertical + $il-padding-base-vertical) $il-padding-small-horizontal;
+
+			> .dropdown {
+				> button {
+					background-color: inherit;
+					border: $il-card-repository-dropdown-border;
+					width: $il-icon-size-medium - $il-padding-large-vertical;
+					height: $il-icon-size-medium - $il-padding-large-vertical;
+
+					span.caret {
+						display: block;
+						margin-left: auto;
+						margin-right: auto;
+					}
+					
+					&:focus-visible {
+						overflow: visible;
+						outline-offset: $il-focus-outline-inner-width + $il-focus-outline-outer-width - 1;
+					}
+				}
+			}
+		}
+	}
+}
+
+.il-panel-report .il-card{
+	background-color: $il-main-dark-bg;
+}
+
+@media (min-width: $screen-sm-min) {
+	.row-eq-height {
+		.il-card {
+			display: flex;
+			flex-direction: column;
+
+			.card-title {
+				flex-grow: 2;
+			}
+		}
+	}
+}
+
+/* see bug #25920, limit size of cards for small screens */
+@media (max-width: $screen-sm-min) {
+	.il-card {
+		max-width: $il-card-max-width-xs;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}

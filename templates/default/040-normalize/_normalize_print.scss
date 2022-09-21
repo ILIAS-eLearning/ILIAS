@@ -1,0 +1,134 @@
+/* print less */
+@media print {
+  //bootstrap print.scss
+  * {
+    /* see bug 0022342 */
+    /* text-shadow: none !important;
+    color: black !important; // Black prints faster: h5bp.com/s
+    background: transparent !important;
+    box-shadow: none !important; */
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  // Don't show links for images, or javascript/internal links
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid $il-main-border-dark-color;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group; // h5bp.com/t
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  // Chrome (OSX) fix for https://github.com/twbs/bootstrap/issues/11245
+  // Once fixed, we can just straight up remove this.
+  select {
+    background: white !important;
+  }
+
+  // Bootstrap components
+  .navbar {
+    display: none;
+  }
+  .table {
+    td,
+    th {
+      background-color: white !important;
+    }
+  }
+  .btn,
+  .dropup > .btn {
+    > .caret {
+      border-top-color: black !important;
+    }
+  }
+  .label {
+    border: 1px solid black;
+  }
+
+  .table {
+    border-collapse: collapse !important;
+  }
+  .table-bordered {
+    th,
+    td {
+      border: 1px solid $il-main-border-color !important;
+    }
+  }
+
+  //i also duplicate the selectors  untill the class hidden-print is used
+  #ilTopBar,
+  .osdNotificationContainer,
+  .ilMainHeader,
+  .ilMainMenu,
+  .ilTreeView,
+  .btn,
+  #ilTab,
+  #ilSubTab,
+  #minheight,
+  #ilFooter {
+    display: none;
+  }
+  #mainspacekeeper {
+    padding: 0;
+  }
+  .ilLeftNavSpace {
+    margin-left: 0 !important;
+  }
+  div.ilTabContentOuter {
+    border: none;
+  }
+
+  div.ilFileDropTargetOverlay {
+    display: none;
+  }
+
+  // overwrite bootstrap href printing
+  a[href]:after {
+    content: "";
+  }
+
+  .ilPrintContent {
+    padding: 0 15px;
+  }
+}
+

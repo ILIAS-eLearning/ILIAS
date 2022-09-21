@@ -1,0 +1,186 @@
+ //== metabar
+$il-metabar-slates-bg-color: #fafafa;
+$il-metabar-glyph-color: $il-neutral-light-color;
+$il-metabar-entry-height: 60px;
+$il-metabar-entry-width: 60px;
+$il-metabar-glyph-size: 1.4375rem;
+$il-metabar-slates-width: 500px;
+
+//** small devices
+$il-metabar-small-entry-height: $il-standard-page-small-header-height;
+$il-metabar-small-entry-width: $il-standard-page-small-header-height;
+$il-metabar-small-glyph-size: 1.25rem;
+
+.il-maincontrols-metabar {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+	list-style-type: none; /* Remove bullets */
+
+	// no display labels in metabar level 1, but make them readable by screenreaders
+	> li > .btn-bulky > .bulky-label, > li > .link-bulky > .bulky-label {
+		@include sr-only();
+	}
+
+	.glyphicon {
+		filter: invert(50%);
+		font-family: 'il-icons';
+		font-size: $il-slate-bulky-glyph-size;
+		margin-right: $il-slate-bulky-glyph-margin-right;
+		position: relative;
+	}
+
+	.input-group {
+		display: block;
+	}
+
+	p {
+		padding: 0;
+	}
+
+	form#mm_search_form {
+		padding: 20px;
+	}
+
+	.badge {
+		position: absolute;
+	}
+
+	.btn, .il-link {
+		position: relative;
+	}
+
+	.il-counter-novelty {
+		margin-top: 0;
+		top: 17px;
+	}
+
+	.il-counter-status {
+		margin-top: 0;
+		top: 32px;
+	}
+
+	 > li > .il-link.link-bulky {
+		 display: block;
+		 text-align: center;
+		 padding: $il-padding-base-vertical $il-padding-base-horizontal;
+		 line-height: $il-metabar-entry-height;
+		 border: 1px solid transparent;
+	 }
+
+	 > li > .btn-bulky, > li > .link-bulky {
+		background-color: transparent;
+		height: $il-metabar-entry-height;
+		min-width: $il-metabar-entry-width;
+
+		@media only screen and (max-width: $grid-float-breakpoint-max) {
+			height: $il-metabar-small-entry-height;
+			min-width: $il-metabar-small-entry-width;
+		}
+		&:focus,
+		&:active {
+			box-shadow: none;
+		}
+		&.engaged {
+			@include shadow-right;
+			background-color: $il-metabar-slates-bg-color;
+			border: none;
+			color: initial;
+			outline-color: transparent;
+		}
+		.glyphicon {
+			color: $il-metabar-glyph-color;
+			font-size: $il-metabar-glyph-size;
+		}
+	}
+
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		.il-counter-novelty {
+			top: $il-margin-large-vertical;
+		}
+		.il-counter-status {
+			top: 22px;
+		}
+
+		.il-metabar-more-button {
+			padding-right: $il-padding-xxxlarge-horizontal;
+			.icon.custom {
+				position: relative;
+				img {
+					margin-right: $il-margin-small-horizontal;
+				}
+				.badge {
+					position: absolute;
+					margin-right: $il-margin-xs-horizontal;
+					&.il-counter-novelty {
+						margin-top: -$il-margin-large-vertical;
+					}
+					&.il-counter-status {
+						margin-top: $il-margin-xxlarge-vertical;
+					}
+				}
+			}
+		}
+	}
+}
+
+.il-metabar-slates {
+	@include shadow-right;
+    background-color: $il-metabar-slates-bg-color;
+	position: absolute;
+
+	max-width: $il-metabar-slates-width;
+	.il-maincontrols-slate{
+		min-width: $il-metabar-slates-width;
+	}
+	max-height: 90vh;
+	overflow-y: auto;
+	right: 0;
+
+	top: $il-metabar-entry-height;
+
+	.bulky-label{
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		width: 100%;
+		top: $il-metabar-small-entry-height;
+		right: 0;
+
+		.glyphicon {
+			color: $il-metabar-glyph-color;
+			font-size: $il-metabar-small-glyph-size;
+		}
+		.il-counter-status,
+		.il-counter-novelty {
+			margin-top: 0;
+			top: $il-margin-large-vertical
+		}
+		.bulky-label {
+			margin-left: 10px;
+		}
+		.il-counter-spacer {
+			margin-left: -18px;
+		}
+
+		.il-metabar-more-slate{
+			.btn-bulky:after {
+				content: "\e606";
+
+				font-family: "il-icons";
+				position: absolute;
+				font-size: $il-slate-bulky-glyph-size;
+				right: $il-margin-large-horizontal;
+				top: $il-slate-bulky-padding-vertical;
+				line-height: $il-line-height-computed;
+			}
+		}
+
+		.il-maincontrols-slate {
+			min-width: 260px;
+		}
+	}
+}

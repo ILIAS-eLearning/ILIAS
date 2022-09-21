@@ -1,0 +1,45 @@
+/* Services/Init */
+
+div.ilStartupFrame {
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		width: 100%;
+	}
+}
+
+.ilStartupSection {
+
+	.control-label {
+	 	width: 33.33%;
+		& + div {
+			width: 66.67%;
+		}
+	}
+
+	padding-top: 50px;
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		padding-top: 15px;
+	}
+}
+
+div.ilStartupSection form.form-horizontal {
+	border: $il-panel-border;
+	border-radius: $il-panel-border-radius;
+
+	.ilFormHeader {
+		padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
+		background-color: $il-main-dark-bg;
+	}
+
+	.form-group {
+		margin: $il-padding-xlarge-vertical 0;
+	}
+
+	text-align: left;
+	width: 40em;
+	@media only screen and (max-width: $grid-float-breakpoint-max) {
+		width: auto;
+	}
+}

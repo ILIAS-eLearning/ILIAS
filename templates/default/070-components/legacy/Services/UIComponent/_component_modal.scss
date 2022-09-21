@@ -1,0 +1,12 @@
+/* Services/UIComponent/Modal */
+.modal-body .jstree li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.modal-body .jstree a {
+	display: inline;
+}
+.modal-content{
+	color: $il-text-color;
+}

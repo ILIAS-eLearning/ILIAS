@@ -1,0 +1,82 @@
+/* Blocks */
+
+div.il_Block, table.il_Block {
+	width: 100%;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	margin-bottom: $il-line-height-computed;
+	clear: both;
+	table-layout: fixed;
+	word-wrap: break-word;
+	background-color: $il-main-dark-bg;
+	border: none;
+	text-align: left;
+	padding: $il-padding-base;
+}
+
+#il_center_col div.il_Block {
+	background-color: $il-main-dark-bg;
+}
+
+div.ilBlockHeader, div.ilBlockHeaderBig,
+td.ilBlockHeader, td.ilBlockHeaderBig {
+	/* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
+	font-weight: $il-font-weight-bold;
+	padding: $il-padding-small-vertical 0;
+	margin: 0 $il-padding-base;
+	text-align:left;
+	color: $il-neutral-color;
+	border-bottom: 1px solid $il-main-border-color;
+	/* box-shadow: 0 -2px 1px -1px white inset; no white lines */
+}
+
+div.ilBlockHeaderBig, td.ilBlockHeaderBig {
+	font-size: $il-font-size-base;
+}
+
+h2.ilBlockHeader {
+	font-weight: $il-font-weight-bold;
+	margin: 0;
+	padding: 0;
+	font-size: $il-font-size-large;
+	display: inline;
+}
+
+h3.ilBlockHeader {
+	font-weight: $il-font-weight-bold;
+	margin: 0;
+	padding: 0;
+	font-size: $il-font-size-base;
+	display: inline;
+}
+
+
+/* possibly deprecated */
+.il_BlockInfo {
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
+}
+
+/* new class */
+div.ilBlockInfo {
+	font-size: $il-font-size-small;
+	color: $il-text-light-color;
+	padding: $il-padding-xs-vertical $il-padding-xs-horizontal;
+	background-color: $il-main-dark-bg;
+	text-align: right;
+}
+
+div.ilBlockContent {
+	padding: $il-font-size-base;
+}
+
+.ilBlockRow1, .ilBlockRow2 {
+	padding: $il-padding-xs-horizontal;
+	border-bottom: 1px solid $il-main-darker-bg;
+}
+
+div.ilBlockPropertyCaption {
+	color: $il-text-light-color;
+}
+
+

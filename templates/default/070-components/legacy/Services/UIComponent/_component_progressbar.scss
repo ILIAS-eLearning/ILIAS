@@ -1,0 +1,14 @@
+
+$progress-bar-info-bg: darken($il-main-color, 5%);
+$progress-bg: #bbb;
+
+.progress {
+	height: 15px;
+	min-width: 100px;
+}
+
+.progress-bar {
+	font-size: $il-font-size-small;
+	line-height: 15px;
+	min-width: 30px;
+}

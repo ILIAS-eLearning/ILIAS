@@ -1,0 +1,69 @@
+// In order to replace the bootstrap-variables in the code.scss and use il-variables, the following code.scss file
+// overwrites ilias/libs/bower/bower_components/bootstrap/scss/code.scss.
+//
+// Code (inline and block)
+// --------------------------------------------------
+
+
+// Inline and block code styles
+code,
+kbd,
+pre,
+samp {
+  font-family: $il-font-family-sans-serif;
+}
+
+// Inline code
+code {
+  padding: 2px 4px;
+  font-size: $il-font-size-small;
+  color: $il-text-color;
+  background-color: $il-main-dark-bg;
+  border-radius: $il-main-border-color;
+}
+
+// User input typically entered via keyboard
+kbd {
+  padding: 2px 4px;
+  font-size: $il-font-size-small;
+  color: $il-text-color;
+  background-color: $il-main-dark-bg;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+
+  kbd {
+    padding: 0;
+    font-size: 100%;
+    font-weight: $il-font-weight-bold;
+    box-shadow: none;
+  }
+}
+
+// Blocks of code
+pre {
+  display: block;
+  padding: (($il-line-height-computed - 1) / 2);
+  margin: 0 0 ($il-line-height-computed / 2);
+  font-size: ($il-font-size-base - 1); // 14px to 13px
+  line-height: $il-line-height-base;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: $il-text-color;
+  background-color: $il-main-dark-bg;
+  border: 1px solid $il-main-border-color;
+
+  // Account for some code outputs that place code tags in pre tags
+  code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border-radius: 0;
+  }
+}
+
+// Enable scrollable blocks of code
+.pre-scrollable {
+  max-height: $pre-scrollable-max-height;
+  overflow-y: scroll;
+}

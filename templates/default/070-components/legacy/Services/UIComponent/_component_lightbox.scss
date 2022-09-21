@@ -1,0 +1,39 @@
+/* Services/UIComponent/Lightbox */
+
+.ilLightbox {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: $il-neutral-color;
+	overflow: auto;
+	z-index: 1000;
+}
+
+a.ilMediaLightboxClose {
+	display: block;
+	float: right;
+	margin: 5px 0 10px 10px;
+	cursor: pointer;
+	color: $il-text-color;
+	font-size: $il-font-size-xlarge;
+}
+
+a.ilMediaLightboxClose:hover {
+	color: $il-text-hover-color;
+	text-decoration: none;
+}
+
+.ilLightboxContent {
+	margin: 50px auto 0;
+	width: 640px;
+	max-width: 100%;
+}
+
+.ilLightboxContent {
+	iframe {
+		width: 100%;
+		min-height: 400px;
+	}
+}

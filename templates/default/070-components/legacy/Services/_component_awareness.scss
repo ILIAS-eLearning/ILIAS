@@ -1,0 +1,207 @@
+/* Services/Awareness */
+
+.ilAwarenessDropDown .popover {
+	max-width: 300px;
+	color: $il-text-color;
+	min-width: 250px;
+}
+
+#awareness-list {
+	overflow: auto;
+	.dropdown-header {
+		background-color: $il-main-dark-bg;
+		margin-bottom: 0px;
+	}
+}
+
+.ilAwarenessDropDown .popover-content {
+	padding: 0;
+}
+
+.ilAwarenessDropDown .media-body, .ilAwarenessDropDown .media-left, .ilAwarenessDropDown .media-right {
+	display: table-cell;
+	vertical-align: top;
+}
+.ilAwarenessDropDown .media-left {
+	padding-right: 10px;
+}
+.ilAwarenessDropDown .media {
+	padding: 10px;
+}
+
+#awareness-content {
+	.input-group {
+		display: table;
+	}
+	.media:hover {
+		background-color: $il-highlight-bg;
+	}
+	.glyphicon {
+		font-size: inherit;
+	}
+}
+
+
+#awareness-content .dropdown-menu {
+	position: static;
+	float: none;
+	@include box-shadow(none);
+}
+
+#awareness-content .media {
+	padding: 0;
+}
+
+#awareness-content .media-left img {
+	width: 45px;
+	height: 45px;
+}
+
+.ilAwarenessItem {
+	border-bottom: 1px solid $il-main-border-color;
+	background-color:  $il-main-bg;
+
+	> div[role='button']:focus-visible {
+		@include il-focus();
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+
+		li {
+			margin: 0;
+			padding: 0;
+		}
+	}
+}
+
+#awareness-content .media-body {
+	white-space: nowrap;
+	width: auto;
+}
+
+#awareness-content .media-body {
+	padding-top: 8px;
+}
+
+#awareness-content .media-body h4, #awareness-content .media-body p {
+	color: $il-text-light-color;
+	font-size: $il-font-size-small;
+	padding: 5px 3px 0 3px;
+	line-height: 1em;
+	margin: 0;
+}
+
+#awareness-content .media-body h4 {
+	padding-top: 0px;
+	font-size: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#awareness-content .dropdown-menu {
+	background-color: $il-main-dark-bg;
+	padding: 10px 0;
+	font-size: $il-font-size-small;
+}
+
+#awareness-content .dropdown-menu a {
+	color: $il-text-color;
+}
+
+#awareness-content .dropdown-menu a:hover {
+	color: $il-text-hover-color;
+}
+
+#awareness-content .arrow-down {
+	width: 0;
+	height: 0;
+	border-left: 11px solid transparent;
+	border-right: 11px solid transparent;
+	border-top: 11px solid white;
+	margin-top: -10px;
+	margin-left: 100px;
+}
+
+#awareness_trigger {
+	display: block;
+}
+
+#awareness_trigger > span {
+	display: table-cell;
+}
+
+.ilAwarenessItem h3.popover-title {
+	display: none;
+}
+
+.ilAwarenessItem .media {
+	display: table;
+	width: 100%;
+}
+
+.ilAwarenessItemRow {
+	display: table-row;
+	width: 100%;
+}
+
+.ilAwarenessItem .media-left {
+	width: 55px;
+}
+
+.ilAwarenessItemRow .media-body {
+	/* background-image: url('./templates/default/images/scorm/not_attempted.svg'); */
+	background-repeat: no-repeat;
+	background-size: 12px 12px;
+	background-position: right 10px top 50%;
+	/* see http://stackoverflow.com/questions/9789723/css-text-overflow-in-a-table-cell */
+	/* and bug #18937 */
+	/* max-width: 0; */
+	width: 100%;
+}
+
+.ilAwarenessItemRow .media-body.ilAwarenessOnline {
+	background-image: url('#{$il-background-images-path}scorm/completed.svg');
+}
+
+.ilAwarenessLoader {
+	display: block;
+	margin: 15px auto;
+	width: 30px;
+	height: 30px;
+}
+
+#il_awrn_filer_btn {
+	.glyphicon{
+		filter: invert(0);
+		margin-right: 0;
+		font-family: 'Glyphicons Halflings';
+	}
+}
+
+#il_awrn_filer_btn img {
+	width: 10px;
+	height: 10px;
+}
+
+#awareness-content .ilHighlighted {
+	background-color: $il-highlight-bg;
+	color: $il-text-light-color;
+}
+
+.ilAwrnBadgeHidden {
+	visibility: hidden;
+}
+
+/* due to bug #17839 */
+#awareness-content .dropdown-backdrop {
+	display:none;
+	right: auto;
+	width: 0px;
+}
+
+.ilAwarenessItem > div {
+	cursor: pointer;
+}

@@ -1,0 +1,19 @@
+//== Buttons
+//
+
+//** Size of the font displayed inside a button
+$il-button-font-size: $il-font-size-small;
+
+//** Text color of the standard button (most button instances)
+$il-btn-standard-color: white;
+//** Background color of the standard button (most button instances)
+$il-btn-standard-bg: $il-main-color;
+//** Border color of the standard button (most button instances)
+$il-btn-standard-border: $il-main-color;
+
+//** Text color of the primary button (most important button on the screen)
+$il-btn-primary-color: white;
+//** Background color of the primary button (most important button on the screen)
+$il-btn-primary-bg: darken($il-secondary-color, 10%);
+//** Border color of the primary button (most important button on the screen)
+$il-btn-primary-border: darken($il-secondary-color, 10%);

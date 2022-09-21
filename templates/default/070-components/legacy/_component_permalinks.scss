@@ -1,0 +1,55 @@
+/* ----------------- permanent link  ------------- */
+#current_perma_link {
+	color: $il-text-color;
+	font-size: $il-font-size-small;
+	
+	&:focus-visible {
+		outline: $il-focus-outline-inner-width solid $il-focus-protection-color;
+		outline-offset: $il-focus-outline-outer-width;
+	}
+}
+a.permalink_label {
+	> span.glyphicon {
+		display: none;
+	}
+}
+
+.ilPermalinkContainer {
+	width: 100%;
+}
+
+div.ilPermanentLinkWrapper {
+	clear: both;
+	margin-top: 10px;
+	display: inline-block;
+	width: 100%;
+	a.permalink_label {
+		> span.glyphicon {
+			@media only screen and (max-width: $grid-float-breakpoint-max) {
+				display: inline;
+			}
+		}
+	}
+	.ilPermalinkContainer {
+		table-layout: fixed;
+		line-height: 22px;
+		@media only screen and (max-width: $grid-float-breakpoint-max) {
+			padding-right: 0;
+		}
+		> label {
+			width: 150px;
+			display: table-cell;
+			vertical-align: middle;
+			@media only screen and (max-width: $grid-float-breakpoint-max) {
+				padding-right: 0;
+				width: 24px;
+			}
+		}
+		> input, .btn-group {
+			z-index: 0;		/* see bug #24567 */
+		}
+		.input-group-btn {
+			width: 28px;
+		}
+	}
+}

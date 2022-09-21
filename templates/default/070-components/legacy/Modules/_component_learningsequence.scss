@@ -1,0 +1,47 @@
+$lso-dark-bg: $il-main-dark-bg;
+
+.ilLSOLearnerView { /*ILIAS-GUI, "startpage" of LSO*/
+    background-color: $il-main-bg;
+    -webkit-box-shadow: $il-panel-shadow;
+    box-shadow: $il-panel-shadow;
+	.il-workflow-step-label,
+	.il-workflow-step-label .btn {
+		color: $il-text-color !important;
+		cursor: default !important;
+		text-decoration: none !important;
+	}
+}
+
+.ilLSOKioskModeObjectHeader {
+	.il_HeaderInner{
+		padding-bottom: 5px;
+	}
+}
+.ilLSOKioskModeNavigation {
+	margin-bottom: 10px;
+	background-color: $lso-dark-bg;
+	.navbar-form {
+		line-height: 25px;
+	}
+}
+
+.ilLSOKioskModeContent {
+	.panel-primary {
+		.panel-heading {
+			display: none;
+		}
+	}
+}
+
+.ilLSOKioskModeCurriculum {
+	background-color: $il-main-dark-bg;
+
+	.il-workflow-container {
+		padding: 5px;
+	}
+}
+/* intro page */
+
+.il-lso-startbutton-container {
+	margin: $il-padding-xlarge-vertical 0;
+}
