@@ -777,9 +777,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form->addItem($menu);
 
         // toc
+        /*
         $toc = new ilCheckboxInputGUI($this->lng->txt("cont_toc"), "cobj_act_toc");
+
         $toc->setChecked($this->lm->isActiveTOC());
-        $form->addItem($toc);
+        $form->addItem($toc);*/
 
         // print view
         $print = new ilCheckboxInputGUI($this->lng->txt("cont_print_view"), "cobj_act_print");
@@ -861,7 +863,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form = $this->initMenuForm();
         if ($form->checkInput()) {
             $this->lm->setActiveLMMenu((int) $form->getInput("cobj_act_lm_menu"));
-            $this->lm->setActiveTOC((int) $form->getInput("cobj_act_toc"));
+            //$this->lm->setActiveTOC((int) $form->getInput("cobj_act_toc"));
             $this->lm->setActivePrintView((int) $form->getInput("cobj_act_print"));
             $this->lm->setActivePreventGlossaryAppendix((int) $form->getInput("cobj_act_print_prev_glo"));
             $this->lm->setHideHeaderFooterPrint((int) $form->getInput("hide_head_foot_print"));
