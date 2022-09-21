@@ -230,7 +230,7 @@ class ilMDSaxParser extends ilSaxParser
                 $par = $this->__getParent();
                 $this->md_met = $par->addMetaMetadata();
                 $this->md_met->setMetaDataScheme($a_attribs['MetadataScheme']);
-                $this->md_met->setLanguage(new ilMDLanguageItem($a_attribs['Language']));
+                $this->md_met->setLanguage(new ilMDLanguageItem((string) ($a_attribs['Language'] ?? "")));
                 $this->md_met->save();
                 $this->__pushParent($this->md_met);
                 break;

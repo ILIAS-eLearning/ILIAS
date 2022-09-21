@@ -324,13 +324,9 @@ class ilNotificationDatabaseHandler
         $ilDB->manipulateF($query, $types, $values);
     }
 
-    public static function registerChannel(string $name, string $title, string $description, string $class, string $classfile, string $config_type): void
+    public static function registerChannel(ilDBInterface $db, string $name, string $title, string $description, string $class, string $classfile, string $config_type): void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $ilDB->insert(
+        $db->insert(
             ilNotificationSetupHelper::$tbl_notification_channels,
             [
                 'channel_name' => ['text', $name],
@@ -343,13 +339,9 @@ class ilNotificationDatabaseHandler
         );
     }
 
-    public static function registerType(string $name, string $title, string $description, string $notification_group, string $config_type): void
+    public static function registerType(ilDBInterface $db, string $name, string $title, string $description, string $notification_group, string $config_type): void
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        $ilDB->insert(
+        $db->insert(
             ilNotificationSetupHelper::$tbl_notification_types,
             [
                 'type_name' => ['text', $name],

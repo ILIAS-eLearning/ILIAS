@@ -37,6 +37,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_ref_id = 0;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public const MODE_SCAT = 0;
     public const MODE_SCTP = 1;
@@ -54,6 +56,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -181,12 +185,18 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->tpl->setVariable("HREF_TITLE", $ret);
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
-        $icon = ilSkillTreeNode::getIconPath(
+        $icon_path = ilSkillTreeNode::getIconPath(
             $a_set["child"],
             $a_set["type"],
             "",
             ilSkillTreeNode::_lookupStatus($a_set["child"])
         );
-        $this->tpl->setVariable("ICON", ilUtil::img($icon, ""));
+        $icon = $this->ui_fac->symbol()->icon()->custom(
+            $icon_path,
+            "",
+            "medium",
+            (ilSkillTreeNode::_lookupStatus((int) $a_set["child"]) === ilSkillTreeNode::STATUS_DRAFT)
+        );
+        $this->tpl->setVariable("ICON", $this->ui_ren->render($icon));
     }
 }

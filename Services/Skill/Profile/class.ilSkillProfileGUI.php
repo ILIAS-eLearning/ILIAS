@@ -339,7 +339,7 @@ class ilSkillProfileGUI
                 // set values
                 $ti = $ti->withValue($this->profile->getTitle());
                 $desc = $desc->withValue($this->profile->getDescription());
-                $img = $img->withValue([$this->profile->getImageId()]);
+                $img = $this->profile->getImageId() ? $img->withValue([$this->profile->getImageId()]) : $img;
 
                 $sec_des = $lng->txt("skmg_edit_profile");
                 $form_action = $ilCtrl->getFormAction($this, "update");

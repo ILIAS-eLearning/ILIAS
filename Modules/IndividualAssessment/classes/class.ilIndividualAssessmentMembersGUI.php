@@ -34,8 +34,8 @@ class ilIndividualAssessmentMembersGUI
     public const F_STATUS = "status";
     public const F_SORT = "sortation";
 
-    public const S_NAME_ASC = "user_lastname:asc";
-    public const S_NAME_DESC = "user_lastname:desc";
+    public const S_NAME_ASC = "user_login:asc";
+    public const S_NAME_DESC = "user_login:desc";
     public const S_EXAMINER_ASC = "examiner_login:asc";
     public const S_EXAMINER_DESC = "examiner_login:desc";
     public const S_CHANGETIME_ASC = "change_time:asc";
@@ -318,7 +318,7 @@ class ilIndividualAssessmentMembersGUI
             $this->getSortOptions()
         )
         ->withTargetURL($target, self::F_SORT)
-        ->withLabel($this->txt("iass_sort"));
+        ->withLabel($this->getSortOptions()[$this->getSortValue() ?? self::S_NAME_ASC]);
     }
 
     /**
@@ -367,9 +367,12 @@ class ilIndividualAssessmentMembersGUI
      */
     protected function getLinkForStatusFilter($value): string
     {
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, $this->getSortValue());
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
         $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, null);
+
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, null);
 
         return $link;
     }

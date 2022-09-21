@@ -77,7 +77,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('name'), 'public_name');
         $this->addColumn($this->lng->txt('login'), 'login');
-        $this->addColumn('');
+        $this->addColumn($this->lng->txt('buddy_tbl_state_actions_col_label'), '', '', false, 'ilRight');
 
         $this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'Services/Contact/BuddySystem');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));

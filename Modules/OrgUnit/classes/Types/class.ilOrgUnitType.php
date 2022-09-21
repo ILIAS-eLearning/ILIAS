@@ -33,12 +33,12 @@ class ilOrgUnitType
     protected int $owner;
     protected string $create_date;
     protected string $last_update;
-    protected ?string $icon;
+    protected ?string $icon = null;
     protected array $translations = array();
     protected array $amd_records_assigned;
-    protected static array $amd_records_available;
-    protected array $orgus;
-    protected array $orgus_ids;
+    protected static array $amd_records_available = [];
+    protected array $orgus = [];
+    protected array $orgus_ids = [];
     protected ilDBInterface $db;
     protected \ILIAS\DI\LoggingServices  $log;
     protected ilObjUser $user;
@@ -311,7 +311,10 @@ class ilOrgUnitType
     public function getOrgUnitIds(bool $include_deleted = true): array
     {
         $cache_key = ($include_deleted) ? 1 : 0;
-        if (is_array($this->orgus_ids[$cache_key])) {
+
+        if (array_key_exists($cache_key, $this->orgus_ids)
+            && is_array($this->orgus_ids[$cache_key])
+        ) {
             return $this->orgus_ids[$cache_key];
         }
         if ($include_deleted) {
@@ -338,7 +341,10 @@ class ilOrgUnitType
     public function getOrgUnits(bool $include_deleted = true): array
     {
         $cache_key = ($include_deleted) ? 1 : 0;
-        if (is_array($this->orgus[$cache_key])) {
+
+        if (array_key_exists($cache_key, $this->orgus)
+            && is_array($this->orgus[$cache_key])
+        ) {
             return $this->orgus[$cache_key];
         }
         $this->orgus[$cache_key] = array();

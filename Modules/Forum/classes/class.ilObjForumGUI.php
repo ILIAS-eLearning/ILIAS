@@ -1123,7 +1123,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $tpl->setVariable('PERMA_TARGET', '_top');
 
         $rowCol = ilUtil::switchColor($postIndex, 'tblrow1', 'tblrow2');
-        if ($this->is_moderator && !$node->isActivated() && !$this->objCurrentTopic->isClosed()) {
+        if (($this->is_moderator || $node->isOwner($this->user->getId())) && !$node->isActivated() && !$this->objCurrentTopic->isClosed()) {
             $rowCol = 'ilPostingNeedsActivation';
         } elseif ($this->objProperties->getMarkModeratorPosts()) {
             $isAuthorModerator = ilForum::_isModerator($this->object->getRefId(), $node->getPosAuthorId());
@@ -1153,7 +1153,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $tpl->setVariable('ROWCOL', ' ' . $rowCol);
         $tpl->setVariable('DEPTH', $node->getDepth() - 1);
-        if (!$node->isActivated() && $node->isOwner($this->user->getId())) {
+        if (!$node->isActivated() && ($node->isOwner($this->user->getId())) || $this->is_moderator) {
             $tpl->setVariable('POST_NOT_ACTIVATED_YET', $this->lng->txt('frm_post_not_activated_yet'));
         }
 
@@ -1714,7 +1714,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $ref_id = $this->retrieveRefId();
 
         $this->tabs_gui->setBackTarget(
-            $this->lng->txt('all_topics'),
+            $this->lng->txt('frm_all_threads'),
             'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id
         );
 
@@ -2929,6 +2929,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        $oForumObjects = $this->getForumObjects();
+        $forumObj = $oForumObjects['forumObj'];
+        $frm = $oForumObjects['frm'];
+        $file_obj = $oForumObjects['file_obj'];
+
+        $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
+        if (isset($this->httpRequest->getQueryParams()['file'])) {
+            $file_obj_for_delivery = $file_obj;
+            if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
+                $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
+            }
+            $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
+        }
+
         $pageIndex = 0;
         if (isset($this->httpRequest->getQueryParams()['page'])) {
             $pageIndex = max((int) $this->httpRequest->getQueryParams()['page'], $pageIndex);
@@ -2960,22 +2974,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::PAGE, $pageIndex);
         }
 
-        $oForumObjects = $this->getForumObjects();
-        $forumObj = $oForumObjects['forumObj'];
-        $frm = $oForumObjects['frm'];
-        $file_obj = $oForumObjects['file_obj'];
-
-        $selected_draft_id = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
-
-        if (isset($this->httpRequest->getQueryParams()['file'])) {
-            $file_obj_for_delivery = $file_obj;
-            if ($selected_draft_id > 0 && ilForumPostDraft::isSavePostDraftAllowed()) {
-                $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
-            }
-            $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
-        }
-
-        if (!$this->objCurrentTopic->getId()) {
+        if ($this->objCurrentTopic->getId() === 0) {
             $this->ctrl->redirect($this, 'showThreads');
         }
 

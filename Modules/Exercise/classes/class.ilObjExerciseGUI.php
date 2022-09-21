@@ -242,7 +242,6 @@ class ilObjExerciseGUI extends ilObjectGUI
                 }
 
                 $cmd .= "Object";
-
                 $this->$cmd();
 
                 break;

@@ -458,6 +458,7 @@ class ilPersonalSkillsGUI
     protected function applyFilter(): void
     {
         $this->getFilter()->save();
+        $this->ctrl->setParameter($this, "list_mode", self::LIST_SELECTED);
         $this->ctrl->redirect($this, "listSkills");
     }
 
@@ -818,6 +819,7 @@ class ilPersonalSkillsGUI
         ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_node_id);
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_object_modified"));
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
         $ilCtrl->redirect($this, "listSkills");
     }
 
@@ -832,6 +834,7 @@ class ilPersonalSkillsGUI
         }
         if (empty($this->requested_skill_ids)) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
+            $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
             $ilCtrl->redirect($this, "listSkills");
         } else {
             $cgui = new ilConfirmationGUI();
@@ -861,6 +864,7 @@ class ilPersonalSkillsGUI
         }
 
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_object_modified"));
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
         $ilCtrl->redirect($this, "listSkills");
     }
 

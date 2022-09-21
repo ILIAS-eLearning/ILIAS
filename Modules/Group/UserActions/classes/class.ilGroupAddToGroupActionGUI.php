@@ -144,9 +144,9 @@ class ilGroupAddToGroupActionGUI
 
         $modal_exists = false;
         if ($this->http->wrapper()->query()->has('modal_exists')) {
-            $modal_exists = $this->http->wrapper()->query()->retrieve(
-                'modal_exist',
-                $this->refinery->kindlyTo()->bool()
+            $modal_exists = (bool) $this->http->wrapper()->query()->retrieve(
+                'modal_exists',
+                $this->refinery->kindlyTo()->int()
             );
         }
         if ($modal_exists) {
@@ -366,7 +366,7 @@ class ilGroupAddToGroupActionGUI
             $newObj->applyDidacticTemplate($dtpl);
         }
 
-        $group_gui->afterSave($newObj);
+        $group_gui->afterSave($newObj, false);
 
 
         $participants = ilParticipants::getInstanceByObjId($newObj->getId());

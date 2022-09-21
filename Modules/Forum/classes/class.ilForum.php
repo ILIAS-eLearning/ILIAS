@@ -786,7 +786,7 @@ class ilForum
         if ($params['order_column'] === 'thr_subject') {
             $dynamic_columns = [', thr_subject ' . $params['order_direction']];
         } elseif ($params['order_column'] === 'num_posts') {
-            $dynamic_columns = [', thr_num_posts ' . $params['order_direction']];
+            $dynamic_columns = [', num_posts ' . $params['order_direction']];
         } elseif ($params['order_column'] === 'num_visit') {
             $dynamic_columns = [', visits ' . $params['order_direction']];
         } else {

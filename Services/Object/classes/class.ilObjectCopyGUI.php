@@ -417,7 +417,7 @@ class ilObjectCopyGUI
         }
         // paste from clipboard
         elseif ((int) $target) {
-            $this->setTarget($target);
+            $this->setTarget((int) $target);
             $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
         }
         // end-patch multi copy

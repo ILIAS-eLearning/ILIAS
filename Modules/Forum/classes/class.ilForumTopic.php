@@ -1042,9 +1042,12 @@ class ilForumTopic
             ['thr_pk' => ['integer', $this->getId()]]
         );
 
-        $first_node = $this->getFirstVisiblePostNode();
-        $first_node->setSubject($this->getSubject());
-        $first_node->update();
+        try {
+            $first_node = $this->getFirstVisiblePostNode();
+            $first_node->setSubject($this->getSubject());
+            $first_node->update();
+        } catch (OutOfBoundsException $e) {
+        }
     }
 
     public function setNumPosts(int $a_num_posts): ilForumTopic

@@ -26,8 +26,8 @@ class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler imple
         $files = [];
         foreach ($eventItems as $obj) {
             if ($obj["type"] == "file") {
-                if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $obj['ref_id'])) {
-                    $file = new ilObjFile($obj['ref_id']);
+                if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", (int)$obj['ref_id'])) {
+                    $file = new ilObjFile((int)$obj['ref_id']);
                     $file_property = new ilFileProperty();
                     $file_property->setAbsolutePath($file->getFile());
                     $file_property->setFileName($file->getFileName());

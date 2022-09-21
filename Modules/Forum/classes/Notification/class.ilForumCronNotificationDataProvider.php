@@ -61,23 +61,25 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->obj_id = (int) $row['obj_id'];
         $this->ref_id = (int) $row['ref_id'];
         $this->closest_container = $row['closest_container'];
-        $this->thread_id = (int) $row['thread_id'];
+        $this->obj_id = (int) $row['obj_id'];
+        $this->ref_id = (int) ($row['ref_id'] ?? 0);
+        $this->thread_id = (int) ($row['thread_id'] ?? 0);
         $this->thread_title = $row['thr_subject'];
-        $this->forum_id = (int) $row['pos_top_fk'];
+        $this->forum_id = (int) ($row['pos_top_fk'] ?? 0);
         $this->forum_title = $row['top_name'];
-        $this->post_id = (int) $row['pos_pk'];
+        $this->post_id = (int) ($row['pos_pk'] ?? 0);
         $this->post_title = $row['pos_subject'];
         $this->post_message = $row['pos_message'];
         $this->post_date = $row['pos_date'];
-        $this->post_update = $row['pos_update'];
-        $this->post_update_user_id = (int) $row['update_user'];
-        $this->post_censored = (bool) $row['pos_cens'];
-        $this->post_censored_date = $row['pos_cens_date'];
-        $this->post_censored_comment = $row['pos_cens_com'];
-        $this->pos_usr_alias = $row['pos_usr_alias'];
-        $this->pos_display_user_id = (int) $row['pos_display_user_id'];
-        $this->pos_author_id = (int) $row['pos_author_id'];
-        $this->import_name = $row['import_name'];
+        $this->post_update = $row['pos_update'] ?? null;
+        $this->post_update_user_id = (int) ($row['update_user'] ?? 0);
+        $this->post_censored = (bool) ($row['pos_cens'] ?? false);
+        $this->post_censored_date = $row['pos_cens_date'] ?? null;
+        $this->post_censored_comment = $row['pos_cens_com'] ?? null;
+        $this->pos_usr_alias = $row['pos_usr_alias'] ?? '';
+        $this->pos_display_user_id = (int) ($row['pos_display_user_id'] ?? 0);
+        $this->pos_author_id = (int) ($row['pos_author_id'] ?? 0);
+        $this->import_name = $row['import_name'] ?? '';
 
         if ($notificationCache === null) {
             $notificationCache = new ilForumNotificationCache();

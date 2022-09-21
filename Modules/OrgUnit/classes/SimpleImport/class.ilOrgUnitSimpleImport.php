@@ -31,8 +31,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $xml = new SimpleXMLElement($a);
 
         if (!count($xml->OrgUnit)) {
-            $this->addError("no_orgunit", null, null);
-
+            $this->addError("no_orgunit", $xml->external_id, null);
             return;
         }
 
@@ -51,9 +50,9 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $create_mode = true;
         $attributes = $o->attributes();
         $action = (string) $attributes->action;
-        $ou_id = (string) $attributes->ou_id;
+        $ou_id = (int) $attributes->ou_id;
         $ou_id_type = (string) $attributes->ou_id_type;
-        $ou_parent_id = (string) $attributes->ou_parent_id;
+        $ou_parent_id = (int) $attributes->ou_parent_id;
         $ou_parent_id_type = (string) $attributes->ou_parent_id_type;
 
         if ($ou_id == ilObjOrgUnit::getRootOrgRefId()) {

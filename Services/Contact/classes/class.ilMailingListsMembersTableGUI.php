@@ -30,7 +30,7 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'showMemberForm'));
-        $this->setTitle($this->lng->txt('mail_members_of_mailing_list') . ' ' . $mailing_list->getTitle());
+        $this->setTitle(sprintf($this->lng->txt('mail_members_of_mailing_list'), $mailing_list->getTitle()));
         $this->setRowTemplate('tpl.mail_mailing_lists_membersrow.html', 'Services/Contact');
 
         $this->addCommandButton('showMailingLists', $this->lng->txt('back'));
@@ -42,7 +42,7 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
 
     protected function initColumns(): void
     {
-        $this->addColumn('', 'check', '1%', true);
+        $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('user'), 'user', '99%');
     }
 }

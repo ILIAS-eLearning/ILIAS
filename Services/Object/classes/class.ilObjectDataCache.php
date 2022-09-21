@@ -83,7 +83,7 @@ class ilObjectDataCache
             $this->__storeObjectData($obj_id);
         }
 
-        return (int) ($this->object_data_cache[$obj_id]['owner']);
+        return (int) ($this->object_data_cache[$obj_id]['owner'] ?? 0);
     }
 
     public function lookupDescription(int $obj_id): string

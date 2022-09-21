@@ -345,7 +345,9 @@ class ilObjFileGUI extends ilObject2GUI
                         ilObjFileProcessorInterface::OPTION_FILENAME => $this->ui->factory()->input()->field()->text($this->lng->txt('title')),
                         ilObjFileProcessorInterface::OPTION_DESCRIPTION => $this->ui->factory()->input()->field()->textarea($this->lng->txt('description')),
                     ])
-                )->withMaxFiles(self::UPLOAD_MAX_FILES)->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes()),
+                )->withMaxFiles(self::UPLOAD_MAX_FILES)
+                 ->withMaxFileSize((int) ilFileUtils::getUploadSizeLimitBytes())
+                 ->withRequired(true),
             ]
         )->withSubmitCaption($this->lng->txt('upload_files'));
     }
@@ -371,12 +373,8 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         if (empty($files)) {
-            $this->tpl->setContent(
-                $this->ui->renderer()->render(
-                    $this->ui->factory()->messageBox()->failure($this->lng->txt('upload_failure'))
-                )
-            );
-
+            $form = $this->initUploadForm()->withRequest($this->request);
+            $this->tpl->setContent($this->ui->renderer()->render($form));
             return;
         }
 

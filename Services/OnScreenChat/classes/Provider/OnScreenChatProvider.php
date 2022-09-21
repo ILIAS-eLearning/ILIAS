@@ -31,6 +31,7 @@ use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\UI\Implementation\Component\Item\Shy;
 use ilSetting;
+use ilUtil;
 use JsonException;
 
 /**
@@ -77,7 +78,9 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                     $isUser = 0 !== $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
                     $chatSettings = new ilSetting('chatroom');
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
-                    return $isUser && $isEnabled;
+                    $acceptsMessages = ilUtil::yn2tf((string) $this->dic->user()->getPref('chat_osc_accept_msg'));
+
+                    return $isUser && $isEnabled && $acceptsMessages;
                 })
                 ->withTitle($this->dic->language()->txt('mm_private_chats'))
                 ->withSymbol($icon)

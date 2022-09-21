@@ -210,7 +210,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             . "iassme.file_name,"
             . "iassme.changer_id,"
             . "iassme.change_time,"
-            . "usr.lastname AS user_lastname,"
+            . "usr.login AS user_login,"
             . "ex.login AS examiner_login"
             . " FROM " . self::MEMBERS_TABLE . " iassme\n"
             . "	JOIN usr_data usr ON iassme.usr_id = usr.usr_id\n"

@@ -346,11 +346,17 @@ class ilAuthFrontend
 
 
         // --- anonymous/registered user
-        $this->logger->info(
-            'logged in as ' . $user->getLogin() .
+        if (PHP_SAPI !=="cli") {
+            $this->logger->info(
+                'logged in as ' . $user->getLogin() .
             ', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
             ', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
-        );
+            );
+        } else {
+            $this->logger->info(
+                'logged in as ' . $user->getLogin() . ' from CLI'
+            );
+        }
 
         // finally raise event
         $this->ilAppEventHandler->raise(

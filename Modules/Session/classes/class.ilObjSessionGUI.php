@@ -867,8 +867,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $file->setTitle(ilUtil::stripSlashes($_FILES['files']['name'][$counter]));
             $file->setDescription('');
             $file->setFileName(ilUtil::stripSlashes($_FILES['files']['name'][$counter]));
-            $file->setFileType($_FILES['files']['type'][$counter]);
-            $file->setFileSize($_FILES['files']['size'][$counter]);
             $file->create();
             $new_ref_id = $file->createReference();
             $file->putInTree($tree->getParentId($this->object->getRefId()));

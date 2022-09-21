@@ -318,7 +318,7 @@ class ilPCFileList extends ilPageContent
         ilObjFile::_deleteAllUsages($a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($file_ids as $file_id) {
             ilObjFile::_saveUsage(
-                $file_id,
+                (int) $file_id,
                 $a_page->getParentType() . ":pg",
                 $a_page->getId(),
                 $a_old_nr,

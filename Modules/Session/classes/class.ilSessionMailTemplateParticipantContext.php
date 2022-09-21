@@ -36,6 +36,8 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
     {
         global $DIC;
 
+        parent::__construct();
+
         $this->lng = $DIC->language();
         $this->obj_data_cache = $DIC['ilObjDataCache'];
     }

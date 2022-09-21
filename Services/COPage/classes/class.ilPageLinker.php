@@ -79,6 +79,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
 
     public function getLinkXML(array $int_links): string
     {
+        $ilCtrl = $this->ctrl;
         $link_info = "<IntLinkInfos>";
         foreach ($int_links as $int_link) {
             $target = $int_link["Target"];
@@ -151,13 +152,19 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                     case "RepositoryItem":
-                        $obj_type = ilObject::_lookupType($target_id, true);
-                        $obj_id = ilObject::_lookupObjId($target_id);
+                        $obj_type = ilObject::_lookupType((int) $target_id, true);
+                        $obj_id = ilObject::_lookupObjId((int) $target_id);
                         $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
                         break;
 
+                    case "File":
+                        if (!$this->offline) {
+                            $href = "#";
+                        }
+                        break;
+
                     case "User":
-                        $obj_type = ilObject::_lookupType($target_id);
+                        $obj_type = ilObject::_lookupType((int) $target_id);
                         if ($obj_type == "usr") {
                             $back = $this->profile_back_url;
                             //var_dump($back); exit;
@@ -195,7 +202,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         }
         $link_info .= "</IntLinkInfos>";
         $link_info .= $this->getLinkTargetsXML();
-
         return $link_info;
     }
 

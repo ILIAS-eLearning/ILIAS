@@ -161,7 +161,7 @@ class ilObjSAHSLearningModule extends ilObject
 //            $this->setOfflineMode(ilUtil::yn2tf($lm_rec["offline_mode"]));
             $this->setAutoSuspend(ilUtil::yn2tf($lm_rec["auto_suspend"]));
             $this->setIe_force_render(ilUtil::yn2tf($lm_rec["ie_force_render"]));
-            $this->setMasteryScore($lm_rec["mastery_score"]);
+            $this->setMasteryScore((int) $lm_rec["mastery_score"]);
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
             if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
@@ -401,9 +401,13 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * set auto review as Char for SCORM 2004
      */
-    public function setAutoReviewChar(string $a_auto_review): void
+    public function setAutoReviewChar(?string $a_auto_review): void
     {
-        $this->auto_review = $a_auto_review;
+        if ($a_auto_review == null) {
+            $this->auto_review = 'n';
+        } else {
+            $this->auto_review = $a_auto_review;
+        }
     }
 
     /**

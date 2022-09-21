@@ -1568,9 +1568,8 @@ class ilTrQuery
         $subqueries = array();
         foreach ($queries as $item) {
             // ugly "having" hack because of summary view
-            ilLoggerFactory::getLogger('root')->dump($item);
-            $item['fields'] = str_replace("[[--HAVING", "HAVING", $item['fields']);
-            $item['fields'] = str_replace("HAVING--]]", "", $item['fields']);
+            $item['query'] = str_replace("[[--HAVING", "HAVING", $item['query']);
+            $item['query'] = str_replace("HAVING--]]", "", $item['query']);
 
             if (!isset($item["count"])) {
                 $count_field = $item["fields"];

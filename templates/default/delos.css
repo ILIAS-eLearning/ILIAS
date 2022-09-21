@@ -7817,7 +7817,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin-right: 0px;
 }
 .il-notification-item .dropdown {
-  margin-top: -6.875rem;
+  margin-top: -20px;
 }
 .il-item-shy {
   display: flex;
@@ -8619,21 +8619,22 @@ input[type="checkbox"]:focus:focus-visible {
   margin-bottom: 6px;
   padding: 9px;
 }
-.ui-input-file-input .glyph[aria-label="Close"],
-.ui-input-file-input .glyph[aria-label="Close Disabled"] {
-  margin-right: 9px;
-  float: right;
+.ui-input-file-input span {
+  font-size: 0.875rem;
 }
-.ui-input-file-input .glyph[aria-label="Expand Content"],
-.ui-input-file-input .glyph[aria-label="Collapse Content"] {
+.ui-input-file-input span[data-action="collapse"],
+.ui-input-file-input span [data-file-action="expand"] {
   margin: 9px 0;
 }
-.ui-input-file-info span[data-dz-name],
-.ui-input-file-info span[data-dz-size] {
-  font-size: 0.875rem;
+.ui-input-file-input span[data-action="remove"] .glyph {
   margin-left: 9px;
+  float: right;
 }
-.ui-input-file-info span[data-dz-size] {
+.ui-input-file-input span[data-dz-name] {
+  margin-right: 9px;
+}
+.ui-input-file-input span[data-dz-size] {
+  margin-right: 9px;
   font-style: italic;
 }
 .il-table-presentation-viewcontrols {
@@ -9121,8 +9122,8 @@ div.alert ul > li:before {
 .carousel .carousel-control {
   background: transparent;
   color: #4c6586;
-  text-shadow: 0px 0px 5px white;
-  opacity: 0.8;
+  text-shadow: 0px 0px 8px white;
+  opacity: 0.9;
 }
 .carousel .carousel-control:hover,
 .carousel .carousel-control:focus-visible {
@@ -18311,10 +18312,14 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 16px;
   vertical-align: sub;
 }
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize,
-#onscreenchat-container .chat-window-wrapper .panel .panel-heading .close {
-  margin-top: -2px;
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading a.glyph {
+  display: inline-block;
+  vertical-align: middle;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize {
   margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,
 #onscreenchat-container .chat-window-wrapper .panel .chat .glyphicon {
@@ -19376,29 +19381,6 @@ div.textbox {
   padding-left: 20px;
   background: none;
   cursor: default;
-}
-.clearfix:after,
-.dl-horizontal dd:after,
-.btn-toolbar:after,
-.btn-group-vertical > .btn-group:after,
-.nav:after,
-.pager:after,
-.panel-body:after,
-.modal-header:after,
-.modal-footer:after,
-.container:after,
-.container-fluid:after,
-.row:after,
-.form-horizontal .form-group:after,
-.navbar:after,
-.navbar-header:after,
-.navbar-collapse:after,
-.il-table-presentation-row .il-table-presentation-row-expanded:after {
-  content: ".";
-  display: block;
-  height: 0;
-  clear: both;
-  visibility: hidden;
 }
 div.odd {
   padding: 0.5em 0;

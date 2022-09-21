@@ -71,7 +71,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
         $this->tpl->setVariable('REF_ID', $a_set['ref_id']);
         $this->tpl->setVariable(
             'CATEGORY',
-            ilObject::_lookupTitle(ilObject::_lookupObjId($a_set['ref_id']))
+            ilObject::_lookupTitle(ilObject::_lookupObjId((int)$a_set['ref_id']))
         );
     }
 }

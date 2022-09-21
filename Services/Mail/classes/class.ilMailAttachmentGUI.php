@@ -180,10 +180,10 @@ class ilMailAttachmentGUI
         if ($error !== '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error);
         } else {
-            $mailData = $this->umail->getSavedData();
-            if (is_array($mailData['attachments'])) {
+            $mail_data = $this->umail->getSavedData();
+            if (is_array($mail_data['attachments'])) {
                 $tmp = [];
-                foreach ($mailData['attachments'] as $attachment) {
+                foreach ($mail_data['attachments'] as $attachment) {
                     if (!in_array($attachment, $decodedFiles, true)) {
                         $tmp[] = $attachment;
                     }
@@ -244,13 +244,13 @@ class ilMailAttachmentGUI
 
         $table = new ilMailAttachmentTableGUI($this, 'showAttachments');
 
-        $mailData = $this->umail->getSavedData();
+        $mail_data = $this->umail->getSavedData();
         $files = $this->mfile->getUserFilesData();
         $data = [];
         $counter = 0;
         foreach ($files as $file) {
             $checked = false;
-            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'], true)) {
+            if (is_array($mail_data['attachments']) && in_array($file['name'], $mail_data['attachments'], true)) {
                 $checked = true;
             }
 

@@ -126,11 +126,12 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             "self_eval = " . $ilDB->quote(1, "integer") .
             " ORDER BY status_date DESC"
         );
-        $rec = $ilDB->fetchAssoc($set);
-        $status_day = substr($rec["status_date"], 0, 10);
-        $today = substr(ilUtil::now(), 0, 10);
-        if ($rec["valid"] && $rec["status"] == ilBasicSkill::ACHIEVED && $status_day == $today) {
-            $recent = $rec["status_date"];
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $status_day = substr($rec["status_date"], 0, 10);
+            $today = substr(ilUtil::now(), 0, 10);
+            if ($rec["valid"] && $rec["status"] == ilBasicSkill::ACHIEVED && $status_day == $today) {
+                $recent = $rec["status_date"];
+            }
         }
 
         return $recent;

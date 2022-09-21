@@ -1251,9 +1251,9 @@ assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
 assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
-assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_fixed_info#:#All participants get the same questions.<br>You can create questions directly in the test as well as reuse questions from a question pool. If you create new questions you can decide to save them in a question pool.
 assessment#:#test_question_set_type_random#:#Use of a random set of questions
-assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools.
+assessment#:#test_question_set_type_random_info#:#Every participant will see an individually generated set of questions. The questions are randomly selected from one or more question pools.
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
@@ -2623,6 +2623,7 @@ buddysystem#:#buddy_relation_requested#:#A request has been sent to the user.
 buddysystem#:#buddy_request_approved#:#You successfully approved the contact.
 buddysystem#:#buddy_request_ignored#:#You ignored the user.
 buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_tbl_state_actions_col_label#:#State / Action
 buddysystem#:#buddy_tbl_title_relations#:#Relations to Other Users
 buddysystem#:#buddy_use_osd#:#Popup Contact Requests
 buddysystem#:#buddy_use_osd_info#:#Display a popup to indicate a user wants to add you to his friends lists.
@@ -2838,6 +2839,7 @@ chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
+chatroom#:#chat_osc_minimize#:#Minimize
 chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.
 chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation.
 chatroom#:#chat_osc_nc_no_conv#:#No Conversations available
@@ -4800,8 +4802,8 @@ common#:#obj_chta#:#Chat Room
 common#:#obj_chtr#:#Chat Room
 common#:#obj_chtr_duplicate#:#Copy Chat Room
 common#:#obj_cld#:#Cloud Object
-common#:#obj_cmis#:#xAPI/cmi5
-common#:#obj_cmis_desc#:#Learning Record Store Types Configuration
+common#:#obj_cmis#:#LRS
+common#:#obj_cmis_desc#:#Configure the Types of Learning Record Stores
 common#:#obj_cmix#:#xAPI/cmi5
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#General settings for Plugins
@@ -5242,6 +5244,7 @@ common#:#prg_wizard_page#:#Copy Study Program (Step 2/2)
 common#:#prgr_add#:#Add Study Programme Link
 common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_settings#:#Settings of Study Programme Link
 common#:#print#:#Print
 common#:#print_view#:#Print View
 common#:#private_notes#:#Private Notes
@@ -7331,7 +7334,6 @@ crs#:#crs_contact_phone#:#Telephone
 crs#:#crs_contact_responsibility#:#Responsibility
 crs#:#crs_content#:#Course Content
 crs#:#crs_copy#:#Copy Course
-crs#:#crs_count_members#:#Number of members
 crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#The period is not valid.
 crs#:#crs_course_status_of_users#:#Passing the Course
@@ -7857,6 +7859,7 @@ crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet 
 crs#:#mem_cron_min_members_reason#:#You receive this message because you have activated the notification in the members-tab.
 crs#:#mem_cron_min_members_subject#:#Course/Group: Minimum Members Check
 crs#:#mem_cron_min_members_task#:#Please inform the participants if the course will not take place because of not enough attendants. Adjust the settings afterwards.
+crs#:#obj_count_members#:#Number of members
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_join_info#:#Please click Attend if you want to take part at this session.
@@ -9600,6 +9603,7 @@ forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
+forum#:#frm_all_threads#:#All Threads
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
@@ -9634,7 +9638,7 @@ forum#:#frm_noti_subject_act_post#:#Posting activated in forum "%1$s"%2$s, threa
 forum#:#frm_noti_subject_answ_post#:#Posting answered in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_cens_post#:#Posting censored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_del_post#:#Posting deleted in forum "%1$s"%2$s, thread "%3$s"
-forum#:#frm_noti_subject_del_thread#:#Thread "%4$s" deleted in forum "%1$s"%3$s
+forum#:#frm_noti_subject_del_thread#:#Thread "%3$s" deleted in forum "%1$s"%2$s
 forum#:#frm_noti_subject_new_post#:#New posting in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_uncens_post#:#Posting uncensored in forum "%1$s"%2$s, thread "%3$s"
 forum#:#frm_noti_subject_upt_post#:#Posting modified in forum "%1$s"%2$s, thread "%3$s"
@@ -10014,7 +10018,6 @@ iass#:#iass_remove_user_qst#:#Should the examinee really be removed?
 iass#:#iass_responsibility#:#Responsibility
 iass#:#iass_save_amend#:#Save Amended Record
 iass#:#iass_settings_saved#:#Settings saved.
-iass#:#iass_sort#:#Sortation
 iass#:#iass_sort_changetime_asc#:#Last Change ascending
 iass#:#iass_sort_changetime_desc#:#Last Change descending
 iass#:#iass_sort_examiner_login_asc#:#Examiner ascending
@@ -10712,7 +10715,7 @@ mail#:#mail_add_subfolder#:#Add Sub-folder
 mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
-mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
+mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List "%s"
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
@@ -10801,7 +10804,7 @@ mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allo
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 mail#:#mail_maxsize_attachment_error#:#The upload limit is:
 mail#:#mail_member_notification#:#Participant Notification
-mail#:#mail_members_of_mailing_list#:#Members of Mailing List
+mail#:#mail_members_of_mailing_list#:#Members of Mailing List "%s"
 mail#:#mail_members_search_continue#:#Continue
 mail#:#mail_message_send#:#Message sent
 mail#:#mail_move_error#:#Error moving mail
@@ -16111,6 +16114,8 @@ tbl#:#tbl_template_created#:#The current view has been saved.
 tbl#:#tbl_template_delete#:#Delete Saved View
 tbl#:#tbl_template_deleted#:#The saved view has been deleted.
 tbl#:#tbl_templates#:#View
+tos#:#deleteDocument#:#Delete
+tos#:#detachCriterionAssignment#:#Delete
 tos#:#tos_acceptance_history#:#Acceptance History
 tos#:#tos_account_reg_not_possible#:#Self-registration is currently not possible because there is no Terms of Service agreement available. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
@@ -16280,7 +16285,7 @@ trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
-trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Atop Container Objects
+trac#:#trac_lp_settings_info_parent_container#:#Learning Progress of Parent Container Objects
 trac#:#trac_lp_settings_info_parent_legend#:#The learning progress status of this object is influenced by "%s".
 trac#:#trac_manual_display#:#Display in Learning Progress
 trac#:#trac_manual_is_displayed#:#Is Displayed
