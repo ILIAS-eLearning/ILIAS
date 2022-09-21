@@ -348,6 +348,13 @@ class ilCmiXapiUser
 
                 return self::buildPseudoEmail(hash("sha256",'' . $user->getId() . $user->getCreateDate()), self::getIliasUuid());
 
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
+                $tmpHash = hash("sha256",'' . $user->getId() . $user->getCreateDate()) . '@' . $_SERVER['HTTP_HOST'];
+                if (strlen($tmpHash) > 80) {
+                    $tmpHash = substr($tmpHash,strlen($tmpHash)-80);
+                }
+                return $tmpHash;
+
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 
                 return self::buildPseudoEmail(self::getUserObjectUniqueId(), self::getIliasUuid());
@@ -383,6 +390,14 @@ class ilCmiXapiUser
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
 
                 return hash("sha256",'' . $user->getId() . $user->getCreateDate());
+
+            case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
+                $tmpHash = hash("sha256",'' . $user->getId() . $user->getCreateDate());
+                $tmpHost = '@' . $_SERVER['HTTP_HOST'];
+                if (strlen($tmpHash . $tmpHost) > 80) {
+                    $tmpHash = substr($tmpHash,strlen($tmpHash) - (80 - strlen($tmpHost)));
+                }
+                return $tmpHash;
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_RANDOM:
 

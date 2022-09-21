@@ -257,6 +257,12 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256URL'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+        );
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256URL_info'));
+        $item->addOption($op);
+        $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
             ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
         );

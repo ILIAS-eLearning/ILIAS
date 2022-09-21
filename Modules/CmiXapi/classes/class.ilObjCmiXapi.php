@@ -141,6 +141,7 @@ class ilObjCmiXapi extends ilObject2
     const PRIVACY_IDENT_REAL_EMAIL = 3;
     const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
     const PRIVACY_IDENT_IL_UUID_SHA256 = 5;
+    const PRIVACY_IDENT_IL_UUID_SHA256URL = 6;
 
     /**
      * @var string

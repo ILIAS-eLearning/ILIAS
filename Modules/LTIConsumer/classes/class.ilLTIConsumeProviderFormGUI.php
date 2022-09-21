@@ -174,6 +174,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256URL'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+        );
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_SHA256URL_info'));
+        $item->addOption($op);
+        $op = new ilRadioOption(
             $DIC->language()->txt('conf_privacy_ident_real_email'),
             ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
