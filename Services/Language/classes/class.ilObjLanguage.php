@@ -434,127 +434,29 @@ class ilObjLanguage extends ilObject
         }
 
         $lang_file = $path . "/ilias_" . $this->key . ".lang" . $scopeExtension;
-        $change_date = null;
 
         if (is_file($lang_file)) {
-            // initialize the array for updating lng_modules below
-            $lang_array = array();
-            $lang_array["common"] = array();
-
             // remove header first
             if ($content = self::cut_header(file($lang_file))) {
+                $local_changes = null;
                 if (empty($scope)) {
-                    // reset change date for a global file
                     // get all local changes for a global file
-                    $change_date = null;
                     $local_changes = $this->getLocalChanges();
                 } elseif ($scope === "local") {
-                    // set the change date to import time for a local file
                     // get the modification date of the local file
                     // get the newer local changes for a local file
-                    $change_date = date("Y-m-d H:i:s", time());
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($min_date);
                 }
-                $double_checker = [];
-                foreach ($content as $key => $val) {
-                    // split the line of the language file
-                    // [0]: module
-                    // [1]: identifier
-                    // [2]: value
-                    // [3]: comment (optional)
-                    $separated = explode($this->separator, trim($val));
-                    $pos = strpos($separated[2], $this->comment_separator);
-                    if ($pos !== false) {
-                        $separated[3] = substr($separated[2], $pos + strlen($this->comment_separator));
-                        $separated[2] = substr($separated[2], 0, $pos);
-                    }
+                $dbAccess = new ilObjLanguageDBAccess($ilDB, $this->key, $content, $local_changes, $scope);
+                $lang_array = $dbAccess->insertLangEntries($lang_file);
+                $dbAccess->replaceLangModules($lang_array);
 
-                    // check if the value has a local change
-                    $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
-
-                    if (empty($scope)) {
-                        // import of a global language file
-
-                        if ($local_value !== "" && $local_value != $separated[2]) {
-                            // keep an existing and different local calue
-                            $lang_array[$separated[0]][$separated[1]] = $local_value;
-                        } else {
-                            // check for double entries in global file
-                            if ($double_checker[$separated[0]][$separated[1]][$this->key] ?? false) {
-                                $this->ilias->raiseError(
-                                    "Duplicate Language Entry in $lang_file:\n$val",
-                                    $this->ilias->error_obj->MESSAGE
-                                );
-                            }
-                            $double_checker[$separated[0]][$separated[1]][$this->key] = true;
-
-                            // insert a new value if no local value exists
-                            // reset local change date if the values are equal
-                            self::replaceLangEntry(
-                                $separated[0],
-                                $separated[1],
-                                $this->key,
-                                $separated[2],
-                                $change_date,
-                                $separated[3] ?? null
-                            );
-
-                            $lang_array[$separated[0]][$separated[1]] = $separated[2];
-                        }
-                    } elseif ($scope === "local") {
-                        // import of a local language file
-
-                        if ($local_value !== "") {
-                            // keep a locally changed value that is newer than the file
-                            $lang_array[$separated[0]][$separated[1]] = $local_value;
-                        } else {
-                            // insert a new value if no global value exists
-                            // (local files may have additional entries for customizations)
-                            // set the change date to the import date
-                            self::replaceLangEntry(
-                                $separated[0],
-                                $separated[1],
-                                $this->key,
-                                $separated[2],
-                                $change_date,
-                                $separated[3]
-                            );
-
-                            $lang_array[$separated[0]][$separated[1]] = $separated[2];
-                        }
-                    }
-                }
-
-                $ld = "";
                 if (empty($scope)) {
-                    $ld = "installed";
+                    $this->status = "installed";
                 } elseif ($scope === "local") {
-                    $ld = "installed_local";
+                    $this->status = "installed_local";
                 }
-                if ($ld) {
-                    $query = "UPDATE object_data SET " .
-                            "description = " . $ilDB->quote($ld, "text") . ", " .
-                            "last_update = " . $ilDB->now() . " " .
-                            "WHERE title = " . $ilDB->quote($this->key, "text") . " " .
-                            "AND type = 'lng'";
-                    $ilDB->manipulate($query);
-                }
-            }
-
-            foreach ($lang_array as $module => $lang_arr) {
-                if ($scope === "local") {
-                    $q = "SELECT * FROM lng_modules WHERE " .
-                        " lang_key = " . $ilDB->quote($this->key, "text") .
-                        " AND module = " . $ilDB->quote($module, "text");
-                    $set = $ilDB->query($q);
-                    $row = $ilDB->fetchAssoc($set);
-                    $arr2 = unserialize($row["lang_array"], ["allowed_classes" => false]);
-                    if (is_array($arr2)) {
-                        $lang_arr = array_merge($arr2, $lang_arr);
-                    }
-                }
-                self::replaceLangModule($this->key, $module, $lang_arr);
             }
         }
     }
