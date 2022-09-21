@@ -1498,7 +1498,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'showStatistics',
             $this->object,
             $this->user,
-            ilLearningProgressAccess::checkAccess($this->object->getRefId())
+            ilLearningProgressAccess::checkAccess($this->object->getRefId()),
+            $this->access->checkRbacOrPositionPermissionAccess(
+                'read_learning_progress',
+                'read_learning_progress',
+                $this->object->getRefId()
+            )
         );
         $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
         $tbl->setTitle(
