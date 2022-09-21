@@ -81,7 +81,7 @@ il.UI.Input = il.UI.Input || {};
 
 		/**
 		 * Holds a list of Files per file input id to remove before sending the form
-		 * @type {Dropzone[]}
+		 * @type string[]
 		 */
 		let removal_items = [];
 
@@ -192,8 +192,8 @@ il.UI.Input = il.UI.Input || {};
 			dropzone.on('queuecomplete', submitCurrentFormHook);
 			dropzone.on('processing', enableAutoProcessingHook);
 			dropzone.on('success', setResourceStorageIdHook);
-			dropzone.on('error', function (event) {
-				event.stopImmediatePropagation();
+			dropzone.on('error', function () {
+				return false;
 			});
 		}
 
@@ -208,6 +208,7 @@ il.UI.Input = il.UI.Input || {};
 			let removal_glyph = $(this);
 			let input_id = removal_glyph.closest(SELECTOR.file_input).attr('id');
 			let dropzone = dropzones[input_id];
+			current_form.errors = false;
 
 			if (typeof dropzone === 'undefined') {
 				console.error(`Error: tried to remove file from uninitialized input: '${input_id}'`);
@@ -244,6 +245,8 @@ il.UI.Input = il.UI.Input || {};
 		 */
 		let processFormSubmissionHook = function (event) {
 			current_form = $(this).closest('form');
+			current_form.errors = false;
+
 			event.preventDefault();
 
 			// disable ALL submit buttons on the current page,
@@ -360,9 +363,10 @@ il.UI.Input = il.UI.Input || {};
 			let dropzone = dropzones[file_id_input.closest(SELECTOR.file_input).attr('id')];
 
 			if (typeof response.status === 'undefined' || 1 !== response.status) {
+				current_form.errors = true;
 				response.responseText = response.message;
 				ajaxResponseFailureHook(response, file_preview);
-				return;
+				return false;
 			}
 
 			// set the upload results IRSS file id.
@@ -372,7 +376,7 @@ il.UI.Input = il.UI.Input || {};
 		let submitCurrentFormHook = function () {
 			// submit the current form only if all dropzones
 			// were processed.
-			if (++current_dropzone === current_dropzone_count) {
+			if (current_form.errors === false && ++current_dropzone === current_dropzone_count) {
 				current_form.submit();
 			}
 		}
@@ -419,7 +423,7 @@ il.UI.Input = il.UI.Input || {};
 		let ajaxResponseFailureHook = function (response, file_preview) {
 			console.error(response.status, response.responseText);
 			displayErrorMessage(
-				I18N.general_error,
+				response.responseText,
 				file_preview
 			);
 		}
@@ -536,7 +540,6 @@ il.UI.Input = il.UI.Input || {};
 
 			// in case multiple file-inputs were added to ONE form, they
 			// all need to be processed.
-			let errors = null;
 			if (Array.isArray(file_inputs)) {
 				for (let i = 0; i < file_inputs.length; i++) {
 					let input_id = file_inputs[i].attr('id');
