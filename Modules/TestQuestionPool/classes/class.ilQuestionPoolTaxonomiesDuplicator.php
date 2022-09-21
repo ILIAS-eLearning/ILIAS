@@ -106,7 +106,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         $testTaxonomy->create();
 
         $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->doCloneObject($testTaxonomy, null, null); // TODO this is no longer possible
+        $poolTaxonomy->cloneObject(0, $testTaxonomy->getId());
 
         $poolTaxonomy->getTree()->readRootId();
         $testTaxonomy->getTree()->readRootId();
