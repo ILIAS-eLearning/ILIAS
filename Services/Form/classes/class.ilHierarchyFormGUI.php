@@ -29,6 +29,7 @@ use ILIAS\Refinery;
  */
 class ilHierarchyFormGUI extends ilFormGUI
 {
+    protected ilGlobalTemplateInterface $main_tpl;
     protected string $exp_target_script = "";
     protected string $icon = "";
     protected string $exp_id = "";
@@ -66,7 +67,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $tpl = $DIC["tpl"];
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->maxdepth = -1;
         $this->multi_commands = array();
@@ -78,7 +79,8 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->help_items = array();
 
         ilYuiUtil::initDragDrop();
-        $tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
+        $this->main_tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
+
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -464,26 +466,23 @@ class ilHierarchyFormGUI extends ilFormGUI
         }
 
         // explorer updater
+        /*
         if ($this->exp_frame != "") {
             $ttpl->setCurrentBlock("updater");
             $ttpl->setVariable("UPDATER_FRAME", $this->exp_frame);
             $ttpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
             $ttpl->setVariable("HREF_UPDATER", $this->exp_target_script);
             $ttpl->parseCurrentBlock();
-        }
+        }*/
 
         // drag and drop initialisation
         foreach ($this->drag_target as $drag_target) {
-            $ttpl->setCurrentBlock("dragtarget");
-            $ttpl->setVariable("EL_ID", $drag_target["id"] ?? "");
-            $ttpl->setVariable("GROUP", $drag_target["group"] ?? "");
-            $ttpl->parseCurrentBlock();
+            $this->main_tpl->addOnLoadCode('d = new ilDragTarget("droparea_" + "'.($drag_target["id"] ?? "").
+            '", "'.($drag_target["group"] ?? "").'");');
         }
         foreach ($this->drag_content as $drag_content) {
-            $ttpl->setCurrentBlock("dragcontent");
-            $ttpl->setVariable("EL_ID", $drag_content["id"] ?? "");
-            $ttpl->setVariable("GROUP", $drag_content["group"] ?? "");
-            $ttpl->parseCurrentBlock();
+            $this->main_tpl->addOnLoadCode('d = new ilDragContent("il_img_" + "'.($drag_content["id"] ?? "").
+                '", "'.($drag_content["group"] ?? "").'");');
         }
 
         // disambiguation menues and "insert as first child" flags
@@ -504,11 +503,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $ttpl->parseCurrentBlock();
                     } elseif (count($menu) == 1) {
                         // set first child flag
-                        $ttpl->setCurrentBlock("as_subitem_flag");
-                        $ttpl->setVariable("SI_NODE_ID", $node_id);
-                        $ttpl->setVariable("SI_GRP", $group);
-                        $ttpl->setVariable("SI_SI", (int) $menu[0]["subitem"]);
-                        $ttpl->parseCurrentBlock();
+                        $this->main_tpl->addOnLoadCode('as_subitem["'.$node_id.'" + "_" + "'.$group.'"] = "'.(int) $menu[0]["subitem"].'";');
                     }
                 }
             }
@@ -540,11 +535,7 @@ class ilHierarchyFormGUI extends ilFormGUI
                         $ttpl->parseCurrentBlock();
                     } elseif (count($menu) == 1) {
                         // set first child flag
-                        $ttpl->setCurrentBlock("as_subitem_flag");
-                        $ttpl->setVariable("SI_NODE_ID", $node_id);
-                        $ttpl->setVariable("SI_GRP", $group);
-                        $ttpl->setVariable("SI_SI", (int) $menu[0]["subitem"]);
-                        $ttpl->parseCurrentBlock();
+                        $this->main_tpl->addOnLoadCode('as_subitem["'.$node_id.'" + "_" + "'.$group.'"] = "'.(int) $menu[0]["subitem"].'";');
                     }
                 }
             }
@@ -755,9 +746,7 @@ class ilHierarchyFormGUI extends ilFormGUI
 
         // focus
         if ($this->getFocusId() == $a_child["node_id"]) {
-            $a_tpl->setCurrentBlock("focus");
-            $a_tpl->setVariable("FNODE_ID", $a_child["node_id"]);
-            $a_tpl->parseCurrentBlock();
+            $this->main_tpl->addOnLoadCode('document.getElementById("inp'.$a_child["node_id"].'").focus();');
         }
 
         // expander
