@@ -92,6 +92,14 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
+    public function updateObjectFromCurrentRevision(): void
+    {
+        $this->updateObjectFromRevision(
+            $this->manager->getCurrentRevision($this->manager->find($this->getResourceId())),
+            false
+        );
+    }
+
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true): void
     {
         $this->setTitle($r->getTitle());
