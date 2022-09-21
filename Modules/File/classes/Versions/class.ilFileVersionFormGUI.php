@@ -125,9 +125,8 @@ class ilFileVersionFormGUI
         $new_revision->setTitle($title);
         $this->resource_services->manage()->updateRevision($new_revision);
 
-        $this->file->setTitle($title);
         $this->file->setDescription($description);
-        $this->file->update();
+        $this->file->updateObjectFromCurrentRevision();
 
         return true;
     }
