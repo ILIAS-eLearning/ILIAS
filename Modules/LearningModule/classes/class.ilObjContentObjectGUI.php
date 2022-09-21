@@ -2297,7 +2297,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ilCtrl->saveParameter($this, array("menu_entry"));
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_menu_object_selector.html", "Modules/LearningModule");
+        $stpl = new ilTemplate("tpl.lm_menu_object_selector.html", true, true, "Modules/LearningModule");
+
 
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("lm_menu_select_object_to_add"));
 
@@ -2319,17 +2320,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
         // build html-output
         $exp->setOutput(0);
         $output = $exp->getOutput();
-
         // get page ids
         foreach ($exp->format_options as $node) {
-            if (!$node["container"]) {
-                $pages[] = $node["child"];
+            if (!($node["container"] ?? false)) {
+                $pages[] = $node["child"] ?? null;
             }
         }
 
         // access mode selector
-        $this->tpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
-        $this->tpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
+        $stpl->setVariable("TXT_SET_PUBLIC_MODE", $this->lng->txt("set_public_mode"));
+        $stpl->setVariable("TXT_CHOOSE_PUBLIC_MODE", $this->lng->txt("choose_public_mode"));
         $modes = array("complete" => $this->lng->txt("all_pages"), "selected" => $this->lng->txt("selected_pages_only"));
         $select_public_mode = ilLegacyFormElementsUtil::formSelect(
             $this->lm->getPublicAccessMode(),
@@ -2338,16 +2338,18 @@ class ilObjContentObjectGUI extends ilObjectGUI
             false,
             true
         );
-        $this->tpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
+        $stpl->setVariable("SELECT_PUBLIC_MODE", $select_public_mode);
 
-        $this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
-        $this->tpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
-        $this->tpl->setVariable("EXPLORER", $output);
+        $stpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("choose_public_pages"));
+        $stpl->setVariable("EXP_REFRESH", $this->lng->txt("refresh"));
+        $stpl->setVariable("EXPLORER", $output);
         //$this->tpl->setVariable("ONCLICK", $js_pages);
-        $this->tpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
-        $this->tpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
+        $stpl->setVariable("TXT_CHECKALL", $this->lng->txt("check_all"));
+        $stpl->setVariable("TXT_UNCHECKALL", $this->lng->txt("uncheck_all"));
+        $stpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+        $stpl->setVariable("FORMACTION", $this->ctrl->getLinkTarget($this, "savePublicSection"));
+
+        $this->tpl->setContent($stpl->get());
     }
 
     /**

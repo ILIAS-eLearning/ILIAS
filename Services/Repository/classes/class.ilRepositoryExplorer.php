@@ -22,6 +22,9 @@ use ILIAS\Repository\StandardGUIRequest;
  * Repository Explorer
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated
+ * only use seems to be ilPasteIntoMultipleItemsExplorer
+ * which is still used in repository and workspace.
  */
 class ilRepositoryExplorer extends ilExplorer
 {
