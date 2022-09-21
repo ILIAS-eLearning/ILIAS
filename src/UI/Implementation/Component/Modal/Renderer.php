@@ -98,8 +98,8 @@ class Renderer extends AbstractComponentRenderer
             $options["url"] = "#$id";
             $options = json_encode($options);
             $code =
-                "$(document).on('$show', function(event, signalData) { il.UI.modal.showModal('$id', $options, signalData); return false; });" .
-                "$(document).on('$close', function() { il.UI.modal.closeModal('$id'); return false; });";
+                "$(document).on('$show', function(event, signalData) { il.UI.modal.showModal('$id', $options, signalData);});" .
+                "$(document).on('$close', function() { il.UI.modal.closeModal('$id');});";
             if ($replace != "") {
                 $code .= "$(document).on('$replace', function(event, signalData) { il.UI.modal.replaceFromSignal('$id', signalData);});";
             }

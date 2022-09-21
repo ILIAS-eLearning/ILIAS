@@ -480,7 +480,7 @@ il.UI.Input = il.UI.Input || {};
 				let current_input_id = dropzone.files[i].input_id;
 				if (typeof current_input_id !== 'undefined' && current_input_id === input_id) {
 					file_to_remove = dropzone.files[i];
-          break;
+          			break;
 				}
 			}
 
@@ -488,6 +488,24 @@ il.UI.Input = il.UI.Input || {};
 				// removes ONE file object at found position.
 				dropzone.removeFile(file_to_remove);
 			}
+		}
+
+		let removeAllFilesFromQueue = function (input_id) {
+			console.log(input_id);
+			console.log(dropzones);
+			if (typeof dropzones[input_id] === 'undefined') {
+				console.error(`Error: tried to access unknown input '${input_id}'.`);
+				return;
+			}
+
+			for (let i = 0; i < dropzones[input_id].files.length; ++i) {
+				let file = dropzones[input_id].files[i];
+				let file_id_input = $(`#${file.input_id}`);
+				let file_preview = file_id_input.closest(SELECTOR.file_list_entry);
+				file_preview.remove();
+			}
+
+			dropzones[input_id].removeAllFiles();
 		}
 
 		/**
@@ -641,6 +659,7 @@ il.UI.Input = il.UI.Input || {};
 		// ==========================================
 
 		return {
+			removeAllFilesFromQueue: removeAllFilesFromQueue,
 			renderFileEntry: renderFileEntryHook,
 			init: init,
 		}
