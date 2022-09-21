@@ -4348,7 +4348,7 @@ common#:#itgr_add#:#Add Item Group
 common#:#itgr_new#:#New Item Group
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
-common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
+common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules###Needs to be adapted to new content of German lang file.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Setup information
 common#:#join#:#Join
@@ -12905,8 +12905,8 @@ ps#:#ps_error_message_password_min1_because_chars#:#Minimum password size may no
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimum password size may not be less than %s if password have to contain characters and numbers.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password size may not be less than %s if password have to contain characters, numbers and special characters.
 ps#:#ps_export_admin#:#Administrators
-ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
-ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
+ps#:#ps_export_confirm#:#User Confirmation when Entering Courses###Needs improvement!
+ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups###Needs improvement!
 ps#:#ps_export_course#:#Allow export of user profile data in courses
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_excel#:#Start Excel Export
@@ -14463,7 +14463,7 @@ search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
 search#:#lucene_show_sub_relevance#:#Show Sub-Item Relevance
-search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments.
+search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments. To do this, enter the number of characters including spaces.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_add_members_from_container_crs#:#Add Users of Current Course
@@ -14500,7 +14500,7 @@ search#:#search_grp_title#:#Group Name
 search#:#search_hide_adv_search#:#Hide Advanced Search
 search#:#search_item_filter_form#:#Search by Type
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
-search#:#search_like_info#:#Choose this option to get best results.
+search#:#search_like_info#:#Choose this option to get best results.###Needs to be adapted to new content of German lang file.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lom#:#LOM Metadata
 search#:#search_lucene#:#Lucene search

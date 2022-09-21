@@ -4347,7 +4347,7 @@ common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
-common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowie PDF-Dateien gesucht werden.
+common#:#java_server_info#:#Diese indexbasierte Suchart durchsucht sowohl die ILIAS-Datenbank als auch Dateien. Sie wird für größere ILIAS-Installationen empfohlen. Um die Lucene-Suche in ILIAS verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein (siehe Reiter „Lucene“).
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
@@ -12904,8 +12904,8 @@ ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
-ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
-ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
+ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
+ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
@@ -14459,7 +14459,7 @@ search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
 search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
-search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
+search#:#lucene_size_frag_info#:#Bitte bestimmen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden. Geben Sie dazu die Anzahl der Zeichen einschließlich Leerzeichen ein.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
@@ -14496,7 +14496,7 @@ search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
-search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
+search#:#search_like_info#:#Erlaubt die Suche in der ILIAS-Datenbank ohne Zusatzsoftware. Der Inhalt von Dateien (z. B. PDFs oder HTML-Lernmodule) wird nicht erfasst und deshalb auch nicht als Suchergebnis angezeigt.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
