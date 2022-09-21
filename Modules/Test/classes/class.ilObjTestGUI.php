@@ -1059,6 +1059,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $new_object->applyDefaults($testDefaults);
         }
 
+        $template_id = $this->getDidacticTemplateVar("tsttpl");
+        if ($template_id) {
+            $new_object->setTemplate($template_id);
+        }
+
         $new_object->saveToDb();
 
         // always send a message
