@@ -9661,7 +9661,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             array($a_q_id)
         );
         $rec = $ilDB->fetchAssoc($result);
-        return $rec["obj_id"];
+        return $rec["obj_id"] ?? null;
     }
 
     /**
