@@ -25,7 +25,8 @@ declare(strict_types=1);
  */
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
-    private bool $hasActiveLp = false;
+    private bool $has_active_lp = false;
+    private bool $has_general_lp_access = false;
     /** @var int[] */
     private array $completed = [];
     /** @var int[] */
@@ -33,14 +34,20 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
     /** @var int[] */
     private array $in_progress = [];
 
-    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, ilObjForum $forum)
-    {
+    public function __construct(
+        ilObjForumGUI $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjForum $forum,
+        ilObjUser $actor,
+        bool $has_general_lp_access
+    ) {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $lp = ilObjectLP::getInstance($forum->getId());
         if ($lp->isActive()) {
-            $this->hasActiveLp = true;
+            $this->has_active_lp = true;
         }
+        $this->has_general_lp_access = $has_general_lp_access;
 
         $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 
@@ -53,7 +60,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             );
         }
 
-        if ($this->hasActiveLp) {
+        if ($this->has_active_lp && $this->has_general_lp_access) {
             $this->lng->loadLanguageModule('trac');
             $this->completed = ilLPStatusWrapper::_lookupCompletedForObject($forum->getId());
             $this->in_progress = ilLPStatusWrapper::_lookupInProgressForObject($forum->getId());
@@ -96,7 +103,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             'txt' => $this->lng->txt('firstname'),
             'sortable' => true,
         ];
-        if ($this->hasActiveLp) {
+        if ($this->has_active_lp && $this->has_general_lp_access) {
             $columns[++$i] = [
                 'field' => 'progress',
                 'txt' => $this->lng->txt('learning_progress'),
@@ -113,7 +120,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 
         $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
-        if ($this->hasActiveLp) {
+        if ($this->has_active_lp && $this->has_general_lp_access) {
             $this->tpl->setCurrentBlock('val_lp');
             switch (true) {
                 case in_array($a_set['usr_id'], $this->completed, false):
