@@ -24,7 +24,8 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
  */
 class ilOrgUnitPositionFormGUI extends BaseForm
 {
-    public const F_AUTHORITIES = "authorities";
+    //public const F_AUTHORITIES = "authorities";
+    public const F_AUTHORITIES = "empty";
     protected ActiveRecord $object;
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
@@ -46,24 +47,24 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $m->setRenderOneForEmptyValue(false);
         $m->setMulti(true);
 
-        $id = new ilHiddenInputGUI('id');
+        $id = new ilHiddenInputGUI(ilOrgUnitGenericMultiInputGUI::MULTI_FIELD_ID);
         $m->addInput($id);
 
-        $over = new ilSelectInputGUI($lng->txt('over'), 'over');
-        $over_options = array();
+        $over = new ilSelectInputGUI($lng->txt('over'), ilOrgUnitGenericMultiInputGUI::MULTI_FIELD_OVER);
+        $over_options = [];
         $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $lng->txt('over_'
             . ilOrgUnitAuthority::OVER_EVERYONE);
         $over_options += ilOrgUnitPosition::getArray('id', 'title');
         $over->setOptions($over_options);
         $m->addInput($over);
 
-        $available_scopes = array();
+        $available_scopes = [];
         foreach (ilOrgUnitAuthority::getScopes() as $scope) {
             $txt = $lng->txt('scope_' . $scope);
             $available_scopes[$scope] = $txt;
         }
 
-        $scopes = new ilSelectInputGUI($lng->txt('scope'), 'scope');
+        $scopes = new ilSelectInputGUI($lng->txt('scope'), ilOrgUnitGenericMultiInputGUI::MULTI_FIELD_SCOPE);
         $scopes->setOptions($available_scopes);
         $m->addInput($scopes);
 
@@ -72,12 +73,12 @@ class ilOrgUnitPositionFormGUI extends BaseForm
 
     public function fillForm(): void
     {
+        $this->object->afterObjectLoad();
         $array = array(
             self::F_TITLE => $this->object->getTitle(),
             self::F_DESCRIPTION => $this->object->getDescription(),
-            self::F_AUTHORITIES => $this->object->getAuthoritiesAsArray(),
+            self::F_AUTHORITIES => $this->object->getAuthoritiesAsArray()
         );
-
         $this->setValuesByArray($array);
     }
 
@@ -91,12 +92,16 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->object->setDescription($this->getInput(self::F_DESCRIPTION));
 
         $authorities = (array) $this->getInput(self::F_AUTHORITIES);
-        $ilOrgUnitAuthorities = array();
+
+        $ilOrgUnitAuthorities = [];
         foreach ($authorities as $authority) {
             /**
              * @var $ilOrgUnitAuthority ilOrgUnitAuthority
              */
             $id = $authority["id"];
+            if ($id == '') {
+                $id = null;
+            }
             $ilOrgUnitAuthority = ilOrgUnitAuthority::findOrGetInstance($id);
             $ilOrgUnitAuthority->setPositionId($this->object->getId());
             $ilOrgUnitAuthority->setScope($authority["scope"]);
@@ -105,7 +110,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         }
 
         $this->object->setAuthorities($ilOrgUnitAuthorities);
-
+        $this->object->storeAuthorities();
         return true;
     }
 }
