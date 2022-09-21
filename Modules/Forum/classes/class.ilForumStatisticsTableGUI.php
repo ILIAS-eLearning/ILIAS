@@ -26,7 +26,9 @@ declare(strict_types=1);
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
     private bool $has_active_lp = false;
-    private bool $has_general_lp_access = false;
+    private bool $has_general_lp_access;
+    private bool $has_rbac_or_position_access;
+    private ilObjUser $actor;
     /** @var int[] */
     private array $completed = [];
     /** @var int[] */
@@ -39,7 +41,8 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         ilObjForum $forum,
         ilObjUser $actor,
-        bool $has_general_lp_access
+        bool $has_general_lp_access,
+        bool $has_rbac_or_position_access
     ) {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -48,6 +51,8 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             $this->has_active_lp = true;
         }
         $this->has_general_lp_access = $has_general_lp_access;
+        $this->has_rbac_or_position_access = $has_rbac_or_position_access;
+        $this->actor = $actor;
 
         $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 
@@ -121,41 +126,45 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
 
         if ($this->has_active_lp && $this->has_general_lp_access) {
-            $this->tpl->setCurrentBlock('val_lp');
-            switch (true) {
-                case in_array($a_set['usr_id'], $this->completed, false):
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED));
-                    $this->tpl->setVariable(
-                        'LP_STATUS_ICON',
-                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
-                    );
-                    break;
+            if ($this->has_rbac_or_position_access || $this->actor->getId() === (int) $a_set['usr_id']) {
+                $this->tpl->setCurrentBlock('val_lp');
+                switch (true) {
+                    case in_array($a_set['usr_id'], $this->completed, false):
+                        $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED));
+                        $this->tpl->setVariable(
+                            'LP_STATUS_ICON',
+                            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
+                        );
+                        break;
 
-                case in_array($a_set['usr_id'], $this->in_progress, false):
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS));
-                    $this->tpl->setVariable(
-                        'LP_STATUS_ICON',
-                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
-                    );
-                    break;
+                    case in_array($a_set['usr_id'], $this->in_progress, false):
+                        $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS));
+                        $this->tpl->setVariable(
+                            'LP_STATUS_ICON',
+                            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
+                        );
+                        break;
 
-                case in_array($a_set['usr_id'], $this->failed, false):
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_FAILED));
-                    $this->tpl->setVariable(
-                        'LP_STATUS_ICON',
-                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
-                    );
-                    break;
+                    case in_array($a_set['usr_id'], $this->failed, false):
+                        $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_FAILED));
+                        $this->tpl->setVariable(
+                            'LP_STATUS_ICON',
+                            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
+                        );
+                        break;
 
-                default:
-                    $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED));
-                    $this->tpl->setVariable(
-                        'LP_STATUS_ICON',
-                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
-                    );
-                    break;
+                    default:
+                        $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED));
+                        $this->tpl->setVariable(
+                            'LP_STATUS_ICON',
+                            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
+                        );
+                        break;
+                }
+                $this->tpl->parseCurrentBlock();
+            } else {
+                $this->tpl->touchBlock('no_lp');
             }
-            $this->tpl->parseCurrentBlock();
         }
     }
 
