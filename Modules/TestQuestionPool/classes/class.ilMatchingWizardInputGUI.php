@@ -31,6 +31,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
  */
 class ilMatchingWizardInputGUI extends ilTextInputGUI
 {
+    private string $pending;
     protected $text_name = '';
     protected $image_name = '';
     protected $values = array();
