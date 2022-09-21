@@ -5439,7 +5439,7 @@ common#:#search_result#:#Suchergebnis
 common#:#search_results#:#Suchergebnisse
 common#:#search_user#:#Benutzer suchen
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
-common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
+common#:#seas_max_hits_info#:#Stellen Sie hier die Maximalanzahl von Suchergebnissen ein, die nach einer Suchanfrage ausgegeben werden. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
 common#:#seas_settings#:#Sucheinstellungen
 common#:#second#:#Sekunde
 common#:#second_email#:#Zweite E-Mail
@@ -14436,14 +14436,14 @@ search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die IP-A
 search#:#lucene_index_path#:#Verzeichnis für Indexdateien
 search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
 search#:#lucene_last_index_time#:#Letzte Indexerstellung
-search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
+search#:#lucene_last_index_time_info#:#Bitte ändern Sie diese Einstellung nur dann, wenn Sie das Backup einer Lucene-Indexdatei eingespielt haben.
 search#:#lucene_level#:#Log-Level
 search#:#lucene_log#:#Pfad zur Logdatei
 search#:#lucene_log_info#:#Bitte tragen Sie hier den absoluten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei noch nicht existiert, wird sie automatisch erzeugt.
 search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
-search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
+search#:#lucene_max_sub_info#:#Bitte geben Sie die Anzahl von Unterobjekten (z. B. Forenthemen bei Foren oder Glossarbegriffe bei Glossaren) ein, die maximal angezeigt werden.
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
 search#:#lucene_num_frag_info#:#Bitte geben Sie die Maximalanzahl von Textabschnitten ein, die zur Hervorhebung der Suchtreffer ausgegeben werden sollen.
 search#:#lucene_num_fragments#:#Anzahl Textabschnitte
@@ -14457,7 +14457,7 @@ search#:#lucene_relevance_short#:#Relevanz
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
-search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.
+search#:#lucene_show_relevance_info#:#Suchergebnisse werden nach ihrer Relevanz sortiert ausgegeben. Die Relevanz des jeweiligen Suchergebnisses wird als zusätzliche Information für alle Treffer angezeigt.
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
 search#:#lucene_size_frag_info#:#Bitte bestimmen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden. Geben Sie dazu die Anzahl der Zeichen einschließlich Leerzeichen ein.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
@@ -14473,7 +14473,7 @@ search#:#search_area#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus innerhalb dessen die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_cdate_filter#:#Suche nach Erstellungsdatum
-search#:#search_cdate_filter_info#:#Wenn aktiviert, kann die Suche mit einem Filter für das Erstellungsdatum von Objekten durchgeführt werden.
+search#:#search_cdate_filter_info#:#Bei der Suche kann das Erstellungsdatum von Objekten berücksichtigt werden.
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
 search#:#search_content#:#Seiteninhalt
 search#:#search_created_after#:#Objekte erstellt nach dem...
@@ -14502,7 +14502,7 @@ search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
 search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_filter_form#:#Dateitypen-Filter
-search#:#search_mime_filter_form_info#:#Suche wird auf die ausgewählten Dateitypen beschränkt.
+search#:#search_mime_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen.
 search#:#search_mime_image#:#Bilder
 search#:#search_mime_pdf#:#PDF-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
