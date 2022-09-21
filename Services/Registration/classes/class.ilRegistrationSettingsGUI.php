@@ -867,7 +867,7 @@ class ilRegistrationSettingsGUI
         $valid = $this->form_gui->checkInput();
         if ($valid) {
             $number = $this->form_gui->getInput('reg_codes_number');
-            $role = $this->form_gui->getInput('reg_codes_role');
+            $role = (int) $this->form_gui->getInput('reg_codes_role');
             $local = $this->form_gui->getInput("reg_codes_local");
 
             if (is_array($local)) {
@@ -902,11 +902,11 @@ class ilRegistrationSettingsGUI
                     if (!array_sum($date)) {
                         $valid = false;
                     } else {
-                        $date = [
+                        $date = serialize([
                             "d" => $date["dd"],
                             "m" => $date["MM"] % 12,
                             "y" => floor($date["MM"] / 12)
-                        ];
+                        ]);
                     }
                     break;
 
@@ -1018,7 +1018,7 @@ class ilRegistrationSettingsGUI
 
         $codes = ilRegistrationCode::getCodesForExport(
             $utab->filter["code"],
-            $utab->filter["role"],
+            $utab->filter["role"] ? int($utab->filter["role"]) : null,
             $utab->filter["generated"],
             $utab->filter["alimit"]
         );

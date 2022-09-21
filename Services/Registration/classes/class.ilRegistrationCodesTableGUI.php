@@ -80,7 +80,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Get user items
      */
-    public function getItems(): void
+    private function getItems(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -131,10 +131,14 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
             if ($code["used"]) {
                 $result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"], IL_CAL_UNIX));
+            } else {
+                $result[$k]["used"] = "";
             }
 
             if ($code["role"]) {
                 $result[$k]["role"] = $this->role_map[$code["role"]];
+            } else {
+                $result[$k]["role"] = "";
             }
 
             if ($code["role_local"]) {
@@ -149,6 +153,8 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                     sort($local);
                     $result[$k]["role_local"] = implode("<br />", $local);
                 }
+            } else {
+                $result[$k]["role_local"] = "";
             }
 
             if ($code["alimit"]) {
