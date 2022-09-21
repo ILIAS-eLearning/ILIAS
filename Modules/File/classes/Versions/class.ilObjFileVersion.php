@@ -208,7 +208,7 @@ class ilObjFileVersion extends ArrayObject
     }
 
     /**
-     * @param null $title
+     * @param string $title
      * @return ilObjFileVersion
      */
     public function setTitle($title)
@@ -288,5 +288,4 @@ class ilObjFileVersion extends ArrayObject
         $this->size = $size;
         return $this;
     }
-
 }
