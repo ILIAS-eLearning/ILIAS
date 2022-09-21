@@ -6,10 +6,10 @@
 // Set an ILIAS variable here with an il- prefix and overwrite the bootstrap variable in the bootstrap variables file
 // with the il- variable set here.
 
+@import "./_settings_color-palette.scss";
+@import "./_settings_typography.scss";
 @import "./_settings_borders.scss";
 @import "./_settings_button.scss";
-@import "./_settings_color-palette.scss";
 @import "./_settings_footer.scss";
 @import "./_settings_header.scss";
 @import "./_settings_layout.scss";
-@import "./_settings_typography.scss";
