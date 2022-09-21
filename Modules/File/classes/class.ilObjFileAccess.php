@@ -17,6 +17,7 @@
  *********************************************************************/
 
 use ILIAS\DI\Container;
+use ILIAS\FileUpload\MimeType;
 
 /**
  * Access class for file objects.
@@ -364,5 +365,16 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         }
         self::_preloadData([$a_obj_id], []);
         return self::$preload_list_gui_data[$a_obj_id];
+    }
+
+    public static function isZIP(?string $type): bool
+    {
+        return in_array(
+            $type ?? '',
+            [
+                MimeType::APPLICATION__ZIP,
+                MimeType::APPLICATION__X_ZIP_COMPRESSED
+            ]
+        );
     }
 }
