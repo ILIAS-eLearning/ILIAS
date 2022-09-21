@@ -34,7 +34,7 @@ class ilRegistrationCode
         int $stamp,
         array $local_roles,
         string $limit,
-        array $limit_date,
+        string $limit_date,
         bool $reg_type,
         bool $ext_type
     ): int {
@@ -54,10 +54,6 @@ class ilRegistrationCode
                 [$code]
             );
             $found = (bool) $ilDB->numRows($chk);
-        }
-
-        if ($limit === "relative") {
-            $limit_date = serialize($limit_date); //TODO-PHP8-REVIEW please don't override variables with different types
         }
 
         $data = [
@@ -181,9 +177,9 @@ class ilRegistrationCode
         return $result;
     }
 
-    protected static function filterToSQL(
+    private static function filterToSQL(
         string $filter_code,
-        int $filter_role,
+        ?int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
     ): string {
@@ -213,7 +209,7 @@ class ilRegistrationCode
 
     public static function getCodesForExport(
         string $filter_code,
-        int $filter_role,
+        ?int $filter_role,
         string $filter_generated,
         string $filter_access_limitation
     ): array {
