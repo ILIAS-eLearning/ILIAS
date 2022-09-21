@@ -24,6 +24,8 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionGUI extends BaseCommands
 {
+    use ILIAS\Repository\BaseGUIRequest;
+
     public const SUBTAB_SETTINGS = 'settings';
     public const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
     public const CMD_CONFIRM_DELETION = 'confirmDeletion';
@@ -32,7 +34,6 @@ class ilOrgUnitPositionGUI extends BaseCommands
     private \ilGlobalTemplateInterface $main_tpl;
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
-    private \ILIAS\HTTP\Services $http;
     private ilLanguage $language;
 
     public function __construct()
@@ -46,8 +47,12 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         $this->tpl = $DIC->ui()->mainTemplate();
-        $this->http = $DIC->http();
         $this->language = $DIC->language();
+        $this->initRequest(
+            $DIC->http(),
+            $DIC['refinery']
+        );
+
 
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) $_GET['ref_id'])) {
             $main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
@@ -200,17 +205,9 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->ctrl->redirect($this, self::CMD_INDEX);
     }
 
-    protected function getARIdFromRequest(): string
-    {
-        $get = $this->http->request()->getQueryParams()[self::AR_ID];
-        $post = $this->http->request()->getParsedBody()[self::AR_ID];
-
-        return $post ? $post : $get;
-    }
-
     protected function getPositionFromRequest(): ?ActiveRecord
     {
-        return ilOrgUnitPosition::find($this->getARIdFromRequest());
+        return ilOrgUnitPosition::find($this->str(self::AR_ID));
     }
 
     public static function initAuthoritiesRenderer(): string
