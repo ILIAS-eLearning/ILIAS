@@ -62,7 +62,7 @@ class ilObjFileServicesGUI extends ilObject2GUI
         $this->http = $DIC->http()->wrapper();
         $this->ref_id = $this->http->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         $this->refinery = $DIC->refinery();
-        $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
+        $this->file_service_settings = $DIC->fileServiceSettings();
     }
 
     public function getType(): string
