@@ -124,7 +124,7 @@ class CanAccessFileUploadAnswer
 
     private function activeIdOfFile(string $file, int $test) : ?int
     {
-        $is_upload_question = 'EXISTS (SELECT 1 FROM qpl_qst_type INNER JOIN qpl_questions ON question_id = question_fi WHERE type_tag = %s AND question_type_id = question_type_fi)';
+        $is_upload_question = 'EXISTS (SELECT 1 FROM qpl_qst_type INNER JOIN qpl_questions ON question_type_id = question_type_fi WHERE type_tag = %s AND tst_solutions.question_fi = qpl_questions.question_id)';
         $is_in_test = 'EXISTS (SELECT 1 FROM tst_active WHERE test_fi = %s AND active_id = active_fi)';
 
         $result = $this->container->database()->queryF(
