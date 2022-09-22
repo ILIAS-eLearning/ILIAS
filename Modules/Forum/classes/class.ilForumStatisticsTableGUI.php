@@ -26,9 +26,6 @@ declare(strict_types=1);
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
     private bool $has_active_lp = false;
-    private bool $has_general_lp_access;
-    private bool $has_rbac_or_position_access;
-    private ilObjUser $actor;
     /** @var int[] */
     private array $completed = [];
     /** @var int[] */
@@ -40,9 +37,9 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         ilObjForumGUI $a_parent_obj,
         string $a_parent_cmd,
         ilObjForum $forum,
-        ilObjUser $actor,
-        bool $has_general_lp_access,
-        bool $has_rbac_or_position_access
+        private ilObjUser $actor,
+        private bool $has_general_lp_access,
+        private bool $has_rbac_or_position_access
     ) {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -50,9 +47,6 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         if ($lp->isActive()) {
             $this->has_active_lp = true;
         }
-        $this->has_general_lp_access = $has_general_lp_access;
-        $this->has_rbac_or_position_access = $has_rbac_or_position_access;
-        $this->actor = $actor;
 
         $this->setRowTemplate('tpl.statistics_table_row.html', 'Modules/Forum');
 
