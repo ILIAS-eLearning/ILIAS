@@ -80,16 +80,16 @@ class ilZipJob extends AbstractJob
     {
         $this->logger->debug('Start zipping input dir!');
         $this->logger->dump($input);
-        $tmpdir = $input[0]->getValue();
+        $tmpdir = rtrim($input[0]->getValue(), "/");
         $this->logger->debug('Zipping directory:' . $tmpdir);
-
-        ilFileUtils::zip($tmpdir, $tmpdir . '.zip');
+        $zip_name = $tmpdir . '.zip';
+        ilFileUtils::zip($tmpdir, $zip_name);
 
         // delete temp directory
         ilFileUtils::delDir($tmpdir);
 
         $zip_file_name = new StringValue();
-        $zip_file_name->setValue($tmpdir . '.zip');
+        $zip_file_name->setValue($zip_name);
 
         return $zip_file_name;
     }
