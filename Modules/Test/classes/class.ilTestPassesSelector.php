@@ -279,7 +279,7 @@ class ilTestPassesSelector
      */
     public function getLastFinishedPassTimestamp(): ?int
     {
-        if ($this->getLastFinishedPass() === null) {
+        if ($this->getLastFinishedPass() === null || $this->getLastFinishedPass() === -1) {
             return null;
         }
 

@@ -211,13 +211,16 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         global $DIC;
         $values = $DIC->http()->request()->getParsedBody();
         if (!isset($values['kiosk_options'])) {
-            $values['kiosk_options'] = array();
+            $values['kiosk_options'] = [];
         }
         if (!isset($values['instant_feedback_contents'])) {
-            $values['instant_feedback_contents'] = array();
+            $values['instant_feedback_contents'] = [];
         }
         if (!isset($values['list_of_questions_options'])) {
-            $values['list_of_questions_options'] = array();
+            $values['list_of_questions_options'] = [];
+        }
+        if (!isset($values['pass_waiting'])) {
+            $values['pass_waiting'] = [];
         }
 
         $form->setValuesByArray($values);
