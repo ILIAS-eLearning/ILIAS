@@ -205,7 +205,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         yield from $this->map->getAllFromFilter();
     }
-    
+
+    /**
+     * @return \Generator|isItem[]
+     */
+    public function getRawUnfilteredItems() : \Generator
+    {
+        yield from $this->map->getAllFromRaw();
+    }
+
     public function hasItems() : bool
     {
         return $this->map->has();

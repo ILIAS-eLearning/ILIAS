@@ -48,7 +48,7 @@ class ilMMItemRepository
         $this->main_collector->collectOnce();
         $this->services = $DIC->globalScreen();
 
-        foreach ($this->main_collector->getRawItems() as $top_item) {
+        foreach ($this->main_collector->getRawUnfilteredItems() as $top_item) {
             ilMMItemStorage::register($top_item);
         }
     }

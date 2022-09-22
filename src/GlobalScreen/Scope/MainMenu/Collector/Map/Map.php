@@ -145,6 +145,15 @@ class Map implements Filterable, Walkable
     /**
      * @return \Generator|isItem[]
      */
+    public function getAllFromRaw() : \Generator
+    {
+        yield from $this->raw;
+    }
+
+
+    /**
+     * @return \Generator|isItem[]
+     */
     public function getAllFromFilter() : \Generator
     {
         $this->applyFilters();
