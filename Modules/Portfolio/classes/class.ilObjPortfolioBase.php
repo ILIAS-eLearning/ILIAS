@@ -455,8 +455,8 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 
             $page_recipe = null;
-            if (is_array($a_recipe)) {
-                $page_recipe = $a_recipe[$page_id];
+            if (isset($a_recipe)) {
+                $page_recipe = $a_recipe[$page_id] ?? null;
             }
 
             $valid = false;
