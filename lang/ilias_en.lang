@@ -16939,3 +16939,4 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
+mob#:#mob_srt_not_allowed#:#Files with a .srt suffix are currently not allowed to be uploaded. If you would like to use srt files, contact your system administrator.
