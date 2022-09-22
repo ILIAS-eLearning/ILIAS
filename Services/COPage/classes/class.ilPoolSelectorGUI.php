@@ -76,6 +76,7 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
      * @param array $a_node node data
      * @return bool visible true/false
      */
+    /* This might be very expensive performance wise, see #32883
     public function isNodeVisible($a_node)
     {
         if (parent::isNodeVisible($a_node)) {
@@ -92,5 +93,5 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
         }
         
         return false;
-    }
+    }*/
 }
