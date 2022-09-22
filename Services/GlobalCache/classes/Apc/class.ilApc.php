@@ -74,23 +74,8 @@ class ilApc extends ilGlobalCacheService
      */
     public function flush($complete = false)
     {
-        if ($complete) {
-            return apcu_clear_cache();
-        }
-        if (extension_loaded('ext-apcu')) {
-            $key_prefix = $this->returnKey('');
-            $apcu_iterator = new APCUIterator();
-            $apcu_iterator->rewind();
-            while ($apcu_iterator->valid() && $current_key = $apcu_iterator->key()) {
-                // "begins with"
-                if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
-                    $this->delete($current_key);
-                }
-                $apcu_iterator->next();
-            }
-            return true;
-        }
-        return false;
+        // incomplete flushing is not supported by APCu, an own implementation coused issues like https://mantis.ilias.de/view.php?id=28201
+        return function_exists('apcu_clear_cache') && apcu_clear_cache();
     }
 
 
