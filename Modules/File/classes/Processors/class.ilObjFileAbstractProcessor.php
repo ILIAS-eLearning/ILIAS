@@ -52,7 +52,9 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         $revision = $this->storage->manage()->getCurrentRevision($rid);
         $file_obj = new ilObjFile();
         $file_obj->setResourceId($rid);
-        $file_obj->setPageCount($this->page_counter->extractAmountOfPagesByRID($rid) ?? 0);
+        if ($this->page_counter->isAvailable()) {
+            $file_obj->setPageCount($this->page_counter->extractAmountOfPagesByRID($rid) ?? 0);
+        }
         $file_obj->setTitle($revision->getInformation()->getTitle());
         $file_obj->setFileName($revision->getInformation()->getTitle());
         $file_obj->setVersion($revision->getVersionNumber());

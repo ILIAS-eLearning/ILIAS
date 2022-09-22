@@ -26,21 +26,31 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 /**
  * Class ilCountPDFPages
  *
- * @author Fabian Schmid <fabian@sr.solutions>
+ * @author   Fabian Schmid <fabian@sr.solutions>
  * @internal This class is not part of the public ILIAS API and may change at any time.
  */
 class ilCountPDFPages
 {
     private \ILIAS\ResourceStorage\Services $irss;
+    private bool $postscript_available = false;
 
     public function __construct()
     {
         global $DIC;
         $this->irss = $DIC->resourceStorage();
+        $this->postscript_available = (defined('PATH_TO_GHOSTSCRIPT') && PATH_TO_GHOSTSCRIPT !== "");
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->postscript_available;
     }
 
     public function extractAmountOfPagesByRID(ResourceIdentification $rid): ?int
     {
+        if (!$this->postscript_available) {
+            return null;
+        }
         $revision = $this->irss->manage()->getCurrentRevision($rid);
         $info = $revision->getInformation();
         if ($info->getMimeType() !== MimeType::APPLICATION__PDF) {
@@ -53,7 +63,10 @@ class ilCountPDFPages
 
     public function extractAmountOfPagesByPath(string $path_to_pdf): ?int
     {
-        $arg = "-q -dNODISPLAY -c \"($path_to_pdf) (r) file runpdfbegin pdfpagecount = quit\";";
+        if (!$this->postscript_available) {
+            return null;
+        }
+        $arg = "-q -dNODISPLAY -dNOSAFER -c \"($path_to_pdf) (r) file runpdfbegin pdfpagecount = quit\";";
         $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
 
         return (int) $return[0] ?? null;
