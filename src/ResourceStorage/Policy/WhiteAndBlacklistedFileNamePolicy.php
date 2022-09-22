@@ -36,7 +36,16 @@ class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
 
     public function prepareFileNameForConsumer(string $filename_with_extension) : string
     {
-        return \ilFileUtils::getValidFilename($filename_with_extension);
+        global $DIC;
+        $as_ascii = (bool) !$DIC->clientIni()->readVariable(
+            'file_access',
+            'disable_ascii'
+        );
+        $valid_filename = \ilFileUtils::getValidFilename($filename_with_extension);
+        if ($as_ascii) {
+            return \ilUtil::getASCIIFilename($valid_filename);
+        }
+        return $valid_filename;
     }
 
     public function check(string $extension) : bool
@@ -46,5 +55,4 @@ class WhiteAndBlacklistedFileNamePolicy implements FileNamePolicy
         }
         return true;
     }
-
 }
