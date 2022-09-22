@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Services;
@@ -11,6 +27,7 @@ use ILIAS\ResourceStorage\Services;
  */
 abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
 {
+    protected ilCountPDFPages $page_counter;
     protected Services $storage;
     protected ResourceStakeholder $stakeholder;
     protected ilObjFileGUI $gui_object;
@@ -23,6 +40,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         $this->storage = $storage;
         $this->stakeholder = $stakeholder;
         $this->gui_object = $gui_object;
+        $this->page_counter = new ilCountPDFPages();
     }
 
     /**
@@ -34,6 +52,7 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         $revision = $this->storage->manage()->getCurrentRevision($rid);
         $file_obj = new ilObjFile();
         $file_obj->setResourceId($rid);
+        $file_obj->setPageCount($this->page_counter->extractAmountOfPagesByRID($rid) ?? 0);
         $file_obj->setTitle($revision->getInformation()->getTitle());
         $file_obj->setFileName($revision->getInformation()->getTitle());
         $file_obj->setVersion($revision->getVersionNumber());
