@@ -9,9 +9,9 @@
  */
 class SurveyImportParser extends ilSaxParser
 {
-    protected int $showQuestiontext;
-    protected int $showBlocktitle;
-    protected int $compressView;
+    protected $showQuestiontext;
+    protected $showBlocktitle;
+    protected $compressView;
     public $path;
     public $depth;
     public $activequestion;
