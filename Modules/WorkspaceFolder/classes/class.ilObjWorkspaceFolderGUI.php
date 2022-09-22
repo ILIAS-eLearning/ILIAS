@@ -966,6 +966,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
     public function getBucketTitle(): string
     {
-        return ilFileUtils::getASCIIFilename($this->object->getTitle());
+        $title = ilFileUtils::getASCIIFilename($this->object->getTitle());
+        if ($title === '') { // $this->>object->getTitle() is empty in root of personal and shared resources
+            $title = $this->lng->txt('personal_resources');
+        }
+        return $title;
     }
 }
