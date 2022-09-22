@@ -1,22 +1,24 @@
 <?php
 
-use ILIAS\Filesystem\Exception\IOException;
-use ILIAS\Filesystem\Util\LegacyPathHelper;
-use ILIAS\Filesystem\Filesystem;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\Filesystem\Filesystem;
 
 /**
  * @deprecated
@@ -168,7 +170,7 @@ abstract class ilFileSystemAbstractionStorage
      */
     public function getAbsolutePath(): string
     {
-        return $this->getLegacyAbsolutePath();
+        return rtrim($this->getLegacyAbsolutePath(), "/");
     }
 
     /**
@@ -185,9 +187,9 @@ abstract class ilFileSystemAbstractionStorage
         }
 
         if ($this->getStorageType() === self::STORAGE_DATA) {
-            return CLIENT_DATA_DIR . '/' . $this->path;
+            return rtrim(CLIENT_DATA_DIR, '/') . '/' . ltrim($this->path, '/');
         }
-        return CLIENT_WEB_DIR . '/' . $this->path;
+        return rtrim(CLIENT_WEB_DIR, '/') . '/' . ltrim($this->path, '/');
     }
 
     protected function init(): bool
