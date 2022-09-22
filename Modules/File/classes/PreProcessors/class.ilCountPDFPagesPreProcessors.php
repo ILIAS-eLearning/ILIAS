@@ -30,23 +30,29 @@ use ILIAS\FileUpload\MimeType;
 class ilCountPDFPagesPreProcessors implements PreProcessor
 {
     public const PAGE_COUNT = 'page_count';
+    private ilCountPDFPages $page_counter;
 
+    public function __construct()
+    {
+        $this->page_counter = new ilCountPDFPages();
+    }
 
-    /**
-     * @inheritdoc
-     */
     public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
     {
-        if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
-            && PATH_TO_GHOSTSCRIPT != ""
+        if (
+            $this->page_counter->isAvailable()
+            && $metadata->getMimeType() == MimeType::APPLICATION__PDF
         ) {
-            $PATH_TO_PDF = $stream->getMetadata('uri');
-            $arg = "-q -dNODISPLAY -c \"($PATH_TO_PDF) (r) file runpdfbegin pdfpagecount = quit\";";
-            $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
-
-            $metadata->additionalMetaData()->put(self::PAGE_COUNT, (string) $return[0]);
+            $path_to_pdf = $stream->getMetadata('uri');
+            $metadata->additionalMetaData()->put(
+                self::PAGE_COUNT,
+                (string) $this->page_counter->extractAmountOfPagesByPath($path_to_pdf)
+            );
         }
 
-        return new ProcessingStatus(ProcessingStatus::OK, 'ilCountPDFPagesPreProcessors');
+        return new ProcessingStatus(
+            ProcessingStatus::OK,
+            'ilCountPDFPagesPreProcessors'
+        );
     }
 }
