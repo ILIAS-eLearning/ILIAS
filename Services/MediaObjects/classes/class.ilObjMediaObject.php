@@ -1764,7 +1764,7 @@ class ilObjMediaObject extends ilObject
      */
     public function getMultiSrtUploadDir(): string
     {
-        return ilObjMediaObject::_getDirectory($this->getId() . "/srt/tmp");
+        return ilObjMediaObject::_getDirectory($this->getId()) . "/srt/tmp";
     }
 
 

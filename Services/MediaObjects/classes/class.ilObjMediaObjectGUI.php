@@ -26,6 +26,7 @@ use ILIAS\MediaObjects\SubTitles\SubtitlesGUIRequest;
  */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
+    protected ilFileServicesSettings $file_service_settings;
     protected SubtitlesGUIRequest $sub_title_request;
     protected ilPropertyFormGUI $form_gui;
     protected int $height_preset = 0;
@@ -57,7 +58,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     ) {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
         $this->access = $DIC->access();
         $this->error = $DIC["ilErr"];
         $this->help = $DIC["ilHelp"];
@@ -84,6 +84,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             ->request();
 
         $lng->loadLanguageModule("mob");
+        $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
     }
 
     /**
@@ -1606,23 +1607,28 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $this->setPropertiesSubTabs("subtitles");
 
-        // upload file
-        $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
-        $fi = new ilFileInputGUI($lng->txt("mob_subtitle_file") . " (.srt)", "subtitle_file");
-        $fi->setSuffixes(array("srt"));
-        $ilToolbar->addInputItem($fi, true);
+        if (!in_array("srt", $this->file_service_settings->getWhiteListedSuffixes())) {
+            $tpl->setOnScreenMessage("info", $lng->txt("mob_srt_not_allowed"));
+        } else {
 
-        // language
-        $options = ilMDLanguageItem::_getLanguages();
-        $si = new ilSelectInputGUI($this->lng->txt("mob_language"), "language");
-        $si->setOptions($options);
-        $si->setValue($ilUser->getLanguage());
-        $ilToolbar->addInputItem($si, true);
+            // upload file
+            $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
+            $fi = new ilFileInputGUI($lng->txt("mob_subtitle_file") . " (.srt)", "subtitle_file");
+            $fi->setSuffixes(array("srt"));
+            $ilToolbar->addInputItem($fi, true);
 
-        $ilToolbar->addFormButton($lng->txt("upload"), "uploadSubtitleFile");
+            // language
+            $options = ilMDLanguageItem::_getLanguages();
+            $si = new ilSelectInputGUI($this->lng->txt("mob_language"), "language");
+            $si->setOptions($options);
+            $si->setValue($ilUser->getLanguage());
+            $ilToolbar->addInputItem($si, true);
 
-        $ilToolbar->addSeparator();
-        $ilToolbar->addFormButton($lng->txt("mob_upload_multi_srt"), "uploadMultipleSubtitleFileForm");
+            $ilToolbar->addFormButton($lng->txt("upload"), "uploadSubtitleFile");
+
+            $ilToolbar->addSeparator();
+            $ilToolbar->addFormButton($lng->txt("mob_upload_multi_srt"), "uploadMultipleSubtitleFileForm");
+        }
 
         /** @var ilObjMediaObject $mob */
         $mob = $this->object;
