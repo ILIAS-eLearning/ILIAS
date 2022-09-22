@@ -803,50 +803,14 @@ class ilFileUtils
         return $lng->txt("file_notice") . " $max_filesize.";
     }
 
+    /**
+     * @deprecated
+     */
     public static function getASCIIFilename(string $a_filename): string
     {
-        // The filename must be converted to ASCII, as of RFC 2183,
-        // section 2.3.
-
-        /// Implementation note:
-        /// 	The proper way to convert charsets is mb_convert_encoding.
-        /// 	Unfortunately Multibyte String functions are not an
-        /// 	installation requirement for ILIAS 3.
-        /// 	Codelines behind three slashes '///' show how we would do
-        /// 	it using mb_convert_encoding.
-        /// 	Note that mb_convert_encoding has the bad habit of
-        /// 	substituting unconvertable characters with HTML
-        /// 	entitities. Thats why we need a regular expression which
-        /// 	replaces HTML entities with their first character.
-        /// 	e.g. &auml; => a
-
-        /// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
-        /// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-
-        // #15914 - try to fix german umlauts
-        $umlauts = ["Ä" => "Ae",
-                    "Ö" => "Oe",
-                    "Ü" => "Ue",
-                    "ä" => "ae",
-                    "ö" => "oe",
-                    "ü" => "ue",
-                    "ß" => "ss"
-        ];
-        foreach ($umlauts as $src => $tgt) {
-            $a_filename = str_replace($src, $tgt, $a_filename);
-        }
-
-        $ascii_filename = htmlentities($a_filename, ENT_NOQUOTES, 'UTF-8');
-        $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
-
-        // OS do not allow the following characters in filenames: \/:*?"<>|
-        $ascii_filename = preg_replace(
-            '/[:\x5c\/\*\?\"<>\|]/',
-            '_',
-            $ascii_filename
-        );
-        return $ascii_filename;
+        global $DIC;
+        $policy = new ilFileServicesPolicy($DIC->fileServiceSettings());
+        return $policy->ascii($a_filename);
     }
 
     /**

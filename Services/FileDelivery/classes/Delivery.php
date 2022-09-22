@@ -2,6 +2,22 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\FileDelivery;
 
 use ILIAS\HTTP\Services;
@@ -9,19 +25,6 @@ use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
 use ILIAS\HTTP\Response\ResponseHeader;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class Delivery
  *
@@ -484,47 +487,9 @@ final class Delivery
      */
     public static function returnASCIIFileName(string $original_filename): string
     {
-        // The filename must be converted to ASCII, as of RFC 2183,
-        // section 2.3.
-
-        /// Implementation note:
-        /// 	The proper way to convert charsets is mb_convert_encoding.
-        /// 	Unfortunately Multibyte String functions are not an
-        /// 	installation requirement for ILIAS 3.
-        /// 	Codelines behind three slashes '///' show how we would do
-        /// 	it using mb_convert_encoding.
-        /// 	Note that mb_convert_encoding has the bad habit of
-        /// 	substituting unconvertable characters with HTML
-        /// 	entitities. Thats why we need a regular expression which
-        /// 	replaces HTML entities with their first character.
-        /// 	e.g. &auml; => a
-
-        /// $ascii_filename = mb_convert_encoding($a_filename,'US-ASCII','UTF-8');
-        /// $ascii_filename = preg_replace('/\&(.)[^;]*;/','\\1', $ascii_filename);
-
-        // #15914 - try to fix german umlauts
-        $umlauts = array(
-            "Ä" => "Ae",
-            "Ö" => "Oe",
-            "Ü" => "Ue",
-            "ä" => "ae",
-            "ö" => "oe",
-            "ü" => "ue",
-            "ß" => "ss",
-        );
-        foreach ($umlauts as $src => $tgt) {
-            $original_filename = str_replace($src, $tgt, $original_filename);
-        }
-
-        $ascii_filename = htmlentities($original_filename, ENT_NOQUOTES, 'UTF-8');
-        $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
-        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
-
-        // OS do not allow the following characters in filenames: \/:*?"<>|
-        $ascii_filename = preg_replace('/[:\x5c\/\*\?\"<>\|]/', '_', $ascii_filename);
-
-        return (string) $ascii_filename;
-        //		return iconv("UTF-8", "ASCII//TRANSLIT", $original_name); // proposal
+        global $DIC;
+        $policy = new \ilFileServicesPolicy($DIC->fileServiceSettings());
+        return $policy->ascii($original_filename);
     }
 
 
