@@ -4102,7 +4102,7 @@ common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_threads#:#Themen
-common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
+common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_add#:#Forum anlegen

@@ -4102,7 +4102,7 @@ common#:#forums_last_post#:#Latest Article
 common#:#forums_new_articles#:#New Articles
 common#:#forums_notification_settings#:#Forums Notification Settings
 common#:#forums_threads#:#Threads
-common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘Anonymous’.
+common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you leave this field blank, your posting will be marked as written by ‘%s’.
 common#:#forums_your_name#:#Your Name
 common#:#frm#:#Forum
 common#:#frm_add#:#Add Forum
