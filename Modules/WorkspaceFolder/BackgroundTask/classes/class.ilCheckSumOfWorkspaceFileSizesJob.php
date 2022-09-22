@@ -125,7 +125,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
                     break;
 
                 case "file":
-                    $a_file_size += ilObjFileAccess::_lookupFileSize($obj_id);
+                    $a_file_size += ilObjFileAccess::_lookupFileSize($obj_id, false);
                     break;
             }
         }

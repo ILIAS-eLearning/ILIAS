@@ -75,13 +75,14 @@ class ilDownloadWorkspaceFolderBackgroundTask
     {
         // This is our Bucket
         $this->logger->info('Started download workspace files background task');
+        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
+        $bucket->setTitle($normalized_name);
         $this->logger->debug('Created bucket and set the following user id: ' . $this->user_id);
 
         // Copy Definition
         $definition = new ilWorkspaceCopyDefinition();
-        $normalized_name = ilFileUtils::getASCIIFilename($this->getBucketTitle());
         $definition->setTempDir($normalized_name);
         $definition->setObjectWspIds($this->object_wsp_ids);
         $this->logger->debug('Created copy definition and added the following tempdir: ' . $normalized_name);

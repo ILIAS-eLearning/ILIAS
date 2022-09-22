@@ -122,4 +122,10 @@ class ilDownloadZipInteraction extends AbstractUserInteraction
 
         return new ThunkValue();
     }
+
+    public function canBeSkipped(array $input): bool
+    {
+        return false;
+    }
+
 }
