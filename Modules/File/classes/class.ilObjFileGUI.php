@@ -423,6 +423,14 @@ class ilObjFileGUI extends ilObject2GUI
         $this->ctrl->redirectToURL($link);
     }
 
+    public function putObjectInTree(ilObject $obj, int $parent_node_id = null): void
+    {
+        // this is needed to support multi fileuploads in personal and shared resources
+        $backup_node_id = $this->node_id;
+        parent::putObjectInTree($obj, $parent_node_id);
+        $this->node_id = $backup_node_id;
+    }
+
     /**
      * updates object entry in object_data
      */
