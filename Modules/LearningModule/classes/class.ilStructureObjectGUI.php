@@ -889,7 +889,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "transl", null);
+        $ilCtrl->setParameter($this, "transl", "-");
         $ilCtrl->redirect($this, "showHierarchy");
     }
 
