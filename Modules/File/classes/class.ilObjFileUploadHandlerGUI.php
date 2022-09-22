@@ -34,7 +34,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private Services $storage;
     private ilObjFileStakeholder $stakeholder;
-    private array $class_path = [ilRepositoryGUI::class, self::class];
+    private array $class_path = [self::class];
 
     public function __construct()
     {
