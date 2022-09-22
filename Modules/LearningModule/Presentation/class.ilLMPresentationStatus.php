@@ -137,11 +137,11 @@ class ilLMPresentationStatus
         if ($this->offline() && $this->lang != "" && $this->lang != "-") {
             $ot = $this->ot;
             $data = $ot->getLanguages();
-            $ltitle = $data[$this->lang]["title"];
+            $ltitle = $data[$this->lang]->getTitle();
             if ($ltitle != "") {
                 return $ltitle;
             }
-            $ltitle = $data[$ot->getFallbackLanguage()]["title"];
+            $ltitle = $data[$ot->getFallbackLanguage()]->getTitle();
             if ($ltitle != "") {
                 return $ltitle;
             }
