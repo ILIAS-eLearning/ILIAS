@@ -11860,7 +11860,7 @@ mme#:#sub_active#:#Active
 mme#:#sub_active_byline#:#Activate this Item for all users.
 mme#:#sub_global_roles#:#Global Roles
 mme#:#sub_icon#:#Icon
-mme#:#sub_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
+mme#:#sub_icon_byline#:#Upload a custom icon for this Item.
 mme#:#sub_parent#:#Top Item
 mme#:#sub_position#:#Position
 mme#:#sub_provider#:#Provider
@@ -11890,7 +11890,7 @@ mme#:#topitem_css_id#:#CSS-ID
 mme#:#topitem_delete#:#Delete
 mme#:#topitem_edit#:#Edit
 mme#:#topitem_icon#:#Icon
-mme#:#topitem_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
+mme#:#topitem_icon_byline#:#Upload a custom icon for this Item.
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Items

@@ -11860,7 +11860,7 @@ mme#:#sub_active#:#Aktiv
 mme#:#sub_active_byline#:#Diesen Eintrag aktivieren
 mme#:#sub_global_roles#:#Globale Rollen
 mme#:#sub_icon#:#Icon
-mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
+mme#:#sub_icon_byline#:#Hochgeladen eines individuellen SVG-Icons.
 mme#:#sub_parent#:#Haupteintrag
 mme#:#sub_position#:#Position
 mme#:#sub_provider#:#Provider
@@ -11890,7 +11890,7 @@ mme#:#topitem_css_id#:#CSS-ID
 mme#:#topitem_delete#:#Löschen
 mme#:#topitem_edit#:#Bearbeiten
 mme#:#topitem_icon#:#Icon
-mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
+mme#:#topitem_icon_byline#:#Hochgeladen eines individuellen SVG-Icons.
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Einträge
