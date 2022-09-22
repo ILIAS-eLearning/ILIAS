@@ -342,7 +342,10 @@ class ilFileXMLParser extends ilSaxParser
 
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
-                // try to get first file of dir
+                if (!isset($version["tmpFilename"])) {
+                    continue;
+                }
+                // try to get first file of directory
                 $files = scandir(dirname($version["tmpFilename"]));
                 $version["tmpFilename"] = rtrim(
                     dirname($version["tmpFilename"]),
