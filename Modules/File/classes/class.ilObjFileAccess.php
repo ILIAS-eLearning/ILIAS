@@ -364,7 +364,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             return self::$preload_list_gui_data[$a_obj_id];
         }
         self::_preloadData([$a_obj_id], []);
-        return self::$preload_list_gui_data[$a_obj_id];
+        return self::$preload_list_gui_data[$a_obj_id] ?? [];
     }
 
     public static function isZIP(?string $type): bool
