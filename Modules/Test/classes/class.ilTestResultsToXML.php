@@ -1,17 +1,21 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ * ******************************************************************* */
+
 class ilTestResultsToXML extends ilXmlWriter
 {
     private int $test_id = 0;
@@ -65,16 +69,16 @@ class ilTestResultsToXML extends ilXmlWriter
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_id' => $row['active_id'],
-                'user_fi' => $row['user_fi'],
-                'anonymous_id' => $row['anonymous_id'],
+                'user_fi' => $row['user_fi'] ?? '',
+                'anonymous_id' => $row['anonymous_id'] ?? '',
                 'test_fi' => $row['test_fi'],
-                'lastindex' => $row['lastindex'],
-                'tries' => $row['tries'],
-                'last_started_pass' => $row['last_started_pass'],
-                'last_finished_pass' => $row['last_finished_pass'],
-                'submitted' => $row['submitted'],
-                'submittimestamp' => $row['submittimestamp'],
-                'tstamp' => $row['tstamp']
+                'lastindex' => $row['lastindex'] ?? '',
+                'tries' => $row['tries'] ?? '',
+                'last_started_pass' => $row['last_started_pass'] ?? '',
+                'last_finished_pass' => $row['last_finished_pass'] ?? '',
+                'submitted' => $row['submitted'] ?? '',
+                'submittimestamp' => $row['submittimestamp'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $attrs['fullname'] = ilObjTestAccess::_getParticipantData($row['active_id']);
             if (!$this->anonymized) {
@@ -98,13 +102,13 @@ class ilTestResultsToXML extends ilXmlWriter
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_fi' => $row['active_fi'],
-                'pass' => $row['pass'],
-                'points' => $row['points'],
-                'maxpoints' => $row['maxpoints'],
-                'questioncount' => $row['questioncount'],
-                'answeredquestions' => $row['answeredquestions'],
-                'workingtime' => $row['workingtime'],
-                'tstamp' => $row['tstamp']
+                'pass' => $row['pass'] ?? '',
+                'points' => $row['points'] ?? '',
+                'maxpoints' => $row['maxpoints'] ?? '',
+                'questioncount' => $row['questioncount'] ?? '',
+                'answeredquestions' => $row['answeredquestions'] ?? '',
+                'workingtime' => $row['workingtime'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
@@ -147,11 +151,11 @@ class ilTestResultsToXML extends ilXmlWriter
         while ($row = $ilDB->fetchAssoc($result)) {
             $attrs = array(
                 'active_fi' => $row['active_fi'],
-                'pass' => $row['pass'],
-                'sequence' => $row['sequence'],
-                'postponed' => $row['postponed'],
-                'hidden' => $row['hidden'],
-                'tstamp' => $row['tstamp']
+                'pass' => $row['pass'] ?? '',
+                'sequence' => $row['sequence'] ?? '',
+                'postponed' => $row['postponed'] ?? '',
+                'hidden' => $row['hidden'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
@@ -171,11 +175,11 @@ class ilTestResultsToXML extends ilXmlWriter
                 'solution_id' => $row['solution_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
-                'points' => $row['points'],
-                'pass' => $row['pass'],
-                'value1' => $row['value1'],
-                'value2' => $row['value2'],
-                'tstamp' => $row['tstamp']
+                'points' => $row['points'] ?? '',
+                'pass' => $row['pass'] ?? '',
+                'value1' => $row['value1'] ?? '',
+                'value2' => $row['value2'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }
@@ -220,10 +224,10 @@ class ilTestResultsToXML extends ilXmlWriter
                 'test_result_id' => $row['test_result_id'],
                 'active_fi' => $row['active_fi'],
                 'question_fi' => $row['question_fi'],
-                'points' => $row['points'],
-                'pass' => $row['pass'],
-                'manual' => $row['manual'],
-                'tstamp' => $row['tstamp']
+                'points' => $row['points'] ?? '',
+                'pass' => $row['pass'] ?? '',
+                'manual' => $row['manual'] ?? '',
+                'tstamp' => $row['tstamp'] ?? ''
             );
             $this->xmlElement("row", $attrs);
         }

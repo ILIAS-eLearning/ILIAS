@@ -1,8 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Export/classes/class.ilExportGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ * ******************************************************************* */
 
 /**
  * Export User Interface Class
@@ -48,7 +60,6 @@ class ilTestExportGUI extends ilExportGUI
      */
     protected function buildExportTableGUI(): ilExportTableGUI
     {
-        require_once 'Modules/Test/classes/tables/class.ilTestExportTableGUI.php';
         $table = new ilTestExportTableGUI($this, 'listExportFiles', $this->obj);
         return $table;
     }
@@ -166,7 +177,6 @@ class ilTestExportGUI extends ilExportGUI
             foreach ($this->getFormats() as $f) {
                 $options[$f["key"]] = $f["txt"];
             }
-            include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
             $si = new ilSelectInputGUI($lng->txt("type"), "format");
             $si->setOptions($options);
             $ilToolbar->addInputItem($si, true);
@@ -177,7 +187,6 @@ class ilTestExportGUI extends ilExportGUI
             $ilToolbar->addFormButton($lng->txt("exp_create_file") . " (" . $format["txt"] . ")", "create_" . $format["key"]);
         }
 
-        require_once 'class.ilTestArchiver.php';
         $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archive_dir = $archiver->getZipExportDirectory();
         $archive_files = array();
@@ -198,7 +207,8 @@ class ilTestExportGUI extends ilExportGUI
                 array_push($data, array(
                     'file' => $exp_file,
                     'size' => filesize($export_dir . "/" . $exp_file),
-                    'timestamp' => $file_arr[0]
+                    'timestamp' => $file_arr[0],
+                    'type' => $this->getExportTypeFromFileName($exp_file)
                 ));
             }
         }
@@ -212,8 +222,9 @@ class ilTestExportGUI extends ilExportGUI
                 array_push($data, array(
                                     'file' => $exp_file,
                                     'size' => filesize($archive_dir . "/" . $exp_file),
-                                    'timestamp' => $file_arr[4]
-                                ));
+                                    'timestamp' => $file_arr[4],
+                                    'type' => $this->getExportTypeFromFileName($exp_file)
+                ));
             }
         }
 
@@ -229,6 +240,15 @@ class ilTestExportGUI extends ilExportGUI
 
         $table->setData($data);
         $tpl->setContent($table->getHTML());
+    }
+
+    private function getExportTypeFromFileName(string $export_file)
+    {
+        $extension = strtoupper(pathinfo($export_file, PATHINFO_EXTENSION));
+        if (in_array($extension, ['XLSX', 'CSV', 'XLS'])) {
+            return $this->lng->txt('results');
+        }
+        return $extension;
     }
 
     public function download(): void
@@ -255,8 +275,7 @@ class ilTestExportGUI extends ilExportGUI
             $ilCtrl->redirect($this, 'listExportFiles');
         }
 
-        require_once 'class.ilTestArchiver.php';
-        $archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+        $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
 
         $filename = basename($file[0]);
         $exportFile = $this->obj->getExportDirectory() . '/' . $filename;
@@ -287,7 +306,7 @@ class ilTestExportGUI extends ilExportGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         require_once 'class.ilTestArchiver.php';
-        $archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+        $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archiveDir = $archiver->getZipExportDirectory();
 
         $export_dir = $this->obj->getExportDirectory();
