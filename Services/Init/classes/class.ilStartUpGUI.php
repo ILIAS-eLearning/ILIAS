@@ -1556,8 +1556,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         // In case of an valid session, redirect to starting page
         if ($this->authSession->isValid()) {
-            ilInitialisation::redirectToStartingPage();
-            return;
+            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->httpRequest->getServerParams()['SERVER_NAME']
+            )) {
+                ilInitialisation::redirectToStartingPage();
+                return;
+            }
         }
 
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
