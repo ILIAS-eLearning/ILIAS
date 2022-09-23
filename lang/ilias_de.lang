@@ -11923,6 +11923,7 @@ mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe fü
 mob#:#mob_object#:#Objekt
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
+mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
@@ -16939,4 +16940,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
