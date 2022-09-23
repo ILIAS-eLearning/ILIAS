@@ -37,6 +37,7 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
         "ü" => "ue",
         "ß" => "ss"
     ];
+    protected int $file_admin_ref_id;
     protected bool $as_ascii = true;
     protected ilFileServicesSettings $settings;
     protected ilFileServicesFilenameSanitizer $sanitizer;
@@ -44,9 +45,10 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
 
     public function __construct(ilFileServicesSettings $settings)
     {
-        parent::__construct($settings->getBlackListedSuffixes(), $settings->getWhiteListedSuffixes());
-        $this->sanitizer = new ilFileServicesFilenameSanitizer($settings);
-        $this->as_ascii = $settings->convertToASCII();
+        $this->settings = $settings;
+        parent::__construct($this->settings->getBlackListedSuffixes(), $this->settings->getWhiteListedSuffixes());
+        $this->sanitizer = new ilFileServicesFilenameSanitizer($this->settings);
+        $this->as_ascii = $this->settings->isASCIIConvertionEnabled();
     }
 
     public function prepareFileNameForConsumer(string $filename_with_extension): string
@@ -77,24 +79,9 @@ class ilFileServicesPolicy extends WhiteAndBlacklistedFileNamePolicy
         return $ascii_filename;
     }
 
-    private function determineFileAdminRefId(): int
-    {
-        $objects_by_type = ilObject2::_getObjectsByType('facs');
-        $id = (int) reset($objects_by_type)['obj_id'];
-        $references = ilObject2::_getAllReferences($id);
-        return (int) reset($references);
-    }
-
     public function isBlockedExtension(string $extension): bool
     {
-        if ($this->bypass !== null && $this->bypass === true) {
-            return false;
-        }
-        global $DIC;
-        if (($this->bypass = $DIC->rbac()->system()->checkAccess(
-            'upload_blacklisted_files',
-            $this->determineFileAdminRefId()
-        )) === true) {
+        if ($this->settings->isByPassAllowedForCurrentUser()) {
             return false;
         }
         return parent::isBlockedExtension($extension);
