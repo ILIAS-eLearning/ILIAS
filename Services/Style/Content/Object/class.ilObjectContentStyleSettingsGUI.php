@@ -279,7 +279,7 @@ class ilObjectContentStyleSettingsGUI
         $form = $this->initStylePropertiesForm();
         $form->checkInput();
         if ($this->isContainer()) {
-            $this->container_manager->saveReuse($form->getInput("support_reuse"));
+            $this->container_manager->saveReuse((bool) $form->getInput("support_reuse"));
             $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }
         $ctrl->redirect($this, "settings");
