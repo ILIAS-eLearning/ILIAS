@@ -74,7 +74,7 @@ acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
-adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von ILIAS-Konten.
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
@@ -3377,8 +3377,8 @@ common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#account#:#Mein Konto
-common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#Benutzerzugang
+common#:#account_expires_body#:#Ihr ILIAS-Konto ist zeitlich begrenzt. Ablauftermin:
+common#:#account_expires_subject#:#ILIAS-Konto
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -3486,7 +3486,7 @@ common#:#attempts#:#Versuche
 common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
 common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Benutzern, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort anzumelden/zu authentifizieren.
+common#:#auth_cas_allow_local_desc#:#Erlaubt Personen mit CAS-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort anzumelden.
 common#:#auth_cas_auth#:#Konfiguriere CAS-Authentifizierung
 common#:#auth_cas_auth_desc#:#CAS erfordert PHP 4.3.1 oder höher mit CURL-Unterstützung (7.5 oder höher)
 common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
@@ -3520,7 +3520,7 @@ common#:#auth_shib_instructions#:#Bitte lesen Sie die Hinweise (README) zur Konf
 common#:#auth_shib_not_configured#:#Shibboleth ist noch nicht eingerichtet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
-common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Benutzern, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort zu authentifizieren/anzumelden.
+common#:#auth_soap_allow_local_desc#:#Erlaubt Personen mit SOAP-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort zu authentifizieren/anzumelden.
 common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
 common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
 common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Konto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über ein ILIAS-Konto verfügen.
@@ -3835,13 +3835,13 @@ common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benu
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -3953,7 +3953,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Anmeldekonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Anmeldename oder Passwort ungültig
+common#:#err_wrong_login#:#Der Anmeldename oder das Passwort sind ungültig.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
@@ -5305,7 +5305,7 @@ common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt 
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Login-Seite.
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für dieses ILIAS-Konto zu beantragen, nutzen Sie bitte die Funktion „Passwort vergessen?“ auf der Login-Seite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
@@ -6849,7 +6849,7 @@ content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
 content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
-content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Anmeldename'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
 content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
 content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
 content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
@@ -8057,7 +8057,7 @@ dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
 dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
 dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
-dateplaner#:#cal_ch_manager_info#:#Anmeldename des Anwenders, der ebenfalls Ihre Sprechstunden bearbeiten und betreuen darf.
+dateplaner#:#cal_ch_manager_info#:#Um Ihre Sprechstunden von einer anderen Person verwalten zu lassen, müssen Sie hier deren Anmeldename eintragen.
 dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
@@ -8274,8 +8274,8 @@ dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
-dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
-dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen ein.
+dateplaner#:#cal_user_notification#:#Einzelbenachrichtigung
+dateplaner#:#cal_user_notification_info#:#Eine Mail mit den Termindetails wird an die hier eingetragenen ILIAS-Anmeldenamen oder E-Mail-Adressen versandt.
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
@@ -12054,7 +12054,7 @@ note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
-note#:#note_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
+note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
@@ -14629,7 +14629,7 @@ sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung 
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 sess#:#sess_warn_sess_type_changed#:#Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst.
 shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
-shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts inaktiv angelegt und müssen von einem Administrator aktiviert werden.
+shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue ILIAS-Konten inaktiv angelegt und müssen von der Administration aktiviert werden.
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
 shib#:#shib_assignment_type#:#Art der Zuordnung
@@ -15840,7 +15840,7 @@ survey#:#survey_using_template_link#:#Vorlage nicht mehr verwenden
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_add_internal_user#:#Benutzer hinzufügen
-survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen einen Benutzer-Account auf der Plattform.
+survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen ein ILIAS-Konto für diese Installation.
 survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
 survey#:#svy_all_raters#:#Alle Feedbackgeber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
@@ -16509,7 +16509,7 @@ user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
 user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
-user#:#send_mail_to_inactive_users_desc#:#Bevor Benutzeraccounts gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden einer Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
