@@ -74,6 +74,7 @@ class ilUserActionGUI
         $action_collection = $act_collector->getActionsForTargetUser($a_target_user_id);
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle("");
+        $list->setPullRight(false);
         foreach ($action_collection->getActions() as $action) {
             $list->addItem($action->getText(), "", $action->getHref(), "", "", "", "", false, "", "", "", "", true, $action->getData());
         }
