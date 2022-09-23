@@ -897,17 +897,16 @@ class ilTestTabsManager
                 array("", "ilobjtestgui", "ilcertificategui")
             );
         }
-        /* TODO: PHP8 RETRY WHEN LTI IS DONE
-         $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
-         if ($lti_settings->hasSettingsAccess()) {
-             $this->tabs->addSubTabTarget(
-                 'lti_provider',
-                 $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
-                 '',
-                 [ilLTIProviderObjectSettingGUI::class]
-             );
-         }
-        */
+
+        $lti_settings = new ilLTIProviderObjectSettingGUI($this->testOBJ->getRefId());
+        if ($lti_settings->hasSettingsAccess()) {
+            $this->tabs->addSubTabTarget(
+                'lti_provider',
+                $DIC->ctrl()->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class),
+                '',
+                [ilLTIProviderObjectSettingGUI::class]
+            );
+        }
     }
 
     /**
