@@ -361,11 +361,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->filetype = $row->file_type ?? '';
         $this->filesize = $row->file_size ?? 0;
         $this->version = $row->version ?? 1;
-        $this->max_version = $row->max_version ?: 1;
-        $this->mode = $row->f_mode;
-        $this->rating = $row->rating;
-        $this->page_count = (int) $row->page_count;
-        $this->resource_id = $row->rid;
+        $this->max_version = $row->max_version ?? 1;
+        $this->mode = $row->f_mode ?? self::MODE_OBJECT;
+        $this->rating = (bool) ($row->rating ?? false);
+        $this->page_count = (int) ($row->page_count ?? 0);
+        $this->resource_id = $row->rid ?? null;
         $this->on_click_mode = (int) ($row->on_click_mode ?? self::CLICK_MODE_DOWNLOAD);
 
         $this->initImplementation();
