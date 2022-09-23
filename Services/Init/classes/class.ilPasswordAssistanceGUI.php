@@ -204,9 +204,9 @@ class ilPasswordAssistanceGUI
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
 
-        $assistance_callback = function () use ($form, $defaultAuth) : void {
+        $assistance_callback = function () use ($form, $defaultAuth): void {
             $username = $form->getInput('username');
-            $email = $form->getInput('email');
+            $email = trim($form->getInput('email'));
 
             $usrId = \ilObjUser::getUserIdByLogin($username);
             if (!is_numeric($usrId) || !($usrId > 0)) {
@@ -594,8 +594,8 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $assistance_callback = function () use ($form) : void {
-            $email = $form->getInput('email');
+        $assistance_callback = function () use ($form): void {
+            $email = trim($form->getInput('email'));
             $logins = ilObjUser::getUserLoginsByEmail($email);
 
             if (is_array($logins) && count($logins) > 0) {
