@@ -659,7 +659,6 @@ class ilExerciseManagementGUI
         $this->ctrl->setParameter($this, "member_id", "");
 
         $actions_dropdown = $this->ui_factory->dropdown()->standard($actions);
-
         if ($a_data['status'] == self::GRADE_NOT_GRADED) {
             $str_status_key = $this->lng->txt('exc_tbl_status');
             $str_status_value = $this->lng->txt('not_yet');
