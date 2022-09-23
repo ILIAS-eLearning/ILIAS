@@ -268,12 +268,12 @@ class GUIRequest
 
     public function getFilterStatus(): string
     {
-        return trim($this->str("requested_filter_status"));
+        return trim($this->str("filter_status"));
     }
 
     public function getFilterFeedback(): string
     {
-        return trim($this->str("requested_filter_feedback"));
+        return trim($this->str("filter_feedback"));
     }
 
     //

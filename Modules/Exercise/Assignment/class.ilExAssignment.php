@@ -1213,7 +1213,7 @@ class ilExAssignment
     public function getExerciseMemberAssignmentData(
         int $a_user_id,
         string $a_grade = ""
-    ): array {
+    ): ?array {
         global $DIC;
         $ilDB = $DIC->database();
 
@@ -1229,7 +1229,7 @@ class ilExAssignment
 
         $set = $ilDB->query($q);
 
-        $data = [];
+        $data = null;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $sub = new ilExSubmission($this, $a_user_id);
 
