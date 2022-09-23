@@ -13774,7 +13774,7 @@ li.ilFrmPostRow {
 }
 li.ilFrmPostRow.tblrowmarked {
   background-color: white;
-  border-left: 6px solid #e2e8ef;
+  border-left: 6px solid #B54F00;
 }
 li.ilFrmPostRow div.ilForm {
   width: 100%;
@@ -13828,10 +13828,11 @@ li.ilFrmPostRow div.ilForm div.ilFormOption {
     padding-left: 300px;
   }
 }
-li.ilFrmPostCensorshipAdvice {
+.ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;
   font-weight: 600;
+  color: #B54F00;
 }
 .ilFrmPostAttachmentsContainer {
   margin: 15px 0 0;
@@ -18313,12 +18314,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   vertical-align: sub;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading a.glyph {
-  display: inline-block;
   vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize {
   margin-left: 5px;
-  display: inline-block;
   vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,

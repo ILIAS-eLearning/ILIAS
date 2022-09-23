@@ -114,7 +114,7 @@ li.ilFrmPostRow {
 
 	&.tblrowmarked{
 		background-color: @il-main-bg;
-		border-left: @il-posting-left-border-width solid @il-highlight-bg;
+		border-left: @il-posting-left-border-width solid @il-posting-censored-bg;
 	}
 
 	div.ilForm {
@@ -172,10 +172,11 @@ li.ilFrmPostRow {
 	}
 }
 
-li.ilFrmPostCensorshipAdvice {
+.ilFrmPostCensorshipAdvice {
 	margin: 0;
 	padding: 0;
 	font-weight: @il-font-weight-bold;
+	color: @il-posting-censored-bg;
 }
 
 .ilFrmPostAttachmentsContainer {
