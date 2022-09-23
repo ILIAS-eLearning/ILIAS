@@ -202,7 +202,7 @@ class ilObjFileListGUI extends ilObjectListGUI
         if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
             $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
 
-            return ilObjFileAccess::isZIP($file_data['mime']);
+            return ilObjFileAccess::isZIP($file_data['mime'] ?? null);
         }
 
         return parent::checkCommandAccess(
@@ -232,7 +232,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
             $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
-            if (ilObjFileAccess::isZIP($file_data['mime'])) {
+            if (ilObjFileAccess::isZIP($file_data['mime'] ?? null)) {
                 $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
                 $cmd_link = $this->ctrl->getLinkTargetByClass(
                     ilRepositoryGUI::class,
