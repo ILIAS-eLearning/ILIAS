@@ -31,6 +31,8 @@ class ilFileServicesSettings
     private array $black_list_prohibited = [];
     private array $black_list_overall = [];
     private bool $convert_to_ascii = true;
+    private ?bool $bypass = null;
+    protected int $file_admin_ref_id;
 
     public function __construct(
         ilSetting $settings,
@@ -40,7 +42,34 @@ class ilFileServicesSettings
         $this->settings = $settings;
         /** @noRector */
         $this->white_list_default = include "Services/FileServices/defaults/default_whitelist.php";
+        $this->file_admin_ref_id = $this->determineFileAdminRefId();
         $this->read();
+    }
+
+    private function determineFileAdminRefId(): int
+    {
+        $objects_by_type = ilObject2::_getObjectsByType('facs');
+        $id = (int) reset($objects_by_type)['obj_id'];
+        $references = ilObject2::_getAllReferences($id);
+        return (int) reset($references);
+    }
+
+    private function determineByPass(): bool
+    {
+        global $DIC;
+        return $DIC->isDependencyAvailable('rbac')
+            && $DIC->rbac()->system()->checkAccess(
+                'upload_blacklisted_files',
+                $this->file_admin_ref_id
+            );
+    }
+
+    public function isByPassAllowedForCurrentUser(): bool
+    {
+        if ($this->bypass !== null) {
+            return $this->bypass;
+        }
+        return $this->bypass = $this->determineByPass();
     }
 
     private function read(): void
@@ -49,7 +78,7 @@ class ilFileServicesSettings
         $this->readWhiteList();
     }
 
-    public function convertToASCII(): bool
+    public function isASCIIConvertionEnabled(): bool
     {
         return $this->convert_to_ascii;
     }
