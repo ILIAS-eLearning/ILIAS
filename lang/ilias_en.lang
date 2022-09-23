@@ -12240,7 +12240,7 @@ orgu#:#orgu_already_deleted#:#The object was already deleted.
 orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
 orgu#:#orgu_enable_my_staff_info#:#Shows learning progress of own employees.
 orgu#:#orgu_global_set_form#:#Global Organisational Unit Settings
-orgu#:#orgu_global_set_positions#:#Show User Data according to Organisational Unit Positions
+orgu#:#orgu_global_set_positions#:#Enable Positions per Object Type
 orgu#:#orgu_global_set_positions_type_active#:#Positions in
 orgu#:#orgu_global_set_type_changeable#:#Changeable
 orgu#:#orgu_global_set_type_changeable_no#:#Setting is not changeable
