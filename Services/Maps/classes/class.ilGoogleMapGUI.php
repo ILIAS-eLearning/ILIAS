@@ -111,7 +111,7 @@ class ilGoogleMapGUI extends ilMapGUI
         $js_tpl->setVariable("MAP_ID", $this->getMapId());
         $js_tpl->setVariable("LAT", $this->getLatitude());
         $js_tpl->setVariable("LONG", $this->getLongitude());
-        $js_tpl->setVariable("ZOOM", $this->getZoom());
+        $js_tpl->setVariable("ZOOM", (int) $this->getZoom());
         $type_control = $this->getEnableTypeControl()
             ? "true"
             : "false";
