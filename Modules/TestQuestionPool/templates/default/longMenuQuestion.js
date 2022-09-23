@@ -138,14 +138,23 @@ var longMenuQuestion = (function () {
 		return html;
 	};
 
-	pro.addPointsListener = function()  {
-		$( '.points' ).on( 'blur', function() {
-			var question_id = parseInt($(this).attr('data-id'), 10);
-			pub.questionParts.list[question_id][1] = $(this).val();
-			pro.syncWithHiddenTextField();
-			pro.displayErrors(question_id);
-		});
-	};
+    pro.addPointsListener = () => {
+        let point_fields = document.getElementsByClassName('points');
+        let event = (e) => {
+            var question_id = parseInt(e.target.getAttribute('data-id'), 10);
+            pub.questionParts.list[question_id][1] = e.target.value;
+            pro.syncWithHiddenTextField();
+            pro.displayErrors(question_id);
+        };
+        for (let i = 0; i < point_fields.length; i++) {
+            point_fields[i].onblur = event;
+            point_fields[i].onkeydown = (e) => {
+                if (e.key === 'Enter') {
+                    event(e);
+                }
+            };
+        }
+    };
 
 	pro.addEditListeners = function()  {
 		$( '.answer_options' ).on( 'click', function() {
