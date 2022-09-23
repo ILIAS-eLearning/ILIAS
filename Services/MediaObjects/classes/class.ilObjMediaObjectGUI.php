@@ -84,7 +84,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             ->request();
 
         $lng->loadLanguageModule("mob");
-        $this->file_service_settings = new ilFileServicesSettings($DIC->settings());
+        $this->file_service_settings = $DIC->fileServiceSettings();
     }
 
     /**
