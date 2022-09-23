@@ -1633,9 +1633,12 @@ class ilStartUpGUI
 
         // In case of an valid session, redirect to starting page
         if ($GLOBALS['DIC']['ilAuthSession']->isValid()) {
-            include_once './Services/Init/classes/class.ilInitialisation.php';
-            ilInitialisation::redirectToStartingPage();
-            return;
+            if (!$this->user->isAnonymous() || ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->httpRequest->getServerParams()['SERVER_NAME']
+            )) {
+                ilInitialisation::redirectToStartingPage();
+                return;
+            }
         }
 
         // no valid session => show client list, if no client info is given
