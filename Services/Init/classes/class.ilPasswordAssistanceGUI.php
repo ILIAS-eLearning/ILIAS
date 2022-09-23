@@ -215,8 +215,6 @@ class ilPasswordAssistanceGUI
                     $username,
                     $email
                 ));
-
-                $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
             }
 
             $user = new \ilObjUser($usrId);
