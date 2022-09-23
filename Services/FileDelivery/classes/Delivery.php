@@ -487,9 +487,30 @@ final class Delivery
      */
     public static function returnASCIIFileName(string $original_filename): string
     {
-        global $DIC;
-        $policy = new \ilFileServicesPolicy($DIC->fileServiceSettings());
-        return $policy->ascii($original_filename);
+        $umlaut_mapping = [
+            "Ä" => "Ae",
+            "Ö" => "Oe",
+            "Ü" => "Ue",
+            "ä" => "ae",
+            "ö" => "oe",
+            "ü" => "ue",
+            "ß" => "ss"
+        ];
+        foreach ($umlaut_mapping as $src => $tgt) {
+            $original_filename = str_replace($src, $tgt, $original_filename);
+        }
+
+        $ascii_filename = htmlentities($original_filename, ENT_NOQUOTES, 'UTF-8');
+        $ascii_filename = preg_replace('/\&(.)[^;]*;/', '\\1', $ascii_filename);
+        $ascii_filename = preg_replace('/[\x7f-\xff]/', '_', $ascii_filename);
+
+        // OS do not allow the following characters in filenames: \/:*?"<>|
+        $ascii_filename = preg_replace(
+            '/[:\x5c\/\*\?\"<>\|]/',
+            '_',
+            $ascii_filename
+        );
+        return $ascii_filename;
     }
 
 
