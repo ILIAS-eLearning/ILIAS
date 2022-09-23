@@ -195,7 +195,7 @@ class ilExerciseManagementGUI
                     }
 
                     $this->exercise->sendFeedbackFileNotification(
-                        $pcommand["name"],
+                        $pcommand["name"] ?? "",
                         $noti_rec_ids,
                         $this->assignment->getId()
                     );
@@ -1468,7 +1468,7 @@ class ilExerciseManagementGUI
                 if ($reci_ids !== []) {
                     // send notification
                     $this->exercise->sendFeedbackFileNotification(
-                        null,
+                        "",
                         $reci_ids,
                         $ass_id,
                         true
