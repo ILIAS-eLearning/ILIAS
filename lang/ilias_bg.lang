@@ -16327,3 +16327,4 @@ cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS pla
 cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###20 07 2022 new variable
 search#:#search_for_orgu_members#:#Search for Organisational Units###20 07 2022 new variable
 content#:#cont_grid_t_two_by_two#:#Two-time-two-box###20 07 2022 new variable
+content#:#cont_credit_mode_info#:#The Learning Module is informed via cmi.core.credit whether the achieved Performance (pass/fail and score) is desired (credit) or not desired (no-credit) for the Assessment. It is the responsibility of the Learning Module to interpret this Instruction adequately.###24 09 2022 new variable
