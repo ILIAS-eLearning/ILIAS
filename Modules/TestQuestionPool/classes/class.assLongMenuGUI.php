@@ -424,7 +424,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function getSpecificFeedbackOutput($userSolution)
     {
-        if (!$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, 0)) {
+        if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
         }
 
