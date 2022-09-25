@@ -370,9 +370,10 @@ class ilTestServiceGUI
         $counter = 1;
         // output of questions with solutions
         foreach ($result_array as $question_data) {
-            if (($question_data["workedthrough"] == 1) || ($only_answered_questions == false)) {
+            if ((array_key_exists('workedthrough', $question_data) && $question_data["workedthrough"] == 1) ||
+                ($only_answered_questions == false)) {
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
-                $question = $question_data["qid"];
+                $question = $question_data["qid"] ?? null;
                 if (is_numeric($question)) {
                     $maintemplate->setCurrentBlock("printview_question");
                     $question_gui = $this->object->createQuestionGUI("", $question);
