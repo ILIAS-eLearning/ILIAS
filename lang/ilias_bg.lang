@@ -3140,14 +3140,16 @@ cmix#:#conf_own_window#:#Самостоятелен прозорец
 cmix#:#conf_own_window_info#:#Съдържанието се отваря в същия прозорец и замества екрана на ILIAS. При напускане на съдържанието потребителят се връща в ILIAS.
 cmix#:#conf_privacy_comment_default#:#Посочване на потребителя
 cmix#:#conf_privacy_ident#:#Идентификация на потребителя###08 12 2021 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###31 08 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###31 08 2022 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Идентификатор на външен потребител, комбиниран с уникален идентификатор на платформата ILIAS, форматиран като имейл адрес###08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Това е идентично за всяко повикване, но може да позволи директно заключение за потребителя.###08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Вход, комбиниран с уникален идентификатор на платформата ILIAS, форматиран като имейл адрес####08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Това е идентично за всяко повикване, но може да позволи директно заключение за потребителя на ILIAS.###08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_random#:#Разумен идентификатор, комбиниран с уникален идентификатор на платформата ILIAS, форматиран като имейл адрес###08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#За всеки обект на ILIAS и потребител на ILIAS се генерира случаен идентификатор, който остава идентичен за всяко повикване. Изводите за даден потребител са много ограничени, тъй като е практически невъзможно да се създадат потребителски профили за всички обекти.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#Идентификатор на потребителя на ILIAS, комбиниран с уникален идентификатор на платформата ILIAS, форматиран като имейл адрес####08 12 2021 new variable
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Това е идентично за всяко повикване, но не позволява директно заключение за потребителя на ILIAS.###08 12 2021 new variable
 cmix#:#conf_privacy_ident_info#:#Стандартно често е имейл адресът. Уникалният идентификатор на платформата ILIAS е:###08 12 2021 new variable
@@ -10347,12 +10349,14 @@ lti#:#activity_id#:#Идентификатор на дейността
 lti#:#activity_id_info#:#Този идентификатор на дейността се използва от доставчика на LTI за идентифициране на изявленията.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Идентификация на потребителя###08 12 2021 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###31 08 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###31 08 2022 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Идентификатор на външен потребител, комбиниран с уникален идентификатор на платформата ILIAS, оформен като имейл адрес.###08 12 2021 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Това е идентично за всяко повикване, но може да позволи директно заключение за потребителя.###08 12 2021 new variable
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Вход в комбинация с уникален идентификатор на платформата ILIAS, оформен като имейл адрес.###08 12 2021 new variable
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Това е идентично за всяко повикване, но може да позволи директно заключение за потребителя на ILIAS.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#Идентификатор на потребителя на ILIAS, комбиниран с уникален идентификатор на платформата ILIAS, оформен като имейл адрес.###08 12 2021 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Това е идентично за всяко повикване, но не позволява директно заключение за потребителя на ILIAS.###08 12 2021 new variable
 lti#:#conf_privacy_ident_info#:#Стандартно често е имейл адресът. Уникалният идентификатор на платформата ILIAS е:###08 12 2021 new variable

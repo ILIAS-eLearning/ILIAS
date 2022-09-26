@@ -3154,14 +3154,16 @@ cmix#:#conf_own_window#:#Stessa finestra
 cmix#:#conf_own_window_info#:#Il contenuto viene aperto nella stessa finestra e sostituisce la schermata ILIAS. All'uscita dal contenuto l'utente torna su ILIAS.
 cmix#:#conf_privacy_comment_default#:#Indicazione all'utente
 cmix#:#conf_privacy_ident#:#Identificativo Utente
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###29 07 2022 new variable
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###29 07 2022 new variable
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#ID utente esterno combinato con un identificativo di  piattaforma ILIAS univoco, formattato come indirizzo email
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Questo è identico a ogni chiamata, ma può consentire di trarre conclusioni dirette sull'utente.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ID utente esterno combinato con un identificativo di  piattaforma ILIAS univoco, formattato come indirizzo email
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#Questo è identico a ogni chiamata, ma può consentire di trarre conclusioni dirette sull'utente.
 cmix#:#conf_privacy_ident_il_uuid_random#:#ID casuale combinato con un identificativo di piattaforma ILIAS univoco, che è formattato come un indirizzo email
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#Viene generato un ID casuale per ogni oggetto ILIAS e utente ILIAS e rimane identico ogni volta che viene chiamato. Le conclusioni su un utente sono molto limitate, poiché è praticamente impossibile creare profili utente.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ID utente ILIAS combinato con un identificativo di  piattaforma ILIAS univoco, formattato come indirizzo email
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Questo è identico a tutte le chiamate, ma non consente di trarre conclusioni dirette sull'utente ILIAS.
 cmix#:#conf_privacy_ident_info#:#L'indirizzo e-mail è spesso lo standard. L'ID univoco della piattaforma ILIAS è:
@@ -10361,12 +10363,14 @@ lti#:#activity_id#:#ID attività
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare gli statements.
 lti#:#auth_lti#:#Auth LTI
 lti#:#conf_privacy_ident#:#Identificativo utente
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###29 07 2022 new variable
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###29 07 2022 new variable
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#User ID esterno unito ad un identificativo univoco della piattaforma ILIAS, formattato come un indirizzo email.
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Questo è identico per ogni chiamata, ma permetterebbe una conclusione diretta sull'utente.
 lti#:#conf_privacy_ident_il_uuid_login#:#Nome utente in ILIAS unito ad un identificativo univoco della piattaforma ILIAS, formattato come un indirizzo email.
 lti#:#conf_privacy_ident_il_uuid_login_info#:#Questo è identico per ogni chiamata, ma permetterebbe una conclusione diretta sull'utente.
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#User ID in ILIAS unito ad un identificativo univoco della piattaforma ILIAS, formattato come un indirizzo email.
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Questo è identico per ogni chiamata, ma NON permette una conclusione diretta sull'utente.
 lti#:#conf_privacy_ident_info#:#Standard è spesso l'indirizzo email. L'identificativo univoco della piattaforma ILIAS è:

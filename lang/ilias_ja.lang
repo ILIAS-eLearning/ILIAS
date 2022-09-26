@@ -3140,14 +3140,16 @@ cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。
 cmix#:#conf_privacy_comment_default#:#ユーザへ表示
 cmix#:#conf_privacy_ident#:#ユーザID
-cmix#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
-cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合された外部ユーザID
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
 cmix#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたILIAS Login
 cmix#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容する可能性があります。
 cmix#:#conf_privacy_ident_il_uuid_random#:#メールアドレスとしてフォーマットされたユニークなILIASプラットフォームIDで結合されたランダムID
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#各ILIASオブジェクトとILIASユーザランダムIDは各コール毎に識別されて生成されます。ユーザに関する結論は、オブジェクトを横断するユーザプロファイルの作成が困難なので極めて限定的です。
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてIDフォーマットされたユニークなILIASプラットフォームでILIASユーザIDは結合されます。
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に別々ですがILIASユーザに関して直接的な結論は許容しません。
 cmix#:#conf_privacy_ident_info#:#標準はメールアドレスを利用するのが一般的です。ユニークなILIASプラットフォームID:
@@ -10347,12 +10349,14 @@ lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#ユーザID
-lti#:#conf_privacy_ident_il_uuid_SHA256#:#メールアドレスでフォーマットされたユニークなILIASプラットフォームidでハッシュを結合
-lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#これはコール毎に同一ですが、ILIASユーザについて直接結論は許可されません。
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合された外部ユーザID
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
 lti#:#conf_privacy_ident_il_uuid_login#:#メールアドレスとしてユニークなILIASプラットフォームIDでフォーマットされて結合されたILIAS Login
 lti#:#conf_privacy_ident_il_uuid_login_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論を許可する可能性があります。
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash combined with a unique ILIAS platform id formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#This is identical to each call, but does not permit any direct conclusions about the ILIAS user.###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash combined with the ILIAS Domain formatted as an E-Mail address###26 09 2022 new variable
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#This is identical to each call, with a maximum of 80 characters significantly shorter than the variant with the ILIAS platform ID and allows only very limited conclusions about the ILIAS user.###26 09 2022 new variable
 lti#:#conf_privacy_ident_il_uuid_user_id#:#メールアドレスとしてユニークなILIASプラットフォームでフォーマットされて結合されたILIASユーザID
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#これはコール毎に区別されますがILIASユーザに関して直接結論は許可しません。
 lti#:#conf_privacy_ident_info#:#標準はメールアドレスが使用されます。ユニークなILIASプラットフォームid:
