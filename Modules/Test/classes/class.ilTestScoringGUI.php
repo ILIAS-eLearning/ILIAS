@@ -475,7 +475,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
         $form->addItem($sect);
 
         $check = new ilCheckboxInputGUI($lng->txt('set_manscoring_done'), 'manscoring_done');
-        if ($initValues && ilTestService::isManScoringDone($activeId)) {
+        if ($initValues && ilTestService::isManScoringDone((int) $activeId)) {
             $check->setChecked(true);
         }
         $form->addItem($check);
