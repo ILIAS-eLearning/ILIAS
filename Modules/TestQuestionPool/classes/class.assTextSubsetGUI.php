@@ -257,7 +257,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 }
             }
             $template->setVariable("COUNTER", $i + 1);
-            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i + 1));
+            $template->setVariable("TEXTFIELD_ID", $i + 1);
             $template->setVariable("TEXTFIELD_SIZE", $width);
             $template->parseCurrentBlock();
         }
@@ -301,7 +301,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
                 }
             }
             $template->setVariable("COUNTER", $i + 1);
-            $template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i + 1));
+            $template->setVariable("TEXTFIELD_ID", $i + 1);
             $template->setVariable("TEXTFIELD_SIZE", $width);
             $template->parseCurrentBlock();
         }

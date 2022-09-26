@@ -673,13 +673,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
-        foreach ($_POST as $key => $value) {
-            $matches = null;
+        $solutionSubmit = [];
+        $post = $this->dic->http()->wrapper()->post();
 
-            if (preg_match("/^kprim_choice_result_(\d+)/", $key, $matches)) {
-                if (strlen($value)) {
-                    $solutionSubmit[$matches[1]] = $value;
+        foreach ($this->getAnswers() as $index => $a) {
+            if ($post->has("kprim_choice_result_$index")) {
+                $value = $post->retrieve(
+                    "multiple_choice_result_$index",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                if (is_numeric($value)) {
+                    $solutionSubmit[] = $value;
+
                 }
             }
         }
