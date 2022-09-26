@@ -10844,7 +10844,7 @@ mail#:#mail_orphaned_mails#:#Delete old or orphaned mails
 mail#:#mail_orphaned_mails_desc#:#Delete old or orphaned mails
 mail#:#mail_recipient_not_found#:#%1$s (could not find a valid recipient)
 mail#:#mail_rename_folder#:#Rename Folder
-mail#:#mail_roles#:#to users with the following local roles
+mail#:#mail_roles#:#Users with the following local roles
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Dear Mrs.
@@ -10855,8 +10855,8 @@ mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if salut
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_second_email#:#Second E-Mail Address
-mail#:#mail_sel_label#:#Choose the Recipients
-mail#:#mail_sel_users#:#Send Mail to Selected Users
+mail#:#mail_sel_label#:#Send mail to
+mail#:#mail_sel_users#:#Selected users
 mail#:#mail_select_attachment#:#Please select an attachment for download.
 mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Please select at least one group.
