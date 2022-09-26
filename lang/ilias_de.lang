@@ -2000,7 +2000,7 @@ assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr ILIAS-Konto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
 auth#:#auth_account_code_title#:#Anmeldekonten-Code
-auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
+auth#:#auth_account_code_used#:#Ihr ILIAS-Konto wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
 auth#:#auth_account_migration#:#Neues ILIAS-Konto
 auth#:#auth_account_migration_keep#:#Bestehendes Anmeldekonto migrieren
 auth#:#auth_account_migration_name#:#Migration
@@ -2150,7 +2150,7 @@ badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
 badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
-badge#:#badge_backpack_email#:#Mozilla Backpack Account (E-Mail)
+badge#:#badge_backpack_email#:#Mozilla-Backpack-Account (E-Mail)
 badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
 badge#:#badge_backpack_list#:#Mein Backpack
 badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
@@ -5765,7 +5765,7 @@ common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
-common#:#user_never_logged_in_info#:#Accounts werden gelöscht, wenn sie sich noch nie in ILIAS angemeldet haben.
+common#:#user_never_logged_in_info#:#ILIAS-Konten werden gelöscht, wenn sich noch nie jemand damit in ILIAS angemeldet hat.
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
 common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
 common#:#user_new_account_mail_desc#:#Diese E-Mail wird nach dem Anlegen eines ILIAS-Kontos verschickt. Wurde das Konto von der technischen Leitung angelegt, verschickt ILIAS nur dann eine E-Mail, wenn beim Anlegen die Option „Benutzer per Mail über Änderungen informieren“ aktiviert wurde.
@@ -5907,11 +5907,11 @@ common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ei
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
 common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
-common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
+common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr ILIAS-Konto gelöscht.
 common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
-common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der Nutzeraccount wurde gelöscht.
-common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
+common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der ILIAS-Konto wurde gelöscht.
+common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des ILIAS-Kontos nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
@@ -5920,7 +5920,7 @@ common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einver
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#    Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
+common#:#wizard_title_info#:#Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
@@ -10695,7 +10695,7 @@ ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt a
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
+mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
@@ -10820,7 +10820,7 @@ mail#:#mail_nacc_if_timelimit#:#Dieser Textblock wird nur eingefügt, wenn der B
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_installation_desc#:#Beschreibung der Installation
 mail#:#mail_nacc_installation_name#:#Name der Installation
-mail#:#mail_nacc_login#:#Login-Account
+mail#:#mail_nacc_login#:#Anmeldenamen
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
 mail#:#mail_nacc_salutation#:#Begrüßung
@@ -12939,7 +12939,7 @@ ps#:#ps_password_special_chars_enabled#:#Sonderzeichen erzwingen
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
 ps#:#ps_perform_export#:#CSV-Export starten
 ps#:#ps_prevent_simultaneous_logins#:#Verhindern gleichzeitiger Logins
-ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit gleichem Account auf verschiedenen Rechnern verhindert.
+ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit dem gleichem ILIAS-Konto über verschiedene Rechner verhindert.
 ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
 ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
 ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
@@ -13992,7 +13992,7 @@ registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang 
 registration#:#registration_codes_roles#:#Globale Rolle
 registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zugangsbefristung
 registration#:#registration_codes_roles_local#:#Lokale Rolle(n)
-registration#:#registration_codes_roles_title#:#Rolle für neue Accounts
+registration#:#registration_codes_roles_title#:#Rolle für neue ILIAS-Konten
 registration#:#registration_codes_type#:#Codetyp
 registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Anmeldekonten
 registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Anmeldekonten verwendet werden.
@@ -14625,7 +14625,7 @@ sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 sess#:#sess_warn_sess_type_changed#:#Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst.
-shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
+shib#:#shib_activate_new#:#Neue Anmeldekonten mit Freischaltung
 shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue ILIAS-Konten inaktiv angelegt und müssen von der Administration aktiviert werden.
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
@@ -15890,7 +15890,7 @@ survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
 survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
 survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
-survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben keinen Nutzer-Account auf der Plattform.
+survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben kein Anmeldekonto auf der Plattform.
 survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
 survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
@@ -16504,10 +16504,10 @@ user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Anmeldekonten
 user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Anmeldekonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Anmeldekonten", um auf lokale Anmeldekonten in Kategorien und auf die globalen Anmeldekonten zugreifen zu können.
 user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
-user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
+user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß, um den Versand einer E-Mail vor der Löschung des Kontos zu gewährleisten.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
-user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden einer Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
-user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
+user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden einer Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert „Vergangene Tage seit letzter Anmeldung“.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
 user#:#show_own_online_status#:#Eigenen Online-Status anzeigen
@@ -16523,8 +16523,8 @@ user#:#user_account_code#:#Code
 user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
-user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Anmeldekonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
+user#:#user_account_code_setting#:#Reaktivierung von ILIAS-Konten durch Codes ermöglichen
+user#:#user_account_code_setting_info#:#Personen können mithilfe eines Registrierungscodes ihr abgelaufenes ILIAS-Konto reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter ILIAS-Konten werden in „Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes“ erzeugt. Inaktive Konten können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
@@ -16534,26 +16534,26 @@ user#:#user_account_codes_add#:#Codes erzeugen
 user#:#user_account_codes_edit_header#:#Neue Codes erzeugen
 user#:#user_account_codes_export#:#Codes exportieren
 user#:#user_account_codes_number#:#Anzahl Codes
-user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
+user#:#user_account_deleted_confirmation#:#Ihr ILIAS-Konto wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
 user#:#user_activate_public_profile#:#Aktivierung
 user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
 user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation in der Benutzeradministration
 user#:#user_all#:#Alle
-user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
+user#:#user_allow_delete_own_account#:#Benutzer können eigenes ILIAS-Konto löschen
 user#:#user_any#:#Alle
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
 user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
-user#:#user_delete_own_account#:#Account löschen
-user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Der Account ist unverändert.
+user#:#user_delete_own_account#:#ILIAS-Konto löschen
+user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Das Konto ist unverändert.
 user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto "%s" auf %s wurde am %s gelöscht.
 user#:#user_delete_own_account_email_subject#:#ILIAS-Konto gelöscht
 user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr ILIAS-Konto unwiderruflich aus dem System entfernt werden soll.
 user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
-user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_confirmation#:#Ihr ILIAS-Konto wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
 user#:#user_field#:#Feld
 user#:#user_global_role#:#Globale Rolle
