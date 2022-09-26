@@ -728,7 +728,8 @@ class ilBookingProcessGUI
     protected function initBookingNumbersForm(
         array $a_objects_counter,
         int $a_group_id,
-        bool $a_reload = false
+        bool $a_reload = false,
+        ?array $new_values = null
     ): ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "confirmedBooking"));
@@ -763,6 +764,12 @@ class ilBookingProcessGUI
             $nr_field->setMaxValue($counter);
             $nr_field->setMinValue($counter ? 1 : 0);
             $nr_field->setRequired(true);
+            if (!is_null($new_values) && isset($new_values["conf_nr__" . $book_id])) {
+                $nr_field->setRequestParam(
+                    "conf_nr__" . $book_id,
+                    $new_values["conf_nr__" . $book_id]
+                );
+            }
             $form->addItem($nr_field);
 
             if (!$min_date || $id[1] < $min_date) {
@@ -844,6 +851,8 @@ class ilBookingProcessGUI
         $recm = $this->book_request->getRecm();
         $end = ilCalendarUtil::parseIncomingDate($rece, false);
 
+        $new_values = [];
+
         if ((int) $recm > 0 && $end && $current_first) {
             ksort($counter);
             $end = $end->get(IL_CAL_DATE);
@@ -875,8 +884,8 @@ class ilBookingProcessGUI
                         }
 
                         // clone input
-                        throw new ilException("Booking process max invalid");
-                        //$_POST["conf_nr__" . $new_item_id . "_" . $new_max] = $_POST["conf_nr__" . $item_id . "_" . $max];
+                        $new_values["conf_nr__" . $new_item_id . "_" . $new_max] =
+                            $_POST["conf_nr__" . $item_id . "_" . $max];
                     }
                 }
             }
@@ -884,7 +893,7 @@ class ilBookingProcessGUI
 
         $group_id = $this->book_request->getGroupId();
 
-        $form = $this->initBookingNumbersForm($counter, $group_id, true);
+        $form = $this->initBookingNumbersForm($counter, $group_id, true, $new_values);
         if ($form->checkInput()) {
             $success = false;
             $rsv_ids = array();
@@ -936,7 +945,7 @@ class ilBookingProcessGUI
             }
             $recm = $form->getItemByPostVar("recm");
             if ($recm !== null) {
-                $recm->setHideSubForm($recm < 1);
+                $recm->setHideSubForm((int) $form->getInput("recm") < 1);
             }
 
             $hidden_date = new ilHiddenInputGUI("rece");

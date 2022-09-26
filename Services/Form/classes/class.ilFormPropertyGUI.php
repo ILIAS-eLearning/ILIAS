@@ -29,6 +29,7 @@ use ILIAS\Refinery;
  */
 class ilFormPropertyGUI
 {
+    protected array $set_params = [];
     protected ?ilTable2GUI $parent_table = null;
     protected ?ilFormPropertyGUI $parent_gui = null;
     protected ilCtrl $ctrl;
@@ -552,10 +553,23 @@ class ilFormPropertyGUI
     }
 
     /**
+     * This writes the request (aka post) values. Code that relies on
+     * this should be refactored as soon as possible.
+     * @deprecated
+     */
+    public function setRequestParam(string $key, $val): void
+    {
+        $this->set_params[$key] = $val;
+    }
+
+    /**
      * @return mixed|null
      */
     protected function getRequestParam(string $key, Refinery\Transformation $t)
     {
+        if (isset($this->set_params[$key])) {
+            return $this->set_params[$key];
+        }
         $w = $this->http->wrapper();
         if ($w->post()->has($key)) {
             return $w->post()->retrieve($key, $t);
