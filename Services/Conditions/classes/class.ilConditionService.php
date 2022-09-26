@@ -32,6 +32,8 @@ class ilConditionService
     {
         if (is_null($cond_obj_adapter)) {
             $this->cond_obj_adapter = new ilConditionObjectAdapter();
+        } else {
+            $this->cond_obj_adapter = $cond_obj_adapter;
         }
     }
 
