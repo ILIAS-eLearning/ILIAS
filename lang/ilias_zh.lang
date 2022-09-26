@@ -1,16 +1,17 @@
+/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file
 *
-* @author 			李翔 (Shine Li) <shinesoft@163.com>
 * @module		    language file simplied Chinese
 * @modulegroup		language
+* @author 			李翔 (Shine Li) <shinesoft@163.com>
 * @version
-* ILIAS language file
 */
-/**
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Access Key
 acc#:#acc_access_keys#:#Access Keys
@@ -16680,4 +16681,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM###30 12 2013 new variable
 wsp#:#wsp_type_tstv#:#验证:测试
 wsp#:#wsp_type_webr#:#web链接
 wsp#:#wsp_type_wfld#:#文件夹
-﻿/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */

@@ -1,18 +1,18 @@
-*
-* @author			Juergen Busch <jurgen@elearneasy.net>
-* @module			language file Portuguese
-* @modulegroup		language
-* @version			$Id$
-* ILIAS language file (Local changes merged into the global language file)
-*/
 /* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
-// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+* ILIAS language file (Local changes merged into the global language file)
+*
+* @module			language file Portuguese
+* @modulegroup		language
+* @author			Juergen Busch <jurgen@elearneasy.net>
+* @version			$Id$
+*/
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
 // to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#Chave de acesso
 acc#:#acc_access_keys#:#Chaves de acesso
