@@ -91,7 +91,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $auto_responder_subject->setMaxLength(200);
         $auto_responder_subject->setRequired(true);
         $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
-        $auto_responder_body->setInfo($this->lng->txt('mail_absence_auto_responder_body_info'));
+        $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), (int) $this->settings->get('mail_auto_responder_idle_time')));
         $auto_responder_body->setRequired(true);
         $auto_responder_body->setCols(60);
         $auto_responder_body->setRows(10);
@@ -99,6 +99,21 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $absence->addSubItem($auto_responder_subject);
         $absence->addSubItem($auto_responder_body);
         $this->addItem($absence);
+
+        $ta = new ilTextAreaInputGUI($this->lng->txt('signature'), 'signature');
+        $ta->setRows(10);
+        $ta->setCols(60);
+        $this->addItem($ta);
+
+        if ($this->settings->get('mail_notification', '0')) {
+            $cb = new ilCheckboxInputGUI(
+                $this->lng->txt('cron_mail_notification'),
+                'cronjob_notification'
+            );
+            $cb->setInfo($this->lng->txt('mail_cronjob_notification_info'));
+            $cb->setValue('1');
+            $this->addItem($cb);
+        }
 
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
