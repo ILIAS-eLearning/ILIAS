@@ -87,7 +87,7 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
             $clock
         );
 
-        $auto_responder_service->enqueueAutoresponderIfEnabled($mail_options);
+        $auto_responder_service->enqueueAutoresponderIfEnabled($mail_options, self::MAIL_SENDER_USER_ID);
 
         $auto_responder_service->handleAutoresponderMails(self::MAIL_SENDER_USER_ID);
     }
