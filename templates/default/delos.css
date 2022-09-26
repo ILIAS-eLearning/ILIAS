@@ -15213,6 +15213,15 @@ div.ilTableNav {
   padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
+  line-height: 20px;
+}
+div.ilTableNav .ilValignMiddle span,
+div.ilTableNav .ilValignMiddle a,
+div.ilTableNav .ilValignMiddle label {
+  vertical-align: middle;
+}
+div.ilTableNav .ilValignMiddle label {
+  margin-bottom: 0;
 }
 div.ilTableNav table {
   width: 100%;
@@ -15298,9 +15307,10 @@ legend.ilTableFilter {
   font-weight: 400;
   text-align: right;
 }
-legend.ilTableFilter > a {
+legend.ilTableFilter > a.btn {
   margin-right: -15px;
   margin-top: -12px;
+  vertical-align: middle;
 }
 fieldset.ilTableFilter {
   background-color: #f9f9f9;
