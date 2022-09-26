@@ -102,7 +102,7 @@ class assTextSubsetExport extends assQuestionExport
         // add answers to presentation
         for ($counter = 1; $counter <= $this->object->getCorrectAnswers(); $counter++) {
             $attrs = array(
-                "ident" => "TEXTSUBSET_" . sprintf("%02d", $counter),
+                "ident" => "TEXTSUBSET_$counter",
                 "rcardinality" => "Single"
             );
             $a_xml_writer->xmlStartTag("response_str", $attrs);
@@ -156,7 +156,7 @@ class assTextSubsetExport extends assQuestionExport
                 // qti conditionvar
                 $a_xml_writer->xmlStartTag("conditionvar");
                 $attrs = array(
-                    "respident" => "TEXTSUBSET_" . sprintf("%02d", $counter)
+                    "respident" => "TEXTSUBSET_$counter"
                 );
                 $a_xml_writer->xmlElement("varsubset", $attrs, join(",", $scoreanswers));
                 $a_xml_writer->xmlEndTag("conditionvar");
@@ -169,7 +169,7 @@ class assTextSubsetExport extends assQuestionExport
                 // qti displayfeedback
                 $attrs = array(
                     "feedbacktype" => "Response",
-                    "linkrefid" => "Matches_" . sprintf("%02d", $counter)
+                    "linkrefid" => "Matches_$counter"
                 );
                 $a_xml_writer->xmlElement("displayfeedback", $attrs);
                 $a_xml_writer->xmlEndTag("respcondition");
@@ -237,7 +237,7 @@ class assTextSubsetExport extends assQuestionExport
         // PART III: qti itemfeedback
         for ($counter = 1; $counter <= $this->object->getCorrectAnswers(); $counter++) {
             $attrs = array(
-                "ident" => "Matches_" . sprintf("%02d", $counter),
+                "ident" => "Matches_$counter",
                 "view" => "All"
             );
             $a_xml_writer->xmlStartTag("itemfeedback", $attrs);

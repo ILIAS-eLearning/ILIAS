@@ -17,6 +17,9 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
+use ILIAS\DI\Container;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -51,6 +54,7 @@ abstract class assQuestion
         self::IMG_MIME_TYPE_PNG => array('binary'),
         self::IMG_MIME_TYPE_GIF => array('binary')
     );
+
 
     protected ILIAS\DI\LoggingServices $ilLog;
 
@@ -106,6 +110,8 @@ abstract class assQuestion
     protected ilLanguage $lng;
 
     protected ilDBInterface $db;
+
+    protected Container $dic;
 
     /**
      * Contains the output type of a question
@@ -188,6 +194,7 @@ abstract class assQuestion
         string $question = ""
     ) {
         global $DIC;
+        $this->dic = $DIC;
         $ilias = $DIC['ilias'];
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
