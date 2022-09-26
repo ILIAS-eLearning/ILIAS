@@ -847,17 +847,24 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
         $purifier = $this->getHtmlUserSolutionPurifier();
-        foreach ($_POST as $key => $val) {
-            if (preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches)) {
-                $val = trim($val);
-                if (strlen($val)) {
-                    $val = $purifier->purify($val);
-                    $solutionSubmit[] = $val;
+        $post = $this->dic->http()->wrapper()->post();
+
+        $solutionSubmit = [];
+        foreach ($this->getAnswers() as $index => $a) {
+            if ($post->has("TEXTSUBSET_$index")) {
+                $value = $post->retrieve(
+                    "TEXTSUBSET_$index",
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+                if ($value) {
+                    $value = trim($value);
+                    $value = $purifier->purify($value);
+                    $solutionSubmit[] = $value;
                 }
             }
         }
+
         return $solutionSubmit;
     }
 

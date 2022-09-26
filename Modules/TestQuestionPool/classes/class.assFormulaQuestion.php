@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php";
@@ -1329,27 +1343,39 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      */
     protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
-        foreach ($_POST as $k => $v) {
-            if (preg_match("/^result_(\\\$r\\d+)$/", $k)) {
-                $solutionSubmit[$k] = $v;
-            } elseif (preg_match("/^result_(\\\$r\\d+)_unit$/", $k)) {
-                $solutionSubmit[$k] = $v;
+        $solutionSubmit = [];
+
+        $post = $this->dic->http()->wrapper()->post();
+
+        foreach ($this->getResults() as $index => $a) {
+            $key = "result_$index";
+            if (
+                $post->has($key)
+                ||
+               $post->has($key. "_unit")
+            ) {
+                $value =$post->retrieve(
+                    $key,
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
+
+                $solutionSubmit[$key] = $value;
             }
         }
+
         return $solutionSubmit;
     }
 
     public function validateSolutionSubmit(): bool
     {
         foreach ($this->getSolutionSubmit() as $key => $value) {
-            if (preg_match("/^result_(\\\$r\\d+)$/", $key)) {
-                if (strlen($value) && !$this->isValidSolutionResultValue($value)) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("err_no_numeric_value"), true);
-                    return false;
-                }
-            } elseif (preg_match("/^result_(\\\$r\\d+)_unit$/", $key)) {
-                continue;
+            if ($value && !$this->isValidSolutionResultValue($value)) {
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $this->lng->txt("err_no_numeric_value"),
+                    true
+                );
+                return false;
             }
         }
 
