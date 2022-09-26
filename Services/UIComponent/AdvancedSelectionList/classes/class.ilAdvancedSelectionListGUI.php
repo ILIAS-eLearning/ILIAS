@@ -452,16 +452,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         $this->global_tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
 
-        $js_tpl = new ilTemplate(
-            "tpl.adv_selection_list_js_init.js",
-            true,
-            true,
-            "Services/UIComponent/AdvancedSelectionList",
-            "DEFAULT",
-            false,
-            true
-        );
-
         $tpl = new ilTemplate(
             "tpl.adv_selection_list.html",
             true,
@@ -604,15 +594,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
                 $tpl->setCurrentBlock('item_loop');
                 $tpl->parseCurrentBlock();
-
-                // add item to js object
-                $js_tpl->setCurrentBlock("js_item");
-                $js_tpl->setVariable("IT_ID", $this->getId());
-                $js_tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
-
-                $js_tpl->setVariable("IT_HID_VAL", $item["value"]);
-                $js_tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
-                $js_tpl->parseCurrentBlock();
             }
 
             // output hidden input, if click mode is form submission
@@ -620,10 +601,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                 $tpl->setCurrentBlock("hidden_input");
                 $tpl->setVariable("HID", $this->getId());
                 $tpl->parseCurrentBlock();
-
-                $js_tpl->setCurrentBlock("hidden_input");
-                $js_tpl->setVariable("HID", $this->getId());
-                $js_tpl->parseCurrentBlock();
             }
 
             // output hidden input and initialize
@@ -631,13 +608,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
                 $tpl->setCurrentBlock("hidden_input");
                 $tpl->setVariable("HID", $this->getId());
                 $tpl->parseCurrentBlock();
-
-                // init hidden input with selected value
-                $js_tpl->setCurrentBlock("init_hidden_input");
-                $js_tpl->setVariable("H2ID", $this->getId());
-                $js_tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
-                $js_tpl->setVariable("HID_VALUE", $this->getSelectedValue());
-                $js_tpl->parseCurrentBlock();
             }
         }
 
@@ -712,8 +682,6 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         }
         $tpl->setVariable("ID", $this->getId());
 
-        $js_tpl->setVariable("ID", $this->getId());
-
         //$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
         switch ($this->getStyle()) {
             case self::STYLE_DEFAULT:
@@ -752,10 +720,67 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         $tpl->parseCurrentBlock();
 
-        $this->global_tpl->addOnLoadCode(
-            $js_tpl->get()
+        foreach ($this->getOnloadCode() as $code) {
+            $this->global_tpl->addOnLoadCode(
+                $code
+            );
+        }
+        return $tpl->get();
+    }
+
+    public function getOnloadCode(): array
+    {
+        $items = $this->getItems();
+
+        // do not show list, if no item is in list
+        if (count($items) === 0 && !$this->getAsynch() && $this->getGroupedList() === null) {
+            return [];
+        }
+
+        $js_tpl = new ilTemplate(
+            "tpl.adv_selection_list_js_init.js",
+            true,
+            true,
+            "Services/UIComponent/AdvancedSelectionList",
+            "DEFAULT",
+            false,
+            true
         );
 
-        return $tpl->get();
+        $cnt = 0;
+
+        if (!$this->getAsynch() && $this->getGroupedList() === null) {
+            foreach ($items as $item) {
+                // add item to js object
+                $js_tpl->setCurrentBlock("js_item");
+                $js_tpl->setVariable("IT_ID", $this->getId());
+                $js_tpl->setVariable("IT_HID_NAME", $this->form_mode["select_name"]);
+
+                $js_tpl->setVariable("IT_HID_VAL", $item["value"]);
+                $js_tpl->setVariable("IT_TITLE", str_replace("'", "\\'", $item["title"]));
+                $js_tpl->parseCurrentBlock();
+            }
+
+            // output hidden input, if click mode is form submission
+            if ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SUBMIT) {
+                $js_tpl->setCurrentBlock("hidden_input");
+                $js_tpl->setVariable("HID", $this->getId());
+                $js_tpl->parseCurrentBlock();
+            }
+
+            // output hidden input and initialize
+            if ($this->getOnClickMode() === self::ON_ITEM_CLICK_FORM_SELECT) {
+                // init hidden input with selected value
+                $js_tpl->setCurrentBlock("init_hidden_input");
+                $js_tpl->setVariable("H2ID", $this->getId());
+                $js_tpl->setVariable("HID_NAME", $this->form_mode["select_name"]);
+                $js_tpl->setVariable("HID_VALUE", $this->getSelectedValue());
+                $js_tpl->parseCurrentBlock();
+            }
+        }
+
+        $js_tpl->setVariable("ID", $this->getId());
+
+        return [$js_tpl->get()];
     }
 }
