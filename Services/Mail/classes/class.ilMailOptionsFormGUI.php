@@ -171,35 +171,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    private function applyDefaultOrUse(string $body): string
-    {
-        if ($body !== '') {
-            return $body;
-        }
-
-        $use_relative_dates = ilDatePresentation::useRelativeDates();
-        ilDatePresentation::setUseRelativeDates(false);
-        $body = str_ireplace(
-            [
-                '[BR]',
-                '[PUBLIC_NAME]',
-                '[ABSENT_UNTIL]'
-            ],
-            [
-                "\n",
-                trim(implode(' ', [
-                    $this->user->getFirstname(),
-                    $this->user->getLastname()
-                ])) ?: $this->user->getLogin(),
-                ilDatePresentation::formatDate(new ilDateTime($this->default_auto_responder_absence_end_ts, IL_CAL_UNIX))
-            ],
-            $this->lng->txt('mail_absence_auto_responder_default_body')
-        );
-        ilDatePresentation::setUseRelativeDates($use_relative_dates);
-
-        return $body;
-    }
-
     public function populate(): void
     {
         $data = [
@@ -212,7 +183,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
                 'end' => (new ilDateTime(($this->options->getAbsentUntil() ?: $this->default_auto_responder_absence_end_ts), IL_CAL_UNIX))->get(IL_CAL_DATETIME),
             ],
             'absence_auto_responder_subject' => $this->options->getAbsenceAutoresponderSubject(),
-            'absence_auto_responder_body' => $this->applyDefaultOrUse($this->options->getAbsenceAutoresponderBody()),
+            'absence_auto_responder_body' => $this->options->getAbsenceAutoresponderBody(),
         ];
 
         if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {
