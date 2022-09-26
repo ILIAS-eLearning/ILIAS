@@ -13,6 +13,17 @@ div.ilTableNav {
 	padding: 0 @il-padding-xlarge-horizontal;
 	font-size: @il-font-size-xsmall;
 	text-align: right;
+	line-height: @il-line-height-computed;
+
+	.ilValignMiddle{
+		span, a, label {
+			vertical-align: middle;
+		}
+		label {
+			margin-bottom: 0;
+		}
+	}
+
 	table {
 		width: 100%;
 	}
@@ -127,9 +138,10 @@ legend.ilTableFilter {
 	margin: 0;
 	font-weight: @il-font-weight-base;
 	text-align: right;
-	> a {
+	> a.btn {
 		margin-right: -@il-padding-xlarge-horizontal;
-		margin-top: -@il-margin-xxlarge-vertical ;
+		margin-top: -@il-margin-xxlarge-vertical;
+		vertical-align: middle;
 	}
 }
 
