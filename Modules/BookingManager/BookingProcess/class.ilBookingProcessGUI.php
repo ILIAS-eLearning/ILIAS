@@ -1021,7 +1021,11 @@ class ilBookingProcessGUI
                 $from = $obj->getFrom();
                 $to = $obj->getTo();
                 if ($from > time()) {
-                    $tmp[$from . "-" . $to]++;
+                    $key = $from . "-" . $to;
+                    if (!isset($tmp[$key])) {
+                        $tmp[$key] = 0;
+                    }
+                    $tmp[$key]++;
                 }
             }
         }
