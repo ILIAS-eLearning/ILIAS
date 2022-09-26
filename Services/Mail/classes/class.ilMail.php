@@ -739,7 +739,8 @@ class ilMail
             );
 
             $this->auto_responder_service->enqueueAutoresponderIfEnabled(
-                $mailOptions
+                $mailOptions,
+                $this->user_id
             );
 
             if ($attachments !== []) {

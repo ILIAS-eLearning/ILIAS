@@ -132,10 +132,15 @@ final class AutoresponderServiceImpl implements AutoresponderService
         }
     }
 
-    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options): void
+    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options, int $receiver_id): void
     {
         if ($this->auto_responder_status && $mail_recipient_mail_options->isAbsent()) {
-            $this->auto_responder_data[$mail_recipient_mail_options->getUsrId()] = $mail_recipient_mail_options;
+            $sender_id = $mail_recipient_mail_options->getUsrId();
+            $mail_recipient_mail_options = clone $mail_recipient_mail_options;
+            $reflection_usr_id = new \ReflectionProperty(ilMailOptions::class, 'usrId');
+            $reflection_usr_id->setAccessible(true);
+            $reflection_usr_id->setValue($mail_recipient_mail_options, $receiver_id);
+            $this->auto_responder_data[$sender_id] = $mail_recipient_mail_options;
         }
     }
 
