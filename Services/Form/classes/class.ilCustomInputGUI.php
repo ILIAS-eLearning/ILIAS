@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 {
+    protected bool $skip_required_check = false;
     protected string $html = "";
 
     public function __construct(
@@ -62,12 +63,17 @@ class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
+    public function setSkipRequiredCheck(bool $skip): void
+    {
+        $this->skip_required_check = $skip;
+    }
+
     public function checkInput(): bool
     {
         $lng = $this->lng;
 
         if ($this->getPostVar()) {
-            if ($this->getRequired() && $this->getInput() == "") {
+            if (!$this->skip_required_check && $this->getRequired() && $this->getInput() == "") {
                 $this->setAlert($lng->txt("msg_input_is_required"));
                 return false;
             }
