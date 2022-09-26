@@ -2786,9 +2786,9 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen von Nachrichten anzeigen
-chatroom#:#chat_broadcast_typing_info#:#Falls aktiviert, wird Ihren Chatpartnern in einer Konversation oder einem Chatraum angezeigt, wenn Sie beginnen eine Nachricht zu schreiben.
-chatroom#:#chat_broadcast_typing_no#:#Tippen von Nachrichten bei Chatpartnern nicht anzeigen
-chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten bei Chatpartnern anzeigen
+chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
+chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht anzeigen
+chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
@@ -2830,32 +2830,32 @@ chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mi
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
 chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten
 chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
-chatroom#:#chat_osc_conversations#:#Konversationen
-chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
-chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
+chatroom#:#chat_osc_conversations#:#Chat
+chatroom#:#chat_osc_doesnt_accept_msg#:#Chatten nicht möglich
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu einem Chat eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Persönlichen Einstellungen'
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
-chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
-chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
+chatroom#:#chat_osc_invite_to_conversation#:#Zu Chat hinzufügen
+chatroom#:#chat_osc_leave_grp_conv#:#Chat verlassen
 chatroom#:#chat_osc_minimize#:#Minimieren
-chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Konversationen.
-chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine minimierte Konversation.
-chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Chats.
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben einen minimierten Chat.
+chatroom#:#chat_osc_nc_no_conv#:#Keine Chats vorhanden
 chatroom#:#chat_osc_nc_prop_time#:#Zeit
-chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
+chatroom#:#chat_osc_no_conv#:#Keine Chats vorhanden.
 chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
 chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass der zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[UNTERVERZEICHNIS]" enthält, muss hier das relative [UNTERVERZEICHNIS] angegeben werden. In den meisten Szenarien kann dieses Feld leer gelassen werden.
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
-chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
-chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
+chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einer Person, die Sie zum Chat hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird die Person zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht am Chat teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 chatroom#:#chat_osc_send#:#Senden
-chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_start_conversation#:#Chat starten
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
-chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
-chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Chatspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Gruppenchat verlassen möchten?
 chatroom#:#chat_osc_user#:#Benutzer
-chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
+chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
@@ -2876,7 +2876,7 @@ chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_client_name#:#Name
 chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
-chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
+chatroom#:#chatroom_enable_osc_info#:#Der On-Screen-Chat steht allen auf der Plattform zur Verfügung. Jede Person kann jedoch individuell entscheiden, ob er oder sie von anderen Personen angesprochen werden möchte. Chats können über das „Who is online?“-Tool gestartet werden.
 chatroom#:#chatroom_log#:#Chatserver Log-File
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
 chatroom#:#chatserver_address#:#IP-Adresse/FQN des Chat-Servers
@@ -2934,7 +2934,7 @@ chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
 chatroom#:#osc_browser_noti_req_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben. Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems.
-chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten einer Konversation mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
+chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Chats oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Chat-Beiträgen mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#period#:#Zeitraum
@@ -2985,9 +2985,9 @@ chatroom_adm#:#chatserver_settings_title#:#Chat-Server
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
+chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Chat-Beiträge und -Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
 chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
-chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten eines Chats, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Zeit zwischen Benachrichtigungen
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#protocol#:#Protokoll
