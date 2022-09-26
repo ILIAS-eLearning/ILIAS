@@ -80,7 +80,7 @@ class ilFormatMail extends ilMail
         $key = 'rcp_to';
         if ('cc' === $a_type) {
             $key = 'rcp_cc';
-        } elseif ('bcc' === $a_type) {
+        } elseif ('bc' === $a_type) {
             $key = 'rcp_bcc';
         }
 
