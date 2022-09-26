@@ -4026,7 +4026,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $login = $this->lng->txt("unknown");
                 } else {
                     $login = $row["login"];
-                    if ($row["user_fi"] == ANONYMOUS_USER_ID) {
+                    if ($row["usr_id"] == ANONYMOUS_USER_ID) {
                         $name = $this->lng->txt("anonymous");
                         $fullname = $this->lng->txt("anonymous");
                     } else {

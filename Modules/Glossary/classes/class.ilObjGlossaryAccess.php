@@ -141,11 +141,11 @@ class ilObjGlossaryAccess extends ilObjectAccess
         }
 
         if ($t_arr[0] == "git") {
-            if ($t_arr[2] > 0) {
+            if ((int) ($t_arr[2] ?? 0) > 0) {
                 $ref_ids = array($t_arr[2]);
             } else {
                 // determine learning object
-                $glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
+                $glo_id = ilGlossaryTerm::_lookGlossaryID((int) $t_arr[1]);
                 $ref_ids = ilObject::_getAllReferences($glo_id);
             }
             // check read permissions

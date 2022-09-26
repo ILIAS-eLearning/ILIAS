@@ -1263,16 +1263,17 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getSolutionSubmit(): array
     {
-        $solutionSubmit = array();
-        foreach ($_POST as $key => $value) {
-            if (preg_match("/^multiple_choice_result_(\d+)/", $key)) {
-                if (strlen($value)) {
+        $solutionSubmit = [];
+        $post = $this->dic->http()->wrapper()->post();
+
+        foreach ($this->getAnswers() as $index => $a) {
+            if ($post->has("multiple_choice_result_$index")) {
+                $value = $post->retrieve("multiple_choice_result_$index", $this->dic->refinery()->kindlyTo()->string());
+                if (is_numeric($value)) {
                     $solutionSubmit[] = $value;
+
                 }
             }
         }

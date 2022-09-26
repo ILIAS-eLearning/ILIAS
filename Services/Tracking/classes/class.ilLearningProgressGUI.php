@@ -43,7 +43,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 );
 
                 $this->__setSubTabs(self::LP_ACTIVE_PROGRESS);
-                $this->__setCmdClass('illplistofprogressgui');
+                $this->__setCmdClass(ilLPListOfProgressGUI::class);
                 $lop_gui = new ilLPListOfProgressGUI(
                     $this->getMode(),
                     $this->getRefId(),
@@ -72,7 +72,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->getMode(),
                     $this->getRefId()
                 );
-                $this->__setCmdClass('illplistofobjectsgui');
+                $this->__setCmdClass(ilLPListOfObjectsGUI::class);
                 $this->ctrl->forwardCommand($loo_gui);
                 break;
 
@@ -90,7 +90,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     $this->getMode(),
                     $this->getRefId()
                 );
-                $this->__setCmdClass('illplistofsettingsgui');
+                $this->__setCmdClass(ilLPListOfSettingsGUI::class);
                 $this->ctrl->forwardCommand($los_gui);
                 break;
 
@@ -104,7 +104,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 } else {
                     $this->__setSubTabs(self::LP_ACTIVE_OBJSTATADMIN);
                 }
-                $this->__setCmdClass('illpobjectstatisticsgui');
+                $this->__setCmdClass(ilLPObjectStatisticsGUI::class);
                 $this->tabs_gui->activateTab('statistics');
                 $ost_gui = new ilLPObjectStatisticsGUI(
                     $this->getMode(),
@@ -129,11 +129,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
     public function __setCmdClass(string $a_class): void
     {
-        // If cmd class == 'illearningprogressgui' the cmd class is set to the the new forwarded class
-        // otherwise e.g illplistofprogressgui tries to forward (back) to illearningprogressgui.
-        if ($this->ctrl->getCmdClass() == strtolower(get_class($this))) {
-            $this->ctrl->setCmdClass(strtolower($a_class));
-        }
+        $this->ctrl->setCmdClass($a_class);
     }
 
     public function __getNextClass(): string
@@ -186,10 +182,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                     return 'illplistofobjectsgui';
                 }
                 if (
-                    ilLearningProgressAccess::checkPermission(
-                        'edit_learning_progress',
-                        $this->getRefId()
-                    )) {
+                ilLearningProgressAccess::checkPermission(
+                    'edit_learning_progress',
+                    $this->getRefId()
+                )) {
                     return 'illplistofsettingsgui';
                 }
                 return 'illplistofprogressgui';
@@ -234,7 +230,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 // should not happen
                 ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
 
-                // no break
+            // no break
             case self::LP_CONTEXT_USER_FOLDER:
             case self::LP_CONTEXT_ORG_UNIT:
                 if (ilObjUserTracking::_enabledUserRelatedData()) {
@@ -255,7 +251,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 $this->tpl->setContent($form->getHTML());
             }
@@ -358,7 +354,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 ilObject::_lookupObjId($this->getRefId())
             );
             if ($olp->getCurrentMode(
-            ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+                ) == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $form = $this->initCollectionManualForm();
                 if ($form->checkInput()) {
                     $class = ilLPStatusFactory::_getClassById(

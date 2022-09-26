@@ -298,7 +298,7 @@ class ilMailSearchGUI
             $users = ilUserFilter::getInstance()->filter($contacts_search_result->getResultIds());
             $users = array_intersect($users, $relations->getKeys());
 
-            $tbl_contacts = new ilMailSearchResultsTableGUI($this, 'contacts');
+            $tbl_contacts = new ilMailSearchResultsTableGUI($this, 'showResults', 'contacts');
             $tbl_contacts->setTitle($this->lng->txt('mail_addressbook'));
             $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
@@ -399,7 +399,7 @@ class ilMailSearchGUI
         $has_mail_usr = false;
         $users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
         if ($users !== []) {
-            $tbl_users = new ilMailSearchResultsTableGUI($this, 'usr');
+            $tbl_users = new ilMailSearchResultsTableGUI($this, 'showResults', 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
@@ -491,7 +491,7 @@ class ilMailSearchGUI
 
         $visible_groups = [];
         if ($group_results->getResults()) {
-            $tbl_grp = new ilMailSearchResultsTableGUI($this, 'grp');
+            $tbl_grp = new ilMailSearchResultsTableGUI($this, 'showResults', 'grp');
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
             $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
