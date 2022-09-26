@@ -1722,3 +1722,10 @@ $ilDB->manipulate('DELETE FROM il_block_setting WHERE ' . $ilDB->like('type', 't
 $ilDB->manipulateF('DELETE FROM desktop_item WHERE item_id = %s', ['integer'], [1]);
 $ilDB->manipulateF('DELETE FROM rep_rec_content_role WHERE ref_id = %s', ['integer'], [1]);
 ?>
+<#76>
+<?php
+if ($ilDB->uniqueConstraintExists('cmix_token', array('obj_id', 'usr_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmix_token', array('obj_id', 'usr_id'));
+}
+$ilDB->addUniqueConstraint('cmix_token', array('obj_id', 'usr_id', 'ref_id'), 'c1');
+?>
