@@ -79,6 +79,28 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $si->setOptions($options);
         $this->addItem($si);
 
+        $absence = new ilCheckboxInputGUI($this->lng->txt('mail_absence_status'), 'absence_status');
+        $absence->setInfo($this->lng->txt('mail_absence_status_info'));
+        $absence->setValue("1");
+        $this->lng->loadLanguageModule('dateplaner');
+        $duration = new ilDateDurationInputGUI($this->lng->txt('mail_absence_duration'), 'absence_duration');
+        $duration->setRequired(true);
+        $duration->setStartText($this->lng->txt('mail_absent_from'));
+        $duration->setEndText($this->lng->txt('mail_absent_until'));
+        $duration->setShowTime(true);
+        $auto_responder_subject = new ilTextInputGUI($this->lng->txt('mail_absence_auto_responder_subject'), 'absence_auto_responder_subject');
+        $auto_responder_subject->setMaxLength(200);
+        $auto_responder_subject->setRequired(true);
+        $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
+        $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), (int) $this->settings->get('mail_auto_responder_idle_time')));
+        $auto_responder_body->setRequired(true);
+        $auto_responder_body->setCols(60);
+        $auto_responder_body->setRows(10);
+        $absence->addSubItem($duration);
+        $absence->addSubItem($auto_responder_subject);
+        $absence->addSubItem($auto_responder_body);
+        $this->addItem($absence);
+
         $ta = new ilTextAreaInputGUI($this->lng->txt('signature'), 'signature');
         $ta->setRows(10);
         $ta->setCols(60);
@@ -93,28 +115,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $cb->setValue('1');
             $this->addItem($cb);
         }
-
-        $absence = new ilCheckboxInputGUI($this->lng->txt('mail_absence_status'), 'absence_status');
-        $absence->setInfo($this->lng->txt('mail_absence_status_info'));
-        $absence->setValue("1");
-        $this->lng->loadLanguageModule('dateplaner');
-        $duration = new ilDateDurationInputGUI($this->lng->txt('mail_absence_duration'), 'absence_duration');
-        $duration->setRequired(true);
-        $duration->setStartText($this->lng->txt('mail_absent_from'));
-        $duration->setEndText($this->lng->txt('mail_absent_until'));
-        $duration->setShowTime(true);
-        $auto_responder_subject = new ilTextInputGUI($this->lng->txt('mail_absence_auto_responder_subject'), 'absence_auto_responder_subject');
-        $auto_responder_subject->setMaxLength(200);
-        $auto_responder_subject->setRequired(true);
-        $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
-        $auto_responder_body->setInfo($this->lng->txt('mail_absence_auto_responder_body_info'));
-        $auto_responder_body->setRequired(true);
-        $auto_responder_body->setCols(60);
-        $auto_responder_body->setRows(10);
-        $absence->addSubItem($duration);
-        $absence->addSubItem($auto_responder_subject);
-        $absence->addSubItem($auto_responder_body);
-        $this->addItem($absence);
 
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
