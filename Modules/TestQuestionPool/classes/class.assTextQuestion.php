@@ -525,6 +525,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
     protected function calculateReachedPointsForSolution($solution)
     {
+        $solution = html_entity_decode($solution);
         // Return min points when keyword relation is NON KEYWORDS
         if ($this->getKeywordRelation() == 'non') {
             return $this->getMinimumPoints();
@@ -677,7 +678,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      */
     public function getSolutionSubmit()
     {
-        $text = ilUtil::stripSlashes($_POST["TEXT"], false);
+        if (ilObjAdvancedEditing::_getRichTextEditor() === 'tinymce') {
+            $text = ilUtil::stripSlashes($_POST["TEXT"], false);
+        } else {
+            $text = htmlentities($_POST["TEXT"]);
+        }
 
         if (ilUtil::isHTML($text)) {
             $text = $this->getHtmlUserSolutionPurifier()->purify($text);
