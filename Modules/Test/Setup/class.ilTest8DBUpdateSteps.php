@@ -22,13 +22,33 @@ class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db): void
+    public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }
 
-    public function step_1(): void
+    public function step_1() : void
     {
         $this->db->dropTableColumn('tst_tests', 'mc_scoring');
+    }
+
+    public function step_2() : void
+    {
+        if (!$this->db->tableExists("manscoring_done")) {
+            $this->db->createTable("manscoring_done", [
+                "active_id" => [
+                    "type" => "integer",
+                    "length" => 8,
+                    "notnull" => true
+                ],
+                "done" => [
+                    "type" => "integer",
+                    "length" => 1,
+                    "notnull" => true,
+                    "default" => 0
+                ]
+            ]);
+            $this->db->addPrimaryKey("manscoring_done", ["active_id"]);
+        }
     }
 }

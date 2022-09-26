@@ -21,16 +21,49 @@ declare(strict_types=1);
 use ILIAS\Setup\Agent\NullAgent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Metrics;
+use ILIAS\Setup\Config;
+use ILIAS\Setup;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Test\Setup\ilManScoringSettingsToOwnDbTableMigration;
 
 class ilTestSetupAgent extends NullAgent
 {
-    public function getUpdateObjective(ILIAS\Setup\Config $config = null): Objective
+    use Setup\Agent\HasNoNamedObjective;
+
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null) : Objective
     {
         return new ilDatabaseUpdateStepsExecutedObjective(new ilTest8DBUpdateSteps());
     }
 
-    public function getStatusObjective(Metrics\Storage $storage): Objective
+    public function getStatusObjective(Metrics\Storage $storage) : Objective
     {
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilTest8DBUpdateSteps());
+    }
+
+    public function hasConfig() : bool
+    {
+        return false;
+    }
+
+    public function getArrayToConfigTransformation() : Transformation
+    {
+        throw new \LogicException("Agent has no config.");
+    }
+
+    public function getInstallObjective(Config $config = null) : Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    public function getBuildArtifactObjective() : Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    public function getMigrations() : array
+    {
+        return [
+            new ilManScoringSettingsToOwnDbTableMigration()
+        ];
     }
 }
