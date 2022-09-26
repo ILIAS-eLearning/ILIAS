@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  */
 
+declare(strict_types=1);
+
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\Refinery\Factory as Refinery;
@@ -28,7 +28,8 @@ use GuzzleHttp\Psr7\Response;
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
- * @author Thibeau Fuhrer <thf@studer.raimann.ch>
+ * @author       Thibeau Fuhrer <thf@studer.raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 class ilCtrl implements ilCtrlInterface
 {
@@ -861,14 +862,14 @@ class ilCtrl implements ilCtrlInterface
             return $this->post_parameters->retrieve(
                 self::PARAM_CMD,
                 $this->refinery->custom()->transformation(
-                    static function ($value) {
+                    static function ($value): ?string {
                         if (!empty($value)) {
                             if (is_array($value)) {
                                 // this most likely only works by accident, but
                                 // the selected or clicked command button will
                                 // always be sent as first array entry. This
                                 // should definitely be done differently.
-                                return array_key_first($value);
+                                return (string) array_key_first($value);
                             }
 
                             return (string) $value;
