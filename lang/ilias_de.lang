@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die h
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
-administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
 administration#:#adm_adm_role_protect#:#Administratorrolle schützen
 administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen.
 administration#:#adm_auth_login#:#Authentifizierung Login
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Nach SQL sortieren
 administration#:#adm_db_benchmark#:#Datenbank Benchmark
 administration#:#adm_db_benchmark_user#:#Benutzer-Login
 administration#:#adm_db_benchmark_user_desc#:#Für diesen Benutzer wird die Messung durchgeführt. Sie sollten nicht den gleichen Benutzer verwenden, der die Funktion aktiviert.
-administration#:#adm_edit_settings_template#:#Vorlagen bearbeiten
 administration#:#adm_extending_ilias#:#ILIAS erweitern
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 administration#:#adm_hide#:#Im Einstellungsformular ausblenden
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse u
 administration#:#adm_rep_tree_presentation#:#Präsentation der Baumansicht
 administration#:#adm_repository_and_objects#:#Magazin und Objekte
 administration#:#adm_search_and_find#:#Suchen und finden
-administration#:#adm_settings_templates#:#Einstellungsvorlagen
 administration#:#adm_show_comments_tagging_in_lists#:#Anzahl der Notizen, Kommentare und Tags in Objektlisten anzeigen
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
 administration#:#adm_table#:#Tabelle
 administration#:#adm_time#:#Zeit
 administration#:#adm_user_administration#:#Benutzer und Rollen
@@ -472,7 +468,6 @@ assessment#:#add_imagemap#:#Imagemap importieren
 assessment#:#add_poly#:#Polygon hinzufügen
 assessment#:#add_rect#:#Rechteck hinzufügen
 assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
-assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#advanced_rating#:#Erweiterte Bewertung
 assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben. Weitere Bewertungseinstellungen werden nach dem Speichern der festgelegten Einheiten angezeigt.
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
@@ -4246,9 +4241,7 @@ common#:#ignore_on_conflict#:#Ignoriere bei Konflikt
 common#:#ignore_required_fields#:#Benutzerpflichtfelder ignorieren
 common#:#ignore_required_fields_info#:#Falls aktiviert, werden Pflichtangaben beim Absenden dieses Formulars nicht mehr überprüft (sofern möglich). Auswirkung dessen ist, dass der Benutzer nach der nächsten Anmeldung sein Profil vervollständigen muss.
 common#:#il_astpl_loc_initial#:#Einstiegstest
-common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests lernzielorientierter Kurse
 common#:#il_astpl_loc_qualified#:#Qualifizierender Test
-common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 common#:#il_blog_contributor#:#Blog-Autorenschaft###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_blog_editor#:#Blog-Redaktion###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -15778,7 +15771,6 @@ survey#:#survey_pool_selection#:#Poolauswahl
 survey#:#survey_prev_question#:#Vorherige Seite
 survey#:#survey_previous#:#<< Zurück
 survey#:#survey_question_editor#:#Listenansicht
-survey#:#survey_question_editor_settings_template#:#Listenansicht (im Reiter "Fragen")
 survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie muss beantwortet werden!)
 survey#:#survey_question_pool#:#Fragenpool
 survey#:#survey_question_pool_title#:#Pool-Titel
@@ -15956,7 +15948,6 @@ survey#:#svy_settings_section_before_start#:#Informationen vor dem Umfragestart
 survey#:#svy_settings_section_finishing#:#Umfrage beenden
 survey#:#svy_settings_section_question_behaviour#:#Umfrage-Verwaltung: Verhalten der Frage
 survey#:#svy_settings_section_reminders#:#Erinnerungen
-survey#:#svy_settings_template#:#Template
 survey#:#svy_show_questiontitles#:#Anzeige der Fragentitel
 survey#:#svy_skl_comp_assignm_not_supported#:#Die Zuordnung von Kompetenzen ist für diesen Fragetyp nicht möglich.
 survey#:#svy_sum_score#:#Skalenpunktesumme

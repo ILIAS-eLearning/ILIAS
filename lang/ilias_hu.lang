@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#A támogatási kapcsolatok - ami vesszővel el
 administration#:#adm_achievements#:#Kitüntetések
 administration#:#adm_activate_db_benchmark#:#Teljesítménymérés aktiválása
 administration#:#adm_activate_db_benchmark_desc#:#A teljesítménymérést automatikusan leállítjuk egy kérelem után.
-administration#:#adm_add_settings_template#:#Sablon létrehozása
 administration#:#adm_adm_role_protect#:#Rendszergazdai szerep védelme
 administration#:#adm_adm_role_protect_info#:#Ha be van kapcsolva, csak a rendszergazda rendelhet felhasználókat a rendszergazda szerephez, illetve csak ő vonhatja vissza azt.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#SQL szerinti rendezés
 administration#:#adm_db_benchmark#:#Adatbázis teljesítménymérése
 administration#:#adm_db_benchmark_user#:#Felhasználónév
 administration#:#adm_db_benchmark_user_desc#:#Csak ehhez a felhasználóhoz készítünk méréseket.
-administration#:#adm_edit_settings_template#:#Sablon módosítása
 administration#:#adm_extending_ilias#:#ILIAS kiterjesztése
 administration#:#adm_external_setting_edit#:#Beállítások módosítása
 administration#:#adm_hide#:#Beállítások elrejtése az űrlapon
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Csak kategóriákat, kurzusokat �
 administration#:#adm_rep_tree_presentation#:#Tartalomtár megjelenítése
 administration#:#adm_repository_and_objects#:#Tartalomtár és objektumok
 administration#:#adm_search_and_find#:#Keresés és találat
-administration#:#adm_settings_templates#:#Sablonok beállításai
 administration#:#adm_show_comments_tagging_in_lists#:#Jegyzetek, megjegyzések és címkék számának megjelenítése az objektumlistákban
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Címkék megjelenítése a számok helyett
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Biztos, hogy törli az alábbi sablonokat?
 administration#:#adm_table#:#Tábla
 administration#:#adm_time#:#Idő
 administration#:#adm_user_administration#:#ILIAS-fiókok kezelése
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Képtérkép importálása
 assessment#:#add_poly#:#Sokszög alakú terület hozzáadása
 assessment#:#add_rect#:#Téglalap alakú terület hozzáadása
 assessment#:#additional_rating_info#:#Figyeljen arra, hogy az itt megadott érték százalékot jelentenek, és összegük 100 kell, hogy legyen.
-assessment#:#adm_settings_templates#:#Sablonok beállításai
 assessment#:#advanced_rating#:#Fejlett értékelés
 assessment#:#advanced_rating_info#:#A fejlett értékelés csak akkor elérhető, ha a végeredményhez hozzá van rendelve egy mértékegység. További értékelési beállítások az érintett mértékegység mentése után jelennek meg.
 assessment#:#all_available_question_pools#:#Összes elérhető kérdésgyűjtemény
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ellentmondás figyelmen kívül hagyása
 common#:#ignore_required_fields#:#Kötelező mezők figyelmen kívül hagyása
 common#:#ignore_required_fields_info#:#Ha be van kapcsolva, ezt a űrlapot az összes kötelező mező kitöltése nélkül elküldheti. A felhasználóknak a következő bejelentkezésükkor kell megadniuk a személyes adataikban hiányzó információkat.
 common#:#il_astpl_loc_initial#:#Belépő teszt
-common#:#il_astpl_loc_initial_desc#:#Tanulásicél-orientált kurzusok belépő tesztjeinek sablonbeállításai
 common#:#il_astpl_loc_qualified#:#Záró teszt
-common#:#il_astpl_loc_qualified_desc#:#Tanulásicél-orientált kurzusok záró tesztjeinek sablonbeállításai
 common#:#il_blog_contributor#:#Blogszerző
 common#:#il_blog_editor#:#Blogszerkesztő
 common#:#il_chat_moderator#:#Csevegésmoderátor
@@ -15670,7 +15663,6 @@ survey#:#survey_pool_selection#:#Gyűjtemény kijelölése
 survey#:#survey_prev_question#:#Előző lap
 survey#:#survey_previous#:#<<< Előző
 survey#:#survey_question_editor#:#Listanézet
-survey#:#survey_question_editor_settings_template#:#Listanézet (a 'Kérdések' fülön)
 survey#:#survey_question_obligatory#:#Ezt a kérdést kötelező megválaszolnia.
 survey#:#survey_question_pool#:#Kérdésgyűjtemény
 survey#:#survey_question_pool_title#:#Gyűjtemény címe
@@ -15848,7 +15840,6 @@ survey#:#svy_settings_section_before_start#:#Kérdőív kezdése előtti inform�
 survey#:#svy_settings_section_finishing#:#Kérdőív befejezése
 survey#:#svy_settings_section_question_behaviour#:#Kérdőív kezelése: A kérdés viselkedése
 survey#:#svy_settings_section_reminders#:#Emlékeztetők
-survey#:#svy_settings_template#:#Sablon
 survey#:#svy_show_questiontitles#:#Kérdéscím megjelenítése
 survey#:#svy_skl_comp_assignm_not_supported#:#Kompetencia összerendelés nem támogatott ebben a kérdéstípusban.
 survey#:#svy_sum_score#:#Sum Score

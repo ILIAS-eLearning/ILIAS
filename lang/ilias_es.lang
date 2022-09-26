@@ -83,7 +83,6 @@ adm#:#adm_support_contacts_info#:#Contactos de soporte que aparecen en el enlace
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Activar prueba
 administration#:#adm_activate_db_benchmark_desc#:#La realización de pruebas serán automáticamente deshabilitadas tras una petición.
-administration#:#adm_add_settings_template#:#Añadir plantilla de ajustes
 administration#:#adm_adm_role_protect#:#Proteger el rol de administrador
 administration#:#adm_adm_role_protect_info#:#Si se activa, solo el administrador tiene permiso para asignar/eliminar usuarios al rol de administrador.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -96,7 +95,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Ordenadas por SQL
 administration#:#adm_db_benchmark#:#Pruebas de Base de Datos
 administration#:#adm_db_benchmark_user#:#Nombre de cuenta de usuario
 administration#:#adm_db_benchmark_user_desc#:#Sólo se realizarán mediciones para este usuario.
-administration#:#adm_edit_settings_template#:#Editar plantilla
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Editar la configuración
 administration#:#adm_hide#:#Oculto
@@ -130,11 +128,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Sólo categorías, cursos y grupo
 administration#:#adm_rep_tree_presentation#:#Presentación en árbol de repositorio
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Plantilla de ajustes
 administration#:#adm_show_comments_tagging_in_lists#:#Mostrar el número de notas, comentarios y etiquetas en las listas de objetos
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Mostrar etiquetas en lugar de número
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#¿Estás seguro de querer eliminar las siguientes plantillas?
 administration#:#adm_table#:#Tabla
 administration#:#adm_time#:#Tiempo
 administration#:#adm_user_administration#:#Adminitración de usuarios
@@ -471,7 +467,6 @@ assessment#:#add_imagemap#:#Añadir mapa de imagen
 assessment#:#add_poly#:#Añadir polígono
 assessment#:#add_rect#:#Añadir rectángulo
 assessment#:#additional_rating_info#:#Por favor, observe que los valores proporcionados se expresan en porcentajes y, por lo tanto, deben sumar 100
-assessment#:#adm_settings_templates#:#Configuración plantilla
 assessment#:#advanced_rating#:#Puntuación avanzada
 assessment#:#advanced_rating_info#:#La puntuación avanzada sólo está disponible si la unidad se asigna al resultado.
 assessment#:#all_available_question_pools#:#Todos los bancos de preguntas disponibles
@@ -4207,9 +4202,7 @@ common#:#ignore_on_conflict#:#Ignorar si ocurre un conflicto
 common#:#ignore_required_fields#:#Ignorar campos necesarios
 common#:#ignore_required_fields_info#:#Si se activa puede enviar este formulario sin rellenar todos los campos obligatorios. El nuevo usuario debe añadir la información que falte en el perfil personal después del siguiente inicio de sesión.
 common#:#il_astpl_loc_initial#:#Test Inicial
-common#:#il_astpl_loc_initial_desc#:#Plantilla de Configuración para test inicial de cursos orientados a objetivos de aprendizaje.
 common#:#il_astpl_loc_qualified#:#Test de Calificación
-common#:#il_astpl_loc_qualified_desc#:#Plantilla de Configuración para test de calificación de cursos orientados a objetivos de aprendizaje.
 common#:#il_blog_contributor#:#Contribuidor de Blog
 common#:#il_blog_editor#:#Editor-Blog
 common#:#il_chat_moderator#:#Moderador Chat
@@ -15671,7 +15664,6 @@ survey#:#survey_pool_selection#:#Selección del banco de preguntas
 survey#:#survey_prev_question#:#Página anterior
 survey#:#survey_previous#:#<< Anterior
 survey#:#survey_question_editor#:#Editar preguntas de la encuesta
-survey#:#survey_question_editor_settings_template#:#Vista de lista (en pestaña "Preguntas")
 survey#:#survey_question_obligatory#:#Esta pregunta es obligatoria. ¡Debe dar una respuesta!
 survey#:#survey_question_pool#:#Banco de preguntas
 survey#:#survey_question_pool_title#:#Título del banco de preguntas
@@ -15849,7 +15841,6 @@ survey#:#svy_settings_section_before_start#:#Información antes de Comenzar la E
 survey#:#svy_settings_section_finishing#:#Finalizar la Encuesta
 survey#:#svy_settings_section_question_behaviour#:#Administración de la Encuesta: Comportamiento de la Pregunta
 survey#:#svy_settings_section_reminders#:#Recordatorios
-survey#:#svy_settings_template#:#Plantilla
 survey#:#svy_show_questiontitles#:#Mostrar títulos de las preguntas en la encuesta
 survey#:#svy_skl_comp_assignm_not_supported#:#La asignación de competencias no es compatible con este tipo de pregunta.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

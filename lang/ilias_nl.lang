@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Inschakelen Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking zal automatisch uitgeschakeld worden na één (1) verzoek
-administration#:#adm_add_settings_template#:#Sjabloon toevoegen
 administration#:#adm_adm_role_protect#:#Beschermen Beheerders-rol
 administration#:#adm_adm_role_protect_info#:#Indien ingeschakeld, kunnen alleen beheerders gebruikers toekennen en verwijderen van de beheerders-rol.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Gesorteerd door SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#Gebruikers account naam
 administration#:#adm_db_benchmark_user_desc#:#Uitsluitend resultaat-berekeningen van deze gebruiker maken.
-administration#:#adm_edit_settings_template#:#Edit Template###06 02 2015 new variable
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Wijzigen instellingen
 administration#:#adm_hide#:#Verbergen
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Alleen categorieën, cursussen en
 administration#:#adm_rep_tree_presentation#:#Studiecentrum boomstructuur
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Instellingen voor Sjablonen
 administration#:#adm_show_comments_tagging_in_lists#:#Toon het aantal opmerkingen, commentaar en koppelingen en label in de objectenlijst
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Toon tags in plaats van nummer
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Ben je zeker dat de sjablonen moeten worden verwijderd?
 administration#:#adm_table#:#Tabel
 administration#:#adm_time#:#Tijd
 administration#:#adm_user_administration#:#User Administration###23 12 2015 new variable
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Importeer Afbeeldingen map
 assessment#:#add_poly#:#Voeg polygoon gebied toe
 assessment#:#add_rect#:#Voeg rechthoekig gebied toe
 assessment#:#additional_rating_info#:#De gegeven waarden worden uitgedrukt als percentages. Let erop dat ze tezamen 100 zijn.
-assessment#:#adm_settings_templates#:#Instellingen van sjablonen
 assessment#:#advanced_rating#:#Geavanceerde Beoordeling
 assessment#:#advanced_rating_info#:#De geavanceerde beoordeling is alleen beschikbaar als een eenheid is toegewzen aan een resultaat.
 assessment#:#all_available_question_pools#:#Alle beschikbare vragenpools
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#Negeer conflict
 common#:#ignore_required_fields#:#Negeren verplichte velden
 common#:#ignore_required_fields_info#:#Indien ingeschakeld zullen verplichte velden, indien mogelijk, niet worden gevalideerd. De betrokken gebruiker zal zijn/haar persoonlijke profile moeten aanpassen na de eerstvolgende login.
 common#:#il_astpl_loc_initial#:#Instaptoets
-common#:#il_astpl_loc_initial_desc#:#Sjablooninstellingen voor instaptoetsen van Leerdoel-gerichte cursus
 common#:#il_astpl_loc_qualified#:#Kwalificatietoets
-common#:#il_astpl_loc_qualified_desc#:#Sjablooninstellingen voor kwalificatietoetsen van Leerdoel-gerichte cursus
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Chat moderator
@@ -15669,7 +15662,6 @@ survey#:#survey_pool_selection#:#Selecten vragenpool
 survey#:#survey_prev_question#:#Vorige Pagina
 survey#:#survey_previous#:#!#<<< Vorige
 survey#:#survey_question_editor#:#Wijzig enquête vragen
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_question_obligatory#:#(Deze vraag is verplicht. Je moet op deze vraag antwoorden)
 survey#:#survey_question_pool#:#vragenpool
 survey#:#survey_question_pool_title#:#Titel van vragenpool
@@ -15847,7 +15839,6 @@ survey#:#svy_settings_section_before_start#:#Information before start of survey#
 survey#:#svy_settings_section_finishing#:#Finishing the survey###06 02 2015 new variable
 survey#:#svy_settings_section_question_behaviour#:#Administering the survey: Behaviour of question###06 02 2015 new variable
 survey#:#svy_settings_section_reminders#:#Reminders###06 02 2015 new variable
-survey#:#svy_settings_template#:#Sjabloon
 survey#:#svy_show_questiontitles#:#Toon vraagtitels in vragenlijst
 survey#:#svy_skl_comp_assignm_not_supported#:#Het toewijzen van competenties wordt niet ondersteund door dit vraagtype.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

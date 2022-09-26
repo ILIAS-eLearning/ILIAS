@@ -25,77 +25,14 @@
 abstract class ilTestSettingsGUI
 {
     protected ilObjTest $testOBJ;
-    protected ?ilSettingsTemplate $settingsTemplate = null;
 
     public function __construct(ilObjTest $testOBJ)
     {
         $this->testOBJ = $testOBJ;
-
-        $templateId = $this->testOBJ->getTemplate();
-
-        if ($templateId) {
-            $this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-        }
-    }
-
-    protected function getTemplateSettingValue($settingName)
-    {
-        if (!$this->settingsTemplate) {
-            return null;
-        }
-
-        $templateSettings = $this->settingsTemplate->getSettings();
-
-        if (!isset($templateSettings[$settingName])) {
-            return false;
-        }
-
-        return $templateSettings[$settingName]['value'];
-    }
-
-    protected function isHiddenFormItem($formFieldId): bool
-    {
-        if (!$this->settingsTemplate) {
-            return false;
-        }
-
-        $settings = $this->settingsTemplate->getSettings();
-
-        if (!isset($settings[$formFieldId])) {
-            return false;
-        }
-
-        if (!$settings[$formFieldId]['hide']) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function isSectionHeaderRequired($fields): bool
-    {
-        foreach ($fields as $field) {
-            if (!$this->isHiddenFormItem($field)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId): bool
     {
         return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
-    }
-
-    protected function removeHiddenItems(ilPropertyFormGUI $form)
-    {
-        if ($this->settingsTemplate) {
-            foreach ($this->settingsTemplate->getSettings() as $id => $item) {
-                if ($item["hide"]) {
-                    $form->removeItemByPostVar($id);
-                }
-            }
-        }
     }
 }
