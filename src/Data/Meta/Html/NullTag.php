@@ -19,20 +19,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Data\Meta\Html;
 
-use Generator;
-
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-abstract class Tag
+class NullTag extends Tag
 {
     /**
-     * This method MUST return the valid HTML markup for this tag.
-     *
-     * It's possible that several meta-tags must be returned, but please comply
-     * with MDNs documentation.
-     *
-     * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
+     * @inheritDoc
      */
-    abstract public function toHtml(): string;
+    public function toHtml(): string
+    {
+        return '';
+    }
 }

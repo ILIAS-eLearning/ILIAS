@@ -24,6 +24,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Clock](#clock)
 * [Dimension](#dimension)
 * [Dataset](#dataset)
+* [HTML Metadata](#htmlmetadata)
+* [OpenGraph Metadata](#opengraphmetadata)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -548,6 +550,96 @@ itIsTrueThat($dataset->getMaxValueForDimension("Target") === 1.5);
 ?>
 ```
 
+## HTMLMetadata
+
+When working with HTML metadata, you MUST always type-hint `\ILIAS\Data\Meta\Html\Tag`, except in rare cases where you
+have to work with a collection of tags explicitly (`\ILIAS\Data\Meta\Html\TagCollection`).
+
+Currently the factory can only provide `UserDefined` metadata which accepts key => value pairs mapped to a
+HTML-meta-tags name and content attribute.
+
+If you have to use something more speficic like e.g. the pragma directive feel free to implement it, derrived from the
+abstract class `\ILIAS\Data\Meta\Html\Tag`.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+$viewport_metadata = $f->htmlMetadata()->userDefined('viewport', 'widht=device-width');
+
+class ExpectsHtmlMetadata {
+    public function __construct(
+        protected \ILIAS\Data\Meta\Html\Tag $html_metadata,
+    ) {
+    }
+    
+    public function getMetadata(): \ILIAS\Data\Meta\Html\Tag
+    {
+        return $this->html_metadata;
+    }
+}
+
+$class = new ExpectsHtmlMetadata(
+    $f->htmlMetadata()->collection(
+        $f->htmlMetadata()->userDefined('description', 'Lorem ipsum dolor sit amet.'),
+        $viewport_metadata
+    )
+);
+
+itIsTrueThat(is_string($viewport_metadata->toHtml()));
+itIsTrueThat(is_string($class->getMetadata()->toHtml()));
+?>
+```
+
+## OpenGraphMetadata
+
+OpenGraph metadata is HTML metadata as well, but it's more structured and follows the
+open-graph-protocol ([ogp.me](https://ogp.me)).
+
+The factory currently only provides the website-type (of all the possible object-types
+documented [here](https://ogp.me/#types)). If you ever need a more specific object-type for e.g. articles or books, feel
+free to implement it accordingly.
+
+The factory also provides resources (`\ILIAS\Data\Meta\Html\OpenGraph\Resource`), which MUST NOT be used in any other
+way than the factory itself. These resources are [structured properties](https://ogp.me/#structured) which cannot be
+used standalone and MUST belong to an object-type.
+
+### Example
+
+```php
+<?php
+
+$f = new \ILIAS\Data\Factory;
+
+$structured_image = $f->openGraphMetadata()->image($f->uri('https://picsum.photos/200/300'), 'image/jpeg');
+
+$minimal_website_graph = $basic_website_graph = $f->openGraphMetadata()->website(
+    $f->uri('https://docu.ilias.de/object/101'),
+    $structured_image,
+    'object title 101'
+);
+
+$full_website_graph = $f->openGraphMetadata()->website(
+    $f->uri('https://docu.ilias.de/object/101'),
+    $structured_image,
+    'object title 101',
+    'ILIAS',
+    'lorem ipsum dolor sit amet.',
+    'en_US',
+    ['de_DE', 'de_CH'],
+    [
+        $f->openGraphMetadata()->image($f->uri('https://picsum.photos/100/100'), 'image/jpeg'),
+    ]
+);
+
+itIsTrueThat(is_string($minimal_website_graph->toHtml()));
+itIsTrueThat(is_string($full_website_graph->toHtml()));
+?>
+```
+
 ## Helper
 
 To make this run, we need a little helper:
@@ -561,26 +653,5 @@ function itIsTrueThat(bool $truth) {
     }
 }
 
-?>
-```
-
-## HTML metadata
-
-will follow.
-
-### Example
-
-```php
-<?php
-
-$f = new \ILIAS\Data\Factory;
-
-$html_metadata = $f->htmlMetadata()->userDefined('viewport', 'widht=device-width');
-
-$og_html_metadata = $f->htmlMetadata()->openGraph()->website(
-    'ILIAS',
-    $f->uri('https://docu.ilias.de'),
-    'hello world!'
-);
 ?>
 ```

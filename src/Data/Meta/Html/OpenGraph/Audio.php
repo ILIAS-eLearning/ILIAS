@@ -17,18 +17,18 @@
 
 declare(strict_types=1);
 
-namespace ILIAS\Data\Meta\Html;
+namespace ILIAS\Data\Meta\Html\OpenGraph;
+
+use ILIAS\Data\Meta\Html\TagCollection;
+use ILIAS\Data\URI;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Undefined extends Tag
+class Audio extends Resource
 {
-    /**
-     * @inheritDoc
-     */
-    public function toHtml(): string
+    protected function getPropertyName(): string
     {
-        return '';
+        return 'og:audio';
     }
 }

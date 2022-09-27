@@ -19,30 +19,26 @@ declare(strict_types=1);
 
 namespace ILIAS\Data\Meta\Html;
 
-use ILIAS\Data\Meta\Html\OpenGraph\Factory as OGFactory;
-
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class Factory
 {
-    public function __construct(
-        protected OGFactory $og_factory,
-    ) {
-    }
-
     public function userDefined(string $key, string $value): Tag
     {
         return new UserDefined($key, $value);
     }
 
-    public function undefined(): Tag
+    /**
+     * @param Tag[] $tags
+     */
+    public function collection(array $tags): TagCollection
     {
-        return new Undefined();
+        return new TagCollection(...$tags);
     }
 
-    public function openGraph(): OGFactory
+    public function nullTag(): Tag
     {
-        return $this->og_factory;
+        return new NullTag();
     }
 }
