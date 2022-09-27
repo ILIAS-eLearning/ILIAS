@@ -540,7 +540,6 @@ class ilExerciseManagementGUI
     public function listTextAssignmentObject(): void
     {
         $this->initFilter();
-
         $this->setBackToMembers();
 
         /** @var $button_print \ILIAS\UI\Component\Component */
@@ -574,11 +573,8 @@ class ilExerciseManagementGUI
             }
         }
         if ($total_reports == 0) {
-            $mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
-            $mtpl->setCurrentBlock("info_message");
-            $mtpl->setVariable("TEXT", $this->lng->txt("fiter_no_results"));
-            $mtpl->parseCurrentBlock();
-            $report_html .= $mtpl->get();
+            $mess = $this->ui_factory->messageBox()->info($this->lng->txt("fiter_no_results"));
+            $report_html .= $this->ui_renderer->render($mess);
         }
 
         $group_panels_tpl->setVariable('CONTENT', $report_html);
@@ -729,7 +725,7 @@ class ilExerciseManagementGUI
 
                     $review_html .=
                         '<div class="ilBlockPropertyCaption">' . $crit->getTitle() . '</div>' .
-                        '<div style="margin:2px 0;">' . $crit->getHTML($values[$crit_id]) . '</div>';
+                        '<div style="margin:2px 0;">' . $crit->getHTML($values[$crit_id] ?? null) . '</div>';
                 }
                 $feedback_tpl->setVariable("PEER_FEEDBACK", $review_html);
                 $feedback_tpl->parseCurrentBlock();
