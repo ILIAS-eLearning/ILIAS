@@ -2048,7 +2048,7 @@ auth#:#auth_oidc_settings_logout_scope_global#:#Log Out Globally
 auth#:#auth_oidc_settings_logout_scope_global_info#:#When a users logs out, they end both their OpenID Connect session and their ILIAS session.
 auth#:#auth_oidc_settings_logout_scope_local#:#Log Out of ILIAS ONLY
 auth#:#auth_oidc_settings_logout_scope_local_info#:#When a user logs out, they only end their session in  ILIAS, not their OpenID Connect session.
-auth#:#auth_oidc_settings_provider#:#Provider Url
+auth#:#auth_oidc_settings_provider#:#Provider URL
 auth#:#auth_oidc_settings_secret#:#Client Key
 auth#:#auth_oidc_settings_section_user_sync#:#User Synchronisation Settings
 auth#:#auth_oidc_settings_session_duration#:#Duration
@@ -3499,31 +3499,31 @@ common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_ecs#:#ECS
 common#:#auth_ldap#:#LDAP
-common#:#auth_ldap_enable#:#Enable LDAP support
+common#:#auth_ldap_enable#:#Enable LDAP Support
 common#:#auth_ldap_migration#:#Account Migration
-common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
+common#:#auth_ldap_migration_info#:#Allow new users to migrate their existing ILIAS accounts to LDAP authentication.
 common#:#auth_local#:#ILIAS Auth
 common#:#auth_login_instructions#:#Instructions Shown on Login Page
-common#:#auth_mode#:#Authentication Mode
+common#:#auth_mode#:#Authentication mode
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if ‘Allow Local Authentication’ is also activated.
 common#:#auth_per_default#:#Per Default
 common#:#auth_remark_non_local_auth#:#Selecting an authentication mode other than ‘ILIAS Auth’ (which uses the ILIAS database) means that users will not be able to change their login name or password after registration.
-common#:#auth_role_auth_mode#:#Authentication Mode
+common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Custom
 common#:#auth_select#:#Select Authentication Mode
 common#:#auth_selection#:#Login Options
 common#:#auth_settings#:#Authentication Settings
 common#:#auth_shib#:#Shibboleth
-common#:#auth_shib_instructions#:#Be sure to read the README for instructions on how to configure Shibboleth support for ILIAS.
-common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
+common#:#auth_shib_instructions#:#Click here for the README document containing instructions on how to configure Shibboleth support for ILIAS.
+common#:#auth_shib_not_configured#:#Shibboleth has not yet been configured
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
-common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.
+common#:#auth_soap_allow_local_desc#:#Allow SOAP users to authenticate themselves using their local ILIAS username and a local password.
 common#:#auth_soap_auth#:#Configure SOAP Authentication
-common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.
+common#:#auth_soap_auth_desc#:#These settings deal only with SOAP-based user authentication, not with the ILIAS SOAP interface.
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.
 common#:#auth_soap_namespace#:#Namespace
 common#:#auth_soap_namespace_desc#:#As defined in WSDL. Must be specified, if .NET SOAP style is used.
@@ -4138,7 +4138,7 @@ common#:#glo_new#:#New Glossary
 common#:#global#:#Global
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
-common#:#global_role_assignment#:#Globale Rollenzuweisung
+common#:#global_role_assignment#:#Global Role Assignment
 common#:#global_settings#:#Global settings
 common#:#global_user#:#Global users
 common#:#glossaries#:#Glossaries
@@ -4396,7 +4396,7 @@ common#:#ldap_port#:#LDAP Port
 common#:#ldap_read#:#Read access to LDAP settings
 common#:#ldap_server#:#LDAP Server URL
 common#:#ldap_tls#:#Use LDAP TLS
-common#:#ldap_version#:#LDAP protokoll version
+common#:#ldap_version#:#LDAP Protocol Version
 common#:#learning module#:#Learning Module
 common#:#learning_progress#:#Learning Progress
 common#:#leave_waiting_list#:#Leave Waiting List
@@ -4442,7 +4442,7 @@ common#:#local#:#Local
 common#:#local_language_file#:#custom language file
 common#:#local_language_files#:#custom language files
 common#:#local_languages_already_installed#:#Selected custom language file(s) are already installed
-common#:#local_role_assignment#:#Lokale Rollenzuweisung
+common#:#local_role_assignment#:#Local Role Assignment
 common#:#location#:#Location
 common#:#locator#:#Location:
 common#:#log_in#:#Login
@@ -4463,7 +4463,7 @@ common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via
 common#:#loginname_already_exists#:#This login name already exists.
 common#:#loginname_settings#:#Login Name Settings
 common#:#logout#:#Logout
-common#:#logout_text#:#You logged off from ILIAS. Your session has been closed.
+common#:#logout_text#:#You have logged out of ILIAS. Your session has been closed.
 common#:#logs#:#Log Data
 common#:#love#:#Love
 common#:#lres#:#Learning Resources
@@ -5008,7 +5008,7 @@ common#:#obj_tool_setting_calendar_active#:#Calendar
 common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
 common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
 common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
+common#:#obj_tool_setting_custom_metadata_info#:#Activation allows custom metadata to be configured in the "Metadata" tab.
 common#:#obj_tool_setting_news#:#News
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
 common#:#obj_tos#:#Terms of Service
@@ -5398,8 +5398,8 @@ common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#salutation#:#Salutation
-common#:#salutation_f#:#Ms./Mrs.
-common#:#salutation_m#:#Mr.
+common#:#salutation_f#:#Ms/Mrs
+common#:#salutation_m#:#Mr
 common#:#salutation_n#:#No salutation desired
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
