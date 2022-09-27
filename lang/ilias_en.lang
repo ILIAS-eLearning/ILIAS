@@ -11572,7 +11572,7 @@ meta#:#meta_l_as#:#Assamese
 meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Azerbaijani
 meta#:#meta_l_ba#:#Bashkir
-meta#:#meta_l_be#:#Byelorussian
+meta#:#meta_l_be#:#Belarusian
 meta#:#meta_l_bg#:#Bulgarian
 meta#:#meta_l_bh#:#Bihari
 meta#:#meta_l_bi#:#Bislama
@@ -11592,14 +11592,14 @@ meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Spanish
 meta#:#meta_l_et#:#Estonian
 meta#:#meta_l_eu#:#Basque
-meta#:#meta_l_fa#:#Persian (farsi)
+meta#:#meta_l_fa#:#Persian (Farsi)
 meta#:#meta_l_fi#:#Finnish
-meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fj#:#Fijian
 meta#:#meta_l_fo#:#Faroese
 meta#:#meta_l_fr#:#French
 meta#:#meta_l_fy#:#Frisian
 meta#:#meta_l_ga#:#Irish
-meta#:#meta_l_gd#:#Scots gaelic
+meta#:#meta_l_gd#:#Scots Gaelic
 meta#:#meta_l_gl#:#Galician
 meta#:#meta_l_gn#:#Guarani
 meta#:#meta_l_gu#:#Gujarati
@@ -11626,44 +11626,44 @@ meta#:#meta_l_kn#:#Kannada
 meta#:#meta_l_ko#:#Korean
 meta#:#meta_l_ks#:#Kashmiri
 meta#:#meta_l_ku#:#Kurdish
-meta#:#meta_l_ky#:#Kirghiz
+meta#:#meta_l_ky#:#Kyrgyz
 meta#:#meta_l_la#:#Latin
 meta#:#meta_l_ln#:#Lingala
 meta#:#meta_l_lo#:#Laothian
 meta#:#meta_l_lt#:#Lithuanian
-meta#:#meta_l_lv#:#Latvian;lettish
+meta#:#meta_l_lv#:#Latvian;Lettish
 meta#:#meta_l_mg#:#Malagasy
 meta#:#meta_l_mi#:#Maori
 meta#:#meta_l_mk#:#Macedonian
 meta#:#meta_l_ml#:#Malayalam
 meta#:#meta_l_mn#:#Mongolian
-meta#:#meta_l_mo#:#Moldavian
+meta#:#meta_l_mo#:#Moldovan
 meta#:#meta_l_mr#:#Marathi
 meta#:#meta_l_ms#:#Malay
 meta#:#meta_l_mt#:#Maltese
 meta#:#meta_l_my#:#Burmese
-meta#:#meta_l_na#:#Nauru
+meta#:#meta_l_na#:#Nauruan
 meta#:#meta_l_ne#:#Nepali
 meta#:#meta_l_nl#:#Dutch
 meta#:#meta_l_no#:#Norwegian
 meta#:#meta_l_oc#:#Occitan
-meta#:#meta_l_om#:#Afan (oromo)
-meta#:#meta_l_or#:#Oriya
+meta#:#meta_l_om#:#Oromo; Afaan Oromoo
+meta#:#meta_l_or#:#Odia
 meta#:#meta_l_pa#:#Punjabi
 meta#:#meta_l_pl#:#Polish
 meta#:#meta_l_ps#:#Pashto; Pushto
 meta#:#meta_l_pt#:#Portuguese
 meta#:#meta_l_qu#:#Quechua
 meta#:#meta_l_rm#:#Rhaeto-romance
-meta#:#meta_l_rn#:#Kurundi
+meta#:#meta_l_rn#:#Kirundi
 meta#:#meta_l_ro#:#Romanian
 meta#:#meta_l_ru#:#Russian
 meta#:#meta_l_rw#:#Kinyarwanda
 meta#:#meta_l_sa#:#Sanskrit
 meta#:#meta_l_sd#:#Sindhi
 meta#:#meta_l_sg#:#Sangho
-meta#:#meta_l_sh#:#Serbo-croatian
-meta#:#meta_l_si#:#Singhalese
+meta#:#meta_l_sh#:#Serbo-Croatian
+meta#:#meta_l_si#:#Sinhala
 meta#:#meta_l_sk#:#Slovak
 meta#:#meta_l_sl#:#Slovenian
 meta#:#meta_l_sm#:#Samoan
@@ -11675,7 +11675,7 @@ meta#:#meta_l_ss#:#Siswati
 meta#:#meta_l_st#:#Sesotho
 meta#:#meta_l_su#:#Sundanese
 meta#:#meta_l_sv#:#Swedish
-meta#:#meta_l_sw#:#Swahili
+meta#:#meta_l_sw#:#Swahili; Kiswahili
 meta#:#meta_l_ta#:#Tamil
 meta#:#meta_l_te#:#Telugu
 meta#:#meta_l_tg#:#Tajik
@@ -11684,17 +11684,17 @@ meta#:#meta_l_ti#:#Tigrinya
 meta#:#meta_l_tk#:#Turkmen
 meta#:#meta_l_tl#:#Tagalog
 meta#:#meta_l_tn#:#Setswana
-meta#:#meta_l_to#:#Tonga
+meta#:#meta_l_to#:#Tongan
 meta#:#meta_l_tr#:#Turkish
 meta#:#meta_l_ts#:#Tsonga
 meta#:#meta_l_tt#:#Tatar
 meta#:#meta_l_tw#:#Twi
-meta#:#meta_l_ug#:#Uigur
+meta#:#meta_l_ug#:#Uyghur
 meta#:#meta_l_uk#:#Ukrainian
 meta#:#meta_l_ur#:#Urdu
 meta#:#meta_l_uz#:#Uzbek
 meta#:#meta_l_vi#:#Vietnamese
-meta#:#meta_l_vo#:#Volapuk
+meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
 meta#:#meta_l_yi#:#Yiddish
