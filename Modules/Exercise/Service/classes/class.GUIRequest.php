@@ -157,6 +157,11 @@ class GUIRequest
         return $this->int("member_id");
     }
 
+    public function getMemberIds(): array
+    {
+        return $this->intArray("member_ids");
+    }
+
     // can me merged with member id?
     public function getParticipantId(): int
     {

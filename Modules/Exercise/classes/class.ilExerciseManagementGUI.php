@@ -1254,11 +1254,10 @@ class ilExerciseManagementGUI
         $cgui->setHeaderText($lng->txt("exc_msg_sure_to_deassign_participant"));
         $cgui->setCancel($lng->txt("cancel"), "members");
         $cgui->setConfirm($lng->txt("remove"), "deassignMembers");
-
         foreach ($members as $k => $m) {
             $cgui->addItem(
-                "member[$k]",
-                $m,
+                "member_ids[]",
+                $k,
                 ilUserUtil::getNamePresentation((int) $k, false, false, "", true)
             );
         }
@@ -1276,9 +1275,9 @@ class ilExerciseManagementGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $members = $this->getMultiActionUserIds();
+        $member_ids = $this->request->getMemberIds();
 
-        foreach (array_keys($members) as $usr_id) {
+        foreach ($member_ids as $usr_id) {
             $this->exercise->members_obj->deassignMember((int) $usr_id);
             $this->removeUserSubmissionFilesFromWebDir((int) $usr_id);
         }
