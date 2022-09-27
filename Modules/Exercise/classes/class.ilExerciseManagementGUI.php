@@ -2154,9 +2154,13 @@ class ilExerciseManagementGUI
         // e.g. ilExercise/3/exc_367/subm_1/<ass_id>/20210628175716_368
         $zip_internal_path = $this->getWebFilePathFromExternalFilePath($zip_original_full_path);
 
-        list($obj_date, $obj_id) = explode("_", basename($zip_original_full_path));
+        $arr = explode("_", basename($zip_original_full_path));
+        $obj_date = $arr[0];
+        $obj_id = (int) ($arr[1] ?? 0);
+        if ($obj_id === 0) {
+            throw new ilExerciseException("Cannot open HTML view for " . $zip_internal_path);
+        }
 
-        $obj_id = (int) $obj_id;
         $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
         if ($print_version) {
             $obj_id .= "print";
