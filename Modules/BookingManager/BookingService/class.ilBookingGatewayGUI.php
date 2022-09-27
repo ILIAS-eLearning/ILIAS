@@ -218,7 +218,7 @@ class ilBookingGatewayGUI
         if ($this->pools_selected) {
             $tabs->addSubTab(
                 "book_obj",
-                $lng->txt("book_objects_list"),
+                $lng->txt("book_booking_objects"),
                 $ctrl->getLinkTargetByClass("ilbookingobjectservicegui", "")
             );
             $tabs->addSubTab(

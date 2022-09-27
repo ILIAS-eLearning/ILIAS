@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements###04 06 2021 new variable
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
-administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
 administration#:#adm_auth_login#:#Authentication Login###04 06 2021 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#User Account Name
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
-administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_extending_ilias#:#Extending ILIAS###04 06 2021 new variable
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and grou
 administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
 administration#:#adm_repository_and_objects#:#Repository and Objects###04 06 2021 new variable
 administration#:#adm_search_and_find#:#Search and Find###04 06 2021 new variable
-administration#:#adm_settings_templates#:#Settings Templates
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Do you really want to delete the following templates?
 administration#:#adm_table#:#Table
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#User Administration
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Uvezi Image Map
 assessment#:#add_poly#:#Dodaj poligon
 assessment#:#add_rect#:#Dodaj pravokutnik
 assessment#:#additional_rating_info#:#Imajte na umu da su ovdje navedene vrijednosti iskazane u postocima te da u konačnici moraju dati zbroj od 100.
-assessment#:#adm_settings_templates#:#Predlošci za postavke
 assessment#:#advanced_rating#:#Proširena ocjena
 assessment#:#advanced_rating_info#:#Proširena procjena moguća je samo ako ste definirali jedinicu za rezultat. Daljnje postavke za procjenu prikazuju se nakon spremanja utvrđenih jedinica.
 assessment#:#all_available_question_pools#:#Svi postojeći bazeni pitanja
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#Zanemari u slučaju sukoba
 common#:#ignore_required_fields#:#Zanemari obavezna polja
 common#:#ignore_required_fields_info#:#Ako je aktivirano, možete poslati ovaj obrazac bez popunjavanja svih obaveznih polja. Nakon sljedeće prijave, novi korisnik mora dodati podatke koji nedostaju u osobnom profilu.
 common#:#il_astpl_loc_initial#:#Početni test
-common#:#il_astpl_loc_initial_desc#:#Predložak postavki za početne testove tečajeva usmjerenih na ciljeve učenja
 common#:#il_astpl_loc_qualified#:#Kvalifikacijski test
-common#:#il_astpl_loc_qualified_desc#:#Predložak postavki za kvalifikacijske testove tečajeva usmjerenih na ciljeve učenja
 common#:#il_blog_contributor#:#Autor bloga
 common#:#il_blog_editor#:#Urednik bloga
 common#:#il_chat_moderator#:#Moderator razgovora
@@ -15669,7 +15662,6 @@ survey#:#survey_pool_selection#:#Odabir bazena
 survey#:#survey_prev_question#:#Prethodna stranica
 survey#:#survey_previous#:#<< Prethodno
 survey#:#survey_question_editor#:#Prikaz popisa
-survey#:#survey_question_editor_settings_template#:#Prikaz popisa (na kartici 'Pitanja')
 survey#:#survey_question_obligatory#:#Ovo je pitanje obvezno. Morate odgovoriti na pitanje!
 survey#:#survey_question_pool#:#Bazen pitanja
 survey#:#survey_question_pool_title#:#Naslov bazena
@@ -15847,7 +15839,6 @@ survey#:#svy_settings_section_before_start#:#Informacije prije početka istraži
 survey#:#svy_settings_section_finishing#:#Završavanje ankete
 survey#:#svy_settings_section_question_behaviour#:#Administriranje ankete: Ponašanje pitanja
 survey#:#svy_settings_section_reminders#:#Podsjetnici
-survey#:#svy_settings_template#:#Predložak
 survey#:#svy_show_questiontitles#:#Prikaži naslov pitanja
 survey#:#svy_skl_comp_assignm_not_supported#:#Dodjela kompetencija nije podržana za ovu vrstu pitanja.
 survey#:#svy_sum_score#:#Sum Score###04 06 2021 new variable

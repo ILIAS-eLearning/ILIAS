@@ -76,10 +76,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         );
 
         $templateId = $this->testOBJ->getTemplate();
-
-        if ($templateId) {
-            $this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-        }
     }
 
     /**
@@ -260,16 +256,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $this->addResultSummarySettingsFormSection($form);
         $this->addResultDetailsSettingsFormSection($form);
         $this->addMiscSettingsFormSection($form);
-
-        // remove items when using template
-        if ($this->settingsTemplate) {
-            foreach ($this->settingsTemplate->getSettings() as $id => $item) {
-                if ($item["hide"]) {
-                    $form->removeItemByPostVar($id);
-                }
-            }
-        }
-
         $form->addCommandButton(self::CMD_SAVE_FORM, $this->lng->txt('save'));
 
         return $form;
@@ -281,12 +267,10 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             'count_system', 'score_cutting', 'pass_scoring', 'pass_deletion_allowed'
         );
 
-        if ($this->isSectionHeaderRequired($fields)) {
-            // scoring settings
-            $header = new ilFormSectionHeaderGUI();
-            $header->setTitle($this->lng->txt('test_scoring'));
-            $form->addItem($header);
-        }
+        // scoring settings
+        $header = new ilFormSectionHeaderGUI();
+        $header->setTitle($this->lng->txt('test_scoring'));
+        $form->addItem($header);
 
         // scoring system
         $count_system = new ilRadioGroupInputGUI($this->lng->txt('tst_text_count_system'), 'count_system');
@@ -703,7 +687,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     {
         // result filter taxonomies
         if ($this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported()) {
-            if (!$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds())) {
+            if (count($this->getAvailableTaxonomyIds())) {
                 $taxFilters = array();
 
                 if (is_array($form->getItemByPostVar('results_tax_filters')->getValue())) {

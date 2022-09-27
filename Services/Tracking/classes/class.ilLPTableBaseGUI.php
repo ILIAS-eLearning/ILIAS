@@ -669,7 +669,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
 
                 case "status":
-                    if ($value !== false) {
+                    if ($value) {
                         $result[$id] = $value;
                     }
                     break;
@@ -729,7 +729,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     break;
             }
         }
-
         return $result;
     }
 

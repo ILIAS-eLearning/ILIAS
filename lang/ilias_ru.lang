@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Activate Benchmark
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
-administration#:#adm_add_settings_template#:#Добавить шаблон
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#Имя учетной записи пользователя
 administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
-administration#:#adm_edit_settings_template#:#Редактировать шаблон
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Edit Settings
 administration#:#adm_hide#:#Hide in Settings Form
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Отображаются толь
 administration#:#adm_rep_tree_presentation#:#Представление дерева репозитория
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Settings Templates
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number###26 09 2014 new variable
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Вы действительно хотите удалить следующие шаблоны?
 administration#:#adm_table#:#Table
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#User Administration###23 12 2015 new variable
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Импортировать Карту изображ
 assessment#:#add_poly#:#Добавить зону в виде многоугольника
 assessment#:#add_rect#:#Добавить зону в виде прямоугольника
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.
-assessment#:#adm_settings_templates#:#Settings Templates
 assessment#:#advanced_rating#:#Advanced Rating
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
 assessment#:#all_available_question_pools#:#Все доступные наборы вопросов
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#Игнорировать конфликт
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_blog_contributor#:#Автор блога
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Chat moderator
@@ -15669,7 +15662,6 @@ survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_prev_question#:#Предыдущая страница
 survey#:#survey_previous#:#<<< предыдущий
 survey#:#survey_question_editor#:#Просмотр списка
-survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")
 survey#:#survey_question_obligatory#:#(Этот вопрос обязателен. Вы должны ответить на вопрос)
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_title#:#Pool Title
@@ -15847,7 +15839,6 @@ survey#:#svy_settings_section_before_start#:#Information before Start of Survey#
 survey#:#svy_settings_section_finishing#:#Finishing the Survey###27 01 2015 new variable
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question###27 01 2015 new variable
 survey#:#svy_settings_section_reminders#:#Reminders###27 01 2015 new variable
-survey#:#svy_settings_template#:#Template
 survey#:#svy_show_questiontitles#:#Показать названия вопросов в опросе
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

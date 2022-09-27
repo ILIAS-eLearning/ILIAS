@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Użytkownicy obsługi technicznej są podlinko
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Aktywuj pomiar
 administration#:#adm_activate_db_benchmark_desc#:#Pomiar zostaje zakończony automatycznie po żądaniu serwera.
-administration#:#adm_add_settings_template#:#Dodaj szablony
 administration#:#adm_adm_role_protect#:#Ochrona roli administratora
 administration#:#adm_adm_role_protect_info#:#Jeśli ta opcja jest aktywna, tylko administratorom przysługuje prawo do przydzielania użytkowników do roli administratora lub odbierania im tej roli.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#Sortuj wg SQL
 administration#:#adm_db_benchmark#:#Baza danych Test wydajności
 administration#:#adm_db_benchmark_user#:#Login użytkownika
 administration#:#adm_db_benchmark_user_desc#:#Pomiar przeprowadzany jest dla tego użytkownika. Nie należy używać tego samego użytkownika, który aktywował funkcję.
-administration#:#adm_edit_settings_template#:#Edytuj szablony
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Ustawienia edycji
 administration#:#adm_hide#:#Ukryj w formularzu ustawień
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Wyświetlane są wyłącznie kate
 administration#:#adm_rep_tree_presentation#:#Prezentacja widoku drzewa
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Szablony ustawień
 administration#:#adm_show_comments_tagging_in_lists#:#Liczba notatek, komentarzy i tagów w listach obiektów
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Sporządź listę pojedynczych znaczników zamiast liczby
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Czy naprawdę chcesz usunąć następujące szablony?
 administration#:#adm_table#:#Tabela
 administration#:#adm_time#:#Spędzony czas
 administration#:#adm_user_administration#:#Administracja użytkownikami
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Import mapy bitowej
 assessment#:#add_poly#:#Dodaj wielobok
 assessment#:#add_rect#:#Dodaj prostokąt
 assessment#:#additional_rating_info#:#Pamiętaj, że podane tutaj wartości to procenty i muszą wynosić 100.
-assessment#:#adm_settings_templates#:#Szablony ustawień
 assessment#:#advanced_rating#:#Zaawansowana ocena
 assessment#:#advanced_rating_info#:#Zaawansowana ocena jest możliwa tylko wtedy, gdy ustalisz dla wyniku jednostkę. Dodatkowe ustawienia dotyczące oceny wyświetlane są po zapisaniu ustalonych jednostek.
 assessment#:#all_available_question_pools#:#Wszystkie dostępne pule pytań
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#Ignoruj przy konflikcie
 common#:#ignore_required_fields#:#Ignoruj pola obowiązkowe dla użytkowników
 common#:#ignore_required_fields_info#:#Jeśli ta opcja jest aktywna, przed wysłaniem wiadomości nie będą sprawdzane pola obowiązkowe (o ile jest to możliwe). Skutkiem tego jest to, że podczas następnego logowania użytkownik będzie musiał uzupełnić swój profil.
 common#:#il_astpl_loc_initial#:#Test początkowy
-common#:#il_astpl_loc_initial_desc#:#Szablon ustawień dla testów początkowych kursów zorientowanych na cel dydaktyczny
 common#:#il_astpl_loc_qualified#:#Test kwalifikujący
-common#:#il_astpl_loc_qualified_desc#:#Szablon ustawień dla testów kwalifikujących kursów zorientowanych na cel dydaktyczny
 common#:#il_blog_contributor#:#Autor blogu
 common#:#il_blog_editor#:#Redaktor blogu
 common#:#il_chat_moderator#:#Moderator czatu
@@ -15669,7 +15662,6 @@ survey#:#survey_pool_selection#:#Wybór puli
 survey#:#survey_prev_question#:#Poprzednia strona
 survey#:#survey_previous#:#<<< Zapisz i przejdź do poprz. strony
 survey#:#survey_question_editor#:#Edytuj pytania ankiety
-survey#:#survey_question_editor_settings_template#:#Widok list (w zakładce "Pytania")
 survey#:#survey_question_obligatory#:#(To pytanie jest obowiązkowe. Musisz na to pytanie odpowiedzieć)
 survey#:#survey_question_pool#:#Pula pytań
 survey#:#survey_question_pool_title#:#Tytuł puli
@@ -15847,7 +15839,6 @@ survey#:#svy_settings_section_before_start#:#Informacje przed rozpoczęciem anki
 survey#:#svy_settings_section_finishing#:#Zakończ ankietę
 survey#:#svy_settings_section_question_behaviour#:#Zarządzanie ankietą: reakcja pytania
 survey#:#svy_settings_section_reminders#:#Przypomnienia
-survey#:#svy_settings_template#:#Szablon
 survey#:#svy_show_questiontitles#:#Pokaż tytuły pytań w ankiecie
 survey#:#svy_skl_comp_assignm_not_supported#:#Dla tego typu pytań nie można przydzielić kompetencji.
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

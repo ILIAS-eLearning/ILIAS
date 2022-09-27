@@ -81,7 +81,6 @@ adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (
 administration#:#adm_achievements#:#Achievements###07 02 2020 new variable
 administration#:#adm_activate_db_benchmark#:#Performans Testini Etkinleştir
 administration#:#adm_activate_db_benchmark_desc#:#Performans testi bir istek sonra otomatik sona erecektir.
-administration#:#adm_add_settings_template#:#Şablon Ekle
 administration#:#adm_adm_role_protect#:#Yönetici Rolünü Koru
 administration#:#adm_adm_role_protect_info#:#Etkin ise, sadece yönetici kullanıcılara rol atayabilir.
 administration#:#adm_auth_login#:#Authentication Login###29 07 2022 new variable
@@ -94,7 +93,6 @@ administration#:#adm_db_bench_sorted_by_sql#:#SQL Tarafından Sıralandı
 administration#:#adm_db_benchmark#:#DB Performans Testi
 administration#:#adm_db_benchmark_user#:#Kullanıcı Hesap Adı
 administration#:#adm_db_benchmark_user_desc#:#Sadece bu kullanıcı için ölçümler yapılacaktır.
-administration#:#adm_edit_settings_template#:#Şablonu Düzenle
 administration#:#adm_extending_ilias#:#Extending ILIAS###07 02 2020 new variable
 administration#:#adm_external_setting_edit#:#Edit Settings###24 10 2013 new variable
 administration#:#adm_hide#:#Form Ayarlarını Gizle
@@ -128,11 +126,9 @@ administration#:#adm_rep_tree_only_cntr_info#:#Sadece kategoriler, dersler ve gr
 administration#:#adm_rep_tree_presentation#:#Depo Ağacı Gösterimi
 administration#:#adm_repository_and_objects#:#Repository and Objects###07 02 2020 new variable
 administration#:#adm_search_and_find#:#Search and Find###07 02 2020 new variable
-administration#:#adm_settings_templates#:#Şablon Ayarları
 administration#:#adm_show_comments_tagging_in_lists#:#Nesne listesinde not, yorum ve etiket sayılarını göster
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number###26 09 2014 new variable
 administration#:#adm_sql#:#SQL
-administration#:#adm_sure_delete_settings_template#:#Gerçekten aşağıdaki şablonları silmek istediğinizden emin misiniz?
 administration#:#adm_table#:#Tablo
 administration#:#adm_time#:#Saat
 administration#:#adm_user_administration#:#User Administration###23 12 2015 new variable
@@ -469,7 +465,6 @@ assessment#:#add_imagemap#:#Resim Haritası İçe Aktar
 assessment#:#add_poly#:#Çokgen alan ekle
 assessment#:#add_rect#:#Dikdörtgen alan ekle
 assessment#:#additional_rating_info#:#Please note that the values given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
-assessment#:#adm_settings_templates#:#Ayar Şablonları
 assessment#:#advanced_rating#:#Advanced Rating###24 10 2013 new variable
 assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.###24 10 2013 new variable
 assessment#:#all_available_question_pools#:#Mevcut tüm soru havuzları
@@ -4205,9 +4200,7 @@ common#:#ignore_on_conflict#:#çatışma yoksay
 common#:#ignore_required_fields#:#Zorunlu Alanları Yoksay
 common#:#ignore_required_fields_info#:#Aktifse, bu form gönderildikten sonra zorunlu alanlar artık kontrol edilmez. İlgili kullanıcı bir sonraki girişinde kişisel profilini tamamlamak zorundadır.
 common#:#il_astpl_loc_initial#:#Initial Test###26 09 2014 new variable
-common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_astpl_loc_qualified#:#Qualifying Test###26 09 2014 new variable
-common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses###26 09 2014 new variable
 common#:#il_blog_contributor#:#Blog Katılımcı
 common#:#il_blog_editor#:#Blog-Editor###30 08 2015 new variable
 common#:#il_chat_moderator#:#Sohbet Moderatör
@@ -15669,7 +15662,6 @@ survey#:#survey_pool_selection#:#Havuz Seçimi
 survey#:#survey_prev_question#:#Önceki Sayfa
 survey#:#survey_previous#:#Önceki <<
 survey#:#survey_question_editor#:#Liste Görünümü
-survey#:#survey_question_editor_settings_template#:#Liste Görünümü (Tab "Sorular" içinde)
 survey#:#survey_question_obligatory#:#Bu soru zorunludur. Siz soruyu cevaplamak gerekir!
 survey#:#survey_question_pool#:#Soru Havuzu
 survey#:#survey_question_pool_title#:#Havuz Başlık
@@ -15847,7 +15839,6 @@ survey#:#svy_settings_section_before_start#:#Information before Start of Survey#
 survey#:#svy_settings_section_finishing#:#Finishing the Survey###27 01 2015 new variable
 survey#:#svy_settings_section_question_behaviour#:#Administering the Survey: Behaviour of the Question###27 01 2015 new variable
 survey#:#svy_settings_section_reminders#:#Reminders###27 01 2015 new variable
-survey#:#svy_settings_template#:#Şablon
 survey#:#svy_show_questiontitles#:#Anketi göster Soru Ünvanlar
 survey#:#svy_skl_comp_assignm_not_supported#:#Competence assignment is not supported for this question type.###24 10 2013 new variable
 survey#:#svy_sum_score#:#Sum Score###29 07 2022 new variable

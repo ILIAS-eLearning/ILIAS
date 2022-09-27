@@ -129,7 +129,10 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
     public function __setCmdClass(string $a_class): void
     {
-        $this->ctrl->setCmdClass($a_class);
+        if (strcasecmp(ilLearningProgressGUI::class, $this->ctrl->getCmdClass()) === 0) {
+            $this->ctrl->setCmdClass($a_class);
+        }
+        //$this->ctrl->setCmdClass($a_class);
     }
 
     public function __getNextClass(): string

@@ -71,11 +71,8 @@ class ilExcCriteriaRating extends ilExcCriteria
         $this->form->addItem($input);
 
         // #16993 - making form checkInput() work
-        $post = $this->http->request()->getParsedBody();
-        if (isset($post["cmd"])) {
-            if ($this->isRequired() && !$this->hasValue($a_value)) {
-                $input->setAlert($this->lng->txt("msg_input_is_required"));
-            }
+        if ($this->hasValue("")) {
+            $input->setSkipRequiredCheck(true);
         }
 
         $this->form_item = $input;
@@ -109,7 +106,6 @@ class ilExcCriteriaRating extends ilExcCriteria
         } else {
             $html = $rating->getHTML(false, false);
         }
-
         return $html;
     }
 

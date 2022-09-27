@@ -76,7 +76,7 @@ class ilTable2GUI extends ilTableGUI
     protected bool $open_form_tag = true;
     protected bool $close_form_tag = true;
     protected array $export_formats = [];
-    protected bool $export_mode = false;
+    protected int $export_mode = 0;
     protected bool $print_mode = false;
     protected bool $enable_command_for_all = false;
     protected bool $restore_filter = false;
@@ -1256,7 +1256,7 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
 
-        if ($this->getExportMode()) {
+        if ($this->getExportMode() > 0) {
             $this->exportData($this->getExportMode(), true);
         }
 
@@ -2600,7 +2600,7 @@ class ilTable2GUI extends ilTableGUI
         return $this->print_mode;
     }
 
-    public function getExportMode(): bool
+    public function getExportMode(): int
     {
         return $this->export_mode;
     }
@@ -2608,7 +2608,7 @@ class ilTable2GUI extends ilTableGUI
     /**
      * Export and optionally send current table data
      */
-    public function exportData(string $format, bool $send = false): void
+    public function exportData(int $format, bool $send = false): void
     {
         if ($this->dataExists()) {
             // #9640: sort
@@ -2624,7 +2624,6 @@ class ilTable2GUI extends ilTableGUI
             }
 
             $filename = "export";
-
             switch ($format) {
                 case self::EXPORT_EXCEL:
                     $excel = new ilExcel();

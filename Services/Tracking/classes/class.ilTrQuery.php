@@ -1709,17 +1709,17 @@ class ilTrQuery
                 if ($raw["cnt"]) {
                     // convert to final structure
                     foreach ($raw["set"] as $row) {
-                        $result["set"][(int) $row["usr_id"]]["login"] = $row["login"];
-                        $result["set"][(int) $row["usr_id"]]["usr_id"] = (int) $row["usr_id"];
+                        $result["set"][(int) $row["usr_id"]]["login"] = ($row["login"] ?? '');
+                        $result["set"][(int) $row["usr_id"]]["usr_id"] = (int) ($row["usr_id"] ?? 0);
 
                         // #14953
-                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id] = (int) $row["status"];
-                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id . "_perc"] = (int) $row["percentage"];
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id] = (int) ($row["status"] ?? 0);
+                        $result["set"][(int) $row["usr_id"]]["obj_" . $obj_id . "_perc"] = (int) ($row["percentage"] ?? 0);
                         if ($obj_id == $parent_obj_id) {
-                            $result["set"][(int) $row["usr_id"]]["status_changed"] = (int) $row["status_changed"];
-                            $result["set"][(int) $row["usr_id"]]["last_access"] = (int) $row["last_access"];
-                            $result["set"][(int) $row["usr_id"]]["spent_seconds"] = (int) $row["spent_seconds"];
-                            $result["set"][(int) $row["usr_id"]]["read_count"] = (int) $row["read_count"];
+                            $result["set"][(int) $row["usr_id"]]["status_changed"] = (int) ($row["status_changed"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["last_access"] = (int) ($row["last_access"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["spent_seconds"] = (int) ($row["spent_seconds"] ?? 0);
+                            $result["set"][(int) $row["usr_id"]]["read_count"] = (int) ($row["read_count"] ?? 0);
                         }
 
                         // @todo int cast?
