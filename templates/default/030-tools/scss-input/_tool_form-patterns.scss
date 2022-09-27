@@ -1,0 +1,38 @@
+@use "../../010-settings/" as *;
+@use "../../050-layout/layout_spacing-variables" as *;
+
+//** Textcolor used in the forms sections bodies
+$il-standard-form-color: $il-text-color;
+//** Textcolor used in the bylines (descriptions) of the input fields of a form
+$il-standard-form-byline-color: $il-text-light-color;
+//** Textcolor used in the labels (identifiers) of the input fields of a form
+$il-standard-form-label-color: $il-text-color;
+//** Background color used in the
+$il-standard-form-bg: $il-main-bg;
+//** Textsize used in the forms body
+$il-standard-form-font-size: $il-font-size-small;
+//** Textsize used in the bylines (descriptions) of the input fields of a form
+$il-standard-form-byline-font-size: $il-font-size-small;
+
+//** Textcolor used in the forms header, the sections header and the footer
+$il-standard-form-header-color: $il-text-color;
+//** Background color used in the forms header, the sections header and the footer
+$il-standard-form-header-bg: $il-main-bg;
+//** Textsize color used in the forms header and the sections header
+$il-standard-form-header-font-size: $il-font-size-xlarge;
+//** Textsize color used in the form headers the section headers byline (description)
+$il-standard-form-header-byline-font-size: $il-font-size-small;
+//** Background color used for dependant groups (sub forms) in standard forms
+$il-standard-form-dependant-group-bg: $il-main-darker-bg;
+//** Padding above headings of individual groups in forms
+$il-standard-form-header-padding:      ($il-padding-xlarge-vertical * 3 + $il-padding-base-vertical) $il-padding-xlarge-horizontal $il-padding-xxlarge-vertical $il-padding-xlarge-horizontal;
+//** Margin above headings of individual groups in forms
+$il-standard-form-header-margin: $il-margin-xlarge-horizontal 0 0 0;
+//** Border seperating individual groups in forms
+$il-standard-form-header-border:    1px solid $il-main-border-color;
+
+//** Alignment of labels in Forms
+$il-form-label-text-align: left;
+
+//** Minimal size of non-empty buttons inside forms
+$il-button-min-width-forms: 60px;

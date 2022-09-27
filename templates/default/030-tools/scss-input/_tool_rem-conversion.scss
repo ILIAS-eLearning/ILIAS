@@ -1,0 +1,16 @@
+@use "sass:math";
+//** Used to calculate pixel to rem
+$il-pixel-to-rem: 0.0625;
+
+@function pixel-to-rem($convert-this)  {
+    $converted: math.div($convert-this,1px) * $il-pixel-to-rem * 1rem;
+    @return($converted);
+}
+
+@function rem-to-pixel($convert-this)  {
+    $converted: math.div(math.div($convert-this,1rem),$il-pixel-to-rem) * 1px;
+    @return($converted);
+}
+
+@debug "20px in rem is #{pixel-to-rem(20px)}";
+@debug "1rem in px is #{rem-to-pixel(1rem)}";
