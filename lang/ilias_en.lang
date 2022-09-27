@@ -11726,27 +11726,27 @@ meta#:#meta_narrative_text#:#Narrative Text
 meta#:#meta_networked#:#Networked
 meta#:#meta_new_element#:#New Element
 meta#:#meta_no#:#No
-meta#:#meta_no_annotation#:#No metadata available for the Annotation section.
-meta#:#meta_no_classification#:#No metadata available for the Classification section.
-meta#:#meta_no_educational#:#No metadata available for the Educational section.
-meta#:#meta_no_lifecycle#:#No metadata available for the Lifecycle section.
-meta#:#meta_no_meta_metadata#:#No metadata available for the Meta-Metadata section.
-meta#:#meta_no_relation#:#No metadata available for the Relation section.
-meta#:#meta_no_rights#:#No metadata available for the Rights section.
-meta#:#meta_no_technical#:#No metadata available for the Technical section.
-meta#:#meta_obj_type_active#:#Dataset offered
+meta#:#meta_no_annotation#:#Currently no metadata available for the Annotation section.
+meta#:#meta_no_classification#:#Currently no metadata available for the Classification section.
+meta#:#meta_no_educational#:#Currently no metadata available for the Educational section.
+meta#:#meta_no_lifecycle#:#Currently no metadata available for the Lifecycle section.
+meta#:#meta_no_meta_metadata#:#Currently no metadata available for the Meta-Metadata section.
+meta#:#meta_no_relation#:#Currently no metadata available for the Relation section.
+meta#:#meta_no_rights#:#Currently no metadata available for the Rights section.
+meta#:#meta_no_technical#:#Currently no metadata available for the Technical section.
+meta#:#meta_obj_type_active#:#Data set offered
 meta#:#meta_obj_type_inactive#:#Data set not used
 meta#:#meta_obj_type_mandatory#:#Data set always offered
 meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
-meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
-meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_blocked_info#:#Will not be listed automatically as (an) Open Educational Resource(s) (OER)
+meta#:#meta_oer_copyright_selection#:#Copyright Selection
+meta#:#meta_oer_copyright_selection_info#:#Only Objects that have been published with one of the selected copyrights will be linked to the OER Category.
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Category for Release OER Content
 meta#:#meta_operating_system#:#Operating System
-meta#:#meta_or_composite#:#Or Composite
+meta#:#meta_or_composite#:#Or composite …
 meta#:#meta_order#:#Order
 meta#:#meta_other#:#Other
 meta#:#meta_other_plattform_requirements#:#Other Platform Requirements
@@ -11781,18 +11781,18 @@ meta#:#meta_slide#:#Slide
 meta#:#meta_source#:#Source
 meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Structure
-meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
+meta#:#meta_subjectmatterexpert#:#Subject-Matter Expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
-meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
+meta#:#meta_tab_advmd_def#:#Manage Custom Metadata
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_table#:#Table
 meta#:#meta_taxon#:#Taxon
 meta#:#meta_taxon_path#:#Taxon Path
 meta#:#meta_teacher#:#Teacher
 meta#:#meta_technical#:#Technical
-meta#:#meta_technicalimplementer#:#Technical implementer
-meta#:#meta_technicalvalidator#:#Technical validator
-meta#:#meta_terminator#:#Terminator
+meta#:#meta_technicalimplementer#:#Technical Implementation
+meta#:#meta_technicalvalidator#:#Technical Validation
+meta#:#meta_terminator#:#Final Editor
 meta#:#meta_title#:#Title
 meta#:#meta_training#:#Training
 meta#:#meta_type#:#Type
@@ -11811,7 +11811,7 @@ meta#:#meta_yes#:#Yes
 meta#:#sco_propagate#:#Propagate to all SCOs
 meta#:#udf_type_address#:#Address
 meta#:#udf_type_externallink#:#External Link
-meta#:#udf_type_float#:#Float
+meta#:#udf_type_float#:#Floating Point Number
 meta#:#udf_type_integer#:#Integer
 meta#:#udf_type_internallink#:#Internal Link
 meta#:#udf_type_location#:#Location

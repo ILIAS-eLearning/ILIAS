@@ -11708,7 +11708,7 @@ meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
 meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art des Lernmittels
-meta#:#meta_lecture#:#Lektüre
+meta#:#meta_lecture#:#Vorlesung
 meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear
 meta#:#meta_local#:#Lokal
@@ -11739,7 +11739,7 @@ meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
-meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Resource (OER) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
