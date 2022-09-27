@@ -424,7 +424,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
             $filter["past"] = (bool) $this->filter["past"];
         }
-
         return $filter;
     }
 
