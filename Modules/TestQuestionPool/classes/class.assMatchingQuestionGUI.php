@@ -105,7 +105,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
             $this->object->addTerm(
-                new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index])
+                new assAnswerMatchingTerm(htmlentities($answer), $filename, $_POST['terms']['identifier'][$index])
             );
         }
         // add definitions
@@ -126,7 +126,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 }
             }
             $this->object->addDefinition(
-                new assAnswerMatchingDefinition($answer, $filename, $_POST['definitions']['identifier'][$index])
+                new assAnswerMatchingDefinition(htmlentities($answer), $filename, $_POST['definitions']['identifier'][$index])
             );
         }
 
@@ -320,7 +320,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->object->getSelfAssessmentEditingMode()) {
             $definitions->setHideImages(true);
         }
-        
+
+        $applyHtmlEntitesToValues = function (assAnswerMatchingTerm $value) {
+            $value->__set('text', html_entity_decode($value->__get('text')));
+            return $value;
+        };
+
         $definitions->setRequired(true);
         $definitions->setQuestionObject($this->object);
         $definitions->setTextName($this->lng->txt('definition_text'));
@@ -329,7 +334,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if (!count($this->object->getDefinitions())) {
             $this->object->addDefinition(new assAnswerMatchingDefinition());
         }
-        $definitionvalues = $this->object->getDefinitions();
+        $definitionvalues = array_map($applyHtmlEntitesToValues, $this->object->getDefinitions());
         $definitions->setValues($definitionvalues);
         if ($this->isDefImgUploadCommand()) {
             $definitions->checkInput();
@@ -350,7 +355,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if (!count($this->object->getTerms())) {
             $this->object->addTerm(new assAnswerMatchingTerm());
         }
-        $termvalues = $this->object->getTerms();
+        $termvalues = array_map($applyHtmlEntitesToValues, $this->object->getTerms());
         $terms->setValues($termvalues);
         if ($this->isTermImgUploadCommand()) {
             $terms->checkInput();
