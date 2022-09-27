@@ -609,7 +609,7 @@ class ilExPeerReviewGUI
         $form->addItem($last_sub);
 
         $sub_data = $this->getSubmissionContent($submission);
-        if ($sub_data === '' || $sub_data === '0') {
+        if (($sub_data === '' || $sub_data === '0') && isset($file_info["files"]["download_url"])) {
             $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
         }
 
