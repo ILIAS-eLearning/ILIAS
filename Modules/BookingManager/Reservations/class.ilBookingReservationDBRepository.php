@@ -207,10 +207,10 @@ class ilBookingReservationDBRepository
                 ' OR ' . $ilDB->like('description', 'text', '%' . $filter['title'] . '%') . ')';
         }
         if ($a_has_schedule) {
-            if (isset($filter['from']) && is_string($filter['from'])) {
+            if (isset($filter['from']) && (int) $filter['from'] > 0) {
                 $where[] = 'date_from >= ' . $ilDB->quote($filter['from'], 'integer');
             }
-            if (isset($filter['to']) && is_string($filter['to'])) {
+            if (isset($filter['to']) && (int) $filter['to'] > 0) {
                 $where[] = 'date_to <= ' . $ilDB->quote($filter['to'], 'integer');
             }
             if (!isset($filter['past']) || !$filter['past']) {
@@ -230,7 +230,6 @@ class ilBookingReservationDBRepository
             // #16155 - could be cancelled and re-booked
             $sql .= ' ORDER BY status';
         }
-
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $obj_id = $row["object_id"];
