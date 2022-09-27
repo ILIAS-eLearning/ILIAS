@@ -501,7 +501,6 @@ class ilMail
         if ($usePlaceholders) {
             $message = $this->replacePlaceholders($message, $usrId);
         }
-        $message = $this->formatLinebreakMessage($message);
         $message = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $message);
 
         $nextId = $this->db->nextId($this->table_mail);
@@ -785,7 +784,7 @@ class ilMail
                 '',
                 '',
                 $subject,
-                $this->formatLinebreakMessage($message),
+                $message,
                 $attachments
             );
         } elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
@@ -800,7 +799,7 @@ class ilMail
                         '',
                         '',
                         $subject,
-                        $this->formatLinebreakMessage($usrIdToMessageMap[$usrId]),
+                        $usrIdToMessageMap[$usrId],
                         $attachments
                     );
                 }
@@ -827,7 +826,7 @@ class ilMail
                             '',
                             $remainingAddresses,
                             $subject,
-                            $this->formatLinebreakMessage($message),
+                            $message,
                             $attachments
                         );
 
@@ -844,7 +843,7 @@ class ilMail
                         '',
                         $remainingAddresses,
                         $subject,
-                        $this->formatLinebreakMessage($message),
+                        $message,
                         $attachments
                     );
                 }
@@ -1149,11 +1148,9 @@ class ilMail
                 $externalMailRecipientsCc,
                 $externalMailRecipientsBcc,
                 $subject,
-                $this->formatLinebreakMessage(
-                    $usePlaceholders ?
-                        $this->replacePlaceholders($message, 0, false) :
-                        $message
-                ),
+                $usePlaceholders ?
+                            $this->replacePlaceholders($message, 0, false) :
+                            $message,
                 $attachments
             );
         } else {

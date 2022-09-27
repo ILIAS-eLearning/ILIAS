@@ -252,7 +252,6 @@ class ilUserXMLWriter extends ilXmlWriter
         $prefs["mail_incoming_type"] = $mailOptions->getIncomingType();
         $prefs["mail_address_option"] = $mailOptions->getEmailAddressMode();
         $prefs["mail_signature"] = $mailOptions->getSignature();
-        $prefs["mail_linebreak"] = ilMailOptions::DEFAULT_LINE_BREAK;
         if (count($prefs)) {
             $this->xmlStartTag("Prefs");
             foreach ($prefs as $key => $value) {
