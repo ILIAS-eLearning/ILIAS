@@ -346,7 +346,7 @@ class ilExPeerReview
             " AND peer_id = " . $ilDB->quote($a_peer_id, "integer") .
             " AND ass_id = " . $ilDB->quote($this->assignment_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return (bool) $row["ass_id"];
+        return ((int) ($row["ass_id"] ?? 0) > 0);
     }
 
     public function updatePeerReviewTimestamp(
