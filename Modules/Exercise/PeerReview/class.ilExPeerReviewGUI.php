@@ -453,7 +453,7 @@ class ilExPeerReviewGUI
                 );
 
                 $title = $item->getTitle();
-                $html = $item->getHTML($values[$crit_id]);
+                $html = $item->getHTML($values[$crit_id] ?? null);
                 $a_info_widget->addProperty($title ?: "&nbsp;", $html ?: "&nbsp;");
             }
         }
