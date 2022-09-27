@@ -207,12 +207,12 @@ class ilAssOrderingElement
     {
         return $this->content;
     }
-    
-    /**
-     * @param string $content
-     */
+
     public function setContent($content)
     {
+        if (is_array($content)) {
+            $content = array_shift($content);
+        }
         $this->content = $content;
     }
     
