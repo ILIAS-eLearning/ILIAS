@@ -1332,10 +1332,12 @@ class ilRbacReview
         self::$assigned_users_cache = array();
     }
 
-    public static function _getCustomRBACOperationId(string $operation): ?int
+    public static function _getCustomRBACOperationId(string $operation, \ilDBInterface $ilDB = null): ?int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT ops_id" . PHP_EOL
@@ -1349,7 +1351,7 @@ class ilRbacReview
         }
 
         $row = $ilDB->fetchAssoc($res);
-        return (int) $row["ops_id"] ?? null;
+        return (int) $row["ops_id"];
     }
 
     public static function _isRBACOperation(int $type_id, int $ops_id): bool

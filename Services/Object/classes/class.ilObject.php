@@ -2023,6 +2023,6 @@ class ilObject
         }
 
         $row = $ilDB->fetchAssoc($res);
-        return (int) $row['obj_id'] ?? null;
+        return (int) $row['obj_id'];
     }
 } // END class.ilObject
