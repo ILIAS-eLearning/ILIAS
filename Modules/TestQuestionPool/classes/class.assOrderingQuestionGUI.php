@@ -245,7 +245,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form->setValuesByPost();
 
         if (!$form->checkInput()) {
-            $this->editQuestion($form);
+            $this->renderEditForm($form);
+            $this->addEditSubtabs(self::TAB_EDIT_QUESTION);
             return 1; // return 1 = something went wrong, no saving happened
         }
         
