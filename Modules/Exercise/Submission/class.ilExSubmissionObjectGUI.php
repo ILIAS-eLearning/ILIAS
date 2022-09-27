@@ -608,7 +608,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $conf->setCancel($this->lng->txt("cancel"), "returnToParent");
 
         $submission = $this->submission->getSelectedObject();
-        $port = new ilObjPortfolio($submission["filetitle"], false);
+        $port = new ilObjPortfolio((int) $submission["filetitle"], false);
 
         $conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("icon_prtf.svg"));
 
