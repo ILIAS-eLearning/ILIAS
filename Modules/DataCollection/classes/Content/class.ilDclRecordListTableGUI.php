@@ -394,7 +394,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      * Exports the table
      */
     public function exportData(
-        string $format,
+        int $format,
         bool $send = false
     ): void {
         if ($this->dataExists()) {
