@@ -1059,7 +1059,7 @@ class ilExSubmission
             $team_map = ilExAssignmentTeam::getAssignmentTeamMap($a_ass->getId());
         }
         foreach ($members as $id => $item) {
-            $user_files = $item["files"];
+            $user_files = $item["files"] ?? null;
             $sourcedir = $savepath . DIRECTORY_SEPARATOR . $id;
             if (!is_dir($sourcedir)) {
                 continue;
@@ -1124,7 +1124,7 @@ class ilExSubmission
                 }
 
                 // late submission?
-                if (is_array($user_files)) {	// see #23900
+                if (isset($user_files)) {	// see #23900
                     foreach ($user_files as $file) {
                         if (basename($file["filename"]) == $sourcefile) {
                             if ($file["late"]) {
