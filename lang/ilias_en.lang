@@ -11147,12 +11147,12 @@ mep#:#mobs_black_list_file_types#:#Forbidden File Types
 mep#:#mobs_black_list_file_types_info#:#Enter a comma separated list of file suffixes. This list will restrict the set of allowed file types. Usually you need this if the former list is empty (all file types are allowed).
 mep#:#mobs_restrict_file_types#:#Allowed File Types
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.
-meta#:#adt_error_max_length#:#Please enter a shorter text.
-meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
+meta#:#adt_error_max_length#:#The text you have entered is too long. Please enter a shorter text.
+meta#:#md_adn_int_error_no_default#:#Please select an activated language as your "Default-Language".
 meta#:#md_adv_active#:#Active
 meta#:#md_adv_added_new_record#:#A new data set has been added.
 meta#:#md_adv_col_presentation_ordering#:#Position
-meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
+meta#:#md_adv_confirm_definition#:#Please confirm the new settings.
 meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
 meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
@@ -11162,12 +11162,12 @@ meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing
 meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options
 meta#:#md_adv_create_field#:#New Field
 meta#:#md_adv_create_record#:#New Data Set
-meta#:#md_adv_delete_fields_sure#:#Do you really want to delete the following field definitions?
-meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following export  files?
-meta#:#md_adv_delete_record_sure#:#Do really want to delete the following data sets?
-meta#:#md_adv_deleted_fields#:#The fields have been deleted.
-meta#:#md_adv_deleted_files#:#Deleted export files.
-meta#:#md_adv_deleted_records#:#Data set deleted.
+meta#:#md_adv_delete_fields_sure#:#Are you sure you want to delete the following field(s)?
+meta#:#md_adv_delete_files_sure#:#Are you sure you want to delete the following export file(s)?
+meta#:#md_adv_delete_record_sure#:#Are you sure you want to delete the following data set(s)?
+meta#:#md_adv_deleted_fields#:#Field(s) successfully deleted.
+meta#:#md_adv_deleted_files#:#File(s) successfully deleted.
+meta#:#md_adv_deleted_records#:#Data set(s) successfully deleted.
 meta#:#md_adv_desc_show#:#Show Description
 meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#md_adv_edit_field#:#Edit Field
@@ -11183,54 +11183,54 @@ meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_adv_int_current#:#Current Language:
 meta#:#md_adv_int_default#:#Default Language:
 meta#:#md_adv_int_translation_info#:#Translation:
-meta#:#md_adv_no_fields#:#No Fields Defined
-meta#:#md_adv_number_decimals#:#Decimals
+meta#:#md_adv_no_fields#:#This data set does not yet have any fields
+meta#:#md_adv_number_decimals#:#Decimal Places
 meta#:#md_adv_number_max#:#Maximum Value
 meta#:#md_adv_number_min#:#Minimum Value
 meta#:#md_adv_number_suffix#:#Suffix
-meta#:#md_adv_presentation#:#Presentation
+meta#:#md_adv_presentation#:#Display Options
 meta#:#md_adv_record_activate_languages#:#Activate Languages
-meta#:#md_adv_record_list#:#Datasets
-meta#:#md_adv_record_lng_table#:#Language Managment
+meta#:#md_adv_record_list#:#Data Sets
+meta#:#md_adv_record_lng_table#:#Language Management
 meta#:#md_adv_record_lng_table_active#:#Active
 meta#:#md_adv_record_lng_table_default#:#Default
 meta#:#md_adv_record_lng_table_inst#:#Installed
 meta#:#md_adv_record_lng_table_lng#:#Language
-meta#:#md_adv_records#:#Included Data Sets
-meta#:#md_adv_records_exported#:#A new export file has been created.
+meta#:#md_adv_records#:#Data Sets
+meta#:#md_adv_records_exported#:#New export file(s) successfully created.
 meta#:#md_adv_scope#:#Scope
 meta#:#md_adv_scope_list_header#:#Limited to:
 meta#:#md_adv_searchable#:#Searchable
-meta#:#md_adv_select_one_file#:#Please choose one file.
+meta#:#md_adv_select_one_file#:#Please select only one file.
 meta#:#md_adv_show#:#Show
-meta#:#md_adv_substitution_table#:#Presentation in the Repository
+meta#:#md_adv_substitution_table#:#Display Options for Custom Metadata in the Repository
 meta#:#md_adv_text_max_length#:#Maximum Length
 meta#:#md_adv_text_multi#:#Multiline
 meta#:#md_advanced#:#Custom Metadata
 meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_copyright#:#Copyright
-meta#:#md_copyright_add#:#Add Copyright Default
-meta#:#md_copyright_edit#:#Edit Copyright Default
-meta#:#md_copyright_enable_info#:#Choose this option to offer a selection of predefined copyrights.
+meta#:#md_copyright_add#:#Add New Copyright
+meta#:#md_copyright_edit#:#Edit Copyright
+meta#:#md_copyright_enable_info#:#Add a copyright section to the LOM Metadata of Objects, including a selection of selectable predefined copyrights.
 meta#:#md_copyright_enabled#:#Enable Copyright Selection
 meta#:#md_copyright_preview#:#Copyright (Preview)
-meta#:#md_copyright_selection#:#Copyright Defaults
+meta#:#md_copyright_selection#:#Available Copyrights
 meta#:#md_copyright_settings#:#Copyright Settings
 meta#:#md_copyright_value#:#Copyright
-meta#:#md_copyrights_deleted#:#Deleted Copyright
+meta#:#md_copyrights_deleted#:#Copyright deleted.
 meta#:#md_days#:#Days:
-meta#:#md_delete_cp_sure#:#Do you really want to delete the following entries ?
+meta#:#md_delete_cp_sure#:#Are you sure you want to delete the following entries?
 meta#:#md_delimiter#:#Delimiter
-meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen for keywords and authors separation. Default is ‘,’.
+meta#:#md_delimiter_info#:#The delimiter is used in the quick editing screen to separate multiple keywords and/or authors. Default is ‘,’.
 meta#:#md_fields#:#Fields
 meta#:#md_general_settings#:#General Settings
-meta#:#md_months#:#Month:
+meta#:#md_months#:#Months:
 meta#:#md_obj_types#:#Assigned Objects
 meta#:#md_record_export_table#:#Export Files
 meta#:#md_record_list_table#:#Custom Metadata Sets
 meta#:#md_separated_by#:#Separated by %s
 meta#:#md_time#:#Time:
-meta#:#md_used#:#Usage
+meta#:#md_used#:#Current Number of Usages
 meta#:#meta_accessibility_restrictions#:#Accessibility Restrictions
 meta#:#meta_active#:#Active
 meta#:#meta_add#:#Add
