@@ -320,7 +320,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         foreach ($answers as $key => $answer) {
-            $answer->setAnswerText(ilUtil::secureString($answer->getAnswerText()));
+            $answer->setAnswerText(ilUtil::secureString(htmlspecialchars($answer->getAnswerText())));
         }
 
         return $answers;
