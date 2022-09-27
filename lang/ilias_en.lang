@@ -11489,19 +11489,19 @@ meta#:#meta_c_YT#:#Mayotte
 meta#:#meta_c_ZA#:#South Africa
 meta#:#meta_c_ZM#:#Zambia
 meta#:#meta_c_ZW#:#Zimbabwe
-meta#:#meta_catalog#:#Catalog
+meta#:#meta_catalog#:#Catalogue
 meta#:#meta_classification#:#Classification
 meta#:#meta_collection#:#Collection
 meta#:#meta_competency#:#Competency
-meta#:#meta_contentprovider#:#Content provider
+meta#:#meta_contentprovider#:#Content Provider
 meta#:#meta_context#:#Context
 meta#:#meta_contribute#:#Contribute
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright and Other Restrictions
-meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
-meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
+meta#:#meta_copyright_change_info#:#You are about to change the copyright licence assigned to this content. This should only be done with the permission of the copyright holder. Please continue only if the new licence is not more restrictive than the one used before.
+meta#:#meta_copyright_change_warning_title#:#Changing a Copyright
 meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_outdated#:#Outdated
+meta#:#meta_copyright_outdated#:#Outdated / No longer in use
 meta#:#meta_copyright_show_usages#:#Show Usages
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
@@ -11525,47 +11525,47 @@ meta#:#meta_education#:#Education
 meta#:#meta_educational#:#Educational
 meta#:#meta_educational_level#:#Educational Level
 meta#:#meta_educational_objective#:#Educational Objective
-meta#:#meta_educationalvalidator#:#Educational validator
+meta#:#meta_educationalvalidator#:#Educational Validation
 meta#:#meta_entity#:#Entity
 meta#:#meta_entry#:#Entry
 meta#:#meta_exam#:#Exam
 meta#:#meta_exercise#:#Exercise
 meta#:#meta_experiment#:#Experiment
-meta#:#meta_expositive#:#Expositive
-meta#:#meta_figure#:#Figure
-meta#:#meta_final#:#Final
+meta#:#meta_expositive#:#Expository
+meta#:#meta_figure#:#Image / Illustration
+meta#:#meta_final#:#Final Version
 meta#:#meta_format#:#Format
 meta#:#meta_general#:#General
 meta#:#meta_global#:#Global
 meta#:#meta_graph#:#Graph
-meta#:#meta_graphicaldesigner#:#Graphical designer
-meta#:#meta_has_format#:#Has Format
-meta#:#meta_has_part#:#Has Part
+meta#:#meta_graphicaldesigner#:#Graphic Design
+meta#:#meta_has_format#:#Has format …
+meta#:#meta_has_part#:#Has part …
 meta#:#meta_has_version#:#Has Version
 meta#:#meta_hierarchical#:#Hierarchical
 meta#:#meta_high#:#High
 meta#:#meta_higher_education#:#Higher Education
-meta#:#meta_id#:#Id
+meta#:#meta_id#:#ID
 meta#:#meta_idea#:#Idea
 meta#:#meta_identifier#:#Identifier
 meta#:#meta_index#:#Index
-meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (and no media objects or LM pages).
-meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used other sections, e.g for learning progress statistics. Please insert atypical learning time in hours and/or minutes.
+meta#:#meta_info_only_repository_objects#:#Only repository objects are listed below (but not media objects or learning module pages).
+meta#:#meta_info_tlt_not_valid#:#The current value is not valid. Therefore it can not be used in other sections, such as learning progress statistics. Please insert a typical learning time in hours and/or minutes.
 meta#:#meta_initiator#:#Initiator
-meta#:#meta_installation_remarks#:#Installation Remarks
-meta#:#meta_instructionaldesigner#:#Instructional designer
+meta#:#meta_installation_remarks#:#Installation Notes
+meta#:#meta_instructionaldesigner#:#Instructional Design
 meta#:#meta_intended_end_user_role#:#Intended End User Role
 meta#:#meta_interactivity_level#:#Interactivity Level
 meta#:#meta_interactivity_type#:#Interactivity Type
-meta#:#meta_is_based_on#:#Is Based On
-meta#:#meta_is_basis_for#:#Is Basis For
-meta#:#meta_is_format_of#:#Is Format Of
-meta#:#meta_is_part_of#:#Is Part Of
-meta#:#meta_is_referenced_by#:#Is Referenced By
-meta#:#meta_is_required_by#:#Is Required By
-meta#:#meta_is_version_of#:#Is Version Of
+meta#:#meta_is_based_on#:#Is based on …
+meta#:#meta_is_basis_for#:#Is basis for …
+meta#:#meta_is_format_of#:#Is format of …
+meta#:#meta_is_part_of#:#Is part of …
+meta#:#meta_is_referenced_by#:#Is referenced by
+meta#:#meta_is_required_by#:#Is required by
+meta#:#meta_is_version_of#:#Is version of
 meta#:#meta_keyword#:#Keyword
-meta#:#meta_kind#:#Kind
+meta#:#meta_kind#:#Type
 meta#:#meta_l_aa#:#Afar
 meta#:#meta_l_ab#:#Abkhazian
 meta#:#meta_l_af#:#Afrikaans
