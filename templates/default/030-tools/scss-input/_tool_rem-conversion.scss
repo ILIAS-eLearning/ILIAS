@@ -2,14 +2,24 @@
 //** Used to calculate pixel to rem
 $il-pixel-to-rem: 0.0625;
 
-@function pixel-to-rem($convert-this)  {
-    $converted: math.div($convert-this,1px) * $il-pixel-to-rem * 1rem;
-    @return($converted);
+@function pixel-to-rem($convert-this, $conversion-factor: $il-pixel-to-rem)  {
+    @if math.unit($convert-this) == "px" {
+        $converted: math.div($convert-this,1px) * $conversion-factor * 1rem;
+        @return($converted);
+    }
+    @else {
+        @error "Pixel to rem conversion requires a pixel value as an input. Unit was '#{math.unit($convert-this)}' instead.";
+    }
 }
 
-@function rem-to-pixel($convert-this)  {
-    $converted: math.div(math.div($convert-this,1rem),$il-pixel-to-rem) * 1px;
-    @return($converted);
+@function rem-to-pixel($convert-this, $conversion-factor: $il-pixel-to-rem)  {
+    @if math.unit($convert-this) == "rem" {
+        $converted: math.div(math.div($convert-this,1rem),$conversion-factor) * 1px;
+        @return($converted);
+    }
+    @else {
+        @error "Rem to pixel conversion requires a rem value as an input. Unit was '#{math.unit($convert-this)}' instead.";
+    }
 }
 
 @debug "20px in rem is #{pixel-to-rem(20px)}";
