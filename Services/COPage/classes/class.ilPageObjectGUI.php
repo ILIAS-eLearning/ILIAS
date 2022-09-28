@@ -1392,7 +1392,7 @@ class ilPageObjectGUI
                 $par = $this->obj->getParagraphForPCID($this->abstract_pcid);
                 $content = "<dummy><PageObject><PageContent><Paragraph Characteristic='" . $par->getCharacteristic() . "'>" .
                     $par->getText() . $link_xml .
-                    "</Paragraph></PageContent></PageObject>".$this->obj->getMultimediaXML()."</dummy>";
+                    "</Paragraph></PageContent></PageObject>" . $this->obj->getMultimediaXML() . "</dummy>";
             }
         } else {
             $content = $this->obj->getXMLFromDom(
@@ -2018,7 +2018,7 @@ class ilPageObjectGUI
         return $this->ctrl->getLinkTargetByClass(strtolower(get_class($this)), "preview");
     }
 
-    public function setProfileBackUrl(string $url) : void
+    public function setProfileBackUrl(string $url): void
     {
         $this->profile_back_url = $url;
     }
@@ -3042,7 +3042,7 @@ class ilPageObjectGUI
      */
     public function editMasterLanguage(): void
     {
-        $this->ctrl->setParameter($this, "transl", "");
+        $this->ctrl->setParameter($this, "transl", "-");
         $this->ctrl->redirect($this, "edit");
     }
 
