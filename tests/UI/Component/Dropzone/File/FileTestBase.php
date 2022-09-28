@@ -46,6 +46,7 @@ abstract class FileTestBase extends ILIAS_UI_TestBase
 
         $this->generator = new IncrementalSignalGenerator();
         $this->factory = new I\Component\Dropzone\File\Factory(
+            $this->generator,
             $this->createMock(\ILIAS\UI\Implementation\Component\Input\UploadLimitResolver::class),
             $this->getInputFactory(),
             $this->getLanguage()

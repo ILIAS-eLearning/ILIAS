@@ -28,6 +28,10 @@ use ILIAS\UI\Component\Component;
 use LogicException;
 use ilLanguage;
 use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * @author  nmaerchy <nm@studer-raimann.ch>
@@ -35,6 +39,8 @@ use ILIAS\UI\Component\Input\Field\Input;
  */
 class Wrapper extends File implements WrapperInterface
 {
+    protected SignalGeneratorInterface $signal_generator;
+    protected \ILIAS\UI\Implementation\Component\Signal $clear_signal;
     /**
      * @var Component[]
      */
@@ -44,6 +50,7 @@ class Wrapper extends File implements WrapperInterface
      * @param Component[]|Component $content
      */
     public function __construct(
+        SignalGeneratorInterface $signal_generator,
         InputFactory $input_factory,
         ilLanguage $language,
         UploadLimitResolver $upload_limit_resolver,
@@ -59,11 +66,30 @@ class Wrapper extends File implements WrapperInterface
         $this->checkEmptyArray($content);
 
         $this->components = $content;
+        $this->signal_generator = $signal_generator;
+        $this->initSignals();
+    }
+
+    protected function initSignals(): void
+    {
+        $this->clear_signal = $this->signal_generator->create();
     }
 
     public function getContent(): array
     {
         return $this->components;
+    }
+
+    public function getClearSignal(): Signal
+    {
+        return $this->clear_signal;
+    }
+
+    public function withResetSignals()
+    {
+        $clone = clone $this;
+        $clone->initSignals();
+        return $clone;
     }
 
     /**
