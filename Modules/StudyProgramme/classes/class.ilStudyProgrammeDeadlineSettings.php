@@ -25,9 +25,9 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilStudyProgrammeDeadlineSettings
 {
     protected ?int $deadline_period;
-    protected ?DateTime $deadline_date;
+    protected ?DateTimeImmutable $deadline_date;
 
-    public function __construct(?int $deadline_period, ?DateTime $deadline_date)
+    public function __construct(?int $deadline_period, ?DateTimeImmutable $deadline_date)
     {
         if (!is_null($deadline_period) && 0 > $deadline_period) {
             throw new InvalidArgumentException('Numbers less than 0 are not allowed');
@@ -53,12 +53,12 @@ class ilStudyProgrammeDeadlineSettings
         return $clone;
     }
 
-    public function getDeadlineDate(): ?DateTime
+    public function getDeadlineDate(): ?DateTimeImmutable
     {
         return $this->deadline_date;
     }
 
-    public function withDeadlineDate(?DateTime $deadline_date): ilStudyProgrammeDeadlineSettings
+    public function withDeadlineDate(?DateTimeImmutable $deadline_date): ilStudyProgrammeDeadlineSettings
     {
         $clone = clone $this;
         $clone->deadline_date = $deadline_date;
@@ -130,7 +130,7 @@ class ilStudyProgrammeDeadlineSettings
                 }
 
                 if (isset($vals['prg_deadline'][1]['deadline_date'])) {
-                    $date = new DateTime($vals['prg_deadline'][1]['deadline_date']);
+                    $date = $vals['prg_deadline'][1]['deadline_date'];
                 }
 
                 return new ilStudyProgrammeDeadlineSettings($period, $date);

@@ -320,7 +320,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
 
         $deadline = $return->getDeadlineSettings();
         if ($row[self::FIELD_DEADLINE_DATE] !== null) {
-            $deadline = $deadline->withDeadlineDate(DateTime::createFromFormat(
+            $deadline = $deadline->withDeadlineDate(DateTimeImmutable::createFromFormat(
                 ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                 $row[self::FIELD_DEADLINE_DATE]
             ))
@@ -337,7 +337,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $vqs = $return->getValidityOfQualificationSettings();
         if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
             $vqs = $vqs->withQualificationDate(
-                DateTime::createFromFormat(
+                DateTimeImmutable::createFromFormat(
                     ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                     $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]
                 )
