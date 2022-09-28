@@ -179,6 +179,8 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_PERIOD
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_DATE
             . '	,' . self::FIELD_VQ_RESTART_PERIOD
+            . ', ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
+            . ', ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
             . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
             . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
             . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL

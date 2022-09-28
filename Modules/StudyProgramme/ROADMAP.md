@@ -32,4 +32,10 @@ Careful: This also means migrating!
 in terms of points or relevance. This is not a static flag but a result of querying progresses.
 
 # ilObjStudyProgrammeTreeGUI
-# we'll remove this feature 
+* we'll remove this feature
+
+# ilStudyProgrammeTypeDBRepository
+* The method `getStudyProgrammeIdsByTypeId` is unnecessarily slow, we could only load
+  ids instead of getting them from complete settings objects.
+:q
+:q
