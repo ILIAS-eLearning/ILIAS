@@ -34,7 +34,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -51,7 +51,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         try {
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 self::INVALID_QUALIFICATION_PERIOD,
-                new DateTime(self::VALID_QUALIFICATION_DATE),
+                new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
                 self::VALID_RESTART_PERIOD_1
             );
             $this->fail();
@@ -65,7 +65,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         try {
             new ilStudyProgrammeValidityOfAchievedQualificationSettings(
                 self::VALID_QUALIFICATION_PERIOD_1,
-                new DateTime(self::VALID_QUALIFICATION_DATE),
+                new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
                 self::INVALID_RESTART_PERIOD
             );
             $this->fail();
@@ -78,7 +78,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -92,7 +92,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -108,7 +108,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -122,7 +122,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
     {
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -150,7 +150,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
 
         $obj = new ilStudyProgrammeValidityOfAchievedQualificationSettings(
             self::VALID_QUALIFICATION_PERIOD_1,
-            new DateTime(self::VALID_QUALIFICATION_DATE),
+            new DateTimeImmutable(self::VALID_QUALIFICATION_DATE),
             self::VALID_RESTART_PERIOD_1
         );
 
@@ -188,7 +188,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettingsTest extends TestCa
         );
 
         $date_value = $field->getInputs()['validity_qualification']->getValue()[1]['vq_date'];
-        $date = (new DateTime($date_value))->format('Y-m-d');
+        $date = (new DateTimeImmutable($date_value))->format('Y-m-d');
 
         $this->assertEquals(self::VALID_QUALIFICATION_DATE, $date);
 

@@ -33,7 +33,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $this->assertEquals(self::VALID_DEADLINE_PERIOD_1, $obj->getDeadlinePeriod());
@@ -45,7 +45,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         try {
             new ilStudyProgrammeDeadlineSettings(
                 self::INVALID_DEADLINE_PERIOD,
-                new DateTime(self::VALID_DEADLINE_DATE)
+                new DateTimeImmutable(self::VALID_DEADLINE_DATE)
             );
             $this->fail();
         } catch (InvalidArgumentException $e) {
@@ -57,7 +57,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $new = $obj->withDeadlinePeriod(self::VALID_DEADLINE_PERIOD_2);
@@ -70,7 +70,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         try {
@@ -97,7 +97,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $lng->expects($this->atLeastOnce())
@@ -134,7 +134,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         );
 
         $date_value = $switchable_group->getValue()[1]['deadline_date'];
-        $date = (new DateTime($date_value))->format('Y-m-d');
+        $date = (new DateTimeImmutable($date_value))->format('Y-m-d');
         $this->assertEquals(self::VALID_DEADLINE_DATE, $date);
 
         $inputs = $switchable_group->getInputs();

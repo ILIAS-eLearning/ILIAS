@@ -552,8 +552,8 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
 
     public function testUpdatePlanFromSettings(): void
     {
-        $future = (new DateTime())->add(new DateInterval('P1D'));
-        $future2 = (new DateTime())->add(new DateInterval('P4D'));
+        $future = (new DateTimeImmutable())->add(new DateInterval('P1D'));
+        $future2 = (new DateTimeImmutable())->add(new DateInterval('P4D'));
         $points = 73;
 
         $set_dl = new ilStudyProgrammeDeadlineSettings(null, $future);
@@ -569,8 +569,8 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
             $this->mock_tree[$id]['prg']->updateSettings($settings);
             $progress = $this->progress_repo->get($id)
                 ->withAmountOfPoints(69)
-                ->withDeadline(DateTimeImmutable::createFromMutable($future2))
-                ->withValidityOfQualification(DateTimeImmutable::createFromMutable($future));
+                ->withDeadline($future2)
+                ->withValidityOfQualification($future);
             $progress = $progress->markAccredited(
                 new DateTimeImmutable(),
                 6
