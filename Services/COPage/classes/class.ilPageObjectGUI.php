@@ -3041,7 +3041,7 @@ class ilPageObjectGUI
      */
     public function editMasterLanguage(): void
     {
-        $this->ctrl->setParameter($this, "transl", "");
+        $this->ctrl->setParameter($this, "transl", "-");
         $this->ctrl->redirect($this, "edit");
     }
 
