@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000119838765423968533760000007155153683415631294_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000127761544214061049120000015955694385407335808_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000014610515764156124250000017865193964010022023_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000014610515764156124250000017865193964010022023_);fill:#52658B;" d="M172.5,270L150,300h150
-		l-22.5-30H172.5z M95,205H55v30h40v30l40-45l-40-45V205z M147.5,95h-105V35h105V95z M162.5,105V25c0-2.8-2.2-5-5-5h-125
-		c-2.8,0-5,2.2-5,5v80c0,2.8,2.2,5,5,5h125C160.3,110,162.5,107.8,162.5,105 M20,150h150l-22.5-30h-105L20,150z M225,95h40V65h-40
-		V35l-40,45l40,45V95z M277.5,245h-105v-60h105V245z M292.5,255v-80c0-2.8-2.2-5-5-5h-125c-2.8,0-5,2.2-5,5v80c0,2.8,2.2,5,5,5h125
-		C290.3,260,292.5,257.8,292.5,255"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000140722373335355670110000003149475920350075057_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000140722373335355670110000003149475920350075057_);fill:#4C6586;" d="M172.5,270L150,300
+			h150l-22.5-30H172.5z M95,205H55v30h40v30l40-45l-40-45V205z M147.5,95h-105V35h105V95z M162.5,105V25c0-2.8-2.2-5-5-5h-125
+			c-2.8,0-5,2.2-5,5v80c0,2.8,2.2,5,5,5h125C160.3,110,162.5,107.8,162.5,105 M20,150h150l-22.5-30h-105L20,150z M225,95h40V65h-40
+			V35l-40,45l40,45V95z M277.5,245h-105v-60h105V245z M292.5,255v-80c0-2.8-2.2-5-5-5h-125c-2.8,0-5,2.2-5,5v80c0,2.8,2.2,5,5,5h125
+			C290.3,260,292.5,257.8,292.5,255"/>
+	</g>
 </g>
 </svg>
