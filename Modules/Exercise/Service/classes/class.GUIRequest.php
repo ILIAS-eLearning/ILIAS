@@ -199,7 +199,7 @@ class GUIRequest
      */
     public function getGroupMembers(): array
     {
-        return $this->intArray("grpt");
+        return $this->arrayArray("grpt");
     }
 
     //
