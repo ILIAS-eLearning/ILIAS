@@ -23,7 +23,7 @@
  */
 class ilWikiExportOrderTableGUI extends ilTable2GUI
 {
-    protected int $order;
+    protected int $order = 0;
 
     public function __construct(
         object $a_parent_obj,
