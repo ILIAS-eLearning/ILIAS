@@ -374,7 +374,7 @@ class ilOrgUnitType
     public function getAssignedAdvancedMDRecords(bool $a_only_active = false): array
     {
         $active = ($a_only_active) ? 1 : 0; // Cache key
-        if (is_array($this->amd_records_assigned[$active])) {
+        if (isset($this->amd_records_assigned[$active])) {
             return $this->amd_records_assigned[$active];
         }
         $this->amd_records_assigned[$active] = array();
