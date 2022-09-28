@@ -48,14 +48,14 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
             $repository->expects($this->never())->method('findBySenderIdAndReceiverId');
 
             $auto_responder_record = $this->createAutoresponderRecord(
-                self::MAIL_RECEIVER_USER_ID,
                 self::MAIL_SENDER_USER_ID,
+                self::MAIL_RECEIVER_USER_ID,
                 $faked_now
             );
         } else {
             $auto_responder_record = $this->createAutoresponderRecord(
-                self::MAIL_RECEIVER_USER_ID,
                 self::MAIL_SENDER_USER_ID,
+                self::MAIL_RECEIVER_USER_ID,
                 $last_auto_responder_time
             );
 
@@ -77,9 +77,9 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
             $repository->expects($this->never())->method('store');
         }
 
-        $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
-        $mail_options->method('getUsrId')->willReturn(self::MAIL_RECEIVER_USER_ID);
-        $mail_options->method('isAbsent')->willReturn(true);
+        $mail_receiver_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
+        $mail_receiver_options->method('getUsrId')->willReturn(self::MAIL_RECEIVER_USER_ID);
+        $mail_receiver_options->method('isAbsent')->willReturn(true);
 
         $auto_responder_service = $this->createService(
             $interval,
@@ -87,9 +87,9 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
             $clock
         );
 
-        $auto_responder_service->enqueueAutoresponderIfEnabled($mail_options, self::MAIL_SENDER_USER_ID);
+        $auto_responder_service->enqueueAutoresponderIfEnabled(self::MAIL_SENDER_USER_ID, $mail_receiver_options);
 
-        $auto_responder_service->handleAutoresponderMails(self::MAIL_SENDER_USER_ID);
+        $auto_responder_service->handleAutoresponderMails(self::MAIL_RECEIVER_USER_ID);
     }
 
     private function createService(
