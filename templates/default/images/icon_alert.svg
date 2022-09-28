@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000139273611696366398460000003004287227522443653_);fill:#52668C;}
+	.st0{clip-path:url(#SVGID_00000081644490965708934920000009153674525413528240_);fill:#4C6586;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" width="320" height="320"/>
-	</defs>
-	<clipPath id="SVGID_00000033340305264633966000000007492710689021045911_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000033340305264633966000000007492710689021045911_);fill:#52668C;" d="M170.4,200.8l4-71.7
-		h-28.9l4,71.7H170.4z M173.1,212.5h-26.1v25.2h26.1V212.5z M268.9,256.1H51.1L160,72.3L268.9,256.1z M293.9,259.1l-124-209.2
-		c-0.2-0.3-0.4-0.6-0.5-0.9c-2.1-3.2-5.6-5.1-9.4-5.1c-3.8,0-7.3,1.9-9.4,5.1c-0.2,0.3-0.4,0.6-0.6,0.9l-124,209.2
-		c-2.1,3.5-2.1,7.8-0.1,11.3c2,3.5,5.7,5.7,9.8,5.7h248.5c4,0,7.8-2.2,9.8-5.7C296,266.9,296,262.6,293.9,259.1"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" width="320" height="320"/>
+		</defs>
+		<clipPath id="SVGID_00000127005475977017354970000005513336780810895537_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000127005475977017354970000005513336780810895537_);fill:#4C6586;" d="M170.4,200.8l4-71.7
+			h-28.9l4,71.7H170.4z M173.1,212.5H147v25.2h26.1V212.5z M268.9,256.1H51.1L160,72.3L268.9,256.1z M293.9,259.1l-124-209.2
+			c-0.2-0.3-0.4-0.6-0.5-0.9c-2.1-3.2-5.6-5.1-9.4-5.1c-3.8,0-7.3,1.9-9.4,5.1c-0.2,0.3-0.4,0.6-0.6,0.9L26,259.1
+			c-2.1,3.5-2.1,7.8-0.1,11.3s5.7,5.7,9.8,5.7h248.5c4,0,7.8-2.2,9.8-5.7S296,262.6,293.9,259.1"/>
+	</g>
 </g>
 </svg>

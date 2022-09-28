@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000065061596702298562880000007053508047586522522_);fill:#52658B;}
+	.st0{clip-path:url(#SVGID_00000154417351336401303060000008519692726497393285_);fill:#4C6586;}
 	.st1{fill:none;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" x="30" y="90" width="260" height="140"/>
-	</defs>
-	<clipPath id="SVGID_00000179626804103060656650000016288376931921140610_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000179626804103060656650000016288376931921140610_);fill:#52658B;" d="M202,160
-		c0,8,3.8,17.5,3.8,17.5c-3.7,23.5-13.4,37.5-26.1,37.5H160V105h19.7c12.7,0,22.5,14,26.1,37.5C205.8,142.5,202,152,202,160
-		 M290,152.5h-58.5c-1.6-7.3-5.6-12-10.9-12.3c-4.9-31.4-20.2-50.2-41-50.2H160v0H93.6H90v32H45c-8.3,0-15,4.7-15,13
-		c0,8.3,6.7,13,15,13h45v24H45c-8.3,0-15,4.7-15,13c0,8.3,6.7,13,15,13h45v32h30h40h19.7c20.8,0,36.1-18.8,41-50.2
-		c5.3-0.3,9.3-5,10.9-12.3H290V152.5z"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="30" y="90" width="260" height="140"/>
+		</defs>
+		<clipPath id="SVGID_00000146458578383126470440000017021983317665811594_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000146458578383126470440000017021983317665811594_);fill:#4C6586;" d="M202,160
+			c0,8,3.8,17.5,3.8,17.5c-3.7,23.5-13.4,37.5-26.1,37.5H160V105h19.7c12.7,0,22.5,14,26.1,37.5C205.8,142.5,202,152,202,160
+			 M290,152.5h-58.5c-1.6-7.3-5.6-12-10.9-12.3c-4.9-31.4-20.2-50.2-41-50.2H160l0,0H93.6H90v32H45c-8.3,0-15,4.7-15,13
+			s6.7,13,15,13h45v24H45c-8.3,0-15,4.7-15,13s6.7,13,15,13h45v32h30h40h19.7c20.8,0,36.1-18.8,41-50.2c5.3-0.3,9.3-5,10.9-12.3H290
+			V152.5z"/>
+	</g>
 </g>
 <rect class="st1" width="320" height="320"/>
 </svg>
