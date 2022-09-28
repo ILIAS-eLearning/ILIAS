@@ -15,7 +15,8 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
@@ -235,7 +236,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
     public function setHeaderPageTitle(string $a_title): void
     {
-        $this->legacy_content_template->setHeaderPageTitle($a_title);
+        PageContentProvider::setViewTitle($a_title);
     }
 
     public function addLightbox(string $a_html, string $a_id): void
