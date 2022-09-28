@@ -83,8 +83,8 @@ class ilMediaPoolImportGUI
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
         $options = [];
         foreach ($ot->getLanguages() as $l) {
-            if ($l["lang_code"] != $ot->getMasterLanguage()) {
-                $options[$l["lang_code"]] = $lng->txt("meta_l_" . $l["lang_code"]);
+            if ($l->getLanguageCode() != $ot->getMasterLanguage()) {
+                $options[$l->getLanguageCode()] = $lng->txt("meta_l_" . $l->getLanguageCode());
             }
         }
         $si = new ilSelectInputGUI($lng->txt("mep_import_lang"), "import_lang");
