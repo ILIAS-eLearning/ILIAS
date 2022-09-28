@@ -46,4 +46,8 @@ interface Value extends \Serializable
     public function hasParentTask(): bool;
 
     public function setValue($value): void;
+
+    public function __serialize(): array;
+
+    public function __unserialize(array $data): void;
 }
