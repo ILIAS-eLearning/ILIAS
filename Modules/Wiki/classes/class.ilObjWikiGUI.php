@@ -1437,17 +1437,19 @@ class ilObjWikiGUI extends ilObjectGUI
         elseif ($this->edit_request->getWikiPageId()) {
             $page_ids = array($this->edit_request->getWikiPageId());
         }
-
         return $page_ids;
     }
 
-    public function getPrintView(): \ILIAS\Export\PrintProcessGUI
+    public function getPrintView(bool $export = false): \ILIAS\Export\PrintProcessGUI
     {
+        $page_ids = $export
+            ? null
+            : $this->getPrintPageIds();
         $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
             $this->object->getRefId(),
-            $this->getPrintPageIds()
+            $page_ids
         );
 
         return new \ILIAS\Export\PrintProcessGUI(

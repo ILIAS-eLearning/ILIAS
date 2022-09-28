@@ -2191,7 +2191,7 @@ class ilExerciseManagementGUI
                 $submission_repository = $this->service->repo()->submission();
                 $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
 
-                ilUtil::redirect($index_html_file);
+                ilUtil::redirect($index_html_file . "?" . time());
             }
 
             $error_msg = $this->lng->txt("exc_copy_zip_error");

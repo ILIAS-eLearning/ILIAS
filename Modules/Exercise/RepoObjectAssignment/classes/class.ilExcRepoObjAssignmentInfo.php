@@ -119,8 +119,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
         $ass_types = ilExAssignmentTypes::getInstance();
 
         $repos_ass_type_ids = $ass_types->getIdsForSubmissionType(ilExSubmission::TYPE_REPO_OBJECT);
-        $submissions = ilExSubmission::getSubmissionsForFilename($a_ref_id, $repos_ass_type_ids);
-
+        $submissions1 = ilExSubmission::getSubmissionsForFilename($a_ref_id, $repos_ass_type_ids);
+        $submissions2 = ilExSubmission::getSubmissionsForFilename($a_ref_id . ".zip", $repos_ass_type_ids);
+        $submissions = array_merge($submissions1, $submissions2);
         $ass_info = array();
         foreach ($submissions as $s) {
             //$ass_type = $ass_types->getById($s["type"]);

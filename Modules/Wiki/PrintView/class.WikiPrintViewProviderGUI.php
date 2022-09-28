@@ -92,7 +92,6 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
     public function getPages(): array
     {
         $print_pages = [];
-
         foreach ($this->selected_pages as $p_id) {
             $page_gui = new \ilWikiPageGUI($p_id);
             $page_gui->setWiki($this->wiki);
