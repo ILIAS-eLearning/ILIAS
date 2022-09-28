@@ -2153,7 +2153,8 @@ class ilExerciseManagementGUI
         $obj_date = $arr[0];
         $obj_id = (int) ($arr[1] ?? 0);
         if ($obj_id === 0) {
-            throw new ilExerciseException("Cannot open HTML view for " . $zip_internal_path);
+            throw new ilExerciseException("Cannot open HTML view for " . $zip_internal_path . " / " .
+                $submission->getSubmittedPrintFile() . ".");
         }
 
         $obj_id = $this->assignment->getAssignmentType()->getExportObjIdForResourceId($obj_id);
@@ -2218,7 +2219,6 @@ class ilExerciseManagementGUI
             null,
             $print_versions
         );
-
         if ($submitted !== []) {
             $submitted = array_pop($submitted);
 
