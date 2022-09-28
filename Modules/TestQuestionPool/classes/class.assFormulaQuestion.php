@@ -889,7 +889,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $points = 0;
         foreach ($this->getResults() as $result) {
             //vd($user_solution[$result->getResult()]["value"]);
-            $points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $user_solution[$result->getResult()]["value"], $user_solution[$result->getResult()]["unit"], $this->unitrepository->getUnits());
+            $points += $result->getReachedPoints(
+                $this->getVariables(),
+                $this->getResults(),
+                $user_solution[$result->getResult()]["value"],
+                $user_solution[$result->getResult()]["unit"] ?? "",
+                $this->unitrepository->getUnits()
+            );
         }
 
         return $points;

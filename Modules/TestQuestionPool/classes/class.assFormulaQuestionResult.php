@@ -432,7 +432,7 @@ class assFormulaQuestionResult
         global $DIC;
         $ilLog = $DIC['ilLog'];
         if ($this->getRatingSimple()) {
-            if ($this->isCorrect($variables, $results, $value, $units[$unit])) {
+            if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
                 return $this->getPoints();
             } else {
                 return 0;
@@ -551,7 +551,7 @@ class assFormulaQuestionResult
     public function getResultInfo($variables, $results, $value, $unit, $units): array
     {
         if ($this->getRatingSimple()) {
-            if ($this->isCorrect($variables, $results, $value, $units[$unit])) {
+            if ($this->isCorrect($variables, $results, $value, $units[$unit] ?? null)) {
                 return array("points" => $this->getPoints());
             } else {
                 return array("points" => 0);
