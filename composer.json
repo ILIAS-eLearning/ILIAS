@@ -74,7 +74,7 @@
 		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.5",
 		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^3.5",
+		"friendsofphp/php-cs-fixer": "^3.11",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.10",
 		"captainhook/plugin-composer": "^5.3",
