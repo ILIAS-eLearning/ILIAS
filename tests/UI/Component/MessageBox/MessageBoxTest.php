@@ -177,8 +177,8 @@ class MessageBoxTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($g));
         $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet.</div>";
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet.</div>";
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -199,8 +199,8 @@ class MessageBoxTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($g));
         $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
                     "<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div></div>";
         $this->assertHTMLEquals($expected, $html);
@@ -226,8 +226,8 @@ class MessageBoxTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($g));
         $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .
                     "<li><a href=\"#\" >Open other screen</a></li></ul></div>";
         $this->assertHTMLEquals($expected, $html);
@@ -255,8 +255,8 @@ class MessageBoxTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($g));
         $expected = "<div class=\"alert $css_classes\" role=\"$role_type\">" .
-                    "<h5 class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
-                    $g->getType() . "_message</a></h5>Lorem ipsum dolor sit amet." .
+                    "<div class=\"ilAccHeadingHidden\"><a id=\"il_message_focus\" name=\"il_message_focus\">" .
+                    $g->getType() . "_message</a></div>Lorem ipsum dolor sit amet." .
                     "<div><button class=\"btn btn-default\"   data-action=\"#\" id=\"id_1\">Confirm</button>" .
                     "<button class=\"btn btn-default\"   data-action=\"#\" id=\"id_2\">Cancel</button></div>" .
                     "<ul><li><a href=\"#\" >Open Exercise Assignment</a></li>" .
