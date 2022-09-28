@@ -1,18 +1,6 @@
-:root {
-    --color-var-1: red;
+@use "./component/component1.scss" as *;
+@use "./component/subfolder/component2.scss" as *;
+
+.overall-test {
+    background-color: green;
 }
-
-p {
-    color: var(--color-var-1);
-}
-
-:root {
-    --color-var-1: green;
-}
-
-/*
-@use "table" with (
-    $table-head-bg: green
-);
-*/
-

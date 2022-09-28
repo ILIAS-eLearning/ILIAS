@@ -3,17 +3,17 @@
 // # ITCSS structure
 // All style code MUST be split into these layers
 
-@import "./010-settings";
 
-/* 
-@import "./010-settings/_settings_color-palette.scss";
-@import "./010-settings/_settings_typography.scss";
-@import "./010-settings/_settings_borders.scss";
-@import "./010-settings/_settings_button.scss";
-@import "./010-settings/_settings_footer.scss";
-@import "./010-settings/_settings_header.scss";
-@import "./010-settings/_settings_layout.scss";
-*/
+// 010-settings: partials include settings with @use when they need them
+@use './020-dependencies/' as *;
+@use "./030-tools/" as *;
+@use "./040-normalize/" as *;
+@use "./050-layout" as *;
+@use "./060-elements" as *;
+@use "./070-components" as *;
+@use "./080-hacks" as *;
+
+
 
 // @use "./020-dependencies" as *;
 // @use "./030-tools" as *;

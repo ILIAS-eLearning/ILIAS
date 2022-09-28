@@ -1,3 +1,7 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/"as *;
+@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+
 //** breadcrumbs
 $il-standard-page-breadcrumbs-height: 33px;
 $il-standard-page-breadcrumbs-seperator: " \e606";
@@ -92,7 +96,7 @@ $breadcrumb-separator:          " \e606";
 		font-family: 'il-icons';
 	}
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		margin: $il-breadcrumb-resp-margin-top $il-breadcrumb-resp-margin-right $il-breadcrumb-resp-margin-bottom $il-breadcrumb-resp-margin-left;
 		padding: $il-breadcrumb-resp-padding-vertical $il-breadcrumb-resp-padding-horizontal;
 	}

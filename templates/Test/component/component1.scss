@@ -1,0 +1,7 @@
+@use "../tool/tool-example.scss";
+
+/* This is Component 1 using Tool Example */
+
+.component-1 {
+    color: tool-example.$tool-color;
+}

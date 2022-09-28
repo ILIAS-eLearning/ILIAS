@@ -2,14 +2,14 @@
 * Dependencies
 */
 
-$bsbase: "./bootstrap-3-scss/stylesheets/bootstrap/_";
+@use "./modifications/bootstrap-3-scss-modified";
+// in components load bootstrap from modifications/bootstrap-3-scss-modified-variables-mixins ONLY
 
-@import "./bootstrap-3-scss/stylesheets/bootstrap/_variables.scss";
 
 /*
 * Other Dependencies - Alterations
 */
 
-@import "./alterations/_dependency-alterations_jquery-autocomplete.scss";
-@import "./alterations/_dependency-alterations_tinymce.scss";
-@import "./alterations/_dependency-alterations_yui2.scss";
+@use "./alterations/dependency-alterations_jquery-autocomplete";
+@use "./alterations/dependency-alterations_tinymce";
+@use "./alterations/dependency-alterations_yui2";

@@ -1,0 +1,55 @@
+/*!
+ * Bootstrap v3.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+// Core variables and mixins modified for ILIAS
+@import "../../bootstrap-3-scss-modified-variables-mixins";
+
+// Reset and dependencies
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/normalize";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/print";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/glyphicons";
+
+// Core CSS
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/scaffolding";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/type";
+@import "./bootstrap/code";
+@import "./bootstrap/grid";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/tables";
+@import "./bootstrap/forms";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/buttons";
+
+// Components
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/component-animations";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/dropdowns";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/button-groups";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/input-groups";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/navs";
+@import "./bootstrap/navbar";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/breadcrumbs";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/pagination";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/pager";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/labels";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/badges";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/jumbotron";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/thumbnails";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/alerts";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/progress-bars";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/media";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/list-group";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/panels";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/responsive-embed";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/wells";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/close";
+
+// Components w/ JavaScript
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/modals";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/tooltip";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/popovers";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/carousel";
+
+// Utility classes
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/utilities";
+@import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/responsive-utilities";

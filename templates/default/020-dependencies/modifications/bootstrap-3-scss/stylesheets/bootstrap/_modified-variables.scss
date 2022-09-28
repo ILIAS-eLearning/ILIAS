@@ -1,4 +1,8 @@
 @use "sass:math";
+@use "../../../../../010-settings" as *;
+@use "../../../../../030-tools/scss-input/tool_form-patterns" as *;
+@use "../../../../../030-tools/scss-input/tool_panel-patterns" as *;
+@use "../../../../../050-layout/" as *;
 /**
 Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
 Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
@@ -29,8 +33,6 @@ $link-color:            $il-link-color;
 //** Link hover color set via `darken()` function.
 $link-hover-color:      $il-link-hover-color;
 
-//** if left unchanged, you have to copy delos fonts folder to your skin folder. To use the delos fonts in your skin, please change this value (in custom less data or variables.scss of your custom skin) to "../../../../templates/default/fonts/"
-$il-web-font-path: "fonts/";
 $font-family-sans-serif:  $il-font-family-sans-serif;
 
 $font-size-base:          $il-font-size-base;
@@ -76,14 +78,16 @@ $border-radius-small:       $il-border-radius-small;
 $grid-float-breakpoint-max: $il-grid-float-breakpoint-max;
 
 $grid-gutter-width:         2*$il-padding-xlarge-horizontal;
-$navbar-padding-horizontal:        math.floor(($grid-gutter-width / 2));
+$navbar-padding-horizontal:        math.floor(math.div($grid-gutter-width, 2));
 $navbar-height:                    $il-standard-page-small-mainbar-height;
-$navbar-padding-vertical:          (($navbar-height - $line-height-computed) / 2);
+$navbar-padding-vertical:          calc(($navbar-height - $line-height-computed) / 2);
 
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
 
+//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
+$il-icon-font-path: "./020-dependencies/bootstrap-3-scss/fonts";
 $icon-font-path: $il-icon-font-path;
 
 //== Navs
@@ -109,7 +113,10 @@ $badge-active-bg:             $il-warning-color;
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 $input-border-radius: 0;
 $input-border-focus: lighten($il-main-color, 20%);
+// $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;
 $input-height-base: (math.floor($il-standard-form-font-size * $il-line-height-base)) + 0.56;
+$input-height-small: (floor($il-font-size-small * $il-line-height-base) + ($padding-small-vertical * 2) + 2);
+
 $input-color-placeholder: $il-text-light-color;
 
 //== Tables
@@ -160,12 +167,13 @@ $panel-primary-heading-bg:    $il-main-dark-bg;
 //== DropDowns
 //
 //##
+// Dropdowns
 $dropdown-bg: $il-main-bg;
 $dropdown-link-color: $il-text-color;
 $dropdown-link-hover-color: $il-text-hover-color;
-$dropdown-link-bg: transparent;
 $dropdown-link-hover-bg: $il-highlight-bg;
-$dropdown-header-bg: white;
+
+$il-toolbar-height: 40 * 0.625rem;
 $navbar-height: $il-toolbar-height;
 
 //== Type

@@ -1,3 +1,11 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/scss-input/tool_panel-patterns" as *;
+@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../030-tools/scss-input/tool_symbol" as *;
+@use "../../../050-layout/"as *;
+
+
 //== Card
 //
 //##
@@ -105,7 +113,7 @@ $il-card-border-radius: 0;
 		top:0;
 		left:0;
 		right:0;
-		height: $il-icon-size-medium + $il-padding-large-horizontal;
+		height: calc($il-icon-size-medium + $il-padding-large-horizontal);
 		padding: 0 $il-padding-small-horizontal;
 		z-index: 300;
 
@@ -119,8 +127,8 @@ $il-card-border-radius: 0;
 		}
 
 		.il-chart-progressmeter-box {
-			width: $il-icon-size-medium + $il-padding-small-horizontal;
-			height: $il-icon-size-medium + $il-padding-small-vertical;
+			width: calc($il-icon-size-medium + $il-padding-small-horizontal);
+			height: calc($il-icon-size-medium + $il-padding-small-vertical);
 
 			> .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
 				max-width: 100%;
@@ -137,8 +145,8 @@ $il-card-border-radius: 0;
 				> button {
 					background-color: inherit;
 					border: $il-card-repository-dropdown-border;
-					width: $il-icon-size-medium - $il-padding-large-vertical;
-					height: $il-icon-size-medium - $il-padding-large-vertical;
+					width: calc($il-icon-size-medium - $il-padding-large-vertical);
+					height: calc($il-icon-size-medium - $il-padding-large-vertical);
 
 					span.caret {
 						display: block;
@@ -160,7 +168,7 @@ $il-card-border-radius: 0;
 	background-color: $il-main-dark-bg;
 }
 
-@media (min-width: $screen-sm-min) {
+@media (min-width: btstrp3.$screen-sm-min) {
 	.row-eq-height {
 		.il-card {
 			display: flex;
@@ -174,7 +182,7 @@ $il-card-border-radius: 0;
 }
 
 /* see bug #25920, limit size of cards for small screens */
-@media (max-width: $screen-sm-min) {
+@media (max-width: btstrp3.$screen-sm-min) {
 	.il-card {
 		max-width: $il-card-max-width-xs;
 		margin-right: auto;

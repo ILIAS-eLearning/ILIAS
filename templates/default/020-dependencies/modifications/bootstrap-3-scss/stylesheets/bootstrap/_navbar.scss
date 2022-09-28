@@ -1,3 +1,5 @@
+@use "../../../../../010-settings/" as *;
+
 //
 // Navbars
 // --------------------------------------------------
@@ -96,6 +98,8 @@
       max-height: 200px;
     }
   }
+
+  
 }
 
 
@@ -195,7 +199,7 @@
   float: right;
   margin-right: $navbar-padding-horizontal;
   padding: 9px 10px;
-  @include navbar-vertical-align(34px);
+  @include navbar-vertical-align(34 * 0.0625rem);
   background-color: transparent;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid transparent;
@@ -304,7 +308,7 @@
   }
 
   // Vertically center in expanded, horizontal navbar
-  @include navbar-vertical-align($il-line-height-base / $il-pixel-to-rem);
+  @include navbar-vertical-align($il-line-height-base);
 
   // Undo 100% width for pull classes
   @media (min-width: $grid-float-breakpoint) {
@@ -374,10 +378,12 @@
 // Declared after the navbar components to ensure more specificity on the margins.
 
 @media (min-width: $grid-float-breakpoint) {
-  .navbar-left  { @include pull-left(); }
+  .navbar-left {
+    float: left !important;
+  }
   .navbar-right {
-    @include pull-right();
-    margin-right: -$navbar-padding-horizontal;
+    float: right !important;
+  margin-right: -$navbar-padding-horizontal;
 
     ~ .navbar-right {
       margin-right: 0;

@@ -1,10 +1,118 @@
+@use "../010-settings/" as *;
+@use "../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../050-layout/" as *;
+
 /*
 * Hacks & Tweaks
 */
 
+/* HTML Utility - These should be added to semantic classes on component layer using mixins and extend */
+.fullwidth {
+	width: 100%;
+}
+
+.ilHidden {
+	visibility: hidden;
+}
+
+.ilNoDisplay {
+	display: none !important;
+}
+
+.ilDisplayBlock {
+	display: block;
+}
+
+.ui-helper-hidden-accessible {
+	position: absolute;
+	left: -2000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.ilClearFloat {
+	clear: both;
+}
+
+.ilFloatRight {
+  float: right;
+}
+
+.ilFloatLeft {
+  float: left;
+}
+
+.ilPositionRelative {
+	position: relative;
+}
+
+.ilClearFloat {
+	clear: both;
+}
+
+.ilFloatRight {
+  float: right;
+}
+
+.ilFloatLeft {
+  float: left;
+}
+
+.ilPositionRelative {
+	position: relative;
+}
+
+.noMargin {
+	margin: 0;
+}
+
+/* ----------------- invisible border ------------- */
+div.invisible_border {
+	margin: 15px;
+}
+
+.ilInvisibleBorder {
+	padding: 15px;
+}
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display: block;
+}
+/* End of HTML Utility for refactoring into mixins and extend */
+
+/* Are these needed or is this covered by Standardpage? */
+#ilAll {
+	position: relative;
+	height: auto !important;
+	min-height: calc(unquote("100% - 1px"));
+	margin: 0 auto;
+}
+
+div#minheight {
+	height: 180px;
+	clear: both;
+	}
+
+.ilContainerWidth {
+	max-width: 1400px;
+	padding: 0 30px;
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
+		padding: 0 15px;
+	}
+}
+
+/* see #27399 (should be finally tackled in PLR2) */
+div.ilContentFixed {
+	padding-bottom: 20px;
+}
+
 //please move to template/default/scss/modules/Test when created
 div.ilc_Mob img {
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		height: auto !important;
 	}
 }
@@ -156,8 +264,9 @@ div.ilFrame {
 	padding-top: 129px;
 	background-color: $il-main-dark-bg;
 	min-height: 100%;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		margin: 0;
 		width: 100%;
 	}
 }
+

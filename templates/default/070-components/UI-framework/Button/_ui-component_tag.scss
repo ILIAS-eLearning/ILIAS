@@ -1,3 +1,6 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/"as *;
+
 //== Tags
 //** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
 $il-btn-tag-bg: #75deea;

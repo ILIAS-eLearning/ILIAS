@@ -1,3 +1,6 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/"as *;
+
 //** Tag Input
 $il-input-tag-color-bg: $il-btn-standard-bg;
 $il-input-tag-color-text: $il-btn-standard-color;

@@ -8,7 +8,8 @@ $bsbase: "./bootstrap-3-scss/stylesheets/bootstrap/_";
 // The variables.scss should point to a customized version.
 
 // Core variables and mixins
-    // original
+// original
+@import "./bootstrap-3-scss/stylesheets/bootstrap/_variables.scss";
 @import "./overrides/bootstrap/bootstrap-variables.scss"; //Boostrap Variales, overwritten by ILIAS
 @import "#{$bsbase}mixins.scss";
 

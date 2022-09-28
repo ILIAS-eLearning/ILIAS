@@ -1,3 +1,5 @@
+@use "../../010-settings/" as *;
+
 @font-face {
 	font-family: 'Open Sans';
 	src:	url('#{$il-web-font-path}OpenSansWeb/OpenSans-Regular.woff2') format('woff2'),

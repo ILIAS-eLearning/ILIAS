@@ -1,4 +1,6 @@
+@use "./_settings_color-palette.scss" as s-color;
+
 //** footer
-$il-footer-bg-color: $il-main-bg;
-$il-footer-color: $il-text-color;
+$il-footer-bg-color: s-color.$il-main-bg;
+$il-footer-color: s-color.$il-text-color;
 $il-footer-height: 45px;

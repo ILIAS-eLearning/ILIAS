@@ -1,8 +1,16 @@
+@use "../../../010-settings/"as *;
+@use "../../../030-tools/scss-input/tool_form-patterns" as *;
+@use "../../../050-layout/"as *;
+@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+
 //== Buttons
 
 //** some variables can be found on settings layer
 
 //** Text color of inactive buttons
+$il-disabled-btn-color: darken($il-text-color, 20%); // wasn't on settings layer
 $il-disabled-btn-bg: #b0b0b0;
 $il-disabled-btn-border: #b0b0b0;
 $il-disabled-btn-color: darken($il-text-color, 20%);
@@ -28,25 +36,25 @@ input.btn{
   min-width: $il-button-min-width-forms;
   vertical-align: top;
 
-  @media (max-width: $grid-float-breakpoint-max){
+  @media (max-width: $il-grid-float-breakpoint-max){
     min-width: 0;
   }
 }
 
 .btn-default {
-  @include button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
+  @include btstrp3.button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
   &:focus-visible {
     position: relative;
   }
 }
 
 .btn-primary {
-  @include button-variant($il-btn-primary-color, $il-btn-primary-bg, $il-btn-primary-border);
+  @include btstrp3.button-variant($il-btn-primary-color, $il-btn-primary-bg, $il-btn-primary-border);
 }
 
 .btn, .btn.btn-tag{
   &[disabled],
-  fieldset[disabled] & {
+  fieldset[disabled] {
     &,
     &:hover,
     &:focus,
@@ -75,7 +83,7 @@ button > .glyphicon {
   pointer-events: none;
 }
 
-a[disabled], a fieldset[disabled] & {
+a[disabled], a fieldset[disabled] {
 	&,
 	&:hover,
 	&:focus,
@@ -91,39 +99,6 @@ a[disabled], a fieldset[disabled] & {
 
 .il-btn-month .dropdown-menu {
   min-width:250px;
-}
-.btn-tag {
-    display: inline-block;
-    white-space: nowrap;
-    padding: $il-padding-xs-vertical $il-padding-xs-horizontal;
-    margin: $il-btn-tag-margin;
-    border-radius: $il-btn-tag-border-radius;
-
-  &.btn-tag-relevance-verylow {
-    border-color: $il-btn-tag-bg-relevance-verylow;
-    background-color: $il-btn-tag-bg-relevance-verylow;
-    color: $il-btn-tag-fg-relevance-verylow;
-  }
-  &.btn-tag-relevance-low {
-    border-color: $il-btn-tag-bg-relevance-low;
-    background-color: $il-btn-tag-bg-relevance-low;
-    color: $il-btn-tag-fg-relevance-low;
-  }
-  &.btn-tag-relevance-middle {
-    border-color: $il-btn-tag-bg-relevance-middle;
-    background-color: $il-btn-tag-bg-relevance-middle;
-    color: $il-btn-tag-fg-relevance-middle;
-  }
-  &.btn-tag-relevance-high {
-    border-color: $il-btn-tag-bg-relevance-high;
-    background-color: $il-btn-tag-bg-relevance-high;
-    color: $il-btn-tag-fg-relevance-high;
-  }
-  &.btn-tag-relevance-veryhigh {
-    border-color: $il-btn-tag-bg;
-    background-color: $il-btn-tag-bg-relevance-veryhigh;
-    color: $il-btn-tag-fg-relevance-veryhigh;
-  }
 }
 
 // shy buttons
@@ -150,8 +125,8 @@ a[disabled], a fieldset[disabled] & {
 }
 
 .minimize, .close {
-  font-size: ($font-size-base * 1.5);
-  font-weight: $close-font-weight;
+  font-size: ($il-font-size-base * 1.5);
+  font-weight: $il-font-weight-bold;
   line-height: 1;
   color: $il-neutral-light-color;
 

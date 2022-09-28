@@ -1,3 +1,4 @@
+@use "../030-tools/scss-input/tool_rem-conversion" as t-rem-px;
 @use "sass:math";
 //== Typography
 //
@@ -7,8 +8,6 @@
 $il-web-font-path: "./fonts/";
 $il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 
-//** Used to calculate pixel to rem
-$il-pixel-to-rem: 16;
 //** Should only be used to indicate mainbar entries. Equivalent to 10px => 10*1/16=0.625rem.
 $il-font-size-xsmall:		0.625rem;
 //** Used to indicate subordinate text, such as bylines in forms, subtabs, etc. Equivalent to 12px.
@@ -26,8 +25,9 @@ $il-font-size-h1:    1.75rem;
 
 //** Unit-less `line-height` for use in components like buttons.
 $il-line-height-base:		1.428571429;
-$il-line-height-computed: math.floor(math.div($il-font-size-base,$il-pixel-to-rem) * $il-line-height-base);
-
+$il-line-height-computed: math.floor($il-font-size-base * $il-line-height-base);
+$il-small-line-height-computed: math.floor($il-font-size-small * $il-line-height-base);
+@debug "#{$il-line-height-computed}";
 //** Used to lighten text, e.g. workflow steps.
 $il-font-weight-light:    300;
 //** Default font weight.

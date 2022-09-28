@@ -1,3 +1,8 @@
+
+@use "../../010-settings/" as s;
+@use "../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp;
+@use "../../030-tools/scss-input/tools_menu-patterns" as t-menu;
+
 /* jquery ui autocomplete */
 .ui-menu {
 	list-style: none;
@@ -5,10 +10,10 @@
 	margin: 0;
 	display: block;
 	float: left;
-	background-color: $dropdown-bg;
-	border: 1px solid $il-main-border-color;
-	font-size: $il-font-size-small;
-    @include box-shadow(2px 2px 4px #c0c0c0);
+	background-color: btstrp.$dropdown-bg;
+	border: 1px solid s.$il-main-border-color;
+	font-size: s.$il-font-size-small;
+    @include btstrp.box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
 		margin: 0;
 		padding: 0;
@@ -21,17 +26,17 @@
 			display: block;
 			padding: 2px 4px;
 			line-height: 1.5;
-			color: $dropdown-link-color;
-			background-color: $dropdown-link-bg;
+			color: btstrp.$dropdown-link-color;
+			background-color: t-menu.$dropdown-link-bg;
 			&:hover, &.ui-state-hover, &.ui-state-active {
-				background-color: $dropdown-link-hover-bg;//$il-highlight-bg;
-				color: $dropdown-link-color;
+				background-color: btstrp.$dropdown-link-hover-bg;//$il-highlight-bg;
+				color: btstrp.$dropdown-link-color;
 			}
 		}
 		a {
-			color: $dropdown-link-color;
+			color: btstrp.$dropdown-link-color;
 			&:hover {
-				color: $dropdown-link-hover-color;
+				color: btstrp.$dropdown-link-hover-color;
 			}
 		}
 	}
@@ -42,7 +47,7 @@
 		float: left;
 		clear: left;
 		width: 100%;
-		font-weight: $il-font-weight-bold;
+		font-weight: s.$il-font-weight-bold;
 	}
 	.ui-menu-more {
 		display: block;

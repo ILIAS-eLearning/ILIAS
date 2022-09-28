@@ -1,54 +1,114 @@
+@use "../../../010-settings/" as s;
+@use "../../../030-tools/scss-input/tools_menu-patterns" as t-menu;
+@use "../../../050-layout/layout_spacing-variables" as l-spacing;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+.dropdown-header {
+	padding: 3px 10px;
+	color: s.$il-text-color;
+	background-color: t-menu.$dropdown-header-bg;
+	margin-bottom: 4px;
+	border-bottom: 1px solid s.$il-main-border-color;
+	> h2 {
+		margin-bottom: 2px;
+	}
+}
+.dropdown-menu {
+	background-color: btstrp3.$dropdown-bg;
+	font-weight: s.$il-font-weight-base;
+	border: 0 none;
+    @include btstrp3.box-shadow(3px 9px 9px 0 rgba(0,0,0,0.3));
+	// Links within the dropdown menu
+	li > a {
+		display: block;
+		clear: both;
+		padding: 3px 10px;
+		font-weight: s.$il-font-weight-base;
+		font-size: t-menu.$il-font-size-dropdown;
+		line-height: btstrp3.$line-height-base;
+		background-color: t-menu.$dropdown-link-bg;
+		color: btstrp3.$dropdown-link-color;
+		white-space: nowrap; // prevent links from randomly breaking onto new lines
+		&:hover,
+		&:focus {
+			text-decoration: none;
+			color: btstrp3.$dropdown-link-hover-color;
+			background-color: btstrp3.$dropdown-link-hover-bg;
+		}
+	}
+	img {
+		border: 0;
+		width: 22px;
+		height: 22px;
+		margin: 0 3px 0 0;
+		display: t-menu.$il-nav-icons;
+	}
+}
+
+// must be like dropdown-menu img
+.ilAdvNoImg {
+	display: inline-block;
+	width: 22px;
+}
+.yamm .dropdown-menu {
+	li > a {
+		white-space: normal;
+	}
+}
+
+.btn-group.open .dropdown-toggle {
+    @include btstrp3.box-shadow(inset 0 1px 1px rgba(0, 0, 0, 0.05));
+}
+
 //== DropDowns
 //
 //##
-$il-font-size-dropdown: $il-font-size-base;
-$il-dropdown-shodow: 3px 9px 9px 0 rgba(0,0,0,0.3);
 
 .dropdown .btn {
 	text-align: left;
 }
 
 .dropdown hr {
-	margin: $il-margin-large-vertical 0;
+	margin: l-spacing.$il-margin-large-vertical 0;
 }
 
 .dropdown h4 {
-	margin: $il-margin-base-vertical 0;
+	margin: l-spacing.$il-margin-base-vertical 0;
 }
 
 ul.dropdown-menu {
-	background-color: $il-main-bg;
-	font-weight: $il-font-weight-base;
+	background-color: s.$il-main-bg;
+	font-weight: s.$il-font-weight-base;
 	border: 0 none;
-	@include box-shadow($il-dropdown-shodow);
+	@include btstrp3.box-shadow(t-menu.$il-dropdown-shadow);
 	// Links within the dropdown menu
 	> li {
-		padding-top: $il-padding-xs-vertical;
-		padding-bottom: $il-padding-xs-vertical;
+		padding-top: l-spacing.$il-padding-xs-vertical;
+		padding-bottom: l-spacing.$il-padding-xs-vertical;
 
 		> .btn {
 			display: block;
 			width: 100%;
 			clear: both;
-			padding: $il-padding-small-vertical $il-padding-xlarge-horizontal;
-			font-weight: $il-font-weight-base;
-			font-size: $il-font-size-dropdown;
-			line-height: $line-height-base;
-			background-color: $dropdown-link-bg;
-			color: $dropdown-link-color;
+			padding: l-spacing.$il-padding-small-vertical l-spacing.$il-padding-xlarge-horizontal;
+			font-weight: s.$il-font-weight-base;
+			font-size: t-menu.$il-font-size-dropdown;
+			line-height: btstrp3.$line-height-base;
+			background-color: t-menu.$dropdown-link-bg;
+			color: btstrp3.$dropdown-link-color;
 			white-space: nowrap; // prevent links from randomly breaking onto new lines
 			&:hover,
 			&:focus {
 				text-decoration: none;
-				color: $dropdown-link-hover-color;
-				background-color: $dropdown-link-hover-bg;
+				color: btstrp3.$dropdown-link-hover-color;
+				background-color: btstrp3.$dropdown-link-hover-bg;
 			}
 		}
 	}
 }
 
 //Note, this is a rather nasty fix for #27751
-//Should be removed in upcoming versions.
+//Should be removed in upcoming version
 .il-maincontrols-slate-content{
 	.dropdown-menu{
 		right: 0;

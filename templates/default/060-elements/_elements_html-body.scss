@@ -1,15 +1,17 @@
+@use "../010-settings/" as *;
+
 html, body {
 	height:100%;
 	overflow: hidden;
 }
 html {
 	font-size: 100%;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		-webkit-text-size-adjust: none;
 	}
 }
 html, body {
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		overflow: initial;
 		height: auto;
 		min-height: 100vh;

@@ -1,5 +1,4 @@
 //== Standard Page
-$il-standard-page-content-padding: 20px;
 $il-standard-page-border-light-color: $il-main-border-color;
 
 //** footer
@@ -12,13 +11,7 @@ $il-mainbar-shadow-right: 1px 3px 4px $il-standard-page-shadow-color;
 $il-mainbar-shadow-top: 0 0 4px $il-standard-page-shadow-color;
 $il-standard-page-header-shadow-bottom: 0 1px 2px $il-standard-page-shadow-color;
 
-//** for mobile (small devices)
-$il-standard-page-small-header-height: 45px;
-$il-standard-page-small-mainbar-height: 60px;
-$il-standard-page-small-logo-width: 40px;
 $il-standard-page-small-mainbar-height-w-bottom-safe-area: calc($il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
-$il-mainbar-small-btn-height: $il-standard-page-small-mainbar-height;
-$il-mainbar-small-btn-width: 80px;
 
 //** z-index
 $il-standard-page-zindex-base: 1000;

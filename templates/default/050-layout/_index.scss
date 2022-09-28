@@ -1,12 +1,8 @@
-/*
-* Layout
-*/
+@use "./layout_spacing-variables" as l-spacing;
+@forward "./layout_spacing-variables";
 
-// general layout tools
-@import "./_layout_display.scss";
-@import "./_layout_positioning.scss";
-@import "./_layout_sizing.scss";
-@import "./_layout_spacing.scss";
+@use "./layout_standardpage";
+@forward "./layout_standardpage";
 
-// legacy layout
-@import "./legacy/_layout_page.scss";
+@use "./layout_standardpage-mobile";
+@forward "./layout_standardpage-mobile";

@@ -2,10 +2,10 @@
 * Elements
 */
 
-@import "./_elements_html-body.scss";
-@import "./_elements_input.scss";
-@import "./_elements_lists.scss";
-@import "./_elements_media.scss";
-@import "./_elements_objects.scss";
-@import "./_elements_tables.scss";
-@import "./_elements_typography.scss";
+@use "./_elements_html-body.scss";
+@use "./_elements_input.scss";
+@use "./_elements_lists.scss";
+@use "./_elements_media.scss";
+@use "./_elements_objects.scss";
+@use "./_elements_tables.scss";
+@use "./_elements_typography.scss";
