@@ -1882,6 +1882,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $detailed = array();
         }
 
+        $points = 0;
+
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combinations[1] = array();
         if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
