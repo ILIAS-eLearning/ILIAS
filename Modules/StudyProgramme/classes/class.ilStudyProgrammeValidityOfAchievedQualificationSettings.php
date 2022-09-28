@@ -25,12 +25,12 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilStudyProgrammeValidityOfAchievedQualificationSettings
 {
     protected ?int $qualification_period;
-    protected ?DateTime $qualification_date;
+    protected ?DateTimeImmutable $qualification_date;
     protected ?int $restart_period;
 
     public function __construct(
         ?int $qualification_period,
-        ?DateTime $qualification_date,
+        ?DateTimeImmutable $qualification_date,
         ?int $restart_period
     ) {
         if (!is_null($qualification_period) && 0 > $qualification_period) {
@@ -69,13 +69,13 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
         return $clone;
     }
 
-    public function getQualificationDate(): ?DateTime
+    public function getQualificationDate(): ?DateTimeImmutable
     {
         return $this->qualification_date;
     }
 
     public function withQualificationDate(
-        ?DateTime $qualification_date
+        ?DateTimeImmutable $qualification_date
     ): ilStudyProgrammeValidityOfAchievedQualificationSettings {
         $clone = clone $this;
         $clone->qualification_date = $qualification_date;
@@ -194,7 +194,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
             }
 
             if (isset($vals['validity_qualification'][1]['vq_date'])) {
-                $vq_date = new DateTime($vals['validity_qualification'][1]['vq_date']);
+                $vq_date = $vals['validity_qualification'][1]['vq_date'];
             }
 
             if (
