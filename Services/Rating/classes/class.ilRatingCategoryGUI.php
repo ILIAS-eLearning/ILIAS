@@ -27,7 +27,7 @@ class ilRatingCategoryGUI
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected int $parent_id; // [int]
     protected $export_callback; // [string|array]
@@ -168,7 +168,7 @@ class ilRatingCategoryGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $form = $this->initCategoryForm("create");
+        $form = $this->initCategoryForm();
         if ($form->checkInput()) {
             $cat = new ilRatingCategory();
             $cat->setParentId($this->parent_id);
