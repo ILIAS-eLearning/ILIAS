@@ -57,7 +57,7 @@ class ThunkValue extends AbstractValue
      * @return void
      * @since 5.1.0
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         // Nothing to do.
     }
