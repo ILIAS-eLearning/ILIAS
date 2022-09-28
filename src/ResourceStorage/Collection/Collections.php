@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+declare(strict_types=1);
 
 namespace ILIAS\ResourceStorage\Collection;
 
@@ -145,7 +145,8 @@ class Collections
         $collection = $this->get($collection_id);
         if ($delete_resources_as_well) {
             foreach ($collection->getResourceIdentifications() as $resource_identification) {
-                $this->resource_builder->remove($resource_identification, $stakeholder);
+                $resource = $this->resource_builder->get($resource_identification);
+                $this->resource_builder->remove($resource, $stakeholder);
             }
         }
         return $this->collection_builder->delete($collection_id);
