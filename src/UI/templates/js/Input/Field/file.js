@@ -491,8 +491,6 @@ il.UI.Input = il.UI.Input || {};
 		}
 
 		let removeAllFilesFromQueue = function (input_id) {
-			console.log(input_id);
-			console.log(dropzones);
 			if (typeof dropzones[input_id] === 'undefined') {
 				console.error(`Error: tried to access unknown input '${input_id}'.`);
 				return;
