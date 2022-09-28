@@ -93,7 +93,7 @@ class BasicBucket implements Bucket
             }
         }
 
-        $this->percentage = array_sum($this->percentages) / $countable_tasks;
+        $this->percentage = intval(array_sum($this->percentages) / $countable_tasks);
     }
 
     public function getOverallPercentage(): int
