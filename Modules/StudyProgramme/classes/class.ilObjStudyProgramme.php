@@ -2583,7 +2583,7 @@ class ilObjStudyProgramme extends ilContainer
         $date = $settings->getQualificationDate();
 
         if ($date) {
-            $date = DateTimeImmutable::createFromMutable($date);
+            $date = $date;
         }
 
         if ($period) {
@@ -2599,7 +2599,7 @@ class ilObjStudyProgramme extends ilContainer
         $period = $settings->getDeadlinePeriod();
         $date = $settings->getDeadlineDate();
         if ($date) {
-            $date = DateTimeImmutable::createFromMutable($date);
+            $date = $date;
         }
 
         if ($period) {
