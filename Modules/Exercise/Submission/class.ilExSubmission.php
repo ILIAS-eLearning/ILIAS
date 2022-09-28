@@ -151,6 +151,11 @@ class ilExSubmission
 
     public function hasSubmittedPrintVersion(): bool
     {
+        return $this->getSubmittedPrintFile() !== "";
+    }
+
+    public function getSubmittedPrintFile(): string
+    {
         $submitted = $this->getFiles(
             null,
             false,
@@ -161,10 +166,12 @@ class ilExSubmission
         if (count($submitted) > 0) {
             $submitted = array_pop($submitted);
 
-            return is_file($submitted['filename']);
+            if (is_file($submitted['filename'])) {
+                return $submitted['filename'];
+            }
         }
 
-        return false;
+        return "";
     }
 
     public function getSelectedObject(): ?array
