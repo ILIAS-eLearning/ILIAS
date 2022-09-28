@@ -2734,7 +2734,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 );
             }
 
-            if (($checked["export_" . $field] ?? false) && !$field_properties[$field]["export_hide"]) {
+            if (($checked["export_" . $field] ?? false) && !($field_properties[$field]["export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_export_" . $field,
                     "1"
@@ -2744,7 +2744,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             // Course export/visibility
-            if (($checked["course_export_" . $field] ?? false) && !$field_properties[$field]["course_export_hide"]) {
+            if (($checked["course_export_" . $field] ?? false) && !($field_properties[$field]["course_export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_course_export_" . $field,
                     "1"
@@ -2754,7 +2754,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             // Group export/visibility
-            if (($checked["group_export_" . $field] ?? false) && !$field_properties[$field]["group_export_hide"]) {
+            if (($checked["group_export_" . $field] ?? false) && !($field_properties[$field]["group_export_hide"] ?? false)) {
                 $ilias->setSetting(
                     "usr_settings_group_export_" . $field,
                     "1"
