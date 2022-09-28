@@ -764,9 +764,11 @@ class ilMail
                 $user->getId()
             );
 
+            $mail_receiver_options = $this->getMailOptionsByUserId($this->user_id);
+
             $this->auto_responder_service->enqueueAutoresponderIfEnabled(
-                $mailOptions,
-                $this->user_id
+                $mailOptions->getUsrId(),
+                $mail_receiver_options,
             );
 
             if (count($attachments) > 0) {

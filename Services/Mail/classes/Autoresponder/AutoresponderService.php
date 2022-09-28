@@ -28,6 +28,6 @@ interface AutoresponderService
     public function enableAutoresponder(): void;
     public function disableAutoresponder(): void;
     public function handleAutoresponderMails(int $auto_responder_receiver_usr_id): void;
-    public function enqueueAutoresponderIfEnabled(ilMailOptions $mail_recipient_mail_options, int $receiver_id): void;
+    public function enqueueAutoresponderIfEnabled(int $sender_id, ilMailOptions $mail_recipient_mail_options): void;
     public function emptyAutoresponderData(): void;
 }
