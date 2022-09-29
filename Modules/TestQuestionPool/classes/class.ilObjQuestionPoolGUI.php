@@ -854,7 +854,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $addContEditMode = $_POST['add_quest_cont_edit_mode'];
         } else {
-            $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+            $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
         }
         $q_gui = assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
         $q_gui->object->setObjId($this->object->getId());
@@ -874,7 +874,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
                 $addContEditMode = $this->qplrequest->raw('add_quest_cont_edit_mode');
             } else {
-                $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
+                $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE;
             }
             $q_gui = assQuestionGUI::_getQuestionGUI($this->qplrequest->raw("sel_question_types"));
             $q_gui->object->setObjId($this->object->getId());
@@ -1201,24 +1201,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
             $option_ipe = new ilRadioOption(
                 $this->lng->txt('tst_add_quest_cont_edit_mode_IPE'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
             );
             $option_ipe->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
             $ri->addOption($option_ipe);
 
             $option_rte = new ilRadioOption(
                 $this->lng->txt('tst_add_quest_cont_edit_mode_RTE'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
             );
             $option_rte->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
             $ri->addOption($option_rte);
 
-            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT);
+            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE);
 
             $form->addItem($ri, true);
         } else {
             $hi = new ilHiddenInputGUI("question_content_editing_type");
-            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE);
             $form->addItem($hi, true);
         }
 
