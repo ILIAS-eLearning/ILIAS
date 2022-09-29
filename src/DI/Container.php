@@ -30,6 +30,8 @@ use ILIAS\Skill\Service\SkillService;
  */
 class Container extends \Pimple\Container
 {
+    private ?\ilFileServicesSettings $file_service_settings = null;
+
     /**
      * Get interface to the Database.
      */
@@ -383,7 +385,10 @@ class Container extends \Pimple\Container
 
     public function fileServiceSettings(): \ilFileServicesSettings
     {
-        return new \ilFileServicesSettings($this->settings(), $this->clientIni());
+        if ($this->file_service_settings === null) {
+            $this->file_service_settings = new \ilFileServicesSettings($this->settings(), $this->clientIni());
+        }
+        return $this->file_service_settings;
     }
 
     public function contentStyle(): \ILIAS\Style\Content\Service
