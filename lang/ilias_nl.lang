@@ -1288,10 +1288,10 @@ assessment#:#tst_activate_skill_service_desc#:#A new tab ‘Competences’ will 
 assessment#:#tst_activation_limited_visibility_info#:#Als gekozen, is de toets zichtbaar, zelfs buiten de gegeven beschikbaarheid.
 assessment#:#tst_activation_online_info#:#Als offline kunnen alleen beheerders de toets zien en wijzigen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Edit-modus voor extra inhoud
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Edit extra inhoud met behulp van de ILIAS pagina editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Standaard modus voor extra inghooud van vragen
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standaard modus voor extra inghooud van vragen
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Edit extra inhoud met behulp van de ILIAS pagina editor
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#Alle toets Competenties
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze toets zijn verwijderd!
