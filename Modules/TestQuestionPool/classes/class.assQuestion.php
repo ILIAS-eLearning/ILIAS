@@ -143,8 +143,8 @@ abstract class assQuestion
 
     protected ?string $external_id = null;
 
-    public const ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT = 'default';
-    public const ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT = 'pageobject';
+    public const ADDITIONAL_CONTENT_EDITING_MODE_RTE = 'default';
+    public const ADDITIONAL_CONTENT_EDITING_MODE_IPE = 'pageobject';
 
     private string $additionalContentEditingMode = '';
 
@@ -3348,7 +3348,7 @@ abstract class assQuestion
 
     public function isAdditionalContentEditingModePageObject(): bool
     {
-        return $this->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT;
+        return $this->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE;
     }
 
     public function isValidAdditionalContentEditingMode(string $additionalContentEditingMode): bool
@@ -3363,8 +3363,8 @@ abstract class assQuestion
     public function getValidAdditionalContentEditingModes(): array
     {
         return array(
-            self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
-            self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+            self::ADDITIONAL_CONTENT_EDITING_MODE_RTE,
+            self::ADDITIONAL_CONTENT_EDITING_MODE_IPE
         );
     }
 
