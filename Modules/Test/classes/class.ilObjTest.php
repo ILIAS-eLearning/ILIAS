@@ -15,6 +15,8 @@
  *
  *********************************************************************/
 
+use ILIAS\Test\TestManScoringDoneHelper;
+
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
 
 /**
@@ -291,6 +293,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected $pass_waiting = "00:000:00:00:00";
     #endregion
 
+    private TestManScoringDoneHelper $testManScoringDoneHelper;
+
     /**
      * Constructor
      *
@@ -304,6 +308,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $lng = $DIC['lng'];
         $this->type = "tst";
         $this->testrequest = $DIC->test()->internal()->request();
+        $this->testManScoringDoneHelper = new TestManScoringDoneHelper();
 
         $lng->loadLanguageModule("assessment");
         // Defaults:
@@ -7033,9 +7038,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         //}
                         //else
                         //{
-                        $assessmentSetting = new ilSetting("assessment");
-                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                        if ($manscoring_done) {
+                        if ($this->testManScoringDoneHelper->isDone((int) $active_id)) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         //}
@@ -7049,9 +7052,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         //}
                         //if ($found == 0)
                         //{
-                        $assessmentSetting = new ilSetting("assessment");
-                        $manscoring_done = $assessmentSetting->get("manscoring_done_" . $active_id);
-                        if (!$manscoring_done) {
+                        if (!$this->testManScoringDoneHelper->isDone((int) $active_id)) {
                             $filtered_participants[$active_id] = $participant;
                         }
                         //}
@@ -9390,7 +9391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $feedback = "";
         $row = self::getSingleManualFeedback((int) $active_id, (int) $question_id, (int) $pass);
 
-        if ($row !== [] && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone($active_id))) {
+        if ($row !== [] && ($row['finalized_evaluation'] || \ilTestService::isManScoringDone((int) $active_id))) {
             $feedback = $row['feedback'] ?? '';
         }
 
