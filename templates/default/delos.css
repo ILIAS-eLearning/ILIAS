@@ -7027,7 +7027,10 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -15px -15px 0 -15px;
+  margin-top: -15px;
+}
+.panel-secondary .panel-body .il-item-group:last-child {
+  margin-bottom: -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 15px;
@@ -7849,15 +7852,19 @@ ul.dropdown-menu > li > .btn:focus {
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
-    padding: 6px 15px;
     width: 100%;
   }
   .panel-secondary .il-item .il-item-title {
     word-break: break-word;
+    padding: 3px;
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
     word-break: break-word;
+  }
+  .panel-secondary .il-item .il-item-divider {
+    padding: 6px 0 0 0;
+    margin: 0 0 6px 0;
   }
   .panel-secondary .il-item .col-sm-3 {
     margin-top: 3px;

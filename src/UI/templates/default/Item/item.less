@@ -170,16 +170,21 @@
 @media only screen and (min-width: (@il-grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {
-		padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 		width: 100%;
 
 		.il-item-title {
 			word-break: break-word;
+			padding: @il-padding-base-vertical
 		}
 
 		.il-item-description {
 			padding-top: 0;
 			word-break: break-word;
+		}
+
+		.il-item-divider {
+			padding: @il-padding-large-vertical 0 0 0;
+			margin: 0 0 @il-margin-large-vertical 0;
 		}
 
 		.col-sm-3 {
