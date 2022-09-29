@@ -32,9 +32,10 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         ResourceStakeholder $stakeholder,
         ilObjFileGUI $gui_object,
         Services $storage,
+        ilFileServicesSettings $settings,
         $tree
     ) {
-        parent::__construct($stakeholder, $gui_object, $storage);
+        parent::__construct($stakeholder, $gui_object, $storage, $settings);
 
         $this->id_type = $gui_object->getIdType();
         $this->tree = $tree;

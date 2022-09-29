@@ -27,20 +27,26 @@ use ILIAS\ResourceStorage\Services;
  */
 abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
 {
+    protected ilFileServicesPolicy $policy;
+    protected ilFileServicesSettings $settings;
     protected ilCountPDFPages $page_counter;
     protected Services $storage;
     protected ResourceStakeholder $stakeholder;
     protected ilObjFileGUI $gui_object;
+    protected array $invalid_file_names = [];
 
     public function __construct(
         ResourceStakeholder $stakeholder,
         ilObjFileGUI $gui_object,
-        Services $storage
+        Services $storage,
+        ilFileServicesSettings $settings
     ) {
         $this->storage = $storage;
         $this->stakeholder = $stakeholder;
         $this->gui_object = $gui_object;
         $this->page_counter = new ilCountPDFPages();
+        $this->settings = $settings;
+        $this->policy = new ilFileServicesPolicy($this->settings);
     }
 
     /**
@@ -59,8 +65,12 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         if ($this->page_counter->isAvailable()) {
             $file_obj->setPageCount($this->page_counter->extractAmountOfPagesByRID($rid) ?? 0);
         }
-        $file_obj->setTitle($revision->getInformation()->getTitle());
-        $file_obj->setFileName($revision->getInformation()->getTitle());
+        $title = $revision->getInformation()->getTitle();
+        if (!$this->policy->isValidExtension($revision->getInformation()->getSuffix())) {
+            $this->invalid_file_names[] = $title;
+        }
+        $file_obj->setTitle($title);
+        $file_obj->setFileName($title);
         $file_obj->setVersion($revision->getVersionNumber());
 
         if (!empty($options)) {
@@ -93,5 +103,10 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
                 throw new LogicException("Option '$key' is not declared in " . static::class . "::OPTIONS.");
             }
         }
+    }
+
+    public function getInvalidFileNames(): array
+    {
+        return $this->invalid_file_names;
     }
 }
