@@ -381,7 +381,8 @@ class ilObjFileGUI extends ilObject2GUI
         $processor = new ilObjFileProcessor(
             $this->stakeholder,
             $this,
-            $this->storage
+            $this->storage,
+            $this->file_service_settings
         );
 
         $errors = false;
@@ -406,6 +407,17 @@ class ilObjFileGUI extends ilObject2GUI
             $this->ui->mainTemplate()->setOnScreenMessage(
                 'failure',
                 $this->lng->txt('could_not_create_file_objs'),
+                true
+            );
+        }
+
+        if ($processor->getInvalidFileNames() !== []) {
+            $this->ui->mainTemplate()->setOnScreenMessage(
+                'info',
+                sprintf(
+                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                    implode(', ', $processor->getInvalidFileNames())
+                ),
                 true
             );
         }

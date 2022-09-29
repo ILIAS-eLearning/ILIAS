@@ -58,6 +58,7 @@ class ilFileVersionsGUI
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private \ilObjFile $file;
+    private ilFileServicesSettings $file_service_settings;
     protected ?int $version_id = null;
     protected ilTree $tree;
     protected int $parent_id;
@@ -78,6 +79,7 @@ class ilFileVersionsGUI
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
         $this->storage = $DIC->resourceStorage();
+        $this->file_service_settings = $DIC->fileServiceSettings();
         $this->ui = $DIC->ui();
         if ($this->isWorkspaceContext()) {
             $this->tree = new ilWorkspaceTree($DIC->user()->getId());
@@ -194,6 +196,17 @@ class ilFileVersionsGUI
             if (null !== $file_rid) {
                 $processor = $this->getFileProcessor($data[self::KEY_FILE_STRUCTURE]);
                 $processor->process($file_rid);
+
+                if ($processor->getInvalidFileNames() !== []) {
+                    $this->ui->mainTemplate()->setOnScreenMessage(
+                        'info',
+                        sprintf(
+                            $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                            implode(', ', $processor->getInvalidFileNames())
+                        ),
+                        true
+                    );
+                }
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_unzip_success'), true);
                 $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->parent_id);
@@ -484,6 +497,7 @@ class ilFileVersionsGUI
                     $this->parent_id
                 ),
                 $this->storage,
+                $this->file_service_settings,
                 $this->tree
             );
         }
@@ -496,6 +510,7 @@ class ilFileVersionsGUI
                 $this->parent_id
             ),
             $this->storage,
+            $this->file_service_settings,
             $this->tree
         );
     }

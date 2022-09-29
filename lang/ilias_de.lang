@@ -9425,7 +9425,7 @@ file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
 file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
+file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien

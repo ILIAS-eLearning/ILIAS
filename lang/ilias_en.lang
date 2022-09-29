@@ -9426,7 +9426,7 @@ file#:#file_suffix_default_white#:#Default Suffix Whitelist
 file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
+file#:#file_upload_info_file_with_critical_extension#:#At least one uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator. Filename(s): %s
 file#:#file_uploaded_by#:#Version uploaded by
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
