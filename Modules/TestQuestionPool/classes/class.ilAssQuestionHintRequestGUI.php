@@ -104,7 +104,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             self::CMD_SHOW_LIST
         );
 
-        $this->populateContent($ilCtrl->getHtml($table));
+        $this->populateContent($ilCtrl->getHtml($table), $tpl);
     }
 
     /**
@@ -172,7 +172,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $nonEditableHintPoints->setValue($questionHint->getPoints());
         $form->addItem($nonEditableHintPoints);
 
-        $this->populateContent($ilCtrl->getHtml($form));
+        $this->populateContent($ilCtrl->getHtml($form), $tpl);
     }
 
     /**
@@ -215,7 +215,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             $nextRequestableHint->getPoints()
         ));
 
-        $this->populateContent($ilCtrl->getHtml($confirmation));
+        $this->populateContent($ilCtrl->getHtml($confirmation), $tpl);
     }
 
     /**
@@ -272,18 +272,17 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global ilTemplate $tpl
      * @param string $content
      */
-    private function populateContent($content): void
+    private function populateContent($content, $tpl): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
 
         if (!$this->isQuestionPreview() && $this->parentGUI->object->getKioskMode()) {
-            $tpl->setBodyClass('kiosk');
             $tpl->hideFooter();
 
             $tpl->addBlockFile(
                 'CONTENT',
-                'content',
+                'kiosk_content',
                 'tpl.il_tst_question_hints_kiosk_page.html',
                 'Modules/TestQuestionPool'
             );
