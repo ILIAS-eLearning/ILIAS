@@ -47,8 +47,12 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
      * Creates an ilObjFile instance for the provided information.
      * @see ilObjFileAbstractProcessorInterface::OPTIONS
      */
-    protected function createFileObj(ResourceIdentification $rid, int $parent_id, array $options = []): ilObjFile
-    {
+    protected function createFileObj(
+        ResourceIdentification $rid,
+        int $parent_id,
+        array $options = [],
+        bool $create_reference = false
+    ): ilObjFile {
         $revision = $this->storage->manage()->getCurrentRevision($rid);
         $file_obj = new ilObjFile();
         $file_obj->setResourceId($rid);
@@ -66,7 +70,9 @@ abstract class ilObjFileAbstractProcessor implements ilObjFileProcessorInterface
         $file_obj->create();
 
         ilPreview::createPreview($file_obj, true);
-
+        if ($create_reference) {
+            $file_obj->createReference();
+        }
         $this->gui_object->putObjectInTree($file_obj, $parent_id);
 
         return $file_obj;
