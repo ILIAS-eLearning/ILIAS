@@ -481,7 +481,7 @@ class ilObjectLP
                         foreach ($ref_ids as $ref_id) {
                             if ($tree->isGrandChild($path_ref_id, $ref_id)) {
                                 $found[$obj_id][] = $ref_id;
-                                if ($chk[$path_ob_id]) {
+                                if ($chk[$path_ob_id] ?? false) {
                                     $res[$obj_id] = true;
                                 }
                                 break;
