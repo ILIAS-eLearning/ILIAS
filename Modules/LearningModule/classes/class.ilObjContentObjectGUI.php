@@ -2981,7 +2981,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "transl", "");
+        $ilCtrl->setParameter($this, "transl", "-");
         if ($this->lang_switch_mode == "short_titles") {
             $ilCtrl->redirectByClass("illmeditshorttitlesgui", "");
         }
