@@ -81,10 +81,13 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
         foreach ($this->getNextPath() as $original_path) {
             $is_dir = substr($original_path, -1) === DIRECTORY_SEPARATOR;
             $path = dirname($original_path);
+            $rtrim = rtrim($original_path, DIRECTORY_SEPARATOR);
+            if ($rtrim === $base_path) {
+                continue;
+            }
             $parent_ref_id = isset($this->path_map[$path]) ? $this->path_map[$path] : $parent_id;
             if ($is_dir) {
                 $obj = $this->createContainer($original_path, $parent_ref_id);
-                $rtrim = rtrim($original_path, DIRECTORY_SEPARATOR);
                 $i = $this->isInWorkspace() ? $obj->getRefId() : $obj->getRefId();
                 $this->path_map[$rtrim] = (int) $i;
             } else {
