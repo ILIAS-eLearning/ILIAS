@@ -14,7 +14,7 @@
 	<img src="{ICON_OK}" />
 </span>
 <script>
-
+window.setTimeout(function() {
 	il.Util.addOnLoad(function() {
 			
 		var interval_reference = null;
@@ -63,6 +63,7 @@
 
 		interval_reference = setInterval(refresh, '{AJAX_TIMEOUT}');
 	});
+}, 0);
 </script>
 <!-- END async_status -->
 
