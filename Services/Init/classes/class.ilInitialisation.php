@@ -394,7 +394,6 @@ class ilInitialisation
             $fileUploadImpl->register(new FilenameSanitizerPreProcessor());
             $fileUploadImpl->register(
                 new ilFileServicesPreProcessor(
-                    $c->rbac()->system(),
                     $c->fileServiceSettings(),
                     $c->language()->txt("msg_info_blacklisted")
                 )
