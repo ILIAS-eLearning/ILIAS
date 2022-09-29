@@ -86,7 +86,11 @@ class ilWebDAVObjFactory
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TYPE_NOT_DAVABLE);
         }
 
-        if (!$this->isDAVableObjTitle($ilias_object->getTitle())) {
+        if ($this->isHiddenFile($ilias_object->getTitle())) {
+            throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_HIDDEN);
+        }
+
+        if ($this->hasTitleForbiddenChars($ilias_object->getTitle())) {
             throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
         }
 

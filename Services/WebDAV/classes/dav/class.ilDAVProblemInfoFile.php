@@ -101,7 +101,7 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
 
                 $title = $dav_object->getName();
 
-                if ($title == self::PROBLEM_INFO_FILE_NAME) {
+                if ($title === self::PROBLEM_INFO_FILE_NAME) {
                     $problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE] = true;
                 } elseif (in_array($title, $already_seen_titles)) {
                     $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME][] = $title;
@@ -149,7 +149,7 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
             $message_string .= "\n";
         }
 
-        if (strlen($message_string) == 0) {
+        if (strlen($message_string) === 0) {
             $message_string = $this->language->txt('webdav_problem_free_container');
         }
 

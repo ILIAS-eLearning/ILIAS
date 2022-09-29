@@ -228,10 +228,10 @@ class ilBookingEntry
             "WHERE booking_id = " . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $this->setObjId($row['obj_id']);
-            $this->setDeadlineHours($row['deadline']);
-            $this->setNumberOfBookings($row['num_bookings']);
-            $this->setBookingGroup($row['booking_group']);
+            $this->setObjId((int) $row['obj_id']);
+            $this->setDeadlineHours((int) $row['deadline']);
+            $this->setNumberOfBookings((int) $row['num_bookings']);
+            $this->setBookingGroup((int) $row['booking_group']);
         }
 
         $query = 'SELECT * FROM booking_obj_assignment ' .

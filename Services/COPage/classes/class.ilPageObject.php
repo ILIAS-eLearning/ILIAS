@@ -1881,7 +1881,7 @@ s     */
             $new_id = "";
             $import_id = "";
             // get the new id from the current mapping
-            if ($a_mapping[$old_id] > 0) {
+            if (($a_mapping[$old_id] ?? 0) > 0) {
                 $new_id = $a_mapping[$old_id];
                 if ($a_reuse_existing_by_import) {
                     // this should work, if the lm has been imported in a translation installation and re-exported

@@ -24,7 +24,7 @@ use ILIAS\HTTP\Services as HttpServices;
 /**
  * Consultation hours editor
  * @author      Stefan Meyer <smeyer.ilias@gmx.de>
- * @ilCtrl_Calls: ilConsultationHoursGUI ilPublicUserProfileGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilConsultationHoursGUI: ilPublicUserProfileGUI, ilRepositorySearchGUI
  */
 class ilConsultationHoursGUI
 {
@@ -643,8 +643,8 @@ class ilConsultationHoursGUI
         $this->initFormSequence(self::MODE_CREATE);
 
         $this->booking = new ilBookingEntry();
-        $this->form->getItemByPostVar('bo')->setValue($this->booking->getNumberOfBookings());
-        $this->form->getItemByPostVar('ap')->setValue(1);
+        $this->form->getItemByPostVar('bo')->setValue((string) $this->booking->getNumberOfBookings());
+        $this->form->getItemByPostVar('ap')->setValue("1");
         $this->form->getItemByPostVar('du')->setMinutes(15);
         $this->form->getItemByPostVar('st')->setDate(
             new ilDateTime(mktime(8, 0, 0, (int) date('n', time()), (int) date('d', time()), (int) date('Y', time())), IL_CAL_UNIX)
@@ -774,7 +774,7 @@ class ilConsultationHoursGUI
 
             $booking = new ilBookingEntry();
             $booking->setObjId($this->getUserId());
-            $booking->setNumberOfBookings($this->form->getInput('bo'));
+            $booking->setNumberOfBookings((int) $this->form->getInput('bo'));
 
             $deadline = $this->form->getInput('dead');
             $deadline = $deadline['dd'] * 24 + $deadline['hh'];
