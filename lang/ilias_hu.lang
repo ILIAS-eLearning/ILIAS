@@ -1293,10 +1293,10 @@ assessment#:#tst_activate_skill_service_desc#:#Kérdések kompetenciákhoz rende
 assessment#:#tst_activation_limited_visibility_info#:#Az adott időszakon kívül csak a teszt címe látható. Ilyenkor a résztvevők nem tudják kitölteni a tesztet.
 assessment#:#tst_activation_online_info#:#Ha online, a résztvevők kitölthetik a tesztet.
 assessment#:#tst_add_quest_cont_edit_mode#:#Szerkesztő
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Egyszerű szöveg használata kérdések és válaszok, ILIAS-lapszerkesztő használata visszajelzések és tippek szerkesztéséhez.
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#A kérdések és a válaszok nem formázható szövegek. LaTex sem használható. Viszont a visszajelzések és a tippek újra felhasználhatóak, ha kérdés beágyazott az ILIAS-tananyagban.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich Text szerkesztő (TinyMCE) használata kérdések és válaszok, illetve visszajelzések és tippek szerkesztéséhez
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#A kérdések, a válaszok, a visszajelzések és a tippek formázható szövegek. Viszont a visszajelzések és a tippek nem használhatóak fel újra, ha kérdés beágyazott az ILIAS-tananyagban.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich Text szerkesztő (TinyMCE) használata kérdések és válaszok, illetve visszajelzések és tippek szerkesztéséhez
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Egyszerű szöveg használata kérdések és válaszok, ILIAS-lapszerkesztő használata visszajelzések és tippek szerkesztéséhez.
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.

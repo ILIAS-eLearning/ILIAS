@@ -1293,10 +1293,10 @@ assessment#:#tst_activate_skill_service_desc#:#Supports the assignment of questi
 assessment#:#tst_activation_limited_visibility_info#:#Before and after the indicated period it is only the test's title that will be displayed. The participants cannot take the test. Further access, including to tests already in progress, will be prevented at the end of the period.
 assessment#:#tst_activation_online_info#:#If online, participants can take the test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!

@@ -1632,22 +1632,26 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
-            $ri->addOption(new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_default'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
-            ));
+            $option_ipe = new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_IPE'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
+            );
+            $option_ipe->setInfo($lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
+            $ri->addOption($option_ipe);
 
-            $ri->addOption(new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_page_object'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
-            ));
+            $option_rte = new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_RTE'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
+            );
+            $option_rte->setInfo($lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
+            $ri->addOption($option_rte);
 
-            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE);
 
             $form->addItem($ri, true);
         } else {
             $hi = new ilHiddenInputGUI("question_content_editing_type");
-            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE);
             $form->addItem($hi, true);
         }
 
@@ -1977,22 +1981,26 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
-            $ri->addOption(new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_page_object'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
-            ));
+            $option_ipe = new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_IPE'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE
+            );
+            $option_ipe->setInfo($lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
+            $ri->addOption($option_ipe);
 
-            $ri->addOption(new ilRadioOption(
-                $lng->txt('tst_add_quest_cont_edit_mode_default'),
-                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
-            ));
+            $option_rte = new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_RTE'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE
+            );
+            $option_rte->setInfo($lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
+            $ri->addOption($option_rte);
 
-            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT);
+            $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE);
 
             $form->addItem($ri, true);
         } else {
             $hi = new ilHiddenInputGUI("question_content_editing_type");
-            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+            $hi->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE);
             $form->addItem($hi, true);
         }
 

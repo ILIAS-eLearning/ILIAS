@@ -156,7 +156,7 @@ JS;
         return 1;
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form): void
     {
         if (!$this->post->has('gap')) {
             return;
@@ -393,7 +393,7 @@ JS;
         $question->setRows(10);
         $question->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $question->setUseRte(true);
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
@@ -460,7 +460,7 @@ JS;
         $cloze_text->setRows(10);
         $cloze_text->setCols(80);
         if (!$this->object->getSelfAssessmentEditingMode()) {
-            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT) {
+            if ($this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_RTE) {
                 $cloze_text->setUseRte(true);
                 include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));

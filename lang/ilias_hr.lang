@@ -1288,10 +1288,10 @@ assessment#:#tst_activate_skill_service_desc#:#Podržava raspoređivanje pitanja
 assessment#:#tst_activation_limited_visibility_info#:#Prije i nakon navedenog razdoblja prikazuje se samo naziv testa. A sudionici ne mogu ispunjavati test.
 assessment#:#tst_activation_online_info#:#Sudionici mogu ispunjavati test samo ako je on stavljen na mrežu (online).
 assessment#:#tst_add_quest_cont_edit_mode#:#Urednik za povratne informacije i savjete
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Za uređivanje povratnih informacija i savjeta koristite urednika stranica aplikacije ILIAS
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###04 06 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Za uređivanje povratnih informacija i savjeta koristite urednika rich-text
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###04 06 2021 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Za uređivanje povratnih informacija i savjeta koristite urednika rich-text
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Za uređivanje povratnih informacija i savjeta koristite urednika stranica aplikacije ILIAS
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###04 06 2021 new variable
 assessment#:#tst_all_test_competences#:#Sva kompetencije testa
 assessment#:#tst_all_user_data_deleted#:#Svi korisnički podaci ovog testa su uklonjeni!
