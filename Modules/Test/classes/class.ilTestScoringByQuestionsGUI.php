@@ -306,7 +306,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         }
 
         if ($ajax && is_array($correction_feedback)) {
-            $correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($correction_feedback['finalized_by_usr_id']);
+            $finalized_by_usr_id = $correction_feedback['finalized_by_usr_id'];
+            if (! $finalized_by_usr_id) {
+                $finalized_by_usr_id = $DIC['ilUser']->getid();
+            }
+            $correction_feedback['finalized_by'] = ilObjUser::_lookupFullname($finalized_by_usr_id);
             $correction_feedback['finalized_on_date'] = '';
 
             if (strlen($correction_feedback['finalized_tstamp']) > 0) {
@@ -563,9 +567,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $form->addItem($evaluated);
 
         $form->addCommandButton('checkConstraintsBeforeSaving', $this->lng->txt('save'));
-
-        $CharSelector = ilCharSelectorGUI::_getCurrentGUI();
-        $CharSelector->getConfig()->setAvailability(ilCharSelectorConfig::DISABLED);
 
         $tmp_tpl->setVariable(
             'MANUAL_FEEDBACK',
