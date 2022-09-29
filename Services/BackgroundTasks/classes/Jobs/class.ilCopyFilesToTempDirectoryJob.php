@@ -131,36 +131,39 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     protected function copyFiles($tmpdir, ilCopyDefinition $definition)
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-            if($copy_task[ilCopyDefinition::COPY_SOURCE_DIR] === '') { // see https://mantis.ilias.de/view.php?id=31328
-                continue;
-            }
-            $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR]));
+            $source_dir_or_file = $copy_task[ilCopyDefinition::COPY_SOURCE_DIR];
+            $target_dir_or_file = $copy_task[ilCopyDefinition::COPY_TARGET_DIR];
+            $absolute_path_of_target_dir_or_file = $tmpdir . '/' . $target_dir_or_file;
+            $absolute_directory_of_target_dir_or_file = $tmpdir . '/' . dirname($target_dir_or_file);
+
+            $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($target_dir_or_file));
+
             ilUtil::makeDirParents(
-                $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR])
+                $absolute_directory_of_target_dir_or_file
             );
 
-            if (!file_exists($copy_task[ilCopyDefinition::COPY_SOURCE_DIR])) {
+            if (!file_exists($source_dir_or_file)) {
                 // if the "file" to be copied is an empty folder the directory has to be created so it will be contained in the download zip
-                $is_empty_folder = preg_match_all("/\/$/", $copy_task[ilCopyDefinition::COPY_TARGET_DIR]);
-                if ($is_empty_folder) {
-                    mkdir($tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_TARGET_DIR]);
-                    $this->logger->notice('Empty folder has been created: ' . $tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_SOURCE_DIR]);
+                $is_empty_folder = preg_match_all("/\/$/", $target_dir_or_file);
+                if ($is_empty_folder && !file_exists($absolute_path_of_target_dir_or_file)) {
+                    mkdir($absolute_path_of_target_dir_or_file);
+                    $this->logger->notice('Empty folder has been created: ' . $tmpdir . '/' . $source_dir_or_file);
                 } else {
-                    $this->logger->notice('Cannot find file: ' . $copy_task[ilCopyDefinition::COPY_SOURCE_DIR]);
+                    $this->logger->notice('Cannot find file: ' . $source_dir_or_file);
                 }
                 continue;
             }
 
             $this->logger->debug(
                 'Copying from: ' .
-                $copy_task[ilCopyDefinition::COPY_SOURCE_DIR] .
+                $source_dir_or_file .
                 ' to ' .
-                $tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_TARGET_DIR]
+                $absolute_path_of_target_dir_or_file
             );
 
             copy(
-                $copy_task[ilCopyDefinition::COPY_SOURCE_DIR],
-                $tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_TARGET_DIR]
+                $source_dir_or_file,
+                $absolute_path_of_target_dir_or_file
             );
         }
 
