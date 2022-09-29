@@ -386,7 +386,11 @@ class Container extends \Pimple\Container
     public function fileServiceSettings(): \ilFileServicesSettings
     {
         if ($this->file_service_settings === null) {
-            $this->file_service_settings = new \ilFileServicesSettings($this->settings(), $this->clientIni());
+            $this->file_service_settings = new \ilFileServicesSettings(
+                $this->settings(),
+                $this->clientIni(),
+                $this->database()
+            );
         }
         return $this->file_service_settings;
     }

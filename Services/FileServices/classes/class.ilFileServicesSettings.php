@@ -24,6 +24,7 @@ declare(strict_types=1);
 class ilFileServicesSettings
 {
     private ilSetting $settings;
+    private ilDBInterface $db;
     private array $white_list_default = [];
     private array $white_list_negative = [];
     private array $white_list_positive = [];
@@ -36,22 +37,25 @@ class ilFileServicesSettings
 
     public function __construct(
         ilSetting $settings,
-        ilIniFile $client_ini
+        ilIniFile $client_ini,
+        ilDBInterface $db
     ) {
+        $this->db = $db;
         $this->convert_to_ascii = (bool) !$client_ini->readVariable('file_access', 'disable_ascii');
         $this->settings = $settings;
         /** @noRector */
-        $this->white_list_default = include "Services/FileServices/defaults/default_whitelist.php";
+        $this->white_list_default = include "./Services/FileServices/defaults/default_whitelist.php";
         $this->file_admin_ref_id = $this->determineFileAdminRefId();
         $this->read();
     }
 
     private function determineFileAdminRefId(): int
     {
-        $objects_by_type = ilObject2::_getObjectsByType('facs');
-        $id = (int) reset($objects_by_type)['obj_id'];
-        $references = ilObject2::_getAllReferences($id);
-        return (int) reset($references);
+        $r = $this->db->query(
+            "SELECT ref_id FROM object_reference JOIN object_data ON object_reference.obj_id = object_data.obj_id WHERE object_data.type = 'facs';"
+        );
+        $r = $this->db->fetchObject($r);
+        return (int) ($r->ref_id ?? 0);
     }
 
     private function determineByPass(): bool
@@ -102,6 +106,7 @@ class ilFileServicesSettings
         $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_overall);
         $this->white_list_overall[] = '';
         $this->white_list_overall = array_unique($this->white_list_overall);
+        $this->white_list_overall = array_diff($this->white_list_overall, $this->black_list_prohibited);
     }
 
     private function readBlackList(): void
