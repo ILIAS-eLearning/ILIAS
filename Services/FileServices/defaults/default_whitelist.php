@@ -199,6 +199,7 @@ return [
     'sgml',   // TEXT__SGML
     'smi',   // APPLICATION__SMIL,
     'smil',   // APPLICATION__SMIL,
+    'srt',   // TEXT__SRT,
     'sps',    // SPSS syntax file
     'spv',    // SPSS output file
     'stl',                // Stereolithography CAD file
