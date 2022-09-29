@@ -1199,15 +1199,19 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
 
-            $ri->addOption(new ilRadioOption(
-                $this->lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+            $option_ipe = new ilRadioOption(
+                $this->lng->txt('tst_add_quest_cont_edit_mode_IPE'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
-            ));
+            );
+            $option_ipe->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_IPE_info'));
+            $ri->addOption($option_ipe);
 
-            $ri->addOption(new ilRadioOption(
-                $this->lng->txt('tst_add_quest_cont_edit_mode_default'),
+            $option_rte = new ilRadioOption(
+                $this->lng->txt('tst_add_quest_cont_edit_mode_RTE'),
                 assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
-            ));
+            );
+            $option_rte->setInfo($this->lng->txt('tst_add_quest_cont_edit_mode_RTE_info'));
+            $ri->addOption($option_rte);
 
             $ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT);
 
