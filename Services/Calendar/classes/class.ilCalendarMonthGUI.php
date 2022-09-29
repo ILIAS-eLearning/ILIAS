@@ -26,6 +26,7 @@ declare(strict_types=1);
  */
 class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
+    protected int $bkid;    // booking user
     protected int $num_appointments = 1;
     protected array $schedule_filters = array();
 
@@ -33,9 +34,15 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     protected ilCalendarAppointmentColors $app_colors;
     protected string $timezone = 'UTC';
 
-    public function __construct(ilDate $seed_date)
+    public function __construct(ilDate $seed_date, int $bkid = 0)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
+        // init booking user
+        if ($bkid > 0) {    // e.g. portfolio sets this
+            $this->bkid = $bkid;
+        } else {
+            $this->bkid = $this->initBookingUserFromQuery();
+        }
     }
 
     public function initialize(int $a_calendar_presentation_type): void
@@ -101,9 +108,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $bkid = $this->initBookingUserFromQuery();
-        if ($bkid) {
-            $user_id = $bkid;
+        if ($this->bkid) {
+            $user_id = $this->bkid;
             $disable_empty = true;
             $no_add = true;
         } else {
@@ -123,7 +129,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $no_add = true;
             $is_portfolio_embedded = true;
         }
-
         $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user_id);
         $scheduler->addSubitemCalendars(true);
         if (sizeof($this->schedule_filters)) {
