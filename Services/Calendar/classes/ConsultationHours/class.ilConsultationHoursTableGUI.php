@@ -76,7 +76,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('NUM_BOOKINGS', $a_set['num_bookings']);
 
-        foreach ((array) $a_set['target_links'] as $link) {
+        foreach ((array) ($a_set['target_links'] ?? []) as $link) {
             $this->tpl->setCurrentBlock('links');
             $this->tpl->setVariable('TARGET', $link['title']);
             $this->tpl->setVariable('URL_TARGET', $link['link']);
