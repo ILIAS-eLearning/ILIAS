@@ -186,13 +186,13 @@ abstract class assQuestion
     /**
      * constant for additional content editing mode "default"
      */
-    const ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT = 'default';
+    const ADDITIONAL_CONTENT_EDITING_MODE_RTE = 'default';
 
     /**
      * constant for additional content editing mode "pageobject"
      */
-    const ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT = 'pageobject';
-    
+    const ADDITIONAL_CONTENT_EDITING_MODE_IPE = 'pageobject';
+
     /**
      * additional content editing mode set for this question
      *
@@ -4629,7 +4629,7 @@ abstract class assQuestion
      */
     public function isAdditionalContentEditingModePageObject()
     {
-        return $this->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT;
+        return $this->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_IPE;
     }
     
     /**
@@ -4657,8 +4657,8 @@ abstract class assQuestion
     public function getValidAdditionalContentEditingModes()
     {
         return array(
-            self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
-            self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+            self::ADDITIONAL_CONTENT_EDITING_MODE_RTE,
+            self::ADDITIONAL_CONTENT_EDITING_MODE_IPE
         );
     }
     
