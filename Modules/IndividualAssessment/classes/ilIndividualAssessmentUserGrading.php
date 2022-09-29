@@ -103,6 +103,11 @@ class ilIndividualAssessmentUserGrading
         return $this->file;
     }
 
+    public function hasFile() : bool
+    {
+        return !empty($this->file);
+    }
+
     public function isFileVisible() : bool
     {
         return $this->is_file_visible;
@@ -178,7 +183,7 @@ class ilIndividualAssessmentUserGrading
 
         $file = $input
             ->file($file_handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
-            ->withValue([$this->getFile()])
+            ->withValue($this->hasFile() ? [$this->getFile()] : null)
         ;
 
         $file_visible = $input

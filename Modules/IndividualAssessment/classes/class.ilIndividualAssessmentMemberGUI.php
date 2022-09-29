@@ -455,16 +455,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         $filename = $this->getFileName();
 
-        if (empty($filename)) {
-            return new BasicFileInfoResult(
-                $this->getFileIdentifierParameterName(),
-                'unknown',
-                'unknown',
-                0,
-                'unknown'
-            );
-        }
-
         if ($filename != $identifier) {
             throw new LogicException("Wrong filename $identifier");
         }
