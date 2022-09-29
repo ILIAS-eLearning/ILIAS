@@ -214,10 +214,11 @@ class ilDAVContainerTest extends TestCase
 
         $dav_container = $this->getDAVContainerWithExpectationForFunctions(
             $ref_id,
-            11
+            11,
+            1
         );
         $children = $dav_container->getChildren();
-        $this->assertEquals(0, count($children));
+        $this->assertEquals(1, count($children));
     }
 
     public function testChildExistsWithExistingNameOfFolderOrFileReturnsTrue(): void
@@ -453,9 +454,12 @@ class ilDAVContainerTest extends TestCase
                     throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TYPE_NOT_DAVABLE);
                 }
 
-                if ($this->hasTitleForbiddenChars($tree[$ref_id]['title'])
-                    || $this->isHiddenFile($tree[$ref_id]['title'])) {
+                if ($this->hasTitleForbiddenChars($tree[$ref_id]['title'])) {
                     throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_TITLE_NOT_DAVABLE);
+                }
+
+                if ($this->isHiddenFile($tree[$ref_id]['title'])) {
+                    throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::OBJECT_HIDDEN);
                 }
 
                 $object = $this->createMock($obj_class);
