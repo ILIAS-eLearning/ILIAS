@@ -567,6 +567,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $random = new ilRadioOption($this->lng->txt('test_question_set_type_random'), ilObjTest::QUESTION_SET_TYPE_RANDOM);
         $random->setInfo($this->lng->txt('test_question_set_type_random_info'));
         $question_set_type->addOption($random);
+        if ($this->testOBJ->participantDataExist()) {
+            $question_set_type->setDisabled(true);
+        }
 
         $question_set_type->setValue($this->testOBJ->getQuestionSetType());
         $form->addItem($question_set_type);
