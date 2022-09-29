@@ -160,7 +160,6 @@ class ilCalendarViewGUI
     public function getEvents(): array
     {
         $user = $this->user->getId();
-
         $schedule = null;
         switch ($this->presentation_type) {
             case self::CAL_PRESENTATION_AGENDA_LIST:

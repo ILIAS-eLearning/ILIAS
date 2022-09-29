@@ -12,7 +12,7 @@ declare(strict_types=1);
 class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
 {
     protected int $user_id;
-    protected array $group_ids = [];
+    protected ?array $group_ids = [];
     protected ilCalendarCategories $cats;
     protected ilObjUser $user;
 
@@ -21,7 +21,7 @@ class ilCalendarScheduleFilterBookings implements ilCalendarScheduleFilter
         global $DIC;
 
         $this->user_id = $a_user_id;
-        $this->group_ids = (array) $a_consultation_hour_group_ids;
+        $this->group_ids = $a_consultation_hour_group_ids;
         $this->cats = ilCalendarCategories::_getInstance();
         $this->user = $DIC->user();
     }
