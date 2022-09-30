@@ -15,11 +15,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var bool
-     */
-    protected $questionTitleLinksEnabled = false;
-    
+
     /**
      * @var bool
      */
@@ -540,23 +536,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->totalWorkingTime = $totalWorkingTime;
     }
-    
-    /**
-     * @return bool
-     */
-    public function isQuestionTitleLinksEnabled() : bool
-    {
-        return $this->questionTitleLinksEnabled;
-    }
-    
-    /**
-     * @param bool $questionTitleLinksEnabled
-     */
-    public function setQuestionTitleLinksEnabled(bool $questionTitleLinksEnabled)
-    {
-        $this->questionTitleLinksEnabled = $questionTitleLinksEnabled;
-    }
-    
+
     /**
      * @return bool
      */

@@ -2334,8 +2334,7 @@ class ilObjTestGUI extends ilObjectGUI
             is_array($_SESSION['tst_qst_move_' . $this->object->getTestId()])
             && count($_SESSION['tst_qst_move_' . $this->object->getTestId()])
         );
-        
-        $table_gui->setQuestionTitleLinksEnabled(!$total);
+
         $table_gui->setQuestionPositioningEnabled(!$total);
         $table_gui->setQuestionManagingEnabled(!$total);
         $table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());

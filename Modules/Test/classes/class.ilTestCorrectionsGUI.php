@@ -83,7 +83,6 @@ class ilTestCorrectionsGUI
                 $this->testOBJ->getRefId()
             );
 
-            $table_gui->setQuestionTitleLinksEnabled(true);
             $table_gui->setQuestionRemoveRowButtonEnabled(true);
             $table_gui->init();
 
