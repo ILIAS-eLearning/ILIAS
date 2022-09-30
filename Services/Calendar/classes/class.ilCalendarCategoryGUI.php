@@ -196,7 +196,7 @@ class ilCalendarCategoryGUI
             $category = new ilCalendarCategory(0);
             $category->setTitle($form->getInput('title'));
             $category->setColor('#' . $form->getInput('color'));
-            $category->setLocationType($form->getInput('type_rl'));
+            $category->setLocationType((int) $form->getInput('type_rl'));
             $category->setRemoteUrl($form->getInput('remote_url'));
             $category->setRemoteUser($form->getInput('remote_user'));
             $category->setRemotePass($form->getInput('remote_pass'));
