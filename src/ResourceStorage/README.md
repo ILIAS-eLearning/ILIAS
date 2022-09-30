@@ -174,23 +174,31 @@ The management of collections is done via:
 $DIC['resource_storage']->collection();
 ```
 
-To use a collection, a new collection can be created:
+To use a collection, a new collection-id can be created:
 
 ```php
-$collection = $DIC['resource_storage']->collection()->id();
+$rcid = $DIC['resource_storage']->collection()->id();
 ```
 
-Or an existing collection can be called:
+Or an existing collection-id can be called:
 
 ```php
-$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$rcid = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+```
+
+Retrieving the collection itself is done via:
+
+```php
+// $rcid see example above
+$collection = $DIC['resource_storage']->collection()->get($rcid);
 ```
 
 ResourceIdentifications can now be added to such a collection, e.g. after the upload. The collection must be saved afterwards:
 
 ```php
 $irss = $DIC['resource_storage'];
-$collection = $irss->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$rcid = $irss->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$collection = $irss->collection()->get($rcid);
 
 $this->upload->process();
 $result = array_values($this->upload->getResults())[0];
@@ -205,22 +213,74 @@ Collections can be explicitly assigned to a user ID, and such collections can la
 
 ```php
 // create new collection for user 6
-$collection = $DIC['resource_storage']->collection()->id(null, 6); // return a collection with e.g. ID "f0e564e2-5d48-4d33-a8e6-bdc2646900d7"
+$rcid = $DIC['resource_storage']->collection()->id(null, 6); // return a collection with e.g. ID "f0e564e2-5d48-4d33-a8e6-bdc2646900d7"
 // ... accessing the same collection with another user-id results in an exception
-$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7", 13);
+$rcid = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7", 13);
 ```
 
 To get the ResourceIdentifications assigned to a collection, they can be accessed as follows:
 
 ```php
-$collection = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$rcid = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$collection = $irss->collection()->get($rcid);
 
-$resource_identification = $collection->->getResourceIdentifications();
-
-foreach ($resource_identification as $rid) {
+foreach ($collection->->getResourceIdentifications() as $rid) {
     // do something with the resource
     $file_stream = $DIC['resource_storage']->consume()->stream($rid)->getStream();
 }
+```
+
+Collections can also be easily downloaded as a ZIP file.
+
+```php
+$rcid = $DIC['resource_storage']->collection()->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$DIC['resource_storage']->consume()->downloadCollection($rcid)->run();
+```
+
+Besides storing collections (`store`) there are also `clone` and `remove`.
+
+## Sorting and Ranges of Collections
+A collection can be sorted for display, various options are available for this:
+
+```php
+use ILIAS\ResourceStorage\Collection\Collections;
+/** @var Collections $collection_services */
+$collection_services = $DIC['resource_storage']->collection();
+
+$rcid = $collection_services ->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$collection = $irss->collection()->get($rcid);
+
+// By Title
+$collection_sorted_by_title_asc = $collection_services->sort($collection)->asc()->byTitle();
+$collection_sorted_by_title_desc = $collection_services->sort($collection)->desc()->byTitle();
+
+// By Creation Date
+$collection_sorted_by_creation_date_asc = $collection_services->sort($collection)->asc()->byCreationDate();
+$collection_sorted_by_creation_date_desc = $collection_services->sort($collection)->desc()->byCreationDate();
+
+// By File-Size
+$collection_sorted_by_filesize_asc = $collection_services->sort($collection)->asc()->bySize();
+$collection_sorted_by_filesize_desc = $collection_services->sort($collection)->desc()->bySize();
+```
+These are in-memory sorts. But if you want to store the sort permanently, you can do this as follows:
+
+```php
+$collection_services->sort($collection)->asc()->andSave()->bySize();
+```
+
+To display only a part of a collection, you can obtain a range of a collection. In this case you get the `ResourceIdentification` directly either as `array` or as `\Generator`: 
+
+```php
+use ILIAS\ResourceStorage\Collection\Collections;
+/** @var Collections $collection_services */
+$collection_services = $DIC['resource_storage']->collection();
+
+$rcid = $collection_services ->id("f0e564e2-5d48-4d33-a8e6-bdc2646900d7");
+$collection = $irss->collection()->get($rcid);
+
+// Get only a range of the collection
+$range_generator = $collection_services->rangeAsGenerator($collection, 10, 200);
+$range_array = $collection_services->rangeAsArray($collection, 10, 200);
 ```
 
 # Other (involved) Services
@@ -231,7 +291,7 @@ foreach ($resource_identification as $rid) {
 # Migration
 
 - Migration will need at least the feature ["Migrate Command"](https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html)
-- A documentation how you can migrate your component will follow ASAP
+- A documentation how you can migrate your component is [here](../../Services/ResourceStorage/MIGRATIONS.md).
 
 # Roadmap
 
