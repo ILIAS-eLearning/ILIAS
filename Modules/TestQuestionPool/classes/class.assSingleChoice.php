@@ -638,10 +638,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
 
         $this->getProcessLocker()->executeUserSolutionUpdateLockOperation(function () use (&$entered_values, $ilDB, $active_id, $pass, $authorized) {
             $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorized);
-            $row = $ilDB->fetchAssoc($result);
 
             $update = -1;
-            if ($ilDB->numRows($result) != 0) {
+            if ($ilDB->numRows($result)) {
                 $row = $ilDB->fetchAssoc($result);
                 $update = $row["solution_id"];
             }
