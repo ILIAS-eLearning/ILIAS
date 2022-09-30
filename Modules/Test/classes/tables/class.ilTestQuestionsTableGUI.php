@@ -210,13 +210,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isColumnSelected('qid')) {
             $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
         }
-        
-        if ($this->isQuestionTitleLinksEnabled()) {
-            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($data));
-        } else {
-            $this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-        }
-        
+
+        $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($data));
+
         if (!$data['complete']) {
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
