@@ -27,7 +27,6 @@
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
-    protected bool $questionTitleLinksEnabled = false;
     protected bool $questionRemoveRowButtonEnabled = false;
     protected bool $questionManagingEnabled = false;
     protected bool $positionInsertCommandsEnabled = false;
@@ -445,16 +444,6 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function setTotalWorkingTime(string $totalWorkingTime): void
     {
         $this->totalWorkingTime = $totalWorkingTime;
-    }
-
-    public function isQuestionTitleLinksEnabled(): bool
-    {
-        return $this->questionTitleLinksEnabled;
-    }
-
-    public function setQuestionTitleLinksEnabled(bool $questionTitleLinksEnabled): void
-    {
-        $this->questionTitleLinksEnabled = $questionTitleLinksEnabled;
     }
 
     public function isQuestionRemoveRowButtonEnabled(): bool
