@@ -648,7 +648,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             $seed = new ilDate($seed, IL_CAL_DATE);
         }
 
-        $month_gui = new ilCalendarMonthGUI($seed, $bkid);
+        $month_gui = new ilCalendarMonthGUI($seed);
+        if ($bkid > 0) {
+            $month_gui->setBkId($bkid);
+        }
         $month_gui->setConsulationHoursUserId($user_id);
 
         // custom schedule filter: handle booking group ids
