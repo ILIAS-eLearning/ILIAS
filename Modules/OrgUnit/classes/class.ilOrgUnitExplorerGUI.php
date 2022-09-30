@@ -31,6 +31,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     protected ?ilTree $tree = null;
     protected ilAccessHandler $access;
     private ilSetting $settings;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $http_post;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $http_query;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param $a_expl_id
@@ -48,6 +51,9 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         $this->tree->initLangCode();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
+        $this->http_post = $DIC->http()->wrapper()->post();
+        $this->http_query= $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC["refinery"];
     }
 
     /**
@@ -170,10 +176,36 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
      */
     public function isNodeSelectable($a_node): bool
     {
-        $current_node = filter_input(INPUT_GET, 'item_ref_id') ?? ilObjOrgUnit::getRootOrgRefId();
-        $node = $this->getNodeArrayRepresentation($a_node);
+        $r = $this->refinery;
+        if ($this->http_post->has("id")) {
+            // Node selected via multiselect in "manage".
+            $selected_nodes = $this->http_post->retrieve(
+                "id",
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+            );
+        } elseif ($this->http_query->has("item_ref_id")) {
+            // Node selected via "move"-action.
+            $selected_nodes = $this->http_query->retrieve(
+                "item_ref_id",
+                $r->kindlyTo()->listOf($r->kindlyTo()->int()),
+            );
+        } else {
+            // No node selected.
+            return true;
+        }
 
-        return !($node['child'] === $current_node || $this->tree->isGrandChild($current_node, $node['child']));
+        $node = $this->getNodeArrayRepresentation($a_node);
+        foreach ($selected_nodes as $sn) {
+            // Can't insert into itself.
+            if ($node["child"] == $sn) {
+                return false;
+            }
+            // Can't insert below itself.
+            if ($this->tree->isGrandChild($sn, $node["child"])) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
