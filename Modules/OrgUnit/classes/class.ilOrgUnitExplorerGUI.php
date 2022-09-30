@@ -104,8 +104,6 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
     {
         $node = $this->getNodeArrayRepresentation($a_node);
 
-        $node = $this->getNodeArrayRepresentation($a_node);
-
         if ($this->select_postvar) {
             return '#';
         }
