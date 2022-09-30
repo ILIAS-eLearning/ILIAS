@@ -134,11 +134,18 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $ilCtrl = $this->ctrl;
 
         $target_class = $this->select_gui;
+        if (is_object($this->parent_obj)) {
+            $target_path = [get_class($this->parent_obj)];
+        } else {
+            $target_path = $this->parent_obj;
+        }
+        $target_path = $target_path + [$target_class];
 
         if ($this->getLinkToNodeClass()) {
             switch ($a_node["type"]) {
                 case "wsrt":
                     $target_class = "ilobjworkspacerootfoldergui";
+                    $target_path = ["ilDashboardGUI", "ilPersonalWorkspaceGUI", "ilobjworkspacerootfoldergui"];
                     break;
                 case "wfld":
                     $target_class = "ilobjworkspacefoldergui";
@@ -146,14 +153,14 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
             }
         }
 
-        if (is_object($this->parent_obj)) {
-            $target_path = [get_class($this->parent_obj)];
-        } else {
-            $target_path = $this->parent_obj;
-        }
-        $target_path = $target_path + [$target_class];
+        /*var_dump($target_path);
+        var_dump($target_class);
+        var_dump($this->select_par);
+        var_dump($a_node);*/
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
         $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
+        /*var_dump($ret);
+        exit;*/
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());
         return $ret;
     }
