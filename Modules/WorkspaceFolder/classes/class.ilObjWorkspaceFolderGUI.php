@@ -645,7 +645,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         // redirect to target if not repository
         if (!$this->session_repo->getClipboardWsp2Repo()) {
-            $redirect_node = $target_node_id;
+            //$redirect_node = $target_node_id;
+            $redirect_node = $this->node_id;    // see bug 34459
         } else {
             // reload current folder
             $redirect_node = $this->node_id;
