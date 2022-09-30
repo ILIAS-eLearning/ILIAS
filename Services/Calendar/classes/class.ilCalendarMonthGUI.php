@@ -34,15 +34,15 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     protected ilCalendarAppointmentColors $app_colors;
     protected string $timezone = 'UTC';
 
-    public function __construct(ilDate $seed_date, int $bkid = 0)
+    public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
-        // init booking user
-        if ($bkid > 0) {    // e.g. portfolio sets this
-            $this->bkid = $bkid;
-        } else {
-            $this->bkid = $this->initBookingUserFromQuery();
-        }
+        $this->bkid = $this->initBookingUserFromQuery();
+    }
+
+    public function setBkId(int $bkid = 0): void
+    {
+        $this->bkid = $bkid;
     }
 
     public function initialize(int $a_calendar_presentation_type): void
