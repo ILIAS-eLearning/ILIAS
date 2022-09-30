@@ -89,7 +89,9 @@ class ilObjLinkResource extends ilObject
 
         // delete items and list
         $this->getWebLinkRepo()->deleteAllItems();
-        $this->getWebLinkRepo()->deleteList();
+        if ($this->getWebLinkRepo()->doesListExist()) {
+            $this->getWebLinkRepo()->deleteList();
+        }
 
         // delete meta data
         $this->deleteMetaData();
