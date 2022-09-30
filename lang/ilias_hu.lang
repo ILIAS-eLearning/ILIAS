@@ -1283,10 +1283,10 @@ assessment#:#tst_activate_skill_service_desc#:#Kérdések kompetenciákhoz rende
 assessment#:#tst_activation_limited_visibility_info#:#Az adott időszakon kívül csak a teszt címe látható. Ilyenkor a résztvevők nem tudják kitölteni a tesztet.
 assessment#:#tst_activation_online_info#:#Ha online, a résztvevők kitölthetik a tesztet.
 assessment#:#tst_add_quest_cont_edit_mode#:#Visszajelzések és tippek szerkesztésének módja
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#ILIAS-lapszerkesztő használata
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich Text szerkesztő használata
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich Text szerkesztő használata
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-lapszerkesztő használata
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#tst_all_test_competences#:#Összes tesztkompetencia
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.

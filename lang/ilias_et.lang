@@ -1283,10 +1283,10 @@ assessment#:#tst_activate_skill_service_desc#:#A new tab 'Competences' will be d
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Additional Content Editing with Page Object Editor
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Default Editing Mode for Additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###29 07 2022 new variable
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.###07 02 2020 new variable
 assessment#:#tst_all_test_competences#:#All Test Competence
 assessment#:#tst_all_user_data_deleted#:#Kõik selle testi kasutajaandmed on kustutatud!
