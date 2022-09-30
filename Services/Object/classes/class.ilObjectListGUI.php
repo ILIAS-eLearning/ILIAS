@@ -1928,7 +1928,7 @@ class ilObjectListGUI
     public function insertTimingsCommand(): void
     {
         if (
-            $this->std_cmd_only ||
+            $this->std_cmd_only || is_null($this->container_obj) ||
             !method_exists($this->container_obj, "getObject") ||
             !is_object($this->container_obj->getObject())
         ) {

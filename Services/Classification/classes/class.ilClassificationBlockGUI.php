@@ -213,7 +213,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
             if ($current) {
                 // combine providers AND
                 $provider_object_ids = $provider->getFilteredObjects();
-                if (is_array($all_matching_provider_object_ids)) {
+                if (isset($all_matching_provider_object_ids)) {
                     $all_matching_provider_object_ids = array_intersect($all_matching_provider_object_ids, $provider_object_ids);
                 } else {
                     $all_matching_provider_object_ids = $provider_object_ids;
@@ -225,7 +225,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         $ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Classification");
 
-        if (is_array($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
+        if (isset($all_matching_provider_object_ids) && sizeof($all_matching_provider_object_ids)) {
             $fields = array(
                 "object_reference.ref_id"
                 ,"object_data.obj_id"
@@ -263,7 +263,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
                             }
                         }
                         if ($block_ref_id > 0) {
-                            if (!is_array($valid_objects[$block_ref_id])) {
+                            if (!isset($valid_objects[$block_ref_id])) {
                                 $valid_objects[$block_ref_id] = array(
                                     "title" => $block_title,
                                     "items" => array()
