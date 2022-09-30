@@ -2221,7 +2221,7 @@ s     */
         // pc classes hook, @todo: move rest of function to this hook, too
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
-            ilCOPagePCDef::requirePCClassByName($def["name"]);
+            //ilCOPagePCDef::requirePCClassByName($def["name"]);
             if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
                 call_user_func($def["pc_class"] . '::afterRepositoryCopy', $this, $a_mapping, $a_source_ref_id);
             }

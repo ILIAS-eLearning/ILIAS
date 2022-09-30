@@ -26,6 +26,7 @@ class ilProgressBar
     public const TYPE_SUCCESS = 2;
     public const TYPE_WARNING = 3;
     public const TYPE_DANGER = 4;
+    protected ilGlobalTemplateInterface $main_tpl;
 
     protected int $min = 0;
     protected int $max = 0;
@@ -42,6 +43,10 @@ class ilProgressBar
 
     protected function __construct()
     {
+        global $DIC;
+
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+
         $this->setMin(0);
         $this->setMax(100);
         $this->setShowCaption(true);
@@ -151,6 +156,7 @@ class ilProgressBar
         }
 
         if ($this->ajax_url !== '' && $this->ajax_timeout) {
+            $this->main_tpl->addJavaScript("Services/UIComponent/ProgressBar/js/progress_bar.js");
             $tpl->setCurrentBlock('async_status');
             $tpl->setVariable('ASYNC_STATUS_ID', $this->unique_id);
             $tpl->setVariable('ICON_OK', ilUtil::getImagePath('icon_ok.svg'));

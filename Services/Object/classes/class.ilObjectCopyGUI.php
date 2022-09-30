@@ -892,7 +892,7 @@ class ilObjectCopyGUI
         $json->percentage = null;
         $json->performed_steps = null;
 
-        $copy_id = $this->retriever->getMaybeInt('copy_id');
+        $copy_id = $this->retriever->getMaybeInt('_copy_id');
         $options = ilCopyWizardOptions::_getInstance($copy_id);
         $json->required_steps = $options->getRequiredSteps();
         $json->id = $copy_id;
