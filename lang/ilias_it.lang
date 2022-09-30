@@ -1307,10 +1307,10 @@ assessment#:#tst_activate_skill_service_desc#:#Verrà visualizzata una nuova sch
 assessment#:#tst_activation_limited_visibility_info#:#Se scelto, il test è visibile anche all'esterno della disponibilità data.
 assessment#:#tst_activation_online_info#:#Se non in linea, solo gli amministratori possono visualizzare e modificare il test.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor per feedback e suggerimenti sulla soluzione
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Modifica del contenuto aggiuntivo con l'editor degli oggetti di pagina
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Nessuna formattazione del testo in domanda e risposte. Nessun uso di LaTex. Feedback e suggerimenti possono essere riutilizzati quando la domanda è incorporata nel modulo ILIAS.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Modalità di modifica predefinita per contenuti di domande aggiuntive
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Consente la formattazione del testo di domande, risposte, feedback e suggerimenti. Feedback e suggerimenti non possono essere riutilizzati quando la domanda è incorporata nel modulo ILIAS.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Modalità di modifica predefinita per contenuti di domande aggiuntive
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Modifica del contenuto aggiuntivo con l'editor degli oggetti di pagina
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Hai superato il test. Il test non può essere riavviato.
 assessment#:#tst_all_test_competences#:#Tutte le competenze di test
 assessment#:#tst_all_user_data_deleted#:#Tutti i dati dei partecipanti a questo test sono stati cancellati!
