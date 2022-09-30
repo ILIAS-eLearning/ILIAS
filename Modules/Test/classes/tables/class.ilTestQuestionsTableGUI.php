@@ -177,11 +177,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $a_set['question_id']);
         }
 
-        if ($this->isQuestionTitleLinksEnabled()) {
-            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($a_set));
-        } else {
-            $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
-        }
+        $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($a_set));
 
         if (!$a_set['complete']) {
             $warning_icon = $this->factory->symbol()->icon()->custom(
