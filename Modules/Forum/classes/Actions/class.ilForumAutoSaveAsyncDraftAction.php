@@ -104,7 +104,7 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
                 $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
-                $draftObj->setNotificationStatus($inputValues['notify']);
+                $draftObj->setNotificationStatus((bool) $inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
                 $draftObj->setPostAuthorId($this->actor->getId());
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -148,7 +148,7 @@ class ilForumAutoSaveAsyncDraftAction
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
             $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
-            $draftObj->setNotificationStatus($inputValues['notify']);
+            $draftObj->setNotificationStatus((bool) $inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
