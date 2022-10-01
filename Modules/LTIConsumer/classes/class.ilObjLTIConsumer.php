@@ -81,6 +81,12 @@ class ilObjLTIConsumer extends ilObject2
     public const HIGHSCORE_SHOW_TOP_TABLE = 2;
     public const HIGHSCORE_SHOW_OWN_TABLE = 3;
 
+    public const LTI_JWT_CLAIM_PREFIX = 'https://purl.imsglobal.org/spec/lti';
+    public const LTI_1_3_KID = 'lti_1_3_kid';
+    public const LTI_1_3_PRIVATE_KEY = 'lti_1_3_privatekey';
+    public const ERROR_OPEN_SSL_CONF = 'error openssl config invalid';
+    public const OPENSSL_KEYTYPE_RSA = '';
+
     /**
      * ilObjLTIConsumer constructor.
      */
@@ -380,9 +386,9 @@ class ilObjLTIConsumer extends ilObject2
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);
 
-$this->setActivationStartingTime($activation["timing_start"]);
+                    $this->setActivationStartingTime($activation["timing_start"]);
 
-$this->setActivationEndingTime($activation["timing_end"]);
+                    $this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
 
@@ -765,7 +771,6 @@ $this->setActivationEndingTime($activation["timing_end"]);
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
 
-        $custom_params = $this->getCustomParams();
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
         if (array_key_exists("path", $parseIliasUrl)) {
@@ -807,13 +812,151 @@ $this->setActivationEndingTime($activation["timing_end"]);
             "role_scope_mentor" => ""
         ];
 
-        $ltilib = new lti13lib();
+        $custom_params = $this->getCustomParams();
+        foreach ($custom_params as $key => $value) {
+            $launch_vars['custom_' . $key] = $value;
+        }
 
-        if (!empty($ltilib->verifyPrivateKey())) {
+        if (!empty(self::verifyPrivateKey())) {
             $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
             return null;
         }
+        return $this->LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce);
+    }
 
-        return $ltilib->LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce);
+    public function LTISignJWT(array $parms, string $endPoint, string $oAuthConsumerKey, $typeId = 0, string $nonce = ''): array
+    {
+        if (empty($typeId)) {
+            $typeId = 0;
+        }
+        $messageTypeMapping = ILIAS\LTI\ToolProvider\Util::MESSAGE_TYPE_MAPPING;
+        if (isset($parms['lti_message_type']) && array_key_exists($parms['lti_message_type'], $messageTypeMapping)) {
+            $parms['lti_message_type'] = $messageTypeMapping[$parms['lti_message_type']];
+        }
+        if (isset($parms['roles'])) {
+            $roles = explode(',', $parms['roles']);
+            $newRoles = array();
+            foreach ($roles as $role) {
+                if (strpos($role, 'urn:lti:role:ims/lis/') === 0) {
+                    $role = 'http://purl.imsglobal.org/vocab/lis/v2/membership#' . substr($role, 21);
+                } elseif (strpos($role, 'urn:lti:instrole:ims/lis/') === 0) {
+                    $role = 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#' . substr($role, 25);
+                } elseif (strpos($role, 'urn:lti:sysrole:ims/lis/') === 0) {
+                    $role = 'http://purl.imsglobal.org/vocab/lis/v2/system/person#' . substr($role, 24);
+                } elseif ((strpos($role, '://') === false) && (strpos($role, 'urn:') !== 0)) {
+                    $role = "http://purl.imsglobal.org/vocab/lis/v2/membership#{$role}";
+                }
+                $newRoles[] = $role;
+            }
+            $parms['roles'] = implode(',', $newRoles);
+        }
+        $now = time();
+        if (empty($nonce)) {
+            $nonce = bin2hex(openssl_random_pseudo_bytes(10));
+        }
+        $claimMapping = ILIAS\LTI\ToolProvider\Util::JWT_CLAIM_MAPPING;
+        $payLoad = array(
+            'nonce' => $nonce,
+            'iat' => $now,
+            'exp' => $now + 60,
+        );
+        $payLoad['iss'] = ILIAS_HTTP_PATH; // TODO!!
+        $payLoad['aud'] = $oAuthConsumerKey;
+        $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/deployment_id'] = strval($typeId);
+        $payLoad[self::LTI_JWT_CLAIM_PREFIX . '/claim/target_link_uri'] = $endPoint;
+
+        foreach ($parms as $key => $value) {
+            $claim = self::LTI_JWT_CLAIM_PREFIX;
+            if (array_key_exists($key, $claimMapping)) {
+                $mapping = $claimMapping[$key];
+
+                if (isset($mapping['isArray']) && $mapping['isArray']) {
+                    $value = explode(',', $value);
+                    sort($value);
+                } elseif (isset($mapping['isBoolean'])) {
+                    $value = $mapping['isBoolean'];
+                }
+                if (!empty($mapping['suffix'])) {
+                    $claim .= "-{$mapping['suffix']}";
+                }
+                $claim .= '/claim/';
+                if (is_null($mapping['group'])) {
+                    $payLoad[$mapping['claim']] = $value;
+                } elseif (empty($mapping['group'])) {
+                    $payLoad["{$claim}{$mapping['claim']}"] = $value;
+                } else {
+                    $claim .= $mapping['group'];
+                    $payLoad[$claim][$mapping['claim']] = $value;
+                }
+            } elseif (strpos($key, 'custom_') === 0) {
+                $payLoad["{$claim}/claim/custom"][substr($key, 7)] = $value;
+            } elseif (strpos($key, 'ext_') === 0) {
+                $payLoad["{$claim}/claim/ext"][substr($key, 4)] = $value;
+            }
+        }
+        if (!empty(self::verifyPrivateKey())) {
+            throw new DomainException(self::ERROR_OPEN_SSL_CONF);
+        }
+        $privateKey = self::getPrivateKey();
+        $jwt = Firebase\JWT\JWT::encode($payLoad, $privateKey['key'], 'RS256', $privateKey['kid']);
+        $newParms = array();
+        $newParms['id_token'] = $jwt;
+
+        return $newParms;
+    }
+
+    public static function getPrivateKey(): array
+    {
+        global $ilSetting;
+        $privatekey = $ilSetting->get(self::LTI_1_3_PRIVATE_KEY);
+        $kid = $ilSetting->get(self::LTI_1_3_KID);
+        return [
+            "key" => $privatekey,
+            "kid" => $kid
+        ];
+    }
+
+    public static function verifyPrivateKey(): string
+    {
+        global $ilSetting;
+        $key = $ilSetting->get(self::LTI_1_3_PRIVATE_KEY);
+
+        if (empty($key)) {
+            $kid = bin2hex(openssl_random_pseudo_bytes(10));
+            $ilSetting->set(self::LTI_1_3_KID, $kid);
+            $config = array(
+                "digest_alg" => "sha256",
+                "private_key_bits" => 2048,
+                "private_key_type" => self::OPENSSL_KEYTYPE_RSA
+            );
+            $res = openssl_pkey_new($config);
+            openssl_pkey_export($res, $privatekey);
+            if (!empty($privatekey)) {
+                $ilSetting->set(self::LTI_1_3_PRIVATE_KEY, $privatekey);
+            } else {
+                return self::ERROR_OPEN_SSL_CONF;
+            }
+        }
+        return '';
+    }
+
+    public static function getJwks(): array
+    {
+        $jwks = ['keys' => []];
+
+        $privatekey = self::getPrivateKey();
+        $res = openssl_pkey_get_private($privatekey['key']);
+        $details = openssl_pkey_get_details($res);
+
+        $jwk = [];
+        $jwk['kty'] = 'RSA';
+        $jwk['alg'] = 'RS256';
+        $jwk['kid'] = $privatekey['kid'];
+        $jwk['e'] = rtrim(strtr(base64_encode($details['rsa']['e']), '+/', '-_'), '=');
+        $jwk['n'] = rtrim(strtr(base64_encode($details['rsa']['n']), '+/', '-_'), '=');
+        $jwk['use'] = 'sig';
+
+        $jwks['keys'][] = $jwk;
+        return $jwks;
     }
 }

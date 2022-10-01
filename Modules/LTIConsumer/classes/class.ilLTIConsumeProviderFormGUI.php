@@ -121,31 +121,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addItem($sectionHeader);
 
         $versionInp = new ilRadioGroupInputGUI($lng->txt('lti_con_version'), 'lti_version');
-        $lti11 = new ilRadioOption($lng->txt('lti_con_version_1.1'), 'LTI-1p0');
-        $versionInp->addOption($lti11);
-
-        $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_prov_url'), 'provider_url');
-        $providerUrlInp->setValue($this->provider->getProviderUrl());
-        $providerUrlInp->setRequired(true);
-        $lti11->addSubItem($providerUrlInp);
-//        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
-        $keyGlobal = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
-        $keyGlobal->setValue("1");
-        if (!$this->provider->isProviderKeyCustomizable()) {
-            $keyGlobal->setChecked(true);
-        }
-        $keyGlobal->setInfo($lng->txt('lti_con_prov_provider_key_global_info'));
-
-        $providerKeyInp = new ilTextInputGUI($lng->txt('lti_con_prov_key'), 'provider_key');
-        $providerKeyInp->setValue($this->provider->getProviderKey());
-        $providerKeyInp->setRequired(true);
-        $keyGlobal->addSubItem($providerKeyInp);
-
-        $providerSecretInp = new ilTextInputGUI($lng->txt('lti_con_prov_secret'), 'provider_secret');
-        $providerSecretInp->setValue($this->provider->getProviderSecret());
-        $providerSecretInp->setRequired(true);
-        $keyGlobal->addSubItem($providerSecretInp);
-        $lti11->addSubItem($keyGlobal);
 
         //1.3
         $lti13 = new ilRadioOption($lng->txt('lti_con_version_1.3'), '1.3.0');
@@ -163,10 +138,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $initiateLogin->setRequired(true);
         $lti13->addSubItem($initiateLogin);
 
-        $redirectionUris = new ilTextInputGUI($lng->txt('lti_con_redirection_uris'), 'redirection_uris');
-        $redirectionUris->setValue($this->provider->getRedirectionUris());
+        $redirectionUris = new ilTextAreaInputGUI($lng->txt('lti_con_redirection_uris'), 'redirection_uris');
+        $redirectionUris->setRows(4);
+        $redirectionUris->setValue(implode("\n",explode(",",$this->provider->getRedirectionUris())));
         $redirectionUris->setRequired(true);
         $lti13->addSubItem($redirectionUris);
+
         //key_type
         $keyType = new ilRadioGroupInputGUI($lng->txt('lti_con_key_type'), 'key_type');
         $keyType->setRequired(true);
@@ -203,12 +180,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $Lti13Info = new ilTextAreaInputGUI($lng->txt('lti13_hints'), 'lti13_hints');
             $Lti13Info->setRows(6);
             $Lti13Info->setValue(
-                "Platform ID: "
-                . "\nClient ID: " . $this->provider->getClientId()
-                . "\nDeployment ID: " . (string) $this->provider->getId()
-                . "\nPublic keyset URL: "
-                . "\nAccess token URL: "
-                . "\nAuthentication request URL: "
+                "Platform ID: \t\t\t\t\t" . $this->provider->getPlattformId()
+                . "\nClient ID: \t\t\t\t\t" . $this->provider->getClientId()
+                . "\nDeployment ID: \t\t\t\t" . (string) $this->provider->getId()
+                . "\nPublic keyset URL: \t\t\t" . $this->provider->getPublicKeysetUrl()
+                . "\nAccess token URL: \t\t\t" . $this->provider->getAccessTokenUrl()
+                . "\nAuthentication request URL: \t" . $this->provider->getAuthenticationRequestUrl()
             );
             $Lti13Info->setDisabled(true);
             $lti13->addSubItem($Lti13Info);
@@ -218,6 +195,31 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $versionInp->setValue($this->provider->getLtiVersion());
         $this->addItem($versionInp);
 
+        $lti11 = new ilRadioOption($lng->txt('lti_con_version_1.1'), 'LTI-1p0');
+        $versionInp->addOption($lti11);
+
+        $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_prov_url'), 'provider_url');
+        $providerUrlInp->setValue($this->provider->getProviderUrl());
+        $providerUrlInp->setRequired(true);
+        $lti11->addSubItem($providerUrlInp);
+//        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
+        $keyGlobal = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
+        $keyGlobal->setValue("1");
+        if (!$this->provider->isProviderKeyCustomizable()) {
+            $keyGlobal->setChecked(true);
+        }
+        $keyGlobal->setInfo($lng->txt('lti_con_prov_provider_key_global_info'));
+
+        $providerKeyInp = new ilTextInputGUI($lng->txt('lti_con_prov_key'), 'provider_key');
+        $providerKeyInp->setValue($this->provider->getProviderKey());
+        $providerKeyInp->setRequired(true);
+        $keyGlobal->addSubItem($providerKeyInp);
+
+        $providerSecretInp = new ilTextInputGUI($lng->txt('lti_con_prov_secret'), 'provider_secret');
+        $providerSecretInp->setValue($this->provider->getProviderSecret());
+        $providerSecretInp->setRequired(true);
+        $keyGlobal->addSubItem($providerSecretInp);
+        $lti11->addSubItem($keyGlobal);
 
 
         //privacy-settings
@@ -455,7 +457,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
                 $provider->setProviderUrl($this->getInput('provider_url13'));
             }
             $provider->setInitiateLogin($this->getInput('initiate_login'));
-            $provider->setRedirectionUris($this->getInput('redirection_uris'));
+            if (preg_match_all('/\S+/sm',$this->getInput('redirection_uris'),$redirect_uris_matches)) {
+                $provider->setRedirectionUris(implode(",",$redirect_uris_matches[0]));
+            } else {
+                $provider->setRedirectionUris($this->provider->getInitiateLogin());
+            }
             $provider->setKeyType($this->getInput('key_type'));
             if ($provider->getKeyType() == 'RSA_KEY') {
                 $provider->setPublicKey($this->getInput('public_key'));

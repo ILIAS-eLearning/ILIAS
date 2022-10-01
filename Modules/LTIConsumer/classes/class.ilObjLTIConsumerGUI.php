@@ -607,61 +607,61 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             );
         }
 
-        if (defined('DEVMODE') && DEVMODE) {
-            $DIC->tabs()->addTab(
-                'debug',
-                'DEBUG',
-                $DIC->ctrl()->getLinkTarget($this, 'debug')
-            );
-        }
+//        if (defined('DEVMODE') && DEVMODE) {
+//            $DIC->tabs()->addTab(
+//                'debug',
+//                'DEBUG',
+//                $DIC->ctrl()->getLinkTarget($this, 'debug')
+//            );
+//        }
     }
 
-    protected function debug(): void
-    {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
-        $DIC->tabs()->activateTab('debug');
-
-        $filter = new ilCmiXapiStatementsReportFilter();
-        $filter->setActivityId($this->object->getActivityId());
-
-        $aggregateEndPointUrl = str_replace(
-            'data/xAPI',
-            'api/statements/aggregate',
-            $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
-        );
-
-        $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
-            $this->object->getId(),
-            $aggregateEndPointUrl,
-            $filter
-        );
-
-        $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
-            $this->object->getProvider()->getXapiLaunchKey(),
-            $this->object->getProvider()->getXapiLaunchSecret()
-        );
-
-        $request = new ilCmiXapiHighscoreReportRequest(
-            $basicAuth,
-            $linkBuilder
-        );
-
-        try {
-            $report = $request->queryReport($this->object->getId());
-
-            $DIC->ui()->mainTemplate()->setContent(
-                $report->getResponseDebug()
-            );
-
-            //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
-            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
-            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
-        } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
-        }
-    }
+//    protected function debug(): void
+//    {
+//        global $DIC;
+//        /* @var \ILIAS\DI\Container $DIC */
+//
+//        $DIC->tabs()->activateTab('debug');
+//
+//        $filter = new ilCmiXapiStatementsReportFilter();
+//        $filter->setActivityId($this->object->getActivityId());
+//
+//        $aggregateEndPointUrl = str_replace(
+//            'data/xAPI',
+//            'api/statements/aggregate',
+//            $this->object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
+//        );
+//
+//        $linkBuilder = new ilCmiXapiHighscoreReportLinkBuilder(
+//            $this->object->getId(),
+//            $aggregateEndPointUrl,
+//            $filter
+//        );
+//
+//        $basicAuth = ilCmiXapiLrsType::buildBasicAuth(
+//            $this->object->getProvider()->getXapiLaunchKey(),
+//            $this->object->getProvider()->getXapiLaunchSecret()
+//        );
+//
+//        $request = new ilCmiXapiHighscoreReportRequest(
+//            $basicAuth,
+//            $linkBuilder
+//        );
+//
+//        try {
+//            $report = $request->queryReport($this->object->getId());
+//
+//            $DIC->ui()->mainTemplate()->setContent(
+//                $report->getResponseDebug()
+//            );
+//
+//            //ilUtil::sendSuccess('Object ID: '.$this->object->getId());
+//            $DIC->ui()->mainTemplate()->setOnScreenMessage('info', $linkBuilder->getPipelineDebug());
+//            $DIC->ui()->mainTemplate()->setOnScreenMessage('question', '<pre>' . print_r($report->getTableData(), true) . '</pre>');
+//        } catch (Exception $e) {
+//            $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+//        }
+//    }
 
     protected function addLocatorItems(): void
     {

@@ -186,34 +186,34 @@ if (!class_exists('OAuthSignatureMethod')) {
  *   - Chapter 9.2 ("HMAC-SHA1")
  */
 //if (!class_exists('OAuthSignatureMethod_HMAC_SHA1')) {
-    class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
+class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
+{
+    public function get_name(): string
     {
-        public function get_name(): string
-        {
-            return "HMAC-SHA1";
-        }
+        return "HMAC-SHA1";
+    }
 
 
-        /**
-         * @param OAuthToken $token|null
-         */
-        public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
-        {
-            $base_string = $request->get_signature_base_string();
-            $request->base_string = $base_string;
+    /**
+     * @param OAuthToken $token|null
+     */
+    public function build_signature(OAuthRequest $request, OAuthConsumer $consumer, ?OAuthToken $token): string
+    {
+        $base_string = $request->get_signature_base_string();
+        $request->base_string = $base_string;
 
-            $key_parts = [
-            $consumer->secret,
-            ($token) ? $token->secret : ""
+        $key_parts = [
+        $consumer->secret,
+        ($token) ? $token->secret : ""
         ];
 
-            /** @var array $key_parts */
-            $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
-            $key = implode('&', $key_parts);
+        /** @var array $key_parts */
+        $key_parts = OAuthUtil::urlencode_rfc3986($key_parts);
+        $key = implode('&', $key_parts);
 
-            return base64_encode(hash_hmac('sha1', $base_string, $key, true));
-        }
+        return base64_encode(hash_hmac('sha1', $base_string, $key, true));
     }
+}
 //}
 /**
  * The PLAINTEXT method does not provide any security protection and SHOULD only be used
@@ -433,7 +433,7 @@ if (!class_exists('OAuthRequest')) {
                 if ($http_method == "POST"
                 && isset($request_headers['Content-Type'])
                 && strstr($request_headers['Content-Type'], 'application/x-www-form-urlencoded')
-            ) {
+                ) {
                     $post_data = OAuthUtil::parse_parameters(
                         file_get_contents(self::$POST_INPUT)
                     );
@@ -444,7 +444,7 @@ if (!class_exists('OAuthRequest')) {
                 // and add those overriding any duplicates from GET or POST
                 if (isset($request_headers['Authorization'])
                 && substr($request_headers['Authorization'], 0, 6) == 'OAuth '
-            ) {
+                ) {
                     $header_parameters = OAuthUtil::split_header(
                         $request_headers['Authorization']
                     );
@@ -909,7 +909,7 @@ if (!class_exists('OAuthServer')) {
 
 //            $signature_method = 'OAuthSignatureMethod_' . $this->getSignatureMethod($request);
             $signature_method = $this->getSignatureMethod($request); //check UK
-                /** @psalm-suppress InvalidStringClass */
+            /** @psalm-suppress InvalidStringClass */
             $method = new $signature_method();
 
             $signature = $request->get_parameter('oauth_signature');

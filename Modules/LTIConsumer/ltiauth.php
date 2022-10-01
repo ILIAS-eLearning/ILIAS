@@ -20,26 +20,38 @@ declare(strict_types=1);
 
 /** @noRector */
 chdir("../../");
-ilInitialisation::initILIAS();
 
 /**
- * @var $DIC \ILIAS\DI\Container
+ * There is no way to process a $_GET Request with
+ * a valid third-party client_id param in regular initILIAS
  */
-global $DIC;
-
-$method = strtoupper($DIC->http()->request()->getMethod());
-
-if ($method !== 'POST') {
-    $DIC->http()->saveResponse(
-        $DIC->http()->response()
-        ->withStatus(405)
-    );
-    $DIC->http()->sendResponse();
-    $DIC->http()->close();
+if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
+    $orig = new ArrayObject($_POST);
+    $data = $orig->getArrayCopy();
+}
+elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
+    $orig = new ArrayObject($_GET);
+    $data = $orig->getArrayCopy();
+    // early removing client_id from $_GET
+    // otherwise the client_id is interpreted as ILIAS client_id
+    // and client.ini.php will not be found
+    if (isset($_GET['client_id'])) {
+        unset($_GET['client_id']);
+    }
+}
+else {
+    header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+    exit;
 }
 
-$body = $DIC->http()->request()->getParsedBody();
-$ltiMessageHint = $body['lti_message_hint'];
+if (!class_exists('ilInitialisation')) {
+    require_once("libs/composer/vendor/autoload.php");
+}
+ilInitialisation::initILIAS();
+
+global $DIC;
+
+$ltiMessageHint = $data['lti_message_hint'];
 if (empty($ltiMessageHint)) {
     $DIC->http()->saveResponse(
         $DIC->http()->response()
@@ -49,7 +61,7 @@ if (empty($ltiMessageHint)) {
     $DIC->http()->close();
 }
 list($ref_id, $client_id) = explode(":", $ltiMessageHint);
-ilSession::set('lti13_login_data', $body);
+ilSession::set('lti13_login_data', $data);
 $url = "../../goto.php?target=lti_" . $ref_id . "&client_id=" . $client_id;
 $DIC->http()->saveResponse(
     $DIC->http()->response()
