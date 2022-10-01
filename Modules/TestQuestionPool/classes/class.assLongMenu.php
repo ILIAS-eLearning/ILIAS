@@ -449,7 +449,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                 $correct_answers[$data['gap_number']] .= ' ' . $this->lng->txt("or") . ' ';
                 $correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
             } else {
-                $correct_answers[$data['gap_number']] .= rtrim($data['answer_text']);
+                $correct_answers[$data['gap_number']] = rtrim($data['answer_text']);
             }
         }
         return $correct_answers;
@@ -750,11 +750,8 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected function savePreviewData(ilAssQuestionPreviewSession $previewSession): void
     {
-        if (array_key_exists('answer', $_POST)) {
-            $previewSession->setParticipantsSolution($_POST['answer']);
-        } else {
-            $previewSession->setParticipantsSolution(null);
-        }
+        $answer = $_POST['answer'] ?? null;
+        $previewSession->setParticipantsSolution($answer);
     }
 
     /**
