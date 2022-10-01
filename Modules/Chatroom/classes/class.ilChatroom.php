@@ -1271,21 +1271,23 @@ class ilChatroom
             }
         }
 
-        $rset = $DIC->database()->queryF(
-            'SELECT *
-			FROM ' . self::$historyTable . '
-			WHERE room_id = %s
-			AND sub_room = 0
-			AND ' . $DIC->database()->like('message', 'text', '%%"type":"notice"%%') . '
-			AND timestamp <= %s AND timestamp >= %s
-			ORDER BY timestamp DESC',
-            ['integer', 'integer', 'integer'],
-            [$this->roomId, $results[0]->timestamp, $results[$result_count - 1]->timestamp]
-        );
+        if ($results !== []) {
+            $rset = $DIC->database()->queryF(
+                'SELECT *
+                FROM ' . self::$historyTable . '
+                WHERE room_id = %s
+                AND sub_room = 0
+                AND ' . $DIC->database()->like('message', 'text', '%%"type":"notice"%%') . '
+                AND timestamp <= %s AND timestamp >= %s
+                ORDER BY timestamp DESC',
+                ['integer', 'integer', 'integer'],
+                [$this->roomId, $results[0]->timestamp, $results[$result_count - 1]->timestamp]
+            );
 
-        while (($row = $DIC->database()->fetchAssoc($rset))) {
-            $tmp = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
-            $results[] = $tmp;
+            while (($row = $DIC->database()->fetchAssoc($rset))) {
+                $tmp = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
+                $results[] = $tmp;
+            }
         }
 
         usort($results, static function (stdClass $a, stdClass $b): int {
