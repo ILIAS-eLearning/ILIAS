@@ -367,13 +367,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         $user_solution = array_values($user_solution);
 
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
-
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
-        $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-        $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
-        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
+        $template = $this->getTemplateForPreviewAndTest($user_solution);
 
         $question_output = $template->get();
         if (!$show_question_only) {
@@ -381,8 +375,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         }
         return $question_output;
     }
-
-
 
     public function getTestOutput(
         $active_id,
@@ -408,16 +400,26 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             }
         }
 
-        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
+        $template = $this->getTemplateForPreviewAndTest($user_solution);
 
-        $question_text = $this->object->getQuestion();
-        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
-        $template->setVariable("ANSWER_OPTIONS_JSON", json_encode($this->object->getAvailableAnswerOptions()));
-        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
-        $template->setVariable('AUTOCOMPLETE_LENGTH', $this->object->getMinAutoComplete());
         $question_output = $template->get();
         $page_output = $this->outQuestionPage("", $is_postponed, $active_id, $question_output);
         return $page_output;
+    }
+
+    protected function getTemplateForPreviewAndTest(array $user_solution): ilTemplate
+    {
+        $template = new ilTemplate("tpl.il_as_qpl_longmenu_question_output.html", true, true, "Modules/TestQuestionPool");
+        $this->tpl->addJavaScript('./Modules/TestQuestionPool/templates/default/longMenuQuestionPlayer.js');
+        $this->tpl->addOnLoadCode('il.test.player.longmenu.init('
+            . $this->object->getMinAutoComplete() . ', '
+            . json_encode($this->object->getAvailableAnswerOptions())
+            . ')');
+
+        $question_text = $this->object->getQuestion();
+        $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($question_text, true));
+        $template->setVariable('LONGMENU_TEXT', $this->getLongMenuTextWithInputFieldsInsteadOfGaps($user_solution));
+        return $template;
     }
 
     public function getSpecificFeedbackOutput(array $userSolution): string
