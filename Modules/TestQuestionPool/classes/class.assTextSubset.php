@@ -16,12 +16,7 @@
  *
  *********************************************************************/
 
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for TextSubset questions
@@ -874,6 +869,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      */
     protected function calculateReachedPointsForSolution($enteredTexts): int
     {
+        $enteredTexts ??= [];
         $available_answers = $this->getAvailableAnswers();
         $points = 0;
         foreach ($enteredTexts as $enteredtext) {
