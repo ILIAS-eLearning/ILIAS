@@ -751,6 +751,10 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
         if (!$this->getAsynch() && $this->getGroupedList() === null) {
             foreach ($items as $item) {
+                if (isset($item['component'])) {
+                    continue;
+                }
+
                 // add item to js object
                 $js_tpl->setCurrentBlock("js_item");
                 $js_tpl->setVariable("IT_ID", $this->getId());
