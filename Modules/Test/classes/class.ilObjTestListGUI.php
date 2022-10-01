@@ -1,20 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ * ******************************************************************* */
 
 /**
-* Class ilObjTestListGUI
-*
-* @author		Helmut Schottmueller <helmut.schottmueller@mac.com>
-* @author		Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @extends ilObjectListGUI
-* @ingroup ModulesTest
-*/
+ * Class ilObjTestListGUI
+ *
+ * @author		Helmut Schottmueller <helmut.schottmueller@mac.com>
+ * @author		Alex Killing <alex.killing@gmx.de>
+ * $Id$
+ *
+ * @extends ilObjectListGUI
+ * @ingroup ModulesTest
+ */
 
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjTestListGUI extends ilObjectListGUI
@@ -46,7 +58,6 @@ class ilObjTestListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjtestgui";
 
         // general commands array
-        include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
         $this->commands = ilObjTestAccess::_getCommands();
     }
 
@@ -67,7 +78,6 @@ class ilObjTestListGUI extends ilObjectListGUI
             case "infoScreen":
             case "eval_a":
             case "eval_stat":
-                include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
 
@@ -145,23 +155,15 @@ class ilObjTestListGUI extends ilObjectListGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        if (!$this->isObjectiveTest()) {
+        if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
             $commands = $this->removeUserResultsCommand($commands);
         } else {
-            require_once 'Modules/Test/classes/class.ilObjTestAccess.php';
-
             if (!ilObjTestAccess::visibleUserResultExists($this->obj_id, $ilUser->getId())) {
                 $commands = $this->removeUserResultsCommand($commands);
             }
         }
 
         return $commands;
-    }
-
-    private function isObjectiveTest(): bool
-    {
-        require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
-        return ilLOSettings::isObjectiveTest($this->ref_id);
     }
 
     private function removeUserResultsCommand($commands)
@@ -203,22 +205,27 @@ class ilObjTestListGUI extends ilObjectListGUI
     // begin-patch lok
     protected function modifyTitleLink(string $default_link): string
     {
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-        $id = ilLOSettings::isObjectiveTest($this->ref_id);
-
-        $cmd_link = $default_link;
-
-        if ($id) {
-            $ref_ids = ilObject::_getAllReferences($id);
-            $ref_id = end($ref_ids);
-
-            $this->ctrl->setParameterByClass("ilrepositorygui", 'ref_id', $ref_id);
-            $this->ctrl->setParameterByClass("ilrepositorygui", 'tid', $this->ref_id);
-            $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", 'redirectLocToTest');
-            $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-            $this->ctrl->clearParametersByClass('ilrepositorygui');
+        if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
+            return parent::modifyTitleLink($default_link);
         }
+
+        $path = $this->tree->getPathFull($this->ref_id);
+
+        while ($parent = array_pop($path)) {
+            if ($parent['type'] === 'crs') {
+                $parent_crs_ref_id = $parent['ref_id'];
+                break;
+            }
+        }
+
+        $this->ctrl->setParameterByClass("ilrepositorygui", 'ref_id', $parent_crs_ref_id);
+        $this->ctrl->setParameterByClass("ilrepositorygui", 'tid', $this->ref_id);
+        $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", 'redirectLocToTest');
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+        $this->ctrl->clearParametersByClass('ilrepositorygui');
+
         return parent::modifyTitleLink($cmd_link);
     }
+
     // end-patch lok
 } // END class.ilObjTestListGUI

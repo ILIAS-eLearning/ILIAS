@@ -3650,16 +3650,31 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
     protected function determineObjectiveOrientedContainer()
     {
-        $containerObjId = (int) ilLOSettings::isObjectiveTest($this->ref_id);
+        if (!ilLOSettings::isObjectiveTest($this->ref_id)) {
+            return;
+        }
 
-        $containerRefId = current(ilObject::_getAllReferences($containerObjId));
+        $path = $this->tree->getPathFull($this->ref_id);
 
-        $this->objectiveOrientedContainer->setObjId($containerObjId);
-        $this->objectiveOrientedContainer->setRefId($containerRefId);
+        while ($parent = array_pop($path)) {
+            if ($parent['type'] === 'crs') {
+                $container_ref_id = $parent['ref_id'];
+                break;
+            }
+        }
+
+        $container_obj_id = ilObject2::_lookupObjId($container_ref_id);
+
+        $this->objectiveOrientedContainer->setObjId($container_obj_id);
+        $this->objectiveOrientedContainer->setRefId($container_ref_id);
     }
 
     protected function getObjectiveOrientedContainer(): ilTestObjectiveOrientedContainer
     {
         return $this->objectiveOrientedContainer;
+    }
+
+    public function getParentCrsRefIdForLocTest(): int
+    {
     }
 }
