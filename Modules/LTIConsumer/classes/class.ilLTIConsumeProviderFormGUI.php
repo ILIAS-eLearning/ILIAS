@@ -140,7 +140,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         $redirectionUris = new ilTextAreaInputGUI($lng->txt('lti_con_redirection_uris'), 'redirection_uris');
         $redirectionUris->setRows(4);
-        $redirectionUris->setValue(implode("\n",explode(",",$this->provider->getRedirectionUris())));
+        $redirectionUris->setValue(implode("\n", explode(",", $this->provider->getRedirectionUris())));
         $redirectionUris->setRequired(true);
         $lti13->addSubItem($redirectionUris);
 
@@ -457,8 +457,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
                 $provider->setProviderUrl($this->getInput('provider_url13'));
             }
             $provider->setInitiateLogin($this->getInput('initiate_login'));
-            if (preg_match_all('/\S+/sm',$this->getInput('redirection_uris'),$redirect_uris_matches)) {
-                $provider->setRedirectionUris(implode(",",$redirect_uris_matches[0]));
+            if (preg_match_all('/\S+/sm', $this->getInput('redirection_uris'), $redirect_uris_matches)) {
+                $provider->setRedirectionUris(implode(",", $redirect_uris_matches[0]));
             } else {
                 $provider->setRedirectionUris($this->provider->getInitiateLogin());
             }

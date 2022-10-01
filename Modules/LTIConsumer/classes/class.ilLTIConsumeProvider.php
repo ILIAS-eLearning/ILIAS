@@ -1033,19 +1033,23 @@ class ilLTIConsumeProvider
         return $this->isGlobal() && (bool) $this->getCreator();
     }
 
-    public function getPlattformId(): string {
+    public function getPlattformId(): string
+    {
         return ILIAS_HTTP_PATH;
     }
 
-    public function getAuthenticationRequestUrl(): string {
-        return ILIAS_HTTP_PATH ."/Modules/LTIConsumer/ltiauth.php";
+    public function getAuthenticationRequestUrl(): string
+    {
+        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
     }
 
-    public function getAccessTokenUrl(): string {
-        return ILIAS_HTTP_PATH ."/Modules/LTIConsumer/ltitoken.php";
+    public function getAccessTokenUrl(): string
+    {
+        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
     }
 
-    public function getPublicKeysetUrl(): string {
-        return ILIAS_HTTP_PATH ."/Modules/LTIConsumer/lticerts.php";
+    public function getPublicKeysetUrl(): string
+    {
+        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
     }
 }

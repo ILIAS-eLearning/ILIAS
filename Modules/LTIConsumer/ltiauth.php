@@ -28,8 +28,7 @@ chdir("../../");
 if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     $orig = new ArrayObject($_POST);
     $data = $orig->getArrayCopy();
-}
-elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
+} elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
     $orig = new ArrayObject($_GET);
     $data = $orig->getArrayCopy();
     // early removing client_id from $_GET
@@ -38,9 +37,8 @@ elseif (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET') {
     if (isset($_GET['client_id'])) {
         unset($_GET['client_id']);
     }
-}
-else {
-    header($_SERVER["SERVER_PROTOCOL"]." 405 Method Not Allowed", true, 405);
+} else {
+    header($_SERVER["SERVER_PROTOCOL"] . " 405 Method Not Allowed", true, 405);
     exit;
 }
 
