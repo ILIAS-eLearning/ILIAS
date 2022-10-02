@@ -55,8 +55,12 @@ if (empty($ltiMessageHint)) {
         $DIC->http()->response()
         ->withStatus(400)
     );
-    $DIC->http()->sendResponse();
-    $DIC->http()->close();
+    try {
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
+    } catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
+        $DIC->http()->close();
+    }
 }
 list($ref_id, $client_id) = explode(":", $ltiMessageHint);
 ilSession::set('lti13_login_data', $data);
@@ -66,5 +70,9 @@ $DIC->http()->saveResponse(
     ->withStatus(302)
     ->withAddedHeader('Location', $url)
 );
-$DIC->http()->sendResponse();
-$DIC->http()->close();
+try {
+    $DIC->http()->sendResponse();
+    $DIC->http()->close();
+} catch (\ILIAS\HTTP\Response\Sender\ResponseSendingException $e) {
+    $DIC->http()->close();
+}

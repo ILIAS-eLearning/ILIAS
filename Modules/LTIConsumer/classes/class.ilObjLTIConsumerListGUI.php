@@ -133,7 +133,7 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
         /* @var ilObjLTIConsumer $object */
         $object = ilObjectFactory::getInstanceByObjId($this->obj_id);
 
-        if ($object->getProvider()->hasProviderIcon()) {
+        if ($object !== null && $object->getProvider() !== null && $object->getProvider()->hasProviderIcon()) {
             return $object->getProvider()->getProviderIcon()->getAbsoluteFilePath();
         }
 

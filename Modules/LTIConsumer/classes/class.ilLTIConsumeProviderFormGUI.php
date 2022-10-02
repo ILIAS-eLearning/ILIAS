@@ -38,13 +38,15 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
      */
     protected bool $adminContext = false;
 
+    protected bool $dynamicMode = false;
+
     /**
      * ilLTIConsumeProviderFormGUI constructor.
      */
-    public function __construct(ilLTIConsumeProvider $provider)
+    public function __construct(ilLTIConsumeProvider $provider, bool $dynMode = false)
     {
         parent::__construct();
-
+        $this->dynamicMode = $dynMode;
         $this->provider = $provider;
     }
 
@@ -180,12 +182,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $Lti13Info = new ilTextAreaInputGUI($lng->txt('lti13_hints'), 'lti13_hints');
             $Lti13Info->setRows(6);
             $Lti13Info->setValue(
-                "Platform ID: \t\t\t\t\t" . $this->provider->getPlattformId()
+                "Platform ID: \t\t\t\t\t" . ilObjLTIConsumer::getPlattformId()
                 . "\nClient ID: \t\t\t\t\t" . $this->provider->getClientId()
                 . "\nDeployment ID: \t\t\t\t" . (string) $this->provider->getId()
-                . "\nPublic keyset URL: \t\t\t" . $this->provider->getPublicKeysetUrl()
-                . "\nAccess token URL: \t\t\t" . $this->provider->getAccessTokenUrl()
-                . "\nAuthentication request URL: \t" . $this->provider->getAuthenticationRequestUrl()
+                . "\nPublic keyset URL: \t\t\t" . ilObjLTIConsumer::getPublicKeysetUrl()
+                . "\nAccess token URL: \t\t\t" . ilObjLTIConsumer::getAccessTokenUrl()
+                . "\nAuthentication request URL: \t" . ilObjLTIConsumer::getAuthenticationRequestUrl()
             );
             $Lti13Info->setDisabled(true);
             $lti13->addSubItem($Lti13Info);
@@ -501,5 +503,96 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $provider->setProviderSecret($this->getInput('provider_secret'));
         }
         $provider->setRemarks($this->getInput('remarks'));
+    }
+
+    public function initDynRegForm(string $formaction, string $saveCmd, string $cancelCmd): void
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $lng = $DIC->language();
+
+        $this->setFormAction($formaction);
+        $this->addCommandButton($saveCmd, $lng->txt('start'));
+        $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
+        $this->setTitle($lng->txt('lti_form_provider_create'));
+        $regurlInp = new ilTextInputGUI($lng->txt('lti_con_prov_dyn_reg_url'), 'lti_dyn_reg_url');
+        $regurlInp->setValue($this->provider->getTitle());
+        $regurlInp->setRequired(true);
+        $this->addItem($regurlInp);
+    }
+
+    private function getDynamicRegistration(): string
+    {
+        global $DIC;
+        $lng = $DIC->language();
+        $regStartUrl = ilObjLTIConsumer::getRegistrationStartUrl();
+        $regEndUrl = ilObjLTIConsumer::getRegistrationEndUrl();
+        $settingsUrl = $DIC->ctrl()->getLinkTargetByClass([ilRepositoryGUI::class,ilObjLTIConsumerGUI::class], 'save');
+        $factory = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
+        $errorEmptyUrl = $lng->txt('lti_url_empty_error'); //ToDo: correct language entries
+        $errorTypeUrl = $lng->txt('lti_url_type_error'); //ToDo: correct language entries
+
+        $btnSend = $factory->button()->primary($lng->txt('lti_dyn_reg_add_tool'), '#')
+            ->withAdditionalOnLoadCode(function ($id) use ($regStartUrl, $regEndUrl, $settingsUrl, $errorEmptyUrl, $errorTypeUrl) {
+                return
+                    "$('#$id').click(function(e) {
+                        let regurl = document.getElementById('lti_dyn_reg_url');                       
+                        let url = regurl.value;
+                        let encodedUrl = encodeURIComponent(url);
+                        let msg = document.getElementById('lti_dyn_reg_msg');
+                        if (url === '') {
+                            msg.innerHTML = '$errorEmptyUrl';
+                            return;
+                        }
+                        let settingsUrl = '$settingsUrl';
+                        try {
+                            var originUrl = new URL(url);
+                        } catch(e) {
+                            msg.innerHTML = '$errorTypeUrl';
+                            return;
+                        }
+                        var origin = new URL(originUrl).origin;
+                        var dynRegIFrame = document.getElementById('lti_dyn_reg_iframe');
+                        window.addEventListener('message', e => {
+                            if (origin === e.origin) {
+                                if (e.data.subject && e.data.subject === 'org.imsglobal.lti.close') {
+                                    console.log('lti tool adding succeeded');
+                                    fetch('$regEndUrl')
+                                    .then((response) => response.json())
+                                    .then((data) => {
+                                        if (data.error !== '') {
+                                            msg.innerHTML = data.error; 
+                                        } else {
+                                            location.assign(settingsUrl.replace('provider_id=0','provider_id='+data.providerId));
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error:', error);
+                                    });
+                                } else {
+                                    // ToDo: wait for xx seconds and redirect to GUI
+                                }
+                            }
+                        }, false);
+                        dynRegIFrame.src = '$regStartUrl'+'?url='+encodedUrl;
+                    });";
+            });
+        $iframe = "<iframe width=\"0\" height=\"0\"  id=\"lti_dyn_reg_iframe\" style=\"visibility: hidden;\"></iframe>";
+        $msg = "&nbsp;&nbsp;&nbsp;<span id='lti_dyn_reg_msg'>&nbsp;</span>";
+        return $iframe . $renderer->render([$btnSend]) . $msg . '</br>';
+    }
+
+    public function getHTML(): string
+    {
+        if ($this->dynamicMode) {
+            return parent::getHTML() . $this->getDynamicRegistration();
+        } else {
+            return parent::getHTML();
+        }
+    }
+
+    public function getProvider(): ilLTIConsumeProvider
+    {
+        return $this->provider;
     }
 }

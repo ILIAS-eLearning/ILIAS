@@ -37,6 +37,7 @@ declare(strict_types=1);
 class ilObjLTIConsumerGUI extends ilObject2GUI
 {
     public const CFORM_CUSTOM_NEW = 99;
+    public const CFORM_DYNAMIC_REGISTRATION = 98; // ?
 
     public const TAB_ID_INFO = 'tab_info';
     public const TAB_ID_CONTENT = 'tab_content';
@@ -52,13 +53,15 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
 
+    public int $parent_node_id = 0; //check
+
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-
+        $this->parent_node_id = $a_parent_node_id;
         if ($this->object instanceof ilObjLTIConsumer) {
             $this->ltiAccess = new ilLTIConsumerAccess($this->object);
         }
@@ -77,14 +80,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
      */
     protected function initCreationForms(string $a_new_type): array
     {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
         $forms = array(
             self::CFORM_NEW => $this->initCreateForm($a_new_type)
         );
 
         if (ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
+            $forms[self::CFORM_DYNAMIC_REGISTRATION] = $this->initDynamicRegistrationForm($a_new_type);
             $forms[self::CFORM_CUSTOM_NEW] = $this->initCustomCreateForm($a_new_type);
         }
 
@@ -148,6 +149,20 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $form;
     }
 
+    public function initDynamicRegistrationForm(string $a_new_type): \ilLTIConsumeProviderFormGUI
+    {
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
+        $provider = new ilLTIConsumeProvider();
+        $form = new ilLTIConsumeProviderFormGUI($provider, true);
+        $form->initDynRegForm("#", '', '');
+        $form->clearCommandButtons();
+        //$form->addCommandButton("asyncRegStart", $this->lng->txt($a_new_type . "_add_own_provider"));
+        //$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+        $form->setTitle($DIC->language()->txt($a_new_type . '_dynamic_registration'));
+        return $form;
+    }
+
     public function initCustomCreateForm(string $a_new_type): \ilLTIConsumeProviderFormGUI
     {
         global $DIC;
@@ -166,6 +181,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $form->setTitle($DIC->language()->txt($a_new_type . '_custom_new'));
 
         return $form;
+    }
+
+    public function asyncRegStart(): void
+    {
+        global $DIC;
+        $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
     }
 
     protected function buildProviderSelectionForm(string $a_new_type): \ilLTIConsumerProviderSelectionFormTableGUI
@@ -256,7 +277,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 
     protected function afterSave(\ilObject $newObject): void
     {
-        global $DIC;
+        global $DIC; //check
 
         if ($DIC->http()->wrapper()->query()->has('provider_id')) {
             $newObject->setProviderId((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));

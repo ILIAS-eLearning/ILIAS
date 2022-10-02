@@ -466,7 +466,6 @@ class ilLTIConsumerContentGUI
         if (!in_array($redirecturi, $uris)) {
             $ok = false;
             $error = 'invalid_request';
-            //throw new moodle_exception('invalidrequest', 'error');
         }
 
         if ($ok) {

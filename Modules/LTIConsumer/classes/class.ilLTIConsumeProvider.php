@@ -672,7 +672,7 @@ class ilLTIConsumeProvider
     {
         if ($this->client_id == '') {
             //ohne Sonderzeichen
-            $this->client_id = ILIAS\LTI\ToolProvider\Util::getRandomString(15);
+            $this->client_id = ilObjLTIConsumer::getNewClientId();
         }
         return $this->client_id;
     }
@@ -911,6 +911,22 @@ class ilLTIConsumeProvider
     }
 
     /**
+     * @throws IOException
+     */
+    public static function getProviderIdFromClientId(string $clientId): int
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $query = "SELECT * FROM lti_ext_provider WHERE client_id = %s";
+        $res = $DIC->database()->queryF($query, array('integer'), array($clientId));
+        $id = 0;
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $id = (int) $row['id'];
+        }
+        return $id;
+    }
+
+    /**
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws IOException
@@ -1033,23 +1049,23 @@ class ilLTIConsumeProvider
         return $this->isGlobal() && (bool) $this->getCreator();
     }
 
-    public function getPlattformId(): string
-    {
-        return ILIAS_HTTP_PATH;
-    }
+    // public function getPlattformId(): string
+    // {
+        // return ILIAS_HTTP_PATH;
+    // }
 
-    public function getAuthenticationRequestUrl(): string
-    {
-        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
-    }
+    // public function getAuthenticationRequestUrl(): string
+    // {
+        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltiauth.php";
+    // }
 
-    public function getAccessTokenUrl(): string
-    {
-        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
-    }
+    // public function getAccessTokenUrl(): string
+    // {
+        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/ltitoken.php";
+    // }
 
-    public function getPublicKeysetUrl(): string
-    {
-        return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
-    }
+    // public function getPublicKeysetUrl(): string
+    // {
+        // return ILIAS_HTTP_PATH . "/Modules/LTIConsumer/lticerts.php";
+    // }
 }
