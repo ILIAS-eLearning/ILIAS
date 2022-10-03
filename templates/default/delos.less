@@ -994,18 +994,13 @@ div.il_info {
 
 
 /* ---------------- headlines ------------------ */
-#il_mhead_t_focus {
-	//This is a violation of our color rules. We do this only for product placement reasons for the PM.
+h1.il-page-content-header  {
 	color: @il-neutral-color;
 	vertical-align: middle;
 	font-size: @il-font-size-h1;
 	font-weight: @il-font-weight-bold;
-    cursor: default;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
         font-size: @il-font-size-xxlarge;
-    }
-    &[href] {
-        cursor: pointer;
     }
 }
 

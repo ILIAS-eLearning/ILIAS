@@ -12739,20 +12739,16 @@ div.il_info {
   text-align: right;
 }
 /* ---------------- headlines ------------------ */
-#il_mhead_t_focus {
+h1.il-page-content-header {
   color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
   font-weight: 600;
-  cursor: default;
 }
 @media only screen and (max-width: 768px) {
-  #il_mhead_t_focus {
+  h1.il-page-content-header {
     font-size: 1.5rem;
   }
-}
-#il_mhead_t_focus[href] {
-  cursor: pointer;
 }
 h1.ilHeader {
   padding: 10px 0 0;
