@@ -61,10 +61,12 @@ class ilLTIConsumerContentGUI
         if ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             throw new ilLtiConsumerException('access denied!');
         }
-
-        $command = $DIC->ctrl()->getCmd(self::CMD_LAUNCH);
-
-        $this->{$command}();
+        if (ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($this->object->getProvider())) {
+            $this->dic->ui()->mainTemplate()->setOnScreenMessage('failure', 'please finish dynamic registration process', true);
+        } else {
+            $command = $DIC->ctrl()->getCmd(self::CMD_LAUNCH);
+            $this->{$command}();
+        }
     }
 
     /**

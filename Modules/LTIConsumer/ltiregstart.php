@@ -20,9 +20,8 @@ declare(strict_types=1);
 
 /** @noRector */
 chdir("../../");
-if (!class_exists('ilInitialisation')) {
-    require_once("libs/composer/vendor/autoload.php");
-}
+
+require_once("Services/Init/classes/class.ilInitialisation.php");
 
 ilInitialisation::initILIAS();
 global $DIC;
@@ -47,7 +46,6 @@ if ($params->has('url')) {
 // optional
 if ($params->has('typeid')) {
     $typeId = $params->retrieve('typeid', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()));
-    ;
 }
 // create jwt token
 $clientId = ilObjLTIConsumer::getNewClientId();
@@ -68,7 +66,11 @@ try {
     ];
     $privateKey = ilObjLTIConsumer::getPrivateKey();
     $regToken = Firebase\JWT\JWT::encode($token, $privateKey['key'], 'RS256', $privateKey['kid']);
-    ilSession::set('lti_dynamic_registration_client_id', $clientId); // for ltiregend.php
+    if ($params->has('custom_params')) {
+        $customParams = urldecode($params->retrieve('custom_params', $DIC->refinery()->kindlyTo()->string()));
+        ilSession::set('lti_dynamic_registration_custom_params', $customParams);
+    }
+    ilSession::set('lti_dynamic_registration_client_id', $clientId);
     header("Location: " . $url . "&openid_configuration=" . urlencode(ilObjLTIConsumer::getOpenidConfigUrl()) . "&registration_token=" . $regToken);
 } catch (Exception $exception) {
     ilObjLTIConsumer::sendResponseError(500, "error in ltiregstart.php: " . $exception->getMessage());

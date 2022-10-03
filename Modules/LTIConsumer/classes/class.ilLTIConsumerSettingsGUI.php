@@ -65,11 +65,14 @@ class ilLTIConsumerSettingsGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
-        $DIC->tabs()->addSubTab(
-            self::SUBTAB_ID_OBJECT_SETTINGS,
-            $DIC->language()->txt(self::SUBTAB_ID_OBJECT_SETTINGS),
-            $DIC->ctrl()->getLinkTarget($this)
-        );
+
+        if (!self::isUserDynamicRegistrationTransaction($this->object->getProvider())) {
+            $DIC->tabs()->addSubTab(
+                self::SUBTAB_ID_OBJECT_SETTINGS,
+                $DIC->language()->txt(self::SUBTAB_ID_OBJECT_SETTINGS),
+                $DIC->ctrl()->getLinkTarget($this)
+            );
+        }
 
         if ($this->needsProviderSettingsSubTab()) {
             $DIC->tabs()->addSubTab(
@@ -103,6 +106,21 @@ class ilLTIConsumerSettingsGUI
         }
 
         return true;
+    }
+
+    public static function isUserDynamicRegistrationTransaction(ilLTIConsumeProvider $provider): bool
+    {
+        global $DIC;
+        if (!ilSession::has('lti_dynamic_registration_client_id')) {
+            return false;
+        }
+        if ($provider->getCreator() != $DIC->user()->getId()) {
+            return false;
+        }
+        if ($provider->getClientId() == ilSession::get('lti_dynamic_registration_client_id')) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -143,11 +161,15 @@ class ilLTIConsumerSettingsGUI
                 break;
 
             default:
-
-                $DIC->tabs()->activateSubTab(self::SUBTAB_ID_OBJECT_SETTINGS);
-
-                $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
-                $this->{$command}();
+                if (self::isUserDynamicRegistrationTransaction($this->object->getProvider()) && $this->needsProviderSettingsSubTab()) {
+                    $DIC->tabs()->activateSubTab(self::SUBTAB_ID_PROVIDER_SETTINGS);
+                    $gui = new ilLTIConsumeProviderSettingsGUI($this->object, $this->access);
+                    $DIC->ctrl()->forwardCommand($gui);
+                } else {
+                    $DIC->tabs()->activateSubTab(self::SUBTAB_ID_OBJECT_SETTINGS);
+                    $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
+                    $this->{$command}();
+                }
         }
     }
 

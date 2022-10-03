@@ -20,9 +20,9 @@ declare(strict_types=1);
 
 /** @noRector */
 chdir("../../");
-if (!class_exists('ilInitialisation')) {
-    require_once("libs/composer/vendor/autoload.php");
-}
+
+require_once("Services/Init/classes/class.ilInitialisation.php");
+
 ilInitialisation::initILIAS();
 $clientId = (ilSession::has('lti_dynamic_registration_client_id')) ? (string) ilSession::get('lti_dynamic_registration_client_id') : '';
 $response = [];

@@ -1101,6 +1101,11 @@ class ilObjLTIConsumer extends ilObject2
                 $provider->setContentItemUrl($message['target_link_uri']);
             }
         }
+        /*
+        if (isset($data['logo_uri'])) { // needs to be uploaded and then assign filepath
+            $provider->setProviderIconFilename($data['logo_uri']);
+        }
+        */
         $provider->setKeyType('JWK_KEYSET');
         $provider->setLtiVersion('1.3.0');
         $provider->setClientId((string)$tokenObj->aud); //client_id

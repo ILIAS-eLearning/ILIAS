@@ -21,9 +21,7 @@ declare(strict_types=1);
 /** @noRector */
 chdir("../../");
 
-if (!class_exists('ilInitialisation')) {
-    require_once("libs/composer/vendor/autoload.php");
-}
+require_once("Services/Init/classes/class.ilInitialisation.php");
 
 ilContext::init(ilContext::CONTEXT_SCORM);
 ilInitialisation::initILIAS();

@@ -157,8 +157,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $form = new ilLTIConsumeProviderFormGUI($provider, true);
         $form->initDynRegForm("#", '', '');
         $form->clearCommandButtons();
-        //$form->addCommandButton("asyncRegStart", $this->lng->txt($a_new_type . "_add_own_provider"));
-        //$form->addCommandButton("cancel", $this->lng->txt("cancel"));
         $form->setTitle($DIC->language()->txt($a_new_type . '_dynamic_registration'));
         return $form;
     }
@@ -555,6 +553,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     protected function setTabs(): void
     {
         global $DIC;
+
+        if (ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($this->object->getProvider())) { // check
+            return;
+        }
+
         /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
 

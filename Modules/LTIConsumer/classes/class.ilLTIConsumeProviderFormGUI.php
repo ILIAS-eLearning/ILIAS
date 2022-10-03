@@ -67,7 +67,9 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         $this->setFormAction($formaction);
         $this->addCommandButton($saveCmd, $lng->txt('save'));
-        $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
+        if (!ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($this->provider)) {
+            $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
+        }
 
         if ($this->provider->getId() !== 0) {
             $this->setTitle($lng->txt('lti_form_provider_edit'));
@@ -116,7 +118,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $availabilityInp->addOption($optionCreate);
             $this->addItem($availabilityInp);
         }
-
 
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_authentication'));
@@ -170,7 +171,12 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
 
         $contentItem = new ilCheckboxInputGUI($lng->txt('lti_con_content_item'), 'content_item');
         $contentItem->setValue('1');
-        $contentItem->setChecked($this->provider->isContentItem());
+
+        if (ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($this->provider) && !empty($this->provider->getContentItemUrl())) {
+            $contentItem->setChecked(true);
+        } else {
+            $contentItem->setChecked($this->provider->isContentItem());
+        }
         $contentItemUrl = new ilTextInputGUI($lng->txt('lti_con_content_item_url'), 'content_item_url');
         $contentItemUrl->setValue($this->provider->getContentItemUrl());
         $contentItem->addSubItem($contentItemUrl);
@@ -192,7 +198,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $Lti13Info->setDisabled(true);
             $lti13->addSubItem($Lti13Info);
         }
-
 
         $versionInp->setValue($this->provider->getLtiVersion());
         $this->addItem($versionInp);
@@ -222,7 +227,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $providerSecretInp->setRequired(true);
         $keyGlobal->addSubItem($providerSecretInp);
         $lti11->addSubItem($keyGlobal);
-
 
         //privacy-settings
 
@@ -333,7 +337,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->addSubItem($masteryScore);
         $this->addItem($item);
 
-
         $sectionHeader = new ilFormSectionHeaderGUI();
         $sectionHeader->setTitle($lng->txt('lti_con_prov_launch_options'));
         $this->addItem($sectionHeader);
@@ -392,7 +395,14 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addItem($item);
 
         $item = new ilTextAreaInputGUI($lng->txt('lti_con_prov_custom_params'), 'custom_params');
-        $item->setValue($this->provider->getCustomParams());
+        if (ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($this->provider)) {
+            if (ilSession::has('lti_dynamic_registration_custom_params')) {
+                $item->setValue(ilSession::get('lti_dynamic_registration_custom_params'));
+            }
+        } else {
+            $item->setValue($this->provider->getCustomParams());
+        }
+
         $item->setRows(6);
         $item->setInfo($lng->txt('lti_con_prov_custom_params_info'));
         $this->addItem($item);
@@ -509,15 +519,15 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $lng = $DIC->language();
-
         $this->setFormAction($formaction);
-        $this->addCommandButton($saveCmd, $lng->txt('start'));
-        $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
         $this->setTitle($lng->txt('lti_form_provider_create'));
-        $regurlInp = new ilTextInputGUI($lng->txt('lti_con_prov_dyn_reg_url'), 'lti_dyn_reg_url');
-        $regurlInp->setValue($this->provider->getTitle());
-        $regurlInp->setRequired(true);
-        $this->addItem($regurlInp);
+        $regUrlInp = new ilTextInputGUI($lng->txt('lti_con_prov_dyn_reg_url'), 'lti_dyn_reg_url');
+        $regUrlInp->setInfo($lng->txt('lti_con_prov_dyn_reg_url_info'));
+        $regUrlInp->setRequired(true);
+        $this->addItem($regUrlInp);
+        $regParamsInp = new ilTextInputGUI($lng->txt('lti_con_prov_dyn_reg_params'), 'lti_dyn_reg_custom_params');
+        $regParamsInp->setInfo($lng->txt('lti_con_prov_dyn_reg_params_info'));
+        $this->addItem($regParamsInp);
     }
 
     private function getDynamicRegistration(): string
@@ -536,9 +546,15 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             ->withAdditionalOnLoadCode(function ($id) use ($regStartUrl, $regEndUrl, $settingsUrl, $errorEmptyUrl, $errorTypeUrl) {
                 return
                     "$('#$id').click(function(e) {
-                        let regurl = document.getElementById('lti_dyn_reg_url');                       
-                        let url = regurl.value;
+                        
+                        let regUrl = document.getElementById('lti_dyn_reg_url');                  
+                        let url = regUrl.value;                 
                         let encodedUrl = encodeURIComponent(url);
+                        
+                        let regCustomParams = document.getElementById('lti_dyn_reg_custom_params');
+                        let customParams = regCustomParams.value;
+                        let encodedCustomParams = encodeURIComponent(customParams);
+                        
                         let msg = document.getElementById('lti_dyn_reg_msg');
                         if (url === '') {
                             msg.innerHTML = '$errorEmptyUrl';
@@ -574,7 +590,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
                                 }
                             }
                         }, false);
-                        dynRegIFrame.src = '$regStartUrl'+'?url='+encodedUrl;
+                        dynRegIFrame.src = '$regStartUrl'+'?url='+encodedUrl+'&custom_params='+encodedCustomParams;
                     });";
             });
         $iframe = "<iframe width=\"0\" height=\"0\"  id=\"lti_dyn_reg_iframe\" style=\"visibility: hidden;\"></iframe>";

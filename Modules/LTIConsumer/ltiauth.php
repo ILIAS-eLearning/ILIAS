@@ -42,9 +42,8 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
     exit;
 }
 
-if (!class_exists('ilInitialisation')) {
-    require_once("libs/composer/vendor/autoload.php");
-}
+require_once("Services/Init/classes/class.ilInitialisation.php");
+
 ilInitialisation::initILIAS();
 
 global $DIC;
