@@ -7172,7 +7172,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   z-index: 300;
 }
 .il-card .il-card-repository-head .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-card .il-card-repository-head > div {
   padding: 6px 6px;
@@ -10106,7 +10106,7 @@ footer {
 }
 .il-mainbar-triggers .btn-bulky .icon,
 .il-mainbar-triggers .il-link.link-bulky .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-triggers .btn-bulky .icon.small,
 .il-mainbar-triggers .il-link.link-bulky .icon.small {
@@ -10193,7 +10193,7 @@ footer {
   }
   .il-mainbar-triggers .btn-bulky:hover .icon,
   .il-mainbar-triggers .il-link.link-bulky:hover .icon {
-    filter: brightness(3);
+    filter: brightness(5);
   }
   .il-mainbar-triggers .btn-bulky:hover .bulky-label,
   .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label {
@@ -10239,7 +10239,7 @@ footer {
 }
 .il-mainbar-tools-button .btn-bulky .icon,
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: #e2e8ef;
@@ -10266,7 +10266,7 @@ footer {
 .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .btn-bulky .icon,
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
-  filter: brightness(3);
+  filter: brightness(5);
 }
 .il-mainbar-tools-entries .btn-bulky .bulky-label,
 .il-mainbar-tools-entries .btn-bulky .bulky-label,
