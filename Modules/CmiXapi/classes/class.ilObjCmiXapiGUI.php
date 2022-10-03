@@ -911,6 +911,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 return "real_email";
             case 4:
                 return "il_uuid_random";
+            case 5:
+                return "il_uuid_sha256";
+            case 6:
+                return "il_uuid_sha256url";
         }
         return '';
     }

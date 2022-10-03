@@ -305,6 +305,18 @@ class ilCmiXapiSettingsGUI
             $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_ext_account_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
+                $this->language->txt('conf_privacy_ident_il_uuid_sha256url'),
+                (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_SHA256URL
+            );
+            $op->setInfo($this->language->txt('conf_privacy_ident_il_uuid_sha256url_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
                 $this->language->txt('conf_privacy_ident_il_uuid_random'),
                 (string) ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
             );

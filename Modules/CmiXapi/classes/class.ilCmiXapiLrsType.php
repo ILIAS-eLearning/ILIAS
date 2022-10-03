@@ -48,6 +48,8 @@ class ilCmiXapiLrsType
     public const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
     public const PRIVACY_IDENT_REAL_EMAIL = 3;
     public const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
+    public const PRIVACY_IDENT_IL_UUID_SHA256 = 5;
+    public const PRIVACY_IDENT_IL_UUID_SHA256URL = 6;
 
     public const PRIVACY_NAME_NONE = 0;
     public const PRIVACY_NAME_FIRSTNAME = 1;
