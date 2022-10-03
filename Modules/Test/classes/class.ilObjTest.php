@@ -6629,7 +6629,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $num = $questionSetConfig->getQuestionAmountPerTest();
             }
         } else {
-            $this->loadQuestions();
+            if (count($this->questions) == 0) {
+                $this->loadQuestions();
+            }
             $num = count($this->questions);
         }
 
