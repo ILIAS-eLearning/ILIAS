@@ -634,7 +634,7 @@ EOT;
 <div class="il-item il-std-item ">
     <div class="il-item-title">title</div>
     <div class="il-item-audio"><div class="il-audio-container">
-    <audio class="il-audio-player" id="id_1" src="src" preload="meta"></audio>
+    <audio class="il-audio-player" id="id_1" src="src" preload="metadata"></audio>
 </div></div>
 </div>
 EOT;
