@@ -1129,7 +1129,7 @@ class ilObjLTIConsumer extends ilObject2
             );
             $DIC->http()->sendResponse();
             $DIC->http()->close();
-        } catch (Exception) {
+        } catch (Exception $e) {
             $DIC->http()->close();
         }
     }
@@ -1139,7 +1139,7 @@ class ilObjLTIConsumer extends ilObject2
         try {
             header('Content-Type: application/json; charset=utf-8');
             echo json_encode($obj, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception) {
+        } catch (Exception $e) {
             self::sendResponseError(500, "error in sendResponseJson");
             $DIC->http()->close();
         }
