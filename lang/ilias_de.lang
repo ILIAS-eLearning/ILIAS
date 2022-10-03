@@ -10418,7 +10418,7 @@ lso#:#table_title#:#Titel
 lso#:#unparticipate#:#Lernsequenz verlassen
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
-lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
+lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider bzw. -Tool verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Benutzeridentifikation
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
@@ -10466,9 +10466,9 @@ lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#field_provider_xml#:#XML-Datei
 lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
-lti#:#form_import_provider#:#Globalen Provider importieren
+lti#:#form_import_provider#:#Globalen Provider bzw. globales Tool importieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
-lti#:#global_provider_subtab#:#Globale Provider für alle Anwender
+lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
 lti#:#highscore_achieved_ts#:#Datum
 lti#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
 lti#:#highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -10507,16 +10507,16 @@ lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
-lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
-lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
-lti#:#lti_action_delete_providers#:#Provider löschen
-lti#:#lti_action_edit_provider#:#Provider bearbeiten
-lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
-lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
-lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
-lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
+lti#:#lti_action_accept_provider_as_global#:#Provider bzw. Tool global für alle Benutzer übernehmen.
+lti#:#lti_action_accept_providers_as_global#:#Provider bzw. Tool als globalen Provider bzw. globales Tool übernehmen
+lti#:#lti_action_delete_providers#:#Provider bzw. Tool löschen
+lti#:#lti_action_edit_provider#:#Provider bzw. Tool bearbeiten
+lti#:#lti_action_reset_provider_to_user_scope#:#Provider bzw. Tool als benutzerdefiniert zurücksetzen
+lti#:#lti_action_reset_providers_to_user_scope#:#Provider bzw. Tool als benutzerdefinierten Provider bzw. benutzerdefiniertes Tool zurücksetzen
+lti#:#lti_add_global_provider#:#Provider bzw. Tool global für alle Benutzer hinzufügen
+lti#:#lti_add_own_provider#:#Einstellungen für Provider bzw. Tool anlegen
 lti#:#lti_admin#:#LTI-Rolle Administrator
-lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
+lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider bzw. Tool konnte nicht gelöscht werden, da dieser Provider bzw. dieses Tool von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
@@ -10528,7 +10528,7 @@ lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
 lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
-lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
+lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider bzw. Tool mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
 lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
@@ -10539,11 +10539,12 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
-lti#:#lti_con_prov_external_provider#:#Externer Provider
-lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider wird den Nutzern ein Hinweis angezeigt. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
-lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
-lti#:#lti_con_prov_has_outcome_service#:#Provider unterstützt Outcome Service
-lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Der Provider gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL des Tools
+lti#:#lti_con_prov_external_provider#:#Externer Provider bzw. Externes Tool
+lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. externem Tool wird den Nutzern ein Hinweis angezeigt. Externe Provider bzw. Tools sind gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider bzw. das Tool. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
+lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern bzw. Tools
+lti#:#lti_con_prov_has_outcome_service#:#Provider bzw. Tool unterstützt Outcome Service
+lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Ein Provider bzw. Tool gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
 lti#:#lti_con_prov_hints#:#Hinweise
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
@@ -10569,11 +10570,11 @@ lti#:#lti_con_prov_provider_key_global_info#:#Wenn nicht gesetzt, müssen Benutz
 lti#:#lti_con_prov_remarks#:#Interne Bemerkungen
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Titel
-lti#:#lti_con_prov_url#:#URL des Providers
-lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
-lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
-lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
-lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
+lti#:#lti_con_prov_url#:#URL des Providers bzw. Tools
+lti#:#lti_con_prov_use_provider_id#:#Provider-ID bzw. Tool-ID verwenden
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider bzw. das Tool übertragen. Einige Provider bzw. Tools verknüpfen diese Ref-ID mit der breitgestellten Ressource. Um immer die gleiche Ressource von diesen Providern bzw. Tools zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_use_xapi#:#Provider bzw. Tool unterstützt die Abfrage von xAPI-Statements
+lti#:#lti_con_prov_use_xapi_info#:#Provider bzw. Tool unterstützt xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
 lti#:#lti_con_prov_xapi_activity_id_info#:#Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzeigen zu können. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_con_prov_xapi_launch_key#:#Key des LRS-Endpoints
@@ -10587,7 +10588,7 @@ lti#:#lti_con_tool_url#:#Login URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
-lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
+lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider bzw. Tools löschen möchten?
 lti#:#lti_consumer#:#Freigegeben für
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
 lti#:#lti_consumer_deleted#:#Konsument gelöscht
@@ -10602,19 +10603,21 @@ lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
-lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
-lti#:#lti_delete_consume_provider#:#Provider löschen
-lti#:#lti_delete_consume_providers#:#Provider löschen
-lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_custom_new#:#Eigene Provider- bzw. Tool-Einstellungen anlegen
+lti#:#lti_delete_consume_provider#:#Provider bzw. Tool löschen
+lti#:#lti_delete_consume_providers#:#Provider bzw. Tools löschen
+lti#:#lti_delete_provider#:#Provider bzw. Tool löschen
+lti#:#lti_dyn_reg_add_tool#:#Anlegen
+lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
-lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
-lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
+lti#:#lti_form_provider_create#:#Einstellungen für Provider bzw. Tool anlegen
+lti#:#lti_form_provider_edit#:#Einstellungen für Provider bzw. Tool bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
 lti#:#lti_global_settings_form#:#Globale Einstellungen
-lti#:#lti_import_global_provider#:#Globalen Provider für alle Benutzer mit XML-Datei importieren
+lti#:#lti_import_global_provider#:#Globalen Provider bzw. globales Tool für alle Benutzer mit XML-Datei importieren
 lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Auf externe Provider haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
@@ -10624,7 +10627,7 @@ lti#:#lti_member#:#LTI-Rolle Mitglied / Lerner
 lti#:#lti_navigation#:#Navigation
 lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
-lti#:#lti_obj_active#:#LTI-Tool-Provider
+lti#:#lti_obj_active#:#LTI-Provider / -Tool
 lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
 lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_obj_version_11#:#Version 1.1
@@ -10635,7 +10638,7 @@ lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
 lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_select_provider#:#Provider auswählen
+lti#:#lti_select_provider#:#Provider bzw. Tool auswählen
 lti#:#lti_session#:#LTI-Sitzung
 lti#:#lti_settings#:#LTI-Einstellungen
 lti#:#lti_settings_form#:#Objekteinstellungen
@@ -10658,7 +10661,7 @@ lti#:#show_statements#:#Lernerfahrungen anzeigen
 lti#:#show_statements_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
 lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
-lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
+lti#:#subtab_provider_settings#:#Einstellungen für Provider bzw. Tool
 lti#:#tab_content#:#Inhalt
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
@@ -10675,14 +10678,14 @@ lti#:#tbl_lti_prov_keywords#:#Schlagwörter
 lti#:#tbl_lti_prov_outcome#:#Outcome Service
 lti#:#tbl_lti_prov_own_provider#:#Eigener Provider
 lti#:#tbl_lti_prov_provider_creator#:#Erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
-lti#:#tbl_lti_prov_title#:#Titel des Providers
+lti#:#tbl_lti_prov_title#:#Titel des Providers bzw. Tools
 lti#:#tbl_lti_prov_usages#:#Verwendung
 lti#:#tbl_lti_prov_usages_trashed#:#Im Papierkorb
 lti#:#tbl_lti_prov_usages_untrashed#:#Nicht im Papierkorb
 lti#:#tbl_lti_prov_used_by#:#Objekte (im Baum), die diesen Provider verwenden
-lti#:#tbl_lti_prov_with_key#:#Vordefiniert mit Key / Secret
-lti#:#tbl_provider_header#:#LTI-Provider
-lti#:#tbl_provider_usage_header#:#LTI-Provider
+lti#:#tbl_lti_prov_with_key#:#vordefiniert
+lti#:#tbl_provider_header#:#LTI-Provider/Tool
+lti#:#tbl_provider_usage_header#:#LTI-Provider/Tool
 lti#:#tbl_provider_usage_header_info#:#Vor dem Löschen von LTI-Providern müssen auch diese nutzenden Objekte aus dem Papierkorb gelöscht werden.
 lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
 lti#:#usage_subtab#:#Verwendung

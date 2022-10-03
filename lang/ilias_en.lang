@@ -10539,6 +10539,7 @@ lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer 
 lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
 lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_dyn_reg_url#:#Registration URL of the Tool
 lti#:#lti_con_prov_external_provider#:#External Provider
 lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
@@ -10569,7 +10570,7 @@ lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key 
 lti#:#lti_con_prov_remarks#:#Internal Remarks
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Title
-lti#:#lti_con_prov_url#:#URL of Provider
+lti#:#lti_con_prov_url#:#URL of the Provider resp. Tool
 lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
 lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
 lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
@@ -10602,10 +10603,12 @@ lti#:#lti_create_consumer#:#Create Consumer
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with the LTI consumer, if it supports the outcome service. This cron job is only required to transfer status updates after Learning progress settings updates.
-lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_custom_new#:#Create Own Settings for Provider resp. Tool
 lti#:#lti_delete_consume_provider#:#Delete Provider
 lti#:#lti_delete_consume_providers#:#Delete Providers
 lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_dyn_reg_add_tool#:#Add
+lti#:#lti_dynamic_registration#:#Create Own Settings for Tool with Dynamic Registration (LTI 1.3)
 lti#:#lti_edit_consumer#:#Edit LTI Consumer
 lti#:#lti_exit#:#Close LTI Session
 lti#:#lti_exited#:#LTI Session closed
@@ -10624,7 +10627,7 @@ lti#:#lti_member#:#LTI Member / Learner
 lti#:#lti_navigation#:#Navigation
 lti#:#lti_no_provider_selected#:#No provider selected
 lti#:#lti_not_allowed#:#Access denied. Your request was redirected to the root LTI object.
-lti#:#lti_obj_active#:#LTI-Tool Provider
+lti#:#lti_obj_active#:#LTI-Provider / -Tool
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_obj_version_11#:#Version 1.1
@@ -10635,7 +10638,7 @@ lti#:#lti_provider#:#LTI Releases
 lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
 lti#:#lti_providing_tab#:#ILIAS as LTI Provider
 lti#:#lti_released_objects#:#Object Releases
-lti#:#lti_select_provider#:#Select Provider
+lti#:#lti_select_provider#:#Select Provider resp. Tool
 lti#:#lti_session#:#LTI Session
 lti#:#lti_settings#:#LTI Settings
 lti#:#lti_settings_form#:#Object Settings
@@ -10658,7 +10661,7 @@ lti#:#show_statements#:#Display Learning Experiences
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
 lti#:#subtab_certificate#:#Certificate
 lti#:#subtab_object_settings#:#Object Settings
-lti#:#subtab_provider_settings#:#LTI Provider Settings
+lti#:#subtab_provider_settings#:#Settings for Provider resp. Tool
 lti#:#tab_content#:#Content
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Ranking
@@ -10675,14 +10678,14 @@ lti#:#tbl_lti_prov_keywords#:#Keywords
 lti#:#tbl_lti_prov_outcome#:#Outcome Service
 lti#:#tbl_lti_prov_own_provider#:#Own Provider
 lti#:#tbl_lti_prov_provider_creator#:#Creator
-lti#:#tbl_lti_prov_title#:#Title of Provider
+lti#:#tbl_lti_prov_title#:#Title of Provider resp. Tool
 lti#:#tbl_lti_prov_usages#:#Usages
 lti#:#tbl_lti_prov_usages_trashed#:#Trashed Usages
 lti#:#tbl_lti_prov_usages_untrashed#:#Repository Usages
 lti#:#tbl_lti_prov_used_by#:#Provider Used by Objects in Tree
-lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
-lti#:#tbl_provider_header#:#LTI Provider
-lti#:#tbl_provider_usage_header#:#LTI Provider
+lti#:#tbl_lti_prov_with_key#:#Predefined
+lti#:#tbl_provider_header#:#LTI Provider / Tool
+lti#:#tbl_provider_usage_header#:#LTI Provider / Tool
 lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.
 lti#:#title_info#:#Give the object a title.
 lti#:#usage_subtab#:#Usage
