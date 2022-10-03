@@ -276,12 +276,6 @@ Also checkout the breadcrumb less variables.
 
 See above section on information on how to customize those components.
 
-#### ILIAS 5.3
-
-The `icon-font-path` for glyphs has changed due to a move from the bootstrap
-library to the new location for external libraries. The new location is:
-`"../../../../libs/bower/bower_components/bootstrap/fonts/"`. If a 5.2 style is
-imported, the variable `icon-font-path` must be adapted accordingly.
 
 #### ILIAS 7
 
@@ -297,6 +291,17 @@ to start refactoring this module's style code. As part of this change,
 the override mechanism that fetches a custom style for just the T&A has been
 removed. Please use the standard skin setup described in this document to style
 the Test & Assessment like the rest of your custom skin.
+
+#### ILIAS 8
+The Main Background has been changed to white. Many style changes have been implemented.
+Maybe best start out with a fresh copy from Delos and move your changes over to this copy.
+
+
+The Icons have completely changed. The outlined items are now the one and only default.
+For this reason, we changed the styling of the Icons in the mainbar, they are now inverted
+with filter: `brightness(5);`. You might to need to change your custom Mainbar Icons if you
+adapted them through the Main Menu.
+
 
 ## Less Guideline
 
