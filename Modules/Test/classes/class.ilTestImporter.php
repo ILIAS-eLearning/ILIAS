@@ -79,6 +79,7 @@ class ilTestImporter extends ilXmlImporter
         $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $idents);
         $qtiParser->setTestObject($newObj);
         $qtiParser->startParsing();
+        $newObj = $qtiParser->getTestObject();
 
         // import page data
         include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
@@ -131,8 +132,6 @@ class ilTestImporter extends ilXmlImporter
         $this->importSkillLevelThresholds($a_mapping, $importedAssignmentList, $newObj, $xml_file);
 
         $a_mapping->addMapping("Modules/Test", "tst", $a_id, $newObj->getId());
-
-        ilObjTest::_setImportDirectory();
     }
 
     /**

@@ -225,6 +225,11 @@ class ilQTIParser extends ilSaxParser
         $this->tst_id = $this->tst_object->getId();
     }
 
+    public function getTestObject(): ilObjTest
+    {
+        return $this->tst_object;
+    }
+
     /**
     * set event handler
     * should be overwritten by inherited class
@@ -761,7 +766,7 @@ class ilQTIParser extends ilSaxParser
                     $GLOBALS['ilDB'],
                     $GLOBALS['lng']
                 );
-                $question->fromXML(
+                $this->import_mapping = $question->fromXML(
                     $this->item,
                     $this->qpl_id,
                     $this->tst_id,

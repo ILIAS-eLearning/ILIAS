@@ -1331,6 +1331,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         // delete import directory
         ilFileUtils::delDir(ilObjTest::_getImportDirectory());
+        ilObjTest::_setImportDirectory();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_imported"), true);
         ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() . "&baseClass=ilObjTestGUI");

@@ -45,7 +45,7 @@ class assOrderingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping): void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -336,7 +336,7 @@ class assOrderingQuestionImport extends assQuestionImport
         if ($tst_id > 0) {
             $this->object->setObjId($tst_id);
             $tstQid = $this->object->getId();
-            $qplQid = $this->object->duplicate(true, null, null, null, $questionpool_id);
+            $qplQid = $this->object->duplicate(true, "", "", "", $questionpool_id);
             assQuestion::resetOriginalId($qplQid);
             assQuestion::saveOriginalId($tstQid, $qplQid);
             $tst_object->questions[$question_counter++] = $tstQid;
@@ -344,5 +344,6 @@ class assOrderingQuestionImport extends assQuestionImport
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
 }
