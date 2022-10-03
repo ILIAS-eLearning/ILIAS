@@ -475,9 +475,9 @@ class ilContObjParser extends ilMDSaxParser
 
             case "Layout":
                 if (is_object($this->media_object) && $this->in_media_object) {
-                    $this->media_item->setWidth($a_attribs["Width"]);
-                    $this->media_item->setHeight($a_attribs["Height"]);
-                    $this->media_item->setHAlign($a_attribs["HorizontalAlign"]);
+                    $this->media_item->setWidth($a_attribs["Width"] ?? '');
+                    $this->media_item->setHeight($a_attribs["Height"] ?? '');
+                    $this->media_item->setHAlign($a_attribs["HorizontalAlign"] ?? '');
                 }
                 break;
 
