@@ -27,6 +27,8 @@ abstract class assQuestionGUI
     
     const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
     
+    protected const HAS_SPECIAL_QUESTION_COMMANDS = false;
+    
     /**
     * Question object
     *
@@ -212,30 +214,32 @@ abstract class assQuestionGUI
         global $DIC;
         $DIC['ilHelp']->setScreenIdComponent('qpl');
 
-        $cmd = $this->ctrl->getCmd("editQuestion");
-
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();
-
-                require_once 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($_GET['postvar'])));
-                return $this->ctrl->forwardCommand($form_prop_dispatch);
+                $this->ctrl->forwardCommand($form_prop_dispatch);
                 break;
 
             default:
-                $ret = $this->$cmd();
-                break;
+                $cmd = $this->ctrl->getCmd('editQuestion');
+                if (method_exists($this, $cmd)) {
+                    $this->$cmd();
+                    return;
+                }
+
+                if ($this->hasSpecialQuestionCommands() === true) {
+                    $this->callSpecialQuestionCommands($cmd);
+                }
         }
-        return $ret;
     }
 
-    public function getCommand($cmd)
+    protected function hasSpecialQuestionCommands() : bool
     {
-        return $cmd;
+        return static::HAS_SPECIAL_QUESTION_COMMANDS;
     }
 
     /**
