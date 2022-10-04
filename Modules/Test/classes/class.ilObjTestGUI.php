@@ -3673,8 +3673,4 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         return $this->objectiveOrientedContainer;
     }
-
-    public function getParentCrsRefIdForLocTest(): int
-    {
-    }
 }
