@@ -76,11 +76,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
         }
 
-
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->initFilter();
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        // @todo check this: has to be before constructor to work
-        $this->initFilter();
         $this->parseTitle($this->obj_id, "trac_matrix");
         $this->setEnableHeader(true);
         $this->setFormAction(
@@ -308,6 +309,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         array $a_user_fields,
         array $a_privary_fields = null
     ): array {
+
         // #17081
         if ($this->restore_filter) {
             $name = $this->restore_filter_values["name"];
@@ -339,7 +341,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                     $check_agreement = $this->in_group;
                 }
             }
-
             $data = ilTrQuery::getUserObjectMatrix(
                 $this->ref_id,
                 $collection["object_ids"],
