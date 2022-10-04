@@ -402,9 +402,7 @@ class ilRegistrationSettingsGUI
             }
             foreach ($this->rbacreview->getGlobalRoles() as $role) {
                 if ($role_obj = ilObjectFactory::getInstanceByObjId($role, false)) {
-                    $role_obj->setAllowRegister(
-                        (int) $roles[$role] === 1
-                    );
+                    $role_obj->setAllowRegister(isset($roles[$role]) && (int) $roles[$role] === 1);
                     $role_obj->update();
                 }
             }
@@ -1018,7 +1016,7 @@ class ilRegistrationSettingsGUI
 
         $codes = ilRegistrationCode::getCodesForExport(
             $utab->filter["code"],
-            $utab->filter["role"] ? int($utab->filter["role"]) : null,
+            $utab->filter["role"] ? (int)$utab->filter["role"] : null,
             $utab->filter["generated"],
             $utab->filter["alimit"]
         );
