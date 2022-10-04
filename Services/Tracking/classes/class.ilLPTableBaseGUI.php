@@ -734,6 +734,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     protected function isPercentageAvailable(int $a_obj_id): bool
     {
+        if ($a_obj_id === 0) {
+            return false;
+        }
         $olp = ilObjectLP::getInstance($a_obj_id);
         $mode = $olp->getCurrentMode();
         if (in_array(
