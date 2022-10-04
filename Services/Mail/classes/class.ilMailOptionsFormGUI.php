@@ -94,7 +94,11 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $auto_responder_subject->setRequired(true);
         $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
         $idle_time = (int) $this->settings->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME);
-        $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), $idle_time));
+        if ($idle_time === 1) {
+            $auto_responder_body->setInfo($this->lng->txt('mail_absence_auto_responder_body_info_single_day'));
+        } else {
+            $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), $idle_time));
+        }
         $auto_responder_body->setRequired(true);
         $auto_responder_body->setCols(60);
         $auto_responder_body->setRows(10);

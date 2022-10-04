@@ -10731,7 +10731,8 @@ mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#mail_absence_auto_responder_body#:#Message
 mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].
-mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they receive further messages.
+mail#:#mail_absence_auto_responder_body_info#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified of your absence every %1$s days if they send further messages.
+mail#:#mail_absence_auto_responder_body_info_single_day#:#This message will be sent automatically during your absence when users send you an ILIAS internal message.<br>Users will be notified again of your absence the next day if they send further messages.
 mail#:#mail_absence_auto_responder_subject#:#Subject
 mail#:#mail_absence_duration#:#Duration
 mail#:#mail_absence_status#:#Enable Autoresponder

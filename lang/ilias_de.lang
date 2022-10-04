@@ -10736,6 +10736,7 @@ mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benac
 mail#:#mail_absence_auto_responder_body#:#Nachricht
 mail#:#mail_absence_auto_responder_body_hint#:#Dies ist ein automatisch generierte Nachricht. Die nächste Nachricht erhalten Sie frühestens am [NEXT_AUTO_RESPONDER_DATETIME].
 mail#:#mail_absence_auto_responder_body_info#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten alle %1$s Tage über Ihre Abwesenheit informiert.
+mail#:#mail_absence_auto_responder_body_info_single_day#:#Diese Nachricht wird während Ihrer Abwesenheit automatisch versendet, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.<br>Benutzer werden bei weiteren Nachrichten am nächsten Tag wieder über Ihre Abwesenheit informiert.
 mail#:#mail_absence_auto_responder_subject#:#Betreff
 mail#:#mail_absence_duration#:#Zeitraum
 mail#:#mail_absence_status#:#Abwesenheit konfigurieren
