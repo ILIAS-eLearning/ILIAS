@@ -281,12 +281,12 @@ class ilCmiXapiUser
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
 
-                return self::buildPseudoEmail(hash("sha256",'' . $user->getId() . $user->getCreateDate()), self::getIliasUuid());
+                return self::buildPseudoEmail(hash("sha256", '' . $user->getId() . $user->getCreateDate()), self::getIliasUuid());
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
-                $tmpHash = hash("sha256",'' . $user->getId() . $user->getCreateDate()) . '@' . str_replace('www.', '', $_SERVER['HTTP_HOST']);
+                $tmpHash = hash("sha256", '' . $user->getId() . $user->getCreateDate()) . '@' . str_replace('www.', '', $_SERVER['HTTP_HOST']);
                 if (strlen($tmpHash) > 80) {
-                    $tmpHash = substr($tmpHash,strlen($tmpHash)-80);
+                    $tmpHash = substr($tmpHash, strlen($tmpHash)-80);
                 }
                 return $tmpHash;
 
@@ -319,13 +319,13 @@ class ilCmiXapiUser
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256:
 
-                return hash("sha256",'' . $user->getId() . $user->getCreateDate());
+                return hash("sha256", '' . $user->getId() . $user->getCreateDate());
 
             case ilObjCmiXapi::PRIVACY_IDENT_IL_UUID_SHA256URL:
-                $tmpHash = hash("sha256",'' . $user->getId() . $user->getCreateDate());
+                $tmpHash = hash("sha256", '' . $user->getId() . $user->getCreateDate());
                 $tmpHost = '@' . str_replace('www.', '', $_SERVER['HTTP_HOST']);
                 if (strlen($tmpHash . $tmpHost) > 80) {
-                    $tmpHash = substr($tmpHash,strlen($tmpHash) - (80 - strlen($tmpHost)));
+                    $tmpHash = substr($tmpHash, strlen($tmpHash) - (80 - strlen($tmpHost)));
                 }
                 return $tmpHash;
 
