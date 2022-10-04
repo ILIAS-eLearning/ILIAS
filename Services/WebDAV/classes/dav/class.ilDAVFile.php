@@ -173,7 +173,8 @@ class ilDAVFile implements IFile
             throw new Forbidden('Permission denied');
         }
 
-        if ($this->isDAVableObjTitle($name) && $this->hasValidFileExtension($name)) {
+        if ($this->isDAVableObjTitle($name) &&
+            $name === $this->obj->checkFileExtension($this->getName(), $name)) {
             $this->obj->setTitle($name);
             $this->obj->update();
         } else {
