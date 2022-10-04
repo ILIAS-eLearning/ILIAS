@@ -92,7 +92,7 @@ class ilPCLoginPageElement extends ilPageContent
 
     public function getAlignment(): string
     {
-        if (is_object($this->res_node)) {
+        if (isset($this->res_name) && is_object($this->res_node)) {
             return $this->res_node->get_attribute('HorizontalAlign');
         }
         return "";
