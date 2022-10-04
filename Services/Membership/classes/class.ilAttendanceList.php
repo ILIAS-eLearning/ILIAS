@@ -240,7 +240,7 @@ class ilAttendanceList
                         $a_res[$user_id]['status'] = $this->lng->txt('crs_waiting_list');
                     }
 
-                    foreach ((array) $cdfs[$user_id] as $field_id => $value) {
+                    foreach ((array) ($cdfs[$user_id] ?? []) as $field_id => $value) {
                         $a_res[$user_id]['cdf_' . $field_id] = (string) $value;
                     }
                 }
