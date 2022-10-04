@@ -18,6 +18,8 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Mail\Autoresponder\AutoresponderService;
+
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Michael Jansen <mjansen@databay.de>
@@ -246,7 +248,7 @@ class ilObjMailGUI extends ilObjectGUI
         $form->addItem($mn);
 
         $input = new ilNumberInputGUI($this->lng->txt('mail_auto_responder_idle_time'), 'mail_auto_responder_idle_time');
-        $input->setMinValue(0);
+        $input->setMinValue(1);
         $input->allowDecimals(false);
         $input->setInfo($this->lng->txt('mail_auto_responder_idle_time_info'));
         $input->setSuffix($this->lng->txt('days'));
@@ -275,8 +277,8 @@ class ilObjMailGUI extends ilObjectGUI
             'show_mail_settings' => (bool) $this->settings->get('show_mail_settings', '1'),
             'mail_maxsize_attach' => $this->settings->get('mail_maxsize_attach', ''),
             'mail_notification' => $this->settings->get('mail_notification', ''),
-            'mail_auto_responder_idle_time' => is_numeric($this->settings->get('mail_auto_responder_idle_time')) ?
-                (string) $this->settings->get('mail_auto_responder_idle_time') :
+            'mail_auto_responder_idle_time' => is_numeric($this->settings->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME)) ?
+                (string) $this->settings->get('mail_auto_responder_idle_time', '3') :
                 '',
         ]);
     }
