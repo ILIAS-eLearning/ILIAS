@@ -77,17 +77,31 @@ class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
             }
 
             $anchor = '';
+            $params = ['ref_id' => $refId];
             if ($isThread) {
                 $params['draft_id'] = $draft->getDraftId();
-                $params['cmd'] = 'editThreadDraft';
+                $cmd = 'editThreadDraft';
             } else {
                 $params['thr_pk'] = $draft->getThreadId();
                 $params['pos_pk'] = $draft->getPostId();
-                $params['cmd'] = 'viewThread';
-                $anchor = '#draft_' . $draft->getDraftId();
+                $cmd = 'viewThread';
+                $anchor = 'draft_' . $draft->getDraftId();
             }
 
-            $url = ilLink::_getLink($refId, 'frm', $params) . $anchor;
+            foreach ($params as $name => $value) {
+                $this->ctrl->setParameterByClass(ilObjForumGUI::class, $name, $value);
+            }
+            $url = $this->ctrl->getLinkTargetByClass(
+                [
+                    ilRepositoryGUI::class,
+                    ilObjForumGUI::class
+                ],
+                $cmd,
+                $anchor
+            );
+            foreach (array_keys($params) as $name) {
+                $this->ctrl->setParameterByClass(ilObjForumGUI::class, $name, null);
+            }
 
             $tasks[] = $task->withUrl($url);
         }
