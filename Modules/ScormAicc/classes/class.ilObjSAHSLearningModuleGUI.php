@@ -833,7 +833,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             // );
             $ilTabs->addSubTabTarget(
                 "certificate",
-                $this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+                $this->ctrl->getLinkTargetByClass([static::class, "ilcertificategui"], "certificateeditor"),
                 "",
                 "ilcertificategui"
             );
