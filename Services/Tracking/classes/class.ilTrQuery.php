@@ -1870,6 +1870,9 @@ class ilTrQuery
         $sql .= " GROUP BY obj_id," . $column;
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
+            if (!isset($res[(int) $row["obj_id"]][$row[$column]]["users"])) {
+                $res[(int) $row["obj_id"]][$row[$column]]["users"] = 0;
+            }
             $res[(int) $row["obj_id"]][$row[$column]]["users"] += (int) $row["counter"];
         }
 

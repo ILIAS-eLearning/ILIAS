@@ -92,7 +92,7 @@ class ilLPStatusVisits extends ilLPStatus
                         $a_obj_id,
                         $a_usr_id
                     );
-                    if ($re[0]['read_count'] >= $required_visits) {
+                    if (($re[0]['read_count'] ?? 0) >= $required_visits) {
                         $status = self::LP_STATUS_COMPLETED_NUM;
                     }
                 }
