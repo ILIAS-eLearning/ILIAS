@@ -257,7 +257,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
             // #15334
             foreach ($data as $idx => $row) {
-                if (!$this->isPercentageAvailable($row["obj_id"])) {
+                if (!$this->isPercentageAvailable($row["obj_id"] ?? 0)) {
                     // #17000 - enable proper (numeric) sorting
                     $data[$idx]["percentage"] = -1;
                 }
@@ -281,7 +281,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 
-        if ($a_set["offline"]) {
+        if ($a_set["offline"] ?? false) {
             $this->tpl->setCurrentBlock("offline");
             $this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
             $this->tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
@@ -291,7 +291,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
         $this->tpl->setVariable(
             "STATUS_ICON",
-            $icons->renderIconForStatus($a_set["status"])
+            $icons->renderIconForStatus((int) $a_set["status"])
         );
 
         if ($this->mode == ilLPObjSettings::LP_MODE_SCORM) {

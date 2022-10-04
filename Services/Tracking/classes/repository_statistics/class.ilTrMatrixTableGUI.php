@@ -135,7 +135,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 } else {
                     $title = $icon . ' ' . $title;
                 }
-                if ($labels[$c]["path"]) {
+                if ($labels[$c]["path"] ?? false) {
                     $tooltip[] = $labels[$c]["path"];
                 }
             }
@@ -551,7 +551,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                         : ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
                     $this->tpl->setCurrentBlock("objects");
-                    if (!$a_set["privacy_conflict"]) {
+                    if (!($a_set["privacy_conflict"] ?? false)) {
                         $this->tpl->setVariable(
                             "VAL_STATUS",
                             $this->parseValue(
