@@ -66,6 +66,7 @@ class ilLTIConsumeProvider
      * @var ilImageFileInputGUI|null
      */
     protected ?ilImageFileInputGUI $providerIconUploadInput = null;
+    protected ?array $providerIconUploadFileData = null;
 
     public const CATEGORY_ASSESSMENT = 'assessment';
     public const CATEGORY_FEEDBACK = 'feedback';
@@ -337,6 +338,16 @@ class ilLTIConsumeProvider
     public function setProviderIconUploadInput(ilFormPropertyGUI $providerIconUploadInput): void
     {
         $this->providerIconUploadInput = $providerIconUploadInput;
+    }
+
+    public function getProviderIconUploadFileData(): array
+    {
+        return $this->providerIconUploadFileData;
+    }
+
+    public function setProviderIconUploadFileData(array $providerIconUploadFileData): void
+    {
+        $this->providerIconUploadFileData = $providerIconUploadFileData;
     }
 
     /**
@@ -937,7 +948,7 @@ class ilLTIConsumeProvider
     {
         if ($this->getId() !== 0) {
             if ($this->hasProviderIconUploadInput()) {
-                $this->getProviderIcon()->handleUploadInputSubission($this->getProviderIconUploadInput());
+                $this->getProviderIcon()->handleUploadInputSubission($this->getProviderIconUploadInput(), $this->getProviderIconUploadFileData());
                 $this->setProviderIconFilename($this->getProviderIcon()->getFilename());
             }
 
@@ -948,7 +959,7 @@ class ilLTIConsumeProvider
             if ($this->hasProviderIconUploadInput()) {
                 $this->setProviderIcon(new ilLTIConsumeProviderIcon($this->getId()));
 
-                $this->getProviderIcon()->handleUploadInputSubission($this->getProviderIconUploadInput());
+                $this->getProviderIcon()->handleUploadInputSubission($this->getProviderIconUploadInput(), $this->getProviderIconUploadFileData());
                 $this->setProviderIconFilename($this->getProviderIcon()->getFilename());
 
                 $this->update();

@@ -35,7 +35,7 @@ class ilLTIConsumeProviderIcon
     ];
 
     protected static array $SUPPORTED_FILE_EXTENSIONS = [
-        'png', 'jpg', 'jpeg'
+        'png', 'jpg', 'jpeg', 'svg'
     ];
 
     /**
@@ -64,7 +64,7 @@ class ilLTIConsumeProviderIcon
 
     public function buildFilename(string $fileExtension): string
     {
-        return "{$this->providerId}.{$fileExtension}";
+        return $this->providerId . "." . $fileExtension;
     }
 
     public function getFilename(): string
@@ -186,7 +186,9 @@ class ilLTIConsumeProviderIcon
                         true
                     );
 
-                    $this->convert();
+                    if ($fileExtentsion !== "svg") {
+                        $this->convert();
+                    }
                 }
             }
         }
@@ -197,7 +199,7 @@ class ilLTIConsumeProviderIcon
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function handleUploadInputSubission(ilImageFileInputGUI $fileInput): void
+    public function handleUploadInputSubission(ilImageFileInputGUI $fileInput, array $fileData): void
     {
         global $DIC;
 
@@ -205,13 +207,9 @@ class ilLTIConsumeProviderIcon
             $this->delete();
         }
 
-        // ilImageFileInputGUI does NOT come with a set value that could be fetched with
-        // ToDo
-//        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
-
-//        if ($fileData['tmp_name']) {
-//            $this->save($fileData['tmp_name']);
-//        }
+        if ($fileData['tmp_name']) {
+            $this->save($fileData['tmp_name']);
+        }
     }
 
     /**

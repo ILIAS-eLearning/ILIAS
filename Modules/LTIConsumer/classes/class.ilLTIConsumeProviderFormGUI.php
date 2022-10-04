@@ -454,8 +454,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $provider->setTitle($this->getInput('title'));
         $provider->setDescription($this->getInput('description'));
 
+        $provider->setProviderIconUploadFileData((array) $this->getInput('icon'));
         $provider->setProviderIconUploadInput($this->getItemByPostVar('icon'));
-
 
         $provider->setHasOutcome((bool) $this->getInput('has_outcome_service'));
         $provider->setMasteryScorePercent($this->getInput('mastery_score'));
