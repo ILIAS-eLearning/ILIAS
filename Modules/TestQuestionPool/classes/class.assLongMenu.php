@@ -249,7 +249,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = $this->getCorrectAnswers();
         if ($points) {
             foreach ($points as $add) {
-                $sum += $add[1];
+                $sum += (float) $add[1];
             }
         }
         return $sum;
@@ -299,13 +299,13 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
                         'position' => array('integer', (int) $position)
                         ),
                     array(
-                                'answer_text' => array('text', $answer),
-                                'points' => array('float', $gap[1]),
-                                'type' => array('integer', (int) $type)
+                        'answer_text' => array('text', $answer),
+                        'points' => array('float', (float) $gap[1]),
+                        'type' => array('integer', (int) $type)
                         )
                 );
             }
-            $points += $gap[1];
+            $points += (float) $gap[1];
         }
         $this->setPoints($points);
     }
