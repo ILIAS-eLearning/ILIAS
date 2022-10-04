@@ -10663,7 +10663,7 @@ lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Prov
 lti#:#obj_tile_image_info#:#Use an Image in Square Format
 lti#:#online_info#:#This makes the object visible and usable for the users.
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#Used Provider
+lti#:#provider_info#:#Used Provider resp. Tool
 lti#:#settings_subtab#:#Settings
 lti#:#show_statements#:#Display Learning Experiences
 lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
