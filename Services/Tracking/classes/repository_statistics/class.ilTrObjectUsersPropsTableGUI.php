@@ -208,7 +208,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $this->user_fields
             );
         }
-
         $this->setMaxCount($tr_data["cnt"]);
         $this->setData($tr_data["set"]);
     }

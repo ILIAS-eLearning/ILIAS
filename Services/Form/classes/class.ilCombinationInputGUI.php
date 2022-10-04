@@ -38,7 +38,6 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     ) {
         parent::__construct($a_title, $a_postvar);
         global $DIC;
-
         $this->lng = $DIC->language();
     }
 
