@@ -342,6 +342,11 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $id->save();
 
         $keywords = $object->getProvider()->getKeywordsArray();
+
+        // language needed now
+        $ulang = $this->user->getLanguage();
+        $keywords = array($ulang => $keywords);
+
         ilMDKeyword::updateKeywords($generalMetadata, $keywords);
     }
 
