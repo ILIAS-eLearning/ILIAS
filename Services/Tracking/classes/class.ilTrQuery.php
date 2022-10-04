@@ -1640,7 +1640,6 @@ class ilTrQuery
         ?int $a_check_agreement = null
     ): array {
         global $DIC;
-
         $ilDB = $DIC->database();
 
         $result = array("cnt" => 0, "set" => null);
