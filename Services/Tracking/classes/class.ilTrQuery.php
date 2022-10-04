@@ -338,7 +338,6 @@ class ilTrQuery
             $udf_order = $a_order_field;
             $a_order_field = null;
         }
-
         $result = self::executeQueries(
             $queries,
             $a_order_field,
@@ -1280,13 +1279,13 @@ class ilTrQuery
 
                     case "spent_seconds":
                         if (!$a_aggregate) {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $where[] = "(read_event." . $id . "+read_event.childs_" . $id . ") >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if (isset($value["to"])) {
+                            if (isset($value["to"]) && $value["to"] > 0) {
                                 $where[] = "((read_event." . $id . "+read_event.childs_" . $id . ") <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1294,13 +1293,13 @@ class ilTrQuery
                                     " OR (read_event." . $id . "+read_event.childs_" . $id . ") IS NULL)";
                             }
                         } else {
-                            if (isset($value["from"])) {
+                            if (isset($value["from"]) && $value["from"] > 0) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) >= " . $ilDB->quote(
                                     $value["from"],
                                     "integer"
                                 );
                             }
-                            if (isset($value["to"])) {
+                            if (isset($value["to"]) && $value["to"] > 0) {
                                 $having[] = "ROUND(AVG(read_event." . $id . "+read_event.childs_" . $id . ")) <= " . $ilDB->quote(
                                     $value["to"],
                                     "integer"
@@ -1563,7 +1562,6 @@ class ilTrQuery
         global $DIC;
 
         $ilDB = $DIC->database();
-
         $cnt = 0;
         $subqueries = array();
         foreach ($queries as $item) {
@@ -1614,7 +1612,6 @@ class ilTrQuery
             $offset = $a_offset;
             $limit = $a_limit;
             $ilDB->setLimit($limit, $offset);
-
             $set = $ilDB->query($query);
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $result[] = $rec;
