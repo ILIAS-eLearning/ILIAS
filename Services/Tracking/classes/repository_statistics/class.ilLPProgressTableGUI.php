@@ -221,7 +221,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
         $this->tpl->setVariable(
             "STATUS_ICON",
-            $icons->renderIconForStatus($a_set["status"])
+            $icons->renderIconForStatus((int) $a_set["status"])
         );
 
         if ($this->mode == ilLPObjSettings::LP_MODE_SCORM) {
