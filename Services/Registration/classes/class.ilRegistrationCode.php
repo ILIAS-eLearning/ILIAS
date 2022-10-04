@@ -33,8 +33,8 @@ class ilRegistrationCode
         int $role,
         int $stamp,
         array $local_roles,
-        string $limit,
-        string $limit_date,
+        ?string $limit,
+        ?string $limit_date,
         bool $reg_type,
         bool $ext_type
     ): int {
