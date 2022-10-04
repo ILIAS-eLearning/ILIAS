@@ -528,7 +528,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         $template->setVariable("QID", $this->object->getId());
-        $template->setVariable("ESSAY", ilLegacyFormElementsUtil::prepareFormOutput($user_solution));
+        $template->setVariable("ESSAY", ilLegacyFormElementsUtil::prepareFormOutput(html_entity_decode($user_solution)));
         $questiontext = $this->object->getQuestion();
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();

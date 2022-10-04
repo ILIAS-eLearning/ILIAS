@@ -35,6 +35,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+    private $answers_from_post;
+
     /**
      * assTextSubsetGUI constructor
      *
@@ -57,6 +59,11 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      */
     protected function writePostData(bool $always = false): int
     {
+        /*
+         * sk 26.09.22: This is horrific but I don't see a better way right now,
+         * without needing to check most questions for side-effects.
+         */
+        $this->answers_from_post = $_POST['answers']['answer'];
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -296,7 +303,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             foreach ($solutions as $idx => $solution_value) {
                 if ($idx == $i) {
                     $template->setVariable("TEXTFIELD_VALUE", " value=\"" . ilLegacyFormElementsUtil::prepareFormOutput(
-                        $solution_value["value1"]
+                        html_entity_decode($solution_value["value1"])
                     ) . "\"");
                 }
             }
@@ -328,9 +335,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
-        foreach ($_POST['answers']['answer'] as $index => $answer) {
-            $answertext = $answer;
-            $this->object->addAnswer($answertext, $_POST['answers']['points'][$index], $index);
+        foreach ($this->answers_from_post as $index => $answertext) {
+            $this->object->addAnswer(htmlentities(trim($answertext)), $_POST['answers']['points'][$index], $index);
         }
     }
 
@@ -388,7 +394,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         if ($this->object->getAnswerCount() == 0) {
             $this->object->addAnswer("", 0, 0);
         }
-        $choices->setValues($this->object->getAnswers());
+        $choices->setValues(array_map(
+            function (ASS_AnswerBinaryStateImage $value) {
+                $value->setAnswerText(html_entity_decode($value->getAnswerText()));
+                return $value;
+            },
+            $this->object->getAnswers()
+        ));
         $form->addItem($choices);
         return $form;
     }
