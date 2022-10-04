@@ -3835,7 +3835,7 @@ abstract class assQuestion
             if ($considerDummyRecordCreation) {
                 // create an additional dummy record to indicate the existence of an intermediate solution
                 // even if all entries are deleted from the intermediate solution later
-                $this->saveCurrentSolution($activeId, $passIndex, null, null, false, null);
+                $this->saveCurrentSolution($activeId, $passIndex, null, null, false);
             }
         }
     }
