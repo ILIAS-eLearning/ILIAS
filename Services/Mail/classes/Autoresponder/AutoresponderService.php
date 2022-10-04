@@ -24,6 +24,8 @@ use ilMailOptions;
 
 interface AutoresponderService
 {
+    public const AUTO_RESPONDER_DEFAULT_IDLE_TIME = 3;
+
     public function isAutoresponderEnabled(): bool;
     public function enableAutoresponder(): void;
     public function disableAutoresponder(): void;

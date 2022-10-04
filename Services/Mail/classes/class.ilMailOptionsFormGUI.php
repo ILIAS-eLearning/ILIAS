@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
 use ILIAS\Mail\Autoresponder\AutoresponderRepository;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 
 /**
  * Class ilMailOptionsFormGUI
@@ -92,7 +93,8 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $auto_responder_subject->setMaxLength(200);
         $auto_responder_subject->setRequired(true);
         $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
-        $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), (int) $this->settings->get('mail_auto_responder_idle_time')));
+        $idle_time = (int) $this->settings->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME);
+        $auto_responder_body->setInfo(sprintf($this->lng->txt('mail_absence_auto_responder_body_info'), $idle_time));
         $auto_responder_body->setRequired(true);
         $auto_responder_body->setCols(60);
         $auto_responder_body->setRows(10);

@@ -51,7 +51,7 @@ class MailService
     public function autoresponder(): AutoresponderService
     {
         return new AutoresponderServiceImpl(
-            (int) $this->dic->settings()->get('mail_auto_responder_idle_time'),
+            (int) $this->dic->settings()->get('mail_auto_responder_idle_time', (string) AutoresponderService::AUTO_RESPONDER_DEFAULT_IDLE_TIME),
             false,
             new AutoresponderDatabaseRepository($this->dic->database()),
             (new DataFactory())->clock()->utc()
