@@ -969,7 +969,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $user_solution[$matches[1]]["unit"] = $val2;
                 }
 
-                if (preg_match("/^(\\\$r\\d+)/", $val1, $matches) && $user_solution[$matches[1]]["result_type"] == 0) {
+                if (preg_match("/^(\\\$r\\d+)/", $val1, $matches) && !isset($user_solution[$matches[1]]["result_type"])) {
                     $user_solution[$matches[1]]["result_type"] = assFormulaQuestionResult::getResultTypeByQstId($this->object->getId(), $val1);
                 }
             }
@@ -1032,8 +1032,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     }
                     $user_solution[$matches[1]]["unit"] = $solution_value["value2"];
                 }
-
-                if (preg_match("/^(\\\$r\\d+)/", $solution_value["value1"], $matches) && $user_solution[$matches[1]]["result_type"] == 0) {
+                if (preg_match("/^(\\\$r\\d+)/", $solution_value["value1"], $matches) && !isset($user_solution[$matches[1]]["result_type"])) {
                     $user_solution[$matches[1]]["result_type"] = assFormulaQuestionResult::getResultTypeByQstId($this->object->getId(), $solution_value["value1"]);
                 }
             }

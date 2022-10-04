@@ -1323,22 +1323,26 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     {
         $solutionSubmit = array();
 
-        foreach ($submit as $key => $value) {
-            if (preg_match("/^gap_(\d+)/", $key, $matches)) {
-                $value = ilUtil::stripSlashes($value, false);
-                if (strlen($value)) {
-                    $gap = $this->getGap($matches[1]);
-                    if (is_object($gap)) {
-                        if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
-                            if ($gap->getType() == CLOZE_NUMERIC && !is_numeric(str_replace(",", ".", $value))) {
-                                $value = null;
-                            } elseif ($gap->getType() == CLOZE_NUMERIC) {
-                                $value = str_replace(",", ".", $value);
-                            }
-                            $solutionSubmit[trim($matches[1])] = $value;
-                        }
-                    }
+        foreach ($this->getGaps() as $index => $gap) {
+            $value = $this->dic->http()->wrapper()->post()->retrieve(
+                "gap_$index",
+                $this->dic->refinery()->kindlyTo()->string()
+            );
+
+            if ($value === "") {
+                return $solutionSubmit;
+            }
+
+            if (!(($gap->getType() === (int) CLOZE_SELECT) && ($value === -1))) {
+                if (
+                    $gap->getType() === (int) CLOZE_NUMERIC
+                    && !is_numeric(str_replace(",", ".", $value))
+                ) {
+                    $value = null;
+                } elseif ($gap->getType() === (int) CLOZE_NUMERIC) {
+                    $value = str_replace(",", ".", $value);
                 }
+                $solutionSubmit[$index] = $value;
             }
         }
 
@@ -1881,6 +1885,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($detailed === null) {
             $detailed = array();
         }
+
+        $points = 0;
 
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $combinations[1] = array();

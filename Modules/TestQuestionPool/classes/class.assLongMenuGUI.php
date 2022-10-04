@@ -102,9 +102,9 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $hidden_text_files = $this->request->raw('hidden_text_files') ?? '';
         $hidden_correct_answers = $this->request->raw('hidden_correct_answers') ?? [];
         $long_menu_type = $this->request->raw('long_menu_type') ?? '';
-        $this->object->setLongMenuTextValue(ilArrayUtil::stripSlashesRecursive($longmenu_text));
-        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilArrayUtil::stripSlashesRecursive($hidden_text_files))));
-        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilArrayUtil::stripSlashesRecursive($hidden_correct_answers))));
+        $this->object->setLongMenuTextValue(ilUtil::stripSlashes($longmenu_text));
+        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_text_files))));
+        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashes($hidden_correct_answers))));
         $this->object->setAnswerType(ilArrayUtil::stripSlashesRecursive($long_menu_type));
         $this->object->setQuestion($this->request->raw('question'));
         $this->object->setLongMenuTextValue($this->request->raw('longmenu_text'));
