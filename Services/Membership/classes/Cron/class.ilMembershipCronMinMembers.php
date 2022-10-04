@@ -142,7 +142,8 @@ class ilMembershipCronMinMembers extends ilCronJob
         foreach ($a_items as $item) {
             $obj_type = (string) $item[0];
             $obj_id = (int) $item[1];
-            $ref_id = array_pop($ref_id);
+            $ref_ids = ilObject::_getAllReferences($obj_id);
+            $ref_id = array_pop($ref_ids);
             $title = ilObject::_lookupTitle($obj_id);
             $url = ilLink::_getLink($ref_id, $obj_type);
 
