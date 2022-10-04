@@ -95,9 +95,6 @@ class ilWebDAVObjFactory
         }
 
         if ($ilias_object_type === 'file') {
-            if (!$this->hasValidFileExtension($ilias_object->getTitle())) {
-                throw new ilWebDAVNotDavableException(ilWebDAVNotDavableException::FILE_EXTENSION_NOT_ALLOWED);
-            }
             return new ilDAVFile(
                 $ilias_object,
                 $this->repository_helper,
