@@ -41,12 +41,14 @@ class RunManager
     protected InternalDomainService $domain_service;
     protected \ilObjSurvey $survey;
     protected int $current_user_id;
+    protected int $appraisee_id;
 
     public function __construct(
         InternalRepoService $repo_service,
         InternalDomainService $domain_service,
         \ilObjSurvey $survey,
-        int $current_user_id
+        int $current_user_id,
+        int $appraisee_id = 0
     ) {
         $this->repo = $repo_service->execution()->run();
 
@@ -55,6 +57,7 @@ class RunManager
         $this->feature_config = $domain_service->modeFeatureConfig($survey->getMode());
         $this->domain_service = $domain_service;
         $this->current_user_id = $current_user_id;
+        $this->appraisee_id = $appraisee_id;
         $this->session_repo = $repo_service->execution()->runSession();
         $this->code_manager = $domain_service->code($survey, $current_user_id);
     }
@@ -64,21 +67,21 @@ class RunManager
         return !$this->survey->isAccessibleWithoutCode();
     }
 
-    public function getCurrentRunId(int $appraisee = 0): int
+    public function getCurrentRunId(): int
     {
         $repo = $this->repo;
         $survey_id = $this->survey_id;
         $user_id = $this->current_user_id;
         $code = $this->getCode();
 
-        $this->checkUserParameters($user_id, $code, $appraisee);
+        $this->checkUserParameters($user_id, $code);
 
         // code needed, no code given -> no run
         if ($code === "" && $this->codeNeeded()) {
             return 0;
         }
 
-        $run_id = $repo->getCurrentRunId($survey_id, $user_id, $code, $appraisee);
+        $run_id = $repo->getCurrentRunId($survey_id, $user_id, $code, $this->appraisee_id);
         return (int) $run_id;
     }
 
@@ -89,14 +92,13 @@ class RunManager
      */
     protected function checkUserParameters(
         int $user_id,
-        string $code = "",
-        int $appraisee = 0
+        string $code = ""
     ): void {
-        if ($this->feature_config->usesAppraisees() && $appraisee === 0) {
+        if ($this->feature_config->usesAppraisees() && $this->appraisee_id === 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
 
-        if (!$this->feature_config->usesAppraisees() && $appraisee > 0) {
+        if (!$this->feature_config->usesAppraisees() && $this->appraisee_id > 0) {
             throw new \ilSurveyException("Appraisee ID given, but appraisees not supported");
         }
 
@@ -108,25 +110,25 @@ class RunManager
 
 
     // Get state of current run
-    protected function getCurrentState(int $appraisee = 0): int
+    protected function getCurrentState(): int
     {
         $repo = $this->repo;
-        $run_id = $this->getCurrentRunId($appraisee);
+        $run_id = $this->getCurrentRunId();
         return $repo->getState($run_id);
     }
 
     public function hasStarted(int $appraisee = 0): bool
     {
         return in_array(
-            $this->getCurrentState($appraisee),
+            $this->getCurrentState(),
             [RunDBRepository::STARTED_NOT_FINISHED, RunDBRepository::FINISHED],
             true
         );
     }
 
-    public function hasFinished(int $appraisee = 0): bool
+    public function hasFinished(): bool
     {
-        return ($this->getCurrentState($appraisee) ===
+        return ($this->getCurrentState() ===
             RunDBRepository::FINISHED);
     }
 
@@ -136,8 +138,7 @@ class RunManager
      * and does not retrieve the code from the session.
      */
     public function belongsToFinishedRun(
-        string $code,
-        int $appraisee_id = 0
+        string $code
     ): bool {
         $repo = $this->repo;
         $code_manager = $this->domain_service->code($this->survey, $this->current_user_id);
@@ -147,7 +148,7 @@ class RunManager
                 $this->survey_id,
                 $this->current_user_id,
                 $code,
-                $appraisee_id
+                $this->appraisee_id
             );
             if ($run_id > 0) {
                 $state = $repo->getState($run_id);
@@ -184,6 +185,9 @@ class RunManager
     public function start(
         int $appraisee_id = 0
     ): void {
+        $appraisee_id = ($appraisee_id > 0)
+            ? $appraisee_id
+            : $this->appraisee_id;
         $code = $this->getCode();
         $user_id = $this->current_user_id;
         $survey = $this->survey;

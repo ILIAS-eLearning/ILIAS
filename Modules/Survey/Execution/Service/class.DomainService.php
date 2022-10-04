@@ -43,17 +43,19 @@ class DomainService
 
     public function run(
         \ilObjSurvey $survey,
-        int $user_id
+        int $user_id,
+        int $appraisee_id = 0
     ): RunManager {
-        if (!isset(self::$managers[RunManager::class][$survey->getId()][$user_id])) {
-            self::$managers[RunManager::class][$survey->getId()][$user_id] =
+        if (!isset(self::$managers[RunManager::class][$survey->getId()][$user_id][$appraisee_id])) {
+            self::$managers[RunManager::class][$survey->getId()][$user_id][$appraisee_id] =
                 new RunManager(
                     $this->repo_service,
                     $this->domain_service,
                     $survey,
-                    $user_id
+                    $user_id,
+                    $appraisee_id
                 );
         }
-        return self::$managers[RunManager::class][$survey->getId()][$user_id];
+        return self::$managers[RunManager::class][$survey->getId()][$user_id][$appraisee_id];
     }
 }

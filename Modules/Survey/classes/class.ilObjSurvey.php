@@ -2337,7 +2337,7 @@ class ilObjSurvey extends ilObject
             $run_manager = $this->survey_service
                 ->domain()
                 ->execution()
-                ->run($this, $this->user->getId());
+                ->run($this, $this->user->getId(), $appr_id);
             $run = $run_manager->getById($finished_id);
             $rater_id = "";
             if ($run->getUserId() !== 0 && $run->getUserId() !== ANONYMOUS_USER_ID) {
