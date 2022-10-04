@@ -265,7 +265,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         foreach (array_keys($this->getSelectedColumns()) as $c) {
-            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c]);
+            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c] ?? "");
         }
     }
 }
