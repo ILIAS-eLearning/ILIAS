@@ -568,12 +568,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                 default:
                     $this->tpl->setCurrentBlock("user_field");
-                    if (!$a_set["privacy_conflict"]) {
+                    if (!($a_set["privacy_conflict"] ?? false)) {
                         $this->tpl->setVariable(
                             "VAL_UF",
                             $this->parseValue(
                                 $c,
-                                $a_set[$c],
+                                $a_set[$c] ?? "",
                                 ""
                             )
                         );
