@@ -4639,7 +4639,7 @@ class ilObjSurvey extends ilObject
 
         // user may evaluate himself if already appraisee
         if ($this->get360SelfEvaluation() &&
-            $this->isAppraisee($a_user_id) &&
+            $this->isAppraisee((int) $a_user_id) &&
             !in_array($a_user_id, $res)) {
             $res[] = $a_user_id;
         }
