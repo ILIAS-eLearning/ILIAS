@@ -198,11 +198,17 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
             return;
         }
 
-        $ilDB->manipulate("INSERT INTO usr_portf_acl (node_id, object_id, extended_data, tstamp)" .
-            " VALUES (" . $ilDB->quote($a_node_id, "integer") . ", " .
-            $ilDB->quote($a_object_id, "integer") . "," .
-            $ilDB->quote($a_extended_data, "text") . "," .
-            $ilDB->quote(time(), "integer") . ")");
+        $ilDB->replace(
+            "usr_portf_acl",
+            [
+                "node_id" => ["integer", $a_node_id],
+                "object_id" => ["integer", $a_object_id]
+            ],
+            [
+                "extended_data" => ["text", $a_extended_data],
+                "tstamp" => ["integer", time()]
+            ]
+        );
 
         // portfolio as profile
         $this->syncProfile($a_node_id);
