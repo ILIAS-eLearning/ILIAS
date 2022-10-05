@@ -238,6 +238,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
             }
         }
 
+        $file_name = $this->str('file_name');
+        if ($file_name === "") {
+            $file_name = $_FILES[$this->getPostVar()]["name"];
+        }
+        $this->setFilename($file_name);
+
         return true;
     }
 
