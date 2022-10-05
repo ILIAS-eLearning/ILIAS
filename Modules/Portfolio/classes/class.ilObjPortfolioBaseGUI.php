@@ -397,6 +397,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             false,
             $obj_ids
         );
+        $provider = $provider->withDeclarationOfAuthorship(
+            new ilPortfolioDeclarationOfAuthorship(),
+            $this->user
+        );
         return new \ILIAS\Export\PrintProcessGUI(
             $provider,
             $this->http,
