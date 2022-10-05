@@ -313,7 +313,7 @@ class ilSurveySkill
                     $skills[$k]["next_level_perc"] = 0;
                 } elseif ($t > 0 && $mean_sum < $t) {
                     // first unfulfilled level
-                    if ($previous == $skills[$k]["new_level_id"] && !isset($skills[$k]["next_level_perc"])) {
+                    if ($previous == ($skills[$k]["new_level_id"] ?? null) && !isset($skills[$k]["next_level_perc"])) {
                         $skills[$k]["next_level_perc"] = 1 / ($t - $previous_t) * ($mean_sum - $previous_t);
                     }
                 }
