@@ -3,4 +3,5 @@
 */
 
 // most normalizing is done by bootstrap
-@import "./_normalize_print.scss";
+@use "./_normalize_print.scss";
+@use "./normalize_typography"

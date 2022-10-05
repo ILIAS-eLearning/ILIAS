@@ -1,4 +1,4 @@
-@use "../030-tools/scss-input/tool_rem-conversion" as t-rem-px;
+@use "../030-patterns/tool_rem-conversion" as t-rem-px;
 @use "sass:math";
 //== Typography
 //
@@ -28,6 +28,7 @@ $il-line-height-base:		1.428571429;
 $il-line-height-computed: math.floor($il-font-size-base * $il-line-height-base);
 $il-small-line-height-computed: math.floor($il-font-size-small * $il-line-height-base);
 $il-line-height-large:  1.33;
+$il-line-height-small: 1.5;
 
 
 //** Used to lighten text, e.g. workflow steps.

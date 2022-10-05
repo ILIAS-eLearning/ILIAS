@@ -1,3 +1,7 @@
+@use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-patterns/tool_focus-outline" as *;
+
 /* Services/Awareness */
 
 .ilAwarenessDropDown .popover {
@@ -45,7 +49,7 @@
 #awareness-content .dropdown-menu {
 	position: static;
 	float: none;
-	@include box-shadow(none);
+	@include btstrp3.box-shadow(none);
 }
 
 #awareness-content .media {

@@ -1,5 +1,5 @@
-@use "../../010-settings/" as *;
-@use "../../050-layout/basics/" as *;
+@use "../010-settings/" as *;
+@use "../050-layout/basics/" as *;
 
 $il-panel-heading-padding: $il-padding-xlarge-vertical $il-padding-xlarge-horizontal;
 $il-panel-heading-color: $il-text-color;

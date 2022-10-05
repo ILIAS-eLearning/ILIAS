@@ -1,9 +1,11 @@
 @use "sass:math";
 @use "../../../../../010-settings" as *;
-@use "../../../../../030-tools/scss-input/tool_form-patterns" as *;
-@use "../../../../../030-tools/scss-input/tool_panel-patterns" as *;
+@use "../../../../../030-patterns/tool_form-patterns" as *;
+@use "../../../../../030-patterns/pattern_panel" as *;
+@use "../../../../../030-patterns/tool_rem-conversion" as *;
 @use "../../../../../050-layout/basics" as *;
 @use "../../../../../050-layout/standardpage/" as *;
+
 /**
 Some bootstrap variables are not left by the default of bootstrap, but are overwritten by ILIAS less variales.
 Those are set here. If you need to overwrite a less variable of bootstrap, set a variable in the the variables.scss
@@ -55,7 +57,7 @@ $line-height-computed:    $il-line-height-computed; // ~20px
 //** For larger font sizes, such as titles in panels.
 $line-height-large:         $il-line-height-large;
 //** For smaller font sizes
-$line-height-small:         1.5;
+$line-height-small:         $il-line-height-small;
 
 //== Base Padding and Border
 //
@@ -87,8 +89,8 @@ $navbar-padding-vertical:          calc(($navbar-height - $line-height-computed)
 //
 //## Icons are used to represent (and quickly identify) objects.
 
-//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
-$il-icon-font-path: "./020-dependencies/bootstrap-3-scss/fonts";
+//** Path to the font of the glyphicons. Note that the path must be put in "".
+$il-icon-font-path: "./020-dependencies/unmodified/bootstrap-3-scss/fonts/";
 $icon-font-path: $il-icon-font-path;
 
 //== Navs
@@ -114,9 +116,8 @@ $badge-active-bg:             $il-warning-color;
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 $input-border-radius: 0;
 $input-border-focus: lighten($il-main-color, 20%);
-// $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2) !default;
-$input-height-base: (math.floor($il-standard-form-font-size * $il-line-height-base)) + 0.56;
-$input-height-small: (floor($il-font-size-small * $il-line-height-base) + ($padding-small-vertical * 2) + 2);
+$input-height-base: (rem-to-pixel($il-line-height-computed) + rem-to-pixel($il-padding-base-vertical * 2) + 2);
+$input-height-small: ((rem-to-pixel($il-font-size-small) * $il-line-height-base) + rem-to-pixel($padding-small-vertical * 2) + 2);
 
 $input-color-placeholder: $il-text-light-color;
 
@@ -174,7 +175,6 @@ $dropdown-link-color: $il-text-color;
 $dropdown-link-hover-color: $il-text-hover-color;
 $dropdown-link-hover-bg: $il-highlight-bg;
 
-$il-toolbar-height: 40 * 0.625rem;
 $navbar-height: $il-toolbar-height;
 
 //== Type

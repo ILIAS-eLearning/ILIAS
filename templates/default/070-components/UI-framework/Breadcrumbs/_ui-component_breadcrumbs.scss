@@ -1,7 +1,7 @@
 @use "../../../010-settings/"as *;
 @use "../../../050-layout/basics"as *;
 @use "../../../050-layout/standardpage/"as *;
-@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../030-patterns/tool_focus-outline" as *;
 
 .breadcrumb_wrapper {
 	width: 100%;

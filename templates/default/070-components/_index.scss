@@ -34,13 +34,13 @@
 @use "./UI-framework/Tree/_ui-component_tree.scss";
 @use "./UI-framework/ViewControl/_ui-component_viewcontrol.scss";
 
-/* Component parts from old delos.scss 
+/* Component parts from old delos.scss */
 
 @use "./legacy/_component_agreement.scss";
 @use "./legacy/_component_alert.scss";
 @use "./legacy/_component_bottom-center-area.scss";
 @use "./legacy/_component_headline.scss";
-@use "./legacy/_component_help.scss";
+@use "./legacy/_component_helpsidebar";
 @use "./legacy/_component_icon.scss";
 @use "./legacy/_component_LeftNavSpace.scss";
 @use "./legacy/_component_link.scss";
@@ -48,9 +48,9 @@
 @use "./legacy/_component_overlay.scss";
 @use "./legacy/_component_permalinks.scss";
 @use "./legacy/_component_rightPanel.scss";
-@use "./legacy/_component_table.scss"; */
+@use "./legacy/_component_delostable.scss"; 
 
-/* Legacy Modules & Services 
+/* Legacy Modules & Services */
 
 @use "./legacy/Modules/_component_bibliographic.scss";
 @use "./legacy/Modules/_component_blog.scss";
@@ -81,7 +81,6 @@
 @use "./legacy/Services/_component_block.scss";
 @use "./legacy/Services/_component_bookmarks.scss";
 @use "./legacy/Services/_component_calendar.scss";
-@use "./legacy/Services/_component_certificate.scss";
 @use "./legacy/Services/_component_chart.scss";
 @use "./legacy/Services/_component_container.scss";
 @use "./legacy/Services/_component_copage.scss";
@@ -120,4 +119,3 @@
 @use "./legacy/Services/UIComponent/_component_tooltip.scss";
 @use "./legacy/Services/_component_user.scss";
 @use "./legacy/Services/_component_webdav.scss";
-*/

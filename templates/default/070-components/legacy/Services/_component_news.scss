@@ -1,3 +1,7 @@
+@use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-patterns/pattern_panel" as *;
+
 /* Services/News */
 
 td.il-news {
@@ -246,7 +250,7 @@ span.ilNewsRssIcon {
 .dynamic-height-wrap {
 	overflow: hidden;
 	position: relative;
-	@include transition(max-height 0.25s ease-in-out);
+	@include btstrp3.transition(max-height 0.25s ease-in-out);
 	width: 100%;
 }
 

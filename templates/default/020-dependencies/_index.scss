@@ -2,14 +2,11 @@
 * Dependencies
 */
 
-@use "./modifications/bootstrap-3-scss-modified";
-// in components load bootstrap from modifications/bootstrap-3-scss-modified-variables-mixins ONLY
+@use "./modifications/bootstrap-3-scss/bootstrap-3-scss-modified";
+// You MUST NOT include bootstrap like this anywhere elese!
+// In components load bootstrap variables from botstrap-3-scss-modified-variables-mixins instead!
 
-
-/*
-* Other Dependencies - Alterations
-*/
-
-@use "./alterations/dependency-alterations_jquery-autocomplete";
-@use "./alterations/dependency-alterations_tinymce";
-@use "./alterations/dependency-alterations_yui2";
+@use "./modifications/datetimepicker/bootstrap-datetimepicker.scss";
+@use "./modifications/jquery-autocomplete";
+@use "./modifications/additions_tinymce";
+@use "./modifications/additions_yui2";

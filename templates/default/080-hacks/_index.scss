@@ -1,5 +1,7 @@
 @use "../010-settings/" as *;
-@use "../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../030-patterns/tool_multi-line-cap" as *;
+@use "../030-patterns/tool_typography-mixins" as *;
 @use "../050-layout/basics" as *;
 
 /*
@@ -238,7 +240,7 @@ div.framed {
 }
 */
 
-/* no longer in use? */
+// no longer in use?
 div.ilFrame {
 	margin-top: -40px;
 	margin-left: auto;
@@ -254,3 +256,148 @@ div.ilFrame {
 	}
 }
 
+// used to be in Services/certificates 
+
+.il-deck {
+	.il-card {
+		.caption {
+			div.icon.small {
+				vertical-align: middle;
+			}
+		}
+	}
+}
+
+// should be used as mixins instead of classes in html template
+
+.il-multi-line-cap-2 {
+	@include il-multi-line-cap-mixin(2);
+}
+
+.il-multi-line-cap-3 {
+	@include il-multi-line-cap-mixin(3);
+}
+
+.il-multi-line-cap-5 {
+	@include il-multi-line-cap-mixin(5);
+}
+
+.il-multi-line-cap-10 {
+	@include il-multi-line-cap-mixin(10);
+}
+
+// which of these are really used?
+// solve with mixins in component if possible
+
+.ilCenter {
+	@include type-mix.ilCenter;
+}
+
+.ilRight {
+	@include type-mix.ilRight;
+}
+
+.ilLeft {
+	@include type-mix.ilLeft;
+}
+
+.ilValignMiddle {
+	vertical-align: middle;
+}
+
+.ilWhiteSpaceNowrap {
+	white-space: nowrap;
+}
+
+/* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
+.ilPreventBreakOut {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
+}
+
+/* ----------------- alternative text styles ------------- */
+.base {
+	text-decoration: none;
+	font-size: $il-font-size-base;
+}
+
+.small {
+	text-decoration: none;
+	font-size: $il-font-size-small;
+}
+
+.xsmall {
+	text-decoration: none;
+	font-size: $il-font-size-xsmall;
+}
+
+.smallgreen {
+	text-decoration: none;
+	font-size: $il-font-size-small;
+	color: green;
+}
+
+.smallred {
+	text-decoration: none;
+	font-size: $il-font-size-small;
+	color: $il-danger-color;
+}
+
+.obligatory {
+	font-weight: $il-font-weight-base;
+	color: #800000;
+	font-variant: normal;
+}
+
+.warning {
+	text-decoration: none;
+	font-weight: $il-font-weight-bold;
+	color: $il-danger-color;
+}
+
+div.Access {
+	text-decoration: none;
+	font-weight: $il-font-weight-bold;
+	text-decoration: underline;
+	color: $il-danger-color;
+}
+
+.asterisk {
+	color: $il-danger-color;
+	font-size: $il-font-size-small;
+}
+
+.default {
+	text-decoration: none;
+	font-weight: $il-font-weight-base;
+}
+
+
+.quote {
+	font-style: italic;
+	font-weight: $il-font-weight-base;
+}
+
+.subtitle {
+	font-style: italic;
+	font-weight: $il-font-weight-base;
+	font-size: $il-font-size-small;
+}
+
+.questiontext {
+	font-weight: $il-font-weight-bold;
+}
+
+.bold {
+	font-weight: $il-font-weight-bold;
+}
+
+.light {
+	color: $il-text-light-color;
+}

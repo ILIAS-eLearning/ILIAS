@@ -1,7 +1,7 @@
 
 @use "../../010-settings/" as s;
-@use "../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp;
-@use "../../030-tools/scss-input/tools_menu-patterns" as t-menu;
+@use "../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp;
+@use "../../030-patterns/pattern_menu" as t-menu;
 
 /* jquery ui autocomplete */
 .ui-menu {

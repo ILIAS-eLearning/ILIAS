@@ -1,5 +1,5 @@
 @use "../../010-settings/" as *;
-@use "../../030-tools/scss-input/tool_symbol" as t-symbol;
+@use "../../030-patterns/pattern_symbol" as t-symbol;
 @use "../basics" as *;
 
 $il-standard-page-border-light-color: $il-main-border-color;

@@ -1,14 +1,9 @@
 @use "../../../010-settings/" as *;
+@use "../../../030-patterns/pattern-tree" as *;
 @use "../../../050-layout/basics" as *;
 
 //== Tree
 //
-//## Basic adjustments for the tree
-$il-tree-node-indentation: $il-font-size-base;
-//** Vertical Space between nodes
-$il-tree-node-vertical-spacing: 3px;
-//** Horizontal space between expand/collapse icon, an optional node icon and node label
-$il-tree-node-horizontal-spacing: 4px;
 
 .il-tree {
 	list-style-type: none;

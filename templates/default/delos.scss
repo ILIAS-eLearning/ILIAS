@@ -3,41 +3,15 @@
 // # ITCSS structure
 // All style code MUST be split into these layers
 
-
-// 010-settings: partials include settings with @use when they need them
-@use './020-dependencies/' as *;
-@use "./030-tools/" as *;
+// 010-settings: include settings with @use in other files when needed
+@use "./020-dependencies/" as *;
+// 030-patterns: include patterns and tools with @use in component when needed
 @use "./040-normalize/" as *;
-// @use "./050-layout/basics/" as *;
+// 040-layout: include layout variables with @use in component when needed
 @use "./060-elements" as *;
 @use "./070-components" as *;
 @use "./080-hacks" as *;
 
-
-
-// @use "./020-dependencies" as *;
-// @use "./030-tools" as *;
-// @use "./040-normalize" as *;
-// @use "./050-layout" as *;
-// @use "./060-elements" as *;
-// @use "./070-components" as *;
-// @use "./080-hacks" as *;
-
 // # Relative paths differences
 // SCSS paths are relativ to the SCSS file
 // CSS paths (linked fonts) are relative to the compiled template CSS
-//
-// # Overriding variables
-// For customized system styles you MAY want to change variables when
-// importing partials into the layer index like so:
-//
-// $use "./_example-partial.scss" with (
-//     $example-var: value,
-//     $another-example-var: value
-// );
-//
-// Inside the partials, these variables must have been exposed with !default
-// for this to work e.g.
-//     $example-var: value !default;
-//
-// Imports for the default delos system style MUSTN'T uilize $use ... with ()

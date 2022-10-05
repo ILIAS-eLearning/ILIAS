@@ -1,3 +1,6 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
 /* Services/Calendar */
 
 // relies on dependency bootstrap datetimepicker imported in dependency layer
@@ -84,7 +87,7 @@ ul.ilCalSel li img {
 
 div.ilCalSelList h6 {
 	padding-left: 5px;
-	font-size: $font-size-small;
+	font-size: $il-font-size-small;
 	margin-top: 16px;
 	margin-bottom: 8px;
 }
@@ -178,7 +181,7 @@ th.calstd {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 }
 
 .calheadertime {
@@ -187,7 +190,7 @@ th.calstd {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	line-break: auto;
 	vertical-align: top;
 }
@@ -207,7 +210,7 @@ tr.calstdtime:first-of-type td{
 	border-spacing: 0px;
 	border-right-width: 1px;
 	border-right-style: solid;
-	border-right-color: $table-border-color;
+	border-right-color: $il-main-border-color;
 }
 
 td.calempty,  th.calempty{
@@ -219,7 +222,7 @@ td.calempty_border {
 	border-spacing:0px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
-	border-bottom-color:$table-border-color;
+	border-bottom-color:$il-main-border-color;
 }
 
 tr.calstd{
@@ -235,7 +238,7 @@ table.il-cal-week  tr.calstd + tr.calstdtime td.calempty{
 
 table.il-cal-day tr.calstd , table.il-cal-week tr.calstd {
 	border-collapse:collapse;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 
 	border-bottom-width:2px;
 	border-bottom-style:solid;
@@ -259,7 +262,7 @@ tr.calstdtime {
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;
-	border-right-color:$table-border-color;
+	border-right-color:$il-main-border-color;
 }
 
 
@@ -270,7 +273,7 @@ td.calstd {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	padding: 2px 0px;
 }
 
@@ -281,7 +284,7 @@ td.caltoday {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 }
 
 
@@ -292,7 +295,7 @@ td.calnow {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 }
 
 td.calnext {
@@ -302,7 +305,7 @@ td.calnext {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 }
 
 td.calprev {
@@ -312,7 +315,7 @@ td.calprev {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 }
 
 p.il_calevent {
@@ -337,7 +340,7 @@ td.calevent {
 	border-collapse:collapse;
 	border-width:1px;
 	border-style: solid;
-	border-color: $table-border-color;
+	border-color: $il-main-border-color;
 	font-size:90%;
 	/*background-color:white;*/
 }
@@ -402,7 +405,7 @@ td.calministd {
 	border-spacing:0px;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -413,7 +416,7 @@ td.calminitoday {
 	background-color:#FFE79C;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -424,7 +427,7 @@ td.calmininow {
 	background-color:#FFF0C4;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -435,7 +438,7 @@ td.calmininext {
 	background-color: $il-main-dark-bg;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;
@@ -446,7 +449,7 @@ td.calminiprev {
 	background-color: $il-main-dark-bg;
 	border-width:1px;
 	border-style:solid;
-	border-color:$table-border-color;
+	border-color:$il-main-border-color;
 	font-size:90%;
 	text-align:center;
 	vertical-align:middle;

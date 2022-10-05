@@ -1,8 +1,11 @@
+@use "../../../../010-settings/" as *;
+@use "../../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
 /* Services/UIComponent/AdvancedSelectionList */
 
 div.il_adv_sel {
 	border: 1px solid $il-main-border-color;
-    @include box-shadow(2px 2px 4px #c0c0c0);
+    @include btstrp3.box-shadow(2px 2px 4px #c0c0c0);
 }
 
 table.il_adv_sel {
@@ -65,7 +68,7 @@ div[id^="ilAdvSelListTable_"] {
 #ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + span + ul.dropdown-menu > li > div.row,
 #mm_adm_tr + ul.dropdown-menu > li > div.row {
-	@media only screen and (min-width: $screen-lg-min) {
+	@media only screen and (min-width: btstrp3.$screen-lg-min) {
 		.row{
 			width: auto;
 		}
@@ -80,18 +83,18 @@ div[id^="ilAdvSelListTable_"] {
 }
 #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row
 {
-	@media only screen and (max-width: $screen-md-min){
+	@media only screen and (max-width: btstrp3.$screen-md-min){
 		min-width: 260px;
 	}
-	@media only screen and (min-width: $screen-md-min) and (max-width: $screen-lg-min){
+	@media only screen and (min-width: btstrp3.$screen-md-min) and (max-width: btstrp3.$screen-lg-min){
 		min-width: 520px;
 	}
-	@media only screen and (min-width: $screen-lg-min) {
+	@media only screen and (min-width: btstrp3.$screen-lg-min) {
 		min-width: 780px;
 	}
 }
 #ilAdvSelListAnchorText_asl + ul.dropdown-menu {
-	@media only screen and (max-width: $screen-sm-min) {
+	@media only screen and (max-width: btstrp3.$screen-sm-min) {
 		position: absolute;
 		background-color: $il-main-bg;
 	}

@@ -1,13 +1,15 @@
-@import "./_component_test_legacy.scss";
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+@use "./_component_test_legacy.scss" as *;
 
 //== Test Assessment
 $il-test-shortlist-min-width: 200px;
 
-$il-test-padding-large-vertical: $padding-large-vertical;
-$il-test-padding-large-horizontal: $padding-large-horizontal;
+$il-test-padding-large-vertical: $il-padding-large-vertical;
+$il-test-padding-large-horizontal: $il-padding-large-horizontal;
 
-$il-test-margin-large-vertical: $padding-large-vertical;
-$il-test-margin-large-horizontal: $padding-large-horizontal;
+$il-test-margin-large-vertical: $il-padding-large-vertical;
+$il-test-margin-large-horizontal: $il-padding-large-horizontal;
 
 $il-test-working-time-font-size: $il-font-size-large;
 $il-test-working-time-font-weight: $il-font-weight-bold;
@@ -44,7 +46,7 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
     }
 }
 // break on medium screen sizes when slate is engaged
-@media screen and (max-width: $screen-md-max) {
+@media screen and (max-width: $il-grid-float-breakpoint-max) {
 	.il-layout-page.with-mainbar-slates-engaged #tst_output {
 		flex-direction: column-reverse;
 		#tst_left {

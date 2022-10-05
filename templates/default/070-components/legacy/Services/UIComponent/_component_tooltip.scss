@@ -1,3 +1,6 @@
+@use "../../../../010-settings/" as *;
+@use "../../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
 //== Tooltips
 //
 //## Tooltips displayed by the online help
@@ -15,13 +18,13 @@ $il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 /* Services/UIComponent/Tooltip */
 .qtip-default {
 	font-size: $il-font-size-small;
-	line-height: $line-height-small;
+	line-height: $il-line-height-small;
 
 	background-color: $il-tooltip-bg-color;
 	border-color: $il-tooltip-border-color;
 	color: $il-tooltip-color;
 
-	@include box-shadow($il-tooltip-shadow);
+	@include btstrp3.box-shadow($il-tooltip-shadow);
 
 	-webkit-border-radius: $il-tooltip-border-radius;
 	-moz-border-radius: $il-tooltip-border-radius;

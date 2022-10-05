@@ -1,3 +1,5 @@
+@use "../../../030-patterns/tool_focus-outline" as *;
+
 .webdav-view-control {
 	text-align: center;
 	padding: $il-focus-outline-inner-width + $il-focus-outline-outer-width;

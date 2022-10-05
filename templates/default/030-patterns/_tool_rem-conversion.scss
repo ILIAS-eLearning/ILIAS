@@ -15,6 +15,7 @@ $il-pixel-to-rem: 0.0625;
 @function rem-to-pixel($convert-this, $conversion-factor: $il-pixel-to-rem)  {
     @if math.unit($convert-this) == "rem" {
         $converted: math.div(math.div($convert-this,1rem),$conversion-factor) * 1px;
+        $converted: math.round($converted);
         @return($converted);
     }
     @else {

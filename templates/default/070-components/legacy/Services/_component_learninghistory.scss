@@ -1,8 +1,11 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
 .ilLearningHistoryShowMore {
 	text-align: center;
 }
 
 .ilPCLearnHist {
-	background-color: $body-bg;
+	background-color: $il-main-bg;
 	padding: $il-padding-base-vertical $il-padding-base-horizontal;
 }

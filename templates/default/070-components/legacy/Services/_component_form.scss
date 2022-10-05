@@ -1,3 +1,7 @@
+@use "../../../010-settings/" as *;
+@use "../../../030-patterns/tool_form-patterns" as *;
+@use "../../../050-layout/basics" as *;
+
 /* Services/Form */
 .form-control-static {
 	//needed until bootstrap set min-heigth and padding...
@@ -130,7 +134,7 @@ div.ilHFormHeader .ilFormCmds, div.ilHFormFooter .ilFormCmds {
 }
 
 .wzdrow .form-control {
-	height: ($il-font-size-small * $il-line-height-base) + ((2+2*$il-padding-base-vertical) * $il-pixel-to-rem) * 1.35;
+	height: ($il-font-size-small * $il-line-height-base) + (2+2*$il-padding-base-vertical) * 1.35;
 }
 
 

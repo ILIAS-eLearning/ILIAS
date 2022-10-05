@@ -1,3 +1,8 @@
+@use "../../../010-settings/" as *;
+@use "../../../030-patterns/tool_rem-conversion" as t-rem;
+@use "../../../030-patterns/tool_focus-outline" as *;
+@use "../../../050-layout/basics" as *;
+
 /* --- Services/COPage ---*/
 
 a.ilEditSubmit {
@@ -59,7 +64,7 @@ button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
 	padding: 1px 5px;
 	text-align: center;
-	font-size: $font-size-small;
+	font-size: $il-font-size-small;
 	background-color: transparent;
 	cursor: pointer;
 	width: 100%;
@@ -96,7 +101,7 @@ div.il_droparea {
 	border: 1px dashed $il-main-border-color;
 	color: $il-text-light-color;
 	text-align: center;
-	font-size: $font-size-small;
+	font-size: $il-font-size-small;
 	background-color: #fffed1;
 	cursor: pointer;
 	height: 30px;
@@ -141,7 +146,7 @@ div.ilEditLabel {
 	font-size: $il-font-size-small;
 	padding: $il-padding-base-vertical $il-padding-xs-horizontal;
 	margin-top: -$il-line-height-computed;
-	margin-left: -$il-padding-xs-horizontal + 1px;
+	margin-left: (-(t-rem.rem-to-pixel($il-padding-xs-horizontal))) + 1px;
 	border: 0;
 	height: $il-line-height-computed;
 	display: none;
@@ -176,7 +181,7 @@ div.il_editarea_disabled, div.copg-disabled-page {
 .ilCopgDisabledText {
 	color: $il-warning-color;
 	position: absolute;
-	font-size: $font-size-small;
+	font-size: $il-font-size-small;
 	margin-top: -13px;
 	padding: 2px 5px;
 	background-color: $il-main-dark-bg;

@@ -1,3 +1,7 @@
+@use "../../../../010-settings/" as *;
+@use "../../../../030-patterns/tool_focus-outline" as *;
+@use "../../../../050-layout/basics" as *;
+
 /* Services/UIComponent/Toolbar */
 
 //== Toolbar
@@ -67,7 +71,7 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 	}
 
 	.btn[disabled]{
-		padding:  $padding-small-vertical $padding-small-horizontal;
+		padding:  $il-padding-small-vertical $il-padding-small-horizontal;
 	}
 
 	.ilToolbarStickyItems {

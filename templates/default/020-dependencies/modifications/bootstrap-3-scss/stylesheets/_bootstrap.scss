@@ -5,7 +5,8 @@
  */
 
 // Core variables and mixins modified for ILIAS
-@import "../../bootstrap-3-scss-modified-variables-mixins";
+@import "./bootstrap/variables";
+@import "./bootstrap/mixins";
 
 // Reset and dependencies
 @import "../../../unmodified/bootstrap-3-scss/stylesheets/bootstrap/normalize";

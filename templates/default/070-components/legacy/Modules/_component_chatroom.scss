@@ -1,3 +1,7 @@
+@use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+
 /* Modules/Chatroom */
 
 .ilValignBottom {
@@ -58,7 +62,7 @@
 	}
 	display: inline-block;
 }
-@media only screen and (max-width: $grid-float-breakpoint) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	#message-controls .msg-control {
 		display: block;
 	}
@@ -138,7 +142,7 @@ td.chatroom {
 	.dropdown-menu {
 		position: static;
 		float: none;
-		@include box-shadow(none);
+		@include btstrp3.box-shadow(none);
 	}
 
 	.dropdown-backdrop {

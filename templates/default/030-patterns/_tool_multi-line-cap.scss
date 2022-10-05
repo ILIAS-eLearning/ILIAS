@@ -1,4 +1,4 @@
-@use "../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as *;
+@use "../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as *;
 
 /*
 	These classes are used to limit the number of rows when displaying larger chunks of text.
@@ -58,20 +58,4 @@
 		}
 	}
 
-}
-
-.il-multi-line-cap-2 {
-	@include il-multi-line-cap-mixin(2);
-}
-
-.il-multi-line-cap-3 {
-	@include il-multi-line-cap-mixin(3);
-}
-
-.il-multi-line-cap-5 {
-	@include il-multi-line-cap-mixin(5);
-}
-
-.il-multi-line-cap-10 {
-	@include il-multi-line-cap-mixin(10);
 }

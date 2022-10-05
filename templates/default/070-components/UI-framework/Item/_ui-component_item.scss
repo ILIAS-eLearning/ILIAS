@@ -1,7 +1,7 @@
 @use "../../../010-settings/" as *;
-@use "../../../030-tools/scss-input/tool_panel-patterns" as *;
-@use "../../../030-tools/scss-input/pattern_chart" as *;
-@use "../../../030-tools/scss-input/tool_symbol" as *;
+@use "../../../030-patterns/pattern_panel" as *;
+@use "../../../030-patterns/pattern_chart" as *;
+@use "../../../030-patterns/pattern_symbol" as *;
 @use "../../../050-layout/basics" as *;
 
 //== Item

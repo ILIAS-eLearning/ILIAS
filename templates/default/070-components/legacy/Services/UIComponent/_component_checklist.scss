@@ -1,3 +1,5 @@
+@use "../../../../010-settings/" as *;
+
 /* Services/UIComponent/Checklist */
 
 div.ilChecklist ul {
@@ -19,7 +21,7 @@ div.ilChecklist ul li a, div.ilChecklist ul li span	{
 
 div.ilChecklist ul a:hover {
 	text-decoration: none;
-	color: $link-color;
+	color: $il-link-color;
 }
 
 div.ilChecklist ul li a:hover {
