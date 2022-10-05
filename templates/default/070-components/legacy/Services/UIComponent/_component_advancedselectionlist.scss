@@ -73,7 +73,7 @@ div[id^="ilAdvSelListTable_"] {
 			min-width: 250px;
 		}
 	}
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: 100% !important;
 		margin: 0;
 	}

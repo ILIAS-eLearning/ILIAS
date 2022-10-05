@@ -1,23 +1,14 @@
 @use "../../../010-settings/"as *;
 @use "../../../030-tools/scss-input/tool_form-patterns" as *;
-@use "../../../050-layout/"as *;
 @use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../030-tools/scss-input/pattern_button" as *;
+@use "../../../050-layout/basics"as *;
 @use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
 
 //== Buttons
 
 //** some variables can be found on settings layer
-
-//** Text color of inactive buttons
-$il-disabled-btn-color: darken($il-text-color, 20%); // wasn't on settings layer
-$il-disabled-btn-bg: #b0b0b0;
-$il-disabled-btn-border: #b0b0b0;
-$il-disabled-btn-color: darken($il-text-color, 20%);
-
-//** Text color of engaged buttons
-$il-engaged-btn-color: $il-text-color;
-$il-engaged-btn-bg: white;
 
 .btn {
 	font-size: $il-button-font-size;

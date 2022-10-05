@@ -1,5 +1,5 @@
 @use "../../../010-settings/"as *;
-@use "../../../050-layout/"as *;
+@use "../../../050-layout/basics"as *;
 
 //== Tags
 //** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.

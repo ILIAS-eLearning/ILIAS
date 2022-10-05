@@ -5,3 +5,4 @@
 @import "../unmodified/bootstrap-3-scss/stylesheets/bootstrap/variables"; // original
 @import "./bootstrap-3-scss/stylesheets/bootstrap/modified-variables"; // additions
 @import "./bootstrap-3-scss/stylesheets/bootstrap/mixins"; // ready for modification
+@import "./bootstrap-3-scss/stylesheets/screenreader-only-mixins"; // extracted from within Bootstrap

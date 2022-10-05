@@ -1,3 +1,6 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
 //== Toast
 //
 //##
@@ -6,7 +9,7 @@ $il-toast-margin-right: $il-margin-xlarge-horizontal;
 $il-toast-horizontal-division: 20px 1fr 20px;
 $il-toast-transition: all .25s ease-in-out;
 $il-toast-width: 300px;
-$il-toast-z-index: $il-popover-z-index + 1000;
+$il-toast-z-index: 19999;
 //Same as Action Menu
 $il-toast-shadow: 3px 9px 9px 0 rgb(0 0 0 / 0.3);
 

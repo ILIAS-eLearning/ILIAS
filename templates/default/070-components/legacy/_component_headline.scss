@@ -6,7 +6,7 @@
 	font-size: $il-font-size-h1;
 	font-weight: $il-font-weight-bold;
     cursor: default;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         font-size: $il-font-size-xxlarge;
     }
     &[href] {
@@ -16,7 +16,7 @@
 
 h1.ilHeader {
 	padding: 10px 0 0;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         padding-top: 5px;
     }
 }
@@ -36,7 +36,7 @@ h2.ilHeader {
 	margin-top: 3px;
 	margin-right: 10px;
 	float: left;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         width: 35px;
 		height: 35px;
 		margin-top: 2px;
@@ -73,7 +73,7 @@ div.il_HeaderInner {
 	padding: 15px;
 	margin-bottom: 5px;
 	overflow: visible;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		color: $il-text-color;
 	}
 	&.media {
@@ -113,7 +113,7 @@ div.ilFrameFixedWidthHeader {
 .ilFrameFixedWidthHeader div.ilHeaderBanner {
 	overflow: hidden;
 	padding: 0 15px;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		max-width: 100%;
 		height: 40px !important;
 		padding: 0;

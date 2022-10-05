@@ -1,4 +1,10 @@
 @use "sass:math";
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/scss-input/tool_panel-patterns" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
 //== Workflow
 //
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
@@ -61,7 +67,7 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 		&:before {
 			content: "\e033";
 			color: $il-workflow-unavailable-text-color;
-			background-color: $panel-footer-bg;
+			background-color: btstrp3.$panel-footer-bg;
 			border: none;
 		}
 		&.in-progress {
@@ -166,7 +172,7 @@ $il-workflow-unavailable-text-color: $il-main-border-color;
 			padding: 0;
 			color: $il-panel-heading-color;
 			font-size: $il-font-size-xlarge;
-			line-height: $line-height-large;
+			line-height: $il-line-height-large;
 			font-weight: $il-font-weight-bold;
 		}
 	}

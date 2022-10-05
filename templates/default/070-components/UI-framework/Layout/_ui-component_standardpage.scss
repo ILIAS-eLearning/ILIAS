@@ -1,16 +1,9 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../050-layout/basics"as *;
+@use "../../../050-layout/standardpage"as *;
+
 //== Standard Page
-$il-standard-page-border-light-color: $il-main-border-color;
-
-//** footer
-//** controls margin from the footer to the main content, increase/decrase depending on the content (default, space for 4 lines).
-$il-footer-margin-bottom: 2*$il-line-height-computed*2;
-
-//** Shadows
-$il-standard-page-shadow-color: rgba(0, 0, 0, .1);
-$il-mainbar-shadow-right: 1px 3px 4px $il-standard-page-shadow-color;
-$il-mainbar-shadow-top: 0 0 4px $il-standard-page-shadow-color;
-$il-standard-page-header-shadow-bottom: 0 1px 2px $il-standard-page-shadow-color;
-
 $il-standard-page-small-mainbar-height-w-bottom-safe-area: calc($il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
 
 //** z-index
@@ -22,18 +15,7 @@ $il-standard-page-zindex-mainbar-slates: $il-standard-page-zindex-mainbar - 1;
 $il-standard-page-zindex-breadcrumbs: $il-standard-page-zindex-mainbar-slates - 1;
 $il-standard-page-zindex-systeminfo: $il-standard-page-zindex-header - 1;
 
-// mixins
-.shadow-right {
-	box-shadow: $il-mainbar-shadow-right;
-}
 
-.shadow-bottom {
-	box-shadow: $il-standard-page-header-shadow-bottom;
-}
-
-.shadow-top {
-	box-shadow: $il-mainbar-shadow-top;
-}
 
 * {
 	box-sizing: border-box;
@@ -278,11 +260,11 @@ footer {
 // Sidepanel in right column under content
 //
 #il_right_col {
-	@media (min-width: $grid-float-breakpoint) {
+	@media (min-width: btstrp3.$grid-float-breakpoint) {
 		padding-left: 0; //See: #https://mantis.ilias.de/view.php?id=27109
 	}
 }
-@media only screen and (max-width: ($screen-lg-desktop - 1px)) {
+@media only screen and (max-width: (btstrp3.$screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
 		#il_right_col {
 			padding-left: 15px;
@@ -290,7 +272,7 @@ footer {
 	}
 }
 
-@media only screen and (max-width: ($screen-lg-desktop - 1px)) {
+@media only screen and (max-width: (btstrp3.$screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
 		#il_center_col.col-sm-9{
 			padding-right: 15px;
@@ -303,10 +285,10 @@ footer {
 	}
 }
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	// main grid without slates
 	.il-layout-page {
-		background: $body-bg;
+		background: $il-main-bg;
 		display: block;
 		overflow: initial;
 		width: 100%;

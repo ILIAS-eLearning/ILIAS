@@ -1,8 +1,12 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
+
 //== View Control
 //
 //##
-$il-vc-glyph-padding-vertical: $padding-base-vertical+2;
-$il-vc-glyph-padding-horizontal: $padding-base-horizontal;
+$il-vc-glyph-padding-vertical: $il-padding-base-vertical+2;
+$il-vc-glyph-padding-horizontal: $il-padding-base-horizontal;
 $il-vc-glyph-hover-bg: lighten($il-main-color, 5%);
 $il-vc-mode-btn-active: $il-vc-glyph-hover-bg;
 $il-vc-pagination-btn-active-bg: $il-main-bg;
@@ -41,7 +45,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 .ilBlockContent .il-viewcontrol-section .btn.btn-default {
 	background-color: transparent;
 	border: 0;
-	color: $link-color;
+	color: $il-link-color;
 	padding: $il-padding-base-vertical $il-padding-base-vertical;
 
 }
@@ -66,7 +70,7 @@ $il-vc-pagination-btn-active-bg: $il-main-bg;
 	.btn-default, .btn-default:active {
 		background-color: transparent;
 		border-color: transparent;
-		color: $link-color;
+		color: $il-link-color;
 		box-shadow: none;
 	}
 

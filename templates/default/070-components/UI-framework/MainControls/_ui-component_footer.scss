@@ -1,5 +1,8 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
 //== Footer
-$il-footer-padding: 10px 0 10px 5px;
 
 footer{
 	background-color: $il-footer-bg-color;

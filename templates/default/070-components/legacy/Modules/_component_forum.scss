@@ -64,7 +64,7 @@ div.ilForumQuoteHead {
 .ilFrmPostTitle {
 	margin-top: $il-margin-xxxlarge-vertical;
 	font-size: $il-font-size-large;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		margin-top: $il-margin-large-vertical;
 		font-size: $il-font-size-base;
 	}
@@ -78,7 +78,7 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 $il-margin-base-vertical;
 	width: 80%;
 	float: left;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		padding-left: $il-padding-small-horizontal;
 		width: 100%;
 	}
@@ -131,13 +131,13 @@ li.ilFrmPostRow {
 			width: 150px;
 		}
 		&, input[type=text], textarea {
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				width: 100%;
 			}
 		}
 	}
 	img.ilUserIcon {
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			width: 50px;
 			height: 50px;
 		}

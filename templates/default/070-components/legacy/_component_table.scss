@@ -1,12 +1,12 @@
 div.ilTableOuter {
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		max-width: 100%;
 		overflow: auto;
 	}
 }
 
 .table-responsive .dropdown-menu {
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
         position: relative;
     }
 }

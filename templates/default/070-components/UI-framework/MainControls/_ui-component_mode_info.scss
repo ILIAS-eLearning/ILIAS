@@ -1,3 +1,6 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/basics" as *;
+
 //== modeinfo
 $il-mode-info-color: $il-warning-color;
 $il-mode-info-border: 3px solid $il-mode-info-color;
@@ -23,7 +26,7 @@ $il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
   border: $il-mode-info-border;
   border-top: 0 none;
   
-  @media only screen and (max-width: $grid-float-breakpoint-max) {
+  @media only screen and (max-width: $il-grid-float-breakpoint-max) {
     padding-top: $il-mode-info-height;
   }
 }
@@ -45,7 +48,7 @@ $il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
   font-size: $il-font-size-large;
 }
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
   .il-mode-info {
 	margin-bottom: 0;
   }

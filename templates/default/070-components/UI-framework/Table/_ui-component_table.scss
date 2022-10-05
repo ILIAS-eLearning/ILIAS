@@ -1,5 +1,10 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+
+
 //** Presentation Table borders
-$il-table-presentation-rowborder-top: 1px solid $table-border-color;
+$il-table-presentation-rowborder-top: 1px solid btstrp3.$table-border-color;
 
 //** Presentation Table colum widths
 $il-table-presentation-rowcontrol-colwidth: 5%;
@@ -21,12 +26,12 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
     .btn-default:not(.disabled):not(.engaged)  {
         //Using Mixin for buttons
-        @include button-variant($il-table-presentation-details-viewcontrols-btn-color, $il-table-presentation-details-viewcontrols-btn-bg, $il-btn-standard-border);
+        @include btstrp3.button-variant($il-table-presentation-details-viewcontrols-btn-color, $il-table-presentation-details-viewcontrols-btn-bg, $il-btn-standard-border);
     }
 
     .btn-default.engaged  {
         //Using Mixin for buttons
-        @include button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
+        @include btstrp3.button-variant($il-btn-standard-color, $il-btn-standard-bg, $il-btn-standard-border);
     }
 
     .il-viewcontrol-pagination {
@@ -97,7 +102,7 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
 
     .il-table-presentation-row-expanded {
         //Using row mixin, to make this responsive
-        @include make-row;
+        @include btstrp3.make-row;
         display: none; /*initially hidden*/
         margin-top:  $il-margin-large-vertical;
         margin-left: 0;
@@ -107,21 +112,32 @@ $il-table-presentation-details-viewcontrols-btn-bg: white;
             //Using column mixin, to make this responsive
             padding-right: $il-padding-small-horizontal;
             &.desclist-column {
-                @include make-sm-column(7);
+                @include btstrp3.make-sm-column(7);
                 padding-left: 0;
             }
         }
 
         .il-table-presentation-details {
             //Using column mixin, to make this responsive
-            @include make-sm-column(5);
+            @include btstrp3.make-sm-column(5);
             .il-table-presentation-actions {
                 margin-bottom: $il-margin-large-vertical;
             }
 
             .il-table-presentation-fields {
-                //Inherit from well
-                @include well;
+                //Inherit from Bootstrap Well
+                min-height: 20px;
+                padding: 19px;
+                margin-bottom: 20px;
+                background-color: btstrp3.$well-bg;
+                border: 1px solid btstrp3.$well-border;
+                border-radius: btstrp3.$border-radius-base;
+                @include btstrp3.box-shadow(inset 0 1px 1px rgba(0, 0, 0, .05));
+                blockquote {
+                  border-color: #ddd;
+                  border-color: rgba(0, 0, 0, .15);
+                }
+                // end of Bootstrap Well
                 font-size: $il-font-size-small;
                 .il-item-property-name {
                     color: $il-text-light-color;

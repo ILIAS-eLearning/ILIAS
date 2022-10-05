@@ -1,3 +1,6 @@
+@use "../../../010-settings/" as *;
+@use "../../../050-layout/basics" as *;
+
 $il-glyph-color: $il-link-color;
 $il-glyph-hover-color: $il-link-hover-color;
 $il-glyph-highlighted-color: $il-warning-color;
@@ -22,13 +25,6 @@ $il-glyph-disabled-color: $il-neutral-light-color;
 	&:hover, &:focus{
 		color: $il-glyph-hover-color;
 		text-decoration: none;
-	}
-
-	.il-counter-spacer {
-		margin-left: $il-counter-margin-left;
-		font-size: $il-counter-font-size;
-		padding: $il-counter-padding;
-		visibility: hidden;
 	}
 }
 

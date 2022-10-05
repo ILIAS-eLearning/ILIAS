@@ -1,6 +1,6 @@
 @use "../../../010-settings/" as s;
 @use "../../../030-tools/scss-input/tools_menu-patterns" as t-menu;
-@use "../../../050-layout/layout_spacing-variables" as l-spacing;
+@use "../../../050-layout/basics" as l;
 @use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 
 .dropdown-header {
@@ -25,7 +25,7 @@
 		padding: 3px 10px;
 		font-weight: s.$il-font-weight-base;
 		font-size: t-menu.$il-font-size-dropdown;
-		line-height: btstrp3.$line-height-base;
+		line-height: s.$il-line-height-base;
 		background-color: t-menu.$dropdown-link-bg;
 		color: btstrp3.$dropdown-link-color;
 		white-space: nowrap; // prevent links from randomly breaking onto new lines
@@ -69,11 +69,11 @@
 }
 
 .dropdown hr {
-	margin: l-spacing.$il-margin-large-vertical 0;
+	margin: l.$il-margin-large-vertical 0;
 }
 
 .dropdown h4 {
-	margin: l-spacing.$il-margin-base-vertical 0;
+	margin: l.$il-margin-base-vertical 0;
 }
 
 ul.dropdown-menu {
@@ -83,17 +83,17 @@ ul.dropdown-menu {
 	@include btstrp3.box-shadow(t-menu.$il-dropdown-shadow);
 	// Links within the dropdown menu
 	> li {
-		padding-top: l-spacing.$il-padding-xs-vertical;
-		padding-bottom: l-spacing.$il-padding-xs-vertical;
+		padding-top: l.$il-padding-xs-vertical;
+		padding-bottom: l.$il-padding-xs-vertical;
 
 		> .btn {
 			display: block;
 			width: 100%;
 			clear: both;
-			padding: l-spacing.$il-padding-small-vertical l-spacing.$il-padding-xlarge-horizontal;
+			padding: l.$il-padding-small-vertical l.$il-padding-xlarge-horizontal;
 			font-weight: s.$il-font-weight-base;
 			font-size: t-menu.$il-font-size-dropdown;
-			line-height: btstrp3.$line-height-base;
+			line-height: s.$il-line-height-base;
 			background-color: t-menu.$dropdown-link-bg;
 			color: btstrp3.$dropdown-link-color;
 			white-space: nowrap; // prevent links from randomly breaking onto new lines

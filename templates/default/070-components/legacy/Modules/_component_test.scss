@@ -27,7 +27,7 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
             display: none; // handles show/hide shortlist from former ta_split.css
             visibility: hidden;
         }
-        @media screen and (max-width: $grid-float-breakpoint-max) {
+        @media screen and (max-width: $il-grid-float-breakpoint-max) {
             margin-right: 0;
             width: 100%;
         }
@@ -39,7 +39,7 @@ $il-test-working-time-font-weight: $il-font-weight-bold;
             padding: $il-test-padding-large-vertical $il-test-padding-large-horizontal; // like a panel
         }
     }
-    @media screen and (max-width: $grid-float-breakpoint-max) {
+    @media screen and (max-width: $il-grid-float-breakpoint-max) {
         flex-direction: column-reverse;
     }
 }

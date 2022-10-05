@@ -275,7 +275,7 @@ div.ilTinyMenuSection, .il-copg-button-group {
 		background-color: darken($il-main-dark-bg, 4%);
 	}
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		height: 28px;
 		margin: 3px 3px 3px 0px;
 		padding: 0 10px 0 0;
@@ -301,7 +301,7 @@ div.il-copg-button-group-wide {
 #ilTinyMenuButtons {
 	padding-bottom: 15px;
 	zoom:1;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		height: 28px;
 		margin: 3px 3px 3px 0;
 		padding: 0 10px 0 0;
@@ -726,7 +726,7 @@ div.ilCOPGMediaPrint {
 	p.ilTinyInfo {
 		padding: 4px;
 		width: 100%;
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			display: none;
 		}
 	}

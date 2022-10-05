@@ -1,6 +1,8 @@
 @use "../../../010-settings/" as *;
 @use "../../../030-tools/scss-input/tool_panel-patterns" as *;
-@use "../../../050-layout/layout_spacing-variables" as *;
+@use "../../../030-tools/scss-input/pattern_chart" as *;
+@use "../../../030-tools/scss-input/tool_symbol" as *;
+@use "../../../050-layout/basics" as *;
 
 //== Item
 //
@@ -13,15 +15,13 @@ $il-item-audio-padding: $il-padding-large-vertical 0;
 $il-item-padding: $il-padding-xlarge-horizontal;
 $il-item-marker-border-left: 5px solid;
 $il-item-h5-margin: 4px 0px 2px 0px;
-$il-item-border-bottom: 1px solid $il-main-border-color;
-$il-item-border-bottom-small: 1px solid $il-main-border-color;
 $il-item-gap-base: 6px;
 $il-item-gap-large: 10px;
 $il-item-gap-small: 5px;
 $il-item-gap-xs: 1px;
 
 .il-std-item-container:not(:last-child) {
-	border-bottom: $il-item-border-bottom;
+	border-bottom: $il-main-border;
 }
 
 .il-item {
@@ -132,7 +132,7 @@ $il-item-gap-xs: 1px;
 
 .il-notification-item{
 	//To give some extra space in case for vertical scroll bar
-	padding-right: $il-item-padding + 3px;
+	padding-right: calc($il-item-padding + 3px);
 
 	.il-item-notification-title {
 		display: inline-block;
@@ -239,7 +239,7 @@ $il-item-gap-xs: 1px;
 
 	.il-panel-listing-std-container{
 		.il-item .media-left{
-			min-width: $il-icon-size-small+2*$il-padding-xlarge-horizontal;
+			min-width: calc($il-icon-size-small + 2 * $il-padding-xlarge-horizontal);
 		}
 	}
 

@@ -1,7 +1,7 @@
 /* Services/Init */
 
 div.ilStartupFrame {
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: 100%;
 	}
 }
@@ -19,7 +19,7 @@ div.ilStartupFrame {
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		padding-top: 15px;
 	}
 }
@@ -39,7 +39,7 @@ div.ilStartupSection form.form-horizontal {
 
 	text-align: left;
 	width: 40em;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: auto;
 	}
 }

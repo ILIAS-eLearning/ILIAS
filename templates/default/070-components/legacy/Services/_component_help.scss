@@ -51,7 +51,7 @@ a#ilHelpClose {
 #il_screen_id {
 	position: fixed;
 	right: 0;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		display: none;
 	}
 }

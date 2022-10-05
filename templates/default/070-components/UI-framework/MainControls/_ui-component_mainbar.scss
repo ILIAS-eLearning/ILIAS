@@ -1,26 +1,14 @@
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../030-tools/scss-input/tool_symbol" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
 //== mainbar
-$il-mainbar-btn-color: white;
-$il-maincontrols-mainbar-bg-color: $il-main-bg;
-$il-mainbar-btn-bg-color: $il-neutral-color;
-$il-mainbar-btn-color-engaged: $il-neutral-color;
-$il-mainbar-btn-bg-color-engaged: $il-main-bg;
-$il-mainbar-tools-btn-bg: $il-warning-color;
-$il-mainbar-tools-btn-bg-engaged: lighten($il-main-color, 50%);
-$il-mainbar-tools-tab-btn-bg-engaged: white;
-$il-mainbar-tools-tab-btn-bg-disengaged: lighten($il-main-color, 15%);
-$il-mainbar-tools-bg: $il-main-dark-bg;
-$il-mainbar-tools-item-gap: 3px;
-$il-mainbar-icon-filter: invert(50%);
-$il-mainbar-slates-bg-color: $il-main-bg;
-$il-mainbar-btn-height: 80px;
-$il-mainbar-btn-width: 80px;
-$il-mainbar-btn-border: 1px solid $il-standard-page-border-light-color;
-$il-mainbar-btn-label-size: $il-font-size-xsmall;
-$il-mainbar-trigger-icon-size: 25px;
-$il-mainbar-remove-tools-btn-height: 45px;
 
 //Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
-.focus_hovered_engaged_slate_trigger_mixin{
+@mixin focus_hovered_engaged_slate_trigger {
 	background-color: $il-mainbar-btn-bg-color-engaged;
 	color: $il-mainbar-btn-bg-color;
 	.glyph{
@@ -39,7 +27,7 @@ $il-mainbar-remove-tools-btn-height: 45px;
 	.btn-bulky,
 	.il-link.link-bulky {
 		font-size: $il-mainbar-btn-label-size;
-		line-height: $il-mainbar-btn-label-size * $line-height-large;
+		line-height: $il-mainbar-btn-label-size * $il-line-height-large;
 		&:focus,
 		&:active {
 			box-shadow: none;
@@ -115,14 +103,14 @@ $il-mainbar-remove-tools-btn-height: 45px;
 		}
 		//Note, for some reason, safari needs this in a seperate section, see:
 		&.engaged{
-			@include focus_hovered_engaged_slate_trigger_mixin;
+			@include focus_hovered_engaged_slate_trigger;
 		}
 		&:focus-visible{
-			@include focus_hovered_engaged_slate_trigger_mixin;
+			@include focus_hovered_engaged_slate_trigger;
 		}
 		&:hover {
 			transition: all .15s ease-in;
-			@include focus_hovered_engaged_slate_trigger_mixin;
+			@include focus_hovered_engaged_slate_trigger;
 		}
 		.glyph{
 			color: $il-mainbar-btn-color;
@@ -295,7 +283,7 @@ $il-mainbar-remove-tools-btn-height: 45px;
 		justify-content: center;
 		align-items: center;
 		.bulky-label {
-			@include sr-only();
+			@include btstrp3.sr-only;
 		}
 		.glyph {
 			&:before {
@@ -340,7 +328,7 @@ $il-mainbar-remove-tools-btn-height: 45px;
 */
 
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	.il-mainbar-entries {
 	    display: flex;
 	    justify-content: space-evenly;
@@ -389,7 +377,7 @@ $il-mainbar-remove-tools-btn-height: 45px;
 //However, in ILIAS 6, we have a context with 5 tools. This
 //Fixes this issue for exactly five tools by making each tab slightly
 //smaller. See: #26566
-@media only screen and (min-width: $grid-float-breakpoint-max) {
+@media only screen and (min-width: $il-grid-float-breakpoint-max) {
 	.il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5),
 	.il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4),
 	.il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3),

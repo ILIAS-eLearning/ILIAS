@@ -1,6 +1,20 @@
 @use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 @use "../../../030-tools/scss-input/tool_form-patterns" as *;
-@use "../../../050-layout/"as *;
+@use "../../../030-tools/scss-input/tool_focus-outline" as *;
+@use "../../../050-layout/basics"as *;
+//== Specific Inputs
+//
+//
+@use "_ui-component_tag.scss";
+@use "_ui-component_password.scss";
+@use "_ui-component_radio.scss";
+@use "_ui-component_multiselect.scss";
+@use "_ui-component_textarea.scss";
+@use "_ui-component_filter.scss";
+@use "_ui-component_duration.scss";
+@use "_ui-component_file.scss";
+
 
 //== Standard Form
 //
@@ -61,7 +75,7 @@
 
   //Move the first section header up, to be displayed next to the forms top button
   .il-standard-form-header + .il-section-input{
-    margin-top: -($il-button-font-size*$il-line-height-base+($il-margin-small-vertical+1vw)*$il-pixel-to-rem);
+    margin-top: calc(-1 * ($il-button-font-size*$il-line-height-base + ($il-margin-small-vertical + 1vw)));
     padding: 0;
 
     .il-section-input-header h2{
@@ -113,9 +127,9 @@
     margin: $il-margin-small-vertical 0 0;
     padding: 0 $il-padding-small-vertical 0 $il-padding-small-vertical;
 
-    color: $alert-danger-text;
-    background-color: $alert-danger-bg;
-    border-color: $alert-danger-border;
+    color: btstrp3.$alert-danger-text;
+    background-color: btstrp3.$alert-danger-bg;
+    border-color: btstrp3.$alert-danger-border;
   }
 }
 
@@ -124,8 +138,8 @@ label, input[type=checkbox], input[type=radio], select {
 }
 
 .form-control {
-  height: ($il-font-size-small * $il-line-height-base) + ((2+2*$il-padding-base-vertical) * $il-pixel-to-rem); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
-  padding: $padding-base-vertical $padding-base-horizontal;
+  height: ($il-font-size-small * $il-line-height-base) + ((2+2*$il-padding-base-vertical)); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  padding: $il-padding-base-vertical $il-padding-base-horizontal;
   font-size: $il-standard-form-font-size;
   color: $il-text-color;
   border: 1px solid $il-main-border-dark-color;
@@ -154,11 +168,11 @@ form.form-inline {
 }
 
 .form-control, .form-control:focus {
-  @include box-shadow(none);
+  @include btstrp3.box-shadow(none);
 }
 
 .form-control:focus-visible {
-  @include box-shadow(none);
+  @include btstrp3.box-shadow(none);
   outline: $il-focus-outline-inner;
 }
 
@@ -200,7 +214,7 @@ select.form-control {
     //padding-top: 0;
     //line-height: 24px;
     padding-bottom: ($il-padding-base-vertical + 1);
-    min-height: ($line-height-computed + $font-size-base);
+    min-height: ($il-line-height-computed + $il-font-size-base);
     @media only screen and (max-width: $il-grid-float-breakpoint-max) {
       min-height: auto;
       padding-bottom: 0;
@@ -219,7 +233,7 @@ select.form-control {
     line-height: normal;
   }
   div.radio label.radio-inline {
-    line-height: $input-height-base;
+    line-height: btstrp3.$input-height-base;
   }
 }
 
@@ -261,14 +275,3 @@ input[type="checkbox"]:focus:focus-visible {
 }
 
 
-//== Specific Inputs
-//
-//
-@import "_ui-component_tag.scss";
-@import "_ui-component_password.scss";
-@import "_ui-component_radio.scss";
-@import "_ui-component_multiselect.scss";
-@import "_ui-component_textarea.scss";
-@import "_ui-component_filter.scss";
-@import "_ui-component_duration.scss";
-@import "_ui-component_file.scss";

@@ -40,7 +40,7 @@
 	.form-group {
 		background-color: $il-standard-form-dependant-group-bg;
 		margin: 0;
-		@media (max-width: $grid-float-breakpoint-max) {
+		@media (max-width: $il-grid-float-breakpoint-max) {
 			margin: $il-margin-large-vertical 0;
 		}
 	}

@@ -1,5 +1,5 @@
 @use "../../../010-settings/"as *;
-@use "../../../050-layout/"as *;
+@use "../../../050-layout/basics"as *;
 
 //== Counter
 //
@@ -34,4 +34,13 @@ $il-counter-novelty-margin-top: -5px;
   padding: $il-counter-padding;
   margin-top: $il-counter-status-margin-top;
   background-color: $il-counter-status-bg;
+}
+
+.glyph {
+  .il-counter-spacer {
+		margin-left: $il-counter-margin-left;
+		font-size: $il-counter-font-size;
+		padding: $il-counter-padding;
+		visibility: hidden;
+	}
 }

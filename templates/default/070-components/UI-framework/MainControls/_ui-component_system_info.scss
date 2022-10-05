@@ -1,3 +1,6 @@
+@use "../../../010-settings/"as *;
+@use "../../../050-layout/basics" as *;
+
 /*
 **************************************************************
 	System Infos
@@ -66,10 +69,10 @@ $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 1
   @include head-info-color-variant(breaking, $il-standard-page-system-info-color-variant-breaking);
 
   // General Sizes
-  line-height: $line-height-computed;
+  line-height: $il-line-height-computed;
   padding-top: $il-padding-large-vertical;
   padding-bottom: $il-padding-large-vertical;
-  height: calc($il-padding-large-vertical + $il-padding-large-vertical + $line-height-computed);
+  height: calc($il-padding-large-vertical + $il-padding-large-vertical + $il-line-height-computed);
 
 
   // Flex
@@ -124,7 +127,7 @@ $il-standard-page-system-info-color-variant-breaking: darken($il-danger-color, 1
 **************************************************************
 */
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
   .il-system_info {
     border-top: none;
   }

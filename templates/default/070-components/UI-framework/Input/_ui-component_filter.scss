@@ -1,5 +1,6 @@
 @use "../../../010-settings/"as *;
-@use "../../../050-layout/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../050-layout/basics"as *;
 
 //== Standard Filter
 //
@@ -181,7 +182,7 @@ $il-standard-filter-add-input-popover-list-button-width: 100%;
 	text-overflow: ellipsis;
 }
 
-@media (max-width: $screen-sm) {
+@media (max-width: btstrp3.$screen-sm) {
 	.il-filter {
 		.webui-popover {
 			position: static;

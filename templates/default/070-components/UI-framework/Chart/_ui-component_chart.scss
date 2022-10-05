@@ -1,66 +1,10 @@
 @use "../../../010-settings/"as *;
-@use "../../../050-layout/"as *;
+@use "../../../030-tools/scss-input/pattern_chart" as *;
+@use "../../../050-layout/basics"as *;
 
 //== Charts
 //
 //## Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
-
-$il-chart-item-active-bg: $il-main-color;
-$il-chart-item-active-color: white;
-$il-chart-item-inactive-bg: #e0e0e0;
-$il-chart-item-inactive-color: $il-text-color;
-$il-chart-item-space: 2px;
-
-//** Progress Meter: minimal width
-$il-chart-progressmeter-min-width: 80px;
-//** Progress Meter: maximal width / height
-$il-chart-progressmeter-max-width: 800px;
-//** Progress Meter: background stroke width
-$il-chart-progressmeter-bg-stroke-width: 6;
-//** Progress Meter Mini: background stroke width
-$il-chart-progressmeter-mini-bg-stroke-width: 5;
-//** Progress Meter: multi bar progress stroke width
-$il-chart-progressmeter-multi-stroke-width: ($il-chart-progressmeter-mini-bg-stroke-width / 3);
-//** Progress Meter: single bar progress stroke width
-$il-chart-progressmeter-mono-stroke-width: ($il-chart-progressmeter-mini-bg-stroke-width - 1);
-//** Progress Meter: background color
-$il-chart-progressmeter-bg-color: #dddddd;
-//** Progress Meter: marker color
-$il-chart-progressmeter-marker-color: #efefef;
-//** Progress Meter: marker border color
-$il-chart-progressmeter-marker-shadow-color: #bcbcbc;
-//** Progress Meter main bar: success color
-$il-chart-progressmeter-success: #6ea03c;
-//** Progress Meter main bar: no-success color
-$il-chart-progressmeter-no-success: #d9534f;
-//** Progress Meter comparision bar: no-user-score color
-$il-chart-progressmeter-not-active: #f0ad4e;
-//** Progress Meter comparision bar: user-score color
-$il-chart-progressmeter-active: #aaaaaa;
-//** Progress Meter score text color
-$il-chart-progressmeter-score-text-color: #000000;
-//** Progress Meter info-text color
-$il-chart-progressmeter-info-text-color: #bcbcbc;
-
-//** Progress Meter Fixed-Size: width
-$il-chart-progressmeter-fixed-size: 350px;
-
-//** Progress Meter Mini: minimal width
-$il-chart-progressmeter-mini-min-width: 20px;
-//** Progress Meter Mini: maximal width / height
-$il-chart-progressmeter-mini-max-width: 250px;
-//** Progress Meter Mini: progress stroke width
-$il-chart-progressmeter-mini-stroke-width: $il-chart-progressmeter-mini-bg-stroke-width;
-//** Progress Meter Mini: marker stroke width
-$il-chart-progressmeter-mini-marker-stroke-width: 4;
-//** Progress Meter Mini: background color
-$il-chart-progressmeter-mini-bg-color: #dddddd;
-//** Progress Meter Mini: marker color
-$il-chart-progressmeter-mini-marker-color: #bcbcbc;
-//** Progress Meter Mini: progress stroke color (no success)
-$il-chart-progressmeter-mini-no-success: #d9534f;
-//** Progress Meter Mini: progress stroke color (success)
-$il-chart-progressmeter-mini-success: #6ea03c;
 
 /************/
 /* ScaleBar */

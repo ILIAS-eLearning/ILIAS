@@ -104,7 +104,7 @@ $il-toolbar-border: 1px solid $il-main-border-color;
 .ilToolbarContainer + .ilFilterContainer{
 	margin-top: -$il-line-height-computed;
 }
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	.ilToolbar {
 		.container-fluid {
 			padding-left: $il-padding-xlarge-horizontal;

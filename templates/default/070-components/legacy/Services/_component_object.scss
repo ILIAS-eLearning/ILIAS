@@ -32,7 +32,7 @@ div.ilCreationFormSection .form-horizontal {
 }
 
 .ilObjListRow {
-	border-bottom: $il-item-border-bottom;
+	border-bottom: $il-main-border;
 	background-color: $il-main-bg;
     &:last-child {
         border-bottom: none;

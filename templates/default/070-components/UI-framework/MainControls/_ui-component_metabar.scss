@@ -1,4 +1,9 @@
- //== metabar
+@use "../../../010-settings/"as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
+//== metabar
 $il-metabar-slates-bg-color: #fafafa;
 $il-metabar-glyph-color: $il-neutral-light-color;
 $il-metabar-entry-height: 60px;
@@ -20,7 +25,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 
 	// no display labels in metabar level 1, but make them readable by screenreaders
 	> li > .btn-bulky > .bulky-label, > li > .link-bulky > .bulky-label {
-		@include sr-only();
+		@include btstrp3.sr-only;
 	}
 
 	.glyphicon {
@@ -74,7 +79,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 		height: $il-metabar-entry-height;
 		min-width: $il-metabar-entry-width;
 
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			height: $il-metabar-small-entry-height;
 			min-width: $il-metabar-small-entry-width;
 		}
@@ -95,7 +100,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 		}
 	}
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		.il-counter-novelty {
 			top: $il-margin-large-vertical;
 		}
@@ -145,7 +150,7 @@ $il-metabar-small-glyph-size: 1.25rem;
 		margin-bottom: auto;
 	}
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: 100%;
 		top: $il-metabar-small-entry-height;
 		right: 0;

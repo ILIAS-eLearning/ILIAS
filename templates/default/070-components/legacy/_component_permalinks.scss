@@ -25,7 +25,7 @@ div.ilPermanentLinkWrapper {
 	width: 100%;
 	a.permalink_label {
 		> span.glyphicon {
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				display: inline;
 			}
 		}
@@ -33,14 +33,14 @@ div.ilPermanentLinkWrapper {
 	.ilPermalinkContainer {
 		table-layout: fixed;
 		line-height: 22px;
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			padding-right: 0;
 		}
 		> label {
 			width: 150px;
 			display: table-cell;
 			vertical-align: middle;
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				padding-right: 0;
 				width: 24px;
 			}

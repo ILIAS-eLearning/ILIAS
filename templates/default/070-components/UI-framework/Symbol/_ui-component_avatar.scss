@@ -1,7 +1,13 @@
+@use "sass:list";
+@use "sass:math";
+@use "../../../010-settings/" as *;
+@use "../../../030-tools/scss-input/tool_contrast-color" as t-contr;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
 //== Avatar
 //
 //** Size for avatars: used in the header. e.g. standard (and recommended) is $il-icon-size-large
-$il-avatar-size: $il-icon-size-large;
 $il-avatar-size-small: $il-avatar-size / 2;
 $il-avatar-size-large: $il-avatar-size * 2;
 //** border-radius for image avatar
@@ -23,7 +29,6 @@ $il-avatar-letter-abbreviation-font-transform: inherit;
 
 $il-avatar-colors: $il-avatar-letter-color-variants;
 $il-avatar-inner-size: ($il-avatar-size - (2 * $il-avatar-border-size));
-$il-avatar-inner-mobile-size: ($il-avatar-size / 2 );
 
 $zoom-small: $il-avatar-size-small / $il-avatar-size;
 $zoom-large: $il-avatar-size-large / $il-avatar-size;
@@ -67,23 +72,21 @@ $zoom-large: $il-avatar-size-large / $il-avatar-size;
 			top: calc($il-avatar-inner-size / 4);
 		}
 
-		@mixin avatar-color-variant($i: length($il-avatar-colors)) when ($i > 0){
-			@include avatar-color-variant($i - 1);
-			$number_text: unquote("#{$i}");
-			$color: (extract($il-avatar-colors, $i));
-			&.il-avatar-letter-color-#{$number_text} {
-				$contrast: contrast($color, lighten($color, $il-avatar-letter-border-color-contrast-lighten), darken($color, $il-avatar-letter-border-color-contrast-darken));
+		@for $i from 1 through length($il-avatar-colors) {
+			&.il-avatar-letter-color-#{$i} {
+				$color: list.nth($il-avatar-colors, $i);
+				$contrast: t-contr.contrast-color($color, darken($color, $il-avatar-letter-border-color-contrast-darken), lighten($color, $il-avatar-letter-border-color-contrast-lighten));
 				background-color: $color;
 				border-color: $contrast;
 				color: white;
+				// @debug "color #{$i}: #{$color} - contrast-color: #{$contrast}"
 			}
 		}
-		@include avatar-color-variant();
 	}
 }
 
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	.il-avatar {
 		height: $il-avatar-inner-mobile-size;
 		width: $il-avatar-inner-mobile-size;

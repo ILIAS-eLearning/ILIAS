@@ -27,7 +27,9 @@ $il-font-size-h1:    1.75rem;
 $il-line-height-base:		1.428571429;
 $il-line-height-computed: math.floor($il-font-size-base * $il-line-height-base);
 $il-small-line-height-computed: math.floor($il-font-size-small * $il-line-height-base);
-@debug "#{$il-line-height-computed}";
+$il-line-height-large:  1.33;
+
+
 //** Used to lighten text, e.g. workflow steps.
 $il-font-weight-light:    300;
 //** Default font weight.

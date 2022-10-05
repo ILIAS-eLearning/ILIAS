@@ -1,6 +1,10 @@
 @use "sass:math";
 @use "../../../010-settings/" as *;
+@use "../../../020-dependencies/modifications/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 @use "../../../030-tools/scss-input/tool_panel-patterns" as *;
+@use "../../../050-layout/basics" as *;
+@use "../../../050-layout/standardpage/" as *;
+
 //== Panel
 //
 //##
@@ -19,12 +23,12 @@
 		padding: $il-panel-heading-padding;
 
 		border: none;
-		@include box-shadow(none);
+		@include btstrp3.box-shadow(none);
 		h2, h2.ilHeader {
 			margin: 0;
 			color: $il-panel-heading-color;
 			font-size: $il-font-size-xlarge;
-			line-height: $line-height-large;
+			line-height: $il-line-height-large;
 			font-weight: $il-font-weight-bold;
 		}
 
@@ -62,7 +66,7 @@
 	h2.ilHeader {
 		flex-grow: 99;
 		flex-shrink: 1;
-		line-height: math.ceil((unit($il-font-size-large) / $il-pixel-to-rem) * 1.235);
+		line-height: math.ceil($il-font-size-large * 1.235);
 		order: 1;
 	}
 	.ilBlockHeader h4,.ilHeader h4{
@@ -115,7 +119,7 @@
 
 	.panel-body {
 		.il-item-group{
-			margin: 0 -$il-margin-xlarge-horizontal;
+			margin: 0 (-$il-margin-xlarge-horizontal);
 			h2{
 				padding: $il-padding-large-vertical $il-padding-xlarge-horizontal;
 			}
@@ -124,7 +128,7 @@
 			}
 
 			&:first-child{
-				margin: -$il-margin-xxxlarge-vertical -$il-margin-xlarge-horizontal 0 -$il-margin-xlarge-horizontal;
+				margin: (-$il-margin-xxxlarge-vertical) (-$il-margin-xlarge-horizontal) 0 (-$il-margin-xlarge-horizontal);
 			}
 
 			.il-item{
@@ -140,13 +144,13 @@
 	.il-panel-listing-std-container > h2, .panel-body h4{
 		display: block;
 		padding: $il-padding-large-vertical 0;
-		font-size: $font-size-base;
+		font-size: $il-font-size-base;
 		color: $il-panel-heading-color;
 		margin: 0;
 	}
 
 	.il-std-item-container:not(:last-child) {
-		border-bottom: $il-item-border-bottom-small;
+		border-bottom: $il-main-border;
 	}
 }
 
@@ -156,7 +160,7 @@
 	-webkit-box-shadow: none;
 	box-shadow: none;
 
-	margin: -$il-padding-xxxlarge-vertical -$il-margin-xlarge-horizontal;
+	margin: (-$il-padding-xxxlarge-vertical) (-$il-margin-xlarge-horizontal);
 
 	.panel-body{
 		margin: 0;
@@ -195,7 +199,7 @@
 		float: left;
 		padding: $il-panel-heading-padding;
 		margin: 0;
-		line-height: $line-height-large;
+		line-height: $il-line-height-large;
 	}
 
 	.dropdown {

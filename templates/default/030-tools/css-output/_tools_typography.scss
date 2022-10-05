@@ -1,4 +1,5 @@
 @use "../../010-settings/" as *;
+@use "../scss-input/tool_typography-mixins" as type-mix;
 
 @font-face {
 	font-family: 'Open Sans';
@@ -99,15 +100,15 @@
 }
 
 .ilCenter {
-	text-align: center;
+	@include type-mix.ilCenter;
 }
 
 .ilRight {
-	text-align: right;
+	@include type-mix.ilRight;
 }
 
 .ilLeft {
-	text-align: left;
+	@include type-mix.ilLeft;
 }
 
 .ilValignMiddle {

@@ -20,7 +20,7 @@ td.il-news {
 	}
 }
 
-@media only screen and (max-width: $grid-float-breakpoint-max) {
+@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 	td.il-news {
 		white-space: normal !important;
 	}
@@ -55,7 +55,7 @@ span.ilNewsRssIcon {
 		background-color: $il-main-border-dark-color;
 		left: 50%;
 		margin-left: -1.5px;
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			left: 90%;
 		}
 	}
@@ -66,7 +66,7 @@ span.ilNewsRssIcon {
 		&:nth-child(even) {
 			margin-left: 50%;
 			margin-right: 0;
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				margin-left: 0;
 			}
 			> .ilTimelineBadge {
@@ -74,13 +74,13 @@ span.ilNewsRssIcon {
 				margin-left: -25px;
 				right: auto;
 				margin-right: 0;
-				@media only screen and (max-width: $grid-float-breakpoint-max) {
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 					right: auto;
 					left: 90%;
 				}
 			}
 		}
-		@media only screen and (max-width: $grid-float-breakpoint-max) {
+		@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 			margin-right: 0;
 		}
 		&:before, &:after {
@@ -97,7 +97,7 @@ span.ilNewsRssIcon {
 			position: relative;
 			background: $il-main-dark-bg;
 			border: $il-panel-border;
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				width: 80%;
 			}
 			&:after {
@@ -130,7 +130,7 @@ span.ilNewsRssIcon {
 			border-radius: 50%;
 			right: 0;
 			margin-right: -25px;
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				left: 90%;
 				right: auto;
 				margin-left: -25px;
@@ -148,7 +148,7 @@ span.ilNewsRssIcon {
 		}
 		&:nth-child(even) > .ilTimelinePanel {
 			float: right;
-			@media only screen and (max-width: $grid-float-breakpoint-max) {
+			@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 				float: left;
 			}
 			&:before {
@@ -156,7 +156,7 @@ span.ilNewsRssIcon {
 				border-right-width: 15px;
 				left: -15px;
 				right: auto;
-				@media only screen and (max-width: $grid-float-breakpoint-max) {
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 					border-left-width: 15px;
 					border-right-width: 0;
 					right: auto;
@@ -168,7 +168,7 @@ span.ilNewsRssIcon {
 				border-right-width: 14px;
 				left: -14px;
 				right: auto;
-				@media only screen and (max-width: $grid-float-breakpoint-max) {
+				@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 					border-left-width: 14px;
 					border-right-width: 0;
 					left: auto;
@@ -207,7 +207,7 @@ span.ilNewsRssIcon {
 	overflow: hidden;
 	width: 100px;
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: 50px;
 	}
 }
@@ -216,7 +216,7 @@ span.ilNewsRssIcon {
 	width: 75px;
 	height: 75px;
 
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		width: 40px;
 		height: 40px;
 	}
@@ -224,7 +224,7 @@ span.ilNewsRssIcon {
 
 .ilNewsTimelineContentSection {
 	padding-left: 100px;
-	@media only screen and (max-width: $grid-float-breakpoint-max) {
+	@media only screen and (max-width: $il-grid-float-breakpoint-max) {
 		padding-left: 50px;
 	}
 }
