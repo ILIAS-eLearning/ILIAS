@@ -768,6 +768,7 @@ class ilMail
 
             $this->auto_responder_service->enqueueAutoresponderIfEnabled(
                 $mailOptions->getUsrId(),
+                $mailOptions,
                 $mail_receiver_options,
             );
 

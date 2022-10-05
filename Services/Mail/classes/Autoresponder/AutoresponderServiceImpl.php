@@ -120,8 +120,8 @@ final class AutoresponderServiceImpl implements AutoresponderService
                     );
                 } else {
                     $mail = new AutoresponderNotification(
-                        $auto_responder_sender_usr_id,
                         $mail_options,
+                        $auto_responder_receiver_usr_id,
                         $auto_responder->getSentTime()->add($this->idle_time_interval)
                     );
                     $mail->send();
@@ -132,10 +132,10 @@ final class AutoresponderServiceImpl implements AutoresponderService
         }
     }
 
-    public function enqueueAutoresponderIfEnabled(int $sender_id, ilMailOptions $mail_recipient_mail_options): void
+    public function enqueueAutoresponderIfEnabled(int $sender_id, ilMailOptions $mail_receiver_options, ilMailOptions $mail_sender_options): void
     {
-        if ($this->auto_responder_status && $mail_recipient_mail_options->isAbsent()) {
-            $this->auto_responder_data[$sender_id] = $mail_recipient_mail_options;
+        if ($this->auto_responder_status && $mail_receiver_options->isAbsent()) {
+            $this->auto_responder_data[$sender_id] = $mail_receiver_options;
         }
     }
 

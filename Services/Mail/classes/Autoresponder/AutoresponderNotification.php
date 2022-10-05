@@ -28,21 +28,21 @@ use ilDateTime;
 
 class AutoresponderNotification extends ilMailNotification
 {
-    private ilMailOptions $receiver_mail_options;
+    private ilMailOptions $sender_mail_options;
     private DateTimeImmutable $next_auto_responder_datetime;
 
     public function __construct(
-        int $sender_id,
-        ilMailOptions $receiver_mail_options,
+        ilMailOptions $sender_mail_options,
+        int $receiver_id,
         DateTimeImmutable $next_auto_responder_datetime
     ) {
-        $this->receiver_mail_options = $receiver_mail_options;
+        $this->sender_mail_options = $sender_mail_options;
         $this->next_auto_responder_datetime = $next_auto_responder_datetime;
 
         parent::__construct();
 
-        $this->setSender($sender_id);
-        $this->setRecipients([$receiver_mail_options->getUsrId()]);
+        $this->setSender($sender_mail_options->getUsrId());
+        $this->setRecipients([$receiver_id]);
     }
 
     public function send(): bool
@@ -58,11 +58,11 @@ class AutoresponderNotification extends ilMailNotification
             $former_language = ilDatePresentation::getLanguage();
             ilDatePresentation::setLanguage($this->getLanguage());
 
-            $this->setSubject($this->receiver_mail_options->getAbsenceAutoresponderSubject());
+            $this->setSubject($this->sender_mail_options->getAbsenceAutoresponderSubject());
 
-            $this->setBody($this->receiver_mail_options->getAbsenceAutoresponderBody());
+            $this->setBody($this->sender_mail_options->getAbsenceAutoresponderBody());
             $this->appendBody("\n");
-            $this->appendBody($this->receiver_mail_options->getSignature());
+            $this->appendBody($this->sender_mail_options->getSignature());
             $this->appendBody("\n\n");
             $this->appendBody(
                 str_ireplace(
