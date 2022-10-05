@@ -50,24 +50,24 @@ class ilPCLearningHistory extends ilPageContent
         $this->lhist_node = $this->node->append_child($this->lhist_node);
     }
 
-    public function setFrom(int $a_val): void
+    public function setFrom(string $a_val): void
     {
-        $this->lhist_node->set_attribute("From", (string) $a_val);
+        $this->lhist_node->set_attribute("From", $a_val);
     }
 
-    public function getFrom(): int
+    public function getFrom(): string
     {
-        return (int) $this->lhist_node->get_attribute("From");
+        return (string) $this->lhist_node->get_attribute("From");
     }
 
-    public function setTo(int $a_val): void
+    public function setTo(string $a_val): void
     {
         $this->lhist_node->set_attribute("To", $a_val);
     }
 
-    public function getTo(): int
+    public function getTo(): string
     {
-        return (int) $this->lhist_node->get_attribute("To");
+        return (string) $this->lhist_node->get_attribute("To");
     }
 
     public function setClasses(array $a_val): void
