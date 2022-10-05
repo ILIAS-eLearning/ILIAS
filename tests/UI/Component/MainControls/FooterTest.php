@@ -269,14 +269,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <span class="modal-title">Modal1</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -285,14 +285,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <span class="modal-title">Modal2</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
                             </div>
                         </div>
                     </div>
