@@ -248,7 +248,7 @@ class ilLMMenuEditor
             if ($rec["link_type"] == "intern") {
                 $link = explode("_", $rec["link_ref_id"]);
                 $ref_id = (int) $link[count($link) - 1];
-                $new_ref_id = $ref_mapping[$ref_id];
+                $new_ref_id = $ref_mapping[$ref_id] ?? 0;
                 // if ref id has been imported, update it
                 if ($new_ref_id > 0) {
                     $new_target = str_replace((string) $ref_id, (string) $new_ref_id, $rec["target"]);

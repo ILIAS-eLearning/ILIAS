@@ -1617,8 +1617,10 @@ class ilTree
             0,
             $this->tree_id
         ));
-        $row = $this->db->fetchObject($res);
-        $this->root_id = (int) $row->child;
+        $this->root_id = 0;
+        if ($row = $this->db->fetchObject($res)) {
+            $this->root_id = (int) $row->child;
+        }
         return $this->root_id;
     }
 
