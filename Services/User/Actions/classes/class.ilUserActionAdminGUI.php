@@ -99,7 +99,7 @@ class ilUserActionAdminGUI
                 $this->action_context->getContextId(),
                 $a["action_comp_id"],
                 $a["action_type_id"],
-                (bool) $active[$a["action_comp_id"] . ":" . $a["action_type_id"]]
+                (bool) ($active[$a["action_comp_id"] . ":" . $a["action_type_id"]] ?? false)
             );
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
