@@ -160,7 +160,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         if (!$this->custom_prefs) {
             return (string) $a_user->getPref($a_id);
         } else {
-            return (string) $this->custom_prefs[$a_id];
+            return (string) ($this->custom_prefs[$a_id] ?? "");
         }
     }
 
