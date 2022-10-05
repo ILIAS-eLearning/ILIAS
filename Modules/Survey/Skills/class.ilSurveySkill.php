@@ -340,7 +340,7 @@ class ilSurveySkill
             }
             $cats = $q->getCategories();
             $max_scale = 0;
-            for ($i = 0; $i <= $cats->getCategoryCount(); $i++) {
+            for ($i = 0; $i < $cats->getCategoryCount(); $i++) {
                 $c = $cats->getCategory($i);
                 $n = $c->neutral;
                 $s = $c->scale;
