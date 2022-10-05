@@ -66,6 +66,7 @@
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
     			<attribute name="MODULE-VERSION" value="5.4.1" />
+    			<attribute name="Multi-Release" value="true"/>
 			<section name="de/ilias/config/unifont.ttf">
 				<attribute name="Content-Type" value="application/x-font" />
 			</section>
