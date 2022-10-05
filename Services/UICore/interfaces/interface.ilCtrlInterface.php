@@ -89,8 +89,8 @@ interface ilCtrlInterface
     /**
      * Sets the current command.
      *
-     * @deprecated this method should not be used anymore, as all commands
-     *             should be passed as $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
      * @param string|null $a_cmd
      */
@@ -106,8 +106,8 @@ interface ilCtrlInterface
     /**
      * Sets the command class that should be executed next.
      *
-     * @deprecated this method should not be used anymore, as all command
-     *             classes should be passed by $_GET or $_POST parameters.
+     * @deprecated this method should not be used anymore and will be
+     *             removed with ILIAS 10.
      *
      * @param object|string|null $a_cmd_class
      */
