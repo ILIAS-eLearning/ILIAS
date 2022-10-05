@@ -126,6 +126,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('FORM_ACTION', $value);
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
+        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
         if (count($modal->getAffectedItems())) {
             $tpl->setCurrentBlock('with_items');
             foreach ($modal->getAffectedItems() as $item) {
@@ -152,6 +153,8 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($modal);
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $modal->getTitle());
+        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
+
         foreach ($modal->getContent() as $content) {
             $tpl->setCurrentBlock('with_content');
             $tpl->setVariable('CONTENT', $default_renderer->render($content));
@@ -176,6 +179,8 @@ class Renderer extends AbstractComponentRenderer
         $pages = $modal->getPages();
         $tpl->setVariable('TITLE', $pages[0]->getTitle());
         $tpl->setVariable('ID_CAROUSEL', $id_carousel);
+        $tpl->setVariable('CLOSE_LABEL', $this->txt('close'));
+
         if (count($pages) > 1) {
             $tpl->setCurrentBlock('has_indicators');
             foreach ($pages as $index => $page) {

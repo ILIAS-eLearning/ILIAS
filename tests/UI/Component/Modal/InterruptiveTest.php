@@ -93,7 +93,7 @@ class InterruptiveTest extends ModalBase
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close">
 					<span aria-hidden="true"></span></button><span class="modal-title">Title</span>
 				</div>
 				<div class="modal-body">
