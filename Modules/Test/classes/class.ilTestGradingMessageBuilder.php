@@ -63,7 +63,7 @@ class ilTestGradingMessageBuilder
             $this->addMessagePart($this->buildGradingStatusMsg());
         }
 
-        if ($this->testOBJ->areObligationsEnabled()) {
+        if ($this->testOBJ->areObligationsEnabled() && $this->obligationQuestionsPresent()) {
             $this->addMessagePart($this->buildObligationsMsg());
         }
         
@@ -182,6 +182,11 @@ class ilTestGradingMessageBuilder
     private function areObligationsAnswered()
     {
         return (bool) $this->resultData['obligations_answered'];
+    }
+
+    private function obligationQuestionsPresent()
+    {
+        return $this->testOBJ->hasObligations($this->testOBJ->getTestId());
     }
     
     private function buildEctsGradeMsg()
