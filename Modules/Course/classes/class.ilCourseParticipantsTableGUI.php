@@ -167,7 +167,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
                 case 'birthday':
-                    $a_set['birthday'] = $a_set['birthday'] ? ilDatePresentation::formatDate(new ilDate(
+                    $a_set['birthday'] = ($a_set['birthday'] ?? false) ? ilDatePresentation::formatDate(new ilDate(
                         $a_set['birthday'],
                         IL_CAL_DATE
                     )) : $this->lng->txt('no_date');
