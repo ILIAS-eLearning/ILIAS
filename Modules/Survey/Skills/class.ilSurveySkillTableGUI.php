@@ -121,7 +121,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("points");
             $this->tpl->setVariable("LEV", $l["title"]);
 
-            $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]];
+            $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]] ?? 0;
             if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {
