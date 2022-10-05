@@ -399,7 +399,7 @@ class ilConsultationHoursGUI
         if ($form->checkInput()) {
             $group = new ilConsultationHourGroup();
             $group->setTitle($form->getInput('title'));
-            $group->setMaxAssignments($form->getInput('multiple'));
+            $group->setMaxAssignments((int) $form->getInput('multiple'));
             $group->setUserId($this->getUserId());
             $group->save();
 
@@ -438,7 +438,7 @@ class ilConsultationHoursGUI
         if ($form->checkInput()) {
             $group = new ilConsultationHourGroup($group_id);
             $group->setTitle($form->getInput('title'));
-            $group->setMaxAssignments($form->getInput('multiple'));
+            $group->setMaxAssignments((int) $form->getInput('multiple'));
             $group->setUserId($this->getUserId());
             $group->update();
 
