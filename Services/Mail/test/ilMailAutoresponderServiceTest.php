@@ -81,13 +81,18 @@ class ilMailAutoresponderServiceTest extends ilMailBaseTest
         $mail_receiver_options->method('getUsrId')->willReturn(self::MAIL_RECEIVER_USER_ID);
         $mail_receiver_options->method('isAbsent')->willReturn(true);
 
+        $mail_options = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
+        $mail_options->method('getUsrId')->willReturn(self::MAIL_SENDER_USER_ID);
+        $mail_options->method('isAbsent')->willReturn(false);
+
+
         $auto_responder_service = $this->createService(
             $interval,
             $repository,
             $clock
         );
 
-        $auto_responder_service->enqueueAutoresponderIfEnabled(self::MAIL_SENDER_USER_ID, $mail_receiver_options);
+        $auto_responder_service->enqueueAutoresponderIfEnabled(self::MAIL_SENDER_USER_ID, $mail_receiver_options, $mail_options);
 
         $auto_responder_service->handleAutoresponderMails(self::MAIL_RECEIVER_USER_ID);
     }
