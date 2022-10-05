@@ -290,7 +290,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         if ($a_test_ref_id) {
             $node_data = $tree->getNodeData($a_test_ref_id);
         }
-        if (!$node_data['child']) {
+        if (!($node_data['child'] ?? false)) {
             return '';
         }
 
