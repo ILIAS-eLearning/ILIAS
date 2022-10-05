@@ -56,7 +56,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             ->standardRequest();
     }
 
-    protected function withDeclarationOfAuthorship(
+    public function withDeclarationOfAuthorship(
         \ilPortfolioDeclarationOfAuthorship $decl,
         \ilObjUser $user
     ): self {
