@@ -1417,7 +1417,7 @@ class ilObjectListGUI
                 //BEGIN WebDAV: Support hidden property names.
                 if (
                     isset($prop["property"]) &&
-                    (isset($prop['propertyNameVisible']) && $prop['propertyNameVisible'] !== false) &&
+                    (($prop['propertyNameVisible'] ?? null) !== false) &&
                     $prop["property"] != ""
                 ) {
                     //END WebDAV: Support hidden property names.
