@@ -26,7 +26,7 @@ declare(strict_types=1);
 * @author Stefan Meyer <meyer@leifos.com>
 *
 * @package ilias-search
-* @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
+* @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI
 *
 */
 

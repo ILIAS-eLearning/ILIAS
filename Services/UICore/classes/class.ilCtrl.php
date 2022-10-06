@@ -205,7 +205,6 @@ class ilCtrl implements ilCtrlInterface
     public function getHTML(object $a_gui_object, array $a_parameters = null): string
     {
         $class_name = get_class($a_gui_object);
-
         // @TODO: remove this check once an interface for command classes exists.
         if (!method_exists($a_gui_object, 'getHTML')) {
             throw new ilCtrlException("$class_name doesn't implement getHTML().");
