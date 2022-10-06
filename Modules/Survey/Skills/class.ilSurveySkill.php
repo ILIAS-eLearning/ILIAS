@@ -306,7 +306,7 @@ class ilSurveySkill
             $previous = 0;
             $previous_t = 0;
             foreach ($skills[$k]["level_data"] as $l) {
-                $t = $thresholds[$l["id"]][$s["tref_id"]];
+                $t = $thresholds[$l["id"]][$s["tref_id"]] ?? 0;
                 if ($t > 0 && $mean_sum >= $t) {
                     $skills[$k]["new_level"] = $l["title"];
                     $skills[$k]["new_level_id"] = $l["id"];
