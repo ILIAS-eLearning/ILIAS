@@ -25,7 +25,7 @@ declare(strict_types=1);
  */
 class ilGoogleMapGUI extends ilMapGUI
 {
-    protected string $css_row;
+    protected string $css_row = "";
 
     public function __construct()
     {
