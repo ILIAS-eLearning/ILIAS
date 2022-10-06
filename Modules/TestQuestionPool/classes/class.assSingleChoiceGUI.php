@@ -13,7 +13,8 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -706,9 +707,9 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
         $choices->setValues(array_map(
             function (ASS_AnswerBinaryStateImage $value) {
-                    $value->setAnswerText(html_entity_decode($value->getAnswerText()));
-                    return $value;
-                },
+                $value->setAnswerText(html_entity_decode($value->getAnswerText()));
+                return $value;
+            },
             $this->object->getAnswers()
         ));
         $form->addItem($choices);
