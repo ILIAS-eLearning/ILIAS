@@ -10776,6 +10776,7 @@ mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_following_rcp_not_valid#:#Die folgenden Angaben sind nicht gültig:###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_form_placeholders_label#:#Verfügbare Platzhalter
 mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehler aufgetreten: %1$s###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
