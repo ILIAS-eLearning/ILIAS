@@ -710,7 +710,10 @@ class ilForum
      */
     public function getAllThreads(int $a_topic_id, array $params = [], int $limit = 0, int $offset = 0): array
     {
-        $frm_overview_setting = (int) $this->settings->get('forum_overview');
+        $frm_overview_setting = (int) (new ilSetting('frma'))->get(
+            'forum_overview',
+            (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS
+        );
         $frm_props = ilForumProperties::getInstance($this->getForumId());
         $is_post_activation_enabled = $frm_props->isPostActivationEnabled();
 

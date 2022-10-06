@@ -267,7 +267,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             if ($num_unread > 0) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
             }
-            if ($num_new > 0 && $this->getOverviewSetting() === 0) {
+            if ($num_new > 0 && $this->getOverviewSetting() === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
             }
         }

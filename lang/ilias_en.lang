@@ -9600,6 +9600,7 @@ forum#:#frm_action_not_possible_parent_deleted#:#Action not possible, the parent
 forum#:#frm_action_not_possible_thr_closed#:#Action not possible, the thread has been closed.
 forum#:#frm_action_not_possible_thr_deleted#:#Action not possible, the thread has been deleted.
 forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
+forum#:#frm_all_postings_stats#:#All
 forum#:#frm_all_threads#:#All Threads
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
