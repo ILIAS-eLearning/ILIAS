@@ -33,7 +33,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      */
     public function isQuestionSetConfigured(): bool
     {
-        if ($this->testOBJ->getQuestionCount() > 0) {
+        if ($this->testOBJ->getQuestionCountWithoutReloading() > 0) {
             return true;
         }
         return false;
