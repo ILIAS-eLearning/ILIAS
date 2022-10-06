@@ -2760,12 +2760,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     public function addContributor(
         array $a_user_ids = array(),
-        ?int $a_user_type = null
+        ?string $a_user_type = null
     ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $rbacreview = $this->rbac_review;
         $rbacadmin = $this->rbacadmin;
+        $a_user_type = (int) $a_user_type;
 
         if (!$this->checkPermissionBool("write")) {
             return;
