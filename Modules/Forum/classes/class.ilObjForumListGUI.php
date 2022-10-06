@@ -87,7 +87,10 @@ class ilObjForumListGUI extends ilObjectListGUI
             $num_drafts_total = $drafts_statistics['total'];
         }
 
-        $frm_overview_setting = (int) $this->settings->get('forum_overview');
+        $frm_overview_setting = (int) (new ilSetting('frma'))->get(
+            'forum_overview',
+            (string) ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS
+        );
         $num_new_total = 0;
         if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
             $num_new_total = $properties['num_new_posts'];
