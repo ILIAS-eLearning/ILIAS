@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- * ******************************************************************* */
+ *********************************************************************/
 
 /**
  * Class ilObjTestListGUI
@@ -26,7 +26,6 @@
  * @extends ilObjectListGUI
  * @ingroup ModulesTest
  */
-
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjTestListGUI extends ilObjectListGUI

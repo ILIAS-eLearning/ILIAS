@@ -17,7 +17,6 @@ declare(strict_types=1);
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
 class ilTest8DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;

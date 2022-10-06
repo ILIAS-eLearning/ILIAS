@@ -14,15 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacQuestionProvider.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacConditionParser.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeEvaluator.php';
-require_once 'Modules/Test/classes/class.ilTestSkillPointAccount.php';
-require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
+ *********************************************************************/
 
 use ILIAS\Skill\Service\SkillProfileService;
 
