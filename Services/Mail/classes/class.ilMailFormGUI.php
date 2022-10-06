@@ -838,7 +838,7 @@ class ilMailFormGUI
         $chb->setValue('1');
         $chb->setChecked(isset($mailData['use_placeholders']) && $mailData['use_placeholders']);
 
-        $placeholders = new ilManualPlaceholderInputGUI('m_message');
+        $placeholders = new ilManualPlaceholderInputGUI($this->lng->txt('mail_form_placeholders_label'), 'm_message');
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
         foreach ($context->getPlaceholders() as $key => $value) {

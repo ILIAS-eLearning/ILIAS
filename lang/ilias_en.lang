@@ -10791,6 +10791,7 @@ mail#:#mail_folder_deleted#:#The folder has been deleted
 mail#:#mail_folder_exists#:#A folder already exists with this name
 mail#:#mail_folder_name_changed#:#The folder has been renamed
 mail#:#mail_following_rcp_not_valid#:#The following recipients are not valid:
+mail#:#mail_form_placeholders_label#:#Available Placeholders
 mail#:#mail_generic_rcp_error#:#An error occured while validating the recipients: %1$s
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
