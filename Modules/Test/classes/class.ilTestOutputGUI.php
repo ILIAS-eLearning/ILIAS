@@ -183,7 +183,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if ($access_code != null && isset($access_code[$this->object->getTestId()])) {
             $this->testSession->setAnonymousId((int) $access_code[$this->object->getTestId()]);
         }
-        $this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
+        if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+            $this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainer()->getObjId());
+        }
         $this->testSession->saveToDb();
 
         $active_id = $this->testSession->getActiveId();
