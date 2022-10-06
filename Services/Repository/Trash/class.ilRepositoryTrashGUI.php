@@ -419,7 +419,10 @@ class ilRepositoryTrashGUI
                     $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
                 }
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                //$this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                // alex: I outcommented this, since it makes tracking down errors impossible
+                // we need a call stack at least in the logs
+                throw $e;
             }
         }
     }
@@ -439,7 +442,10 @@ class ilRepositoryTrashGUI
             ilRepUtil::removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder);
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            // alex: I outcommented this, since it makes tracking down errors impossible
+            // we need a call stack at least in the logs
+            //$this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            throw $e;
             return false;
         }
 

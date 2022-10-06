@@ -211,12 +211,12 @@ class ilRepUtil
 
             $ilUser = $DIC->user();
             $tree = $DIC->repositoryTree();
-            $parent_data = $tree->getParentNodeData($node_data['ref_id']);
+
             ilChangeEvent::_recordWriteEvent(
                 $node_data['obj_id'],
                 $ilUser->getId(),
                 'purge',
-                $parent_data['obj_id']
+                null
             );
             // END ChangeEvent: Record remove from system.
 
