@@ -278,7 +278,7 @@ class ilTimingsCronReminder extends ilCronJob
         $name = ilObjUser::_lookupName($user_id);
         if (is_array($name)) {
             $salutation = $this->user_lang->txt('mail_salutation_n') . ' ';
-            if ($name['gender'] != '') {
+            if (($name['gender'] ?? "") != '') {
                 $salutation .= $this->user_lang->txt('salutation_' . $name['gender']) . ' ';
             }
             if ($name['title'] != '') {
