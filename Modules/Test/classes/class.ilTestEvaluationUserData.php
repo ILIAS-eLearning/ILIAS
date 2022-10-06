@@ -15,7 +15,6 @@
  *
  *********************************************************************/
 
-
 /**
 * Class ilTestEvaluationUserData
 *
@@ -26,7 +25,6 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-
 include_once "./Services/Object/classes/class.ilObject.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 

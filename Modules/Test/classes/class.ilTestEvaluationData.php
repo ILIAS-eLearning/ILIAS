@@ -15,7 +15,6 @@
  *
  *********************************************************************/
 
-
 /**
 * Class ilTestEvaluationData
 *
@@ -26,7 +25,6 @@
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-
 class ilTestEvaluationData
 {
     /**

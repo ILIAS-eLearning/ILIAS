@@ -16,9 +16,6 @@
  *
  *********************************************************************/
 
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
 * TableGUI class for evaluation of all users
 *

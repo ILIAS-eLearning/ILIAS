@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- * ******************************************************************* */
+ *********************************************************************/
 
 /**
  *
@@ -23,7 +23,6 @@
  *
  * @ingroup ModulesTest
  */
-
 class ilTestExportTableGUI extends ilExportTableGUI
 {
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)

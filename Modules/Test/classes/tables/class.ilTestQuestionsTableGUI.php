@@ -24,7 +24,6 @@
 *
 * @ingroup ModulesTest
 */
-
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
     protected bool $questionRemoveRowButtonEnabled = false;

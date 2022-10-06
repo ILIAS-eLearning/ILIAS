@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- * ******************************************************************* */
+ *********************************************************************/
 
 class ilTestResultsToXML extends ilXmlWriter
 {
