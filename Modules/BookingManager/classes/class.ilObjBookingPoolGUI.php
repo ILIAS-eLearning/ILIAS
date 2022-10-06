@@ -280,7 +280,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     public function editObject(): void
     {
         $this->showNoScheduleMessage();
-        parent::editObject();
+        if (!$this->checkPermissionBool("write")) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_write"), $this->error->MESSAGE);
+        }
+
+        $this->tabs_gui->activateTab("settings");
+
+        $form = $this->initEditForm();
+        $values = $this->getEditFormValues();
+        if ($values) {
+            $form->setValuesByArray($values, true);
+        }
+
+        $this->addExternalEditFormCustom($form);
+
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function showNoScheduleMessage(): void
