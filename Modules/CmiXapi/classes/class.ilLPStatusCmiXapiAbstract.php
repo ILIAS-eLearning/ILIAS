@@ -32,7 +32,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
 
     private static array $statusInfoCache = array();
 
-    public function getCmixUserResult(int $objId, int $usrId): \ilCmiXapiResult
+    public function getCmixUserResult(int $objId, int $usrId): ?\ilCmiXapiResult
     {
         if (!isset($this->cmixUserResult[$objId])) {
             $this->cmixUserResult[$objId] = array();
