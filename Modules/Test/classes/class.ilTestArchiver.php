@@ -681,6 +681,9 @@ class ilTestArchiver
         if (@file_exists($data_index_file)) {
             $lines = explode("\n", file_get_contents($data_index_file));
             foreach ($lines as $line) {
+                if (strlen($line) === 0) {
+                    continue;
+                }
                 $line_items = explode('|', $line);
                 $line_data['identifier'] = $line_items[0] . '|' . $line_items[1];
                 $line_data['yyyy'] = $line_items[2];

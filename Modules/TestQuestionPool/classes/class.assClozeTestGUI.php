@@ -1011,7 +1011,7 @@ JS;
                 if ($graphicalOutput) {
                     // output of ok/not ok icons for user entered solutions
                     $details = $this->object->calculateReachedPoints($active_id, $pass, true, true);
-                    $check = $details[$gap_index];
+                    $check = $details[$gap_index] ?? [];
 
                     if (count($check_for_gap_combinations) != 0) {
                         $gaps_used_in_combination = $assClozeGapCombinationObject->getGapsWhichAreUsedInCombination($this->object->getId());
@@ -1044,14 +1044,14 @@ JS;
                                 $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
                             }
                         } else {
-                            if ($check["best"]) {
+                            if (array_key_exists('best', $check) && $check["best"]) {
                                 $gaptemplate->setCurrentBlock("icon_ok");
                                 $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
                                 $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
                                 $gaptemplate->parseCurrentBlock();
                             } else {
                                 $gaptemplate->setCurrentBlock("icon_not_ok");
-                                if ($check["positive"]) {
+                                if (array_key_exists('positive', $check) && $check["positive"]) {
                                     $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
                                     $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
                                 } else {
@@ -1062,14 +1062,14 @@ JS;
                             }
                         }
                     } else {
-                        if ($check["best"]) {
+                        if (array_key_exists('best', $check) && $check["best"]) {
                             $gaptemplate->setCurrentBlock("icon_ok");
                             $gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.svg"));
                             $gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
                             $gaptemplate->parseCurrentBlock();
                         } else {
                             $gaptemplate->setCurrentBlock("icon_not_ok");
-                            if ($check["positive"]) {
+                            if (array_key_exists('positive', $check) && $check["positive"]) {
                                 $gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.svg"));
                                 $gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
                             } else {
