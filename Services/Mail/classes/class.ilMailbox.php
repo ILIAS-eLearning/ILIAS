@@ -379,7 +379,7 @@ class ilMailbox
         );
 
         $this->db->manipulateF(
-            'DELETE FROM mail_auto_responder WHERE sender_id = %s OR recipient_id = %s',
+            'DELETE FROM mail_auto_responder WHERE sender_id = %s OR receiver_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
         );
