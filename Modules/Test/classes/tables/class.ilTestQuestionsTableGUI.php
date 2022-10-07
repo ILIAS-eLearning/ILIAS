@@ -15,6 +15,7 @@ require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
 
 class ilTestQuestionsTableGUI extends ilTable2GUI
 {
+    private const CLASS_PATH_FOR_EDIT_LINKS = ['ilrepositorygui', 'ilobjquestionpoolgui'];
 
     /**
      * @var bool
@@ -339,8 +340,11 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $_GET['ref_id']
         );
         
-        $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
-        
+        $link = $this->ctrl->getLinkTargetByClass(array_merge(
+            self::CLASS_PATH_FOR_EDIT_LINKS,
+            [$target_class]
+        ), $cmd);
+
         $this->ctrl->setParameterByClass($target_class, 'eqpl', '');
         $this->ctrl->setParameterByClass($target_class, 'eqid', '');
         $this->ctrl->setParameterByClass($target_class, 'q_id', '');
