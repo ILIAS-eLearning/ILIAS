@@ -24,7 +24,7 @@ use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjPluginDispatchGUI:
  */
-class ilObjPluginDispatchGUI
+class ilObjPluginDispatchGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected PluginSlotGUIRequest $request;

@@ -192,6 +192,6 @@ class ilLPStatusPlugin extends ilLPStatus
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
         );
         $row = $ilDB->fetchAssoc($set);
-        return (int) $row["percentage"];
+        return (int) ($row["percentage"] ?? 0);
     }
 }
