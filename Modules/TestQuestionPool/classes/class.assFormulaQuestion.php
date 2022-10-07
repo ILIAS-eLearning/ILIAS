@@ -1283,7 +1283,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 $available_units = $result->getAvailableResultUnits(parent::getId());
                 $result_name = $result->getResult();
 
-                if ($available_units[$result_name] != null) {
+                $check_unit = false;
+                if (array_key_exists($result_name, $available_units) &&
+                    $available_units[$result_name] !== null) {
                     $check_unit = in_array($user_solution[$result_name]['unit'], $available_units[$result_name]);
                 }
 
@@ -1358,7 +1360,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             if (
                 $post->has($key)
                 ||
-               $post->has($key. "_unit")
+               $post->has($key . "_unit")
             ) {
                 $value =$post->retrieve(
                     $key,
