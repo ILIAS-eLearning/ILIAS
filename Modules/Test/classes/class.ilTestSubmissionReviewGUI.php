@@ -222,7 +222,11 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
 
         $reviewOutput = $this->buildUserReviewOutput();
 
-        ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, null, PDF_USER_RESULT);
+        $filename = $this->testOutputGUI->object->getRefId();
+        $filename .= '-' . $this->testSession->getActiveId() . '-';
+        $filename .= $this->testSession->getPass() . '.pdf';
+
+        ilTestPDFGenerator::generatePDF($reviewOutput, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename, PDF_USER_RESULT);
 
         exit;
     }
