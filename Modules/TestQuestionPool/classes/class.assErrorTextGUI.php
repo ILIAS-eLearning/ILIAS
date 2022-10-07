@@ -78,7 +78,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                 $this->object->addErrorData(
                     $val,
                     $errordata['value'][$idx],
-                    $errordata['points'][$idx]
+                    (float) $errordata['points'][$idx]
                 );
             }
         }
