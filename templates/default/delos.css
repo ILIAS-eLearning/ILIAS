@@ -15484,9 +15484,6 @@ div.ilNoteInput {
 [data-note-el='edit-form-area'] > button {
   margin-bottom: 9px;
 }
-.il-notes-section .panel h2 {
-  display: none;
-}
 .il-notes-section .panel .dropdown-menu {
   right: 0;
   left: inherit;
@@ -19986,3 +19983,4 @@ table.mceToolbar td {
     content: "";
   }
 }
+/*# sourceMappingURL=delos.css.map */
