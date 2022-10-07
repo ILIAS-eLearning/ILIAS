@@ -207,7 +207,7 @@ class ilLanguage
         }
 
         if ($this->usage_log_enabled) {
-            self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
+            self::logUsage($this->map_modules_txt[$a_topic] ?? "", $a_topic);
         }
 
         return $translation;

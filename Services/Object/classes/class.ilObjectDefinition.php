@@ -431,7 +431,7 @@ class ilObjectDefinition
     public function getSubObjects(string $obj_type, bool $filter = true): array
     {
         $subs = [];
-        if ($subobjects = $this->obj_data[$obj_type]["subobjects"]) {
+        if ($subobjects = ($this->obj_data[$obj_type]["subobjects"] ?? false)) {
             // Filter some objects e.g. chat object are creatable if chat is active
             if ($filter) {
                 $this->__filterObjects($subobjects);
@@ -830,7 +830,7 @@ class ilObjectDefinition
     {
         $amet = [];
         foreach ($this->obj_data as $k => $v) {
-            if ($v["amet"]) {
+            if ($v["amet"] ?? false) {
                 $amet[] = ["obj_type" => $k, "sub_type" => ""];
             }
         }

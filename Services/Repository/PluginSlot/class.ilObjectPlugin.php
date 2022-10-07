@@ -23,7 +23,7 @@
  */
 abstract class ilObjectPlugin extends ilObject2
 {
-    protected ilPlugin $plugin;
+    protected ?ilPlugin $plugin = null;
     protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
@@ -67,7 +67,7 @@ abstract class ilObjectPlugin extends ilObject2
     protected function getPlugin(): ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin = $this->component_factory->getPluginById($this->getType());
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }
@@ -103,5 +103,10 @@ abstract class ilObjectPlugin extends ilObject2
         $pl->loadLanguageModule();
 
         return $lng->exists($pl->getPrefix() . "_" . $langVar);
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->getPlugin()->getPrefix();
     }
 }
