@@ -24,6 +24,7 @@ use ILIAS\MediaCast\StandardGUIRequest;
  */
 class ilMediaCastTableGUI extends ilTable2GUI
 {
+    protected \ILIAS\MediaObjects\MediaType\MediaTypeManager $media_type;
     protected bool $presentation_mode;
     protected StandardGUIRequest $request;
     protected ilAccessHandler $access;
@@ -72,6 +73,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
             "tpl.table_media_cast_row.html",
             "Modules/MediaCast"
         );
+
+        $this->media_type = $DIC->mediaObjects()->internal()->domain()->mediaType();
 
         $this->setShowRowsSelector(true);
     }
@@ -182,36 +185,30 @@ class ilMediaCastTableGUI extends ilTable2GUI
                 $event_url = ($this->presentation_mode)
                     ? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
                     : "";
-                $mpl = new ilMediaPlayerGUI($a_set["id"], $event_url);
-                if (is_object($med)) {
-                    if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                        $a_file = $med->getLocation();
+                if (!is_null($med)) {
+                    if ($med->getLocationType() === "Reference") {
+                        $file = $med->getLocation();
                     } else {
-                        $a_file = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
+                        $file = ilWACSignedPath::signFile(
+                            ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation()
+                        );
                     }
-                    $mpl->setFile(ilWACSignedPath::signFile($a_file));
-                    $mpl->setMimeType($med->getFormat());
-                    $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
-                    $mpl->setTitle((string) $a_set["title"]);
-                    $mpl->setDescription((string) $a_set["content"]);
-
-                    $med_alt = $mob->getMediaItem("VideoAlternative");
-                    if (is_object($med_alt)) {
-                        $a_val = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med_alt->getLocation();
-                        $mpl->setAlternativeVideoFile(ilWACSignedPath::signFile($a_val));
-                        $mpl->setAlternativeVideoMimeType($med_alt->getFormat());
+                    $comp = null;
+                    if ($this->media_type->isAudio($med->getFormat())) {
+                        $comp = $ui->factory()->player()->audio(
+                            $file,
+                            ""
+                        );
+                    } elseif ($this->media_type->isVideo($med->getFormat())) {
+                        $comp = $ui->factory()->player()->video(
+                            $file
+                        );
+                    } elseif ($this->media_type->isImage($med->getFormat())) {
+                        $comp = $ui->factory()->image()->responsive($file, "");
                     }
-                }
-
-                //$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
-                if ($med->getFormat() == "audio/mpeg") {
-                    $audio = $ui->factory()->player()->audio(
-                        ilWACSignedPath::signFile($a_file),
-                        ""
-                    );
-                    $this->tpl->setVariable("PLAYER", $ui->renderer()->render($audio));
-                } else {
-                    $this->tpl->setVariable("PLAYER", $mpl->getPreviewHtml());
+                    if (!is_null($comp)) {
+                        $this->tpl->setVariable("PLAYER", $ui->renderer()->render($comp));
+                    }
                 }
 
                 // edit link
