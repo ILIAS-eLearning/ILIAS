@@ -114,7 +114,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     public function addResultUnit($result, $unit): void
     {
         if (is_object($result) && is_object($unit)) {
-            if (!is_array($this->resultunits[$result->getResult()])) {
+            if (!array_key_exists($result->getResult(), $this->resultunits) ||
+                !is_array($this->resultunits[$result->getResult()])) {
                 $this->resultunits[$result->getResult()] = array();
             }
             $this->resultunits[$result->getResult()][$unit->getId()] = $unit;
@@ -452,10 +453,22 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 if ($result_output) {
                     $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_result.html", true, true, 'Modules/TestQuestionPool');
 
-                    if (is_array($userdata)) {
-                        $found = $resObj->getResultInfo($this->getVariables(), $this->getResults(), $userdata[$resObj->getResult()]["value"], $userdata[$resObj->getResult()]["unit"], $this->getUnitrepository()->getUnits());
+                    if (is_array($userdata) && array_key_exists($resObj->getResult(), $userdata)) {
+                        $found = $resObj->getResultInfo(
+                            $this->getVariables(),
+                            $this->getResults(),
+                            $userdata[$resObj->getResult()]["value"],
+                            $userdata[$resObj->getResult()]["unit"] ?? null,
+                            $this->getUnitrepository()->getUnits()
+                        );
                     } else {
-                        $found = $resObj->getResultInfo($this->getVariables(), $this->getResults(), $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId()), is_object($resObj->getUnit()) ? $resObj->getUnit()->getId() : null, $this->getUnitrepository()->getUnits());
+                        $found = $resObj->getResultInfo(
+                            $this->getVariables(),
+                            $this->getResults(),
+                            $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId()),
+                            is_object($resObj->getUnit()) ? $resObj->getUnit()->getId() : null,
+                            $this->getUnitrepository()->getUnits()
+                        );
                     }
                     $resulttext = "(";
                     if ($resObj->getRatingSimple()) {
@@ -892,8 +905,8 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             $points += $result->getReachedPoints(
                 $this->getVariables(),
                 $this->getResults(),
-                $user_solution[$result->getResult()]["value"],
-                $user_solution[$result->getResult()]["unit"] ?? "",
+                $user_solution[$result->getResult()]["value"] ?? '',
+                $user_solution[$result->getResult()]["unit"] ?? '',
                 $this->unitrepository->getUnits()
             );
         }
