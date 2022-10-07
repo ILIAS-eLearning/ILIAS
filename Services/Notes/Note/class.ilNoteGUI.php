@@ -553,7 +553,16 @@ class ilNoteGUI
         $item_groups[] = $f->item()->group($it_group_title, $items);
 
         if ($notes_given) {
-            $panel = $f->panel()->listing()->standard("", $item_groups);
+            if (!is_array($this->rep_obj_id)) {
+                $title = $item_groups[0]->getTitle();
+                $item_groups[0] = $f->item()->group("", $item_groups[0]->getItems());
+            } else {
+                $title = "";
+            }
+            $panel = $f->panel()->listing()->standard($title, $item_groups);
+            if (!is_array($this->rep_obj_id)) {
+                $panel = $panel->withActions($this->getSortationControl());
+            }
             $html = $this->renderComponents([$panel]);
             $html = str_replace($text_placeholders, $texts, $html);
             $tpl->setVariable("NOTES_LIST", $html);
@@ -635,6 +644,50 @@ class ilNoteGUI
         }
 
         return $tpl->get();
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    //protected function getSortationControl() : \ILIAS\UI\Component\ViewControl\Sortation
+    protected function getSortationControl(): \ILIAS\UI\Component\Dropdown\Standard
+    {
+        /*
+        $c = $this->lng->txt("create_date") . ", ";
+        $options = [
+            'desc' => $c . $this->lng->txt("sorting_desc"),
+            'asc' => $c . $this->lng->txt("sorting_asc")
+        ];
+        $select_option = (true)
+            ? 'asc'
+            : 'desc';
+        $s = $this->ui->factory()->viewControl()->sortation($options)
+                      ->withTargetURL($this->ctrl->getLinkTarget($this, "setSortation"), 'sortation')
+                      ->withLabel($options[$select_option]);*/
+        $dd_buttons = [];
+        if ($this->manager->getSortAscending()) {
+            $dd_buttons[] = $this->getShyButton(
+                "sort",
+                $this->lng->txt("notes_sort_desc"),
+                "listSortDesc",
+                "",
+                0
+            );
+        } else {
+            $dd_buttons[] = $this->getShyButton(
+                "sort",
+                $this->lng->txt("notes_sort_asc"),
+                "listSortAsc",
+                "",
+                0
+            );
+        }
+
+        $s = $this->ui->factory()->dropdown()->standard(
+            $dd_buttons
+        );
+
+        return $s;
     }
 
     protected function getItemGroupTitle(int $obj_id = 0): string
