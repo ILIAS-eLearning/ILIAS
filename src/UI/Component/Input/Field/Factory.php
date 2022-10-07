@@ -675,4 +675,25 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
     public function hidden(): Hidden;
+	
+	/**
+	 * ---
+	 * description:
+	 *   purpose: >
+	 *     A Color Picker Input is used to select a color value.
+	 *   composition: >
+	 *      Color Picker will render an input-tag with type="color".
+	 *   effect: >
+	 *     As soon as the Color Picker is clicked, a pop-up window opens, which contains the individual options of the color selection.
+	 * rules:
+	 *   usage:
+	 *     1: >
+	 *      The Color Picker should be used to select an individual color value.
+	 * ---
+	 *
+	 * @param string $label
+	 * @param string|null $byline
+	 * @return \ILIAS\UI\Component\Input\Field\ColorPicker
+	 * */
+	public function colorpicker(string $label, string $byline=null) : ColorPicker;
 }
