@@ -340,11 +340,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             case "illearningprogressgui":
                 $this->initScreenHead("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->requested_ref_id,
                     $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
+                $this->tpl->printToStdout();
                 break;
 
             case "ilratinggui":
