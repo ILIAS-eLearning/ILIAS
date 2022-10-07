@@ -412,7 +412,6 @@ class ilLearningProgressBaseGUI
         int $user_id
     ): void {
         $type = $this->ilObjectDataCache->lookupType($item_id);
-
         // Section learning_progress
         // $info->addSection($this->lng->txt('trac_learning_progress'));
         // see ilLPTableBaseGUI::parseTitle();
@@ -510,7 +509,7 @@ class ilLearningProgressBaseGUI
         // More infos for lm's
         if (in_array($type, ["lm", "htlm"])) {
             $progress = ilLearningProgress::_getProgress($user_id, $item_id);
-            if ($progress['access_time']) {
+            if ($progress['access_time'] ?? false) {
                 $info->addProperty(
                     $this->lng->txt('trac_last_access'),
                     ilDatePresentation::formatDate(
@@ -526,7 +525,7 @@ class ilLearningProgressBaseGUI
 
             $info->addProperty(
                 $this->lng->txt('trac_visits'),
-                (string) $progress['visits']
+                (string) ($progress['visits'] ?? "")
             );
 
             if ($type == 'lm') {
