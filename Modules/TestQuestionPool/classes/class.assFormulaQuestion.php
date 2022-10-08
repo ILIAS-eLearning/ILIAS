@@ -16,13 +16,7 @@
  *
  *********************************************************************/
 
-include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.php";
-include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php";
-include_once "./Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php";
-require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for single choice questions
@@ -424,8 +418,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                 if ($graphicalOutput) {
                     $resunit = null;
                     $user_value = '';
-                    if (is_array($userdata) && is_array($userdata[$result])) {
-                        if ($userdata[$result]["unit"] > 0) {
+                    if (is_array($userdata) &&
+                        array_key_exists($result, $userdata) &&
+                        is_array($userdata[$result])) {
+                        if (array_key_exists('unit', $userdata[$result]) && $userdata[$result]["unit"] > 0) {
                             $resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
                         }
 
