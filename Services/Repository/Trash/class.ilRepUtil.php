@@ -57,6 +57,10 @@ class ilRepUtil
         $ilSetting = $DIC->settings();
         $user = $DIC->user();
 
+        // deactivating the cache to make functions like
+        // _hasUntrashedReference work properly (e.g. when event listener react)
+        $tree->useCache(false);
+
         $log = $ilLog;
 
         // Remove duplicate ids from array
