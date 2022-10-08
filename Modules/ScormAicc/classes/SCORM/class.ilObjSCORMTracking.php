@@ -159,7 +159,7 @@ class ilObjSCORMTracking
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
         // get attempts
-        if (!$data->packageAttempts) {
+        if (!isset($data->packageAttempts)) {
             $val_set = $ilDB->queryF(
                 'SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
                 array('integer', 'integer'),
@@ -194,15 +194,28 @@ class ilObjSCORMTracking
         //		self::ensureObjectDataCacheExistence();
         global $DIC;
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        ilChangeEvent::_recordReadEvent(
-            "sahs",
-            $refId,
-            $packageId,
-            $userId,
-            false,
-            $attempts,
-            $totalTime
-        );
+        //workaround if $row->read_count == null TODO ERASE
+        try {
+            ilChangeEvent::_recordReadEvent(
+                "sahs",
+                $refId,
+                $packageId,
+                $userId,
+                false,
+                $attempts,
+                $totalTime
+            );
+        } catch (\Exception $exception) {
+            ilChangeEvent::_recordReadEvent(
+                "sahs",
+                $refId,
+                $packageId,
+                $userId,
+                false,
+                null,
+                $totalTime
+            );
+        }
 
         //end sync access number and time in read event table
 

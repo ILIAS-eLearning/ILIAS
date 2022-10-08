@@ -133,7 +133,6 @@ class ilSCORM2004Tracking
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
 
         $res = $ilDB->queryF(
             '
@@ -168,7 +167,6 @@ class ilSCORM2004Tracking
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
 
         $res = $ilDB->queryF(
             '
@@ -360,15 +358,28 @@ class ilSCORM2004Tracking
             $time = self::getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, true);
         }
 
-        ilChangeEvent::_recordReadEvent(
-            $a_type,
-            $a_ref_id,
-            $a_obj_id,
-            $a_user_id,
-            false,
-            $attempts,
-            $time
-        );
+        //workaround if $row->read_count == null TODO ERASE
+        try {
+            ilChangeEvent::_recordReadEvent(
+                $a_type,
+                $a_ref_id,
+                $a_obj_id,
+                $a_user_id,
+                false,
+                $attempts,
+                $time
+            );
+        } catch (\Exception $exception) {
+            ilChangeEvent::_recordReadEvent(
+                $a_type,
+                $a_ref_id,
+                $a_obj_id,
+                $a_user_id,
+                false,
+                null,
+                $time
+            );
+        }
     }
 
     public static function _isCompleted(string $a_status, string $a_satisfied): bool
@@ -394,7 +405,6 @@ class ilSCORM2004Tracking
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC["ilLog"];
         $scos = array();
         $val_set = $ilDB->queryF(
             'SELECT cp_node_id FROM cp_node 
@@ -424,7 +434,6 @@ class ilSCORM2004Tracking
             }
             $time += (int) $sec;
             $sec = 0;
-            //$ilLog->write("++".$time);
         }
         if ($a_write && $time > 0) {
             $ilDB->queryF(
