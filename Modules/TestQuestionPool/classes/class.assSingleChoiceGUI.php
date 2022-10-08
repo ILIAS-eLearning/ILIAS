@@ -459,14 +459,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = "";
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
-            // hey.
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution = $solution_value["value1"];

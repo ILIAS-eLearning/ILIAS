@@ -518,15 +518,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($inputGUI->isPostSubmit($lastPost)) {
             return $this->fetchSolutionListFromFormSubmissionData($lastPost);
         }
-
-        // hey: prevPassSolutions - pass will be always available from now on
-        #if( $pass === null && !ilObjTest::_getUsePreviousAnswers($activeId, true) )
-        #// condition looks strange? yes - keep it null when previous solutions not enabled (!)
-        #{
-        #   $pass = ilObjTest::_getPass($activeId);
-        #}
-        // hey.
-
         $indexedSolutionValues = $this->fetchIndexedValuesFromValuePairs(
             // hey: prevPassSolutions - obsolete due to central check
             $this->getTestOutputSolutions($activeId, $pass)

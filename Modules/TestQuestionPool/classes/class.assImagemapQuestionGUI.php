@@ -396,17 +396,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     // hey: fixedIdentifier - changed access to passed param (lower-/uppercase issues)
     protected function completeTestOutputFormAction($formAction, $active_id, $pass)
     {
-        #require_once './Modules/Test/classes/class.ilObjTest.php';
-        #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-        #{
-        #	$pass = ilObjTest::_getPass($active_id);
-        #	$info = $this->object->getUserSolutionPreferingIntermediate($active_id, $pass);
-        #}
-        #else
-        #{
-        #	$info = $this->object->getUserSolutionPreferingIntermediate($active_id, NULL);
-        #}
-
         $info = $this->object->getTestOutputSolutions($active_id, $pass);
 
         if (count($info)) {
@@ -446,11 +435,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
-                if (is_null($pass)) {
-                    $pass = ilObjTest::_getPass($active_id);
-                }
-            }
             $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
             if (!$this->object->getIsMultipleChoice()) {
@@ -650,13 +634,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // hey.
     {
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
 

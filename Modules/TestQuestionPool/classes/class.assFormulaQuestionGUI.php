@@ -867,13 +867,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions = array();
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
-            if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
-                if (is_null($pass)) {
-                    $pass = ilObjTest::_getPass($active_id);
-                }
-            }
             $user_solution["active_id"] = $active_id;
             $user_solution["pass"] = $pass;
             $solutions = $this->object->getSolutionValues($active_id, $pass);
@@ -893,13 +886,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 }
             }
         } elseif ($active_id) {
-            $solutions = null;
-            include_once "./Modules/Test/classes/class.ilObjTest.php";
-            if (!ilObjTest::_getUsePreviousAnswers($active_id, true)) {
-                if (is_null($pass)) {
-                    $pass = ilObjTest::_getPass($active_id);
-                }
-            }
             $user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
         } elseif (is_object($this->getPreviewSession())) {
             $solutionValues = array();
