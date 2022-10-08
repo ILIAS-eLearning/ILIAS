@@ -222,7 +222,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     : true;
 
                 foreach ($this->selection[$type] as $tag) {
-                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag($tag, $ilUser->getId(), $invert));
+                    $found[$tag] = array_keys(ilTagging::_findObjectsByTag((string) $tag, $ilUser->getId(), $invert));
                 }
             }
         }
