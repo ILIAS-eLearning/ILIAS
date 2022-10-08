@@ -978,7 +978,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
         $template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
         if (is_object($this->getPreviewSession())) {
-            $questiontext = $this->object->substituteVariables($user_solution, false, false, false);
+            $questiontext = $this->object->substituteVariables($user_solution);
         } else {
             $questiontext = $this->object->substituteVariables(array());
         }
