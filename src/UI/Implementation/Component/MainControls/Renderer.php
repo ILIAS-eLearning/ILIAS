@@ -221,7 +221,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         //disengage all, close slates
-        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), "close", "#")
+        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->collapseHorizontal("#"), $this->txt('close'), "#")
             ->withOnClick($component->getDisengageAllSignal());
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
 
