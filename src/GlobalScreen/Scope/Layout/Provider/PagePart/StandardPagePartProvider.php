@@ -186,7 +186,7 @@ class StandardPagePartProvider implements PagePartProvider
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
 
         return $this->ui->factory()->image()
-                        ->standard($std_logo, "ILIAS")
+                        ->standard($std_logo, $this->lang->txt('rep_main_page'))
                         ->withAction($this->getStartingPointAsUrl());
     }
 
@@ -198,7 +198,7 @@ class StandardPagePartProvider implements PagePartProvider
         $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
 
         return $this->ui->factory()->image()
-                        ->standard($responsive_logo, "ILIAS")
+                        ->standard($responsive_logo, $this->lang->txt('rep_main_page'))
                         ->withAction($this->getStartingPointAsUrl());
     }
 
