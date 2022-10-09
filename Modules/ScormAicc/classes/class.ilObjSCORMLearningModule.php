@@ -443,8 +443,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                         break;
                 }
             }
-            $sc_item = new ilSCORMItem($sco_rec["sco_id"]);
-            $data[] = array("sco_id" => $sco_rec["sco_id"], "title" => $sc_item->getTitle(),
+            $sc_item = new ilSCORMItem((int) $sco_rec["sco_id"]);
+            $data[] = array("sco_id" => (int) $sco_rec["sco_id"], "title" => $sc_item->getTitle(),
             "score" => $score, "time" => $time, "status" => $status);
         }
         return (array) $data;
