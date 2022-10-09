@@ -45,7 +45,9 @@ class Renderer extends AbstractComponentRenderer
             $back_signal = $component->getBacklinkSignal();
             $persistence_id = $component->getPersistenceId();
             $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
-            $btn = $ui_factory->button()->bulky($glyph, '', '#')->withOnClick($back_signal);
+            $btn = $ui_factory->button()->bulky($glyph, '', '#')
+                                        ->withOnClick($back_signal)
+                                        ->withAriaLabel($this->txt('back'));
             $back_button_html = $default_renderer->render($btn);
 
             $component = $component->withAdditionalOnLoadCode(
