@@ -5663,6 +5663,7 @@ common#:#toggle_dropdown#:#Toggle Dropdown
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#tomorrow#:#Tomorrow
+common#:#toolbar_more_actions#:#More Actions
 common#:#tools#:#Tools
 common#:#top_of_page#:#Top of page
 common#:#total#:#Total
