@@ -193,6 +193,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         // add read / back button
         if ($this->checkPermissionBool("read")) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
+            $ilToolbar->addButtonInstance($this->object->getViewButton());
         }
 
         $info->enableNewsEditing(false);
