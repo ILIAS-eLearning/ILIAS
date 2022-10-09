@@ -14500,6 +14500,7 @@ search#:#search_direct#:#Direktsuche
 search#:#search_err_user_not_exist#:#Es konnte kein entsprechender Benutzer gefunden werden.
 search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlagwörtern
 search#:#search_field#:#Sucheingabefeld
+search#:#search_field_perform#:#Sucheingabe absenden
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_filter_cd#:#Filter nach Erstellungsdatum
 search#:#search_for_crs_members#:#Nach Kursen suchen

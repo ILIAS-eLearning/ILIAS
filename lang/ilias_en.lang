@@ -14496,6 +14496,7 @@ search#:#search_direct#:#Direct search
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
 search#:#search_field#:#Search Input Field
+search#:#search_field_perform#:#Perform Search
 search#:#search_filter_by_type#:#Filter by Type
 search#:#search_filter_cd#:#Filter by Creation Date
 search#:#search_for_crs_members#:#Search for Courses
