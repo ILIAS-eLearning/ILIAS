@@ -286,6 +286,8 @@ class ilToolbarGUI
         if (count($this->items) || count($this->sticky_items)) {
             $tpl = new ilTemplate("tpl.toolbar.html", true, true, "Services/UIComponent/Toolbar");
             $tpl->setVariable('TOOLBAR_ID', $this->getId());
+            $tpl->setVariable('MORE_LABEL', $this->lng->txt('toolbar_more_actions'));
+
             if (count($this->sticky_items)) {
                 $tpl_sticky = new ilTemplate("tpl.toolbar_sticky_items.html", true, true, "Services/UIComponent/Toolbar");
                 /** @var ilToolbarItem $sticky_item */
