@@ -320,7 +320,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
             $options = array(
-                'excel' => $this->lng->txt('exp_type_excel'),
+                'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
                 'csv' => $this->lng->txt('exp_type_spss')
             );
 
@@ -722,12 +723,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $expFactory = new ilTestExportFactory($this->object);
 
         switch ($this->testrequest->raw("export_type")) {
-            case "excel":
+            case "excel_scored_test_run":
                 $expFactory->getExporter('results')->exportToExcel(
                     $deliver = true,
                     $filterby,
                     $filtertext,
-                    $passedonly
+                    $passedonly,
+                    true
                 );
                 break;
 
@@ -740,6 +742,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 );
                 break;
 
+            case "excel_all_test_runs":
+                $expFactory->getExporter('results')->exportToExcel(
+                    $deliver = true,
+                    $filterby,
+                    $filtertext,
+                    $passedonly,
+                    false
+                );
+                break;
             case "certificate":
                 if ($passedonly) {
                     $this->ctrl->setParameterByClass("iltestcertificategui", "g_passedonly", "1");

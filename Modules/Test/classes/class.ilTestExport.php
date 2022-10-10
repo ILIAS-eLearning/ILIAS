@@ -343,7 +343,7 @@ abstract class ilTestExport
      * @param string  $filtertext Filter text for the user data
      * @param boolean $passedonly TRUE if only passed user datasets should be exported, FALSE otherwise
      */
-    public function exportToExcel($deliver = true, $filterby = "", $filtertext = "", $passedonly = false)
+    public function exportToExcel($deliver = true, $filterby = "", $filtertext = "", $passedonly = false, bool $bestonly = true)
     {
         $this->test_obj->setAccessFilteredParticipantList($this->getAccessFilteredParticipantList());
 
@@ -583,8 +583,8 @@ abstract class ilTestExport
 
                         foreach ($questions as $question) {
                             $question_data = $data->getParticipant($active_id)->getPass($pass)->getAnsweredQuestionByQuestionId($question["id"]);
-                            if (is_null($question_data)) {
-                                $question_data = ['reached' => 0];
+                            if (!$question_data) {
+                                continue;
                             }
                             $worksheet->setCell($row, $col, $question_data["reached"]);
                             if ($this->test_obj->isRandomTest()) {
@@ -823,24 +823,32 @@ abstract class ilTestExport
                 } else {
                     $resultsheet = $worksheet->addSheet($username);
                 }
-
-                $pass = $userdata->getScoredPass();
-                $row = ($allusersheet) ? $row : 1;
-                $worksheet->setCell(
-                    $row,
-                    0,
-                    sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $userdata->getName())
-                );
-                $worksheet->setBold($worksheet->getColumnCoord(0) . $row);
-                $row += 2;
-                if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
-                    foreach ($userdata->getQuestions($pass) as $question) {
-                        require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $question = assQuestion::instantiateQuestion($question["id"]);
-                        if (is_object($question)) {
-                            $row = $question->setExportDetailsXLS($worksheet, $row, $active_id, $pass);
+                if ($bestonly) {
+                    $passes = [$userdata->getScoredPassObject()];
+                } else {
+                    $passes = $userdata->getPasses();
+                }
+                $col = 0;
+                foreach ($passes as $pass) {
+                    $passCount = $pass->getPass();
+                    $row = ($allusersheet) ? $row : 1;
+                    $worksheet->setCell(
+                        $row,
+                        $col,
+                        sprintf($this->lng->txt("tst_result_user_name_pass"), $passCount + 1, $userdata->getName())
+                    );
+                    $worksheet->setBold($worksheet->getColumnCoord($col) . $row);
+                    $row += 2;
+                    if (is_object($userdata) && is_array($userdata->getQuestions($passCount))) {
+                        foreach ($userdata->getQuestions($passCount) as $question) {
+                            require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+                            $question = assQuestion::instantiateQuestion($question["id"]);
+                            if (is_object($question)) {
+                                $row = $question->setExportDetailsXLS($worksheet, $row, $col, $active_id, $passCount);
+                            }
                         }
                     }
+                    $col += 3;
                 }
             }
         }
