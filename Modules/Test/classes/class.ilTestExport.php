@@ -832,10 +832,14 @@ abstract class ilTestExport
                 foreach ($passes as $pass) {
                     $passCount = $pass->getPass();
                     $row = ($allusersheet) ? $row : 1;
+                    $title = sprintf($this->lng->txt("tst_result_user_name_pass"), $passCount + 1, $userdata->getName()) .
+                        (!$bestonly && $userdata->getScoredPass() === $passCount ? " " .
+                             $this->lng->txt("exp_best_pass") .
+                            " (" . ($this->test_obj->getPassScoring() ? $this->lng->txt('tst_pass_scoring_best') : $this->lng->txt('tst_pass_scoring_last')) . ")" : "");
                     $worksheet->setCell(
                         $row,
                         $col,
-                        sprintf($this->lng->txt("tst_result_user_name_pass"), $passCount + 1, $userdata->getName())
+                        $title
                     );
                     $worksheet->setBold($worksheet->getColumnCoord($col) . $row);
                     $row += 2;
