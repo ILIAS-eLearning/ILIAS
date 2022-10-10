@@ -766,7 +766,6 @@ class ilExSubmission
 
         $user_ids = $this->getUserIds();
         $is_team = $this->assignment->hasTeam();
-
         // get last download time
         $download_time = null;
         if ($a_only_new) {
@@ -786,7 +785,6 @@ class ilExSubmission
                     break;
                 }
             }
-
             // this will remove personal info from zip-filename
             $is_team = true;
         }
@@ -855,7 +853,6 @@ class ilExSubmission
                         );
                     }
                 }
-
                 $this->downloadMultipleFiles(
                     $array_files,
                     ($is_team ? null : $this->getUserId()),
@@ -915,10 +912,11 @@ class ilExSubmission
 
     protected function downloadMultipleFiles(
         array $a_filenames,
-        int $a_user_id,
+        ?int $a_user_id,
         bool $a_multi_user = false
     ): void {
         $lng = $this->lng;
+        $a_user_id = (int) $a_user_id;
 
         $path = $this->initStorage()->getAbsoluteSubmissionPath();
 
