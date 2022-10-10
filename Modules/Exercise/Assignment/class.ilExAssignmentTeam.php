@@ -385,7 +385,6 @@ class ilExAssignmentTeam
             $ilUser->getId() == $a_user_id) {
             return;
         }
-
         $ass = new ilExAssignment($this->assignment_id);
 
         $ntf = new ilSystemNotification();
@@ -397,7 +396,7 @@ class ilExAssignmentTeam
         $ntf->addAdditionalInfo("exc_assignment", $ass->getTitle());
         $ntf->setGotoLangId('exc_team_notification_link');
         $ntf->setReasonLangId('exc_team_notification_reason');
-        $ntf->sendMail(array($a_user_id));
+        $ntf->sendMailAndReturnRecipients(array($a_user_id));
     }
 
 
