@@ -208,7 +208,7 @@ class ilCalendarAppointmentGUI
         }
         $ref_id = 0;
         if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id_id = $this->http->wrapper()->query()->retrieve(
+            $ref_id = $this->http->wrapper()->query()->retrieve(
                 'ref_id',
                 $this->refinery->kindlyTo()->int()
             );

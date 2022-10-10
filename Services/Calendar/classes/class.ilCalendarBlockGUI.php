@@ -213,6 +213,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         switch ($next_class) {
             case "ilcalendarappointmentgui":
+                $this->initCategories();
                 $app_gui = new ilCalendarAppointmentGUI($this->seed, $this->seed);
                 $this->ctrl->forwardCommand($app_gui);
                 break;
