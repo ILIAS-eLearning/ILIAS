@@ -319,11 +319,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportEvaluation'));
             $export_type = new ilSelectInputGUI($this->lng->txt('exp_eval_data'), 'export_type');
-            $options = array(
-                'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
-                'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
-                'csv' => $this->lng->txt('exp_type_spss')
-            );
+            if ($this->getObject() && $this->getObject()->getQuestionSetType() !== ilObjTest::QUESTION_SET_TYPE_RANDOM) {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'excel_all_test_runs' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_all_test_runs') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            } else {
+                $options = array(
+                    'excel_scored_test_run' => $this->lng->txt('exp_type_excel') . ' (' . $this->lng->txt('exp_scored_test_run') . ')',
+                    'csv' => $this->lng->txt('exp_type_spss')
+                );
+            }
 
             if (!$this->object->getAnonymity()) {
                 try {
