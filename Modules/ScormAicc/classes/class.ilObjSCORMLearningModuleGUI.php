@@ -729,8 +729,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 } else {
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
-                            $usersSelected[] = $user;
+                        if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
+                            $usersSelected[] = (int) $user;
                         }
                     }
                 }

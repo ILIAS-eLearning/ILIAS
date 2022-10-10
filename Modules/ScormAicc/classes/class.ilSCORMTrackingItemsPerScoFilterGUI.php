@@ -49,7 +49,7 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-        $scos = $this->parent_obj->object->getTrackedItems();
+        $scos = $this->parent_obj->getObject()->getTrackedItems();
 
         foreach ($scos as $row) {
             $options[$row->getId()] = $row->getTitle();
