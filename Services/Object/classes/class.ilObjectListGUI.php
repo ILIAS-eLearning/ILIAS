@@ -1089,8 +1089,9 @@ class ilObjectListGUI
         } else {
             $this->default_command['link'] = $this->modifyTitleLink($this->default_command['link']);
 
-            $this->default_command["link"] =
-                $this->modifySAHSlaunch($this->default_command["link"], $this->default_command["frame"]);
+            $modifySAHS = $this->modifySAHSlaunch($this->default_command["link"], $this->default_command["frame"]);
+            $this->default_command["link"] = $modifySAHS[0];
+            $this->default_command["frame"] = $modifySAHS[1];
 
             if ($this->default_command["frame"] != "") {
                 $this->tpl->setCurrentBlock("title_linked_frame");
@@ -2564,7 +2565,7 @@ class ilObjectListGUI
     /**
     * workaround: SAHS in new javavasript-created window or iframe
     */
-    public function modifySAHSlaunch(string $link, string $wtarget): string
+    public function modifySAHSlaunch(string $link, string $wtarget): array
     {
         global $DIC;
 
@@ -2591,9 +2592,11 @@ class ilObjectListGUI
                     $height .
                     ");"
                 ;
+            } else {
+                $wtarget = "ilContObj" . $this->ref_id; //workaround for new tab
             }
         }
-        return $link;
+        return [$link, $wtarget];
     }
 
     public function insertPath(): void
@@ -3134,7 +3137,9 @@ class ilObjectListGUI
 
 
         if ($def_command['link'] ?? false) {
-            $def_command['link'] = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
+            $modifySAHS = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
+            $def_command['link'] = $modifySAHS[0];
+            $def_command['frame'] = $modifySAHS[1];
             $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
             $link = $this->ui->factory()
                              ->link()
