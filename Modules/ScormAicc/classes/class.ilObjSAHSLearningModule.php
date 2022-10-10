@@ -127,12 +127,12 @@ class ilObjSAHSLearningModule extends ilObject
         );
 
         while ($lm_rec = $ilDB->fetchAssoc($lm_set)) {
-            $this->setAutoReviewChar($lm_rec["auto_review"]);
-            $this->setAPIAdapterName($lm_rec["api_adapter"]);
-            $this->setDefaultLessonMode($lm_rec["default_lesson_mode"]);
-            $this->setAPIFunctionsPrefix($lm_rec["api_func_prefix"]);
-            $this->setCreditMode($lm_rec["credit"]);
-            $this->setSubType($lm_rec["c_type"]);
+            $this->setAutoReviewChar((string) $lm_rec["auto_review"]);
+            $this->setAPIAdapterName((string) $lm_rec["api_adapter"]);
+            $this->setDefaultLessonMode((string) $lm_rec["default_lesson_mode"]);
+            $this->setAPIFunctionsPrefix((string) $lm_rec["api_func_prefix"]);
+            $this->setCreditMode((string) $lm_rec["credit"]);
+            $this->setSubType((string) $lm_rec["c_type"]);
 //            $this->setEditable(false);
             $this->setStyleSheetId((int) $lm_rec["stylesheet"]);
             $this->setMaxAttempt((int) $lm_rec["max_attempt"]);
