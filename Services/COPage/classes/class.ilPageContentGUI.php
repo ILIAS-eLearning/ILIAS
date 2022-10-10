@@ -104,7 +104,7 @@ class ilPageContentGUI
         $this->content_obj = $a_val;
     }
 
-    public function getContentObject(): ilPageContent
+    public function getContentObject(): ?ilPageContent
     {
         return $this->content_obj;
     }
