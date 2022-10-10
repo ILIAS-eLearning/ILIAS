@@ -248,7 +248,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             // show existing file
             $file = $this->object->getImageFullPath(true);
             if ($file) {
-                $img->setImage($file);
+                $img->setImage(ilWACSignedPath::signFile($file));
             }
         }
 
