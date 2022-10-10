@@ -134,7 +134,8 @@ class ilContainerImporter extends ilXmlImporter
                 if ($this->isRootNode($obj->getRefId(), $mapping)) {
                     $obj->setOfflineStatus(true);
                 } else {
-                    $obj->setOfflineStatus(false);
+                    // take the offline state of the XML file, and map it back: online to online and offline to offline
+                    $obj->setOfflineStatus(!((string)$offline === "0"));
                 }
                 $obj->update();
             }
