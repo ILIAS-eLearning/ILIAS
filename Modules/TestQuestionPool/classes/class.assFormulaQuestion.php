@@ -375,7 +375,9 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $units .= '<option value="-1">' . $this->lng->txt("select_unit") . '</option>';
                         foreach ($this->getResultUnits($resObj) as $unit) {
                             $units .= '<option value="' . $unit->getId() . '"';
-                            if ((is_array($userdata[$result])) && (strlen($userdata[$result]["unit"]))) {
+                            if (array_key_exists($result, $userdata) &&
+                                is_array($userdata[$result]) &&
+                                array_key_exists('unit', $userdata[$result])) {
                                 if ($userdata[$result]["unit"] == $unit->getId()) {
                                     $units .= ' selected="selected"';
                                 }
@@ -394,7 +396,10 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     case assFormulaQuestionResult::RESULT_FRAC:
                         if (strlen($frac_helper)) {
                             $units .= ' &asymp; ' . $frac_helper . ', ';
-                        } elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"])) {
+                        } elseif (is_array($userdata) &&
+                            array_key_exists($result, $userdata) &&
+                            array_key_exists('frac_helper', $userdata[$result]) &&
+                            is_string($userdata[$result]["frac_helper"])) {
                             if (!preg_match('-/-', $value)) {
                                 $units .= ' &asymp; ' . $userdata[$result]["frac_helper"] . ', ';
                             }
