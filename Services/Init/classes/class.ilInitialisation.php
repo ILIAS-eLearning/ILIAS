@@ -504,7 +504,12 @@ class ilInitialisation
             self::abortAndDie("Fatal Error: ilInitialisation::initClientIniFile called without CLIENT_ID.");
         }
 
-        $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+        $ini_file = "/client.ini.php";
+        if (defined('CLIENT_WEB_DIR')) {
+            $ini_file = CLIENT_WEB_DIR.$ini_file;
+        } else {
+            $ini_file = "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/client.ini.php";
+        }
 
         // get settings from ini file
         $ilClientIniFile = new ilIniFile($ini_file);
