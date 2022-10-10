@@ -210,11 +210,15 @@ class ilPasswordAssistanceGUI
 
             $usrId = \ilObjUser::getUserIdByLogin($username);
             if (!is_numeric($usrId) || !($usrId > 0)) {
-                \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not process password assistance form (reason: no user found) %s / %s',
-                    $username,
-                    $email
-                ));
+                \ilLoggerFactory::getLogger('usr')->info(
+                    sprintf(
+                        'Could not process password assistance form (reason: no user found) %s / %s',
+                        $username,
+                        $email
+                    )
+                );
+
+                return;
             }
 
             $user = new \ilObjUser($usrId);
