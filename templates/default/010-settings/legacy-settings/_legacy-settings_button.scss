@@ -1,4 +1,4 @@
-@use "../010-settings/"as *;
+@use "../../010-settings/"as *;
 
 //** Text color of inactive buttons
 $il-disabled-btn-color: darken($il-text-color, 20%); // wasn't on settings layer

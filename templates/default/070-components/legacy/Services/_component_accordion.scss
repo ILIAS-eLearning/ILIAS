@@ -1,6 +1,6 @@
 @use "../../../010-settings/" as *;
-@use "../../../030-patterns/tool_rem-conversion" as t-rem;
-@use "../../../030-patterns/pattern_panel" as *;
+@use "../../../030-tools/tool_rem-conversion" as t-rem;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
 @use "../../../050-layout/basics" as *;
 
 /* Services/Accordion */

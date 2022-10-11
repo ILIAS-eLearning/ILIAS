@@ -1,5 +1,5 @@
 @use "../../../010-settings/"as *;
-@use "../../../030-patterns/tool_form-patterns" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 
 @use "sass:math";
 $il-textarea-height: (math.floor(4 * ($il-standard-form-font-size * $il-line-height-base))) + 0.56;

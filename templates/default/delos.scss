@@ -5,7 +5,7 @@
 
 // 010-settings: include settings with @use in other files when needed
 @use "./020-dependencies/" as *;
-// 030-patterns: include patterns and tools with @use in component when needed
+// 030-tools: include patterns and tools with @use in component when needed
 @use "./040-normalize/" as *;
 // 040-layout: include layout variables with @use in component when needed
 @use "./060-elements" as *;

@@ -1,5 +1,5 @@
 @use "../../../010-settings/" as *;
-@use "../../../030-patterns/pattern_panel" as *;
+@use "../../../010-settings/legacy-settings/legacy-settings_panel" as *;
 @use "../../../050-layout/basics" as *;
 
 $lso-dark-bg: $il-main-dark-bg;
