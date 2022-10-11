@@ -154,7 +154,7 @@ class ilMediaCastDataSet extends ilDataSet
                     $newObj->setOrder($a_rec["Sortmode"]);
                     $newObj->setViewMode($a_rec["Viewmode"]);
 
-                    if ($a_rec["Order"]) {
+                    if ($a_rec["Order"] ?? false) {
                         $this->order[$newObj->getId()] = explode(";", $a_rec["Order"]);
                     }
 
