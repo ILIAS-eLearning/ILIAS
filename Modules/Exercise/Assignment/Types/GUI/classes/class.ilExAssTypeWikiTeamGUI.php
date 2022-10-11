@@ -201,7 +201,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_wiki["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject($selected_wiki["returned_id"]);
+                $a_submission->deleteResourceObject();
             }
         }
         if ($a_submission->canSubmit()) {

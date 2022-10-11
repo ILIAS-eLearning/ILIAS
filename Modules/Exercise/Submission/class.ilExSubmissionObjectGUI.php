@@ -109,7 +109,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_blog["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject($selected_blog["returned_id"]);
+                $a_submission->deleteResourceObject();
             }
         }
         if ($a_submission->canSubmit()) {
@@ -199,7 +199,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             // remove invalid resource if no upload yet (see download below)
             elseif (substr($selected_prtf["filename"], -1) == "/") {
                 // #16887
-                $a_submission->deleteResourceObject($selected_prtf["returned_id"]);
+                $a_submission->deleteResourceObject();
             }
         }
         if ($a_submission->canSubmit()) {
@@ -621,11 +621,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
         $user = $DIC->user();
 
-        $portfolio = $this->submission->getSelectedObject();
-        $port_id = $portfolio["returned_id"];
+        //$portfolio = $this->submission->getSelectedObject();
+        //$port_id = $portfolio["returned_id"];
 
-        $ilsub = new ilExSubmission($this->assignment, $user->getId());
-        $ilsub->deleteResourceObject($port_id);
+        //$ilsub = new ilExSubmission($this->assignment, $user->getId());
+        $this->submission->deleteResourceObject();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("exc_portfolio_unlinked_from_assignment"), true);
 
