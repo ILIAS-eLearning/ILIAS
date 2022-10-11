@@ -907,6 +907,70 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *     The Launcher starts an object, a process or a workflow.
+     *     It conveys the smallest set of information needed to decide upon launching.
+     *     The Launcher communicates clearly whether or not a user can or cannot
+     *     launch at any given time.
+     *   composition: >
+     *     For a clear guidance of the users' intent the Launcher can present
+     *     a title and a descriptive text; it will always contain a Button for launching.
+     *     If necessary, the component can be enriched with status information
+     *     about the users' progress such as Icons or Progress Meter as well as
+     *     optional inputs (e.g. access code field) if launching is restricted.
+     *   effect: >
+     *     Clicking the Button starts the object, process or workflow. If the
+     *     Component is configured with inputs, they will be provided to make the user
+     *     fill them before the object can be launched. If the provided data is sufficient
+     *     the user is redirected to the target. Otherwise, a message is being displayed.
+     *     If the user cannot launch the object at all (precondition, unavailability etc.),
+     *     the Button is disabled with unavailable action.
+     *     The label of the Button may change, e.g. in relation to the status
+     *     of the progress.
+     *   rivals:
+     *     Item: >
+     *       Other than an item, the Launcher's focus is on an action rather than
+     *       the representation of an entity.
+     *     Link: >
+     *       Link's primary function is navigation; operating a Link must not
+     *       change the systems's status, while a launcher may well sign up a user
+     *       to a LearningSequence, e.g.
+     * rules:
+     *   usage:
+     *     1: If the user cannot launch the process, the Button MUST be disabled.
+     *     2: >
+     *       The Launcher SHOULD NOT be used to collect larger sets of information (e.g. a
+     *       full user registration) - that would be a process in itself.
+     *     3: >
+     *       The launcher SHOULD support the users' intent to make a quick choice if it is
+     *       the desired object/process/workflow to launch or not. Just relevant information
+     *       SHOULD guide this decision.
+     *     4: >
+     *       There MUST be but one Launcher per process or activity stream.
+     *       However, there MAY be multiple Launchers residing on a view or page
+     *       if there are multiple processes or activity streams on that view or page.
+     *   interaction:
+     *     1: The Launcher MUST start the object/procress when the Button is clicked.
+     *     2: >
+     *      The Launcher MUST provide ample inputs if the object is configured
+     *      with restricted access or the process needs further user decisions.
+     *   accessibility:
+     *     1: >
+     *       All interactions offered by a Launcher MUST be accessible by only using
+     *       the keyboard.
+     *     2: >
+     *       All information required before launching the object MUST be placed
+     *       before the Button launching the object/process, so users working
+     *       with screen readers will not miss it.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Launcher\Factory
+     */
+    public function launcher(): C\Launcher\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *     Help Topics can be attached to certain components. They make it possible
      *     that suitable help texts can be displayed alongside the component.
      *
@@ -914,4 +978,5 @@ interface Factory
      * @return \ILIAS\UI\Help\Topic[]
      */
     public function helpTopics(string ...$topic): array;
+
 }
