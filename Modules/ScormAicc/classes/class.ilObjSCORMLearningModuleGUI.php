@@ -829,12 +829,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
-                $caption = ilUtil::getImageTagByType("sahs", (string) $this->tpl->tplPath) .
-                    " " . $this->lng->txt("cont_tracking_data") .
-                    ": " . $user->getLastname() . ", " . $user->getFirstname();
+                //was ilUtil::getImageTagByType("sahs", (string) $this->tpl->getValue("TPLPATH")) .
+                $caption = $this->lng->txt("cont_tracking_data") . ": " . $user->getLastname() . ", " . $user->getFirstname();
 
-
-                $cgui->addItem("user[]", $id, $caption);
+                $cgui->addItem("user[]", (string) $id, $caption);
             }
         }
 

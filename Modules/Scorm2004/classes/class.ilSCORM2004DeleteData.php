@@ -251,6 +251,9 @@ class ilSCORM2004DeleteData
         }
         //remove trailing ','
         $existing_key_template = substr($existing_key_template, 0, -1);
+        if ($existing_key_template == false) {
+            return "";
+        }
 
         return $existing_key_template;
     }

@@ -140,7 +140,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["audio_captioning"] = "" . $data["audio_captioning"];
@@ -270,7 +270,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -369,7 +369,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -693,7 +693,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $all = $correct + $incorrect + $other;
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["counter_i_correct"] = $correct;
@@ -938,7 +938,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             }
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
+            $data = array_merge($data, self::userDataArrayForExport((int) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $returnData[] = $data;

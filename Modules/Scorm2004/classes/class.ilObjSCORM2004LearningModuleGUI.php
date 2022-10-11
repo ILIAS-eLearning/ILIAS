@@ -70,6 +70,20 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         #$this->tabs_gui = new ilTabsGUI();
     }
 
+    /**
+     * assign scorm object to scorm gui object
+     */
+    protected function assignObject(): void
+    {
+        if ($this->id != 0) {
+            if ($this->call_by_reference) {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
+            } else {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
+            }
+        }
+    }
+
     public function executeCommand(): void
     {
 //        $ilAccess = $this->access;

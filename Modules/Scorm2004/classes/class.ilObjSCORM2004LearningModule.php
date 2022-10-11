@@ -355,7 +355,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $item['id'] = $sco_rec["id"];
-            $item['title'] = self::_lookupItemTitle($sco_rec["id"]);
+            $item['title'] = self::_lookupItemTitle((int) $sco_rec["id"]);
             $items[] = $item;
         }
         return $items;
