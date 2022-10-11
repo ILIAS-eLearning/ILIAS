@@ -20,6 +20,7 @@ use ILIAS\Portfolio\Access\AccessSessionRepository;
 
 /**
  * Access handler for portfolio
+ * NOTE: This file needs to stay in the classes directory, WAC will be confused otherwise
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilPortfolioAccessHandler implements ilWACCheckingClass
