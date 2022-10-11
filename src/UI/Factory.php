@@ -896,4 +896,58 @@ interface Factory
      * @return \ILIAS\UI\Component\Toast\Factory
      */
     public function toast(): C\Toast\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Launcher Component is used to launch an object or a process.
+     *     From a users' perspective the main goal of the Launcher component is to present 
+     *     just relevant information for a quick decision to launch a certain object or process and 
+     *     if all preconditions for launching are fullfilled. For a clear guidance of the users' intent it  
+     *     can present a title and a descriptive text and offers a mandatory Primary Button for launching.
+     *     If necessary, the component can be enriched with status information about the users'
+     *     progress and optional inputs (e.g. access code field) if launching is restricted.
+     *   composition: >
+     *     The Launcher consists of receptive elements, i.e. title, text, status information
+     *     about progress, such as Icons or Progress Meter. It also contains optional
+     *     inputs (e.g.: for access code input) and, finally, a Primary Button that
+     *     executes an action.
+     *   effect: >
+     *     Clicking the Primary Button starts the object or process.
+     *     If the Component is configured with inputs, the Form will be shown and
+     *     submitted asynchronously. With a successful response, the user is redirected to
+     *     the specified location. Otherwise, a message is being displayed.
+     *     If the user cannot launch the object at all (precondition, unavailability etc.),
+     *     the primary button is disabled with unavailable action.
+     *     The label of the Primary Button may change, e.g. in relation to the status of the progress.
+     *   rivals:
+     *     Item: >
+     *       Other than an item, the Launcher's focus is on an action rather than
+     *       the representation of an entity.
+     * rules:
+     *   usage:
+     *     1: The Launcher MUST contain a primary button.
+     *     2: If the user cannot launch the process, the Primary Button MUST be disabled.
+     *     3: >
+     *      The Launcher SHOULD NOT be used to collect larger sets of
+     *      information (e.g. a full user registration) - that would be a process in itself. 
+     *      It SHOULD support the users' intent to make a quick choice if it is the desired  
+     *      object/process to launch or not. Just relevant information SHOULD guide this decision.
+     *   interaction:
+     *     1: The Launcher MUST start the object/progress when the Primary Button is clicked.
+     *     2: >
+     *      The Launcher MUST provide ample inputs if the object is configured
+     *      with restricted access or the process needs further user decisions.
+     *   accessibility:
+     *     1: All interactions offered by a Launcher MUST be accessible by only using the keyboard.
+     *     2: >
+     *       All information required before launching the object MUST be placed
+     *       before the Primary Button launching the object/process, so users working
+     *       with screen readers will not miss it.
+     *
+     * ---
+     * @return \ILIAS\UI\Component\Launcher\Factory
+     */
+    public function launcher(): C\Launcher\Factory;
 }

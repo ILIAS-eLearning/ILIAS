@@ -325,4 +325,9 @@ class Factory implements \ILIAS\UI\Factory
     {
         return $this->toast_factory;
     }
+
+    public function launcher(): C\Launcher\Factory
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }
