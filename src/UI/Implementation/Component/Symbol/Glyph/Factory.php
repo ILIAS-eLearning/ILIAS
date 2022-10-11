@@ -424,4 +424,12 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::LINK, "link_action", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function launch(string $action = null): G\Glyph
+    {
+        return new Glyph(G\Glyph::LAUNCH, "launch", $action);
+    }
 }

@@ -80,6 +80,7 @@ interface Glyph extends Symbol, Clickable
     public const BOLD = "bold";
     public const ITALIC = "italic";
     public const LINK = "link";
+    public const LAUNCH = "launch";
 
     /**
      * Get the type of the glyph.

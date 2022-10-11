@@ -10413,6 +10413,30 @@ input[type=checkbox]:focus:focus-visible {
     width: auto;
   }
 }
+.c-launcher__status {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 9px;
+}
+
+.c-launcher__status__message {
+  flex-grow: 1;
+  order: 2;
+}
+.c-launcher__status__message > * {
+  margin-bottom: 0;
+}
+
+.c-launcher__status__icon {
+  margin-right: 6px;
+  flex-basis: auto;
+  order: 1;
+}
+.c-launcher__status__icon .il-chart-progressmeter-viewbox {
+  height: 45px;
+  width: 45px;
+}
+
 * {
   box-sizing: border-box;
 }
