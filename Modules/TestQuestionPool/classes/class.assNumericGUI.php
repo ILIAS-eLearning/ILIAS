@@ -293,14 +293,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
                 array('value1' => $use_post_solutions['numeric_result'])
             );
         } elseif ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
-            // hey.
         }
 
         // generate the question output

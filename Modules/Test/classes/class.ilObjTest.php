@@ -2302,50 +2302,25 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return 0;
     }
 
-    // hey: prevPassSolutions - serious (nonstatic) identifier, for use in high level controller gui
-    public function isPreviousSolutionReuseEnabled($activeId): int
+    public function isPreviousSolutionReuseEnabled($active_id): bool
     {
-        // checks if allowed in general and if enabled by participant
-        return self::_getUsePreviousAnswers($activeId, true);
-    }
-    // hey.
-
-    /**
-    * Returns if the previous results should be hidden for a learner
-    *
-    * @param integer $test_id The test id
-    * @param boolean $use_active_user_setting If true, the tst_use_previous_answers- of the active user should be used as well
-    * @return integer 1 if the previous results should be hidden, 0 otherwise
-    * @access public
-    * @see $use_previous_answers
-    */
-    public static function _getUsePreviousAnswers($active_id, $user_active_user_setting = false): int
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
-
-        $use_previous_answers = 1;
-
-        $result = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT tst_tests.use_previous_answers FROM tst_tests, tst_active WHERE tst_tests.test_id = tst_active.test_fi AND tst_active.active_id = %s",
             array("integer"),
             array($active_id)
         );
         if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            $use_previous_answers = $row["use_previous_answers"];
+            $row = $this->db->fetchAssoc($result);
+            $test_allows_reuse = $row["use_previous_answers"];
         }
 
-        if ($use_previous_answers == 1) {
-            if ($user_active_user_setting) {
-                $res = $ilUser->getPref("tst_use_previous_answers");
-                if ($res !== false) {
-                    $use_previous_answers = $res;
-                }
+        if ($test_allows_reuse === '1') {
+            $res = $this->user->getPref("tst_use_previous_answers");
+            if ($res === '1') {
+                return true;
             }
         }
-        return $use_previous_answers;
+        return false;
     }
 
     /**

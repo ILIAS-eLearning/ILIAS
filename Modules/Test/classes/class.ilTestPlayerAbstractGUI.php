@@ -554,7 +554,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             && $this->object->getUsePreviousAnswers() == 1
         ) {
             $chb_use_previous_answers = array_key_exists("chb_use_previous_answers", $post_array) ? 1 : 0;
-            $ilUser->writePref("chb_use_previous_answers", $chb_use_previous_answers);
+            $ilUser->writePref("tst_use_previous_answers", $chb_use_previous_answers);
         }
     }
 
@@ -1311,7 +1311,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         require_once './Modules/Test/classes/class.ilObjTest.php';
 
-        if (ilObjTest::_getUsePreviousAnswers($this->testSession->getActiveId(), true)) {
+        if ($this->object->isPreviousSolutionReuseEnabled($this->testSession->getActiveId())) {
             $currentSolutionAvailable = $questionGui->object->authorizedOrIntermediateSolutionExists(
                 $this->testSession->getActiveId(),
                 $this->testSession->getPass()

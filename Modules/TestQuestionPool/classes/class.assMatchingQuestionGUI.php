@@ -840,14 +840,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
         $solutions = array();
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
-            // hey.
             if (is_array($user_post_solution)) {
                 foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term) {
                     array_push($solutions, array("value1" => $term, "value2" => $definition));
