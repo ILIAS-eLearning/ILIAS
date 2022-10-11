@@ -26,6 +26,7 @@ use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use ILIAS\DI\Container;
+use GuzzleHttp\Psr7\Response;
 
 //use GuzzleHttp\Exception\ConnectException;
 //use GuzzleHttp\Exception\RequestException;

@@ -73,6 +73,7 @@ declare(strict_types=1);
     } else {
         chdir("../../");
     }
+    require_once("Services/Init/classes/class.ilInitialisation.php");
     DataService::initIlias($client);
     $dic = $GLOBALS['DIC'];
 

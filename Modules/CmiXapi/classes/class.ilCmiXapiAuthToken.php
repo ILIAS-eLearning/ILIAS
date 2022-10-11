@@ -302,14 +302,14 @@ class ilCmiXapiAuthToken
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $tokenObject = new self();
             $tokenObject->setToken($token);
-            $tokenObject->setValidUntil($row['valid_until']);
-            $tokenObject->setUsrId($row['usr_id']);
-            $tokenObject->setObjId($row['obj_id']);
-            $tokenObject->setRefId($row['ref_id']);
-            $tokenObject->setLrsTypeId($row['lrs_type_id']);
-            $tokenObject->setCmi5Session($row['cmi5_session']);
-            $tokenObject->setReturnedForCmi5Session($row['returned_for_cmi5_session']);
-            $tokenObject->setCmi5SessionData($row['cmi5_session_data']);
+            $tokenObject->setValidUntil((string) $row['valid_until']);
+            $tokenObject->setUsrId((int) $row['usr_id']);
+            $tokenObject->setObjId((int) $row['obj_id']);
+            $tokenObject->setRefId((int) $row['ref_id']);
+            $tokenObject->setLrsTypeId((int) $row['lrs_type_id']);
+            $tokenObject->setCmi5Session((string) $row['cmi5_session']);
+            $tokenObject->setReturnedForCmi5Session((string) $row['returned_for_cmi5_session']);
+            $tokenObject->setCmi5SessionData((string) $row['cmi5_session_data']);
 
             return $tokenObject;
         }

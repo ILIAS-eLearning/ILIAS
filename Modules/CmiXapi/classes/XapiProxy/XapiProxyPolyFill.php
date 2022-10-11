@@ -60,7 +60,7 @@ declare(strict_types=1);
             $this->token = $token;
             $this->plugin = $plugin;
             $this->table_prefix = $this->plugin ? "xxcf" : "cmix";
-            preg_match(self::PARTS_REG, $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
+            preg_match(self::PARTS_REG, (string) $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }
 

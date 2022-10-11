@@ -36,7 +36,7 @@ declare(strict_types=1);
             $this->xapiproxy = $xapiproxy;
         }
 
-        public function checkResponse(Response $response, string $endpoint): bool
+        public function checkResponse(array $response, string $endpoint): bool
         {
             if ($response['state'] == 'fulfilled') {
                 $status = $response['value']->getStatusCode();

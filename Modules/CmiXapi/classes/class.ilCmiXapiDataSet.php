@@ -172,7 +172,7 @@ class ilCmiXapiDataSet extends ilDataSet
         $this->readData($a_entity, $a_schema_version, $a_ids);
 
         //var_dump($this->data); exit;
-        $id = $this->data["Id"];
+        $id = (int) $this->data["Id"];
 
         // prepare archive skeleton
         $objTypeAndId = "cmix_" . $id;
