@@ -1,0 +1,11 @@
+<form action="{LTI_INITIAL_LOGIN_ACTION}" name="ltiInitialLoginForm" id="ltiInitialLoginForm" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="iss" value="{ISS}" />
+    <input type="hidden" name="target_link_uri" value="{TARGET_LINK_URL}" /><!--$this->object->getProvider()->getProviderUrl()-->
+    <input type="hidden" name="login_hint" value="{LOGIN_HINT}" /><!--$user_ident-->
+    <input type="hidden" name="lti_message_hint" value="{LTI_MESSAGE_HINT}" /><!--$ltiMessageHint-->
+    <input type="hidden" name="client_id" value="{CLIENT_ID}" /><!--$this->object->getProvider()->getClientId())-->
+    <input type="hidden" name="lti_deployment_id" value="{LTI_DEPLOYMENT_ID}" /><!--$this->object->getProvider()->getId()-->
+</form>
+<script>
+  document.ltiInitialLoginForm.submit();
+</script>

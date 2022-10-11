@@ -86,12 +86,6 @@ class ilLTIConsumeProviderSettingsGUI
         if ($form->checkInput()) {
             $form->initProvider($provider);
             $this->object->getProvider()->save();
-            if (ilLTIConsumerSettingsGUI::isUserDynamicRegistrationTransaction($provider)) {
-                $this->object->setTitle($provider->getTitle());
-                $this->object->update();
-                ilSession::clear('lti_dynamic_registration_client_id');
-                ilSession::clear('custom_params');
-            }
             $DIC->ctrl()->redirect($this, self::CMD_SHOW_SETTINGS);
         }
 

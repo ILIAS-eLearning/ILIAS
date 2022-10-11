@@ -1,0 +1,7 @@
+<form action="{LTI_JWT_FORM_ACTION}" name="ltiJwtForm" id="ltiJwtForm" method="post" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id_token" value="{LTI_JWT_ID_TOKEN}"/>
+    <input type="hidden" name="state" value="{LTI_JWT_STATE}"/>
+</form>
+<script>
+  document.ltiJwtForm.submit();
+</script>

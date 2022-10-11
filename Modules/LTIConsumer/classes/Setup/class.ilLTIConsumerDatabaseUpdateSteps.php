@@ -170,4 +170,16 @@ class ilLTIConsumerDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             ]);
         }
     }
+
+    public function step_14(): void
+    {
+        if (!$this->db->tableColumnExists('lti_consumer_settings', 'custom_params')) {
+            $this->db->addTableColumn('lti_consumer_settings', 'custom_params', [
+                'type' => 'text',
+                'length' => 255,
+                'notnull' => true,
+                'default' => ''
+            ]);
+        }
+    }
 }

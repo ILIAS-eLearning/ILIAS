@@ -66,13 +66,11 @@ class ilLTIConsumerSettingsGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $DIC->language()->loadLanguageModule('lti');
 
-        if (!self::isUserDynamicRegistrationTransaction($this->object->getProvider())) {
-            $DIC->tabs()->addSubTab(
-                self::SUBTAB_ID_OBJECT_SETTINGS,
-                $DIC->language()->txt(self::SUBTAB_ID_OBJECT_SETTINGS),
-                $DIC->ctrl()->getLinkTarget($this)
-            );
-        }
+        $DIC->tabs()->addSubTab(
+            self::SUBTAB_ID_OBJECT_SETTINGS,
+            $DIC->language()->txt(self::SUBTAB_ID_OBJECT_SETTINGS),
+            $DIC->ctrl()->getLinkTarget($this)
+        );
 
         if ($this->needsProviderSettingsSubTab()) {
             $DIC->tabs()->addSubTab(
@@ -161,15 +159,10 @@ class ilLTIConsumerSettingsGUI
                 break;
 
             default:
-                if (self::isUserDynamicRegistrationTransaction($this->object->getProvider()) && $this->needsProviderSettingsSubTab()) {
-                    $DIC->tabs()->activateSubTab(self::SUBTAB_ID_PROVIDER_SETTINGS);
-                    $gui = new ilLTIConsumeProviderSettingsGUI($this->object, $this->access);
-                    $DIC->ctrl()->forwardCommand($gui);
-                } else {
-                    $DIC->tabs()->activateSubTab(self::SUBTAB_ID_OBJECT_SETTINGS);
-                    $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
-                    $this->{$command}();
-                }
+                $DIC->tabs()->activateSubTab(self::SUBTAB_ID_OBJECT_SETTINGS);
+                $command = $DIC->ctrl()->getCmd(self::CMD_SHOW_SETTINGS) . 'Cmd';
+                $this->{$command}();
+
         }
     }
 

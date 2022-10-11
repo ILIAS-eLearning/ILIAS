@@ -143,6 +143,11 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $item->addOption($optEmbedded);
         $this->addItem($item);
 
+        $customParams = new ilTextAreaInputGUI($DIC->language()->txt('launch_custom_params'), 'custom_params');
+        $customParams->setRows(6);
+        $customParams->setValue($this->object->getCustomParams());
+        $customParams->setInfo($DIC->language()->txt('lti_con_prov_custom_params_info'));
+        $this->addItem($customParams);
 
         if ($this->object->getProvider()->getUseXapi()) {
             $item = new ilCheckboxInputGUI($DIC->language()->txt('use_xapi'), 'use_xapi');
@@ -232,6 +237,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
 
         $object->setLaunchMethod($this->getInput('launch_method'));
+        $object->setCustomParams($this->getInput('custom_params'));
         $object->setUseXapi((bool) $this->getInput('use_xapi'));
         if ($object->getUseXapi()) {
             if (!strlen($this->object->getProvider()->getXapiActivityId())) {

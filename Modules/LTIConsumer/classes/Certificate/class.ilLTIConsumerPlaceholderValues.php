@@ -46,9 +46,13 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
     private ?\ilLanguage $language;
 
     /**
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilCertificateTestObjectHelper|null $testObjectHelper
-     * @param ilDatePresentation|null $dateHelper
+     * @param ilDefaultPlaceholderValues|null    $defaultPlaceholderValues
+     * @param ilLanguage|null                    $language
+     * @param ilCertificateObjectHelper|null     $objectHelper
+     * @param ilCertificateUserObjectHelper|null $userObjectHelper
+     * @param ilCertificateLPStatusHelper|null   $lpStatusHelper
+     * @param ilCertificateUtilHelper|null       $utilHelper
+     * @param ilCertificateDateHelper|null       $dateHelper
      */
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
