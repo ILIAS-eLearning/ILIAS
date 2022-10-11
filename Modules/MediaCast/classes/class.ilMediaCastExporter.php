@@ -74,12 +74,18 @@ class ilMediaCastExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
+            "8.0" => array(
+                "namespace" => "https://www.ilias.de/Modules/MediaCast/mcst/8",
+                "xsd_file" => "ilias_mcst_8.xsd",
+                "uses_dataset" => true,
+                "min" => "8.0",
+                "max" => ""),
             "5.0.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/MediaCast/mcst/5_0",
                 "xsd_file" => "ilias_mcst_5_0.xsd",
                 "uses_dataset" => true,
                 "min" => "5.0.0",
-                "max" => ""),
+                "max" => "5.4.99"),
             "4.1.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/MediaCast/mcst/4_1",
                 "xsd_file" => "ilias_mcst_4_1.xsd",
