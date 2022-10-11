@@ -346,29 +346,29 @@ class ilNewsItem
         $query = "SELECT * FROM il_news_item WHERE id = " .
             $ilDB->quote($this->getId(), "integer");
         $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
-
-        $this->setTitle((string) $rec["title"]);
-        $this->setContent((string) $rec["content"]);
-        $this->setContextObjId((int) $rec["context_obj_id"]);
-        $this->setContextObjType($rec["context_obj_type"]);
-        $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
-        $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
-        $this->setContentType((string) $rec["content_type"]);
-        $this->setCreationDate((string) $rec["creation_date"]);
-        $this->setUpdateDate((string) $rec["update_date"]);
-        $this->setUserId((int) $rec["user_id"]);
-        $this->setUpdateUserId((int) $rec["update_user_id"]);
-        $this->setVisibility((string) $rec["visibility"]);
-        $this->setContentLong((string) $rec["content_long"]);
-        $this->setPriority((int) $rec["priority"]);
-        $this->setContentIsLangVar((bool) $rec["content_is_lang_var"]);
-        $this->setContentTextIsLangVar((bool) $rec["content_text_is_lang_var"]);
-        $this->setMobId((int) $rec["mob_id"]);
-        $this->setPlaytime((string) $rec["playtime"]);
-        $this->setMobPlayCounter((int) $rec["mob_cnt_play"]);
-        $this->setMobDownloadCounter((int) $rec["mob_cnt_download"]);
-        $this->setContentHtml((bool) $rec["content_html"]);
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $this->setTitle((string) $rec["title"]);
+            $this->setContent((string) $rec["content"]);
+            $this->setContextObjId((int) $rec["context_obj_id"]);
+            $this->setContextObjType($rec["context_obj_type"]);
+            $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
+            $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
+            $this->setContentType((string) $rec["content_type"]);
+            $this->setCreationDate((string) $rec["creation_date"]);
+            $this->setUpdateDate((string) $rec["update_date"]);
+            $this->setUserId((int) $rec["user_id"]);
+            $this->setUpdateUserId((int) $rec["update_user_id"]);
+            $this->setVisibility((string) $rec["visibility"]);
+            $this->setContentLong((string) $rec["content_long"]);
+            $this->setPriority((int) $rec["priority"]);
+            $this->setContentIsLangVar((bool) $rec["content_is_lang_var"]);
+            $this->setContentTextIsLangVar((bool) $rec["content_text_is_lang_var"]);
+            $this->setMobId((int) $rec["mob_id"]);
+            $this->setPlaytime((string) $rec["playtime"]);
+            $this->setMobPlayCounter((int) $rec["mob_cnt_play"]);
+            $this->setMobDownloadCounter((int) $rec["mob_cnt_download"]);
+            $this->setContentHtml((bool) $rec["content_html"]);
+        }
     }
 
     /**
