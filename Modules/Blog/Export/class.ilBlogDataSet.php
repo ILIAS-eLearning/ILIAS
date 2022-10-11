@@ -20,11 +20,9 @@ use ILIAS\Notes\Service;
 
 /**
  * Blog Data set class
- *
  * This class implements the following entities:
  * - blog: object data
  * - blog_posting: data from table il_blog_posting
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilBlogDataSet extends ilDataSet
@@ -39,8 +37,8 @@ class ilBlogDataSet extends ilDataSet
         global $DIC;
         parent::__construct();
         $this->content_style_domain = $DIC
-        ->contentStyle()
-        ->domain();
+            ->contentStyle()
+            ->domain();
         $this->notes = $DIC->notes();
     }
 
@@ -75,7 +73,7 @@ class ilBlogDataSet extends ilDataSet
                         "RssActive" => "integer",
                         "Approval" => "integer",
                         "Dir" => "directory"
-                        );
+                    );
 
                 case "5.0.0":
                     return array(
@@ -103,7 +101,7 @@ class ilBlogDataSet extends ilDataSet
                         "NavOrder" => "text",
                         "OvPost" => "integer",
                         "Style" => "integer"
-                        );
+                    );
 
                 case "5.3.0":
                     return array(
@@ -164,16 +162,19 @@ class ilBlogDataSet extends ilDataSet
         if ($a_entity === "blog") {
             switch ($a_version) {
                 case "4.3.0":
-                    $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
+                    $this->getDirectDataFromQuery(
+                        "SELECT bl.id,od.title,od.description," .
                         "bl.notes,bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval" .
                         " FROM il_blog bl" .
                         " JOIN object_data od ON (od.obj_id = bl.id)" .
                         " WHERE " . $ilDB->in("bl.id", $a_ids, false, "integer") .
-                        " AND od.type = " . $ilDB->quote("blog", "text"));
+                        " AND od.type = " . $ilDB->quote("blog", "text")
+                    );
                     break;
 
                 case "5.0.0":
-                    $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
+                    $this->getDirectDataFromQuery(
+                        "SELECT bl.id,od.title,od.description," .
                         "bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval," .
                         "bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height," .
                         "bl.nav_mode,bl.nav_list_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order," .
@@ -181,11 +182,13 @@ class ilBlogDataSet extends ilDataSet
                         " FROM il_blog bl" .
                         " JOIN object_data od ON (od.obj_id = bl.id)" .
                         " WHERE " . $ilDB->in("bl.id", $a_ids, false, "integer") .
-                        " AND od.type = " . $ilDB->quote("blog", "text"));
+                        " AND od.type = " . $ilDB->quote("blog", "text")
+                    );
                     break;
 
                 case "5.3.0":
-                    $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
+                    $this->getDirectDataFromQuery(
+                        "SELECT bl.id,od.title,od.description," .
                         "bl.bg_color,bl.font_color,bl.img,bl.ppic,bl.rss_active,bl.approval," .
                         "bl.abs_shorten,bl.abs_shorten_len,bl.abs_image,bl.abs_img_width,bl.abs_img_height," .
                         "bl.nav_mode,bl.nav_list_mon_with_post,bl.nav_list_mon,bl.keywords,bl.authors,bl.nav_order," .
@@ -193,7 +196,8 @@ class ilBlogDataSet extends ilDataSet
                         " FROM il_blog bl" .
                         " JOIN object_data od ON (od.obj_id = bl.id)" .
                         " WHERE " . $ilDB->in("bl.id", $a_ids, false, "integer") .
-                        " AND od.type = " . $ilDB->quote("blog", "text"));
+                        " AND od.type = " . $ilDB->quote("blog", "text")
+                    );
                     break;
             }
         }
@@ -203,9 +207,11 @@ class ilBlogDataSet extends ilDataSet
                 case "4.3.0":
                 case "5.0.0":
                 case "5.3.0":
-                    $this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved,last_withdrawn" .
+                    $this->getDirectDataFromQuery(
+                        "SELECT id,blog_id,title,created,author,approved,last_withdrawn" .
                         " FROM il_blog_posting WHERE " .
-                        $ilDB->in("blog_id", $a_ids, false, "integer"));
+                        $ilDB->in("blog_id", $a_ids, false, "integer")
+                    );
                     foreach ($this->data as $idx => $item) {
                         // create full export id
                         $this->data[$idx]["Author"] = $this->createObjectExportId("usr", $item["Author"]);
@@ -234,7 +240,7 @@ class ilBlogDataSet extends ilDataSet
     ): array {
         if ($a_entity === "blog") {
             return array(
-            "blog_posting" => array("ids" => $a_rec["Id"] ?? null)
+                "blog_posting" => array("ids" => $a_rec["Id"] ?? null)
             );
         }
         return [];
@@ -306,9 +312,11 @@ class ilBlogDataSet extends ilDataSet
                 $newObj->setNavModeListMonths($nav_list_months);
                 $newObj->setKeywords((bool) ($a_rec["Keywords"] ?? false));
                 $newObj->setAuthors((bool) ($a_rec["Authors"] ?? false));
-                $newObj->setOrder(trim($a_rec["NavOrder"])
-                    ? explode(";", $a_rec["NavOrder"])
-                    : []);
+                $newObj->setOrder(
+                    trim($a_rec["NavOrder"])
+                        ? explode(";", $a_rec["NavOrder"])
+                        : []
+                );
                 if (($ov_post = $a_rec["OvPost"] ?? null) !== null) {
                     $ov_post = (int) $ov_post;
                 }
