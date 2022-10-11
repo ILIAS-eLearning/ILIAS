@@ -318,13 +318,6 @@ JS;
         $elements = $this->object->getRandomOrderingElements();
 
         if ($active_id) {
-            // hey: prevPassSolutions - obsolete due to central check
-            #$solutions = NULL;
-            #include_once "./Modules/Test/classes/class.ilObjTest.php";
-            #if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-            #{
-            #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-            #}
             $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             if (is_array($solutions) && count($solutions) == 1) {
