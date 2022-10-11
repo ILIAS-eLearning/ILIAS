@@ -3264,7 +3264,7 @@ class ilObjectListGUI
 
         // workaround for scorm
         $modified_link =
-            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
+            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame)[0];
 
         $image = $this->ui->factory()
                           ->image()
