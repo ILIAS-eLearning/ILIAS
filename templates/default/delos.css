@@ -1467,8 +1467,8 @@ img {
 }
 
 hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 1.2500000004rem;
+  margin-bottom: 1.2500000004rem;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -1526,8 +1526,8 @@ h6 .small,
 h1, .h1,
 h2, .h2,
 h3, .h3 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 1.2500000004rem;
+  margin-bottom: 0.6250000002rem;
 }
 h1 small,
 h1 .small, .h1 small,
@@ -1544,8 +1544,8 @@ h3 .small, .h3 small,
 h4, .h4,
 h5, .h5,
 h6, .h6 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.6250000002rem;
+  margin-bottom: 0.6250000002rem;
 }
 h4 small,
 h4 .small, .h4 small,
@@ -1584,11 +1584,11 @@ h6, .h6 {
 }
 
 p {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.6250000002rem;
 }
 
 .lead {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.4;
@@ -1741,15 +1741,15 @@ a.bg-danger:focus {
 }
 
 .page-header {
-  padding-bottom: -0.5rem;
-  margin: 2rem 0 1rem;
+  padding-bottom: -0.3749999998rem;
+  margin: 2.5000000008rem 0 1.2500000004rem;
   border-bottom: 1px solid #eeeeee;
 }
 
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6250000002rem;
 }
 ul ul,
 ul ol,
@@ -1776,7 +1776,7 @@ ol ol {
 
 dl {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
 }
 
 dt,
@@ -1824,8 +1824,8 @@ abbr[data-original-title] {
 }
 
 blockquote {
-  padding: 0.5rem 1rem;
-  margin: 0 0 1rem;
+  padding: 0.6250000002rem 1.2500000004rem;
+  margin: 0 0 1.2500000004rem;
   font-size: 1.09375rem;
   border-left: 5px solid #eeeeee;
 }
@@ -1874,7 +1874,7 @@ blockquote.pull-right .small:after {
 }
 
 address {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   font-style: normal;
   line-height: 1.428571429;
 }
@@ -1910,8 +1910,8 @@ kbd kbd {
 
 pre {
   display: block;
-  padding: 0rem;
-  margin: 0 0 0.5rem;
+  padding: 0.1250000002rem;
+  margin: 0 0 0.6250000002rem;
   font-size: -0.125rem;
   line-height: 1.428571429;
   word-break: break-all;
@@ -2743,7 +2743,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
 }
 .table > thead > tr > th,
 .table > thead > tr > td,
@@ -2905,7 +2905,7 @@ th {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.9375000003rem;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #ddd;
@@ -2959,7 +2959,7 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   font-size: 1.3125rem;
   line-height: inherit;
   color: #333333;
@@ -3045,7 +3045,7 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 24px;
+  height: 28px;
   padding: 0.1875rem 0.5625rem;
   font-size: 0.875rem;
   line-height: 1.428571429;
@@ -3100,7 +3100,7 @@ input[type=search] {
 input[type=time].form-control,
 input[type=datetime-local].form-control,
 input[type=month].form-control {
-    line-height: 24px;
+    line-height: 28px;
   }
   input[type=date].input-sm,
 .input-group-sm > .input-group-btn > input[type=date].btn, .input-group-sm input[type=date],
@@ -3147,7 +3147,7 @@ fieldset[disabled] .checkbox label {
 }
 .radio label,
 .checkbox label {
-  min-height: 1rem;
+  min-height: 1.2500000004rem;
   padding-left: 20px;
   margin-bottom: 0;
   font-weight: 400;
@@ -3208,7 +3208,7 @@ fieldset[disabled] .checkbox label {
   padding-top: 1.1875rem;
   padding-bottom: 1.1875rem;
   margin-bottom: 0;
-  min-height: 1.875rem;
+  min-height: 2.1250000004rem;
 }
 .form-control-static.input-lg, .input-group-lg > .form-control-static.form-control,
 .input-group-lg > .form-control-static.input-group-addon,
@@ -3263,7 +3263,7 @@ select[multiple].input-sm,
 }
 .form-group-sm .form-control-static {
   height: 25.142857148px;
-  min-height: 1.75rem;
+  min-height: 2.0000000004rem;
   padding: 1.1875rem 0.375rem;
   font-size: 0.75rem;
   line-height: 1.5;
@@ -3313,7 +3313,7 @@ select[multiple].input-lg,
 }
 .form-group-lg .form-control-static {
   height: 4.75rem;
-  min-height: 2rem;
+  min-height: 2.2500000004rem;
   padding: 1.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.33;
@@ -3323,7 +3323,7 @@ select[multiple].input-lg,
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 30px;
+  padding-right: 35px;
 }
 
 .form-control-feedback {
@@ -3332,9 +3332,9 @@ select[multiple].input-lg,
   right: 0;
   z-index: 2;
   display: block;
-  width: 24px;
-  height: 24px;
-  line-height: 24px;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
   text-align: center;
   pointer-events: none;
 }
@@ -3441,7 +3441,7 @@ select[multiple].input-lg,
 }
 
 .has-feedback label ~ .form-control-feedback {
-  top: 6rem;
+  top: 6.2500000004rem;
 }
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0;
@@ -3515,7 +3515,7 @@ select[multiple].input-lg,
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
-  min-height: 2.1875rem;
+  min-height: 2.4375000004rem;
 }
 .form-horizontal .form-group {
   margin-right: -1rem;
@@ -3965,7 +3965,7 @@ tbody.collapse.in {
 }
 .dropdown-menu .divider {
   height: 1px;
-  margin: -0.5rem 0;
+  margin: -0.3749999998rem 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -4435,7 +4435,7 @@ tbody.collapse.in {
 }
 .nav .nav-divider {
   height: 1px;
-  margin: -0.5rem 0;
+  margin: -0.3749999998rem 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -4552,7 +4552,7 @@ tbody.collapse.in {
 .navbar {
   position: relative;
   min-height: pixel-to-rem(40px);
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -4664,9 +4664,9 @@ tbody.collapse.in {
 
 .navbar-brand {
   float: left;
-  padding: 1.375rem 0rem;
+  padding: 1.2499999998rem 0rem;
   font-size: 1rem;
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
   height: pixel-to-rem(40px);
 }
 .navbar-brand:hover, .navbar-brand:focus {
@@ -4712,12 +4712,12 @@ tbody.collapse.in {
 }
 
 .navbar-nav {
-  margin: 0.6875rem;
+  margin: 0.6249999999rem;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
 }
 @media (max-width: 768px) {
   .navbar-nav .open .dropdown-menu {
@@ -4732,7 +4732,7 @@ tbody.collapse.in {
     padding: 5px 15px 5px 25px;
   }
   .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 1rem;
+    line-height: 1.2500000004rem;
   }
   .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-nav .open .dropdown-menu > li > a:focus {
     background-image: none;
@@ -4747,8 +4747,8 @@ tbody.collapse.in {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 1.375rem;
-    padding-bottom: 1.375rem;
+    padding-top: 1.2499999998rem;
+    padding-bottom: 1.2499999998rem;
   }
 }
 
@@ -4849,8 +4849,8 @@ tbody.collapse.in {
 }
 
 .navbar-btn {
-  margin-top: pixel-to-rem(40px)-24px/2;
-  margin-bottom: pixel-to-rem(40px)-24px/2;
+  margin-top: pixel-to-rem(40px)-28px/2;
+  margin-bottom: pixel-to-rem(40px)-28px/2;
 }
 .navbar-btn.btn-sm, .btn-group-sm > .navbar-btn.btn {
   margin-top: pixel-to-rem(40px)-25.142857148px/2;
@@ -4862,8 +4862,8 @@ tbody.collapse.in {
 }
 
 .navbar-text {
-  margin-top: pixel-to-rem(40px)-1rem/2;
-  margin-bottom: pixel-to-rem(40px)-1rem/2;
+  margin-top: pixel-to-rem(40px)-1.2500000004rem/2;
+  margin-bottom: pixel-to-rem(40px)-1.2500000004rem/2;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -5057,7 +5057,7 @@ tbody.collapse.in {
 
 .breadcrumb {
   padding: 8px 15px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   list-style: none;
   background-color: #f5f5f5;
   border-radius: 0px;
@@ -5077,7 +5077,7 @@ tbody.collapse.in {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 1rem 0;
+  margin: 1.2500000004rem 0;
   border-radius: 0px;
 }
 .pagination > li {
@@ -5172,7 +5172,7 @@ tbody.collapse.in {
 
 .pager {
   padding-left: 0;
-  margin: 1rem 0;
+  margin: 1.2500000004rem 0;
   text-align: center;
   list-style: none;
 }
@@ -5374,7 +5374,7 @@ a.badge:hover, a.badge:focus {
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   line-height: 1.428571429;
   background-color: white;
   border: 1px solid #ddd;
@@ -5404,7 +5404,7 @@ a.thumbnail.active {
 
 .alert {
   padding: 15px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   border: 1px solid transparent;
   border-radius: 0px;
 }
@@ -5500,8 +5500,8 @@ a.thumbnail.active {
   }
 }
 .progress {
-  height: 1rem;
-  margin-bottom: 1rem;
+  height: 1.2500000004rem;
+  margin-bottom: 1.2500000004rem;
   overflow: hidden;
   background-color: #f5f5f5;
   border-radius: 0px;
@@ -5514,7 +5514,7 @@ a.thumbnail.active {
   width: 0%;
   height: 100%;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
   color: #fff;
   text-align: center;
   background-color: #4c6586;
@@ -5831,7 +5831,7 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   background-color: white;
   border: 1px solid transparent;
   border-radius: 0px;
@@ -6059,7 +6059,7 @@ button.list-group-item-danger.active:focus {
 }
 
 .panel-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
 }
 .panel-group .panel {
   margin-bottom: 0;
@@ -8092,7 +8092,7 @@ code {
 
 /* Breadcrumb */
 .breadcrumb {
-  margin: 0.8em 0 1rem 0;
+  margin: 0.8em 0 1.2500000004rem 0;
   font-size: 0.75rem;
 }
 .breadcrumb > li + li:before {
@@ -9360,7 +9360,7 @@ select.form-control {
 .form-horizontal .control-label {
   text-align: left;
   padding-bottom: 1.1875rem;
-  min-height: 1.875rem;
+  min-height: 2.1250000004rem;
 }
 @media only screen and (max-width: 768px) {
   .form-horizontal .control-label {
@@ -9380,7 +9380,7 @@ select.form-control {
   line-height: normal;
 }
 .form-horizontal div.radio label.radio-inline {
-  line-height: 24px;
+  line-height: 28px;
 }
 
 .radio input[type=radio],
@@ -10045,7 +10045,7 @@ footer {
     flex-grow: 1;
   }
   footer {
-    margin-bottom: 4rem;
+    margin-bottom: 5.0000000015rem;
   }
 }
 /*
@@ -10332,7 +10332,7 @@ html body .il-layout-page-content div {
   position: absolute;
   right: 0.5625rem;
   top: 0.9375rem;
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
 }
 .il-maincontrols-slate .btn-bulky.engaged::before,
 .il-maincontrols-slate .link-bulky.engaged::before {
@@ -10368,7 +10368,7 @@ html body .il-layout-page-content div {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 0.9375rem;
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
   text-align: left;
   word-break: normal;
 }
@@ -10661,7 +10661,7 @@ the il- variable in your less code and not the boostrap variable in your less co
     font-size: 1.0625rem;
     right: 0.75rem;
     top: 0.9375rem;
-    line-height: 1rem;
+    line-height: 1.2500000004rem;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -11207,10 +11207,10 @@ footer {
 /** contrast threshold for contrast color **/
 /** three color variants for neutral, important, breaking Head Infos **/
 .il-system-info {
-  line-height: 1rem;
+  line-height: 1.2500000004rem;
   padding-top: 0.375rem;
   padding-bottom: 0.375rem;
-  height: 1.75rem;
+  height: 2.0000000004rem;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -11324,7 +11324,7 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 2.875rem;
+  min-height: 3.1250000004rem;
   margin-bottom: 2px;
   padding: 0.375rem 0.75rem;
   padding-left: 0;
@@ -11371,7 +11371,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 2.875rem;
+  min-height: 3.1250000004rem;
   padding: 0.375rem 0.75rem;
   margin-bottom: 2px;
   font-size: 0.9375rem;
@@ -12639,7 +12639,7 @@ div.alert ul > li:before {
 .il-toast {
   margin-left: 0.375rem;
   margin-top: 0.1875rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   margin-right: 0.9375rem;
   padding: 0.5625rem;
   background-color: white;
@@ -15773,7 +15773,7 @@ div.il_Block, table.il_Block {
   width: 100%;
   border-spacing: 0px;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2500000004rem;
   clear: both;
   table-layout: fixed;
   word-wrap: break-word;
@@ -16696,10 +16696,10 @@ div.ilEditLabel {
   color: white;
   font-size: 0.75rem;
   padding: 0.1875rem 0.1875rem;
-  margin-top: -1rem;
+  margin-top: -1.2500000004rem;
   margin-left: -2px;
   border: 0;
-  height: 1rem;
+  height: 1.2500000004rem;
   display: none;
   z-index: 1;
 }
@@ -20101,7 +20101,7 @@ a.ilMediaLightboxClose:hover {
 }
 
 .ilToolbarContainer + .ilFilterContainer {
-  margin-top: -1rem;
+  margin-top: -1.2500000004rem;
 }
 
 @media only screen and (max-width: 768px) {
