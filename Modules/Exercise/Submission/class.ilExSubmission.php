@@ -642,7 +642,12 @@ class ilExSubmission
     public function deleteAllFiles(): void
     {
         $files = array();
+        // normal files
         foreach ($this->getFiles() as $item) {
+            $files[] = $item["returned_id"];
+        }
+        // print versions
+        foreach ($this->getFiles(null, false, null, true) as $item) {
             $files[] = $item["returned_id"];
         }
         if ($files !== []) {
@@ -1302,16 +1307,13 @@ class ilExSubmission
         return $next_id;
     }
 
-    // Remove personal resource from assigment
-    public function deleteResourceObject(int $a_returned_id): void
+    /*
+     * Remove ressource from assignement (and delete
+     * its submission): Note: The object itself will not be deleted.
+     */
+    public function deleteResourceObject(): void
     {
-        $ilDB = $this->db;
-
-        $ilDB->manipulate("DELETE FROM exc_returned" .
-            " WHERE obj_id = " . $ilDB->quote($this->assignment->getExerciseId(), "integer") .
-            " AND " . $this->getTableUserWhere(false) .
-            " AND ass_id = " . $ilDB->quote($this->assignment->getId(), "integer") .
-            " AND returned_id = " . $ilDB->quote($a_returned_id, "integer"));
+        $this->deleteAllFiles();
     }
 
     /**
