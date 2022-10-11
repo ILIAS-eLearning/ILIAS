@@ -54,10 +54,15 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $old_settings = $GLOBALS["ilSetting"] ?? null;
         $GLOBALS["ilSetting"] = $settings;
 
+        $old_DIC = $GLOBALS["DIC"];
+        $GLOBALS["DIC"] = new ILIAS\DI\Container();
+        $GLOBALS["DIC"]["ilSetting"] = $GLOBALS["ilSetting"];
+
         $url = $this->getURLStringForNIC($settings, $systemfolder_config, $http_config);
         $req = $this->getCurlConnection($url);
         $response = $req->exec();
         $req->parseResponse($response);
+
 
         if ($req->getInfo()["http_code"] != "200") {
             $settings->set("nic_enabled", "-1");
@@ -81,7 +86,9 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         $settings->set("nic_enabled", "1");
         $settings->set("inst_id", $status[2]);
 
+        $GLOBALS["DIC"] = $old_DIC;
         $GLOBALS["ilSetting"] = $old_settings;
+
 
         return $environment;
     }
