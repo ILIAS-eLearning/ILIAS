@@ -52,7 +52,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         $action = (string) $attributes->action;
         $ou_id = (int) $attributes->ou_id;
         $ou_id_type = (string) $attributes->ou_id_type;
-        $ou_parent_id = (string) $attributes->ou_parent_id;
+        $ou_parent_id = (int) $attributes->ou_parent_id;
         $ou_parent_id_type = (string) $attributes->ou_parent_id_type;
 
         if ($ou_id == ilObjOrgUnit::getRootOrgRefId()) {
