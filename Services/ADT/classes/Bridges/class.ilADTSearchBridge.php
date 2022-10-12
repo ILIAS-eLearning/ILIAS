@@ -34,7 +34,7 @@ abstract class ilADTSearchBridge
     public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected ?ilPropertyFormGUI $form = null;
-    protected ilTable2GUI $table_gui;
+    protected ?ilTable2GUI $table_gui = null;
     protected array $table_filter_fields = [];
     protected string $id = '';
     protected string $title = '';
@@ -204,7 +204,7 @@ abstract class ilADTSearchBridge
         if ($a_post === null) {
             $a_post = $this->http->request()->getParsedBody();
             if ($multi !== false) {
-                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
+                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)] ?? null;
             } else {
                 $post = $a_post[$element_id];
             }

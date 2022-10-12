@@ -37,12 +37,12 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($max !== null) {
             $number->setMaxValue($max);
 
-            $length = strlen($max);
+            $length = strlen((string) $max);
             $number->setSize($length);
             $number->setMaxLength($length);
         }
 
-        $number->setValue($this->getADT()->getNumber());
+        $number->setValue((string) $this->getADT()->getNumber());
 
         $this->addToParentElement($number);
     }
