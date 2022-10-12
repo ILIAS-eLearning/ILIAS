@@ -4414,7 +4414,7 @@ class ilObjSurvey extends ilObject
             " WHERE obj_id = " . $ilDB->quote($this->getSurveyId(), "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return (bool) $row["has_closed"];
+        return (bool) ($row["has_closed"] ?? false);
     }
 
     /**
