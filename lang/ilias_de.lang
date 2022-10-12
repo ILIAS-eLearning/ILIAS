@@ -905,6 +905,7 @@ assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpassw
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
+assessment#:#mailnottype_desc#:#Aktivieren Sie diese Checkbox, um auch dann benachrichtigt zu werden, wenn die Anzahl an Testdurchläufen nicht von Ihnen begrenzt wurde.
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
