@@ -15738,6 +15738,7 @@ survey#:#survey_edit_heading#:#Überschrift bearbeiten
 survey#:#survey_edit_settings#:#Einstellungen bearbeiten
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
+survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden >>
