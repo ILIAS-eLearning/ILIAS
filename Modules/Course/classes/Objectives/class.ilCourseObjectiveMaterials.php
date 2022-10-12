@@ -242,8 +242,10 @@ class ilCourseObjectiveMaterials
         if (!$a_get_id) {
             return (bool) $res->numRows();
         } else {
-            $row = $this->db->fetchAssoc($res);
-            return (int) $row["lm_ass_id"];
+            while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                return (int) $row['lm_ass_id'];
+            }
+            return 0;
         }
     }
 
