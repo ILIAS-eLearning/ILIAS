@@ -372,7 +372,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                         foreach ($working_data as $value) {
                             if (strlen($value["value"])) {
                                 if ($value["value"] == $cat->scale - 1) {
-                                    if (!$value['uncheck']) {
+                                    if (!($value['uncheck'] ?? false)) {
                                         $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                     }
                                 }
