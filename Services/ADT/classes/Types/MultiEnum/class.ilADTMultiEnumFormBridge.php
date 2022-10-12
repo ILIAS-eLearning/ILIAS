@@ -34,7 +34,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         $cbox = new ilCheckboxGroupInputGUI($this->getTitle(), $this->getElementId());
 
         foreach ($options as $value => $caption) {
-            $option = new ilCheckboxOption($caption, $value);
+            $option = new ilCheckboxOption($caption, (string) $value);
             if (is_array($this->option_infos) && array_key_exists($value, $this->option_infos)) {
                 $option->setInfo($this->option_infos[$value]);
             }
