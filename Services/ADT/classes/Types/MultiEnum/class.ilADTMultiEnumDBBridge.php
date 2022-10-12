@@ -32,7 +32,7 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
     public function readRecord(array $a_row): void
     {
         if (isset($a_row[$this->getElementId()])) {
-            $this->getADT()->addSelection($a_row[$this->getElementId()]);
+            $this->getADT()->addSelection((int) $a_row[$this->getElementId()]);
         }
     }
 
