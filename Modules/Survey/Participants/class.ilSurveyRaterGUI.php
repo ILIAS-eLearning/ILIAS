@@ -227,7 +227,6 @@ class ilSurveyRaterGUI
         $ilUser = $this->user;
 
         $appr_id = $this->parent->handleRatersAccess();
-
         $user = $form->getInput("user");
         $user_id = ilObjUser::_lookupId($user);
         if ($user_id > 0) {
@@ -239,8 +238,15 @@ class ilSurveyRaterGUI
                     $this->main_tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
                 } else {
                     $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("svy_appraisses_cannot_be_raters"), true);
+                    $user_id = 0;
                 }
             }
+        } else {
+            $this->main_tpl->setOnScreenMessage(
+                'failure',
+                $this->lng->txt("svy_user_not_found") . " (" . $user . ")",
+                true
+            );
         }
 
         $this->ctrl->setParameter($this->parent, "appr_id", $appr_id);

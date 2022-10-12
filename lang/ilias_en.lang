@@ -16021,6 +16021,7 @@ svy#:#svy_user_added_360_appraisee_mail#:#You have been added to the survey as a
 svy#:#svy_user_added_360_rater#:#360° Survey '%1'
 svy#:#svy_user_added_360_rater_mail#:#You have been added as a rater to the survey.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
+svy#:#svy_user_not_found#:#User not found.
 svy#:#svy_users_invited#:#Users have been invited.
 sysc#:#sysc_action_list_tree#:#Create Repository Tree Dump
 sysc#:#sysc_action_repair#:#Repair
