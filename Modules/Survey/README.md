@@ -291,6 +291,9 @@ If the constraint is met, show the question.
 ### Business Rules
 
 * **Suspend Behaviour**: Clicking suspend will leave the survey without saving the inputs of the current page. Resume will present the page left with empty input. JF decision: https://mantis.ilias.de/view.php?id=30766
+* **Final Page**
+  * The final page will contain a button named "Back to Repository", see https://mantis.ilias.de/view.php?id=14292
+  * The button on the final survey page will lead to the container of the survey. Exception are 360° surveys, they will return to the info page, see https://mantis.ilias.de/view.php?id=14971
 
 
 ## Answer

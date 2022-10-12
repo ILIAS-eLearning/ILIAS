@@ -15753,6 +15753,7 @@ survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_edit_settings#:#Edit Settings
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
 survey#:#survey_execution_exit#:#Back to repository
+survey#:#survey_execution_exit_360#:#Back
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#Finish Survey

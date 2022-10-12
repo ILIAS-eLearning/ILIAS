@@ -630,7 +630,11 @@ class ilSurveyExecutionGUI
             }
 
             $button = ilLinkButton::getInstance();
-            $button->setCaption("survey_execution_exit");
+            if ($this->object->getMode() === ilObjSurvey::MODE_360) {
+                $button->setCaption("survey_execution_exit_360");
+            } else {
+                $button->setCaption("survey_execution_exit");
+            }
             $button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));
             $ilToolbar->addButtonInstance($button);
 
@@ -647,7 +651,7 @@ class ilSurveyExecutionGUI
         $tree = $this->tree;
 
         // #14971
-        if ($this->feature_config->usesAppraisees()) {
+        if ($this->object->getMode() === ilObjSurvey::MODE_360) {
             $target_ref_id = $this->object->getRefId();
         } else {
             // #11534
