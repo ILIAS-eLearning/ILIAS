@@ -3059,8 +3059,8 @@ s     */
 
             // @todo 1: hook
             // do not delete question nodes in assessment pages
-            if (!$this->checkForTag("Question", $a_hid[0], (string) $a_hid[1]) || $a_self_ass) {
-                $curr_node = $this->getContentNode((string) $a_hid[0], (string) $a_hid[1]);
+            if (!$this->checkForTag("Question", $a_hid[0], (string) ($a_hid[1] ?? "")) || $a_self_ass) {
+                $curr_node = $this->getContentNode((string) $a_hid[0], (string) ($a_hid[1] ?? ""));
                 if (is_object($curr_node)) {
                     $parent_node = $curr_node->parent_node();
                     if ($parent_node->node_name() != "TableRow") {
