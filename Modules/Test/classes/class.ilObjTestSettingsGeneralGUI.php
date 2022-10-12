@@ -1548,6 +1548,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $mailnottype = new ilCheckboxInputGUI('', "mailnottype");
         $mailnottype->setValue(1);
         $mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
+        $mailnottype->setInfo($this->lng->txt("mailnottype_desc"));
         $mailnottype->setChecked($this->testOBJ->getMailNotificationType());
         $mailnotification->addSubItem($mailnottype);
     }
