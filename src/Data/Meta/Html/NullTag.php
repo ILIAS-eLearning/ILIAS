@@ -36,5 +36,6 @@ class NullTag extends Tag
 
     public function getTags(): Generator
     {
+        yield from [];
     }
 }
