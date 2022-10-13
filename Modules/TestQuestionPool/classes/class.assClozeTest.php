@@ -1980,9 +1980,15 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
     public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
     {
+        $participant_session = $previewSession->getParticipantsSolution();
+
+        if (!is_array($participant_session)) {
+            return 0;
+        }
+
         $userSolution = array();
 
-        foreach ($previewSession->getParticipantsSolution() as $key => $val) {
+        foreach ($participant_session as $key => $val) {
             $userSolution[$key] = array('gap_id' => $key, 'value' => $val);
         }
 
