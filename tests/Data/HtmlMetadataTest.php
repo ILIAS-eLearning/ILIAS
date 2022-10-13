@@ -106,9 +106,16 @@ class HtmlMetadataTest extends TestCase
 
     public function getMockedTag(string $html): Tag
     {
-        $tag_mock = $this->createMock(Tag::class);
-        $tag_mock->method('toHtml')->willReturn($html);
+        return new class ($html) extends Tag {
+            public function __construct(
+                protected string $html
+            ) {
+            }
 
-        return $tag_mock;
+            public function toHtml(): string
+            {
+                return $this->html;
+            }
+        };
     }
 }

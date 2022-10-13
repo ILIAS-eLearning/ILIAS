@@ -56,7 +56,9 @@ class TagCollection extends Tag
     public function getTags(): Generator
     {
         foreach ($this->tags as $tag) {
-            yield from $tag->getTags();
+            foreach ($tag->getTags() as $t) {
+                yield $t;
+            }
         }
     }
 }
