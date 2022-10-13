@@ -1876,14 +1876,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return array($points, $gap_used_in_combination);
     }
     /**
-     * @param $user_result
-     * @param $detailed
-     * @return array
+     * @param array $user_result
+     * @param array $detailed
      */
-    protected function calculateReachedPointsForSolution($user_result, &$detailed = null)
+    protected function calculateReachedPointsForSolution($user_result, &$detailed = null): int
     {
         if ($detailed === null) {
-            $detailed = array();
+            $detailed = [];
         }
 
         $points = 0;
@@ -1895,9 +1894,9 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             $points = $combinations[0];
         }
         $counter = 0;
-        $solution_values_text = array(); // for identical scoring checks
-        $solution_values_select = array(); // for identical scoring checks
-        $solution_values_numeric = array(); // for identical scoring checks
+        $solution_values_text = []; // for identical scoring checks
+        $solution_values_select = []; // for identical scoring checks
+        $solution_values_numeric = []; // for identical scoring checks
         foreach ($user_result as $gap_id => $value) {
             if (is_string($value)) {
                 $value = array("value" => $value);
@@ -1978,24 +1977,24 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
     {
-        $participant_session = $previewSession->getParticipantsSolution();
+        $participant_session = $preview_session->getParticipantsSolution();
 
         if (!is_array($participant_session)) {
             return 0;
         }
 
-        $userSolution = array();
+        $user_solution = [];
 
         foreach ($participant_session as $key => $val) {
-            $userSolution[$key] = array('gap_id' => $key, 'value' => $val);
+            $user_solution[$key] = array('gap_id' => $key, 'value' => $val);
         }
 
-        $reachedPoints = $this->calculateReachedPointsForSolution($userSolution);
-        $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
+        $reached_points = $this->calculateReachedPointsForSolution($user_solution);
+        $reached_points = $this->deductHintPointsFromReachedPoints($preview_session, $reached_points);
 
-        return $this->ensureNonNegativePoints($reachedPoints);
+        return $this->ensureNonNegativePoints($reached_points);
     }
 
     public function fetchAnswerValueForGap($userSolution, $gapIndex): string
