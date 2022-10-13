@@ -27,6 +27,7 @@ use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ilLanguage;
+use ILIAS\UI\Component\Input\Field\ColorPicker;
 
 /**
  * Class Factory
@@ -209,5 +210,14 @@ class Factory implements Field\Factory
     public function hidden(): Field\Hidden
     {
         return new Hidden($this->data_factory, $this->refinery);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function colorpicker(string $label, string $byline = null): ColorPicker
+    {
+        // TODO: Implement colorpicker() method.
+        throw new \ILIAS\UI\NotImplementedException();
     }
 }
