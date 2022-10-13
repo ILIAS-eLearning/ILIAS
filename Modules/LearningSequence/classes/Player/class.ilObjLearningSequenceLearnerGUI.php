@@ -125,48 +125,48 @@ class ilObjLearningSequenceLearnerGUI
         if (!$is_member) {
             $may_subscribe = $this->userMayJoin();
             if ($may_subscribe) {
-                $this->toolbar->addButton(
-                    $this->lng->txt("lso_player_start"),
-                    $this->ctrl->getLinkTarget($this, self::CMD_START)
-                );
+                $sub_button = ilLinkButton::getInstance();
+                $sub_button->setPrimary(true);
+                $sub_button->setCaption("lso_player_start");
+                $sub_button->setUrl($this->ctrl->getLinkTarget($this,self::CMD_START));
+                $this->toolbar->addButtonInstance($sub_button);
             }
         } else {
             if (!$completed) {
-                $label = "lso_player_resume";
+                $res_button = ilLinkButton::getInstance();
+                $res_button->setPrimary(true);
+                $res_button->setCaption("lso_player_resume");
                 if ($this->first_access === -1) {
-                    $label = "lso_player_start";
+                    $res_button->setCaption("lso_player_start");
                 }
-
-                $this->toolbar->addButton(
-                    $this->lng->txt($label),
-                    $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                );
+                $res_button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_VIEW));
+                $this->toolbar->addButtonInstance($res_button);
             } else {
-                $this->toolbar->addButton(
-                    $this->lng->txt("lso_player_review"),
-                    $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                );
+                $review_button = ilLinkButton::getInstance();
+                $review_button->setCaption("lso_player_review");
+                $review_button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_VIEW));
+                $this->toolbar->addButtonInstance($review_button);
 
                 if ($cmd === self::CMD_STANDARD) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_extro"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_EXTRO)
-                    );
+                    $button = ilLinkButton::getInstance();
+                    $button->setCaption("lso_player_extro");
+                    $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_EXTRO));
+                    $this->toolbar->addButtonInstance($button);
                 }
                 if ($cmd === self::CMD_EXTRO) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_abstract"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_STANDARD)
-                    );
+                    $button = ilLinkButton::getInstance();
+                    $button->setCaption("lso_player_abstract");
+                    $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_STANDARD));
+                    $this->toolbar->addButtonInstance($button);
                 }
             }
 
             $may_unsubscribe = $this->userMayUnparticipate();
             if ($may_unsubscribe) {
-                $this->toolbar->addButton(
-                    $this->lng->txt("unparticipate"),
-                    $this->ctrl->getLinkTarget($this, self::CMD_UNSUBSCRIBE)
-                );
+                $unsub_button = ilLinkButton::getInstance();
+                $unsub_button->setCaption("unparticipate");
+                $unsub_button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_UNSUBSCRIBE));
+                $this->toolbar->addButtonInstance($unsub_button);
             }
         }
     }
