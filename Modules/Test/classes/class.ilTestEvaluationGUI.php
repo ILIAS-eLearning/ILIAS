@@ -202,8 +202,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_STATISTICS);
 
-        include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-
         $table_gui = new ilEvaluationAllTableGUI(
             $this,
             'outEvaluation',
@@ -211,8 +209,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->object->isOfferingQuestionHintsEnabled()
         );
 
-        $data = array();
-        $arrFilter = array();
+        $data = [];
+        $filter_array = [];
 
         foreach ($table_gui->getFilterItems() as $item) {
             if (!in_array($item->getValue(), [false, ''])) {
@@ -220,7 +218,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     case 'group':
                     case 'name':
                     case 'course':
-                        $arrFilter[$item->getPostVar()] = $item->getValue();
+                        $filter_array[$item->getPostVar()] = $item->getValue();
                         break;
                     case 'passed_only':
                         $passedonly = $item->getChecked();
@@ -228,13 +226,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 }
             }
         }
-        include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
-        $eval = new ilTestEvaluationData($this->object);
-        $eval->setFilterArray($arrFilter);
-        $foundParticipants = $eval->getParticipants();
 
-        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-        require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
+        $eval = new ilTestEvaluationData($this->object);
+        $eval->setFilterArray($filter_array);
+        $foundParticipants = $eval->getParticipants();
 
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
         $participantData->setActiveIdsFilter($eval->getParticipantIds());
