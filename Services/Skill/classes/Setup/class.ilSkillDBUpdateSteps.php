@@ -77,86 +77,12 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_4(): void
     {
-        include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-
-        $skill_tree_type_id = ilDBUpdateNewObjectType::getObjectTypeId('skee');
-
-        if (!$skill_tree_type_id) {
-            // add basic object type
-            $skill_tree_type_id = ilDBUpdateNewObjectType::addNewType('skee', 'Skill Tree');
-
-            $opsId = [];
-            $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-                'read_comp',
-                'Read Competences',
-                'object',
-                6500
-            );
-
-            $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-                'read_profiles',
-                'Read Competence Profiles',
-                'object',
-                6510
-            );
-
-            $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-                'manage_comp',
-                'Manage Competences',
-                'object',
-                8500
-            );
-
-            $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-                'manage_comp_temp',
-                'Manage Competence Templates',
-                'object',
-                8510
-            );
-
-            $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-                'manage_profiles',
-                'Manage Competence Profiles',
-                'object',
-                8520
-            );
-
-            // common rbac operations
-            $rbacOperations = array(
-                ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
-                ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
-                ilDBUpdateNewObjectType::RBAC_OP_READ,
-                ilDBUpdateNewObjectType::RBAC_OP_WRITE,
-                ilDBUpdateNewObjectType::RBAC_OP_DELETE,
-                ilDBUpdateNewObjectType::RBAC_OP_COPY
-            );
-
-            ilDBUpdateNewObjectType::addRBACOperations($skill_tree_type_id, $rbacOperations);
-
-            // add create operation for relevant container types
-
-            $parentTypes = array('skmg');
-            ilDBUpdateNewObjectType::addRBACCreate('create_skee', 'Create Skill Tree', $parentTypes);
-
-            //ilDBUpdateNewObjectType::applyInitialPermissionGuideline('skee', false);
-        }
+        // moved to ilSkillSetupAgent using Objectives
     }
 
     public function step_5(): void
     {
-        include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
-        $skill_tree_type_id = ilDBUpdateNewObjectType::getObjectTypeId('skee');
-        $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_comp');
-        ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
-        $skill_tree_type_id = ilDBUpdateNewObjectType::getObjectTypeId('skee');
-        $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_profiles');
-        ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
-        $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_comp');
-        ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
-        $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_comp_temp');
-        ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
-        $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_profiles');
-        ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
+        // moved to ilSkillSetupAgent using Objectives
     }
 
     public function step_6(): void

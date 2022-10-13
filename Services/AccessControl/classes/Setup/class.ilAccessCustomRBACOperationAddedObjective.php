@@ -27,7 +27,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
 
     public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->id);
     }
 
     public function getLabel(): string

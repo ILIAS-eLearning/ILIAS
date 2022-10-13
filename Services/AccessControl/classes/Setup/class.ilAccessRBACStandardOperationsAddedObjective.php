@@ -7,7 +7,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 
-class ilAccessRbacOperationsAddedObjective implements Setup\Objective
+class ilAccessRbacStandardOperationsAddedObjective implements Setup\Objective
 {
     protected const RBAC_OP_EDIT_PERMISSIONS = 1;
     protected const RBAC_OP_VISIBLE = 2;
@@ -25,24 +25,22 @@ class ilAccessRbacOperationsAddedObjective implements Setup\Objective
         self::RBAC_OP_COPY
     ];
 
-    protected int $type_id;
-    protected array $operations;
+    protected string $type;
 
-    public function __construct(int $type_id, array $operations = [])
+    public function __construct(string $type)
     {
-        $this->type_id = $type_id;
-        $this->operations = $operations;
+        $this->type = $type;
     }
 
     public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->type);
     }
 
     public function getLabel(): string
     {
-        $operations = implode(",", $this->operations);
-        return "Add rbac operations (type id=$this->type_id;operations=$operations)";
+        $operations = implode(",", $this->valid_operations);
+        return "Add standard rbac operations (type=$this->type;operations=$operations)";
     }
 
     public function isNotable(): bool
@@ -60,22 +58,19 @@ class ilAccessRbacOperationsAddedObjective implements Setup\Objective
     public function achieve(Environment $environment): Environment
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $type_id = ilObject::_getObjectTypeIdByTitle($this->type);
 
-        foreach ($this->operations as $ops_id) {
-            if (!$this->isValidRbacOperation($ops_id)) {
-                continue;
-            }
-
+        foreach ($this->valid_operations as $ops_id) {
             if ($ops_id == self::RBAC_OP_COPY) {
                 $ops_id = ilRbacReview::_getCustomRBACOperationId("copy");
             }
 
-            if (ilRbacReview::_isRBACOperation($this->type_id, $ops_id)) {
+            if (ilRbacReview::_isRBACOperation($type_id, $ops_id)) {
                 continue;
             }
 
             $values = [
-                "typ_id" => ["integer", $this->type_id],
+                "typ_id" => ["integer", $type_id],
                 "ops_id" => ["integer", $ops_id]
             ];
 
@@ -87,11 +82,18 @@ class ilAccessRbacOperationsAddedObjective implements Setup\Objective
 
     public function isApplicable(Environment $environment): bool
     {
-        return true;
-    }
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        $type_id = ilObject::_getObjectTypeIdByTitle($this->type, $db);
 
-    protected function isValidRbacOperation(int $ops_id): bool
-    {
-        return in_array($ops_id, $this->valid_operations);
+        foreach ($this->valid_operations as $ops_id) {
+            if ($ops_id == self::RBAC_OP_COPY) {
+                $ops_id = ilRbacReview::_getCustomRBACOperationId("copy", $db);
+            }
+
+            if (!ilRbacReview::_isRBACOperation($type_id, $ops_id, $db)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
