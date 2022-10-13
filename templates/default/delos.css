@@ -13881,6 +13881,9 @@ li.ilPostingNeedsActivation {
 .ilForumNotificationSettingsForm {
   white-space: normal;
 }
+.ilForumDraftHistoryEntry {
+  padding: 5px;
+}
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
