@@ -160,7 +160,6 @@ class ilSession
             if (class_exists("ilContext") && ilContext::isSessionMainContext()) {
                 $fields["context"] = array("text", ilContext::getType());
             }
-
             $ilDB->update(
                 "usr_session",
                 $fields,

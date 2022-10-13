@@ -1605,10 +1605,11 @@ class ilSurveyParticipantsGUI
             $this,
             'editRaters',
             [
-                'recipients' => base64_encode(json_encode($rec, JSON_THROW_ON_ERROR))
+                'recipients' => base64_encode(json_encode($rec, JSON_THROW_ON_ERROR)),
             ],
             [
-                'type' => 'new'
+                'type' => 'new',
+                'sig' => rawurlencode(base64_encode("\n\n" . $this->lng->txt("svy_link_to_svy") . ": [SURVEY_LINK]"))
             ],
             $contextParameters
         ));
