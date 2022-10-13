@@ -1070,7 +1070,11 @@ class ilCalendarAppointmentGUI
 
     protected function loadRecurrenceSettings(ilPropertyFormGUI $form, bool $a_as_milestone = false): void
     {
-        $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+        if ($form->getItemByPostVar('frequence') instanceof ilRecurrenceInputGUI) {
+            $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
+        } else {
+            $this->rec = new ilCalendarRecurrence();
+        }
     }
 
     protected function saveRecurrenceSettings(): void
