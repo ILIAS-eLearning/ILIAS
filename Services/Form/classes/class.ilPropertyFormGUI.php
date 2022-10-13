@@ -768,7 +768,7 @@ class ilPropertyFormGUI extends ilFormGUI
                             "il.Form.hideSubForm('subform_$dsfid');"
                         );
                     }
-                    $this->addOnloadCode("il.Form.hideSubForm('subform_$dsfid');");
+                    $this->addAsyncOnloadCode("il.Form.hideSubForm('subform_$dsfid');");
                 }
             }
 
@@ -795,7 +795,7 @@ class ilPropertyFormGUI extends ilFormGUI
         $this->tpl->touchBlock("item");
     }
 
-    public function addOnloadCode(string $code): void
+    public function addAsyncOnloadCode(string $code): void
     {
         $this->onload_code[] = $code;
     }
