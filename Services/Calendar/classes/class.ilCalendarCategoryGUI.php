@@ -364,7 +364,7 @@ class ilCalendarCategoryGUI
     protected function delete(): void
     {
         $category_ids = [];
-        if (!$this->http->wrapper()->post()->has('category_id')) {
+        if ($this->http->wrapper()->post()->has('category_id')) {
             $category_ids = $this->http->wrapper()->post()->retrieve(
                 'category_id',
                 $this->refinery->kindlyTo()->dictOf(
@@ -375,7 +375,7 @@ class ilCalendarCategoryGUI
 
         if (!count($category_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
-            $this->manage();
+            $this->ctrl->redirect($this, 'manage');
         }
 
         foreach ($category_ids as $cat_id) {
