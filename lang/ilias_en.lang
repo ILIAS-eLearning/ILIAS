@@ -892,7 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test pa
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
-assessment#:#mailnottype_desc#:#Select this checkbox to be notified, even if the number of test runs has not been limited by you.
+assessment#:#mailnottype_desc#:#Notify the owner of the test <strong>even if</strong> the number of test attempts has not been limited.
 assessment#:#maintenance#:#Maintenance
 assessment#:#manscoring#:#Manual Scoring
 assessment#:#manscoring_done#:#Scored Participants
