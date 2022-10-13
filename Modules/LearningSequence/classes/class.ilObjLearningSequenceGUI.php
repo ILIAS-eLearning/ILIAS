@@ -85,6 +85,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
     public const CMD_SHOW_TRASH = 'trash';
     public const CMD_UNDELETE = 'undelete';
+    public const CMD_REDRAW_HEADER = 'redrawHeaderAction';
 
     public const TAB_VIEW_CONTENT = "view";
     public const TAB_MANAGE = "manage";
@@ -418,6 +419,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                     case self::CMD_CANCEL_LINK:
                         $cmd = self::CMD_CONTENT;
                         $this->$cmd();
+                        break;
+
+                    case self::CMD_REDRAW_HEADER:
+                        $this->redrawHeaderActionObject();
                         break;
 
                     default:
