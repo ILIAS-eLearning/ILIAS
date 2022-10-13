@@ -495,7 +495,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 //If the status completed is set by crs reference
                 //use crs title
                 if ($rec["completion_by_type"] === "crsr") {
-                    $completion_id = $rec["completion_by_id"];
+                    $completion_id = (int)$rec["completion_by_id"];
                     $obj_id = ilContainerReference::_lookupTargetId($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
                     $rec["completion_by"] = $this->getCompletionLink($obj_id, $ref_id);
@@ -507,7 +507,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 if (!$rec["completion_by"]) {
                     $prgrs = $this->sp_user_progress_db->getByPrgIdAndAssignmentId(
                         $this->prg_obj_id,
-                        $rec["assignment_id"]
+                        (int) $rec["assignment_id"]
                     );
                     $prg = ilObjStudyProgramme::getInstanceByObjId($this->prg_obj_id);
 

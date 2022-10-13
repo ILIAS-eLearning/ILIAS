@@ -749,19 +749,19 @@ class ilObjStudyProgramme extends ilContainer
 
         $completed_crss = array();
         foreach ($crsrs as $ref) {
-            if (ilObject::_exists($ref['ref_id'], true) &&
-                is_null(ilObject::_lookupDeletedDate($ref['ref_id']))
+            if (ilObject::_exists((int) $ref['ref_id'], true) &&
+                is_null(ilObject::_lookupDeletedDate((int) $ref['ref_id']))
             ) {
-                $crs_id = ilContainerReference::_lookupTargetId($ref["obj_id"]);
+                $crs_id = (int) ilContainerReference::_lookupTargetId((int) $ref["obj_id"]);
                 if (ilLPStatus::_hasUserCompleted($crs_id, $a_user_id)) {
-                    $containing_prg = self::getInstanceByRefId($ref["parent"]);
+                    $containing_prg = self::getInstanceByRefId((int) $ref["parent"]);
                     if ($containing_prg->isActive()) {
                         $completed_crss[] = [
                             "crs_id" => $crs_id
-                            , "prg_ref_id" => $ref["parent"]
-                            , "crsr_ref_id" => $ref["child"]
-                            , "crsr_id" => $ref["obj_id"]
-                            , "title" => ilContainerReference::_lookupTitle($ref["obj_id"])
+                            , "prg_ref_id" => (int) $ref["parent"]
+                            , "crsr_ref_id" => (int) $ref["child"]
+                            , "crsr_id" => (int) $ref["obj_id"]
+                            , "title" => ilContainerReference::_lookupTitle((int) $ref["obj_id"])
                         ];
                     }
                 }
