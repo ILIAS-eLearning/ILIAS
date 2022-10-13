@@ -5151,7 +5151,6 @@ class ilObjSurvey extends ilObject
         global $DIC;
 
         $access = $DIC->access();
-
         // collect all open ratings
         $rater_ids = array();
         foreach ($this->getAppraiseesData() as $app) {
@@ -5167,10 +5166,10 @@ class ilObjSurvey extends ilObject
                     // did user already finished self evaluation?
                     if (!$this->is360SurveyStarted((int) $app['user_id'], (int) $app['user_id'])) {
                         $this->svy_log->debug("...2");
-                        if (!is_array($rater_ids[$app['user_id']])) {
+                        if (!isset($rater_ids[$app['user_id']])) {
                             $rater_ids[$app['user_id']] = array();
                         }
-                        if (!in_array($app["user_id"], $rater_ids[$app['user_id']])) {
+                        if (!isset($app["user_id"], $rater_ids[$app['user_id']])) {
                             $rater_ids[$app['user_id']][] = $app["user_id"];
                         }
                     }
@@ -5187,13 +5186,19 @@ class ilObjSurvey extends ilObject
                     )
                 ) {
                     foreach ($this->getRatersData($app['user_id']) as $rater) {
-                        // is rater not anonymous and did not rate yet?
-                        if (!$rater["anonymous_id"] && !$rater["finished"]) {
-                            if (!is_array($rater_ids[$rater["user_id"]])) {
-                                $rater_ids[$rater["user_id"]] = array();
-                            }
-                            if (!in_array($app["user_id"], $rater_ids[$rater["user_id"]])) {
-                                $rater_ids[$rater["user_id"]][] = $app["user_id"];
+                        $rater_id = 0;
+                        if ($rater["login"] !== "") {
+                            $rater_id = ilObjUser::_lookupId($rater["login"]);
+                        }
+                        if ($rater_id > 0) {
+                            // is rater not anonymous and did not rate yet?
+                            if (!($rater["anonymous_id"] ?? false) && !($rater["finished"] ?? false)) {
+                                if (!isset($rater_ids[$rater_id])) {
+                                    $rater_ids[$rater_id] = array();
+                                }
+                                if (!in_array($app["user_id"], $rater_ids[$rater_id])) {
+                                    $rater_ids[$rater_id][] = $app["user_id"];
+                                }
                             }
                         }
                     }
@@ -5204,8 +5209,8 @@ class ilObjSurvey extends ilObject
         $this->svy_log->debug("Found raters:" . count($rater_ids));
 
         foreach ($rater_ids as $id => $app) {
-            if ($access->checkAccessOfUser($id, "read", "", $this->getRefId())) {
-                $this->send360ReminderToUser($id, $app);
+            if ($access->checkAccessOfUser((int) $id, "read", "", $this->getRefId())) {
+                $this->send360ReminderToUser((int) $id, $app);
             }
         }
     }
@@ -5359,7 +5364,6 @@ class ilObjSurvey extends ilObject
         if (!$this->getReminderLastSent() ||
             $cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10)) {
             $missing_ids = array();
-
             if (!$this->feature_config->usesAppraisees()) {
                 $this->svy_log->debug("Entering survey mode.");
 
