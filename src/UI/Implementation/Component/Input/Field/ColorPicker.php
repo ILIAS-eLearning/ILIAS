@@ -20,28 +20,28 @@ class ColorPicker extends Input implements \ILIAS\UI\Component\Input\Field\Color
      * - on every input change.
      * It must pass a readable string representation of its value in parameter 'string_value'.
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         // TODO: Implement getUpdateOnLoadCode() method.
         throw new \ILIAS\UI\NotImplementedException();
     }
-    
+
     /**
      * This may return a constraint that will be checked first if the field is
      * required.
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         // TODO: Implement getConstraintForRequirement() method.
         throw new \ILIAS\UI\NotImplementedException();
     }
-    
+
     /**
      * Check if the value is good to be displayed client side.
      *
      * @param mixed $value
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         // TODO: Implement isClientSideValueOk() method.
         throw new \ILIAS\UI\NotImplementedException();
