@@ -104,7 +104,8 @@ class ilLSLaunchlinksBuilder
         if (!$this->isMember() && $this->mayJoin()) {
             $links[] = [
                 $this->lng->txt("lso_player_start"),
-                $this->getLink(self::CMD_START)
+                $this->getLink(self::CMD_START),
+                true
             ];
             return $links;
         }
@@ -116,24 +117,28 @@ class ilLSLaunchlinksBuilder
             }
             $links[] = [
                 $this->lng->txt($label),
-                $this->getLink(self::CMD_VIEW)
+                $this->getLink(self::CMD_VIEW),
+                true
             ];
         } else {
             $links[] = [
                 $this->lng->txt("lso_player_review"),
-                $this->getLink(self::CMD_VIEW)
+                $this->getLink(self::CMD_VIEW),
+                true
             ];
 
             if ($cmd === self::CMD_STANDARD) {
                 $links[] = [
                     $this->lng->txt("lso_player_extro"),
-                    $this->getLink(self::CMD_EXTRO)
+                    $this->getLink(self::CMD_EXTRO),
+                    false
                 ];
             }
             if ($cmd === self::CMD_EXTRO) {
                 $links[] = [
                     $this->lng->txt("lso_player_abstract"),
-                    $this->getLink(self::CMD_STANDARD)
+                    $this->getLink(self::CMD_STANDARD),
+                    false
                 ];
             }
         }
@@ -141,7 +146,8 @@ class ilLSLaunchlinksBuilder
         if ($this->mayUnparticipate()) {
             $links[] = [
                 $this->lng->txt("unparticipate"),
-                $this->getLink(self::CMD_UNSUBSCRIBE)
+                $this->getLink(self::CMD_UNSUBSCRIBE),
+                false
             ];
         }
 
