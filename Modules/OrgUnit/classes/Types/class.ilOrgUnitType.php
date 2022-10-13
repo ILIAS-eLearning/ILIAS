@@ -36,7 +36,7 @@ class ilOrgUnitType
     protected ?string $icon = null;
     protected array $translations = array();
     protected array $amd_records_assigned;
-    protected static array $amd_records_available = [];
+    protected static ?array $amd_records_available = null;
     protected array $orgus = [];
     protected array $orgus_ids = [];
     protected ilDBInterface $db;
