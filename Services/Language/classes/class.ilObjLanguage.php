@@ -451,12 +451,6 @@ class ilObjLanguage extends ilObject
                 $dbAccess = new ilObjLanguageDBAccess($ilDB, $this->key, $content, $local_changes, $scope);
                 $lang_array = $dbAccess->insertLangEntries($lang_file);
                 $dbAccess->replaceLangModules($lang_array);
-
-                if (empty($scope)) {
-                    $this->status = "installed";
-                } elseif ($scope === "local") {
-                    $this->status = "installed_local";
-                }
             }
         }
     }
