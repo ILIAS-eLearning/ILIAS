@@ -1587,7 +1587,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             );
         }
 
-        $f = $this->form->getHTML();
+        $f = $this->form->getHTMLAsync();
 
         $tpl->setVariable("ITEM_SELECTION", $f);
 
