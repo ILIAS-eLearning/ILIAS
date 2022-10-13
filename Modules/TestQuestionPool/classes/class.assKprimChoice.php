@@ -679,7 +679,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         foreach ($this->getAnswers() as $index => $a) {
             if ($post->has("kprim_choice_result_$index")) {
                 $value = $post->retrieve(
-                    "multiple_choice_result_$index",
+                    "kprim_choice_result_$index",
                     $this->dic->refinery()->kindlyTo()->string()
                 );
                 if (is_numeric($value)) {
