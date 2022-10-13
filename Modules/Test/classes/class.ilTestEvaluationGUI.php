@@ -215,7 +215,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $arrFilter = array();
 
         foreach ($table_gui->getFilterItems() as $item) {
-            if ($item->getValue() !== false) {
+            if (!in_array($item->getValue(), [false, ''])) {
                 switch ($item->getPostVar()) {
                     case 'group':
                     case 'name':
