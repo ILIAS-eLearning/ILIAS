@@ -1499,7 +1499,7 @@ var ClozeGapCombinationBuilder = (function () {
 		ClozeSettings.gaps_combination.forEach(function (gaps) {
 			gaps[0].forEach(function (gap) {
 				ClozeSettings.unused_gaps_comb[gap] = true;
-				ClozeGapQuestionBuilder.showHidePointsFieldForGaps(gap, 'none');
+				ClozeQuestionGapBuilder.showHidePointsFieldForGaps(gap, 'none');
 			});
 		});
 	};
