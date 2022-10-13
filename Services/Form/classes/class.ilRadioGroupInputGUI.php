@@ -129,7 +129,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
                             "il.Form.hideSubForm('subform_$hop_id');"
                         );
                     }
-                    $this->getParentForm()->addOnloadCode(
+                    $this->getParentForm()->addAsyncOnloadCode(
                         "il.Form.hideSubForm('subform_$hop_id');"
                     );
                 }
