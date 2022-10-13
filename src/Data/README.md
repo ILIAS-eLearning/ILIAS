@@ -583,10 +583,10 @@ class ExpectsHtmlMetadata {
 }
 
 $class = new ExpectsHtmlMetadata(
-    $f->htmlMetadata()->collection(
+    $f->htmlMetadata()->collection([
         $f->htmlMetadata()->userDefined('description', 'Lorem ipsum dolor sit amet.'),
         $viewport_metadata
-    )
+    ])
 );
 
 itIsTrueThat(is_string($viewport_metadata->toHtml()));
