@@ -13862,6 +13862,9 @@ li.ilPostingNeedsActivation {
 .ilForumNotificationSettingsForm {
   white-space: normal;
 }
+.ilForumDraftHistoryEntry {
+  padding: 5px;
+}
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
@@ -18294,12 +18297,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   vertical-align: sub;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading a.glyph {
-  display: inline-block;
   vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-heading .minimize {
   margin-left: 5px;
-  display: inline-block;
   vertical-align: middle;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,
@@ -19983,4 +19984,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */

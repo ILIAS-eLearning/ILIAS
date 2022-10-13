@@ -5692,13 +5692,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     IL_CAL_DATETIME
                 ));
                 $this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
-                $header = $history_date . ' - ' . $history_instance->getPostSubject();
-                $accordion->addItem($header, $message . $this->uiRenderer->render(
-                    $this->uiFactory->button()->standard(
-                        $this->lng->txt('restore'),
-                        $this->ctrl->getLinkTarget($this, 'restoreFromHistory')
+                $header = $history_date;
+
+                $accordion_tpl = new ilTemplate(
+                    'tpl.restore_thread_draft_accordion_content.html',
+                    true,
+                    true,
+                    'Modules/Forum'
+                );
+                $accordion_tpl->setVariable('HEADER', $history_instance->getPostSubject());
+                $accordion_tpl->setVariable('MESSAGE', $message);
+                $accordion_tpl->setVariable(
+                    'BUTTON',
+                    $this->uiRenderer->render(
+                        $this->uiFactory->button()->standard(
+                            $this->lng->txt('restore'),
+                            $this->ctrl->getLinkTarget($this, 'restoreFromHistory')
+                        )
                     )
-                ));
+                );
+                $accordion->addItem($header, $accordion_tpl->get());
 
                 $form_tpl->setVariable('ACC_AUTO_SAVE', $accordion->getHTML());
                 $form_tpl->parseCurrentBlock();
