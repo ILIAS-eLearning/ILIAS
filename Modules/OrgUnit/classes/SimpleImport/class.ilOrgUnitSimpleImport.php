@@ -152,10 +152,10 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
     }
 
     /**
-     * @param int $ou_id this is only needed for displaying the warning.
-     * @param int $external_id this is only needed for displaying the warning.
+     * @param string $ou_id this is only needed for displaying the warning.
+     * @param string $external_id this is only needed for displaying the warning.
      */
-    protected function moveObject(int $ref_id, int $parent_ref_id, int $ou_id, int $external_id)
+    protected function moveObject(int $ref_id, int $parent_ref_id, string $ou_id, string $external_id)
     {
         global $DIC;
         $tree = $DIC['tree'];
