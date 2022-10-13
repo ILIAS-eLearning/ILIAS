@@ -135,10 +135,10 @@ class StandardGUIRequest
         return $this->int("dlid");
     }
 
-    /** @return int[] */
+    /** @return string[] */
     public function getRoleTemplateIds(): array
     {
-        return $this->intArray("role_template_ids");
+        return $this->strArray("role_template_ids");
     }
 
     /** @return string[] */
