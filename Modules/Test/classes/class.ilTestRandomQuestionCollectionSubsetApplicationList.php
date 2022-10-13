@@ -17,42 +17,29 @@
  *********************************************************************/
 
 /**
- * @author        Björn Heyser <bheyser@databay.de>
+ * @author         Björn Heyser <bheyser@databay.de>
  * @version        $Id$
  *
  * @package        Modules/Test
+ * @implements Iterator<int, ilTestRandomQuestionCollectionSubsetApplication>
  */
 class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
 {
-    /**
-     * @var ilTestRandomQuestionCollectionSubsetApplication[]
-     */
-    protected $collectionSubsetApplications = array();
+    /** @var array<int, ilTestRandomQuestionCollectionSubsetApplication> */
+    protected array $collectionSubsetApplications = [];
+    protected ilTestRandomQuestionSetQuestionCollection $reservedQuestionCollection;
 
-    /**
-     * @var ilTestRandomQuestionSetQuestionCollection
-     */
-    protected $reservedQuestionCollection;
-
-    /**
-     * ilTestRandomQuestionCollectionSubsetApplicantList constructor.
-     */
     public function __construct()
     {
         $this->setReservedQuestionCollection(new ilTestRandomQuestionSetQuestionCollection());
     }
 
     /**
-     * @param integer $applicantId
-     * @return ilTestRandomQuestionCollectionSubsetApplication
+     * @param int $applicantId
      */
     public function getCollectionSubsetApplication($applicantId): ?ilTestRandomQuestionCollectionSubsetApplication
     {
-        if (!isset($this->collectionSubsetApplications[$applicantId])) {
-            return null;
-        }
-
-        return $this->collectionSubsetApplications[$applicantId];
+        return $this->collectionSubsetApplications[$applicantId] ?? null;
     }
 
     /**
@@ -63,81 +50,67 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
         return $this->collectionSubsetApplications;
     }
 
-    public function addCollectionSubsetApplication(ilTestRandomQuestionCollectionSubsetApplication $collectionSubsetApplication)
-    {
+    public function addCollectionSubsetApplication(
+        ilTestRandomQuestionCollectionSubsetApplication $collectionSubsetApplication
+    ): void {
         $this->collectionSubsetApplications[$collectionSubsetApplication->getApplicantId()] = $collectionSubsetApplication;
     }
 
     /**
-     * @param ilTestRandomQuestionCollectionSubsetApplication[] $collectionSubsetApplications
+     * @param array<int, ilTestRandomQuestionCollectionSubsetApplication> $collectionSubsetApplications
      */
-    public function setCollectionSubsetApplications($collectionSubsetApplications)
+    public function setCollectionSubsetApplications(array $collectionSubsetApplications): void
     {
         $this->collectionSubsetApplications = $collectionSubsetApplications;
     }
 
-    /**
-     * resetter for collectionSubsetApplicants
-     */
-    public function resetCollectionSubsetApplicants()
+    public function resetCollectionSubsetApplicants(): void
     {
-        $this->setCollectionSubsetApplications(array());
+        $this->setCollectionSubsetApplications([]);
     }
 
-    /**
-     * @return ilTestRandomQuestionSetQuestionCollection
-     */
     public function getReservedQuestionCollection(): ilTestRandomQuestionSetQuestionCollection
     {
         return $this->reservedQuestionCollection;
     }
 
-    /**
-     * @param ilTestRandomQuestionSetQuestionCollection $reservedQuestionCollection
-     */
-    public function setReservedQuestionCollection($reservedQuestionCollection)
-    {
+    public function setReservedQuestionCollection(
+        ilTestRandomQuestionSetQuestionCollection $reservedQuestionCollection
+    ): void {
         $this->reservedQuestionCollection = $reservedQuestionCollection;
     }
 
-    /**
-     * @param ilTestRandomQuestionSetQuestion $question
-     */
-    public function addReservedQuestion(ilTestRandomQuestionSetQuestion $reservedQuestion)
+    public function addReservedQuestion(ilTestRandomQuestionSetQuestion $reservedQuestion): void
     {
         $this->getReservedQuestionCollection()->addQuestion($reservedQuestion);
     }
 
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
     public function current(): ilTestRandomQuestionCollectionSubsetApplication
     {
         return current($this->collectionSubsetApplications);
     }
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
-    public function next(): ilTestRandomQuestionCollectionSubsetApplication
+
+    public function next(): void
     {
-        return next($this->collectionSubsetApplications);
+        next($this->collectionSubsetApplications);
     }
-    /* @return string */
-    public function key(): string
+
+    public function key(): int
     {
         return key($this->collectionSubsetApplications);
     }
-    /* @return bool */
+
     public function valid(): bool
     {
         return key($this->collectionSubsetApplications) !== null;
     }
-    /* @return ilTestRandomQuestionCollectionSubsetApplication */
-    public function rewind(): ilTestRandomQuestionCollectionSubsetApplication
+
+    public function rewind(): void
     {
-        return reset($this->collectionSubsetApplications);
+        reset($this->collectionSubsetApplications);
     }
 
-    /**
-     * @param ilTestRandomQuestionSetQuestion $question
-     */
-    public function handleQuestionRequest(ilTestRandomQuestionSetQuestion $question)
+    public function handleQuestionRequest(ilTestRandomQuestionSetQuestion $question): void
     {
         $questionReservationRequired = false;
 
@@ -157,9 +130,6 @@ class ilTestRandomQuestionCollectionSubsetApplicationList implements Iterator
         }
     }
 
-    /**
-     * @return int
-     */
     public function getNonReservedQuestionAmount(): int
     {
         $availableQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
