@@ -73,14 +73,14 @@ class ilAccessRbacStandardOperationsAddedObjective implements Setup\Objective
     public function achieve(Environment $environment): Environment
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
-        $type_id = ilObject::_getObjectTypeIdByTitle($this->type);
+        $type_id = ilObject::_getObjectTypeIdByTitle($this->type, $db);
 
         foreach ($this->valid_operations as $ops_id) {
             if ($ops_id == self::RBAC_OP_COPY) {
-                $ops_id = ilRbacReview::_getCustomRBACOperationId("copy");
+                $ops_id = ilRbacReview::_getCustomRBACOperationId("copy", $db);
             }
 
-            if (ilRbacReview::_isRBACOperation($type_id, $ops_id)) {
+            if (ilRbacReview::_isRBACOperation($type_id, $ops_id, $db)) {
                 continue;
             }
 

@@ -73,7 +73,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
             $this->pos = 9999;
         }
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (is_null($ops_id)) {
             $ops_id = $db->nextId("rbac_operations");
 
@@ -89,7 +89,7 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
         }
 
         foreach ($this->types as $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (!$type_id) {
                 $type_id = $db->nextId('object_data');
 
@@ -135,13 +135,13 @@ class ilAccessCustomRBACOperationAddedObjective implements Setup\Objective
 
         $dic = $this->initEnvironment($environment);
 
-        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id);
+        $ops_id = ilRbacReview::_getCustomRBACOperationId($this->id, $db);
         if (!$ops_id) {
             return true;
         }
 
         foreach ($this->types as $key => $type) {
-            $type_id = ilObject::_getObjectTypeIdByTitle($type);
+            $type_id = ilObject::_getObjectTypeIdByTitle($type, $db);
             if (is_null($type_id)) {
                 return true;
             }
