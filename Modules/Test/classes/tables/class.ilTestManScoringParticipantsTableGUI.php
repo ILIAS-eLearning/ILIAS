@@ -73,7 +73,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
             $this->addColumn($lng->txt("login"), 'login', '');
         }
 
-        $this->addColumn('', '', '1%');
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
 
     private function initOrdering(): void
