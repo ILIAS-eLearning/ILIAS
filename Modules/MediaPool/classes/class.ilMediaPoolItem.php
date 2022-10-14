@@ -177,12 +177,12 @@ class ilMediaPoolItem
 
     public static function lookupType(int $a_id): string
     {
-        return self::lookup($a_id, "type");
+        return (string) self::lookup($a_id, "type");
     }
 
     public static function lookupTitle(int $a_id): string
     {
-        return self::lookup($a_id, "title");
+        return (string) self::lookup($a_id, "title");
     }
 
     // synch media item title for media objects
