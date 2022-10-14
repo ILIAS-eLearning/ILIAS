@@ -332,6 +332,8 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        $tpl->setVariable('ID_HEADLINE', $id."_headline");
+        $tpl->setVariable('ID_DESCRIPTION', $id."_description");
 
         return $tpl->get();
     }
