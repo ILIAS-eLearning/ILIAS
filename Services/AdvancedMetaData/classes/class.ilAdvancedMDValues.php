@@ -497,8 +497,8 @@ class ilAdvancedMDValues
                 // filter against amet values
                 if ($a_amet_filter) {
                     foreach ($a_amet_filter as $field_id => $element) {
-                        if ($adt_group->hasElement($field_id)) {
-                            if (!$element->isInCondition($adt_group->getElement($field_id))) {
+                        if ($adt_group->hasElement((string) $field_id)) {
+                            if (!$element->isInCondition($adt_group->getElement((string) $field_id))) {
                                 continue;
                             }
                         }

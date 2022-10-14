@@ -48,6 +48,9 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
     {
         $value = $this->readFilter();
         if ($value !== null) {
+            if (is_string($value)) {
+                $value = [$value];
+            }
             $this->getADT()->setSelections($value);
         }
     }
