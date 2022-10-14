@@ -28,9 +28,6 @@ class ilSkillSetupAgent extends Setup\Agent\NullAgent
         return new Setup\ObjectiveCollection(
             "Updates of Services/Skill",
             false,
-            new ilDatabaseUpdateStepsExecutedObjective(
-                new ilSkillDBUpdateSteps()
-            ),
             ...$this->getRbacObjectives()
         );
     }
@@ -44,8 +41,8 @@ class ilSkillSetupAgent extends Setup\Agent\NullAgent
     {
         $objectives = [];
 
-        // add basic object type
-        $objectives[] = new ilObjectNewTypeAddedObjective("skee", "Skill Tree");
+        // add basic object type and put in tree
+        $objectives[] = new ilTreeAdminNodeAddedObjective("skee", "Skill Tree", "skmg");
 
         // custom rbac operations
         $objectives[] = new ilAccessCustomRBACOperationAddedObjective(
@@ -95,6 +92,9 @@ class ilSkillSetupAgent extends Setup\Agent\NullAgent
 
         // common rbac operations
         $objectives[] = new ilAccessRbacStandardOperationsAddedObjective("skee");
+
+        // db update steps
+        $objectives[] = new ilDatabaseUpdateStepsExecutedObjective(new ilSkillDBUpdateSteps());
 
         return $objectives;
     }

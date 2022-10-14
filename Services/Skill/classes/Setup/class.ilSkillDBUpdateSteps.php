@@ -87,50 +87,17 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_6(): void
     {
-        // get skill managemenet object id
-        $set = $this->db->queryF(
-            "SELECT * FROM object_data " .
-            " WHERE type = %s ",
-            ["text"],
-            ["skmg"]
+        $this->db->update(
+            "object_data",
+            [
+                "title" => ["text", "Default"],
+                "description" => ["text", ""]
+            ],
+            [    // where
+                 "type" => ["text", "skee"],
+                 "title" => ["text", "Skill Tree"]
+            ]
         );
-        $rec = $this->db->fetchAssoc($set);
-
-        // get skill management ref id
-        $set = $this->db->queryF(
-            "SELECT * FROM object_reference " .
-            " WHERE obj_id = %s ",
-            ["integer"],
-            [$rec["obj_id"]]
-        );
-        $rec = $this->db->fetchAssoc($set);
-        $skmg_ref_id = $rec["ref_id"];
-
-        // create default tree object entry
-        $obj_id = $this->db->nextId('object_data');
-        $this->db->manipulate("INSERT INTO object_data " .
-            "(obj_id, type, title, description, owner, create_date, last_update) VALUES (" .
-            $this->db->quote($obj_id, "integer") . "," .
-            $this->db->quote("skee", "text") . "," .
-            $this->db->quote("Default", "text") . "," .
-            $this->db->quote("", "text") . "," .
-            $this->db->quote(-1, "integer") . "," .
-            $this->db->now() . "," .
-            $this->db->now() .
-            ")");
-
-        // get ref id for default tree object
-        $ref_id = $this->db->nextId('object_reference');
-        $this->db->manipulate("INSERT INTO object_reference " .
-            "(obj_id, ref_id) VALUES (" .
-            $this->db->quote($obj_id, "integer") . "," .
-            $this->db->quote($ref_id, "integer") .
-            ")");
-
-        // put in tree
-        require_once("Services/Tree/classes/class.ilTree.php");
-        $tree = new ilTree(ROOT_FOLDER_ID);
-        $tree->insertNode($ref_id, (int) $skmg_ref_id);
     }
 
     public function step_7(): void
