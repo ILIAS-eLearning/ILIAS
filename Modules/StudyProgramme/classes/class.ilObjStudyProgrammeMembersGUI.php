@@ -675,7 +675,7 @@ class ilObjStudyProgrammeMembersGUI
 
             $this->confirmation_gui->addItem(
                 self::F_SELECTED_PROGRESS_IDS . '[]',
-                $progress_id,
+                (string) $progress_id,
                 $name
             );
         }
