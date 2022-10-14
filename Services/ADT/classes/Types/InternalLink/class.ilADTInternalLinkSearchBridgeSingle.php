@@ -38,7 +38,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $value = $this->readFilter();
         if ($value !== null) {
-            $this->getADT()->setTargetRefId($value);
+            $this->getADT()->setTargetRefId((int) $value);
         }
     }
 

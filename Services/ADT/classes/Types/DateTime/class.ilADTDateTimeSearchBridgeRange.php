@@ -18,10 +18,10 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
     {
         $value = $this->readFilter();
         if ($value !== null) {
-            if ($value["lower"]) {
+            if ($value["lower"] ?? false) {
                 $this->getLowerADT()->setDate(new ilDateTime($value["lower"], IL_CAL_DATETIME));
             }
-            if ($value["upper"]) {
+            if ($value["upper"] ?? false) {
                 $this->getUpperADT()->setDate(new ilDateTime($value["upper"], IL_CAL_DATETIME));
             }
         }

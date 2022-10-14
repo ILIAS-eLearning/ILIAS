@@ -18,10 +18,10 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
     {
         $value = $this->readFilter();
         if ($value !== null) {
-            if ($value["lower"]) {
+            if ($value["lower"] ?? false) {
                 $this->getLowerADT()->setDate(new ilDate($value["lower"], IL_CAL_DATE));
             }
-            if ($value["upper"]) {
+            if ($value["upper"] ?? false) {
                 $this->getUpperADT()->setDate(new ilDate($value["upper"], IL_CAL_DATE));
             }
         }
@@ -150,11 +150,11 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         assert($a_adt instanceof ilADTDate);
 
         if (!$this->getLowerADT()->isNull() && !$this->getUpperADT()->isNull()) {
-            return $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
+            return (bool) $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
         } elseif (!$this->getLowerADT()->isNull()) {
-            return $a_adt->isLargerOrEqual($this->getLowerADT());
+            return (bool) $a_adt->isLargerOrEqual($this->getLowerADT());
         } else {
-            return $a_adt->isSmallerOrEqual($this->getUpperADT());
+            return (bool) $a_adt->isSmallerOrEqual($this->getUpperADT());
         }
     }
 
