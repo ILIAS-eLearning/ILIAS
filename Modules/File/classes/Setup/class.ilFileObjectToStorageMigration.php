@@ -25,7 +25,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 {
     private const FILE_PATH_REGEX = '/.*\/file_([\d]*)$/';
     public const MIGRATION_LOG_CSV = "migration_log.csv";
-    private ilFileObjectToStorageMigrationHelper $helper;
+    private ?ilFileObjectToStorageMigrationHelper $helper = null;
 
     protected bool $prepared = false;
     private bool $confirmed = false;
@@ -132,6 +132,12 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment): void
     {
+        if ($this->helper === null) {
+            $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION)->inform(
+                "No migration possible, base-directory not found."
+            );
+            return;
+        }
         $this->showConfirmation($environment);
         $item = $this->helper->getNext();
         $this->runner->migrate($item);

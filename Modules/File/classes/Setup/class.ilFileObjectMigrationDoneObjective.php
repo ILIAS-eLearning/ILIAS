@@ -56,7 +56,10 @@ class ilFileObjectMigrationDoneObjective implements Setup\Objective
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $db_error = false;
         try {
-            $res = $db->query("SELECT file_id FROM file_data WHERE rid IS NULL OR rid =''");
+            $res = $db->query("SELECT file_id FROM file_data 
+               LEFT JOIN object_data ON file_data.file_id = object_data.obj_id 
+               LEFT JOIN object_reference ON object_reference.obj_id = object_data.obj_id 
+               WHERE (rid IS NULL OR rid = '') AND file_data.max_version >= 1 AND object_reference.deleted IS NULL");
         } catch (Throwable $t) {
             $db_error = true;
         } finally {
