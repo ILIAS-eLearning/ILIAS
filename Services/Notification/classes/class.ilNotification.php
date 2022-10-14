@@ -66,6 +66,10 @@ class ilNotification
                     " AND id = " . $ilDB->quote($id, "integer") .
                     " AND activated = " . $ilDB->quote(0, "integer"));
                 $rec = $ilDB->fetchAssoc($set);
+                // if there is no user record, take the default value
+                if (!isset($rec["user_id"])) {
+                    return $notification;
+                }
                 // ... except when the opted out
                 return isset($rec["user_id"]) && $rec["user_id"] !== $user_id;
             }
