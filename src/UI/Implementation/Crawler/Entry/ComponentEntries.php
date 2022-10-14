@@ -29,13 +29,12 @@ use JsonSerializable;
  * Container storing a list of UI Component Entries, can act as Iterator, countable and is serializable
  *
  * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @implements Iterator<string, ComponentEntry>
  */
 class ComponentEntries extends AbstractEntryPart implements Iterator, Countable, JsonSerializable
 {
-    /**
-     * @var ComponentEntry[]
-     */
-    protected array $id_to_entry_map = array();
+    /** @var array<string, ComponentEntry> */
+    protected array $id_to_entry_map = [];
 
     protected string $root_entry_id = 'root';
 
@@ -189,18 +188,12 @@ class ComponentEntries extends AbstractEntryPart implements Iterator, Countable,
         return current($this->id_to_entry_map) !== false;
     }
 
-    /**
-     * @return int|null|string
-     */
-    public function key()
+    public function key(): string
     {
         return key($this->id_to_entry_map);
     }
 
-    /**
-     * @return	ComponentEntry|false
-     */
-    public function current()
+    public function current(): ComponentEntry
     {
         return current($this->id_to_entry_map);
     }
