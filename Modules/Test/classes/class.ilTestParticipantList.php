@@ -284,13 +284,13 @@ class ilTestParticipantList implements Iterator
 
         $query = "
 			SELECT * FROM tst_result_cache tres
-			
+
 			INNER JOIN tst_pass_result pres
 			ON pres.active_fi = tres.active_fi
 			AND pres.pass = tres.pass
 
 			$closedScoringsOnly
-			
+
 			WHERE $IN_activeIds
 		";
 
@@ -350,7 +350,7 @@ class ilTestParticipantList implements Iterator
                 $row['percent_result'] = $participant->getScoring()->getPercentResult();
                 $row['passed_status'] = $participant->getScoring()->isPassed();
                 $row['final_mark'] = $participant->getScoring()->getFinalMark();
-                $row['last_scored_access'] = ilObjTest::lookupLastTestPassAccess(
+                $row['scored_pass_finished_timestamp'] = ilObjTest::lookupLastTestPassAccess(
                     $participant->getActiveId(),
                     $participant->getScoring()->getScoredPass()
                 );
