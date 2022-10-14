@@ -28,7 +28,7 @@ class ilSkillSetupAgent extends Setup\Agent\NullAgent
         return new Setup\ObjectiveCollection(
             "Updates of Services/Skill",
             false,
-            ...$this->getRbacObjectives()
+            ...$this->getObjectives()
         );
     }
 
@@ -37,7 +37,7 @@ class ilSkillSetupAgent extends Setup\Agent\NullAgent
         return new ilDatabaseUpdateStepsMetricsCollectedObjective($storage, new ilSkillDBUpdateSteps());
     }
 
-    public function getRbacObjectives(): array
+    protected function getObjectives(): array
     {
         $objectives = [];
 
