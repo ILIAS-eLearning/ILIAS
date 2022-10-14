@@ -20,42 +20,42 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
      * @var bool
      */
     protected $questionRemoveRowButtonEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $questionManagingEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $positionInsertCommandsEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $questionPositioningEnabled = false;
-    
+
     /**
      * @var bool
      */
     protected $obligatoryQuestionsHandlingEnabled = false;
-    
+
     /**
      * @var float
      */
     protected $totalPoints = 0;
-    
+
     /**
      * @var string
      */
     protected $totalWorkingTime = '';
-    
+
     /**
      * @var int
      */
     private $position = 0;
-    
+
     /**
      * Constructor
      *
@@ -66,9 +66,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     public function __construct($a_parent_obj, $a_parent_cmd, $parentRefId)
     {
         $this->setId('tst_qst_lst_' . $parentRefId);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setFormName('questionbrowser');
         $this->setStyle('table', 'fullwidth');
 
@@ -80,10 +80,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->disable('sort');
         $this->enable('header');
-        
+
         $this->setShowRowsSelector(false);
     }
-    
+
     /**
      * @return array
      */
@@ -96,10 +96,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             'lifecycle' => array('txt' => $this->lng->txt('qst_lifecycle'), 'default' => true),
             'working_time' => array('txt' => $this->lng->txt('working_time'), 'default' => false)
         );
-        
+
         return $cols;
     }
-    
+
     /**
      *
      */
@@ -112,7 +112,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->setSelectAllCheckbox('q_id');
         }
     }
-    
+
     /**
      *
      */
@@ -121,7 +121,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isCheckboxColumnRequired()) {
             $this->addColumn('', 'f', '1%', true);
         }
-        
+
         if ($this->isQuestionPositioningEnabled()) {
             $this->addColumn('', 'f', '1%');
         }
@@ -135,14 +135,14 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
             $this->addColumn($this->lng->txt("obligatory"), 'obligatory', '');
         }
-        
+
         if ($this->isColumnSelected('description')) {
             $this->addColumn($this->lng->txt('description'), 'description', '');
         }
-        
+
         $this->addColumn($this->lng->txt("tst_question_type"), 'type', '');
         $this->addColumn($this->buildPointsHeader(), '', '');
-        
+
         if ($this->isColumnSelected('author')) {
             $this->addColumn($this->lng->txt('author'), 'author', '');
         }
@@ -152,36 +152,34 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isColumnSelected('working_time')) {
             $this->addColumn($this->buildWorkingTimeHeader(), 'working_time', '');
         }
-        
+
         $this->addColumn($this->lng->txt('qpl'), 'qpl', '');
-        
-        if ($this->isQuestionRemoveRowButtonEnabled()) {
-            $this->addColumn('', '', '1%');
-        }
+
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
-    
+
     protected function initCommands()
     {
         if ($this->isQuestionManagingEnabled()) {
             $this->addMultiCommand('removeQuestions', $this->lng->txt('remove_question'));
             $this->addMultiCommand('moveQuestions', $this->lng->txt('move'));
         }
-        
+
         if ($this->isPositionInsertCommandsEnabled()) {
             $this->addMultiCommand('insertQuestionsBefore', $this->lng->txt('insert_before'));
             $this->addMultiCommand('insertQuestionsAfter', $this->lng->txt('insert_after'));
         }
-        
+
         if ($this->isQuestionManagingEnabled()) {
             $this->addMultiCommand('copyQuestion', $this->lng->txt('copy'));
             $this->addMultiCommand('copyAndLinkToQuestionpool', $this->lng->txt('copy_and_link_to_questionpool'));
         }
-        
+
         if ($this->isTableSaveCommandRequired()) {
             $this->addCommandButton('saveOrderAndObligations', $this->buildTableSaveCommandLabel());
         }
     }
-    
+
     /**
      * fill row
      *
@@ -194,15 +192,15 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isCheckboxColumnRequired()) {
             $this->tpl->setVariable("CHECKBOX_QID", $data['question_id']);
         }
-        
+
         if ($this->isQuestionPositioningEnabled()) {
             $this->position += 10;
             $inputField = $this->buildPositionInput($data['question_id'], $this->position);
-            
+
             $this->tpl->setVariable("QUESTION_POSITION", $inputField);
             $this->tpl->setVariable("POSITION_QID", $data['question_id']);
         }
-        
+
         if ($this->isColumnSelected('qid')) {
             $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
         }
@@ -214,22 +212,22 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
         }
-        
+
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
             $this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($data));
         }
-        
+
         if ($this->isColumnSelected('description')) {
             $this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
         }
-        
+
         $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
         $this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
-        
+
         if ($this->isColumnSelected('author')) {
             $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
         }
-        
+
         if ($this->isColumnSelected('lifecycle')) {
             try {
                 $lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle'])->getTranslation($this->lng);
@@ -259,32 +257,32 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             '',
             $this->getEditLink($data, get_class($this->getParentObject()), $this->getParentCmd())
         );
-        
+
         $actions->addItem(
             $this->lng->txt('statistics'),
             '',
             $this->getEditLink($data, 'ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_STATISTICS)
         );
-        
+
         if ($this->isQuestionManagingEnabled()) {
             $editHref = $this->getEditLink($data, $data['type_tag'] . 'GUI', 'editQuestion');
             $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
 
             $editPageHref = $this->getEditLink($data, 'ilAssQuestionPageGUI', 'edit');
             $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
-            
+
             $moveHref = $this->getEditLink($data, get_class($this->getParentObject()), 'moveQuestions');
             $actions->addItem($this->lng->txt('move'), '', $moveHref);
-            
+
             $copyHref = $this->getEditLink($data, get_class($this->getParentObject()), 'copyQuestion');
             $actions->addItem($this->lng->txt('copy'), '', $copyHref);
-            
+
             $deleteHref = $this->getEditLink($data, get_class($this->getParentObject()), 'removeQuestions');
             $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
-            
+
             $feedbackHref = $this->getEditLink($data, 'ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
             $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
-            
+
             $hintsHref = $this->getEditLink($data, 'ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
         }
@@ -293,7 +291,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($data));
         }
     }
-    
+
     protected function buildQuestionRemoveButton(array $rowData) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'removeQid', $rowData['question_id']);
@@ -303,17 +301,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         $button = ilLinkButton::getInstance();
         $button->setCaption('remove_question');
         $button->setUrl($removeUrl);
-        
+
         return $button->render();
     }
-    
+
     protected function buildQuestionTitleLink(array $rowData) : string
     {
         $questionHref = $this->getEditLink($rowData, get_class($this->getParentObject()), $this->getParentCmd());
-        
+
         return '<a href="' . $questionHref . '">' . $rowData["title"] . '</a>';
     }
-    
+
     protected function getEditLink(array $rowData, string $target_class, string $cmd) : string
     {
         $this->ctrl->setParameterByClass(
@@ -321,13 +319,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             'eqpl',
             current(ilObject::_getAllReferences($rowData['obj_fi']))
         );
-        
+
         $this->ctrl->setParameterByClass(
             $target_class,
             'eqid',
             $rowData['question_id']
         );
-        
+
         $this->ctrl->setParameterByClass(
             $target_class,
             'q_id',
@@ -338,16 +336,16 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             'calling_test',
             $_GET['ref_id']
         );
-        
+
         $link = $this->ctrl->getLinkTargetByClass($target_class, $cmd);
-        
+
         $this->ctrl->setParameterByClass($target_class, 'eqpl', '');
         $this->ctrl->setParameterByClass($target_class, 'eqid', '');
         $this->ctrl->setParameterByClass($target_class, 'q_id', '');
-        
+
         return $link;
     }
-    
+
     /**
      * @param array $data
      * @return string
@@ -357,16 +355,16 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if (!$rowData['obligationPossible']) {
             return '&nbsp;';
         }
-        
+
         if ($rowData['obligatory'] && !$this->isQuestionManagingEnabled()) {
             // obligatory icon
             return ilGlyphGUI::get(ilGlyphGUI::EXCLAMATION, $this->lng->txt('question_obligatory'));
         }
-        
+
         $checkedAttr = $rowData['obligatory'] ? 'checked="checked"' : '';
         return '<input type="checkbox" name="obligatory[' . $rowData['question_id'] . ']" value="1" ' . $checkedAttr . ' />';
     }
-    
+
     /**
      * @param $questionId
      * @param $position
@@ -376,7 +374,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return '<input type="text" name="order[q_' . $questionId . ']" value="' . $position . '" maxlength="3" size="3" />';
     }
-    
+
     /**
      * @return string
      */
@@ -385,18 +383,18 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->isObligatoryQuestionsHandlingEnabled() && $this->isQuestionPositioningEnabled()) {
             return $this->lng->txt('saveOrderAndObligations');
         }
-        
+
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
             return $this->lng->txt('saveObligations');
         }
-        
+
         if ($this->isQuestionPositioningEnabled()) {
             return $this->lng->txt('saveOrder');
         }
-        
+
         return $this->lng->txt('save');
     }
-    
+
     /**
      * @return string
      */
@@ -405,10 +403,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if ($this->getTotalPoints()) {
             return $this->lng->txt('points') . ' (' . $this->getTotalPoints() . ')';
         }
-        
+
         return $this->lng->txt('points');
     }
-    
+
     /**
      * @return string
      */
@@ -417,10 +415,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if (strlen($this->getTotalWorkingTime())) {
             return $this->lng->txt('working_time') . ' (' . $this->getTotalWorkingTime() . ')';
         }
-        
+
         return $this->lng->txt('working_time');
     }
-    
+
     /**
      * @return bool
      */
@@ -429,10 +427,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         if (!$this->isQuestionManagingEnabled()) {
             return false;
         }
-        
+
         return $this->isQuestionPositioningEnabled() || $this->isObligatoryQuestionsHandlingEnabled();
     }
-    
+
     /**
      * @return bool
      */
@@ -440,7 +438,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->isQuestionManagingEnabled() || $this->isPositionInsertCommandsEnabled();
     }
-    
+
     /**
      * @return bool
      */
@@ -448,7 +446,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->questionManagingEnabled;
     }
-    
+
     /**
      * @param bool $questionManagingEnabled
      */
@@ -456,7 +454,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->questionManagingEnabled = $questionManagingEnabled;
     }
-    
+
     /**
      * @return bool
      */
@@ -464,7 +462,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->positionInsertCommandsEnabled;
     }
-    
+
     /**
      * @param bool $positionInsertCommandsEnabled
      */
@@ -472,7 +470,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->positionInsertCommandsEnabled = $positionInsertCommandsEnabled;
     }
-    
+
     /**
      * @return bool
      */
@@ -480,7 +478,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->questionPositioningEnabled;
     }
-    
+
     /**
      * @param bool $questionPositioningEnabled
      */
@@ -488,7 +486,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->questionPositioningEnabled = $questionPositioningEnabled;
     }
-    
+
     /**
      * @return bool
      */
@@ -496,7 +494,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->obligatoryQuestionsHandlingEnabled;
     }
-    
+
     /**
      * @param bool $obligatoryQuestionsHandlingEnabled
      */
@@ -504,7 +502,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->obligatoryQuestionsHandlingEnabled = $obligatoryQuestionsHandlingEnabled;
     }
-    
+
     /**
      * @return float
      */
@@ -512,7 +510,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->totalPoints;
     }
-    
+
     /**
      * @param float $totalPoints
      */
@@ -520,7 +518,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         $this->totalPoints = $totalPoints;
     }
-    
+
     /**
      * @return string
      */
@@ -528,7 +526,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->totalWorkingTime;
     }
-    
+
     /**
      * @param string $totalWorkingTime
      */
@@ -544,7 +542,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     {
         return $this->questionRemoveRowButtonEnabled;
     }
-    
+
     /**
      * @param bool $questionRemoveRowButtonEnabled
      */
