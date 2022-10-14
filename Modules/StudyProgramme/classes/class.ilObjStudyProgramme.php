@@ -1784,7 +1784,7 @@ class ilObjStudyProgramme extends ilContainer
                 (is_null($progress_deadline) || $progress_deadline >= $now)
                 && $progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS
             ) {
-                $prg->succeed($progress->getId(), $obj_id);
+                $prg->succeed($progress->getId(), $a_obj_id);
             }
         }
     }
