@@ -33,7 +33,7 @@
 		]
 	},
 	"require": {
-		"php": ">=8.1 <8.2",
+		"php": ">=8.1 <8.3",
 		"ext-gd": "*",
 		"ext-dom": "*",
 		"ext-xsl": "*",
@@ -74,7 +74,7 @@
 		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.5",
 		"mockery/mockery": "^1.4",
-		"friendsofphp/php-cs-fixer": "^3.11",
+		"friendsofphp/php-cs-fixer": "^3.15",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.10",
 		"captainhook/plugin-composer": "^5.3",
@@ -422,11 +422,11 @@
 		},
 		"friendsofphp/php-cs-fixer": {
 			"source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
-			"used_version": "2.15",
+			"used_version": "3.15",
 			"added_by": "Guido Vollbach <gvollbach@databaay.de",
 			"wrapped_by": null,
-			"last_update": "2019-07-11",
-			"last_update_by": "Guido Vollbach <gvollbach@databaay.de",
+			"last_update": "2023-03-13",
+			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},

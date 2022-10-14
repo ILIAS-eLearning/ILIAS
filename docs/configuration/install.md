@@ -69,7 +69,7 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 8.1
+  * PHP 8.2
   * Apache 2.4.x with `mod_php`
   * php-gd, php-xml, php-mysql, php-mbstring, php-imagick, php-zip
   * OpenJDK 11
@@ -111,7 +111,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 |----------------|------------------|
 | Distribution   | Ubuntu 20.04 LTS |
 | MariaDB        | 10.0.38          |
-| PHP            | 8.1              |
+| PHP            | 8.2              |
 | Apache2        | 2.4.18           |
 | JDK            | OpenJDK 8        |
 | Node.js        | 10.23.0          |
@@ -202,7 +202,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install PHP 8.1
-including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
+to PHP 8.2 including packages for imagick, gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -341,10 +341,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php8.1-curl
-* php8.1-xmlrpc
-* php8.1-soap
-* php8.1-ldap
+* php8.2-curl
+* php8.2-xmlrpc
+* php8.2-soap
+* php8.2-ldap
 * ffmpeg
 * mimetex
 
@@ -729,7 +729,7 @@ each ILIAS release.
 
 | ILIAS Version  | PHP Version                 |
 |----------------|-----------------------------|
-| 9.x            | 8.1.x                       |
+| 9.x            | 8.1.x, 8.2.x                |
 | 8.x            | 7.4.x, 8.0.x                |
 | 7.x            | 7.3.x, 7.4.x                |
 | 6.x            | 7.2.x, 7.3.x, 7.4.x         |
