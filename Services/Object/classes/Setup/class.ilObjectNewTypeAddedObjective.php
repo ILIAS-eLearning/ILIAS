@@ -34,7 +34,7 @@ class ilObjectNewTypeAddedObjective implements Setup\Objective
 
     public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->type);
     }
 
     public function getLabel(): string
@@ -80,7 +80,8 @@ class ilObjectNewTypeAddedObjective implements Setup\Objective
 
     public function isApplicable(Environment $environment): bool
     {
-        if (is_null(ilObject::_getObjectTypeIdByTitle($this->type))) {
+        $db = $environment->getResource(Environment::RESOURCE_DATABASE);
+        if (is_null(ilObject::_getObjectTypeIdByTitle($this->type, $db))) {
             return true;
         }
         return false;

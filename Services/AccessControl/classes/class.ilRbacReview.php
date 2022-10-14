@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +16,8 @@ declare(strict_types=1);
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *********************************************************************/
+ ********************************************************************
+ */
 
 /**
  * class ilRbacReview
@@ -1332,10 +1334,12 @@ class ilRbacReview
         self::$assigned_users_cache = array();
     }
 
-    public static function _getCustomRBACOperationId(string $operation): ?int
+    public static function _getCustomRBACOperationId(string $operation, \ilDBInterface $ilDB = null): ?int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT ops_id" . PHP_EOL
@@ -1352,10 +1356,12 @@ class ilRbacReview
         return (int) $row["ops_id"] ?? null;
     }
 
-    public static function _isRBACOperation(int $type_id, int $ops_id): bool
+    public static function _isRBACOperation(int $type_id, int $ops_id, \ilDBInterface $ilDB = null): bool
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if (!$ilDB) {
+            global $DIC;
+            $ilDB = $DIC->database();
+        }
 
         $sql =
             "SELECT typ_id" . PHP_EOL
