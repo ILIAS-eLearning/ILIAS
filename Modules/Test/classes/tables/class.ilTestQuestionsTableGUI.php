@@ -130,9 +130,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('qpl'), 'qpl', '');
 
-        if ($this->isQuestionRemoveRowButtonEnabled()) {
-            $this->addColumn('', '', '1%');
-        }
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
 
     protected function initCommands(): void

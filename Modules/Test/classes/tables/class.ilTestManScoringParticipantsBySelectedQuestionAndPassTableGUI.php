@@ -69,7 +69,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
         $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by_uid');
         $this->addColumn($this->lng->txt('finalized_on'), 'finalized_tstamp');
-        $this->addColumn('', '');
+        $this->addColumn($this->lng->txt('actions'), '', '1%');
     }
 
     private function initOrdering(): void
