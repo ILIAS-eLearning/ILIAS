@@ -1069,6 +1069,19 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->parseCurrentBlock();
                 continue;
             }
+
+            if ($column['is_checkbox_action_column'] && !$this->select_all_on_top) {
+                $this->tpl->setCurrentBlock('tbl_header_top_select_column');
+                if ($column["width"] != "") {
+                    $width = (is_numeric($column["width"]))
+                        ? $column["width"] . "px"
+                        : $column["width"];
+                    $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
+                }
+                $this->tpl->parseCurrentBlock();
+                continue;
+            }
+
             if (
                 !$this->enabled["sort"] ||
                 (($column["sort_field"] == "") &&
