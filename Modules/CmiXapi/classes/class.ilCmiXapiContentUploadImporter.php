@@ -141,12 +141,10 @@ class ilCmiXapiContentUploadImporter
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilCmiXapiInvalidUploadContentException
      */
-    public function importFormUpload(ilFormPropertyGUI $uploadInput): void
+    public function importFormUpload(array $fileData): void
     {
         global $DIC;
         $this->ensureCreatedObjectDirectory();
-
-        $fileData = $DIC->http()->wrapper()->post()->retrieve($uploadInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
 
         $uploadResult = $this->getUpload(
             $fileData['tmp_name']

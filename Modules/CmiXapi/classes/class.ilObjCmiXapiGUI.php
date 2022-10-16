@@ -185,7 +185,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 
                     try {
                         $uploadImporter = new ilCmiXapiContentUploadImporter($newObject);
-                        $uploadImporter->importFormUpload($form->getItemByPostVar('uploadfile'));
+                        $uploadImporter->importFormUpload((array) $form->getInput('uploadfile'));
 
                         $newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
                     } catch (ilCmiXapiInvalidUploadContentException $e) {
