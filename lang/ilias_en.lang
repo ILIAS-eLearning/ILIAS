@@ -967,6 +967,7 @@ assessment#:#oq_btn_use_order_pictures#:#Use answer pictures
 assessment#:#oq_btn_use_order_terms#:#Use answer terms
 assessment#:#oq_header_ordering_elements#:#Ordering Elements
 assessment#:#or#:#or
+assessment#:#order#:#Order
 assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.
 assessment#:#ordertext#:#Ordering Text
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.
