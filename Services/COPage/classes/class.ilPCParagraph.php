@@ -720,9 +720,11 @@ class ilPCParagraph extends ilPageContent
         $slash_chars = '/[]?';
 
         if ($ok) {
+            $replace_str = addcslashes($start_tag, $slash_chars);
+            $replace_str = str_replace("+", "\\+", $replace_str);
             // replace start tag
             $text = preg_replace(
-                '/' . addcslashes($start_tag, $slash_chars) . '/i',
+                '/' . $replace_str . '/i',
                 "<" . $xml_tag_name . $attrib_str . $short . ">",
                 $text,
                 1
