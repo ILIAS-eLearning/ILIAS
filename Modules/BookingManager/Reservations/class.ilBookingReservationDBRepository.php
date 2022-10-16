@@ -194,7 +194,7 @@ class ilBookingReservationDBRepository
             $where = array($ilDB->in('context_obj_id', $filter['context_obj_ids'], '', 'integer'));
         }
 
-        if ($filter['status']) {
+        if ($filter['status'] ?? false) {
             if ($filter['status'] > 0) {
                 $where[] = 'status = ' . $ilDB->quote($filter['status'], 'integer');
             } else {
