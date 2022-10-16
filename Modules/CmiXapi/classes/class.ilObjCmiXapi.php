@@ -1300,7 +1300,7 @@ class ilObjCmiXapi extends ilObject2
 
         //delete results
         $query = "DELETE FROM " . self::DB_RESULTS_TABLE_NAME .
-                "WHERE obj_id = " . $this->database->quote($this->getId(), 'integer') . " ";
+                " WHERE obj_id = " . $this->database->quote($this->getId(), 'integer');
         $this->database->manipulate($query);
 
         // TODO check xapidel

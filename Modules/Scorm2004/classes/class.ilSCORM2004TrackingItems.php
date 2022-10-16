@@ -152,7 +152,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["c_entry"] = "" . $data["c_entry"];
             $data["c_exit"] = "" . $data["c_exit"];
             $data["c_language"] = "" . $data["c_language"];
-            $data["c_location"] = "" . str_replace('"', '', $data["c_location"]);
+            $data["c_location"] = "" . str_replace('"', '', (string) $data["c_location"]);
             $data["c_mode"] = "" . $data["c_mode"];
             $data["progress_measure"] = "" . $data["progress_measure"];
             $data["c_max"] = "" . $data["c_max"];
@@ -163,13 +163,13 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $data["session_time"] = "" . $data["session_time"];
             $data["session_time_seconds"] = "";
             if ($data["session_time"] != "") {
-                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["session_time"]) / 100);
+                $data["session_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec((string) $data["session_time"]) / 100);
             }
             $data["success_status"] = "" . $data["success_status"];
             $data["total_time"] = "" . $data["total_time"];
             $data["total_time_seconds"] = "";
             if ($data["total_time"] != "") {
-                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec($data["total_time"]) / 100);
+                $data["total_time_seconds"] = round(ilObjSCORM2004LearningModule::_ISODurationToCentisec((string) $data["total_time"]) / 100);
             }
             $data["c_timestamp"] = $data["c_timestamp"];//ilDatePresentation::formatDate(new ilDateTime($data["c_timestamp"],IL_CAL_UNIX));
             $data["suspend_data"] = "" . $data["suspend_data"];

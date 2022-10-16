@@ -678,7 +678,7 @@ class ilSCORM2004StoreData
 
         // update learning progress
         if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, $data->percentageCompleted);
+            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, (int) $data->percentageCompleted);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }
