@@ -118,7 +118,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     public function initColumns()
     {
         if ($this->isMultiRowSelectionRequired()) {
-            $this->addColumn('', '', '1%');
+            $this->addColumn('', '', '1%', true);
         }
         
         $this->addColumn($this->lng->txt("name"), 'name');
