@@ -972,6 +972,7 @@ assessment#:#oq_btn_use_order_pictures#:#Verwende Antwort mit Bildern
 assessment#:#oq_btn_use_order_terms#:#Verwende Antwort mit Termen
 assessment#:#oq_header_ordering_elements#:#Anordnungs-Elemente
 assessment#:#or#:#oder
+assessment#:#order#:#Sortierung
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordertext#:#Anzuordnender Text
 assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.

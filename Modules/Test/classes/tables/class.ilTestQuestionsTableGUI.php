@@ -98,7 +98,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($this->isQuestionPositioningEnabled()) {
-            $this->addColumn('', 'f', '1%');
+            $this->addColumn($this->lng->txt('order'), 'f', '1%');
         }
 
         if ($this->isColumnSelected('qid')) {
