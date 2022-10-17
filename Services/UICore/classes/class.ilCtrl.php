@@ -216,9 +216,13 @@ class ilCtrl implements ilCtrlInterface
             ->setCmdClass($class_name)
             ->setCmdMode(self::CMD_MODE_HTML);
 
-        return (null !== $a_parameters) ?
+        $html = (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
             $a_gui_object->getHTML();
+
+        $this->context->popCmdClass();
+
+        return $html;
     }
 
     /**

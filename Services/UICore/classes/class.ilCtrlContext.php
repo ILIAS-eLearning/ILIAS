@@ -81,6 +81,11 @@ class ilCtrlContext implements ilCtrlContextInterface
     protected ?int $obj_id = null;
 
     /**
+     * @var array<string, ilCtrlPathInterface>
+     */
+    protected array $history = [];
+
+    /**
      * ilCtrlContext Constructor
      *
      * @param ilCtrlPathFactory $path_factory
@@ -147,8 +152,8 @@ class ilCtrlContext implements ilCtrlContextInterface
 
         // only set baseclass if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$base_class] = $path;
             $this->base_class = $base_class;
-
             // only update the path if the current one is null.
             if (null === $this->path->getCidPath()) {
                 $this->path = $path;
@@ -192,9 +197,29 @@ class ilCtrlContext implements ilCtrlContextInterface
 
         // only set command class if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$cmd_class] = $path;
             $this->cmd_class = $cmd_class;
             $this->path = $path;
         }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function popCmdClass(): ilCtrlContextInterface
+    {
+        $previous_cmd_class = array_key_last($this->history);
+
+        if (null === $previous_cmd_class) {
+            return $this;
+        }
+
+        $this->path = $this->history[$previous_cmd_class];
+        $this->cmd_class = $previous_cmd_class;
+
+        unset($this->history[$previous_cmd_class]);
 
         return $this;
     }
