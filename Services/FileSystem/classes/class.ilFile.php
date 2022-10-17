@@ -16,7 +16,7 @@
  * Base class for all file (directory) operations
  * This class is abstract and needs to be extended
  *
- * @deprecated
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 abstract class ilFile
 {

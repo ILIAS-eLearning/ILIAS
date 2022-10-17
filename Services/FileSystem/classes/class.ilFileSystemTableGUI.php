@@ -19,7 +19,7 @@ use ILIAS\FileUpload\MimeType;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
- * @deprecated $
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 class ilFileSystemTableGUI extends ilTable2GUI
 {
