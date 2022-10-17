@@ -92,6 +92,14 @@ interface ilCtrlContextInterface
     public function getCmdClass(): ?string;
 
     /**
+     * Removes the last set command class from the current context
+     * and updates the path.
+     *
+     * @return ilCtrlInterface
+     */
+    public function popCmdClass(): ilCtrlContextInterface;
+
+    /**
      * Sets the command which the current command- or baseclass
      * should perform.
      *
