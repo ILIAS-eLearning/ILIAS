@@ -107,7 +107,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
     public function initColumns(): void
     {
         if ($this->isMultiRowSelectionRequired()) {
-            $this->addColumn('', '', '1%');
+            $this->addColumn('', '', '1%', true);
         }
 
         $this->addColumn($this->lng->txt("name"), 'name');
@@ -160,7 +160,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FULLNAME", $a_set['name']);
 
         $this->tpl->setVariable("SCORED_PASS", $this->buildScoredPassString($a_set));
-        $this->tpl->setVariable("PASS_FINISHED", $this->buildPassFinishedString($a_set));
+        $this->tpl->setVariable("SCORED_PASS_FINISHED", $this->buildScoredPassFinishedString($a_set));
 
         $this->tpl->setVariable("ANSWERED_QUESTIONS", $this->buildAnsweredQuestionsString($a_set));
         $this->tpl->setVariable("REACHED_POINTS", $this->buildReachedPointsString($a_set));
@@ -240,10 +240,10 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $this->lng->txt('pass') . ' ' . ($data['scored_pass'] + 1);
     }
 
-    protected function buildPassFinishedString(array $data): string
+    protected function buildScoredPassFinishedString(array $data): string
     {
-        if (isset($data['pass_finished'])) {
-            return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
+        if (isset($data['scored_pass_finished_timestamp'])) {
+            return ilDatePresentation::formatDate(new ilDateTime($data['scored_pass_finished_timestamp'], IL_CAL_UNIX));
         }
         return '';
     }

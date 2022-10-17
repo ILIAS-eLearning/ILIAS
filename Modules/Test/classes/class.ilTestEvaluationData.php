@@ -288,11 +288,10 @@ class ilTestEvaluationData
     public function getParticipants(): array
     {
         if (is_array($this->arrFilter) && count($this->arrFilter) > 0) {
-            $filteredParticipants = array();
-            $courseids = array();
-            $groupids = array();
-            global $DIC;
-            $ilDB = $DIC['ilDB'];
+            $filtered_participants = [];
+            $courseids = [];
+            $groupids = [];
+
             if (array_key_exists('group', $this->arrFilter)) {
                 $ids = ilObject::_getIdsForTitle($this->arrFilter['group'], 'grp', true);
                 $groupids = array_merge($groupids, $ids);
@@ -310,7 +309,6 @@ class ilTestEvaluationData
                 }
                 if (!$remove) {
                     if (array_key_exists('group', $this->arrFilter)) {
-                        include_once "./Services/Membership/classes/class.ilParticipants.php";
                         $groups = ilParticipants::_getMembershipByType($participant->getUserID(), ["grp"]);
                         $foundfilter = false;
                         if (count(array_intersect($groupids, $groups))) {
@@ -323,7 +321,6 @@ class ilTestEvaluationData
                 }
                 if (!$remove) {
                     if (array_key_exists('course', $this->arrFilter)) {
-                        include_once "./Services/Membership/classes/class.ilParticipants.php";
                         $courses = ilParticipants::_getMembershipByType($participant->getUserID(), ["crs"]);
                         $foundfilter = false;
                         if (count(array_intersect($courseids, $courses))) {
@@ -342,10 +339,10 @@ class ilTestEvaluationData
                     }
                 }
                 if (!$remove) {
-                    $filteredParticipants[$active_id] = $participant;
+                    $filtered_participants[$active_id] = $participant;
                 }
             }
-            return $filteredParticipants;
+            return $filtered_participants;
         } else {
             return $this->participants;
         }

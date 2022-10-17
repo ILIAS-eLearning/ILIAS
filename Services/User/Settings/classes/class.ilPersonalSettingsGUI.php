@@ -611,8 +611,8 @@ class ilPersonalSettingsGUI
         $ilSetting = $DIC['ilSetting'];
         if ($ilSetting->get('char_selector_availability') > 0) {
             $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_USER);
-            $char_selector->getConfig()->setAvailability($ilUser->getPref('char_selector_availability'));
-            $char_selector->getConfig()->setDefinition($ilUser->getPref('char_selector_definition'));
+            $char_selector->getConfig()->setAvailability((int) $ilUser->getPref('char_selector_availability'));
+            $char_selector->getConfig()->setDefinition((string) $ilUser->getPref('char_selector_definition'));
             $char_selector->addFormProperties($this->form);
             $char_selector->setFormValues($this->form);
         }

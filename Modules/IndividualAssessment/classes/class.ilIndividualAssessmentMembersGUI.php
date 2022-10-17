@@ -105,6 +105,8 @@ class ilIndividualAssessmentMembersGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->saveParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS);
+        $this->tpl->setPermanentLink("iass", $this->ref_id);
+
         switch ($next_class) {
             case "ilrepositorysearchgui":
                 $rep_search = new ilRepositorySearchGUI();

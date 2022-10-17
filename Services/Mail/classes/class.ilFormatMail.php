@@ -91,23 +91,6 @@ class ilFormatMail extends ilMail
         return $this->mail_data;
     }
 
-    public function formatLinebreakMessage(string $message): string
-    {
-        $formatted = [];
-
-        $linebreak = $this->mail_options->getLinebreak();
-
-        $lines = explode(chr(10), $message);
-        foreach ($lines as $iValue) {
-            if (strpos($iValue, '>') !== 0) {
-                $formatted[] = wordwrap($iValue, $linebreak, chr(10));
-            } else {
-                $formatted[] = $iValue;
-            }
-        }
-        return implode(chr(10), $formatted);
-    }
-
     public function appendSignature(string $message): string
     {
         return $message . (chr(13) . chr(10) . $this->mail_options->getSignature());

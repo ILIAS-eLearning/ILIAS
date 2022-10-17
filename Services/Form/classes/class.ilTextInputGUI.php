@@ -188,7 +188,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 if (!preg_match($this->getValidationRegexp(), $this->str($this->getPostVar()))) {
                     $this->setAlert(
                         $this->getValidationFailureMessage() ?:
-                        $lng->txt('msg_wrong_format')
+                            $lng->txt('msg_wrong_format')
                     );
                     return false;
                 }
@@ -209,7 +209,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 if (!$reg_valid) {
                     $this->setAlert(
                         $this->getValidationFailureMessage() ?:
-                        $lng->txt('msg_wrong_format')
+                            $lng->txt('msg_wrong_format')
                     );
                     return false;
                 }
@@ -263,7 +263,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         return $this->ajax_datasource_commit_url;
     }
 
-
     public function setMultiValues(array $a_values): void
     {
         foreach ($a_values as $idx => $value) {
@@ -282,12 +281,18 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
         if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_text_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
+            $tpl->setVariable(
+                "PROPERTY_VALUE",
+                ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue())
+            );
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getInlineStyle())) {
             $tpl->setCurrentBlock("stylecss");
-            $tpl->setVariable("CSS_STYLE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle()));
+            $tpl->setVariable(
+                "CSS_STYLE",
+                ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle())
+            );
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getCssClass())) {
@@ -386,7 +391,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
             // block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
             // -moz-inline-stack for FF2
             // zoom 1; *display:inline for IE6 & 7
-            $tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
+            $tpl->setVariable(
+                "STYLE_PAR",
+                'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;'
+            );
         } else {
             $tpl->setVariable("STYLE_PAR", '');
         }
@@ -439,5 +447,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     public function isHtmlAutoCompleteDisabled(): bool
     {
         return $this->autocomplete_disabled;
+    }
+
+    public function getPostValueForComparison(): string
+    {
+        return $this->getInput();
     }
 }

@@ -629,10 +629,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 false
             );
             if ($obj instanceof \ilObjUser) {
-                $obj->setTimeLimitUnlimited(1);
-                $obj->setTimeLimitFrom("");
-                $obj->setTimeLimitUntil("");
-                $obj->setTimeLimitMessage(0);
+                $obj->setTimeLimitUnlimited(true);
+                $obj->setTimeLimitFrom(null);
+                $obj->setTimeLimitUntil(null);
+                $obj->setTimeLimitMessage("");
                 $obj->update();
             }
         }
@@ -758,9 +758,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
             if ($obj instanceof \ilObjUser) {
                 $obj->setTimeLimitUnlimited(0);
-                $obj->setTimeLimitFrom($timefrom);
-                $obj->setTimeLimitUntil($timeuntil);
-                $obj->setTimeLimitMessage(0);
+                $obj->setTimeLimitFrom((int) $timefrom);
+                $obj->setTimeLimitUntil((int) $timeuntil);
+                $obj->setTimeLimitMessage("");
                 $obj->update();
             }
         }

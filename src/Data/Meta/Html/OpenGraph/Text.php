@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,16 +13,26 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- ********************************************************************
  */
 
-use ILIAS\Setup;
+declare(strict_types=1);
 
-class ilSkillAgent extends Setup\Agent\NullAgent
+namespace ILIAS\Data\Meta\Html\OpenGraph;
+
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+class Text extends Tag
 {
-    public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
+    public function __construct(
+        string $property_name,
+        protected string $text,
+    ) {
+        parent::__construct($property_name);
+    }
+
+    protected function getValue(): string
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new ilSkillDBUpdateSteps());
+        return $this->text;
     }
 }

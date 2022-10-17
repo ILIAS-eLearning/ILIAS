@@ -25,6 +25,7 @@ namespace ILIAS\Setup;
  * can be achieved (i.e. have no further preconditions on their own) will be
  * returned first. Will also attempt to only return every objective once. This thus
  * expects, that returned objectives will be achieved somehow.
+ * @implements \Iterator<string, Objective>
  */
 class ObjectiveIterator implements \Iterator
 {
@@ -97,7 +98,7 @@ class ObjectiveIterator implements \Iterator
         return $this->current;
     }
 
-    public function key()
+    public function key(): string
     {
         return $this->current()->getHash();
     }

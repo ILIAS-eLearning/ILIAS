@@ -491,7 +491,6 @@ class ilAdvancedMDRecord
 
         foreach ($this->getAssignedObjectTypes() as $type) {
             global $DIC;
-
             $ilDB = $DIC['ilDB'];
             $query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) " .
                 "VALUES( " .

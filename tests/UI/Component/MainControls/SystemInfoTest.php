@@ -51,11 +51,11 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -84,11 +84,11 @@ EOT;
 
         // Neutral
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -117,11 +117,11 @@ EOT;
 
         $actual = $r->render($system_info);
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -149,11 +149,11 @@ EOT;
 
         // Breaking
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">
@@ -184,11 +184,11 @@ EOT;
             ->withDismissAction($action);
 
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="id_headline" aria-describedby="id_description">
     <div class="il-system-info-content-wrapper">
         <div class="il-system-info-content">
-            <span class="il-system-info-headline">$headline</span>
-            <span class="il-system-info-body">$information</span>
+            <span id="id_headline" class="il-system-info-headline">$headline</span>
+            <span id="id_description" class="il-system-info-body">$information</span>
         </div>
     </div>
     <div class="il-system-info-actions">

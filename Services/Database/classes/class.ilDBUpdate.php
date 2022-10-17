@@ -41,7 +41,7 @@ class ilDBUpdate
     private ?int $custom_updates_file_version = null;
     private ?bool $custom_updates_info_read = null;
     private ilSetting $custom_updates_setting;
-    private array $custom_updates_content;
+    private array $custom_updates_content = [];
 
     public function __construct(ilDBInterface $a_db_handler, ilIniFile $client_ini = null)
     {
