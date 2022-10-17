@@ -136,7 +136,7 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $description = $this->object->getDescription();
         if ($description != null) {
-            $info = $info->withDescription($description);
+            $info->withDescription($description);
         }
 
         return $info;
