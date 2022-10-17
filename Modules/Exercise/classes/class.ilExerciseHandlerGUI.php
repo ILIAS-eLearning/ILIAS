@@ -63,6 +63,8 @@ class ilExerciseHandlerGUI
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
+
+        $this->tpl->setPermanentLink("exc",  $_GET["ref_id"]);
         
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);

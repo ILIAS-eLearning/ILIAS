@@ -111,6 +111,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
+
   
         //echo "-".$next_class."-".$cmd."-"; exit;
         switch ($next_class) {
