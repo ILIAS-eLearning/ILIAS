@@ -675,6 +675,7 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
     public function hidden(): Hidden;
+
     /**
      * ---
      * description:
@@ -686,12 +687,16 @@ interface Factory
      *     As soon as the Color Picker is clicked, a pop-up window opens, which contains the individual options of the color selection.
      * rules:
      *   usage:
+     *     1: The Color Picker should be used to select an individual color value.
+     * accessibility:
      *     1: >
-     *      The Color Picker MUST be used to select an individual color value.
+     *        As with all Inputs, the Color Picker Input MUST be operable by only using inputs.
+     *        If HTML5 Standards are used, it is the responsibility of the Browser to provide this functionality.
      * ---
-     * @param   string      $label
-     * @param   string|null $byline
-     * @return  \ILIAS\UI\Component\Input\Field\ColorPicker
+     *
+     * @param string $label
+     * @param string|null $byline
+     * @return \ILIAS\UI\Component\Input\Field\ColorPicker
      * */
-    public function colorpicker(string $label, string $byline = null): ColorPicker;
+    public function colorpicker(string $label, string $byline=null): ColorPicker;
 }
