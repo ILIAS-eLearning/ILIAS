@@ -146,7 +146,7 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         }
 
         foreach ($this->rbac_ops as $ops_id) {
-            if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id)) {
+            if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id, $db)) {
                 continue;
             }
             $values = [
