@@ -13,7 +13,8 @@
  *
  *****************************************************************************/
 /**
- * @deprecated Will be removed in the next release
+ * @deprecated Will be removed in ILIAS 10. No replacement suggested. This feature is only used in CmiXApi and SCORM
+ * and must be implemented there
  */
 class ilUploadFiles
 {

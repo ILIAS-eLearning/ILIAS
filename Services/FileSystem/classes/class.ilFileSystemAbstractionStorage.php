@@ -21,7 +21,7 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\Filesystem\Filesystem;
 
 /**
- * @deprecated
+ * @deprecated Will be removed in ILIAS 10. Use ILIAS ResourceStorageService as replacement.
  */
 abstract class ilFileSystemAbstractionStorage
 {
