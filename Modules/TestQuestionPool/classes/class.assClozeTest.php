@@ -784,7 +784,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         }
     }
 
-    public function setGapSize($gap_index, $order, $size): void
+    public function setGapSize($gap_index, $size): void
     {
         if (array_key_exists($gap_index, $this->gaps)) {
             $this->gaps[$gap_index]->setGapSize((int) $size);

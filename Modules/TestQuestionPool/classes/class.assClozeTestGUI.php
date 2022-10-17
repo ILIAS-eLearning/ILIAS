@@ -203,7 +203,7 @@ JS;
 
                     $k_gapsize = 'gap_' . $idx . '_gapsize';
                     if ($this->request->isset($k_gapsize)) {
-                        $this->object->setGapSize($idx, $order, $_POST[$k_gapsize]);
+                        $this->object->setGapSize($idx, $_POST[$k_gapsize]);
                     }
                     break;
 
@@ -272,7 +272,7 @@ JS;
                     }
 
                     if ($this->post->has('gap_' . $idx . '_gapsize')) {
-                        $this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize']);
+                        $this->object->setGapSize($idx, $_POST['gap_' . $idx . '_gapsize']);
                     }
                     break;
             }
