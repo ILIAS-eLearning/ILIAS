@@ -129,7 +129,7 @@ class ilObjLinkResource extends ilObject
 
         // append copy info weblink title
         if ($new_web_link_repo->doesOnlyOneItemExist(true)) {
-            $item = ilObjLinkResourceAccess::_getFirstLink($this->getId());
+            $item = ilObjLinkResourceAccess::_getFirstLink($new_obj->getId());
             $draft = new ilWebLinkDraftItem(
                 $item->isInternal(),
                 $new_obj->getTitle(),
