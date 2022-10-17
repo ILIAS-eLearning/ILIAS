@@ -1,5 +1,6 @@
 @use "sass:math";
 @use "../../../../../010-settings/" as *;
+@use "../../../../../030-tools/tool_rem-conversion" as *;
 //
 // Forms
 // --------------------------------------------------
@@ -330,7 +331,7 @@ input[type="checkbox"] {
   padding-bottom: ($padding-base-vertical + 1);
   // Remove default margin from `p`
   margin-bottom: 0;
-  min-height: ($line-height-computed + ($font-size-base));
+  min-height: ($line-height-computed + rem-to-pixel($font-size-base));
 
   &.input-lg,
   &.input-sm {
@@ -367,7 +368,7 @@ input[type="checkbox"] {
   }
   .form-control-static {
     height: $input-height-small;
-    min-height: ($line-height-computed + $font-size-small);
+    min-height: ($line-height-computed + rem-to-pixel($font-size-small));
     padding: ($padding-small-vertical + 1) $padding-small-horizontal;
     font-size: $font-size-small;
     line-height: $line-height-small;
@@ -393,7 +394,7 @@ input[type="checkbox"] {
   }
   .form-control-static {
     height: $input-height-large;
-    min-height: ($line-height-computed + $font-size-large);
+    min-height: ($line-height-computed + rem-to-pixel($font-size-large));
     padding: ($padding-large-vertical + 1) $padding-large-horizontal;
     font-size: $font-size-large;
     line-height: $line-height-large;

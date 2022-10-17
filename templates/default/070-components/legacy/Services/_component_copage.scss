@@ -146,7 +146,7 @@ div.ilEditLabel {
 	font-size: $il-font-size-small;
 	padding: $il-padding-base-vertical $il-padding-xs-horizontal;
 	margin-top: -$il-line-height-computed;
-	margin-left: (-(t-rem.rem-to-pixel($il-padding-xs-horizontal))) + 1px;
+	margin-left: (-$il-padding-xs-horizontal) + 1px;
 	border: 0;
 	height: $il-line-height-computed;
 	display: none;

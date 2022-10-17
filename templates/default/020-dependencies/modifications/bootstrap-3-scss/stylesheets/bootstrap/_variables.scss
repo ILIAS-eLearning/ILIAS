@@ -875,5 +875,3 @@ $dl-horizontal-offset:        $component-offset-horizontal !default;
 $dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
 //** Horizontal line color.
 $hr-border:                   $gray-lighter !default;
-
-@debug "Border Radius Base in modified bootstrap copy variables: #{$border-radius-base}, #{$btn-border-radius-base}";

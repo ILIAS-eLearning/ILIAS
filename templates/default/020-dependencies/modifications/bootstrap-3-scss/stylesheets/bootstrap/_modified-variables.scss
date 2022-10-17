@@ -82,8 +82,8 @@ $grid-float-breakpoint-max: $il-grid-float-breakpoint-max;
 
 $grid-gutter-width:         2*$il-padding-xlarge-horizontal;
 $navbar-padding-horizontal:        math.floor(math.div($grid-gutter-width, 2));
-$navbar-height:                    $il-standard-page-small-mainbar-height;
-$navbar-padding-vertical:          calc(($navbar-height - $line-height-computed) / 2);
+$navbar-height: rem-to-pixel($il-standard-page-small-mainbar-height);
+// $navbar-padding-vertical:          calc(($navbar-height - $line-height-computed) / 2);
 
 //== Icons
 //
@@ -105,6 +105,18 @@ $btn-default-color:             $il-link-color;
 $btn-default-border:            #d0d0d0;
 $btn-default-bg:                #fefefe;
 
+//== Breadcrumbs
+//** Breadcrumb background color
+$breadcrumb-bg:                 transparent;
+//** Breadcrumb text color
+$breadcrumb-color:               $il-link-color;
+//** Text color of current page in the breadcrumb
+$breadcrumb-active-color:        $il-link-hover-color;
+//** font-weight of breadcrumbs
+$breadcrumb-font-weight:        $il-font-weight-bold;
+//** Textual separator for between breadcrumb elements
+$breadcrumb-separator:          " \e606";
+
 //== Badges
 //
 //##
@@ -116,8 +128,10 @@ $badge-active-bg:             $il-warning-color;
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 $input-border-radius: 0;
 $input-border-focus: lighten($il-main-color, 20%);
-$input-height-base: (rem-to-pixel($il-line-height-computed) + rem-to-pixel($il-padding-base-vertical * 2) + 2);
-$input-height-small: ((rem-to-pixel($il-font-size-small) * $il-line-height-base) + rem-to-pixel($padding-small-vertical * 2) + 2);
+$input-height-base: ceil($il-line-height-computed + $il-padding-base-vertical * 2 + 2);
+$input-height-small: ceil((rem-to-pixel($il-font-size-small) * $il-line-height-base) + $il-padding-small-vertical * 2 + 2);
+$input-height-large: (ceil(rem-to-pixel($il-font-size-large) * $line-height-large) + ($padding-large-vertical * 2) + 2) !default;
+
 
 $input-color-placeholder: $il-text-light-color;
 

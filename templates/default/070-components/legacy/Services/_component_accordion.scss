@@ -6,7 +6,7 @@
 /* Services/Accordion */
 
 .il_VAccordionHead, .il_HAccordionHead {
-	padding: $il-padding-base-horizontal $il-padding-base-horizontal $il-padding-base-horizontal (t-rem.rem-to-pixel($il-padding-base-horizontal)+30px);
+	padding: $il-padding-base-horizontal $il-padding-base-horizontal $il-padding-base-horizontal ($il-padding-base-horizontal+30px);
 	text-align: left;
 	cursor: pointer;
 	color: $il-link-color;

@@ -2,6 +2,7 @@
 @use "../../../020-dependencies/modifications/bootstrap-3-scss/bootstrap-3-scss-modified-variables-mixins" as btstrp3;
 @use "../../../010-settings/legacy-settings/legacy-settings_form" as *;
 @use "../../../030-tools/tool_focus-outline" as *;
+@use "../../../030-tools/tool_rem-conversion" as *;
 @use "../../../050-layout/basics"as *;
 //== Specific Inputs
 //
@@ -138,7 +139,7 @@ label, input[type=checkbox], input[type=radio], select {
 }
 
 .form-control {
-  height: ($il-font-size-small * $il-line-height-base) + ((2+2*$il-padding-base-vertical)); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  height: (rem-to-pixel($il-font-size-small) * $il-line-height-base) + ((2+2*$il-padding-base-vertical)); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
   padding: $il-padding-base-vertical $il-padding-base-horizontal;
   font-size: $il-standard-form-font-size;
   color: $il-text-color;
@@ -214,7 +215,7 @@ select.form-control {
     //padding-top: 0;
     //line-height: 24px;
     padding-bottom: ($il-padding-base-vertical + 1);
-    min-height: ($il-line-height-computed + $il-font-size-base);
+    min-height: ($il-line-height-computed + rem-to-pixel($il-font-size-base));
     @media only screen and (max-width: $il-grid-float-breakpoint-max) {
       min-height: auto;
       padding-bottom: 0;
