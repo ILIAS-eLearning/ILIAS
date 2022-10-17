@@ -92,7 +92,7 @@
 		</div>
 	</div>
     <!-- END template_editor_delete -->
-
+	
 	</td>
 	</tr></table>
 </div>
@@ -150,13 +150,9 @@
 	  <!-- BEGIN tbl_header_top_select_all -->
 	  <td>
 		  <input type="checkbox" name="{HEAD_CHECKBOXNAME}" id="{HEAD_CHECKBOXNAME}" value="1" title='{HEAD_SELECT_ALL_TXT_SELECT_ALL}'
-				 onClick="il.Util.setChecked('{HEAD_SELECT_ALL_FORM_NAME}', '{HEAD_SELECT_ALL_CHECKBOX_NAME}', document.forms['{HEAD_SELECT_ALL_FORM_NAME}'].elements['{HEAD_CHECKBOXNAME}'].checked);" />
+				 onClick='il.Util.setChecked('{HEAD_SELECT_ALL_FORM_NAME}', '{HEAD_SELECT_ALL_CHECKBOX_NAME}', document.forms['{HEAD_SELECT_ALL_FORM_NAME}'].elements['{HEAD_CHECKBOXNAME}'].checked);" />
 	  </td>
 	  <!-- END tbl_header_top_select_all -->
-      <!-- BEGIN tbl_header_top_select_column -->
-	  <td {TBL_COLUMN_WIDTH}>
-	  </td>
-	  <!-- END tbl_header_top_select_column -->
 <!-- BEGIN tbl_header_no_link -->
 		<th {TBL_COLUMN_WIDTH_NO_LINK} {TBL_COLUMN_CLASS_NO_LINK}><span id="{HEAD_CELL_NL_ID}">{TBL_HEADER_CELL_NO_LINK}</span></th>
 <!-- END tbl_header_no_link -->
