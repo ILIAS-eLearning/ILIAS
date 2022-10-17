@@ -1330,7 +1330,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             );
 
             if ($value === "") {
-                return $solutionSubmit;
+                continue;
             }
 
             if (!(($gap->getType() === (int) CLOZE_SELECT) && ($value === -1))) {
