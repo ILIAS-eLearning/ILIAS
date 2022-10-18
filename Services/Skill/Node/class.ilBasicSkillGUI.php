@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -139,7 +141,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it = new ilBasicSkill();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setStatus($this->form->getInput("status"));
+        $it->setStatus((int) $this->form->getInput("status"));
         $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $it->create();
         $this->skill_tree_node_manager->putIntoTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
@@ -168,7 +170,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
         $this->node_object->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
-        $this->node_object->setStatus($this->form->getInput("status"));
+        $this->node_object->setStatus((int) $this->form->getInput("status"));
         $this->node_object->update();
     }
 
@@ -449,7 +451,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteLevel");
 
             foreach ($this->requested_level_ids as $i) {
-                $cgui->addItem("id[]", $i, ilBasicSkill::lookupLevelTitle($i));
+                $cgui->addItem("id[]", (string) $i, ilBasicSkill::lookupLevelTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -708,7 +710,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
             foreach ($this->requested_resource_ids as $i) {
                 $title = ilObject::_lookupTitle(ilObject::_lookupObjId($i));
-                $cgui->addItem("id[]", $i, $title);
+                $cgui->addItem("id[]", (string) $i, $title);
             }
 
             $tpl->setContent($cgui->getHTML());

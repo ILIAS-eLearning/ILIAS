@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -159,7 +161,7 @@ class SkillProfileManager
     public function lookupRefId(int $profile_id): int
     {
         $ref_id = $this->profile_repo->lookup($profile_id, "ref_id");
-        return $ref_id;
+        return (int) $ref_id;
     }
 
     /**

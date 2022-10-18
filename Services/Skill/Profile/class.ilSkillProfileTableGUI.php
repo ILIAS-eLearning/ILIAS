@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -100,7 +102,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("CMD", $lng->txt("show"));
         }
-        $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
+        $ilCtrl->setParameter($this->parent_obj, "sprof_id", (int) $a_set["id"]);
         $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showLevels"));
         $ilCtrl->setParameter($this->parent_obj, "sprof_id", $this->requested_sprof_id);
         $this->tpl->parseCurrentBlock();
@@ -111,7 +113,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 
-        $profile_ref_id = $this->profile_manager->lookupRefId($a_set["id"]);
+        $profile_ref_id = $this->profile_manager->lookupRefId((int) $a_set["id"]);
         $profile_obj_id = ilContainerReference::_lookupObjectId($profile_ref_id);
         $profile_obj_title = ilObject::_lookupTitle($profile_obj_id);
         if ($profile_ref_id > 0) {
@@ -123,7 +125,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
             $this->tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
         }
 
-        $this->tpl->setVariable("NUM_USERS", $this->profile_manager->countUsers($a_set["id"]));
-        $this->tpl->setVariable("NUM_ROLES", $this->profile_manager->countRoles($a_set["id"]));
+        $this->tpl->setVariable("NUM_USERS", $this->profile_manager->countUsers((int) $a_set["id"]));
+        $this->tpl->setVariable("NUM_ROLES", $this->profile_manager->countRoles((int) $a_set["id"]));
     }
 }

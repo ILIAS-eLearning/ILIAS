@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -50,7 +52,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected int $requested_tref_id = 0;
     protected int $requested_templates_tree = 0;
     protected string $requested_skexpand = "";
-    protected int $requested_tmpmode = 0;
+    protected bool $requested_tmpmode = false;
 
     /**
      * @var string[]
@@ -503,7 +505,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $confirmation_gui = new ilConfirmationGUI();
 
-        $ilCtrl->setParameter($a_gui, "tmpmode", $this->requested_tmpmode);
+        $ilCtrl->setParameter($a_gui, "tmpmode", (int) $this->requested_tmpmode);
         $a_form_action = $this->ctrl->getFormAction($a_gui);
         $confirmation_gui->setFormAction($a_form_action);
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
@@ -514,7 +516,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 $confirmation_gui->addItem(
                     "id[]",
-                    $node_obj->getId(),
+                    (string) $node_obj->getId(),
                     $node_obj->getTitle(),
                     ilUtil::getImagePath("icon_" . $node_obj->getType() . ".svg")
                 );

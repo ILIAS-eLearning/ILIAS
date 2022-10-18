@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -607,14 +609,14 @@ class ilSkillDataSet extends ilDataSet
         $source_inst_id = $a_mapping->getInstallId();
         switch ($a_entity) {
             case "skl_subtree":
-                if ($a_rec["TopNode"] == 1) {
+                if ((int) $a_rec["TopNode"] === 1) {
                     $parent = $skill_tree_root_id;
                     $status = ilSkillTreeNode::STATUS_DRAFT;
-                    $order = $a_rec["OrderNr"] + $init_top_order_nr;
+                    $order = (int) $a_rec["OrderNr"] + $init_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
-                    $status = $a_rec["Status"];
-                    $order = $a_rec["OrderNr"];
+                    $status = (int) $a_rec["Status"];
+                    $order = (int) $a_rec["OrderNr"];
                 }
                 switch ($a_rec["Type"]) {
                     case "scat":
@@ -627,7 +629,7 @@ class ilSkillDataSet extends ilDataSet
                         $scat->setStatus($status);
                         $scat->create();
                         $tree_node_manager->putIntoTree($scat, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $scat->getId());
+                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $scat->getId());
                         break;
 
                     case "skll":
@@ -640,7 +642,7 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setStatus($status);
                         $skll->create();
                         $tree_node_manager->putIntoTree($skll, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $skll->getId());
+                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $skll->getId());
                         break;
 
                     case "sktr":
@@ -657,19 +659,19 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setStatus($status);
                             $sktr->create();
                             $tree_node_manager->putIntoTree($sktr, $parent);
-                            $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktr->getId());
+                            $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sktr->getId());
                         }
                         break;
                 }
                 break;
 
             case "skl_templ_subtree":
-                if ($a_rec["TopNode"] == 1) {
+                if ((int) $a_rec["TopNode"] === 1) {
                     $parent = $skill_tree_root_id;
-                    $order = $a_rec["OrderNr"] + $init_templ_top_order_nr;
+                    $order = (int) $a_rec["OrderNr"] + $init_templ_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
-                    $order = $a_rec["OrderNr"];
+                    $order = (int) $a_rec["OrderNr"];
                 }
                 switch ($a_rec["Type"]) {
                     case "sctp":
@@ -680,7 +682,7 @@ class ilSkillDataSet extends ilDataSet
                         $sctp->setOrderNr($order);
                         $sctp->create();
                         $tree_node_manager->putIntoTree($sctp, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sctp->getId());
+                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sctp->getId());
                         break;
 
                     case "sktp":
@@ -691,7 +693,7 @@ class ilSkillDataSet extends ilDataSet
                         $sktp->setOrderNr($order);
                         $sktp->create();
                         $tree_node_manager->putIntoTree($sktp, $parent);
-                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktp->getId());
+                        $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], (string) $sktp->getId());
                         break;
                 }
                 break;
@@ -719,7 +721,7 @@ class ilSkillDataSet extends ilDataSet
                 );
                 $new_profile = $this->skill_manager->getProfileManager()->createProfile($profile);
 
-                $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $new_profile->getId());
+                $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], (string) $new_profile->getId());
                 break;
 
             case "skl_local_prof":
@@ -729,11 +731,11 @@ class ilSkillDataSet extends ilDataSet
                     $a_rec["Description"] ?? "",
                     $this->getSkillTreeId(),
                     "",
-                    $a_rec["RefId"]
+                    (int) $a_rec["RefId"]
                 );
                 $new_profile = $this->skill_manager->getProfileManager()->createProfile($profile);
 
-                $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], $new_profile->getId());
+                $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], (string) $new_profile->getId());
                 break;
 
             case "skl_prof_level":
@@ -742,8 +744,8 @@ class ilSkillDataSet extends ilDataSet
                     : (int) $a_mapping->getMapping("Services/Skill", "skl_local_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
                     $prof = $this->skill_manager->getProfileManager()->getById($profile_id);
-                    $level_id_data = ilBasicSkill::getLevelIdForImportId($this->getCurrentInstallationId(), $a_rec["LevelId"]);
-                    $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);
+                    $level_id_data = ilBasicSkill::getLevelIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["LevelId"]);
+                    $skill_data = ilBasicSkill::getCommonSkillIdForImportId((int) $this->getCurrentInstallationId(), (int) $a_rec["BaseSkillId"], (int) $a_rec["TrefId"]);
                     $level_id = $tref_id = $base_skill = 0;
                     foreach ($level_id_data as $l) {
                         reset($skill_data);
@@ -758,7 +760,7 @@ class ilSkillDataSet extends ilDataSet
                         }
                     }
                     if ($level_id > 0) {
-                        $prof->addSkillLevel($base_skill, $tref_id, $level_id, $a_rec["OrderNr"]);
+                        $prof->addSkillLevel($base_skill, $tref_id, $level_id, (int) $a_rec["OrderNr"]);
                     }
                     $this->skill_manager->getProfileManager()->updateProfile($prof);
                 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -78,7 +80,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             if ($this->draft[$c["parent"]]) {
                 $this->draft[$c["child"]] = true;
             } else {
-                $this->draft[$c["child"]] = (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_DRAFT);
+                $this->draft[$c["child"]] = (ilSkillTreeNode::_lookupStatus((int) $c["child"]) == ilSkillTreeNode::STATUS_DRAFT);
             }
         }
         return $childs;
@@ -99,10 +101,10 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             $title = $lng->txt("skmg_skill_templates");
         } else {
             if ($a_node["type"] == "sktr") {
-                $tid = ilSkillTemplateReference::_lookupTemplateId($a_node["child"]);
+                $tid = ilSkillTemplateReference::_lookupTemplateId((int) $a_node["child"]);
                 $title .= " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
             }
-            if (ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"])) {
+            if (ilSkillTreeNode::_lookupSelfEvaluation((int) $a_node["child"])) {
                 $title = "<u>" . $title . "</u>";
             }
         }
@@ -123,7 +125,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $a_node["child"],
                 $a_node["type"],
                 "",
-                $this->draft[$a_node["child"]]
+                (int) $this->draft[$a_node["child"]]
             );
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -197,7 +199,7 @@ class SkillProfileDBRepository
         return $profiles;
     }
 
-    public function lookup(int $id, string $field): ?string
+    public function lookup(int $id, string $field): string
     {
         $ilDB = $this->db;
 
@@ -207,7 +209,7 @@ class SkillProfileDBRepository
         );
         $rec = $ilDB->fetchAssoc($set);
 
-        return isset($rec[$field]) ? (string) $rec[$field] : null;
+        return $rec[$field] ?? "";
     }
 
     public function updateRefIdAfterImport(int $profile_id, int $new_ref_id): void

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -104,7 +106,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        $mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, $a_set["id"]);
+        $mat = ilPersonalSkill::getAssignedMaterial($ilUser->getId(), $this->tref_id, (int) $a_set["id"]);
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         foreach ($mat as $m) {
             $this->tpl->setCurrentBlock("mat");

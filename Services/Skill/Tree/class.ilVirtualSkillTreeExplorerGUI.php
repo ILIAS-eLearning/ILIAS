@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -92,7 +94,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      */
     public function getNodeId($a_node): string
     {
-        return $a_node["id"];
+        return (string) $a_node["id"];
     }
 
     /**

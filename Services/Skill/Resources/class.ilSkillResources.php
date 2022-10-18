@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -95,7 +97,7 @@ class ilSkillResources implements ilSkillUsageInfo
             " AND tref_id = " . $ilDB->quote($this->getTemplateRefId(), "integer")
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if ($tree->isInTree($rec["rep_ref_id"])) {
+            if ($tree->isInTree((int) $rec["rep_ref_id"])) {
                 $this->resources[(int) $rec["level_id"]][(int) $rec["rep_ref_id"]] = array(
                     "level_id" => (int) $rec["level_id"],
                     "rep_ref_id" => (int) $rec["rep_ref_id"],

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -55,7 +57,7 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
                 ) .
                 " ORDER BY n.creation_date DESC ");
             while ($rec = $ilDB->fetchAssoc($set)) {
-                if (($t = ilSkillTemplateReference::_lookupTemplateId($rec["obj_id"])) > 0) {
+                if (($t = ilSkillTemplateReference::_lookupTemplateId((int) $rec["obj_id"])) > 0) {
                     $template_ids[$t] = (int) $rec["obj_id"];
                 }
             }
@@ -72,8 +74,8 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
         while ($rec = $ilDB->fetchAssoc($set)) {
             $matching_trefs = [];
             if ($a_tref_import_id > 0) {
-                $tree = $this->tree_factory->getTreeById($rec["skl_tree_id"]);
-                $skill_template_id = $tree->getTopParentNodeId($rec["obj_id"]);
+                $tree = $this->tree_factory->getTreeById((int) $rec["skl_tree_id"]);
+                $skill_template_id = $tree->getTopParentNodeId((int) $rec["obj_id"]);
 
                 // check of skill is in template
                 foreach ($template_ids as $templ => $tref) {
@@ -104,7 +106,7 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
 
         $set = $ilDB->query("SELECT * FROM skl_level l JOIN skl_tree t ON (l.skill_id = t.child) " .
             " WHERE l.import_id = " . $ilDB->quote(
-                "il_" . ($a_source_inst_id) . "_sklv_" . $a_level_import_id,
+                "il_" . $a_source_inst_id . "_sklv_" . $a_level_import_id,
                 "text"
             ) .
             " ORDER BY l.creation_date DESC ");
@@ -135,7 +137,7 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
             [$node_id]
         );
         $rec = $db->fetchAssoc($set);
-        return $rec["skl_tree_id"] ?? 0;
+        return isset($rec["skl_tree_id"]) ? (int) $rec["skl_tree_id"] : 0;
     }
 
     public function getTreeForNodeId(int $node_id): ilSkillTree

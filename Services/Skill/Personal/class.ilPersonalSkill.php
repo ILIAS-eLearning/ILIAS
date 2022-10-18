@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -41,10 +43,11 @@ class ilPersonalSkill implements ilSkillUsageInfo
         );
         $pskills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if ($repo->isInAnyTree($rec["skill_node_id"])) {
-                $pskills[(int) $rec["skill_node_id"]] = array(
-                    "skill_node_id" => (int) $rec["skill_node_id"],
-                    "title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"])
+            $skill_node_id = (int) $rec["skill_node_id"];
+            if ($repo->isInAnyTree($skill_node_id)) {
+                $pskills[$skill_node_id] = array(
+                    "skill_node_id" => $skill_node_id,
+                    "title" => ilSkillTreeNode::_lookupTitle($skill_node_id)
                 );
             }
         }
@@ -245,7 +248,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
                 $a_tref_id,
                 ilBasicSkill::ACHIEVED,
                 false,
-                1
+                true
             );
         } else {
             ilBasicSkill::resetUserSkillLevelStatus($a_user_id, $a_basic_skill, $a_tref_id, 0, true);
@@ -310,7 +313,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $tref_ids = [];
         foreach ($a_cskill_ids as $cs) {
             if ($cs["tref_id"] > 0) {
-                if (ilSkillTemplateReference::_lookupTemplateId($cs["tref_id"]) == $cs["skill_id"]) {
+                if (ilSkillTemplateReference::_lookupTemplateId((int) $cs["tref_id"]) == (int) $cs["skill_id"]) {
                     $pskill_ids[$cs["tref_id"]] = $cs["tref_id"];
                     $tref_ids[(int) $cs["tref_id"]] = $cs["skill_id"];
                 }

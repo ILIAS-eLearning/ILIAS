@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -139,9 +141,9 @@ class SkillProfileCompletionManager
         $skills = [];
         foreach ($profile_levels as $l) {
             $skills[] = array(
-                "base_skill_id" => $l["base_skill_id"],
-                "tref_id" => $l["tref_id"],
-                "level_id" => $l["level_id"]
+                "base_skill_id" => (int) $l["base_skill_id"],
+                "tref_id" => (int) $l["tref_id"],
+                "level_id" => (int) $l["level_id"]
             );
         }
         $actual_levels = $this->getActualMaxLevels($user_id, $skills);

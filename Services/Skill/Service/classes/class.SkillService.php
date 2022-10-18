@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -39,7 +41,7 @@ class SkillService implements SkillServiceInterface
 
         $this->repository_tree = $DIC->repositoryTree();
         $skmg_obj = current(\ilObject::_getObjectsByType("skmg"));
-        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences($skmg_obj["obj_id"]));
+        $this->skmg_ref_id = (int) current(\ilObject::_getAllReferences((int) $skmg_obj["obj_id"]));
         $this->rbac_system = $DIC->rbac()->system();
         $this->usr_id = $DIC->user()->getId();
     }
