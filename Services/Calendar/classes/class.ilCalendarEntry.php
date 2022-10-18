@@ -1,10 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-const IL_CAL_TRANSLATION_NONE = 0;
-const IL_CAL_TRANSLATION_SYSTEM = 1;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Model for a calendar entry.
@@ -483,9 +495,6 @@ class ilCalendarEntry implements ilDatePeriod
         $this->responsible_users = $a_users;
     }
 
-    /**
-     * Read responsible users
-     */
     public function readResponsibleUsers(): array
     {
         $set = $this->db->queryF(
@@ -499,7 +508,7 @@ class ilCalendarEntry implements ilDatePeriod
             $n = ilObjUser::_lookupName((int) $rec["user_id"]);
             $return[] = array_merge(
                 $n,
-                array("login" => ilObjUser::_lookupLogin($rec["user_id"]))
+                array("login" => ilObjUser::_lookupLogin((int) $rec["user_id"]))
             );
         }
         return $return;

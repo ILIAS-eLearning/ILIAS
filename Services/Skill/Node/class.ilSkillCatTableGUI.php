@@ -194,8 +194,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $icon = $this->ui_fac->symbol()->icon()->custom(
             $icon_path,
             "",
-            "medium",
-            (ilSkillTreeNode::_lookupStatus((int) $a_set["child"]) === ilSkillTreeNode::STATUS_DRAFT)
+            "medium"
         );
         $this->tpl->setVariable("ICON", $this->ui_ren->render($icon));
     }

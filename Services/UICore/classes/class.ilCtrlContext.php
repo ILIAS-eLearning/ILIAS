@@ -1,8 +1,21 @@
 <?php
 
-declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -12,6 +25,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * current context information.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 class ilCtrlContext implements ilCtrlContextInterface
 {
@@ -81,6 +95,11 @@ class ilCtrlContext implements ilCtrlContextInterface
     protected ?int $obj_id = null;
 
     /**
+     * @var array<string, ilCtrlPathInterface>
+     */
+    protected array $history = [];
+
+    /**
      * ilCtrlContext Constructor
      *
      * @param ilCtrlPathFactory $path_factory
@@ -147,8 +166,8 @@ class ilCtrlContext implements ilCtrlContextInterface
 
         // only set baseclass if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$base_class] = $path;
             $this->base_class = $base_class;
-
             // only update the path if the current one is null.
             if (null === $this->path->getCidPath()) {
                 $this->path = $path;
@@ -192,9 +211,29 @@ class ilCtrlContext implements ilCtrlContextInterface
 
         // only set command class if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$cmd_class] = $path;
             $this->cmd_class = $cmd_class;
             $this->path = $path;
         }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function popCmdClass(): ilCtrlContextInterface
+    {
+        $previous_cmd_class = array_key_last($this->history);
+
+        if (null === $previous_cmd_class) {
+            return $this;
+        }
+
+        $this->path = $this->history[$previous_cmd_class];
+        $this->cmd_class = $previous_cmd_class;
+
+        unset($this->history[$previous_cmd_class]);
 
         return $this;
     }

@@ -17,7 +17,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
     public function loadFilter(): void
     {
         $value = $this->readFilter();
-        if ($value !== null) {
+        if (isset($value) && is_array($value)) {
             if ($value["lower"] ?? false) {
                 $this->getLowerADT()->setDate(new ilDateTime($value["lower"], IL_CAL_DATETIME));
             }
