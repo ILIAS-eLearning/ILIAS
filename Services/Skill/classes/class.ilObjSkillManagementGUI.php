@@ -356,6 +356,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
     public function listTrees(): void
     {
+        $this->ctrl->clearParameterByClass(get_class($this), "node_id");
         $this->ctrl->redirectByClass("skilltreeadmingui", "listTrees");
     }
 

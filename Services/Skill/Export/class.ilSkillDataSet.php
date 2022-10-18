@@ -355,7 +355,7 @@ class ilSkillDataSet extends ilDataSet
                                     "SelfEval" => $s["self_eval"],
                                     "OrderNr" => $s["order_nr"],
                                     "Status" => $s["status"],
-                                    "TemplateId" => (int) $rec["templ_id"]
+                                    "TemplateId" => isset($rec["templ_id"]) ? (int) $rec["templ_id"] : 0
                                 );
                         }
                     }
