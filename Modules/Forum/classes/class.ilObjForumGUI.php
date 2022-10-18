@@ -598,7 +598,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function infoScreenObject(): void
     {
         $this->ctrl->setCmd('showSummary');
-        $this->ctrl->setCmdClass('ilinfoscreengui');
+        $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
         $this->infoScreen();
     }
 
@@ -3602,7 +3602,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->ctrl->redirect($this, 'showThreads');
             } elseif ($cmd === 'html') {
                 $this->ctrl->setCmd('exportHTML');
-                $this->ctrl->setCmdClass('ilForumExportGUI');
+                $this->ctrl->setCmdClass(ilForumExportGUI::class);
                 $this->executeCommand();
             } elseif ($cmd === 'confirmDeleteThreads') {
                 $this->confirmDeleteThreads();
