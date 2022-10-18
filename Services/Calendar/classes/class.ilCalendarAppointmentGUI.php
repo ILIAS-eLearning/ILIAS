@@ -118,6 +118,9 @@ class ilCalendarAppointmentGUI
     {
         // Clear tabs and set back target
         $this->tabs->clearTargets();
+        if ($this->http->wrapper()->query()->has('app_id')) {
+            $this->ctrl->saveParameter($this, 'app_id');
+        }
         $this->tabs->setBackTarget(
             $this->lng->txt('cal_back_to_cal'),
             $this->ctrl->getLinkTarget($this, 'cancel')
