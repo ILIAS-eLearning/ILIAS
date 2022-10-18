@@ -18,23 +18,22 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
-/**
-* Class ilRepositorySearchGUI
-*
-* GUI class for user, group, role search
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @package ilias-search
-* @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI
-*
-*/
-
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as RefineryFactory;
 
+/**
+ * Class ilRepositorySearchGUI
+ *
+ * GUI class for user, group, role search
+ *
+ * @author       Stefan Meyer <meyer@leifos.com>
+ *
+ * @package      ilias-search
+ * @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI, ilPropertyFormGUI
+ *
+ */
 class ilRepositorySearchGUI
 {
     private array $search_results = [];

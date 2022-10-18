@@ -231,9 +231,7 @@ class ilCalendarPresentationGUI
                     $this->lng->txt('cal_back_to_cal'),
                     $this->ctrl->getLinkTargetByClass($this->readLastClass())
                 );
-
-                $gui = new ilConsultationHoursGUI();
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(new ilConsultationHoursGUI());
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
                 }
