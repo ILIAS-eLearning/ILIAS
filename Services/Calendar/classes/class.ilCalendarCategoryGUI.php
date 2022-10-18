@@ -485,7 +485,7 @@ class ilCalendarCategoryGUI
         $query = '';
         $type = '';
         if ($this->http->wrapper()->post()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
+            $query = $this->http->wrapper()->post()->retrieve(
                 'query',
                 $this->refinery->kindlyTo()->string()
             );
@@ -577,7 +577,7 @@ class ilCalendarCategoryGUI
             $this->ctrl->returnToParent($this);
         }
         $user_ids = [];
-        if (!$this->http->wrapper()->post()->has('user_ids')) {
+        if ($this->http->wrapper()->post()->has('user_ids')) {
             $user_ids = $this->http->wrapper()->post()->retrieve(
                 'user_ids',
                 $this->refinery->kindlyTo()->dictOf(
@@ -622,7 +622,7 @@ class ilCalendarCategoryGUI
         }
 
         $role_ids = [];
-        if (!$this->http->wrapper()->post()->has('role_ids')) {
+        if ($this->http->wrapper()->post()->has('role_ids')) {
             $role_ids = $this->http->wrapper()->post()->retrieve(
                 'role_ids',
                 $this->refinery->kindlyTo()->dictOf(
@@ -719,7 +719,7 @@ class ilCalendarCategoryGUI
 
         $query = '';
         if ($this->http->wrapper()->post()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
+            $query = $this->http->wrapper()->post()->retrieve(
                 'query',
                 $this->refinery->kindlyTo()->string()
             );
