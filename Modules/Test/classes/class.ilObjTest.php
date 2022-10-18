@@ -10887,7 +10887,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function getResultFilterTaxIds(): array
     {
-        return $this->getScoreSettings()->getResultDetailsSettings()->getTaxonomyFilterIds();
+        if ($this->getTestId() != -1) {
+            return $this->getScoreSettings()->getResultDetailsSettings()->getTaxonomyFilterIds();
+        }
+        return [];
     }
 
     public function isSkillServiceToBeConsidered(): bool
