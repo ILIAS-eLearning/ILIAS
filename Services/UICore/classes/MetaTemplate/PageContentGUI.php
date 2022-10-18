@@ -414,10 +414,6 @@ class PageContentGUI
 
         if (null !== $this->icon_path) {
             $header_tpl->setCurrentBlock("header_image");
-            if (null !== $this->icon_desc) {
-                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-            }
-
             $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
             $header_tpl->parseCurrentBlock();
             $header = true;
