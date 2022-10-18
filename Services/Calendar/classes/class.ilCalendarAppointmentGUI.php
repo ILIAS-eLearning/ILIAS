@@ -488,12 +488,15 @@ class ilCalendarAppointmentGUI
             }
 
             $cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
-            $type = ilObject::_lookupType($cat_info['obj_id']);
+            $type = ilObject::_lookupType($cat_info['obj_id'] ?? 0);
 
-            if ($a_as_milestone && $cat_info['type'] == ilCalendarCategory::TYPE_OBJ
-                && ($type == "grp" || $type == "crs")) {
+            if (
+                $a_as_milestone &&
+                ($cat_info['type'] ??  ilCalendarCategory::TYPE_UNDEFINED) == ilCalendarCategory::TYPE_OBJ &&
+                ($type == "grp" || $type == "crs")
+            ) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone_resp_q'), true);
-                $this->showResponsibleUsersList($cat_info['obj_id']);
+                $this->showResponsibleUsersList($cat_info['obj_id'] ?? 0);
                 return;
             } elseif ($a_as_milestone) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_created_milestone'), true);
