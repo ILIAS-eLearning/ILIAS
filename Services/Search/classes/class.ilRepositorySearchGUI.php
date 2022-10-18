@@ -18,6 +18,11 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as RefineryFactory;
+
 /**
 * Class ilRepositorySearchGUI
 *
@@ -29,12 +34,6 @@ declare(strict_types=1);
 * @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
 *
 */
-
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as RefineryFactory;
-
 class ilRepositorySearchGUI
 {
     private array $search_results = [];

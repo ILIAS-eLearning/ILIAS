@@ -1,7 +1,22 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Consultation hours administration
@@ -85,7 +100,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         if ($a_set['bookings']) {
             foreach ($a_set['bookings'] as $user_id => $name) {
                 $user_profile_prefs = ilObjUser::_getPreferences($user_id);
-                if ($user_profile_prefs["public_profile"] == "y") {
+                if (($user_profile_prefs["public_profile"] ?? '') == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
                     $this->ctrl->setParameter($this->getParentObject(), 'user', $user_id);
                     $this->tpl->setVariable(
@@ -140,7 +155,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
             $booking = new ilBookingEntry($app->getContextId());
 
             $booked_user_ids = $booking->getCurrentBookings($app->getEntryId());
-            $booked_user_ids = ilUtil::_sortIds($booked_user_ids, 'usr_data', 'lastname', 'usr_id');
+            $booked_user_ids = array_map('intval', ilUtil::_sortIds($booked_user_ids, 'usr_data', 'lastname', 'usr_id'));
             $users = array();
             $data[$counter]['participants'] = '';
             $user_counter = 0;
@@ -163,7 +178,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
             // obj assignments
             $refs_counter = 0;
-            $obj_ids = ilUtil::_sortIds($booking->getTargetObjIds(), 'object_data', 'title', 'obj_id');
+            $obj_ids = array_map(
+                'intval',
+                ilUtil::_sortIds($booking->getTargetObjIds(), 'object_data', 'title', 'obj_id')
+            );
             foreach ($obj_ids as $obj_id) {
                 if ($refs_counter) {
                     $data[$counter]['target'] = ilObject::_lookupTitle($obj_id);

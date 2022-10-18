@@ -1,7 +1,23 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Booking definition
@@ -239,7 +255,7 @@ class ilBookingEntry
         $res = $this->db->query($query);
         $this->target_obj_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->target_obj_ids[] = $row->target_obj_id;
+            $this->target_obj_ids[] = (int) $row->target_obj_id;
         }
     }
 
@@ -326,7 +342,7 @@ class ilBookingEntry
         $res = $ilDB->query($query);
         $all = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $all[] = $row->obj_id;
+            $all[] = (int) $row->obj_id;
         }
         return $all;
     }
@@ -420,7 +436,7 @@ class ilBookingEntry
             'AND user_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->booking_message;
+            return (string) $row->booking_message;
         }
         return '';
     }
@@ -449,7 +465,10 @@ class ilBookingEntry
         $set = $this->db->query('SELECT COUNT(*) AS counter FROM booking_user' .
             ' WHERE entry_id = ' . $this->db->quote($a_entry_id, 'integer'));
         $row = $this->db->fetchAssoc($set);
-        return (int) $row['counter'];
+        if (is_array($row)) {
+            return (int) $row['counter'];
+        }
+        return 0;
     }
 
     /**
@@ -512,7 +531,7 @@ class ilBookingEntry
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $dt = new ilDateTime($row->starta, IL_CAL_DATETIME, ilTimeZone::UTC);
             $dt_end = new ilDateTime($row->enda, IL_CAL_DATETIME, ilTimeZone::UTC);
-            $bookings[$row->user_id][] = [
+            $bookings[(int) $row->user_id][] = [
                 'dt' => $dt->get(IL_CAL_UNIX),
                 'dtend' => $dt_end->get(IL_CAL_UNIX),
                 'owner' => $a_usr_id
@@ -554,8 +573,10 @@ class ilBookingEntry
             ' AND user_id = ' . $this->db->quote($a_user_id, 'integer');
         $set = $this->db->query($query);
         $row = $this->db->fetchAssoc($set);
-
-        return (bool) $row['counter'];
+        if (is_array($row)) {
+            return (bool) $row['counter'];
+        }
+        return false;
     }
 
     /**
