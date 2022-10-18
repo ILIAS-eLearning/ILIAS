@@ -216,7 +216,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
         $form->addItem($image);
 
-        require_once 'Modules/TestQuestionPool/classes/forms/class.ilHtmlImageMapFileInputGUI.php';
         $imagemapfile = new ilHtmlImageMapFileInputGUI($this->lng->txt('add_imagemap'), 'imagemapfile');
         $imagemapfile->setRequired(false);
         $form->addItem($imagemapfile);
