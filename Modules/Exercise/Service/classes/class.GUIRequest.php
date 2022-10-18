@@ -221,7 +221,7 @@ class GUIRequest
      */
     public function getFiles(): array
     {
-        return $this->strArray("file");
+        return $this->arrayArray("file");
     }
 
     public function getFile(): string
