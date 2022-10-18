@@ -191,9 +191,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             $tpl->parseCurrentBlock();
             foreach ($this->terms as $term) {
                 $tpl->setCurrentBlock("option_term");
-                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($term->getIdentifier()));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('term') . " " . $counter);
-                if ($pair->term->identifier == $term->identifier) {
+                if ($pair->term->getIdentifier() == $term->getIdentifier()) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
                 }
                 $tpl->parseCurrentBlock();
@@ -206,9 +206,9 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             $tpl->parseCurrentBlock();
             foreach ($this->definitions as $definition) {
                 $tpl->setCurrentBlock("option_definition");
-                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->identifier));
+                $tpl->setVariable("VALUE_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($definition->getIdentifier()));
                 $tpl->setVariable("TEXT_OPTION", $lng->txt('definition') . " " . $counter);
-                if ($pair->definition->identifier == $definition->identifier) {
+                if ($pair->definition->getIdentifier() == $definition->getIdentifier()) {
                     $tpl->setVariable('SELECTED_OPTION', ' selected="selected"');
                 }
                 $tpl->parseCurrentBlock();
@@ -249,7 +249,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setCurrentBlock('term_ids');
         $ids = array();
         foreach ($this->terms as $term) {
-            array_push($ids, $term->identifier);
+            array_push($ids, $term->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("TERM_IDS", join(",", $ids));
@@ -258,7 +258,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $tpl->setCurrentBlock('definition_ids');
         $ids = array();
         foreach ($this->definitions as $definition) {
-            array_push($ids, $definition->identifier);
+            array_push($ids, $definition->getIdentifier());
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("DEFINITION_IDS", join(",", $ids));

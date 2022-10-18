@@ -340,8 +340,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $stripHtmlEntitesFromValues = function (assAnswerMatchingTerm $value) {
-            $value->__set('text', html_entity_decode($value->__get('text')));
-            return $value;
+            return $value->withText(html_entity_decode($value->getText()));
         };
 
         $definitions->setRequired(true);
@@ -488,8 +487,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
                 $solutions[] = array(
-                    "value1" => $pair->term->identifier,
-                    "value2" => $pair->definition->identifier,
+                    "value1" => $pair->term->getIdentifier(),
+                    "value2" => $pair->definition->getIdentifier(),
                     'points' => $pair->points
                 );
             }
@@ -503,77 +502,77 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $points = $solution['points'];
 
             if (is_object($definition)) {
-                if (strlen($definition->picture)) {
-                    if (strlen($definition->text)) {
+                if (strlen($definition->getPicture())) {
+                    if (strlen($definition->getText())) {
                         $template->setCurrentBlock('definition_image_text');
                         $template->setVariable(
                             "TEXT_DEFINITION",
-                            ilLegacyFormElementsUtil::prepareFormOutput($definition->text)
+                            ilLegacyFormElementsUtil::prepareFormOutput($definition->getText())
                         );
                         $template->parseCurrentBlock();
                     }
 
                     $answerImageSrc = ilWACSignedPath::signFile(
-                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture
+                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture()
                     );
 
                     $template->setCurrentBlock('definition_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
                     $template->setVariable(
                         'ANSWER_IMAGE_ALT',
-                        (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
-                            $definition->text
-                        ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                        (strlen($definition->getText())) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                            $definition->getText()
+                        ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->getPicture())
                     );
                     $template->setVariable(
                         'ANSWER_IMAGE_TITLE',
-                        (strlen($definition->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
-                            $definition->text
-                        ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->picture)
+                        (strlen($definition->getText())) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                            $definition->getText()
+                        ) : ilLegacyFormElementsUtil::prepareFormOutput($definition->getPicture())
                     );
-                    $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
+                    $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->getPicture());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock('definition_text');
-                    $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
+                    $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->getText(), true));
                     $template->parseCurrentBlock();
                 }
             }
             if (is_object($term)) {
-                if (strlen($term->picture)) {
-                    if (strlen($term->text)) {
+                if (strlen($term->getPicture())) {
+                    if (strlen($term->getText())) {
                         $template->setCurrentBlock('term_image_text');
-                        $template->setVariable("TEXT_TERM", ilLegacyFormElementsUtil::prepareFormOutput($term->text));
+                        $template->setVariable("TEXT_TERM", ilLegacyFormElementsUtil::prepareFormOutput($term->getText()));
                         $template->parseCurrentBlock();
                     }
 
                     $answerImageSrc = ilWACSignedPath::signFile(
-                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture
+                        $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture()
                     );
 
                     $template->setCurrentBlock('term_image');
                     $template->setVariable('ANSWER_IMAGE_URL', $answerImageSrc);
                     $template->setVariable(
                         'ANSWER_IMAGE_ALT',
-                        (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
-                            $term->text
-                        ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                        (strlen($term->getText())) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                            $term->getText()
+                        ) : ilLegacyFormElementsUtil::prepareFormOutput($term->getPicture())
                     );
                     $template->setVariable(
                         'ANSWER_IMAGE_TITLE',
-                        (strlen($term->text)) ? ilLegacyFormElementsUtil::prepareFormOutput(
-                            $term->text
-                        ) : ilLegacyFormElementsUtil::prepareFormOutput($term->picture)
+                        (strlen($term->getText())) ? ilLegacyFormElementsUtil::prepareFormOutput(
+                            $term->getText()
+                        ) : ilLegacyFormElementsUtil::prepareFormOutput($term->getPicture())
                     );
-                    $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
+                    $template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->getPicture());
                     $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                     $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                     $template->parseCurrentBlock();
                 } else {
                     $template->setCurrentBlock('term_text');
-                    $template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, true));
+                    $template->setVariable("TERM", $this->object->prepareTextareaOutput($term->getText(), true));
                     $template->parseCurrentBlock();
                 }
                 $i++;
@@ -696,47 +695,47 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create definitions
         $counter = 0;
         foreach ($definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if (strlen($definition->getPicture())) {
                 $template->setCurrentBlock("definition_picture");
-                $template->setVariable("DEFINITION_ID", $definition->identifier);
-                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->picture);
-                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture;
-                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->picture;
+                $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
+                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->getPicture());
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
                 $template->setVariable("THUMBNAIL_HREF", $thumbweb);
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-                $template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
+                $template->setVariable("TEXT_DEFINITION", (strlen($definition->getText())) ? $this->object->prepareTextareaOutput($definition->getText(), true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("definition_text");
-                $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true, true));
+                $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->getText(), true, true));
                 $template->parseCurrentBlock();
             }
 
             $template->setCurrentBlock("droparea");
-            $template->setVariable("ID_DROPAREA", $definition->identifier);
+            $template->setVariable("ID_DROPAREA", $definition->getIdentifier());
             $template->setVariable("QUESTION_ID", $this->object->getId());
             $template->parseCurrentBlock();
 
             $template->setCurrentBlock("definition_data");
-            $template->setVariable("DEFINITION_ID", $definition->identifier);
+            $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
             $template->parseCurrentBlock();
         }
 
         // create terms
         $counter = 0;
         foreach ($terms as $term) {
-            if (strlen($term->picture)) {
+            if (strlen($term->getPicture())) {
                 $template->setCurrentBlock("term_picture");
-                $template->setVariable("TERM_ID", $term->identifier);
-                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->picture);
-                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture;
-                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->picture;
+                $template->setVariable("TERM_ID", $term->getIdentifier());
+                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->getPicture());
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -744,20 +743,20 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
+                $template->setVariable("TEXT_TERM", (strlen($term->getText())) ? $this->object->prepareTextareaOutput($term->getText(), true, true) : '');
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("term_text");
-                $template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true, true));
+                $template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->getText(), true, true));
                 $template->parseCurrentBlock();
             }
             $template->setCurrentBlock("draggable");
-            $template->setVariable("ID_DRAGGABLE", $term->identifier);
+            $template->setVariable("ID_DRAGGABLE", $term->getIdentifier());
             $template->parseCurrentBlock();
 
             $template->setCurrentBlock("term_data");
-            $template->setVariable("TERM_ID", $term->identifier);
+            $template->setVariable("TERM_ID", $term->getIdentifier());
             $template->parseCurrentBlock();
         }
 
@@ -798,7 +797,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             /**
              * @var $definition assAnswerMatchingDefinition
              */
-            if (!isset($handled_defintions[$definition->identifier])) {
+            if (!isset($handled_defintions[$definition->getIdentifier()])) {
                 $neworder[] = $definition;
             }
         }
@@ -889,47 +888,47 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         // create definitions
         $counter = 0;
         foreach ($definitions as $definition) {
-            if (strlen($definition->picture)) {
+            if (strlen($definition->getPicture())) {
                 $template->setCurrentBlock("definition_picture");
-                $template->setVariable("DEFINITION_ID", $definition->identifier);
-                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->picture);
-                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture;
-                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->picture;
+                $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
+                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $definition->getPicture());
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $definition->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
                 $template->setVariable("THUMBNAIL_HREF", $thumbweb);
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
-                $template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->object->prepareTextareaOutput($definition->text, true, true) : '');
+                $template->setVariable("TEXT_DEFINITION", (strlen($definition->getText())) ? $this->object->prepareTextareaOutput($definition->getText(), true, true) : '');
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("definition_text");
-                $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true, true));
+                $template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->getText(), true, true));
                 $template->parseCurrentBlock();
             }
 
             $template->setCurrentBlock("droparea");
-            $template->setVariable("ID_DROPAREA", $definition->identifier);
+            $template->setVariable("ID_DROPAREA", $definition->getIdentifier());
             $template->setVariable("QUESTION_ID", $this->object->getId());
             $template->parseCurrentBlock();
 
             $template->setCurrentBlock("definition_data");
-            $template->setVariable("DEFINITION_ID", $definition->identifier);
+            $template->setVariable("DEFINITION_ID", $definition->getIdentifier());
             $template->parseCurrentBlock();
         }
 
         // create terms
         $counter = 0;
         foreach ($terms as $term) {
-            if (strlen($term->picture)) {
+            if (strlen($term->getPicture())) {
                 $template->setCurrentBlock("term_picture");
-                $template->setVariable("TERM_ID", $term->identifier);
-                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->picture);
-                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture;
-                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->picture;
+                $template->setVariable("TERM_ID", $term->getIdentifier());
+                $template->setVariable("IMAGE_HREF", $this->object->getImagePathWeb() . $term->getPicture());
+                $thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->getPicture();
+                $thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $term->getPicture();
                 if (!@file_exists($thumb)) {
                     $this->object->rebuildThumbnails();
                 }
@@ -937,20 +936,20 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $template->setVariable("THUMB_ALT", $this->lng->txt("image"));
                 $template->setVariable("THUMB_TITLE", $this->lng->txt("image"));
                 $template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-                $template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->object->prepareTextareaOutput($term->text, true, true) : '');
+                $template->setVariable("TEXT_TERM", (strlen($term->getText())) ? $this->object->prepareTextareaOutput($term->getText(), true, true) : '');
                 $template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.svg'));
                 $template->parseCurrentBlock();
             } else {
                 $template->setCurrentBlock("term_text");
-                $template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->text, true, true));
+                $template->setVariable("TERM_TEXT", $this->object->prepareTextareaOutput($term->getText(), true, true));
                 $template->parseCurrentBlock();
             }
             $template->setCurrentBlock("draggable");
-            $template->setVariable("ID_DRAGGABLE", $term->identifier);
+            $template->setVariable("ID_DRAGGABLE", $term->getIdentifier());
             $template->parseCurrentBlock();
 
             $template->setCurrentBlock('term_data');
-            $template->setVariable('TERM_ID', $term->identifier);
+            $template->setVariable('TERM_ID', $term->getIdentifier());
             $template->parseCurrentBlock();
         }
 
@@ -985,15 +984,15 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $feedback = '<table class="test_specific_feedback"><tbody>';
 
         foreach ($matches as $idx => $ans) {
-            if (!isset($userSolution[$ans->definition->identifier])) {
+            if (!isset($userSolution[$ans->definition->getIdentifier()])) {
                 continue;
             }
 
-            if (!is_array($userSolution[$ans->definition->identifier])) {
+            if (!is_array($userSolution[$ans->definition->getIdentifier()])) {
                 continue;
             }
 
-            if (!in_array($ans->term->identifier, $userSolution[$ans->definition->identifier])) {
+            if (!in_array($ans->term->getIdentifier(), $userSolution[$ans->definition->getIdentifier()])) {
                 continue;
             }
 
@@ -1002,8 +1001,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 0,
                 $idx
             );
-            $feedback .= '<tr><td>"' . $ans->definition->text . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
-            $feedback .= $ans->term->text . '"</td><td>';
+            $feedback .= '<tr><td>"' . $ans->definition->getText() . '"&nbsp;' . $this->lng->txt("matches") . '&nbsp;"';
+            $feedback .= $ans->term->getText() . '"</td><td>';
             $feedback .= $fb . '</td> </tr>';
         }
 
@@ -1060,11 +1059,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             return false;
         }
 
-        if ($pair->definition->identifier != $definition->identifier) {
+        if ($pair->definition->getIdentifier() != $definition->getIdentifier()) {
             return false;
         }
 
-        if ($pair->term->identifier != $term->identifier) {
+        if ($pair->term->getIdentifier() != $term->getIdentifier()) {
             return false;
         }
 
@@ -1081,12 +1080,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     {
         $html = '';
 
-        if (strlen($elem->text)) {
-            $html .= $elem->text;
+        if (strlen($elem->getText())) {
+            $html .= $elem->getText();
         }
 
-        if (strlen($elem->picture)) {
-            $html .= $this->getAnswerStatisticImageHtml($elem->picture);
+        if (strlen($elem->getPicture())) {
+            $html .= $this->getAnswerStatisticImageHtml($elem->getPicture());
         }
 
         return $html;

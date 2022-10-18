@@ -53,8 +53,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 'Text';
 
         // Act
-        $instance->text = $expected;
-        $actual = $instance->text;
+        $instance = $instance->withText($expected);
+        $actual = $instance->getText();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -68,8 +68,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 'path/to/picture?';
 
         // Act
-        $instance->picture = $expected;
-        $actual = $instance->picture;
+        $instance = $instance->withPicture($expected);
+        $actual = $instance->getPicture();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -83,7 +83,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = null;
 
         // Act
-        $actual = $instance->picture;
+        $actual = $instance->getPicture();
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -97,8 +97,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $expected = 12345;
 
         // Act
-        $instance->identifier = $expected;
-        $actual = $instance->identifier;
+        $instance = $instance->withIdentifier($expected);
+        $actual = $instance->getIdentifier();
 
         // Assert
         $this->assertEquals($expected, $actual);

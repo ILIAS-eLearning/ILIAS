@@ -188,11 +188,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $ilDB->insert('qpl_a_mterm', array(
                 'term_id' => array('integer', $next_id),
                 'question_fi' => array('integer', $this->getId()),
-                'picture' => array('text', $term->picture),
-                'term' => array('text', $term->text),
-                'ident' => array('integer', $term->identifier)
+                'picture' => array('text', $term->getPicture()),
+                'term' => array('text', $term->getText()),
+                'ident' => array('integer', $term->getIdentifier())
             ));
-            $termids[$term->identifier] = $next_id;
+            $termids[$term->getIdentifier()] = $next_id;
         }
 
         $definitionids = array();
@@ -202,11 +202,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $ilDB->insert('qpl_a_mdef', array(
                 'def_id' => array('integer', $next_id),
                 'question_fi' => array('integer', $this->getId()),
-                'picture' => array('text', $definition->picture),
-                'definition' => array('text', $definition->text),
-                'ident' => array('integer', $definition->identifier)
+                'picture' => array('text', $definition->getPicture()),
+                'definition' => array('text', $definition->getText()),
+                'ident' => array('integer', $definition->getIdentifier())
             ));
-            $definitionids[$definition->identifier] = $next_id;
+            $definitionids[$definition->getIdentifier()] = $next_id;
         }
 
         $ilDB->manipulateF(
@@ -224,8 +224,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                                     $next_id,
                                     $this->getId(),
                                     $pair->points,
-                                    $termids[$pair->term->identifier],
-                                    $definitionids[$pair->definition->identifier]
+                                    $termids[$pair->term->getIdentifier()],
+                                    $definitionids[$pair->definition->getIdentifier()]
                                 )
             );
         }
@@ -486,8 +486,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
 
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
-                $filename = $term->picture;
+            if (strlen($term->getPicture())) {
+                $filename = $term->getPicture();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -502,8 +502,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
-                $filename = $definition->picture;
+            if (strlen($definition->getPicture())) {
+                $filename = $definition->getPicture();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -528,11 +528,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
         $imagepath_original = str_replace("/$this->obj_id/", "/$source_questionpool/", $imagepath_original);
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
+            if (strlen($term->getPicture())) {
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
-                $filename = $term->picture;
+                $filename = $term->getPicture();
                 if (!@copy($imagepath_original . $filename, $imagepath . $filename)) {
                     $ilLog->write("matching question image could not be copied: $imagepath_original$filename");
                 }
@@ -542,8 +542,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
-                $filename = $definition->picture;
+            if (strlen($definition->getPicture())) {
+                $filename = $definition->getPicture();
                 if (!file_exists($imagepath)) {
                     ilFileUtils::makeDirParents($imagepath);
                 }
@@ -626,7 +626,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getTermWithIdentifier($a_identifier)
     {
         foreach ($this->terms as $term) {
-            if ($term->identifier == $a_identifier) {
+            if ($term->getIdentifier() == $a_identifier) {
                 return $term;
             }
         }
@@ -639,7 +639,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function getDefinitionWithIdentifier($a_identifier)
     {
         foreach ($this->definitions as $definition) {
-            if ($definition->identifier == $a_identifier) {
+            if ($definition->getIdentifier() == $a_identifier) {
                 return $definition;
             }
         }
@@ -954,7 +954,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                 continue;
             }
 
-            $defId = $pair->definition->identifier;
+            $defId = $pair->definition->getIdentifier();
 
             if (!isset($matchingPairsByDefinition[$defId])) {
                 $matchingPairsByDefinition[$defId] = $pair;
@@ -1006,8 +1006,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $term = $this->terms[$index] ?? null;
         if (is_object($term)) {
-            $this->deleteImagefile($term->picture);
-            $term->picture = '';
+            $this->deleteImagefile($term->getPicture());
+            $term = $term->withPicture('');
         }
     }
 
@@ -1015,8 +1015,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $definition = $this->definitions[$index] ?? null;
         if (is_object($definition)) {
-            $this->deleteImagefile($definition->picture);
-            $definition->picture = '';
+            $this->deleteImagefile($definition->getPicture());
+            $definition = $definition->withPicture('');
         }
     }
 
@@ -1074,14 +1074,14 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $matchings = array();
 
         foreach ($this->getDefinitions() as $definition) {
-            if (isset($postData[$definition->identifier])) {
+            if (isset($postData[$definition->getIdentifier()])) {
                 foreach ($this->getTerms() as $term) {
-                    if (isset($postData[$definition->identifier][$term->identifier])) {
-                        if (!is_array($postData[$definition->identifier])) {
-                            $postData[$definition->identifier] = array();
+                    if (isset($postData[$definition->getIdentifier()][$term->getIdentifier()])) {
+                        if (!is_array($postData[$definition->getIdentifier()])) {
+                            $postData[$definition->getIdentifier()] = array();
                         }
 
-                        $matchings[$definition->identifier][] = $term->identifier;
+                        $matchings[$definition->getIdentifier()][] = $term->getIdentifier();
                     }
                 }
             }
@@ -1194,7 +1194,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         while ($found) {
             $found = false;
             foreach ($this->matchingpairs as $key => $pair) {
-                if (($pair->term->identifier == $random_number) || ($pair->definition->identifier == $random_number)) {
+                if (($pair->term->getIdentifier() == $random_number) || ($pair->definition->getIdentifier() == $random_number)) {
                     $found = true;
                     $random_number++;
                 }
@@ -1279,18 +1279,18 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
                     $worksheet->setCell($startrow + $i, 1, $this->lng->txt("matches"));
                 }
                 $matches_written = true;
-                if ($pair->definition->identifier == $solution["value2"]) {
+                if ($pair->definition->getIdentifier() == $solution["value2"]) {
                     if (strlen($pair->definition->text)) {
                         $worksheet->setCell($startrow + $i, 0, $pair->definition->text);
                     } else {
-                        $worksheet->setCell($startrow + $i, 0, $pair->definition->picture);
+                        $worksheet->setCell($startrow + $i, 0, $pair->definition->getPicture());
                     }
                 }
-                if ($pair->term->identifier == $solution["value1"]) {
+                if ($pair->term->getIdentifier() == $solution["value1"]) {
                     if (strlen($pair->term->text)) {
                         $worksheet->setCell($startrow + $i, 2, $pair->term->text);
                     } else {
-                        $worksheet->setCell($startrow + $i, 2, $pair->term->picture);
+                        $worksheet->setCell($startrow + $i, 2, $pair->term->getPicture());
                     }
                 }
             }
@@ -1336,13 +1336,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     public function rebuildThumbnails(): void
     {
         foreach ($this->terms as $term) {
-            if (strlen($term->picture)) {
-                $this->generateThumbForFile($this->getImagePath(), $term->picture);
+            if (strlen($term->getPicture())) {
+                $this->generateThumbForFile($this->getImagePath(), $term->getPicture());
             }
         }
         foreach ($this->definitions as $definition) {
-            if (strlen($definition->picture)) {
-                $this->generateThumbForFile($this->getImagePath(), $definition->picture);
+            if (strlen($definition->getPicture())) {
+                $this->generateThumbForFile($this->getImagePath(), $definition->getPicture());
             }
         }
     }
@@ -1399,13 +1399,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getShuffler()->transform($this->getTerms()) as $term) {
             $terms[] = array(
                 "text" => $this->formatSAQuestion($term->text),
-                "id" => $this->getId() . $term->identifier
+                "id" => $this->getId() . $term->getIdentifier()
             );
         }
         $result['terms'] = $terms;
 
         // alex 9.9.2010 as a fix for bug 6513 I added the question id
-        // to the "def_id" in the array. The $pair->definition->identifier is not
+        // to the "def_id" in the array. The $pair->definition->getIdentifier() is not
         // unique, since it gets it value from the morder table field
         // this value is not changed, when a question is copied.
         // thus copying the same question on a page results in problems
@@ -1415,7 +1415,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
             $definitions[] = array(
                 "text" => $this->formatSAQuestion((string) $def->text),
-                "id" => $this->getId() . $def->identifier
+                "id" => $this->getId() . $def->getIdentifier()
             );
         }
         $result['definitions'] = $definitions;
@@ -1429,15 +1429,15 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             // fau.
 
-            $pid = $pair->definition->identifier;
+            $pid = $pair->definition->getIdentifier();
             if ($this->getMatchingMode() == self::MATCHING_MODE_N_ON_N) {
-                $pid .= '::' . $pair->term->identifier;
+                $pid .= '::' . $pair->term->getIdentifier();
             }
 
             if (!isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points) {
                 $matchings[$pid] = array(
-                    "term_id" => $this->getId() . $pair->term->identifier,
-                    "def_id" => $this->getId() . $pair->definition->identifier,
+                    "term_id" => $this->getId() . $pair->term->getIdentifier(),
+                    "def_id" => $this->getId() . $pair->definition->getIdentifier(),
                     "points" => (int) $pair->points
                 );
             }
@@ -1489,7 +1489,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             }
             foreach ($terms as $term) {
                 foreach ($this->matchingpairs as $pair) {
-                    if ($pair->definition->identifier == $definition && $pair->term->identifier == $term) {
+                    if ($pair->definition->getIdentifier() == $definition && $pair->term->getIdentifier() == $term) {
                         $points += $pair->points;
                     }
                 }
