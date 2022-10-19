@@ -436,7 +436,9 @@ class ilTestServiceGUI
                             $compare_template->setVariable('SOLUTION', $best_output);
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
-                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $showFeedback);
+                            $graphical_output = true;
+                            $show_correct_solution = false;
+                            $result_output = $question_gui->getSolutionOutput($active_id, $pass, $graphical_output, false, $show_question_only, $showFeedback, $show_correct_solution);
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 
@@ -477,11 +479,7 @@ class ilTestServiceGUI
      */
     public function getPassListOfAnswersWithScoring(&$result_array, $active_id, $pass, $show_solutions = false): string
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-
         $maintemplate = new ilTemplate("tpl.il_as_tst_list_of_answers.html", true, true, "Modules/Test");
-
-        include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $scoring = ilObjAssessmentFolder::_getManualScoring();
 
         $counter = 1;
