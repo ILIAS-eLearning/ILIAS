@@ -1348,7 +1348,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("TOTAL_RESULT", $result);
         $tpl->parseCurrentBlock();
 
-        //if ($this->object->canShowSolutionPrintview()) {
         if ($this->object->getShowSolutionListOwnAnswers()) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $result_array,
@@ -1552,9 +1551,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_passes"));
 
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        require_once 'Modules/Test/classes/class.ilTestPassesSelector.php';
-        $testPassesSelector = new ilTestPassesSelector($DIC['ilDB'], $this->object);
+        $testPassesSelector = new ilTestPassesSelector($this->dic['ilDB'], $this->object);
         $testPassesSelector->setActiveId($testSession->getActiveId());
         $testPassesSelector->setLastFinishedPass($testSession->getLastFinishedPass());
 
@@ -1568,7 +1565,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $signature = "";
         if (strlen($pass)) {
-            require_once 'Modules/Test/classes/class.ilTestResultHeaderLabelBuilder.php';
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
 
             $objectivesList = null;
@@ -1578,7 +1574,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $testSequence->loadFromDb();
                 $testSequence->loadQuestions();
 
-                require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
                 $objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
 
                 $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
