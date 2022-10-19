@@ -15,12 +15,19 @@ div.ilStartupFrame {
 		}
 	}
 
-	padding-top: 50px;
+	padding-top: @il-line-height-computed;
 	width: fit-content;
 	margin-left: auto;
 	margin-right: auto;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		padding-top: 15px;
+	}
+}
+
+ul.ilStartupSectionRegistrationLinks {
+	list-style: none;
+	li {
+		display: inline-block;
 	}
 }
 

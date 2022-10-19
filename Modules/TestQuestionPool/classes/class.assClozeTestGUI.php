@@ -1345,6 +1345,9 @@ JS;
 
         foreach ($this->object->gaps as $gapIndex => $gap) {
             $answerValue = $this->object->fetchAnswerValueForGap($userSolution, $gapIndex);
+            if ($answerValue === '') {
+                continue;
+            }
             $answerIndex = $this->object->feedbackOBJ->determineAnswerIndexForAnswerValue($gap, $answerValue);
             $fb = $this->object->feedbackOBJ->determineTestOutputGapFeedback($gapIndex, $answerIndex);
 

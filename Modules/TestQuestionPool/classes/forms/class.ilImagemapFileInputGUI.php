@@ -40,9 +40,6 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     */
     public function __construct($a_title = "", $a_postvar = "")
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
         parent::__construct($a_title, $a_postvar);
     }
 
@@ -164,8 +161,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     */
     public function checkInput(): bool
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $this->lng;
 
         // remove trailing '/'
         $_FILES[$this->getPostVar()]["name"] = rtrim($_FILES[$this->getPostVar()]["name"], '/');
@@ -272,8 +268,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
     */
     public function insert(ilTemplate $a_tpl): void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $this->lng;
 
         $template = new ilTemplate("tpl.prop_imagemap_file.html", true, true, "Modules/TestQuestionPool");
 
@@ -366,15 +361,13 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $template->setVariable("ID", $this->getFieldId());
         $template->setVariable("TXT_BROWSE", $lng->txt("select_file"));
         $template->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
-            $this->getMaxFileSizeString());
+        $this->getMaxFileSizeString());
 
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $template->get());
         $a_tpl->parseCurrentBlock();
 
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
+        $this->tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
+        $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/imagemap.js");
     }
 }
