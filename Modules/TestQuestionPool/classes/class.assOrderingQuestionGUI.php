@@ -45,6 +45,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     public const F_USE_NESTED = 'nested_answers';
     public const F_NESTED_ORDER = 'order_elems';
+    public const F_NESTED_ORDER_ORDER = 'content';
+    public const F_NESTED_ORDER_INDENT = 'indentation';
+    public const F_NESTED_IDENTIFIER_PREFIX = ilIdentifiedMultiValuesJsPositionIndexRemover::IDENTIFIER_INDICATOR_PREFIX;
 
     /**
      * @var assOrderingQuestion
@@ -99,23 +102,24 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $form = $this->buildNestingForm();
         $form->setValuesByPost();
         if ($form->checkInput()) {
-            $post = $_POST[self::F_NESTED_ORDER]; //array random_id => ordering_element
-
+            $post = $this->request->raw(self::F_NESTED_ORDER);
             $list = $this->object->getOrderingElementList();
-            $ordered = [];
 
-            foreach ($list->getElements() as $element) {
-                $posted_element = $post[$element->getRandomIdentifier()];
+            $ordered = [];
+            foreach (array_keys($post[self::F_NESTED_ORDER_ORDER]) as $idx => $identifier) {
+                $element_identifier = str_replace(self::F_NESTED_IDENTIFIER_PREFIX, '', $identifier);
+                $element = $list->getElementByRandomIdentifier($element_identifier);
+
                 $ordered[] = $element
-                    ->withPosition($posted_element->getPosition())
-                    ->withIndentation($posted_element->getIndentation());
+                    ->withPosition($idx)
+                    ->withIndentation($post[self::F_NESTED_ORDER_INDENT][$identifier]);
             }
 
             $list = $list->withElements($ordered);
             $this->object->setOrderingElementList($list);
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
         } else {
-            ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+            $this->tpl->setOnScreenMessage('error', $this->lng->txt('form_input_not_valid'), true);
         }
 
         $this->editNesting();
