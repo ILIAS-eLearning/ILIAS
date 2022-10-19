@@ -29,7 +29,7 @@ class ilAssQuestionHintRequestStatisticData
     /**
      * The sum of points deducted
      *
-     * @var integer
+     * @var float
      */
     private $requestsPoints = null;
 
@@ -48,10 +48,10 @@ class ilAssQuestionHintRequestStatisticData
     }
 
     /**
-     * Getter for requestsPonts
+     * Getter for requestsPoints
      *
      * @access public
-     * @return integer $requestsPoints
+     * @return float $requestsPoints
      */
     public function getRequestsPoints(): ?int
     {
@@ -59,14 +59,14 @@ class ilAssQuestionHintRequestStatisticData
     }
 
     /**
-     * Setter for requestsPonts
+     * Setter for requestsPoints
      *
      * @access public
-     * @param integer $requestsPoints
+     * @param float $requestsPoints
      */
     public function setRequestsPoints($requestsPoints): void
     {
-        $this->requestsPoints = $requestsPoints;
+        $this->requestsPoints = abs($requestsPoints);
     }
 
     /**
