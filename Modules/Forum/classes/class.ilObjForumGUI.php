@@ -2929,10 +2929,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if ($this->objCurrentTopic->getId() === 0) {
-            $this->ctrl->redirect($this, 'showThreads');
-        }
-
         $oForumObjects = $this->getForumObjects();
         $forumObj = $oForumObjects['forumObj'];
         $frm = $oForumObjects['frm'];
@@ -2945,6 +2941,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $file_obj_for_delivery = new ilFileDataForumDrafts($forumObj->getId(), $selected_draft_id);
             }
             $file_obj_for_delivery->deliverFile(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['file']));
+        }
+
+        if ($this->objCurrentTopic->getId() === 0) {
+            $this->ctrl->redirect($this, 'showThreads');
         }
 
         $pageIndex = 0;
