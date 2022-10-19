@@ -127,7 +127,7 @@ il.Explorer2 = {
 			url = url + "&exp_cmd=closeNode";
 		}
 		if (id != "") {
-			url = url + "&exp_cont=" + container_id + "&node_id=" + id;
+			url = url + "&exp_cont=" + container_id + "&" + t.configs[container_id].node_par_name + "=" + id;
 		}
 		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, null);
 	},
