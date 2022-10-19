@@ -45,7 +45,7 @@ class ilAssQuestionHint
      * when a user resorts to this hint
      *
      * @access	private
-     * @var		integer
+     * @var		float
      */
     private $points = null;
     
@@ -136,7 +136,7 @@ class ilAssQuestionHint
      * returns the points to ground-off for this hint
      *
      * @access	public
-     * @return	integer	$points
+     * @return	float	$points
      */
     public function getPoints()
     {
@@ -147,11 +147,11 @@ class ilAssQuestionHint
      * sets the passed points to ground-off for this hint
      *
      * @access	public
-     * @param	integer	$points
+     * @param	float   $points
      */
     public function setPoints($points)
     {
-        $this->points = (float) $points;
+        $this->points = abs((float) $points);
     }
 
     /**
