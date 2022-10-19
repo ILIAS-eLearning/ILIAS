@@ -164,7 +164,7 @@ class ilBadgeProfileGUI
 
                 $ref_ids = ilObject::_getAllReferences($badge["object"]["id"]);
                 $parent_ref_id = array_shift($ref_ids);
-                if ($this->access->checkAccess("read", "", $parent_ref_id)) {
+                if ($parent_ref_id && $this->access->checkAccess("read", "", $parent_ref_id)) {
                     $parent_link = $this->factory->link()->standard($badge["object"]["title"], ilLink::_getLink($parent_ref_id));
                 } else {
                     $parent_link = $this->factory->legacy($badge["object"]["title"]);
