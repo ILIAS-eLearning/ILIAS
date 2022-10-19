@@ -45,14 +45,15 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         string $a_expl_id,
         $a_parent_obj,
         string $a_parent_cmd,
-        ilTree $a_tree
+        ilTree $a_tree,
+        string $a_node_parameter_name = "node_id"
     ) {
         global $DIC;
 
         $this->httpRequest = $DIC->http()->request();
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
-        parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
+        parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_node_parameter_name);
         $this->tree = $a_tree;
     }
 
@@ -394,9 +395,9 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
             $node = $node->withAdditionalOnLoadCode(function ($id) use ($record, $nodeStateToggleCmdClasses, $cmdClass): string {
                 $serverNodeId = $this->getNodeId($record);
 
-                $this->ctrl->setParameterByClass($cmdClass, 'node_id', $serverNodeId);
+                $this->ctrl->setParameterByClass($cmdClass, $this->node_parameter_name, $serverNodeId);
                 $url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);
-                $this->ctrl->setParameterByClass($cmdClass, 'node_id', null);
+                $this->ctrl->setParameterByClass($cmdClass, $this->node_parameter_name, null);
 
                 $javascript = "il.UI.tree.registerToggleNodeAsyncAction('$id', '$url', 'prior_state');";
 
@@ -438,7 +439,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
      */
     public function toggleExplorerNodeState(): void
     {
-        $nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
+        $nodeId = (int) ($this->httpRequest->getQueryParams()[$this->node_parameter_name] ?? 0);
         $priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);
 
         if ($nodeId > 0) {
