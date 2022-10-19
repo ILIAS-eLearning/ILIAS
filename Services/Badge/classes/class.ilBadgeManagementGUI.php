@@ -303,6 +303,7 @@ class ilBadgeManagementGUI
 
             $img_mode = new ilRadioGroupInputGUI($lng->txt("image"), "img_mode");
             $img_mode->setRequired(true);
+            $img_mode->setValue("tmpl");
             $form->addItem($img_mode);
 
             $img_mode_tmpl = new ilRadioOption($lng->txt("badge_image_from_template"), "tmpl");

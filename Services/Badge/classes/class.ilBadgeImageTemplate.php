@@ -120,7 +120,7 @@ class ilBadgeImageTemplate
     /**
      * @return string[]
      */
-    public function getTypes(): array
+    public function getTypes(): ?array
     {
         return $this->types;
     }
