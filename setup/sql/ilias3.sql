@@ -9942,7 +9942,6 @@ INSERT INTO `il_pluginslot` VALUES ('Services/EventHandling','evhk','EventHook')
 INSERT INTO `il_pluginslot` VALUES ('Services/LDAP','ldaphk','LDAPHook');
 INSERT INTO `il_pluginslot` VALUES ('Services/PDFGeneration','renderer','Renderer');
 INSERT INTO `il_pluginslot` VALUES ('Services/PersonalDesktop','pdhk','PersonalDesktopHook');
-INSERT INTO `il_pluginslot` VALUES ('Services/Preview','pvre','PreviewRenderer');
 INSERT INTO `il_pluginslot` VALUES ('Services/Repository','robj','RepositoryObject');
 INSERT INTO `il_pluginslot` VALUES ('Services/UIComponent','uihk','UserInterfaceHook');
 INSERT INTO `il_pluginslot` VALUES ('Services/User','udfc','UDFClaiming');
