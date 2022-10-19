@@ -142,7 +142,7 @@ class ilBadgeProfileGUI
                 $badge["title"],
                 $this->factory->legacy($badge["renderer"]->renderModalContent())
             )->withCancelButtonLabel("ok");
-            $image = $this->factory->image()->responsive($badge["image"], $badge["name"])
+            $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($badge["image"]), $badge["name"])
                 ->withAction($modal->getShowSignal());
 
             $this->ctrl->setParameter($this, "badge_id", $badge["id"]);
