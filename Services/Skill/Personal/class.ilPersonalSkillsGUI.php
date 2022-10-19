@@ -986,7 +986,7 @@ class ilPersonalSkillsGUI
         $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "assignMaterial", $this, "");
         $exp->setTypeWhiteList(array("blog", "wsrt", "wfld", "file", "tstv", "excv"));
         $exp->setSelectableTypes(array("file", "tstv", "excv"));
-        $exp->setSelectMode("wsp_id", true);
+        $exp->setSelectMode("wsp_ids", true);
         if ($exp->handleCommand()) {
             return;
         }
