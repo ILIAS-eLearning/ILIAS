@@ -17034,7 +17034,7 @@ body.ilBodyPrint {
   }
 }
 .ilStartupSection {
-  padding-top: 50px;
+  padding-top: 20px;
   width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -17049,6 +17049,12 @@ body.ilBodyPrint {
   .ilStartupSection {
     padding-top: 15px;
   }
+}
+ul.ilStartupSectionRegistrationLinks {
+  list-style: none;
+}
+ul.ilStartupSectionRegistrationLinks li {
+  display: inline-block;
 }
 div.ilStartupSection form.form-horizontal {
   border: 1px solid #dddddd;
