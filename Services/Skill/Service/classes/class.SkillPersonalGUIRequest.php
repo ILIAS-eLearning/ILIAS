@@ -91,7 +91,7 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
      */
     public function getWorkspaceIds(): array
     {
-        return $this->intArray("wsp_id");
+        return $this->intArray("wsp_ids");
     }
 
     public function getListMode(): string
