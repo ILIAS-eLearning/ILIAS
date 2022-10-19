@@ -9964,14 +9964,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->oldOnlineStatus = $oldOnlineStatus;
     }
 
-    public function setPrintBestSolutionWithResult($status)
-    {
-        $this->print_best_solution_with_result = (bool) $status;
-    }
-
     public function isBestSolutionPrintedWithResult(): bool
     {
-        return $this->print_best_solution_with_result;
+        return $this->getScoreSettings()->getResultDetailsSettings()->getPrintBestSolutionWithResult();
     }
 
     /**
