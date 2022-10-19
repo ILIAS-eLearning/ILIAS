@@ -79,7 +79,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         if ($a_cmd == "") {
             $a_cmd = "layout";
         }
-
         // handling of free pages
         $cur_page_id = $this->current_page;
         $back_pg = $this->back_pg;
@@ -242,12 +241,14 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                 "OnClick" => ""],
             "FAQ" => [
                 "Type" => "FAQ",
+                "Frame" => "faq",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'faq');"],
             "Glossary" => [
                 "Type" => "Glossary",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'glossary');"],
             "Media" => [
                 "Type" => "Media",
+                "Frame" => "media",
                 "OnClick" => "return il.LearningModule.showContentFrame(event, 'media');"]
         ];
 
@@ -325,7 +326,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 $ltarget = "";
                             }
                             $cmd = "layout";
-                            if ($nframe != "") {
+                            // page command is for displaying in the slate
+                            if ($nframe != "" && $nframe != "_blank") {
                                 $cmd = "page";
                             }
                             $href =
@@ -472,7 +474,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         $link_info .= "</IntLinkInfos>";
 
         $link_info .= $this->getLinkTargetsXML();
-
         return $link_info;
     }
 
