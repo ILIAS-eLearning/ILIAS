@@ -92,7 +92,7 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("VAL_IMG", $a_set["path"]);
+        $this->tpl->setVariable("VAL_IMG", ilWACSignedPath::signFile($a_set["path"]));
         $this->tpl->setVariable("TXT_IMG", $a_set["file"]);
 
         if ($this->has_write) {

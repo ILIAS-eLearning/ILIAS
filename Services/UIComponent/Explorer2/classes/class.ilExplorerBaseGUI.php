@@ -27,6 +27,7 @@
  */
 abstract class ilExplorerBaseGUI
 {
+    protected string $node_parameter_name;
     protected ilLogger $log;
     protected ilCtrl $ctrl;
     protected ?ilGlobalTemplateInterface $tpl;
@@ -65,7 +66,8 @@ abstract class ilExplorerBaseGUI
     public function __construct(
         string $a_expl_id,
         $a_parent_obj,
-        string $a_parent_cmd
+        string $a_parent_cmd,
+        string $a_node_parameter_name = "node_id"
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -75,6 +77,7 @@ abstract class ilExplorerBaseGUI
         $this->id = $a_expl_id;
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
+        $this->node_parameter_name = $a_node_parameter_name;
         // get open nodes
         $this->store = new ilSessionIStorage("expl2");
         $open_nodes = $this->store->get("on_" . $this->id);
@@ -84,7 +87,7 @@ abstract class ilExplorerBaseGUI
         }
 
         $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_node_id = ($params["node_id"] ?? "");
+        $this->requested_node_id = ($params[$a_node_parameter_name] ?? "");
         $this->requested_exp_cmd = ($params["exp_cmd"] ?? "");
         $this->requested_exp_cont = ($params["exp_cont"] ?? "");
         $this->requested_searchterm = ($params["searchterm"] ?? "");
@@ -483,7 +486,6 @@ abstract class ilExplorerBaseGUI
         if (!in_array($root, $this->open_nodes)) {
             $this->open_nodes[] = $root;
         }
-
         if ($this->requested_node_id !== "") {
             $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
             $this->setSearchTerm(ilUtil::stripSlashes($this->requested_searchterm));
@@ -557,6 +559,7 @@ abstract class ilExplorerBaseGUI
             "url" => $url,
             "second_hnodes" => $shn,
             "ajax" => $this->getAjax(),
+            "node_par_name" => $this->node_parameter_name
         );
 
 

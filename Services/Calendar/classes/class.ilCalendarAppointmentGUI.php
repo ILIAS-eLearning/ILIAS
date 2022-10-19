@@ -873,8 +873,8 @@ class ilCalendarAppointmentGUI
         $entry = new ilCalendarEntry($app_id);
         $recs = ilCalendarRecurrences::_getRecurrences($app_id);
         if (
-            !count($recs) &&
-            !$this->app->isMilestone()
+            !count($recs) ||
+            $this->app->isMilestone()
         ) {
             $confirm = new ilConfirmationGUI();
             $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -911,9 +911,7 @@ class ilCalendarAppointmentGUI
             $app_id = (int) $app_id;
             $app = new ilCalendarEntry($app_id);
             $app->delete();
-
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
-
             ilCalendarUserNotification::deleteCalendarEntry($app_id);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_deleted_app'), true);

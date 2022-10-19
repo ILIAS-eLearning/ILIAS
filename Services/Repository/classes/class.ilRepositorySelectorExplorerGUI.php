@@ -53,7 +53,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $a_selection_gui = null,
         string $a_selection_cmd = "selectObject",
         string $a_selection_par = "sel_ref_id",
-        string $a_id = "rep_exp_sel"
+        string $a_id = "rep_exp_sel",
+        string $a_node_parameter_name = "node_id"
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -78,7 +79,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             : strtolower($a_selection_gui);
         $this->selection_cmd = $a_selection_cmd;
         $this->selection_par = $a_selection_par;
-        parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree);
+        parent::__construct($a_id, $a_parent_obj, $a_parent_cmd, $tree, $a_node_parameter_name);
 
         $this->setSkipRootNode(false);
         $this->setAjax(true);
@@ -244,8 +245,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     public function getChildsOfNode($a_parent_node_id): array
     {
         $ilAccess = $this->access;
-
-        if (!$ilAccess->checkAccess("read", "", $a_parent_node_id)) {
+        if (!$ilAccess->checkAccess("read", "", (int) $a_parent_node_id)) {
             return [];
         }
 

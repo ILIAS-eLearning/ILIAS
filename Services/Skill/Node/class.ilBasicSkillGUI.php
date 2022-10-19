@@ -653,7 +653,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             "addLevelResource",
             $this,
             "saveLevelResource",
-            "root_id"
+            "root_id",
+            "",
+            "rep_node_id"
         );
         if (!$exp->handleCommand()) {
             $tpl->setContent($exp->getHTML());
@@ -666,15 +668,15 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
 
         $ref_id = $this->requested_root_id;
-
-        if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
-            || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
         if ($ref_id > 0) {
             $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
             $sres->setResourceAsImparting($this->requested_level_id, $ref_id);
+            $sres->setResourceAsTrigger($this->requested_level_id, $ref_id, false);
             $sres->save();
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -690,8 +692,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilTabs = $this->tabs;
 
-        if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
-            || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -722,8 +724,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
-            || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 

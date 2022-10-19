@@ -1049,7 +1049,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         } else {        // lonely page
             $ilLocator->addItem(
                 $this->getLMPresentationTitle(),
-                $this->linker->getLink("layout", "", $this->requested_frame)
+                $this->linker->getLink("layout", 0, $this->requested_frame)
             );
 
             $lm_obj = ilLMObjectFactory::getInstance($this->lm, $a_id);
