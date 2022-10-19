@@ -538,11 +538,11 @@ class ilExerciseDataSet extends ilDataSet
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setPassMode($a_rec["PassMode"]);
-                $newObj->setPassNr($a_rec["PassNr"]);
+                $newObj->setPassNr((int) $a_rec["PassNr"]);
                 $newObj->setNrMandatoryRandom((int) $a_rec["NrMandatoryRandom"]);
-                $newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
-                $newObj->setCompletionBySubmission($a_rec["ComplBySubmission"]);
-                $newObj->setTutorFeedback($a_rec["Tfeedback"]);
+                $newObj->setShowSubmissions((bool) (int) $a_rec["ShowSubmissions"]);
+                $newObj->setCompletionBySubmission((bool) (int) $a_rec["ComplBySubmission"]);
+                $newObj->setTutorFeedback((int) $a_rec["Tfeedback"]);
                 $newObj->update();
                 $newObj->saveData();
                 $this->current_exc = $newObj;
