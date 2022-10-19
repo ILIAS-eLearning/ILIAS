@@ -653,7 +653,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             "addLevelResource",
             $this,
             "saveLevelResource",
-            "root_id"
+            "root_id",
+            "",
+            "rep_node_id"
         );
         if (!$exp->handleCommand()) {
             $tpl->setContent($exp->getHTML());
@@ -666,7 +668,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
 
         $ref_id = $this->requested_root_id;
-
         if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
             || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
