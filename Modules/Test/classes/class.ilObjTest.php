@@ -352,7 +352,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->redirection_mode = 0;
         $this->redirection_url = null;
         $this->show_exam_id_in_test_pass_enabled = false;
-        $this->show_exam_id_in_test_results_enabled = false;
+        //$this->show_exam_id_in_test_results_enabled = false;
         $this->sign_submission = false;
         $this->char_selector_availability = 0;
         $this->char_selector_definition = null;
@@ -10685,7 +10685,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function isShowExamIdInTestResultsEnabled(): bool
     {
-        return $this->show_exam_id_in_test_results_enabled;
+        return $this->getScoreSettings()->getResultDetailsSettings()->getShowExamIdInTestResults();
     }
 
     /**
