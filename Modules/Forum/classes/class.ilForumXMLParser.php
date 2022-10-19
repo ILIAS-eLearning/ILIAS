@@ -469,7 +469,8 @@ class ilForumXMLParser extends ilSaxParser
                     );
                     $this->forumPost->setNotification((bool) ($this->postArray['Notification'] ?? false));
                     $this->forumPost->setStatus((bool) ($this->postArray['Status'] ?? false));
-                    $this->forumPost->setMessage(ilUtil::stripSlashes((string) ($this->postArray['Message'] ?? '')));
+                    $purifier = ilHtmlPurifierFactory::getInstanceByType('frm_post');
+                    $this->forumPost->setMessage($purifier->purify((string) ($this->postArray['Message'] ?? '')));
                     $this->forumPost->setSubject(ilUtil::stripSlashes((string) ($this->postArray['Subject'] ?? '')));
                     $this->forumPost->setLft((int) $this->postArray['Lft']);
                     $this->forumPost->setRgt((int) $this->postArray['Rgt']);
