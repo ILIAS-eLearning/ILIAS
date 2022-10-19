@@ -676,6 +676,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         if ($ref_id > 0) {
             $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
             $sres->setResourceAsImparting($this->requested_level_id, $ref_id);
+            $sres->setResourceAsTrigger($this->requested_level_id, $ref_id, false);
             $sres->save();
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

@@ -156,10 +156,10 @@ class ilSkillResources implements ilSkillUsageInfo
 
     public function setResourceAsTrigger(int $a_level_id, int $a_rep_ref_id, bool $a_trigger = true): void
     {
-        if (!is_array($this->resources[$a_level_id])) {
+        if (!isset($this->resources[$a_level_id]) || !is_array($this->resources[$a_level_id])) {
             $this->resources[$a_level_id] = [];
         }
-        if (!is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
+        if (!isset($this->resources[$a_level_id][$a_rep_ref_id]) || !is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
             $this->resources[$a_level_id][$a_rep_ref_id] = [];
         }
 
@@ -168,10 +168,10 @@ class ilSkillResources implements ilSkillUsageInfo
 
     public function setResourceAsImparting(int $a_level_id, int $a_rep_ref_id, bool $a_imparting = true): void
     {
-        if (!is_array($this->resources[$a_level_id])) {
+        if (!isset($this->resources[$a_level_id]) || !is_array($this->resources[$a_level_id])) {
             $this->resources[$a_level_id] = [];
         }
-        if (!is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
+        if (!isset($this->resources[$a_level_id][$a_rep_ref_id]) || !is_array($this->resources[$a_level_id][$a_rep_ref_id])) {
             $this->resources[$a_level_id][$a_rep_ref_id] = [];
         }
 
