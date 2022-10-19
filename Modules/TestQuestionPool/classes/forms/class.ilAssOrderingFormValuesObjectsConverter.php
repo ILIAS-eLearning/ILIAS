@@ -252,9 +252,6 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
 
         $position = 0;
 
-        if (array_key_exists('content', $values)) {
-            $values = $values['content'];
-        }
         foreach ($values as $identifier => $value) {
             $element = new ilAssOrderingElement();
 
