@@ -970,7 +970,16 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $result_array = $this->getFilteredTestResult($active_id, $pass, false, !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired());
 
-        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true, $objectivesList);
+        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+            $result_array,
+            $active_id,
+            $pass,
+            $this,
+            "outParticipantsPassDetails",
+            '',
+            true,
+            $objectivesList
+        );
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, false);
         $user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -1273,7 +1282,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if ($this->object->getShowSolutionDetails()) {
             $command_solution_details = "outCorrectSolution";
         }
-        $questionAnchorNav = $this->object->canShowSolutionPrintview();
+
+        //$questionAnchorNav = $this->object->canShowSolutionPrintview();
+        $questionAnchorNav =
+            $this->object->getShowSolutionListOwnAnswers() &&
+            $this->object->getShowSolutionDetails() ;
 
         $tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 

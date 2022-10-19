@@ -208,7 +208,7 @@ class ilTestServiceGUI
 
         foreach ($passes as $pass) {
             $row = [
-                'scored' => null,
+                'scored' => false,
                 'pass' => $pass,
                 'date' => ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass)
             ];
@@ -585,8 +585,17 @@ class ilTestServiceGUI
         return $maintemplate->get();
     }
 
-    protected function getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, $targetCMD, $questionDetailsCMD, $questionAnchorNav, ilTestQuestionRelatedObjectivesList $objectivesList = null, $multipleObjectivesInvolved = true): ilTestPassDetailsOverviewTableGUI
-    {
+    protected function getPassDetailsOverviewTableGUI(
+        $result_array,
+        $active_id,
+        $pass,
+        $targetGUI,
+        $targetCMD,
+        $questionDetailsCMD,
+        $questionAnchorNav,
+        ilTestQuestionRelatedObjectivesList $objectivesList = null,
+        $multipleObjectivesInvolved = true
+    ): ilTestPassDetailsOverviewTableGUI {
         $this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
         $this->ctrl->setParameter($targetGUI, 'pass', $pass);
 
@@ -877,7 +886,16 @@ class ilTestServiceGUI
             }
 
             if ($show_pass_details) {
-                $overviewTableGUI = $this->getPassDetailsOverviewTableGUI($result_array, $active_id, $pass, $targetGUI, "getResultsOfUserOutput", '', $show_answers, $objectivesList);
+                $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+                    $result_array,
+                    $active_id,
+                    $pass,
+                    $targetGUI,
+                    "getResultsOfUserOutput",
+                    '',
+                    $show_answers,
+                    $objectivesList
+                );
                 $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
                 $template->setVariable("PASS_DETAILS", $overviewTableGUI->getHTML());
             }
@@ -1032,7 +1050,6 @@ class ilTestServiceGUI
             $targetGUI->object = $targetGUI->getTestObj();
         }
 
-        require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
         $tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
         $tableGUI->setIsPdfGenerationRequest($this->isPdfDeliveryRequest());
         return $tableGUI;
