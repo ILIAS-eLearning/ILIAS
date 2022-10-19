@@ -56,10 +56,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     public function reset()
     {
         $this->removeMirroredTaxonomies();
-
         $this->removeStagedQuestions();
-
-        $this->cleanupTestSettings();
     }
 
     private function removeMirroredTaxonomies()
@@ -284,12 +281,4 @@ class ilTestRandomQuestionSetStagingPoolBuilder
             }
         }
     }
-
-    private function cleanupTestSettings()
-    {
-        $this->testOBJ->setResultFilterTaxIds(array());
-        $this->testOBJ->saveToDb(true);
-    }
-
-    // =================================================================================================================
 }
