@@ -158,17 +158,15 @@ class ilIndividualAssessmentAccessHandler implements IndividualAssessmentAccessH
     {
         return
             $this->isSystemAdmin() ||
-            (
-                $this->mayGradeUser() &&
-                count(
-                    $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
-                        "edit_learning_progress",
-                        "set_lp",
-                        $this->iass->getRefId(),
-                        [$user_id]
-                    )
-                ) > 0
-            );
+            $this->mayGradeUser() ||
+            (count(
+                $this->handler->filterUserIdsByRbacOrPositionOfCurrentUser(
+                    "edit_learning_progress",
+                    "set_lp",
+                    $this->iass->getRefId(),
+                    [$user_id]
+                )
+            ) > 0);
     }
 
     public function mayAmendGradeUser(bool $use_cache = true): bool
