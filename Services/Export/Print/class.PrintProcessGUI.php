@@ -29,6 +29,8 @@ use ILIAS\DI\UIServices;
  */
 class PrintProcessGUI
 {
+    protected \ILIAS\GlobalScreen\Services $gs;
+    protected \ilGlobalTemplateInterface $main_tpl;
     /**
      * @var callable[]
      */
@@ -55,12 +57,15 @@ class PrintProcessGUI
         \ilLanguage $lng,
         string $body_class = null
     ) {
+        global $DIC;
+
         $this->provider = $provider;
         $this->ui = $ui;
         $this->lng = $lng;
         $this->http = $http;
         $this->body_class = $body_class ?? "ilPrtfPdfBody";     // todo: move this class
         $this->lng->loadLanguageModule("exp");
+        $this->gs = $DIC->globalScreen();
     }
 
     /**
@@ -133,7 +138,17 @@ class PrintProcessGUI
             "Services/Export/Print"
         );
 
-        \iljQueryUtil::initjQuery($tpl);
+        // get all current resources from globalscreen and add them to our template
+        foreach ($this->gs->layout()->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
+            $path = explode("?", $js->getContent());
+            $file = $path[0];
+            $tpl->addJavaScript($file, $js->addVersionNumber());
+        }
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $tpl->addOnLoadCode($code->getContent());
+        }
+
+        //\iljQueryUtil::initjQuery($tpl);
 
         foreach ($this->provider->getTemplateInjectors() as $f) {
             $f($tpl);
@@ -160,13 +175,7 @@ class PrintProcessGUI
         );
 
         $content = '<div class="ilInvisibleBorder">' . $content . '</div>';
-        $content .= '<script type="text/javascript" language="javascript1.2">
-				<!--
-					il.Util.addOnLoad(function () {
-						il.Util.print();
-					});
-				//-->
-				</script>';
+        $tpl->addOnLoadCode("il.Util.print();");
 
         $tpl->setVariable("CONTENT", $content);
         return $tpl->printToString();
