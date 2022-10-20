@@ -146,7 +146,7 @@ class ilIndividualAssessmentUserGrading
 
         $file = $input
             ->file($file_handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
-            ->withValue($this->hasFile() ? [$this->getFile()] : null)
+            ->withValue($this->hasFile() ? [$this->getFile()] : [])
         ;
 
         $file_visible = $input
