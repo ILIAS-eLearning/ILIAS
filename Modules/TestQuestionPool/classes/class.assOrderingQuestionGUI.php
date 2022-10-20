@@ -452,7 +452,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         if ($this->getPreviewSession() && $this->getPreviewSession()->hasParticipantSolution()) {
             $solutionOrderingElementList = unserialize(
                 $this->getPreviewSession()->getParticipantsSolution(),
-                ["allowed_classes" => false]
+                ["allowed_classes" => true]
             );
         } else {
             $solutionOrderingElementList = $this->object->getShuffledOrderingElementList();
