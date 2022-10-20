@@ -438,7 +438,7 @@ class ilDclTableEditGUI
         foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle();
         }
-        $table_selection = new ilSelectInputGUI('', 'table_id');
+        $table_selection = new ilSelectInputGUI($this->lng->txt("dcl_select"), 'table_id');
         $table_selection->setOptions($options);
         $table_selection->setValue($this->table->getId());
 

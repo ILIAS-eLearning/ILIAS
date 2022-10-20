@@ -130,7 +130,7 @@ class ilDidacticTemplateGUI
         }
 
         $tpl_selection = new ilSelectInputGUI(
-            '',
+            $this->lng->txt('didactic_selected_tpl_option'),
             'tplid'
         );
         $tpl_selection->setOptions($options);
