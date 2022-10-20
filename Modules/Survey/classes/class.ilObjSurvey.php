@@ -961,18 +961,18 @@ class ilObjSurvey extends ilObject
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setSurveyId($data["survey_id"]);
-            $this->setAuthor($data["author"]);
+            $this->setAuthor($data["author"] ?? "");
             $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data["introduction"], 1));
             if (strcmp($data["outro"], "survey_finished") === 0) {
                 $this->setOutro($this->lng->txt("survey_finished"));
             } else {
                 $this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data["outro"], 1));
             }
-            $this->setShowQuestionTitles($data["show_question_titles"]);
-            $this->setStartDate((string) $data["startdate"]);
-            $this->setEndDate((string) $data["enddate"]);
-            $this->setAnonymize($data["anonymize"]);
-            $this->setEvaluationAccess($data["evaluation_access"]);
+            $this->setShowQuestionTitles((bool) $data["show_question_titles"]);
+            $this->setStartDate((string) ($data["startdate"] ?? ""));
+            $this->setEndDate((string) ($data["enddate"] ?? ""));
+            $this->setAnonymize((int) $data["anonymize"]);
+            $this->setEvaluationAccess($data["evaluation_access"] ?? "");
             $this->loadQuestionsFromDb();
             $this->setMailNotification((bool) $data['mailnotification']);
             $this->setMailAddresses((string) $data['mailaddresses']);
