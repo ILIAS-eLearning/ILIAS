@@ -389,18 +389,17 @@ class ilObjSurvey extends ilObject
     ): void {
         $ilDB = $this->db;
 
-        $user_ids[] = array();
+        $user_ids = [];
 
         foreach ($finished_ids as $finished_id) {
             $result = $ilDB->queryF(
-                "SELECT finished_id FROM svy_finished WHERE finished_id = %s",
+                "SELECT finished_id, user_fi FROM svy_finished WHERE finished_id = %s",
                 array('integer'),
                 array($finished_id)
             );
             $row = $ilDB->fetchAssoc($result);
-
             if ($row["user_fi"]) {
-                $user_ids[] = $row["user_fi"];
+                $user_ids[] = (int) $row["user_fi"];
             }
 
             $affectedRows = $ilDB->manipulateF(

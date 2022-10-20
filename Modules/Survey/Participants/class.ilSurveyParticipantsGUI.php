@@ -454,15 +454,16 @@ class ilSurveyParticipantsGUI
         $data = array();
         foreach ($total as $user_data) {
             if (in_array($user_data['active_id'], $user_ids)
-                || ($user_data['invited'] && in_array("inv" . $user_data['usr_id'], $user_ids))) {
+                || (($user_data['invited'] ?? false) && in_array("inv" . $user_data['usr_id'], $user_ids))) {
                 $last_access = $this->object->getLastAccess($user_data["active_id"]);
                 $data[] = array(
                     'id' => $user_data["active_id"],
                     'name' => $user_data["sortname"],
-                    'login' => $user_data["login"],
+                    'login' => $user_data["login"] ?? null,
                     'last_access' => $last_access,
-                    'usr_id' => $user_data["usr_id"],
-                    'invited' => $user_data["invited"]
+                    'finished' => $user_data["finished_tstamp"] ?? 0,
+                    'usr_id' => $user_data["usr_id"] ?? null,
+                    'invited' => $user_data["invited"] ?? null
                 );
             }
         }
