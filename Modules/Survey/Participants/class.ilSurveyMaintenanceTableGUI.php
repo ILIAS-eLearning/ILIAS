@@ -104,27 +104,23 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VALUE_USER_NAME", $a_set['name']);
         $this->tpl->setVariable("VALUE_USER_LOGIN", $a_set['login']);
         $this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($a_set['last_access'], IL_CAL_UNIX)));
-        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime']));
+        $this->tpl->setVariable("WORKINGTIME", $this->formatTime($a_set['workingtime'] ?? null));
 
         $state = $this->lng->txt("svy_status_in_progress");
         if ($a_set['last_access'] == "" && $a_set["invited"]) {
             $state = $this->lng->txt("svy_status_invited");
         }
-        if ($a_set["finished"] !== false) {
+        if (($a_set["finished"] ?? false) !== false) {
             $state = $this->lng->txt("svy_status_finished");
         }
         $this->tpl->setVariable("STATUS", $state);
         $finished = "";
-        if ($a_set["finished"] !== null) {
-            if ($a_set["finished"] !== false) {
-                $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
-            } else {
-                $finished = "-";
-            }
-            $this->tpl->setVariable("FINISHED", $finished);
+        if ((int) ($a_set["finished"] ?? 0) > 0) {
+            $finished .= ilDatePresentation::formatDate(new ilDateTime($a_set["finished"], IL_CAL_UNIX));
         } else {
-            $this->tpl->setVariable("FINISHED", "&nbsp;");
+            $finished = "-";
         }
+        $this->tpl->setVariable("FINISHED", $finished);
     }
 
     /**
