@@ -1149,6 +1149,7 @@ the [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/dev
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 [//]: # (END xAPIAndcmi5)
+
 Components in
 the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
@@ -1200,8 +1201,6 @@ the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs
 	* Used in Directories: src/UI
 
 [//]: # (END UI-Service)
-The following directories are currently maintained under
-the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * src/Refinery
 * src/UI
