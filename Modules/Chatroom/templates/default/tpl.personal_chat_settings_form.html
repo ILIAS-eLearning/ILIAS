@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     (function ($, root) {
         const templates = {
-            modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
+            error: '<div class="help-block alert alert-danger"><span></span></div>'
         };
 
         const emptyErrorMessages = function emptyErrorMessages($parent) {
@@ -19,11 +19,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
          * @param {string} languageVariable
          */
         const showErrorMessage = function showErrorMessage($parent, languageVariable) {
-            let $warning = $(templates.modal);
+            let $warning = $(templates.error);
 
             $warning.addClass("dynamic-errors");
             emptyErrorMessages($parent);
-            $parent.append($warning);
+            $parent.prepend($warning);
             $warning.find("span").html(il.Language.txt(languageVariable));
         };
 
