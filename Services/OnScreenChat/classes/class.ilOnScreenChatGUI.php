@@ -76,7 +76,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
         if ($chatSettings->getSmiliesEnabled()) {
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
-                $new_keys = array();
+                $new_keys = [];
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key === 'smiley_keywords') {
@@ -226,7 +226,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
-            $guiConfig = array(
+            $guiConfig = [
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
                 'messageTemplate' => (new ilTemplate(
                     'tpl.chat-message.html',
@@ -282,7 +282,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     ilUtil::yn2tf((string) $DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
-            );
+            ];
 
             $chatConfig = [
                 'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',

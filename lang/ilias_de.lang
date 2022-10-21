@@ -2824,6 +2824,9 @@ chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird Chatpartnern nicht angezei
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
+chatroom#:#chat_osc_accept_msg_info_slate#:#Um private Konversationen zu nuten, müssen Sie die Einstellungen "Anchatten erlauben" aktivieren.
+chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Sichtbarkeit (in "Profil und Datenschutz)
+chatroom#:#chat_osc_accept_no_conv_info_slate#:#Aktuelle gibt es keine minimierten Konversationen.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
 chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten
 chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
