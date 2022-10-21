@@ -64,21 +64,18 @@ class ilAssQuestionPreviewSession
         $val = ilSession::get(self::SESSION_BASEINDEX);
         $val[$this->getSessionContextIndex()][$subIndex] = $value;
         ilSession::set(self::SESSION_BASEINDEX, $val);
-        //$_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex] = $value;
     }
 
     private function issetSessionValue($subIndex): bool
     {
         $val = ilSession::get(self::SESSION_BASEINDEX);
         return isset($val[$this->getSessionContextIndex()][$subIndex]);
-        //return isset($_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex]);
     }
 
     private function readSessionValue($subIndex)
     {
         $val = ilSession::get(self::SESSION_BASEINDEX);
         return $val[$this->getSessionContextIndex()][$subIndex] ?? [];
-        //return $_SESSION[self::SESSION_BASEINDEX][$this->getSessionContextIndex()][$subIndex];
     }
 
     public function setInstantResponseActive($instantResponseActive): void
