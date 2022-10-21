@@ -754,6 +754,10 @@ class ilPropertyFormGUI extends ilFormGUI
                     "TXT_ALERT",
                     $item->getAlert()
                 );
+                $this->tpl->setVariable(
+                    "ALERT_FOR_ID",
+                    $item->getFieldId()
+                );
                 $this->tpl->parseCurrentBlock();
             }
 
