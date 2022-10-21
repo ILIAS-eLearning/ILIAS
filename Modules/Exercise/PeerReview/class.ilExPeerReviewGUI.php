@@ -431,7 +431,9 @@ class ilExPeerReviewGUI
 
                 $sub_data = $this->getSubmissionContent($submission);
                 if ($sub_data === '' || $sub_data === '0') {
-                    $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+                    if (isset($file_info["files"]["download_url"])) {
+                        $sub_data = '<a href="' . $file_info["files"]["download_url"] . '">' . $lng->txt("download") . '</a>';
+                    }
                 }
                 $a_info_widget->addProperty($lng->txt("exc_submission"), $sub_data);
             }
