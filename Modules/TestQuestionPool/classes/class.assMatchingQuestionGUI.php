@@ -155,7 +155,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $this->object->addMatchingPair(
                     $this->object->getTermWithIdentifier($term_id),
                     $this->object->getDefinitionWithIdentifier($definition_id),
-                    $points
+                    (float)$points
                 );
             }
         }
@@ -487,9 +487,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {
                 $solutions[] = array(
-                    "value1" => $pair->term->getIdentifier(),
-                    "value2" => $pair->definition->getIdentifier(),
-                    'points' => $pair->points
+                    "value1" => $pair->getTerm()->getIdentifier(),
+                    "value2" => $pair->getDefinition()->getIdentifier(),
+                    'points' => $pair->getPoints()
                 );
             }
         }
@@ -1051,7 +1051,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
     private function isCorrectMatching($pair, $definition, $term): bool
     {
-        if (!($pair->points > 0)) {
+        if (!($pair->getPoints() > 0)) {
             return false;
         }
 
@@ -1059,11 +1059,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             return false;
         }
 
-        if ($pair->definition->getIdentifier() != $definition->getIdentifier()) {
+        if ($pair->getDefinition()->getIdentifier() != $definition->getIdentifier()) {
             return false;
         }
 
-        if ($pair->term->getIdentifier() != $term->getIdentifier()) {
+        if ($pair->getTerm()->getIdentifier() != $term->getIdentifier()) {
             return false;
         }
 

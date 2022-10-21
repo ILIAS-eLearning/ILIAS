@@ -32,13 +32,17 @@ class assAnswerMatchingTerm
 
     public function __construct(string $text = "", string $picture = "", int $identifier = 0)
     {
-        if ($identifier === 0) {
-            mt_srand((int) microtime() * 1000000);
-            $identifier = mt_rand(1, 100000);
-        }
         $this->text = $text;
         $this->picture = $picture;
-        $this->identifier = $identifier;
+
+        $this->identifier = ($identifier !==0) ? $identifier : $this->createIdentifier();
+    }
+
+    protected function createIdentifier(): int
+    {
+        mt_srand((int) microtime() * 1000000);
+        $id = random_int(1, 100000);
+        return $id;
     }
 
     public function getText(): string

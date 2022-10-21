@@ -33,60 +33,33 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple(): void
+    public function testAnswerMatchingPairInstantiation(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-
-        // Act
-        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
-
-        // Assert
+        $term = new assAnswerMatchingTerm('test');
+        $definition = new assAnswerMatchingDefinition('testing');
+        $instance = new assAnswerMatchingPair($term, $definition, 0.0);
         $this->assertInstanceOf('assAnswerMatchingPair', $instance);
     }
 
-    public function test_setGetTerm(): void
+    public function testAnswerMatchingPairMutation(): void
     {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
-        $expected = 'Term';
+        $term = new assAnswerMatchingTerm('Term');
+        $definition = new assAnswerMatchingDefinition('Definition');
+        $instance = new assAnswerMatchingPair($term, $definition, 2.1);
 
-        // Act
-        $instance->term = $expected;
-        $actual = $instance->term;
+        $this->assertEquals('Term', $instance->getTerm()->getText());
+        $this->assertEquals('Definition', $instance->getDefinition()->getText());
+        $this->assertEquals(2.1, $instance->getPoints());
 
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
+        $term = new assAnswerMatchingTerm('another Term');
+        $definition = new assAnswerMatchingDefinition('another Definition');
+        $instance = $instance
+            ->withTerm($term)
+            ->withDefinition($definition)
+            ->withPoints(3.4);
 
-    public function test_setGetDefinition(): void
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
-        $expected = 'Definition';
-
-        // Act
-        $instance->definition = $expected;
-        $actual = $instance->definition;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_setGetPoints(): void
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
-        $instance = new assAnswerMatchingPair('test', 'testing', 0.0);
-        $expected = 3.0;
-
-        // Act
-        $instance->points = $expected;
-        $actual = $instance->points;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals('another Term', $instance->getTerm()->getText());
+        $this->assertEquals('another Definition', $instance->getDefinition()->getText());
+        $this->assertEquals(3.4, $instance->getPoints());
     }
 }
