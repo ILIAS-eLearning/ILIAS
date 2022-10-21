@@ -76,7 +76,12 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable("USER_NAME", $a_set["user_name"]);
         $this->tpl->setVariable("QUESTION", $a_set["question_text"]);
         $this->tpl->setVariable("PAGE", $a_set["page_title"]);
-        $this->tpl->setVariable("LAST_TRY", $a_set["last_try"]);
-        $this->tpl->setVariable("IGNORE_FAIL", ($a_set["unlocked"] ? $lng->txt("yes") : $lng->txt("no")));
+        $this->tpl->setVariable("LAST_TRY", $a_set["last_try"] ?? "");
+        $this->tpl->setVariable(
+            "IGNORE_FAIL",
+            (($a_set["unlocked"] ?? false)
+                ? $lng->txt("yes")
+                : $lng->txt("no"))
+        );
     }
 }
