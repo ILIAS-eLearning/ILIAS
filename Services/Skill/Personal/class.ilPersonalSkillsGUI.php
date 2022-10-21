@@ -1659,7 +1659,8 @@ class ilPersonalSkillsGUI
 
         $a_activated_levels = [];
         foreach ($a_levels as $k => $v) {
-            if ($self_vals[$v["skill_id"]][$a_tref_id] == $v["id"]) {
+            if (isset($self_vals[$v["skill_id"]][$a_tref_id]) &&
+                $self_vals[$v["skill_id"]][$a_tref_id] == $v["id"]) {
                 $a_activated_levels[] = $v["id"];
             }
         }
