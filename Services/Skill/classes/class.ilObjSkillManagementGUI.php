@@ -31,7 +31,7 @@ use ILIAS\Skill\Tree;
  * Skill management main GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI, SkillTreeAdminGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, SkillTreeAdminGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
@@ -128,83 +128,18 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
 
         switch ($next_class) {
-            case 'ilskillrootgui':
-                $skrt_gui = new ilSkillRootGUI(
-                    $this->skill_tree_node_manager,
-                    $this->requested_node_id
-                );
-                $skrt_gui->setParentGUI($this);
-                $ret = $this->ctrl->forwardCommand($skrt_gui);
+            case "skilltreeadmingui":
+                $this->prepareOutput();
+                $ilTabs->activateTab("skill_trees");
+                $gui = new SkillTreeAdminGUI($this->skill_manager);
+                $this->ctrl->forwardCommand($gui);
                 break;
-                /*
-                case 'ilskillcategorygui':
-                    $this->tabs_gui->activateTab("skills");
-                    $scat_gui = new ilSkillCategoryGUI($this->requested_node_id);
-                    $scat_gui->setParentGUI($this);
-                    $this->showTree(false, $scat_gui, "listItems");
-                    $ret = $this->ctrl->forwardCommand($scat_gui);
-                    break;
-
-                case 'ilbasicskillgui':
-                    $this->tabs_gui->activateTab("skills");
-                    $skill_gui = new ilBasicSkillGUI($this->requested_node_id);
-                    $skill_gui->setParentGUI($this);
-                    $this->showTree(false, $skill_gui, "edit");
-                    $ret = $this->ctrl->forwardCommand($skill_gui);
-                    break;
-
-                case 'ilskilltemplatecategorygui':
-                    $this->tabs_gui->activateTab("skill_templates");
-                    $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_node_id, $this->requested_tref_id);
-                    $sctp_gui->setParentGUI($this);
-                    $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
-                    $ret = $this->ctrl->forwardCommand($sctp_gui);
-                    break;
-
-                case 'ilbasicskilltemplategui':
-                    $this->tabs_gui->activateTab("skill_templates");
-                    $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_node_id, $this->requested_tref_id);
-                    $sktp_gui->setParentGUI($this);
-                    $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
-                    $ret = $this->ctrl->forwardCommand($sktp_gui);
-                    break;
-
-                case 'ilskilltemplatereferencegui':
-                    $this->tabs_gui->activateTab("skills");
-                    $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
-                    $sktr_gui->setParentGUI($this);
-                    $this->showTree(false, $sktr_gui, "listItems");
-                    $ret = $this->ctrl->forwardCommand($sktr_gui);
-                    break;
-
-                case "ilskillprofilegui":
-                    $ilTabs->activateTab("profiles");
-                    $skprof_gui = new ilSkillProfileGUI();
-                    $ret = $this->ctrl->forwardCommand($skprof_gui);
-                    break;
-                    */
 
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab('permissions');
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            case "ilexportgui":
-                $this->prepareOutput();
-                $this->tabs_gui->activateTab('export');
-                $exp_gui = new ilExportGUI($this);
-                $exp_gui->addFormat("xml");
-                //$exp_gui->addFormat("html", "", $this, "exportHTML");
-                $ret = $this->ctrl->forwardCommand($exp_gui);
-                break;
-
-            case "skilltreeadmingui":
-                $this->prepareOutput();
-                $ilTabs->activateTab("skill_trees");
-                $gui = new SkillTreeAdminGUI($this->skill_manager);
-                $this->ctrl->forwardCommand($gui);
                 break;
 
             default:
@@ -235,39 +170,11 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass("skilltreeadmingui", "")
             );
 
-            /*
-            $this->tabs_gui->addTab(
-                "skills",
-                $lng->txt("skmg_skills"),
-                $this->ctrl->getLinkTarget($this, "editSkills")
-            );
-
-            $this->tabs_gui->addTab(
-                "skill_templates",
-                $lng->txt("skmg_skill_templates"),
-                $this->ctrl->getLinkTarget($this, "editSkillTemplates")
-            );
-
-            $this->tabs_gui->addTab(
-                "profiles",
-                $lng->txt("skmg_skill_profiles"),
-                $this->ctrl->getLinkTargetByClass("ilskillprofilegui")
-            );
-            */
-
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "editSettings")
             );
-
-            /*if ($this->management_access_manager->hasEditManagementSettingsPermission()) {
-                $this->tabs_gui->addTab(
-                    "export",
-                    $lng->txt("export"),
-                    $this->ctrl->getLinkTargetByClass("ilexportgui", "")
-                );
-            }*/
         }
 
         if ($this->management_access_manager->hasEditManagementPermissionsPermission()) {
