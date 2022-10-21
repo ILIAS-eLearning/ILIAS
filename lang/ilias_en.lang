@@ -10338,8 +10338,8 @@ lso#:#curriculum#:#Curriculum
 lso#:#delete_confirmation#:#Are you sure you want to delete this objects?
 lso#:#entries_deleted#:#Successfully deleted entries.
 lso#:#entries_updated#:#Entries saved
-lso#:#extro#:#Exitpage
-lso#:#extro_img#:#Image for Exitpage
+lso#:#extro#:#Exit Page
+lso#:#extro_img#:#Image for Exit Page
 lso#:#failed#:#Failed
 lso#:#finished#:#Finished
 lso#:#first_access#:#First Access
@@ -10351,7 +10351,7 @@ lso#:#lso_at_least_one_admin#:#There has to be at least one learning sequence ad
 lso#:#lso_edit_permission#:#User can change permission settings
 lso#:#lso_header_delete_members#:#Would you like to remove the following members from this learning sequence?
 lso#:#lso_header_edit_members#:#Edit Members
-lso#:#lso_intropages_deprecationhint#:#You can edit the abstract and extro page in the tab "Content".
+lso#:#lso_intropages_deprecationhint#:#You can edit the abstract and exit page in the tab "Content".
 lso#:#lso_mail_admission_new_bod#:#we are pleased to announce your registration for the learning sequence "%s".
 lso#:#lso_mail_admission_new_sub#:#Your registration for learning sequence "%s"
 lso#:#lso_mail_dismiss_bod#:#your membership in learning sequence "%s" has been terminated.
@@ -10405,10 +10405,10 @@ lso#:#lso_print_list#:#Generate list
 lso#:#lso_read#:#User has read access to Learning Sequence
 lso#:#lso_search_users#:#Search Users
 lso#:#lso_settings_availability#:#Availability
-lso#:#lso_settings_extro#:#Exitpage Settings
-lso#:#lso_settings_intro#:#Intropage Settings
-lso#:#lso_settings_old_extro#:#View Old Exitpage
-lso#:#lso_settings_old_intro#:#View Old Intropage
+lso#:#lso_settings_extro#:#Exit Page Settings
+lso#:#lso_settings_intro#:#Intro Page Settings
+lso#:#lso_settings_old_extro#:#View Old Exit Page
+lso#:#lso_settings_old_intro#:#View Old Intro Page
 lso#:#lso_show_members_info#:#Member Gallery available for users
 lso#:#lso_start_item#:#Open %s
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
