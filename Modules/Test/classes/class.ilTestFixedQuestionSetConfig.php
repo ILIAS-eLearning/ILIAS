@@ -33,7 +33,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
      */
     public function isQuestionSetConfigured(): bool
     {
-        if ($this->testOBJ->getQuestionCount() > 0) {
+        if ($this->testOBJ->getQuestionCountWithoutReloading() > 0) {
             return true;
         }
         return false;
@@ -91,6 +91,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
         foreach ($this->testOBJ->questions as $key => $question_id) {
             $question = assQuestion::instantiateQuestion($question_id);
+
             $clone_test_obj->questions[$key] = $question->duplicate(true, '', '', '', $clone_test_obj->getId());
 
             $original_id = assQuestion::_getOriginalId($question_id);
