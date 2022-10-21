@@ -33,6 +33,10 @@ use ILIAS\UI\Implementation\Component\Item\Shy;
 use ilSetting;
 use ilUtil;
 use JsonException;
+use ilUserPrivacySettingsGUI;
+use ilDashboardGUI;
+use ilPersonalProfileGUI;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
  * Class OnScreenChatProvider
@@ -62,6 +66,35 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
+    private function getSlateMessageBox(): MessageBox
+    {
+        $acceptsMessages = ilUtil::yn2tf((string) $this->dic->user()->getPref('chat_osc_accept_msg'));
+        if ($acceptsMessages) {
+            return $this->dic->ui()->factory()
+                ->messageBox()
+                ->info($this->dic->language()->txt('chat_osc_accept_no_conv_info_slate'));
+        }
+
+        return $this->dic->ui()->factory()
+            ->messageBox()
+            ->info($this->dic->language()->txt('chat_osc_accept_msg_info_slate'))
+            ->withLinks([
+                $this->dic->ui()->factory()
+                    ->link()
+                    ->standard(
+                        $this->dic->language()->txt('chat_osc_accept_msg_info_slate_link_txt'),
+                        $this->dic->ctrl()->getLinkTargetByClass(
+                            [
+                                ilDashboardGUI::class,
+                                ilPersonalProfileGUI::class,
+                                ilUserPrivacySettingsGUI::class
+                            ],
+                            'showPrivacySettings'
+                        )
+                    )
+             ]);
+    }
+
     /**
      * @inheritDoc
      */
@@ -78,19 +111,23 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                     $isUser = 0 !== $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
                     $chatSettings = new ilSetting('chatroom');
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
-                    $acceptsMessages = ilUtil::yn2tf((string) $this->dic->user()->getPref('chat_osc_accept_msg'));
 
-                    return $isUser && $isEnabled && $acceptsMessages;
+                    return $isUser && $isEnabled;
                 })
                 ->withTitle($this->dic->language()->txt('mm_private_chats'))
                 ->withSymbol($icon)
-                ->withContent(
-                    $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
-                        static function ($id): string {
-                            return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
-                        }
-                    )
-                )
+                ->withContentWrapper(function (): \ILIAS\UI\Component\Component {
+                    $components = [
+                        $this->getSlateMessageBox(),
+                        $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
+                            static function ($id): string {
+                                return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
+                            }
+                        )
+                    ];
+
+                    return $this->dic->ui()->factory()->legacy($this->dic->ui()->renderer()->render($components));
+                })
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(40)
             ,
@@ -98,7 +135,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
     }
 
     /**
-     * @return Shy[]
+     * @return Shy[]|MessageBox[]
      * @throws JsonException
      * @throws ilDateTimeException
      */
@@ -107,7 +144,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         $conversationIds = array_filter(explode(',', $conversationIds));
 
         if (!$withAggregates || !$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
-            return [];
+            return [$this->getSlateMessageBox()];
         }
 
         $conversations = $this->conversationRepo->findByIds($conversationIds);
@@ -158,8 +195,11 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                       function ($id) use ($cid) {
                           return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
                       }
-                  )
-            ;
+                  );
+        }
+
+        if ($items === []) {
+            $items[] = $this->getSlateMessageBox();
         }
 
         return $items;
