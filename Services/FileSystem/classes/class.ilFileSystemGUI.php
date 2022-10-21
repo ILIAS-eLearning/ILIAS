@@ -379,7 +379,7 @@ class ilFileSystemGUI
         }
 
         // check if only one item is select, if command does not allow multiple selection
-        if (count($selected) > 1 && $this->commands[$a_nr]["single"]) {
+        if (count($selected) > 1 && ($this->commands[$a_nr]["single"] ?? false)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
             $this->ctrl->redirect($this, "listFiles");
         }
