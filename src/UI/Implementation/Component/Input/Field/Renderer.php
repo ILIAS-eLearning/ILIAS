@@ -163,6 +163,7 @@ class Renderer extends AbstractComponentRenderer
         $error = $component->getError();
         if ($error) {
             $tpl->setVariable("ERROR", $error);
+            $tpl->setVariable("ERROR_FOR_ID", $id_pointing_to_input);
         }
 
         $tpl->setVariable("DEPENDANT_GROUP", $dependant_group_html);
@@ -376,14 +377,15 @@ class Renderer extends AbstractComponentRenderer
             $sig_reveal = $component->getRevealSignal();
             $sig_mask = $component->getMaskSignal();
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($sig_reveal, $sig_mask) {
+                $container_id = $id."_container";
                 return
                     "$(document).on('$sig_reveal', function() {
-                        $('#$id').addClass('revealed');
-                        $('#$id')[0].getElementsByTagName('input')[0].type='text';
+                        $('#$container_id').addClass('revealed');
+                        $('#$container_id')[0].getElementsByTagName('input')[0].type='text';
                     });" .
                     "$(document).on('$sig_mask', function() {
-                        $('#$id').removeClass('revealed');
-                        $('#$id')[0].getElementsByTagName('input')[0].type='password';
+                        $('#$container_id').removeClass('revealed');
+                        $('#$container_id')[0].getElementsByTagName('input')[0].type='password';
                     });";
             });
 
@@ -396,11 +398,11 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
         }
-        $this->bindJSandApplyId($component, $tpl);
-
+        $id = $this->bindJSandApplyId($component, $tpl);
+        $tpl->setVariable('ID_CONTAINER', $id."_container");
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
     public function renderSelectField(F\Select $component): string

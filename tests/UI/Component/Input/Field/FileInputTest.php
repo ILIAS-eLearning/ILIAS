@@ -193,7 +193,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             <div class="form-group row">
                 <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div class="help-block alert alert-danger" role="alert">an_error</div>
+                    <div class="help-block alert alert-danger" aria-describedby="id_3" role="alert">an_error</div>
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">

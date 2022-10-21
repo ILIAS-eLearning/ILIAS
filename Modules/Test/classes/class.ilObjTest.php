@@ -847,7 +847,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfig = $testQuestionSetConfigFactory->getQuestionSetConfig();
 
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if ($this->test_id == -1) {
             // Create new dataset
             $next_id = $ilDB->nextId('tst_tests');
@@ -1072,7 +1071,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     )
             );
 
-            include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
                 $logresult = $ilDB->queryF(
                     "SELECT * FROM tst_tests WHERE test_id = %s",
@@ -6577,8 +6575,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $component_repository, $this);
         $testQuestionSetConfigFactory->getQuestionSetConfig()->cloneQuestionSetRelatedData($newObj);
+        $newObj->saveQuestionsToDb();
 
-        require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
         $skillLevelThresholdList = new ilTestSkillLevelThresholdList($ilDB);
         $skillLevelThresholdList->setTestId($this->getTestId());
         $skillLevelThresholdList->loadFromDb();
@@ -6587,7 +6585,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->saveToDb();
         $newObj->updateMetaData();// #14467
 
-        include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($newObj->getId());
 
