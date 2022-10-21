@@ -49,7 +49,7 @@ class ilObjBlog extends ilObject2
     protected int $nav_mode = self::NAV_MODE_LIST;
     protected int $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS;
     protected ?int $nav_mode_list_months = null;
-    protected int $overview_postings = 5;
+    protected ?int $overview_postings = 5;
     protected bool $authors = true;
     protected array $order = [];
 

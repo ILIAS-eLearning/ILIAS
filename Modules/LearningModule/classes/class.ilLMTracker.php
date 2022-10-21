@@ -517,9 +517,9 @@ class ilLMTracker
         $ret = false;
         if (isset($this->tree_arr["nodes"][$a_obj_id])) {
             if ($a_ignore_unlock) {
-                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] ?? false;
             } else {
-                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"];
+                $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] ?? false;
             }
         }
         return $ret;
