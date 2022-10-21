@@ -137,6 +137,9 @@ class ilGroupedListGUI
                         if ($i["id"] != "") {
                             $tpl->setVariable("ID", 'id="' . $i["id"] . '"');
                         }
+                        if ($this->getAsDropDown()) {
+                            $tpl->setVariable("ITEM_ROLE", 'role="menuitem"');
+                        }
                         $tpl->parseCurrentBlock();
                         $tpl->touchBlock("item");
                         if ($i["ttip"] != "" && $i["id"] != "") {
