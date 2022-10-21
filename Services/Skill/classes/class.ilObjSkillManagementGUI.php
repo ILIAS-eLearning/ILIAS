@@ -29,7 +29,7 @@ use ILIAS\Skill\Tree;
  * Skill management main GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI, SkillTreeAdminGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, SkillTreeAdminGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
