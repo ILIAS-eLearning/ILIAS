@@ -12573,7 +12573,7 @@ prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_changed_by#:#Geändert durch
 prg#:#prg_completion_by#:#Abgeschlossen durch
-prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
 prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
@@ -12742,7 +12742,7 @@ prg#:#send_re_assigned_mail#:#E-Mail bei automat. Wiederaufnahme
 prg#:#send_re_assigned_mail_info#:#Versand einer E-Mail bei erneuter Zuweisung zum Studienprogramm.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Risiko der Nicht-Qualifikation
 prg#:#send_risky_to_fail_mail_info#:#Versand einer E-Mail, wenn Qualifikation noch nicht erworben wurde und Bearbeitungszeitraum endet
-prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_completion_date#:#Abschlussdatum
 prg#:#sp_certificate_description#:#Beschreibung des Programms
 prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
 prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
