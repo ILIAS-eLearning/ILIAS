@@ -161,7 +161,7 @@ class ilConditionHandler
             /** @var ilConditionControllerInterface $controller */
             $controller = new $class_name();
             if ($controller->isContainerConditionController($parent_ref_id)) {
-                return $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
+                return (bool) $controller->getConditionSetForRepositoryObject($a_target_ref_id)->getHiddenStatus();
             }
         }
         return self::lookupPersistedHiddenStatusByTarget($a_target_ref_id);
