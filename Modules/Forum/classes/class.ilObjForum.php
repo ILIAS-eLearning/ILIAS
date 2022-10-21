@@ -518,6 +518,8 @@ class ilObjForum extends ilObject
 
     public function delete(): bool
     {
+        $this->Forum->setForumId($this->getId());
+
         if (!parent::delete()) {
             return false;
         }
