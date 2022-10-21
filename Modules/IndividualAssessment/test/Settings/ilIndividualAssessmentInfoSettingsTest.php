@@ -15,7 +15,8 @@ declare(strict_types=1);
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\Section;
