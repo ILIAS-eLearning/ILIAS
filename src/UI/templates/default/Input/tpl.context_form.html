@@ -1,7 +1,7 @@
 <div class="form-group row">
 	<label <!-- BEGIN for -->for="{ID}" <!-- END for -->class="control-label col-sm-4 col-md-3 col-lg-2">{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
 	<div class="col-sm-8 col-md-9 col-lg-10">
-		<!-- BEGIN error --><div class="help-block alert alert-danger" role="alert">{ERROR}</div><!-- END error -->
+		<!-- BEGIN error --><div class="help-block alert alert-danger" aria-describedby="{ERROR_FOR_ID}" role="alert">{ERROR}</div><!-- END error -->
 		{INPUT}
 		<!-- BEGIN byline --><div class="help-block">{BYLINE}</div><!-- END byline -->
 		{DEPENDANT_GROUP}
