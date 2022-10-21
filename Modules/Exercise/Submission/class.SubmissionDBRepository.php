@@ -27,6 +27,7 @@ namespace ILIAS\Exercise\Submission;
 class SubmissionDBRepository implements SubmissionRepositoryInterface
 {
     protected const TABLE_NAME = "exc_returned";
+    protected const TEAM_TABLE_NAME = "il_exc_team";
 
     protected \ilDBInterface $db;
 
@@ -66,5 +67,50 @@ class SubmissionDBRepository implements SubmissionRepositoryInterface
             " SET web_dir_access_time = " . $this->db->quote(\ilUtil::now(), "timestamp") .
             " WHERE ass_id = " . $this->db->quote($assignment_id, "integer") .
             " AND user_id = " . $this->db->quote($member_id, "integer"));
+    }
+
+    /**
+     * Checks if a user has submitted anything for a number of assignments.
+     * This function should be performant, because it is being used for task
+     * determination. It assumes, that team db entries only exist for team
+     * assignment types and thus does not read the assignment types at all.
+     */
+    public function getUserSubmissionState(int $user_id, array $assignment_ids): array
+    {
+        $db = $this->db;
+
+        $submitted = [];
+        foreach ($assignment_ids as $id) {
+            $submitted[(int) $id] = false;
+        }
+
+        $set = $db->queryF(
+            "SELECT ass_id FROM  " . self::TABLE_NAME .
+            " WHERE " . $db->in("ass_id", $assignment_ids, false, "integer") .
+            " AND user_id = %s " .
+            " AND (filename IS NOT NULL OR atext IS NOT NULL)" .
+            " AND ts IS NOT NULL",
+            ["integer"],
+            [$user_id]
+        );
+        while ($rec = $db->fetchAssoc($set)) {
+            $submitted[(int) $rec["ass_id"]] = true;
+        }
+
+        $set = $db->queryF(
+            "SELECT ret.ass_id FROM  " . self::TABLE_NAME . " ret JOIN " .
+            self::TEAM_TABLE_NAME . " team ON (ret.team_id = team.id AND ret.ass_id = team.ass_id) " .
+            " WHERE " . $db->in("ret.ass_id", $assignment_ids, false, "integer") .
+            " AND team.user_id = %s " .
+            " AND (ret.filename IS NOT NULL OR ret.atext IS NOT NULL)" .
+            " AND ret.ts IS NOT NULL",
+            ["integer"],
+            [$user_id]
+        );
+        while ($rec = $db->fetchAssoc($set)) {
+            $submitted[(int) $rec["ass_id"]] = true;
+        }
+
+        return $submitted;
     }
 }

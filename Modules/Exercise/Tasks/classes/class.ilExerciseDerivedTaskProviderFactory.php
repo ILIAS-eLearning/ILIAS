@@ -58,7 +58,8 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
                 new ilExerciseDerivedTaskAction(
                     new ilExcMemberRepository(),
                     new ilExcAssMemberStateRepository(),
-                    new ilExcTutorRepository()
+                    new ilExcTutorRepository(),
+                    new \ILIAS\Exercise\Submission\SubmissionDBRepository()
                 )
             )
         ];
