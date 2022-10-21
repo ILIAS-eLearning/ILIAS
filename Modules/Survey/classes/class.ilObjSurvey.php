@@ -1003,12 +1003,12 @@ class ilObjSurvey extends ilObject
             $this->setTutorResultsStatus((bool) $data["tutor_res_status"]);
             $this->setTutorResultsRecipients(explode(";", $data["tutor_res_reci"]));
 
-            $this->setViewOwnResults($data["own_results_view"]);
-            $this->setMailOwnResults($data["own_results_mail"]);
+            $this->setViewOwnResults((bool) $data["own_results_view"]);
+            $this->setMailOwnResults((bool) $data["own_results_mail"]);
             $this->setMailConfirmation((bool) $data["confirmation_mail"]);
-            $this->setCalculateSumScore($data["calculate_sum_score"]);
+            $this->setCalculateSumScore((bool) $data["calculate_sum_score"]);
 
-            $this->setAnonymousUserList($data["anon_user_list"]);
+            $this->setAnonymousUserList((bool) $data["anon_user_list"]);
         }
 
         // moved activation to ilObjectActivation
