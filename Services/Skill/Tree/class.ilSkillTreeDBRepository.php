@@ -137,7 +137,7 @@ class ilSkillTreeDBRepository implements ilSkillTreeRepository
             [$node_id]
         );
         $rec = $db->fetchAssoc($set);
-        return isset($rec["skl_tree_id"]) ? (int) $rec["skl_tree_id"] : 0;
+        return (int) ($rec["skl_tree_id"] ?? 0);
     }
 
     public function getTreeForNodeId(int $node_id): ilSkillTree
