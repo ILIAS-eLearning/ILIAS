@@ -30,7 +30,7 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
  *
  * @author Thomas Famula <famula@leifos.de>
  *
- * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillManagementGUI, ilContSkillAdminGUI
+ * @ilCtrl_isCalledBy ilSkillProfileUploadHandlerGUI : ilObjSkillTreeGUI, ilContSkillAdminGUI
  */
 class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
