@@ -2830,6 +2830,9 @@ chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
 chatroom#:#chat_osc_accept_msg_info#:#Allow other users to send you messages using the on-screen chat system.
+chatroom#:#chat_osc_accept_msg_info_slate#:#To have private conversations, you must enable your setting "Allow On-Screen Chat Conversations".
+chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Visibility (in Profile and Privacy)
+chatroom#:#chat_osc_accept_no_conv_info_slate#:#There are currently no minimzed conversations.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
 chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
 chatroom#:#chat_osc_add_user#:#Add Further Users
