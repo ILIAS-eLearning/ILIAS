@@ -536,7 +536,9 @@ class ilObjForum extends ilObject
 
         $topData = $this->Forum->getOneTopic();
 
-        $threads = $this->Forum->getAllThreads($topData->getTopPk());
+        $threads = $this->Forum->getAllThreads($topData->getTopPk(), [
+            'is_moderator' => true,
+        ]);
         $thread_ids_to_delete = [];
         foreach ($threads['items'] as $thread) {
             $thread_ids_to_delete[$thread->getId()] = $thread->getId();
