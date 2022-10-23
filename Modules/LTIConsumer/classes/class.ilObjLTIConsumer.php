@@ -1055,6 +1055,10 @@ class ilObjLTIConsumer extends ilObject2
     public static function getPrivateKey(): array
     {
         global $ilSetting;
+        $err = self::verifyPrivateKey();
+        if (!empty($err)) {
+            return [];
+        }
         $privatekey = $ilSetting->get(self::LTI_1_3_PRIVATE_KEY);
         $kid = $ilSetting->get(self::LTI_1_3_KID);
         return [
