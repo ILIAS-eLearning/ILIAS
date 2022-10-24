@@ -466,18 +466,18 @@ class ilUserSearchCache
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result = unserialize(stripslashes($row->search_result));
+            $this->search_result = (array) unserialize((string) $row->search_result);
             if (strlen($row->checked)) {
-                $this->checked = unserialize(stripslashes($row->checked));
+                $this->checked = (array) unserialize((string) $row->checked);
             }
             if (strlen($row->failed)) {
-                $this->failed = unserialize(stripslashes($row->failed));
+                $this->failed = (array) unserialize((string) $row->failed);
             }
             $this->page_number = (int) $row->page;
-            $this->setQuery(unserialize($row->query));
+            $this->setQuery(unserialize((string) $row->query));
             $this->setRoot((int) $row->root);
-            $this->setItemFilter(unserialize($row->item_filter));
-            $this->setCreationFilter(unserialize($row->creation_filter));
+            $this->setItemFilter((array) unserialize((string) $row->item_filter));
+            $this->setCreationFilter((array) unserialize((string) $row->creation_filter));
         }
     }
 

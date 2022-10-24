@@ -40,7 +40,11 @@ class ilADTInteger extends ilADT
 
     public function setNumber($a_value = null)
     {
-        $this->value = $this->getDefinition()->handleNumber((int) $a_value);
+        if ($a_value !== null) {
+            $this->value = $this->getDefinition()->handleNumber((int) $a_value);
+        } else {
+            $this->value = null;
+        }
     }
 
     public function getNumber(): ?int

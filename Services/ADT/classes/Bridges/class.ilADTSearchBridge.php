@@ -209,9 +209,9 @@ abstract class ilADTSearchBridge
                 $post = $a_post[$element_id] ?? null;
             }
         } elseif ($multi !== false) {
-            $post = $a_post[substr($element_id, $multi + 1, -1)];
+            $post = $a_post[substr($element_id, $multi + 1, -1)] ?? null;
         } else {
-            $post = $a_post[$element_id];
+            $post = $a_post[$element_id] ?? null;
         }
         return $post;
     }
