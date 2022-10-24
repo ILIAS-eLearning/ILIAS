@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -455,8 +457,10 @@ class ilLuceneAdvancedSearchFields
     /**
      * Called from ilLuceneAdvancedQueryParser
      * Parse a field specific query
+     * @param string $a_field
+     * @param string | array $a_query
      */
-    public function parseFieldQuery(string $a_field, string $a_query): string
+    public function parseFieldQuery(string $a_field, $a_query): string
     {
         switch ($a_field) {
             case 'lom_content':

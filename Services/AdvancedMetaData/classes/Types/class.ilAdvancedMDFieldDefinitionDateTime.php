@@ -1,7 +1,23 @@
 <?php
 
 declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * AMD field type date time
@@ -68,38 +84,18 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
      */
     public function getLuceneSearchString($a_value): string
     {
-        // see ilADTDateTimeSearchBridgeRange::importFromPost();
+        $start = new ilDateTime('1970-01-01 00:00:01', IL_CAL_DATETIME, ilTimeZone::UTC);
+        $end = new ilDateTime('2038-01-19 00:00:01', IL_CAL_DATETIME, ilTimeZone::UTC);
 
-        if ($a_value["tgl"]) {
-            $start = mktime(
-                $a_value["lower"]["time"]["h"],
-                $a_value["lower"]["time"]["m"],
-                1,
-                $a_value["lower"]["date"]["m"],
-                $a_value["lower"]["date"]["d"],
-                $a_value["lower"]["date"]["y"]
-            );
-
-            $end = mktime(
-                $a_value["upper"]["time"]["h"],
-                $a_value["upper"]["time"]["m"],
-                1,
-                $a_value["upper"]["date"]["m"],
-                $a_value["upper"]["date"]["d"],
-                $a_value["upper"]["date"]["y"]
-            );
-
-            if ($start && $end && $start > $end) {
-                $tmp = $start;
-                $start = $end;
-                $end = $tmp;
-            }
-
-            $start = new ilDateTime($start, IL_CAL_UNIX);
-            $end = new ilDateTime($end, IL_CAL_UNIX);
-
-            return "{" . $start->get(IL_CAL_DATETIME) . " TO " . $end->get(IL_CAL_DATETIME) . "}";
+        if (!($a_value['lower'] ?? false) || !($a_value['upper'])) {
+            return '';
         }
-        return 'null';
+        if ($a_value['lower'] ?? false) {
+            $start = ilCalendarUtil::parseIncomingDate($a_value['lower'], true);
+        }
+        if ($a_value['upper'] ?? false) {
+            $end = ilCalendarUtil::parseIncomingDate($a_value['upper'], true);
+        }
+        return '[' . $start->get(IL_CAL_FKT_DATE, 'Y-m-d\Th:m') . ' TO ' . $end->get(IL_CAL_FKT_DATE, 'Y-m-d\Th:m') . ']';
     }
 }

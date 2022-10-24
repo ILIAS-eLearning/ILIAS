@@ -2,6 +2,23 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+
 class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
@@ -38,13 +55,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     protected function shouldBeImportedFromPost($a_post): bool
     {
-        // @todo check if this assumption is correct:
-        // text_input_mode is alway false
-        //if (!(bool) $this->text_input) {
-        //     return (bool) $a_post["tgl"];
-        //}
-        //return parent::shouldBeImportedFromPost($a_post);
-        return (bool) $a_post['tgl'];
+        return ($a_post['lower'] ?? false) || ($a_post['upper'] ?? false);
     }
 
     public function importFromPost(array $a_post = null): bool

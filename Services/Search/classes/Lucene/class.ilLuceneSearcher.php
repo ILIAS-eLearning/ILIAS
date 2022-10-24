@@ -190,6 +190,8 @@ class ilLuceneSearcher
             return;
         }
 
+        ilLoggerFactory::getLogger('src')->dump($res);
+
         // Parse results
         $parser = new ilLuceneSearchResultParser($res);
         $parser->parse($this->result);

@@ -2,9 +2,28 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
+ * @author Stefan Meyer <meyer@leifos.de>
+ */
 class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected ?int $radius;
+    protected ?int $radius = null;
     protected bool $force_valid = false;
 
     protected ilLanguage $lng;
@@ -44,9 +63,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
             // use installation default
             $def = ilMapUtil::getDefaultSettings();
-            $adt->setLatitude($def["latitude"]);
-            $adt->setLongitude($def["longitude"]);
-            $adt->setZoom($def["zoom"]);
+            $adt->setLatitude((float) ($def["latitude"] ?? null));
+            $adt->setLongitude((float) ($def["longitude"] ?? null));
+            $adt->setZoom((int) ($def["zoom"] ?? 0));
 
             $default = true;
         }
@@ -75,7 +94,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     protected function shouldBeImportedFromPost($a_post): bool
     {
-        return (bool) $a_post["tgl"];
+        return (bool) ($a_post["tgl"] ?? false);
     }
 
     public function importFromPost(array $a_post = null): bool

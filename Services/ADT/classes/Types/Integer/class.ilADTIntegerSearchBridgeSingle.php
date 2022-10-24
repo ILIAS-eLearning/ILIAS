@@ -2,6 +2,23 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+
 class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
@@ -29,21 +46,19 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         $number->setSize(10);
 
         $min = $def->getMin();
+        // do not set min value for search
         if ($min !== null) {
-            $number->setMinValue($min);
+            //$number->setMinValue($min);
         }
-
         $max = $def->getMax();
+        // do not set min value for search
         if ($max !== null) {
-            $number->setMaxValue($max);
-
-            $length = strlen((string) $max);
-            $number->setSize($length);
-            $number->setMaxLength($length);
+            #$number->setMaxValue($max);
+            #$length = strlen((string) $max);
+            #$number->setSize($length);
+            #$number->setMaxLength($length);
         }
-
         $number->setValue((string) $this->getADT()->getNumber());
-
         $this->addToParentElement($number);
     }
 
@@ -54,7 +69,6 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($post && $this->shouldBeImportedFromPost($post)) {
             $item = $this->getForm()->getItemByPostVar($this->getElementId());
             $item->setValue($post);
-
             $this->getADT()->setNumber($post);
         } else {
             $this->getADT()->setNumber();
