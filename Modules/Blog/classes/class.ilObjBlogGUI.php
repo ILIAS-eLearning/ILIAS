@@ -2486,6 +2486,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
 
         $lg = parent::initHeaderAction($sub_type, $sub_id);
+        if (!$lg) {
+            return null;
+        }
         $lg->enableComments(false);
         $lg->enableNotes(false);
 
