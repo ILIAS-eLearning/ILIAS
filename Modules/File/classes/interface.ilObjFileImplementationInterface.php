@@ -54,6 +54,8 @@ interface ilObjFileImplementationInterface
      */
     public function sendFile(?int $a_hist_entry_id = null): void;
 
+    public function handleChangedObjectTitle(string $new_title): void;
+
     /**
      * Returns the extension of the file name converted to lower-case.
      * e.g. returns 'pdf' for 'document.pdf'.
