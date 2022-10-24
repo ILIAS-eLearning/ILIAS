@@ -126,8 +126,8 @@ abstract class ilMailTemplateContext
             $this->initLanguage($recipient);
         }
 
+        $placeholder_id = strtolower($placeholder_id);
         $resolved = '';
-
         switch (true) {
             case ('mail_salutation' === $placeholder_id && $recipient !== null):
                 $resolved = $this->getLanguage()->txt('mail_salutation_n');

@@ -24,62 +24,36 @@ declare(strict_types=1);
  */
 class ilMailTemplatePlaceholderResolver
 {
-    public function __construct(protected ilMailTemplateContext $context, protected string $message)
+    protected Mustache_Engine $mustache_engine;
+
+    public function __construct(Mustache_Engine $mustache_engine)
     {
+        $this->mustache_engine = $mustache_engine;
     }
 
+    /**
+     * @param ilMailTemplateContext $context
+     * @param string $message
+     * @param ilObjUser|null $user
+     * @param array $contextParameters
+     * @param $replaceEmptyPlaceholders boolean
+     * @return string
+     */
     public function resolve(
+        ilMailTemplateContext $context,
+        string $message,
         ilObjUser $user = null,
         array $contextParameters = [],
         bool $replaceEmptyPlaceholders = true
     ): string {
-        $message = $this->message;
-
-        foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
-            $result = $this->context->resolvePlaceholder($key, $contextParameters, $user);
-            if (!$replaceEmptyPlaceholders && $result === '') {
-                continue;
-            }
-
-            $startTag = '\[IF_' . strtoupper($key) . '\]';
-            $endTag = '\[\/IF_' . strtoupper($key) . '\]';
-
-            if ($result !== '') {
-                $message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $message);
-
-                if (array_key_exists('supportsCondition', $ph_definition) &&
-                    $ph_definition['supportsCondition']
-                ) {
-                    $message = preg_replace(
-                        '/' . $startTag . '(.*?)' . $endTag . '/imsU',
-                        '$1',
-                        $message
-                    );
-                }
-            } else {
-                $message = preg_replace(
-                    '/[[:space:]]\[' . $ph_definition['placeholder'] . '\][[:space:]]/ims',
-                    ' ',
-                    $message
-                );
-                $message = preg_replace(
-                    '/\[' . $ph_definition['placeholder'] . '\]/ims',
-                    '',
-                    $message
-                );
-
-                if (array_key_exists('supportsCondition', $ph_definition) &&
-                    $ph_definition['supportsCondition']
-                ) {
-                    $message = preg_replace(
-                        '/' . $startTag . '.*?' . $endTag . '/imsU',
-                        '',
-                        $message
-                    );
-                }
-            }
-        }
-
-        return $message;
+        return $this->mustache_engine->render(
+            $message,
+            new ilMailTemplateContextAdapter(
+                [$context],
+                $contextParameters,
+                $user,
+                $replaceEmptyPlaceholders
+            )
+        );
     }
 }
