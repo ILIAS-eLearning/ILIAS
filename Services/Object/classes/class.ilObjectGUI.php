@@ -1145,6 +1145,9 @@ class ilObjectGUI
                     );
                 }
             } catch (ilException $e) {
+                if (DEVMODE) {
+                    throw $e;
+                }
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
                 if (!$catch_errors) {
                     throw $e;
