@@ -145,11 +145,11 @@ class ilMDTypicalAgeRange extends ilMDBase
                 $this->setObjId((int) $row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setParentId((int) $row->parent_id);
-                $this->setParentType($row->parent_type);
-                $this->setTypicalAgeRange($row->typical_age_range);
+                $this->setParentType((string) $row->parent_type);
+                $this->setTypicalAgeRange((string) $row->typical_age_range);
                 $this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->tar_language));
-                $this->setTypicalAgeRangeMinimum($row->tar_min);
-                $this->setTypicalAgeRangeMaximum($row->tar_max);
+                $this->setTypicalAgeRangeMinimum((string) $row->tar_min);
+                $this->setTypicalAgeRangeMaximum((string) $row->tar_max);
             }
         }
         return true;
