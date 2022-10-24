@@ -553,10 +553,10 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // tries
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_tries"), "store_tries");
-        $radg->setValue(0);
-        $op1 = new ilRadioOption($lng->txt("cont_tries_reset_on_visit"), 0, $lng->txt("cont_tries_reset_on_visit_info"));
+        $radg->setValue("0");
+        $op1 = new ilRadioOption($lng->txt("cont_tries_reset_on_visit"), "0", $lng->txt("cont_tries_reset_on_visit_info"));
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("cont_tries_store"), 1, $lng->txt("cont_tries_store_info"));
+        $op2 = new ilRadioOption($lng->txt("cont_tries_store"), "1", $lng->txt("cont_tries_store_info"));
         $radg->addOption($op2);
         $this->form->addItem($radg);
 
@@ -656,7 +656,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $values["rating_pages"] = $this->lm->hasRatingPages();
         $values["disable_def_feedback"] = $this->lm->getDisableDefaultFeedback();
         $values["progr_icons"] = $this->lm->getProgressIcons();
-        $values["store_tries"] = $this->lm->getStoreTries();
+        $values["store_tries"] = (string) (int) $this->lm->getStoreTries();
         $values["restrict_forw_nav"] = $this->lm->getRestrictForwardNavigation();
 
         $values["notification_blocked_users"] = ilNotification::hasNotification(
@@ -666,7 +666,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
 
         $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
-
         $this->form->setValuesByArray($values, true);
     }
 
