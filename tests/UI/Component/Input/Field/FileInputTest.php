@@ -161,7 +161,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -191,7 +191,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="help-block alert alert-danger" aria-describedby="id_3" role="alert">an_error</div>
                     <div id="id_3" class="ui-input-file">
@@ -220,7 +220,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -257,7 +257,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                <label class="control-label col-sm-4 col-md-3 col-lg-2"></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
@@ -314,7 +314,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($file_input));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row"><label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_6" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
@@ -389,7 +389,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($file_input));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row"><label for="id_6" class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">file_input</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_6" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
@@ -446,7 +446,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+                <label class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -472,7 +472,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row"><label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="form-group row"><label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
