@@ -40,7 +40,7 @@ class ilMDContribute extends ilMDBase
      */
     public function getEntityIds(): array
     {
-        return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
+        return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), (int) $this->getMetaId(), 'meta_contribute');
     }
 
     public function getEntity(int $a_entity_id): ?ilMDEntity
