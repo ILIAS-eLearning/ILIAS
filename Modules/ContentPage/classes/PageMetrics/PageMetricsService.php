@@ -73,6 +73,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
         $pageObjectGUI->setFileDownloadLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setFullscreenLink(ILIAS_HTTP_PATH);
         $pageObjectGUI->setSourcecodeDownloadScript(ILIAS_HTTP_PATH);
+        $pageObjectGUI->setProfileBackUrl(ILIAS_HTTP_PATH);
         $text = $pageObjectGUI->getHTML();
 
         $readingTimeTransformation = $this->refinery->string()->estimatedReadingTime();
