@@ -10,6 +10,7 @@ Priorities for the development of the Test & Assessment and the Test Question Po
 
 ## Others
 * Fixing access to Learning Status when access to test results is limited (see: [Mantis 25064](https://mantis.ilias.de/view.php?id=25064&nbn=9))
+* Restructuring Import/Export, removing dependency on ilContObjParser, and clarifying support of QTI
 
 ## Open Warnings / Issues without Tickets
 These are open findings from the PHP8 Project which couldn't be solved in the scope of the project itself. They are documented here for transparency.
@@ -35,22 +36,22 @@ Remarks on the individual items are marked with "@PHP8-CR"
 
 
 ## A [RepoPattern](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/repository-pattern.md) Approach to reduce complexity
-A lot of the current pain in the T&A is due to the ruthless mixing of Logic and GUI, making decisions very late based on 
+A lot of the current pain in the T&A is due to the ruthless mixing of Logic and GUI, making decisions very late based on
 variables transported a long way and - in general - having properties set and evaluated in a quite obscured way by several components.
 There are some aspects I'd like to focus upon to ease the situation _without_ rebuilding the whole lot at once and disabling functionality
 in the process.
 In the following, I'll talk about questions mainly, but answers are implicitly included, since they work almost the same.
 
 ### current entanglements
-Currently, loading a question means: lookup type, load specific question GUI, load base and specific values from DB, 
-write back to question object, use in base- and specific gui. Goal of the process is to configure a question object 
+Currently, loading a question means: lookup type, load specific question GUI, load base and specific values from DB,
+write back to question object, use in base- and specific gui. Goal of the process is to configure a question object
 that has all the required props and features.  This is due to mainly two concepts, that look outdated to me:
 
 #### obese classes and hip-hop-loading
-Specific Questions extend a baseclass, both in object and GUI. While this is fine in general, the T&A implementation is 
-somewhat obscure with loading and modifying object properties. Both, architectural structure and unclear program-flows 
+Specific Questions extend a baseclass, both in object and GUI. While this is fine in general, the T&A implementation is
+somewhat obscure with loading and modifying object properties. Both, architectural structure and unclear program-flows
 make it quite easy to miss out on a setting or certain property on the one hand, while on the other, it is somewhat painful to
-alter a GUI. All eventualities have to be treated over the entirety of a "common question object". 
+alter a GUI. All eventualities have to be treated over the entirety of a "common question object".
 When saving questions/answers, it works the same way - the entire object is stored, additional features, answertexts and all.
 Additionally, there are "satellite" properties like suggested solutions, that actually live completely in parallel structures
 with rather a reference by id than a "real" intersection.
@@ -71,20 +72,20 @@ Assumingly for the purpose described above, there are a lot of (public!) direct 
 
 From my point of view, this should be disentangled in a way that a question is used by
 1. loading generic data
-2. loading specific data 
+2. loading specific data
 3. handing over the well-configured object(s) to the guis - but only those, that are actually needed.
 4. (modifying data and then repeating from 1)
 
-### why/how repo-pattern will help 
+### why/how repo-pattern will help
 In order to limit and isolate changes, we should use [repo-pattern](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/repository-pattern.md) to cluster settings into immutable objects.
 Doing so
 - will only add one additional layer around the properties, the getters might even remain
-- will separate question-type specific data 
+- will separate question-type specific data
 - will separate additional functionality, like suggested solution or hints
 - will make construction/manipulation way more decisive
 - will give us specific and distinct elements to talk about
 
-A "question" will thus be a collection of otherwise isolated things, while those things should still be treated in a 
+A "question" will thus be a collection of otherwise isolated things, while those things should still be treated in a
 tendentiously isolated way.
 
 Here is an example for a [repo on options of OrderingQuestions](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/Modules/TestQuestionPool/classes/questions/OrderingQuestion/assOrderingQuestionDatabaseRepository.php),
@@ -94,7 +95,7 @@ Here is an example for a [repo on options of OrderingQuestions](https://github.c
 
 #### separation and clustering properties
 There are only a few base_settings common to questions. Those are to _describe_ a question.
-Then, there are answers, metadata, suggested solutions, etc. They are more or less connected to the question, 
+Then, there are answers, metadata, suggested solutions, etc. They are more or less connected to the question,
 but they are not necessary an integral part of it in a way that a question cannot exist without them.
 This can and should be reflected by wrapping those "property clusters" into immutable objects with little or none logic,
 which will also result in a number of repositories - one for each cluster.
@@ -113,7 +114,7 @@ public function getId() : int {
 
 #### Dependency Injection, proper constructors
 With smaller, immutable properties, construction is way more explicit than handing over "a question".
-If the GUI, e.g., behaves differently based on a flag in properties, calculate before and split up GUI classes, 
+If the GUI, e.g., behaves differently based on a flag in properties, calculate before and split up GUI classes,
 or calculate early and only once.
 
 
@@ -122,7 +123,7 @@ What we need to instantiate a question is not "the question" itself, but informa
 After reading those shared information, we can instantiate a specific question directly and hand over the common properties.
 This is usually done by a factory, which will need not much more information than the question's id - just like before.
 
-Consider something like this: 
+Consider something like this:
 ```php
 class factory {
 
@@ -145,7 +146,7 @@ class factory {
     }
 }
 
-```     
+```
 
 ### Consequences/Candidates
 I'd consider these the most valuable and in the same way feasible steps to improve T&A-structures:
