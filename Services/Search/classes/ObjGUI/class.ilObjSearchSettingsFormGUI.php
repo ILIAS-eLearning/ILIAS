@@ -118,7 +118,9 @@ class ilObjSearchSettingsFormGUI
         }
         $settings->setDefaultOperator((int) $data['operator']);
         $settings->enableLuceneItemFilter(!is_null($data['filter']));
-        $settings->setLuceneItemFilter((array) $data['filter']);
+        if (!is_null($data['filter'])) {
+            $settings->setLuceneItemFilter((array) $data['filter']);
+        }
         $settings->setHideAdvancedSearch((bool) $data['hide_adv_search']);
         $settings->setAutoCompleteLength((int) $data['auto_complete_length']);
         $settings->showInactiveUser((bool) $data['inactive_user']);
