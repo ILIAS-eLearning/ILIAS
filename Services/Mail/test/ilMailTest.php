@@ -164,7 +164,8 @@ class ilMailTest extends ilMailBaseTest
             $this->createMock(AutoresponderService::class),
             0,
             4711,
-            $actor
+            $actor,
+            new ilMailTemplatePlaceholderResolver(new Mustache_Engine())
         );
 
         $oldTransport = ilMimeMail::getDefaultTransport();
@@ -571,7 +572,8 @@ class ilMailTest extends ilMailBaseTest
             $this->createMock(AutoresponderService::class),
             0,
             $refId,
-            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock(),
+            $this->getMockBuilder(ilMailTemplatePlaceholderResolver::class)->disableOriginalConstructor()->getMock()
         );
     }
 }

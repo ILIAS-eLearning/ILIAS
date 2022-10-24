@@ -58,6 +58,7 @@ class ilMail
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
+    protected ilMailTemplatePlaceholderResolver $placeholder_resolver;
 
     public function __construct(
         int $a_user_id,
@@ -75,7 +76,8 @@ class ilMail
         AutoresponderService $auto_responder_service = null,
         int $mailAdminNodeRefId = null,
         protected ?int $mail_obj_ref_id = null,
-        ilObjUser $actor = null
+        ilObjUser $actor = null,
+        ilMailTemplatePlaceholderResolver $placeholder_resolver = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -101,6 +103,7 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
+        $this->placeholder_resolver = $placeholder_resolver ?? $DIC["mail.template.placeholder.resolver"];
     }
 
     public function autoresponder(): AutoresponderService
@@ -562,9 +565,13 @@ class ilMail
             }
 
             $user = $usrId > 0 ? $this->getUserInstanceById($usrId) : null;
-
-            $processor = new ilMailTemplatePlaceholderResolver($context, $message);
-            $message = $processor->resolve($user, $this->contextParameters, $replaceEmptyPlaceholders);
+            $message = $this->placeholder_resolver->resolve(
+                $context,
+                $message,
+                $user,
+                $this->contextParameters,
+                $replaceEmptyPlaceholders
+            );
         } catch (Exception) {
             $this->logger->error(__METHOD__ . ' has been called with invalid context.');
         }
