@@ -31,7 +31,7 @@ class EmployeePositionId extends Base
         return ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return "getEmployeePositionId";
     }
@@ -41,12 +41,12 @@ class EmployeePositionId extends Base
         return array();
     }
 
-    public function getOutputParams() : array
+    public function getOutputParams(): array
     {
         return array('position_id' => Base::TYPE_INT);
     }
 
-    public function getDocumentation() : string
+    public function getDocumentation(): string
     {
         return "Returns the id of the default position 'Employee'";
     }

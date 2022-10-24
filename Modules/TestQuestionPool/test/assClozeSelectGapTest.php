@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ . "/assBaseTestCase.php";
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -17,13 +29,13 @@ class assClozeSelectGapTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -34,7 +46,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertInstanceOf('assClozeSelectGap', $instance);
     }
 
-    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle() : void
+    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -46,7 +58,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_arrayShuffle_shouldShuffleArray() : void
+    public function test_arrayShuffle_shouldShuffleArray(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -59,7 +71,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItemswithShuffle_shouldReturnShuffledItems() : void
+    public function test_getItemswithShuffle_shouldReturnShuffledItems(): void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
@@ -98,7 +110,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($actual, $expectedSequence);
     }
 
-    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder() : void
+    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder(): void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,22 +17,22 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         parent::__construct($a_action_id);
     }
 
-    public function getType() : int
+    public function getType(): int
     {
         return self::TYPE_LOCAL_ROLE;
     }
 
-    public function setRoleTemplateId(int $a_role_template_id) : void
+    public function setRoleTemplateId(int $a_role_template_id): void
     {
         $this->role_template_id = $a_role_template_id;
     }
 
-    public function getRoleTemplateId() : int
+    public function getRoleTemplateId(): int
     {
         return $this->role_template_id;
     }
 
-    public function apply() : bool
+    public function apply(): bool
     {
         $source = $this->initSourceObject();
 
@@ -71,7 +73,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return true;
     }
 
-    public function revert() : bool
+    public function revert(): bool
     {
         // @todo: revert could delete the generated local role. But on the other hand all users
         // assigned to this local role would be deassigned. E.g. if course or group membership
@@ -79,7 +81,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return false;
     }
 
-    public function save() : int
+    public function save(): int
     {
         if (!parent::save()) {
             return 0;
@@ -95,7 +97,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         return $this->getActionId();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         parent::delete();
 
@@ -104,7 +106,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $this->db->manipulate($query);
     }
 
-    public function toXml(ilXmlWriter $writer) : void
+    public function toXml(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('localRoleAction');
 
@@ -126,7 +128,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $writer->xmlEndTag('localRoleAction');
     }
 
-    public function read() : void
+    public function read(): void
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_alr ' .

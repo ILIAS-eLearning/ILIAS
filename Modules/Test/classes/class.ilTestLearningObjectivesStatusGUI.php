@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-// require_once 'Services/Container/classes/class.ilContainerObjectiveGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -16,12 +29,12 @@ class ilTestLearningObjectivesStatusGUI
      * @var ilLanguage
      */
     protected $lng = null;
-    
+
     /**
      * @var integer
      */
     private $crsObjId = null;
-    
+
     /**
      * @var integer
      */
@@ -37,7 +50,7 @@ class ilTestLearningObjectivesStatusGUI
     /**
      * @return integer
      */
-    public function getCrsObjId() : ?int
+    public function getCrsObjId(): ?int
     {
         return $this->crsObjId;
     }
@@ -53,7 +66,7 @@ class ilTestLearningObjectivesStatusGUI
     /**
      * @return integer
      */
-    public function getUsrId() : ?int
+    public function getUsrId(): ?int
     {
         return $this->usrId;
     }
@@ -65,17 +78,17 @@ class ilTestLearningObjectivesStatusGUI
     {
         $this->usrId = $usrId;
     }
-    
-    public function getHTML($objectiveId = null) : string
+
+    public function getHTML($objectiveId = null): string
     {
         $this->lng->loadLanguageModule('crs');
-        
+
         $tpl = new ilTemplate('tpl.tst_lo_status.html', true, true, 'Modules/Test');
 
         $tpl->setCurrentBlock('objectives_progress_header');
         $tpl->setVariable('OBJECTIVES_PROGRESS_HEADER', $this->lng->txt($this->getHeaderLangVar($objectiveId)));
         $tpl->parseCurrentBlock();
-        
+
         $this->renderStatus($tpl, $objectiveId, $this->getUsersObjectivesStatus(
             $this->getCrsObjId(),
             $this->getUsrId()
@@ -83,13 +96,13 @@ class ilTestLearningObjectivesStatusGUI
 
         return $tpl->get();
     }
-    
-    private function getHeaderLangVar($objectiveId) : string
+
+    private function getHeaderLangVar($objectiveId): string
     {
         if ($objectiveId) {
             return 'tst_objective_progress_header';
         }
-        
+
         return 'tst_objectives_progress_header';
     }
 
@@ -103,7 +116,7 @@ class ilTestLearningObjectivesStatusGUI
             if ($objectiveId && $objtv['id'] != $objectiveId) {
                 continue;
             }
-            
+
             $tpl->setCurrentBlock("objective_nolink_bl");
             $tpl->setVariable("OBJECTIVE_NOLINK_TITLE", $objtv["title"]);
             $tpl->parseCurrentBlock();
@@ -119,11 +132,11 @@ class ilTestLearningObjectivesStatusGUI
                     "LP_OBJTV_PROGRESS",
                     ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true)
                 );
-                
+
                 // since ilContainerObjectiveGUI::buildObjectiveProgressBar() "sets an empty ref_id" for ilObjTestGUI,
                 // after creating links for different test refs, the "saved ref_id param" for ilObjTestGUI gets overwritten.
                 // (!) we need to set an explicit ref_id param for ilObjTestGUI again to keep the things running (!)
-                
+
                 global $DIC; /* @var \ILIAS\DI\Container $DIC */
                 $DIC->ctrl()->setParameterByClass('ilObjTestGUI', 'ref_id', $this->testrequest->getRefId());
             }
@@ -135,8 +148,8 @@ class ilTestLearningObjectivesStatusGUI
         $tpl->setVariable("OBJTV_LIST_CRS_ID", $this->getCrsObjId());
         $tpl->parseCurrentBlock();
     }
-    
-    private function getUsersObjectivesStatus($crsObjId, $usrId) : array
+
+    private function getUsersObjectivesStatus($crsObjId, $usrId): array
     {
         $res = array();
 
@@ -190,7 +203,7 @@ class ilTestLearningObjectivesStatusGUI
         return $res;
     }
 
-    private function getUsersObjectivesResults($crsObjId, $usrId) : array
+    private function getUsersObjectivesResults($crsObjId, $usrId): array
     {
         $res = array();
 

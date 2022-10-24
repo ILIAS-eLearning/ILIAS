@@ -34,7 +34,7 @@ class SkillProfileRoleDBRepository
         $this->review = $DIC->rbac()->review();
     }
 
-    public function deleteProfileRoles(int $profile_id) : void
+    public function deleteProfileRoles(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -44,7 +44,7 @@ class SkillProfileRoleDBRepository
         );
     }
 
-    public function getAssignedRoles(int $profile_id) : array
+    public function getAssignedRoles(int $profile_id): array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -82,7 +82,7 @@ class SkillProfileRoleDBRepository
         return $roles;
     }
 
-    public function addRoleToProfile(int $profile_id, int $role_id) : void
+    public function addRoleToProfile(int $profile_id, int $role_id): void
     {
         $ilDB = $this->db;
 
@@ -95,7 +95,7 @@ class SkillProfileRoleDBRepository
         );
     }
 
-    public function removeRoleFromProfile(int $profile_id, int $role_id) : void
+    public function removeRoleFromProfile(int $profile_id, int $role_id): void
     {
         $ilDB = $this->db;
 
@@ -106,7 +106,7 @@ class SkillProfileRoleDBRepository
         );
     }
 
-    public function removeRoleFromAllProfiles(int $role_id) : void
+    public function removeRoleFromAllProfiles(int $role_id): void
     {
         $ilDB = $this->db;
 
@@ -116,7 +116,7 @@ class SkillProfileRoleDBRepository
         );
     }
 
-    public function getAllProfilesOfRole(int $role_id) : array
+    public function getAllProfilesOfRole(int $role_id): array
     {
         $ilDB = $this->db;
 
@@ -134,7 +134,7 @@ class SkillProfileRoleDBRepository
         return $profiles;
     }
 
-    public function getGlobalProfilesOfRole(int $role_id) : array
+    public function getGlobalProfilesOfRole(int $role_id): array
     {
         $ilDB = $this->db;
 
@@ -154,7 +154,7 @@ class SkillProfileRoleDBRepository
         return $profiles;
     }
 
-    public function getLocalProfilesOfRole(int $role_id, int $ref_id) : array
+    public function getLocalProfilesOfRole(int $role_id, int $ref_id): array
     {
         $ilDB = $this->db;
 
@@ -173,7 +173,7 @@ class SkillProfileRoleDBRepository
         return $profiles;
     }
 
-    public function countRoles(int $profile_id) : int
+    public function countRoles(int $profile_id): int
     {
         $ilDB = $this->db;
 

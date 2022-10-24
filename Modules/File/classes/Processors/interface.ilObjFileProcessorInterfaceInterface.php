@@ -25,5 +25,5 @@ interface ilObjFileProcessorInterface
      * @param array<string, mixed>   $options
      * @see ilObjFileProcessorInterface::OPTIONS
      */
-    public function process(ResourceIdentification $rid, array $options = []) : void;
+    public function process(ResourceIdentification $rid, array $options = []): void;
 }

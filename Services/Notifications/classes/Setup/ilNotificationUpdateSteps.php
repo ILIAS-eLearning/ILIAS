@@ -1,6 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
 
-use ILIAS\Notifications\ilNotificationSetupHelper;
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,21 +18,23 @@ use ILIAS\Notifications\ilNotificationSetupHelper;
  *
  *********************************************************************/
 
+use ILIAS\Notifications\ilNotificationSetupHelper;
+
 class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         // Creation of administration node forced by \ilTreeAdminNodeAddedObjective
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $this->db->manipulateF(
             'DELETE FROM settings WHERE module = %s AND keyword = %s',
@@ -56,10 +58,11 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $this->db->manipulateF('DELETE FROM notification_usercfg WHERE module = %s', ['text'], ['osd_main']);
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'buddysystem_request',
             'buddysystem_request',
             'buddysystem_request_desc',
@@ -68,9 +71,10 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'who_is_online',
             'who_is_online',
             'who_is_online_desc',
@@ -79,11 +83,11 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
         $this->db->insert(
             'notification_usercfg',
-            array(
-                'usr_id' => array('integer', -1),
-                'module' => array('text', 'who_is_online'),
-                'channel' => array('text', 'osd')
-            )
+            [
+                'usr_id' => ['integer', -1],
+                'module' => ['text', 'who_is_online'],
+                'channel' => ['text', 'osd']
+            ]
         );
         $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
@@ -92,9 +96,10 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         ilNotificationSetupHelper::registerType(
+            $this->db,
             'badge_received',
             'badge_received',
             'badge_received_desc',
@@ -103,11 +108,11 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
         $this->db->insert(
             'notification_usercfg',
-            array(
-                'usr_id' => array('integer', -1),
-                'module' => array('text', 'badge_received'),
-                'channel' => array('text', 'osd')
-            )
+            [
+                'usr_id' => ['integer', -1],
+                'module' => ['text', 'badge_received'],
+                'channel' => ['text', 'osd']
+            ]
         );
         $this->db->manipulateF(
             'UPDATE notification_osd SET type = %s WHERE type = %s AND serialized LIKE %s',
@@ -116,7 +121,7 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
         );
     }
 
-    public function step_6() : void
+    public function step_6(): void
     {
         $this->db->insert('settings', [
             'module' => ['text', 'notifications'],
@@ -128,5 +133,19 @@ class ilNotificationUpdateSteps implements ilDatabaseUpdateSteps
             'keyword' => ['text', 'osd_delay'],
             'value' => ['integer', 500]
         ]);
+    }
+
+    public function step_7(): void
+    {
+        $this->db->insert('settings', [
+            'module' => ['text', 'notifications'],
+            'keyword' => ['text', 'enable_mail'],
+            'value' => ['text', '1']
+        ]);
+    }
+
+    public function step_8(): void
+    {
+        $this->db->addIndex('notification_osd', ['usr_id', 'type', 'time_added'], 'i1');
     }
 }

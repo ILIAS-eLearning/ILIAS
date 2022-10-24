@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -60,7 +62,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
         $this->enable('sort');
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("TITLE", ilLegacyFormElementsUtil::prepareFormOutput($a_set['title']));
         $this->tpl->setVariable("NR", $a_set['nr']);
@@ -69,7 +71,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
         $this->tpl->setVariable("LOCATION_TXT", $a_set['location_txt']);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         return 'nr' === $a_field;
     }

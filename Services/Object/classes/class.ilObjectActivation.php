@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilObjectActivation
  *
@@ -24,12 +26,12 @@
  */
 class ilObjectActivation
 {
-    const ERR_SUG_START_END = 1;
+    public const ERR_SUG_START_END = 1;
 
-    const TIMINGS_ACTIVATION = 0;
-    const TIMINGS_DEACTIVATED = 1;
-    const TIMINGS_PRESETTING = 2;
-    const TIMINGS_FIXED = 3; // session only => obsolete?
+    public const TIMINGS_ACTIVATION = 0;
+    public const TIMINGS_DEACTIVATED = 1;
+    public const TIMINGS_PRESETTING = 2;
+    public const TIMINGS_FIXED = 3; // session only => obsolete?
 
     protected static array $preloaded_data = array();
 
@@ -59,119 +61,119 @@ class ilObjectActivation
         $this->db = $DIC->database();
     }
 
-    public function setTimingType(int $type) : void
+    public function setTimingType(int $type): void
     {
         $this->timing_type = $type;
     }
 
-    public function getTimingType() : int
+    public function getTimingType(): int
     {
         return $this->timing_type;
     }
 
-    public function setTimingStart(?int $start) : void
+    public function setTimingStart(?int $start): void
     {
         $this->timing_start = $start;
     }
 
-    public function getTimingStart() : ?int
+    public function getTimingStart(): ?int
     {
         return $this->timing_start;
     }
 
-    public function setTimingEnd(?int $end) : void
+    public function setTimingEnd(?int $end): void
     {
         $this->timing_end = $end;
     }
 
-    public function getTimingEnd() : ?int
+    public function getTimingEnd(): ?int
     {
         return $this->timing_end;
     }
 
-    public function setSuggestionStart(int $start) : void
+    public function setSuggestionStart(int $start): void
     {
         $this->suggestion_start = $start;
     }
 
-    public function getSuggestionStart() : int
+    public function getSuggestionStart(): int
     {
         return $this->suggestion_start;
     }
 
-    public function getSuggestionStartRelative() : int
+    public function getSuggestionStartRelative(): int
     {
         return $this->suggestion_start_rel;
     }
 
-    public function setSuggestionStartRelative(int $start) : void
+    public function setSuggestionStartRelative(int $start): void
     {
         $this->suggestion_start_rel = $start;
     }
 
-    public function getSuggestionEndRelative() : int
+    public function getSuggestionEndRelative(): int
     {
         return $this->suggestion_end_rel;
     }
 
-    public function setSuggestionEndRelative(int $end) : void
+    public function setSuggestionEndRelative(int $end): void
     {
         $this->suggestion_end_rel = $end;
     }
 
-    public function getEaliestStartRelative() : int
+    public function getEaliestStartRelative(): int
     {
         return $this->earliest_start_rel;
     }
 
-    public function setEarliestStartRelative(int $start) : void
+    public function setEarliestStartRelative(int $start): void
     {
         $this->earliest_start_rel = $start;
     }
 
-    public function setSuggestionEnd(int $end) : void
+    public function setSuggestionEnd(int $end): void
     {
         $this->suggestion_end = $end;
     }
 
-    public function getSuggestionEnd() : int
+    public function getSuggestionEnd(): int
     {
         return $this->suggestion_end;
     }
 
-    public function setEarliestStart(int $start) : void
+    public function setEarliestStart(int $start): void
     {
         $this->earliest_start = $start;
     }
 
-    public function getEarliestStart() : int
+    public function getEarliestStart(): int
     {
         return $this->earliest_start;
     }
 
 
-    public function toggleVisible(bool $status) : void
+    public function toggleVisible(bool $status): void
     {
         $this->visible = (int) $status;
     }
 
-    public function enabledVisible() : bool
+    public function enabledVisible(): bool
     {
         return (bool) $this->visible;
     }
 
-    public function toggleChangeable(bool $status) : void
+    public function toggleChangeable(bool $status): void
     {
         $this->changeable = (int) $status;
     }
 
-    public function enabledChangeable() : bool
+    public function enabledChangeable(): bool
     {
         return (bool) $this->changeable;
     }
 
     // Validate current properties
-    public function validateActivation() : bool
+    public function validateActivation(): bool
     {
         $ilErr = $this->error;
         $lng = $this->lng;
@@ -195,7 +197,7 @@ class ilObjectActivation
     }
 
     // TODO: found no usages, can this be removed in the next iteration?
-    public function validateRelativePlaning() : array
+    public function validateRelativePlaning(): array
     {
         $errors = array();
 
@@ -207,7 +209,7 @@ class ilObjectActivation
         return $errors;
     }
 
-    public function update(int $ref_id, ?int $parent_id = null) : bool
+    public function update(int $ref_id, ?int $parent_id = null): bool
     {
         $db = $this->db;
 
@@ -242,7 +244,7 @@ class ilObjectActivation
     /**
      * Preload data to internal cache
      */
-    public static function preloadData(array $ref_ids) : void
+    public static function preloadData(array $ref_ids): void
     {
         global $DIC;
         $db = $DIC->database();
@@ -259,7 +261,7 @@ class ilObjectActivation
         }
     }
 
-    public static function getItem(int $ref_id) : array
+    public static function getItem(int $ref_id): array
     {
         global $DIC;
 
@@ -289,7 +291,7 @@ class ilObjectActivation
     /**
      * Parse item data for list entries
      */
-    public static function addAdditionalSubItemInformation(array &$item) : void
+    public static function addAdditionalSubItemInformation(array &$item): void
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -345,7 +347,7 @@ class ilObjectActivation
     /**
      * Get timing details for list gui
      */
-    public static function addListGUIActivationProperty(ilObjectListGUI $list_gui, array &$item) : void
+    public static function addListGUIActivationProperty(ilObjectListGUI $list_gui, array &$item): void
     {
         self::addAdditionalSubItemInformation($item);
         if (isset($item['timing_type'])) {
@@ -391,7 +393,7 @@ class ilObjectActivation
     /**
      * Create db entry with default values
      */
-    protected static function createDefaultEntry(int $ref_id) : array
+    protected static function createDefaultEntry(int $ref_id): array
     {
         global $DIC;
 
@@ -406,7 +408,7 @@ class ilObjectActivation
         $ilAtomQuery = $db->buildAtomQuery();
         $ilAtomQuery->addTableLock("crs_items");
 
-        $ilAtomQuery->addQueryCallable(function (ilDBInterface $db) use ($ref_id, $parent_id, &$item) : void {
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $db) use ($ref_id, $parent_id, &$item): void {
             $sql =
                 "SELECT parent_id, obj_id, timing_type, timing_start, timing_end, suggestion_start," . PHP_EOL
                 . "suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
@@ -456,7 +458,7 @@ class ilObjectActivation
     /**
      * Delete all db entries for ref id
      */
-    public static function deleteAllEntries(int $ref_id) : bool
+    public static function deleteAllEntries(int $ref_id): bool
     {
         global $DIC;
 
@@ -481,7 +483,7 @@ class ilObjectActivation
         return true;
     }
 
-    public static function cloneDependencies(int $ref_id, int $target_id, int $copy_id) : void
+    public static function cloneDependencies(int $ref_id, int $target_id, int $copy_id): void
     {
         global $DIC;
 
@@ -540,7 +542,7 @@ class ilObjectActivation
     /**
      * Check if there is any active timing (in subtree)
      */
-    public static function hasTimings(int $ref_id) : bool
+    public static function hasTimings(int $ref_id): bool
     {
         global $DIC;
 
@@ -566,7 +568,7 @@ class ilObjectActivation
     /**
      * Check if there is any active changeable timing (in subtree)
      */
-    public static function hasChangeableTimings(int $ref_id) : bool
+    public static function hasChangeableTimings(int $ref_id): bool
     {
         global $DIC;
 
@@ -593,7 +595,7 @@ class ilObjectActivation
     /**
      * Validate ref ids and add list data
      */
-    protected static function processListItems(array $ref_ids) : array
+    protected static function processListItems(array $ref_ids): array
     {
         global $DIC;
 
@@ -627,7 +629,7 @@ class ilObjectActivation
     /**
      * Get session material / event items
      */
-    public static function getItemsByEvent(int $event_id) : array
+    public static function getItemsByEvent(int $event_id): array
     {
         $event_items = new ilEventItems($event_id);
         return self::processListItems($event_items->getItems());
@@ -636,7 +638,7 @@ class ilObjectActivation
     /**
      * Get materials of item group
      */
-    public static function getItemsByItemGroup(int $item_group_ref_id) : array
+    public static function getItemsByItemGroup(int $item_group_ref_id): array
     {
         $ig_items = new ilItemGroupItems($item_group_ref_id);
         $items = $ig_items->getValidItems();
@@ -646,7 +648,7 @@ class ilObjectActivation
     /**
      * Get objective items
      */
-    public static function getItemsByObjective(int $objective_id) : array
+    public static function getItemsByObjective(int $objective_id): array
     {
         $item_ids = ilCourseObjectiveMaterials::_getAssignedMaterials($objective_id);
         return self::processListItems($item_ids);
@@ -655,7 +657,7 @@ class ilObjectActivation
     /**
      * Get sub item data
      */
-    public static function getItems(int $parent_id, bool $with_list_data = true) : array
+    public static function getItems(int $parent_id, bool $with_list_data = true): array
     {
         global $DIC;
 
@@ -689,7 +691,7 @@ class ilObjectActivation
     /**
      * Get (sub) item data for timings administration view (active/inactive)
      */
-    public static function getTimingsAdministrationItems(int $parent_id) : array
+    public static function getTimingsAdministrationItems(int $parent_id): array
     {
         $items = self::getItems($parent_id, false);
         $active = $availability = $inactive = [];
@@ -713,7 +715,7 @@ class ilObjectActivation
     /**
      * Get (sub) item data for timings view (no session material, no side blocks)
      */
-    public static function getTimingsItems(int $container_ref_id) : array
+    public static function getTimingsItems(int $container_ref_id): array
     {
         global $DIC;
 
@@ -732,7 +734,7 @@ class ilObjectActivation
         return $filtered;
     }
 
-    public function read(int $ref_id, int $parent_id = 0) : void
+    public function read(int $ref_id, int $parent_id = 0): void
     {
         global $DIC;
         $db = $DIC->database();

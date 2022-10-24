@@ -27,12 +27,12 @@ class ilFSStorageBooking extends ilFileSystemAbstractionStorage
         parent::__construct(self::STORAGE_WEB, true, $a_container_id);
     }
 
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return 'book';
     }
 
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return 'ilBookingManager';
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilObjectTranslationLanguage
 {
     protected string $language_code;
     protected string $title;
     protected string $description;
     protected bool $default = false;
-    
+
     public function __construct(string $language_code, string $title, string $description, bool $default)
     {
         $this->language_code = $language_code;
@@ -30,43 +32,43 @@ class ilObjectTranslationLanguage
         $this->description = $description;
         $this->default = $default;
     }
-    
-    public function getLanguageCode() : string
+
+    public function getLanguageCode(): string
     {
         return $this->language_code;
     }
-    
-    public function setLanguageCode(string $language_code) : void
+
+    public function setLanguageCode(string $language_code): void
     {
         $this->language_code = $language_code;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    public function setDescription(string $description) : void
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
-    
-    public function isDefault() : bool
+
+    public function isDefault(): bool
     {
         return $this->default;
     }
-    
-    public function setDefault(bool $default) : void
+
+    public function setDefault(bool $default): void
     {
         $this->default = $default;
     }

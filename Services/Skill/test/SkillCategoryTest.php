@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class SkillCategoryTest extends TestCase
 {
     protected ilSkillCategory $skill_category;
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -40,7 +42,7 @@ class SkillCategoryTest extends TestCase
     }
 
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -56,11 +58,11 @@ class SkillCategoryTest extends TestCase
         $this->skill_category = new ilSkillCategory();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testProperties() : void
+    public function testProperties(): void
     {
         $sk = $this->skill_category;
         $sk->setTitle("A skill category");

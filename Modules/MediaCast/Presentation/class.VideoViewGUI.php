@@ -54,12 +54,12 @@ class VideoViewGUI
         $this->toolbar = $DIC->toolbar();
     }
 
-    public function setCompletedCallback(string $completed_callback) : void
+    public function setCompletedCallback(string $completed_callback): void
     {
         $this->completed_callback = $completed_callback;
     }
 
-    public function setAutoplayCallback(string $autoplay_callback) : void
+    public function setAutoplayCallback(string $autoplay_callback): void
     {
         $this->autoplay_callback = $autoplay_callback;
     }
@@ -67,7 +67,7 @@ class VideoViewGUI
     /**
      * @throws \ilTemplateException
      */
-    public function renderMainColumn() : string
+    public function renderMainColumn(): string
     {
         if (count($this->video_sequence->getVideos()) == 0) {
             return "";
@@ -78,7 +78,7 @@ class VideoViewGUI
         return $widget->render();
     }
 
-    public function renderToolbar() : void
+    public function renderToolbar(): void
     {
         $toolbar = $this->toolbar;
         $lng = $this->lng;
@@ -122,7 +122,7 @@ class VideoViewGUI
         }
     }
 
-    protected function getAutoplay() : bool
+    protected function getAutoplay(): bool
     {
         $autoplay = ($this->user->existsPref("mcst_autoplay"))
             ? (bool) $this->user->getPref("mcst_autoplay")
@@ -133,7 +133,7 @@ class VideoViewGUI
         return $autoplay;
     }
 
-    public function renderSideColumn() : string
+    public function renderSideColumn(): string
     {
         $mcst_settings = \ilMediaCastSettings::_getInstance();
 
@@ -155,7 +155,7 @@ class VideoViewGUI
             $has_items = true;
             $preview = new VideoPreviewGUI(
                 $video->getPreviewPic(),
-                "il.VideoPlaylist.loadItem('mcst_playlist', '" . $video->getId() . "', true);",
+                "il.VideoPlaylist.toggleItem('mcst_playlist', '" . $video->getId() . "');",
                 $video->getPlayingTime()
             );
             $completed = false;
@@ -169,7 +169,7 @@ class VideoViewGUI
 
             $b = $factory->button()->shy($video->getTitle(), "")->withOnLoadCode(function ($id) use ($video) {
                 return
-                    "$(\"#$id\").click(function() { il.VideoPlaylist.loadItem('mcst_playlist', '" . $video->getId() . "', true); return false;});";
+                    "$(\"#$id\").click(function() { il.VideoPlaylist.toggleItem('mcst_playlist', '" . $video->getId() . "'); return false;});";
             });
 
             $items[] = [
@@ -258,7 +258,7 @@ class VideoViewGUI
     /**
      * @throws \ilTemplateException
      */
-    public function render() : string
+    public function render(): string
     {
         // this is current only to include the resize mechanism when
         // the main menu is changed, so that the player is resized, too
@@ -278,7 +278,7 @@ class VideoViewGUI
         return $tpl->get();
     }
 
-    public function show() : void
+    public function show(): void
     {
         if (is_object($this->tpl)) {
             $this->renderToolbar();

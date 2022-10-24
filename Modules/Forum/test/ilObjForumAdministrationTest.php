@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilObjForumAdministrationTest extends TestCase
     private $mockLanguage;
     private ?Container $dic = null;
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         if (!defined('DEBUG')) {
             define('DEBUG', false);
@@ -36,7 +38,7 @@ class ilObjForumAdministrationTest extends TestCase
         $instance = new ilObjForumAdministration();
     }
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -54,7 +56,7 @@ class ilObjForumAdministrationTest extends TestCase
         $DIC['lng'] = ($this->mockLanguage = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 

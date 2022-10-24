@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilComponentFactoryImplementation implements ilComponentFactory
         $this->db = $db;
     }
 
-    public function getPlugin(string $id) : ilPlugin
+    public function getPlugin(string $id): ilPlugin
     {
         if (!isset($this->plugins[$id])) {
             $plugin_info = $this->component_repository->getPluginById($id);
@@ -51,7 +53,7 @@ class ilComponentFactoryImplementation implements ilComponentFactory
         return $this->plugins[$id];
     }
 
-    public function getActivePluginsInSlot(string $slot_id) : Generator
+    public function getActivePluginsInSlot(string $slot_id): Generator
     {
         $ps = $this->component_repository->getPluginSlotById($slot_id)->getActivePlugins();
         foreach ($ps as $p) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author  Alex Killing <killing@leifos.com>
@@ -11,7 +13,7 @@ class ilAppointmentFileHandlerFactory extends ilCalendarAppointmentBaseFactory
      * @return ilAppointmentFileHandler
      * @todo get rid of appointment array. Refactor to new appointment object
      */
-    public static function getInstance(array $a_appointment) : ilAppointmentFileHandler
+    public static function getInstance(array $a_appointment): ilAppointmentFileHandler
     {
         $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_appointment['event']->getEntryId());
         $cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);

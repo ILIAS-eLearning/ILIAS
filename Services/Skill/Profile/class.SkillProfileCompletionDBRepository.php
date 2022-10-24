@@ -38,7 +38,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Get profile completion entries for given user-profile-combination
      */
-    public function getEntries(int $user_id, int $profile_id) : array
+    public function getEntries(int $user_id, int $profile_id): array
     {
         $ilDB = $this->db;
 
@@ -63,7 +63,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Add profile fulfilment entry to given user-profile-combination
      */
-    public function addFulfilmentEntry(int $user_id, int $profile_id) : void
+    public function addFulfilmentEntry(int $user_id, int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -95,7 +95,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Add profile non-fulfilment entry to given user-profile-combination
      */
-    public function addNonFulfilmentEntry(int $user_id, int $profile_id) : void
+    public function addNonFulfilmentEntry(int $user_id, int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -128,7 +128,7 @@ class SkillProfileCompletionDBRepository
      * Get all profile completion entries for a user
      * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
      */
-    public function getFulfilledEntriesForUser(int $user_id) : array
+    public function getFulfilledEntriesForUser(int $user_id): array
     {
         global $DIC;
 
@@ -155,7 +155,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Get all profile completion entries for a user
      */
-    public function getAllEntriesForUser(int $user_id) : array
+    public function getAllEntriesForUser(int $user_id): array
     {
         global $DIC;
 
@@ -181,7 +181,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Get all completion entries for a single profile
      */
-    public function getAllEntriesForProfile(int $profile_id) : array
+    public function getAllEntriesForProfile(int $profile_id): array
     {
         global $DIC;
 
@@ -207,7 +207,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Delete all profile completion entries for a profile
      */
-    public function deleteEntriesForProfile(int $profile_id) : void
+    public function deleteEntriesForProfile(int $profile_id): void
     {
         $ilDB = $this->db;
 
@@ -220,7 +220,7 @@ class SkillProfileCompletionDBRepository
     /**
      * Delete all profile completion entries for a user
      */
-    public function deleteEntriesForUser(int $user_id) : void
+    public function deleteEntriesForUser(int $user_id): void
     {
         $ilDB = $this->db;
 

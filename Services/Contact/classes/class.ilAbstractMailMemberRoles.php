@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,11 +28,11 @@ abstract class ilAbstractMailMemberRoles
      * @param int $ref_id
      * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked?: bool}[]
      */
-    abstract public function getMailRoles(int $ref_id) : array;
+    abstract public function getMailRoles(int $ref_id): array;
 
-    abstract public function getRadioOptionTitle() : string;
+    abstract public function getRadioOptionTitle(): string;
 
-    final public function getMailboxRoleAddress(int $role_id) : string
+    final public function getMailboxRoleAddress(int $role_id): string
     {
         return (new ilRoleMailboxAddress($role_id))->value();
     }

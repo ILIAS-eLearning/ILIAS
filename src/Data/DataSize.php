@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -133,7 +135,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function getSize() : float
+    public function getSize(): float
     {
         return $this->size;
     }
@@ -143,7 +145,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function getUnit() : int
+    public function getUnit(): int
     {
         return $this->unit;
     }
@@ -151,7 +153,7 @@ final class DataSize
     /**
      * Get the size in bytes.
      */
-    public function inBytes() : float
+    public function inBytes(): float
     {
         return $this->size * $this->unit;
     }
@@ -165,7 +167,7 @@ final class DataSize
      *
      * @since 5.3
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return "$this->size $this->suffix";
     }

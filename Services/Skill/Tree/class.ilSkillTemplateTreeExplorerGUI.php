@@ -54,13 +54,13 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         $this->requested_skill_node_id = $this->admin_gui_request->getNodeId();
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
-        
+
         $this->setSkipRootNode(false);
         $this->setAjax(true);
         $this->setOrderField("order_nr");
     }
 
-    public function getRootNode() : array
+    public function getRootNode(): array
     {
         $path = $this->getTree()->getPathId($this->requested_skill_node_id);
         return $this->getTree()->getNodeData($path[1]);
@@ -69,7 +69,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritdoc
      */
-    public function getChildsOfNode($a_parent_node_id) : array
+    public function getChildsOfNode($a_parent_node_id): array
     {
         $childs = parent::getChildsOfNode($a_parent_node_id);
 
@@ -87,13 +87,13 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritdoc
      */
-    public function getNodeContent($a_node) : string
+    public function getNodeContent($a_node): string
     {
         $lng = $this->lng;
-        
+
         // title
         $title = $a_node["title"];
-        
+
         // root?
         if ($a_node["type"] == "skrt") {
             $title = $lng->txt("skmg_skill_templates");
@@ -106,14 +106,14 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $title = "<u>" . $title . "</u>";
             }
         }
-        
+
         return $title;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeIcon($a_node) : string
+    public function getNodeIcon($a_node): string
     {
         // root?
         if ($a_node["type"] == "skrt") {
@@ -128,14 +128,14 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         } else {
             $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
-        
+
         return $icon;
     }
 
     /**
      * @inheritdoc
      */
-    public function isNodeHighlighted($a_node) : bool
+    public function isNodeHighlighted($a_node): bool
     {
         if ($a_node["child"] == $this->requested_skill_node_id ||
             ($this->requested_skill_node_id == "" && $a_node["type"] == "skrt")) {
@@ -143,11 +143,11 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         }
         return false;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -192,11 +192,11 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 return "";
         }
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getNodeIconAlt($a_node) : string
+    public function getNodeIconAlt($a_node): string
     {
         $lng = $this->lng;
 

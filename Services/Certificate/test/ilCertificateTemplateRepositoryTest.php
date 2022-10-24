@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateWillBeSavedToTheDatabase() : void
+    public function testCertificateWillBeSavedToTheDatabase(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -80,7 +82,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $repository->save($template);
     }
 
-    public function testFetchCertificateTemplatesByObjId() : void
+    public function testFetchCertificateTemplatesByObjId(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -134,7 +136,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(30, $templates[1]->getId());
     }
 
-    public function testFetchCurrentlyActiveCertificate() : void
+    public function testFetchCurrentlyActiveCertificate(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -187,7 +189,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertSame(1, $template->getId());
     }
 
-    public function testFetchPreviousCertificate() : void
+    public function testFetchPreviousCertificate(): void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -245,7 +247,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testDeleteTemplateFromDatabase() : void
+    public function testDeleteTemplateFromDatabase(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -274,7 +276,7 @@ AND obj_id = 200');
         $repository->deleteTemplate(10, 200);
     }
 
-    public function testActivatePreviousCertificate() : void
+    public function testActivatePreviousCertificate(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -340,7 +342,7 @@ WHERE id = 30'
         $this->assertSame(30, $template->getId());
     }
 
-    public function testFetchAllObjectIdsByType() : void
+    public function testFetchAllObjectIdsByType(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 
@@ -394,7 +396,7 @@ WHERE id = 30'
     /**
      *
      */
-    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved() : void
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved(): void
     {
         $this->expectException(ilException::class);
 
@@ -425,7 +427,7 @@ WHERE id = 30'
         $this->fail();
     }
 
-    public function fetchFirstCreateTemplate() : void
+    public function fetchFirstCreateTemplate(): void
     {
         $database = $this->createMock(ilDBInterface::class);
 

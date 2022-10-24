@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,67 +21,67 @@
 class ilADTFloat extends ilADT
 {
     protected ?float $value;
-    
+
     // definition
-    
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTFloatDefinition;
     }
-    
-    public function reset() : void
+
+    public function reset(): void
     {
         parent::reset();
-        
+
         $this->value = null;
     }
-    
+
     // properties
-    
+
     public function setNumber($a_value = null)
     {
         $this->value = $this->getDefinition()->handleNumber($a_value);
     }
-    
-    public function getNumber() : ?float
+
+    public function getNumber(): ?float
     {
         return $this->value;
     }
-    
+
     // comparison
-    
-    public function equals(ilADT $a_adt) : ?bool
+
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() == $a_adt->getNumber());
         }
         return null;
     }
-    
-    public function isLarger(ilADT $a_adt) : ?bool
+
+    public function isLarger(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() > $a_adt->getNumber());
         }
         return null;
     }
-    
-    public function isSmaller(ilADT $a_adt) : ?bool
+
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getNumber() < $a_adt->getNumber());
         }
         return null;
     }
-    
+
     // null
-    
-    public function isNull() : bool
+
+    public function isNull(): bool
     {
         return $this->getNumber() === null;
     }
-    
-    public function isValid() : bool
+
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         $num = $this->getNumber();
@@ -89,7 +91,7 @@ class ilADTFloat extends ilADT
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_MIN);
                 $valid = false;
             }
-            
+
             $max = $this->getDefinition()->getMax();
             if ($max !== null && $num > $max) {
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_MAX);
@@ -98,18 +100,18 @@ class ilADTFloat extends ilADT
         }
         return $valid;
     }
-    
-    public function getCheckSum() : ?string
+
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return (string) $this->getNumber();
         }
         return null;
     }
-    
+
     // stdClass
-    
-    public function exportStdClass() : ?stdClass
+
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -118,8 +120,8 @@ class ilADTFloat extends ilADT
         }
         return null;
     }
-    
-    public function importStdClass(?stdClass $a_std) : void
+
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setNumber($a_std->value);

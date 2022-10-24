@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,37 +28,37 @@ use ILIAS\Survey\Mode;
  */
 class FeatureConfig implements Mode\FeatureConfig
 {
-    public function supportsCompetences() : bool
+    public function supportsCompetences(): bool
     {
         return true;
     }
 
-    public function supportsConstraints() : bool
+    public function supportsConstraints(): bool
     {
         return false;
     }
 
-    public function supportsAccessCodes() : bool
+    public function supportsAccessCodes(): bool
     {
         return true;
     }
 
-    public function supportsTutorNotification() : bool
+    public function supportsTutorNotification(): bool
     {
         return true;
     }
 
-    public function supportsMemberReminder() : bool
+    public function supportsMemberReminder(): bool
     {
         return true;
     }
 
-    public function supportsSumScore() : bool
+    public function supportsSumScore(): bool
     {
         return false;
     }
 
-    public function usesAppraisees() : bool
+    public function usesAppraisees(): bool
     {
         return false;
     }

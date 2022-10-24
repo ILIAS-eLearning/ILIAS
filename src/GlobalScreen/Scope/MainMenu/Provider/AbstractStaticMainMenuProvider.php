@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -46,7 +48,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
     /**
      * @inheritDoc
      */
-    public function getAllIdentifications() : array
+    public function getAllIdentifications(): array
     {
         $ids = [];
         foreach ($this->getStaticTopItems() as $slate) {
@@ -62,7 +64,7 @@ abstract class AbstractStaticMainMenuProvider extends AbstractProvider implement
     /**
      * @inheritDoc
      */
-    public function provideTypeInformation() : TypeInformationCollection
+    public function provideTypeInformation(): TypeInformationCollection
     {
         return new TypeInformationCollection();
     }

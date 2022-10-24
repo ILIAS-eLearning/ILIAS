@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -84,7 +86,7 @@ class ilCalendarCategories
     /**
      * get singleton instance
      */
-    public static function _getInstance($a_usr_id = 0) : ilCalendarCategories
+    public static function _getInstance($a_usr_id = 0): ilCalendarCategories
     {
         if (self::$instance) {
             return self::$instance;
@@ -95,7 +97,7 @@ class ilCalendarCategories
     /**
      * lookup category by obj_id
      */
-    public static function _lookupCategoryIdByObjId(int $a_obj_id) : int
+    public static function _lookupCategoryIdByObjId(int $a_obj_id): int
     {
         global $DIC;
 
@@ -114,7 +116,7 @@ class ilCalendarCategories
     /**
      * check if user is owner of a category
      */
-    public static function _isOwner(int $a_usr_id, int $a_cal_id) : bool
+    public static function _isOwner(int $a_usr_id, int $a_cal_id): bool
     {
         global $DIC;
 
@@ -131,7 +133,7 @@ class ilCalendarCategories
     /**
      * Delete cache (add remove desktop item)
      */
-    public static function deletePDItemsCache(int $a_usr_id) : void
+    public static function deletePDItemsCache(int $a_usr_id): void
     {
         ilCalendarCache::getInstance()->deleteByAdditionalKeys(
             $a_usr_id,
@@ -143,7 +145,7 @@ class ilCalendarCategories
     /**
      * Delete cache
      */
-    public static function deleteRepositoryCache(int $a_usr_id) : void
+    public static function deleteRepositoryCache(int $a_usr_id): void
     {
         ilCalendarCache::getInstance()->deleteByAdditionalKeys(
             $a_usr_id,
@@ -155,7 +157,7 @@ class ilCalendarCategories
     /**
      * Serialize categories
      */
-    final protected function sleep() : string
+    final protected function sleep(): string
     {
         return serialize(
             array(
@@ -169,7 +171,7 @@ class ilCalendarCategories
     /**
      * Load from serialize string
      */
-    protected function wakeup(string $a_ser) : void
+    protected function wakeup(string $a_ser): void
     {
         $info = unserialize($a_ser);
 
@@ -181,44 +183,44 @@ class ilCalendarCategories
     /**
      * Set ch user id
      */
-    public function setCHUserId(int $a_user_id) : void
+    public function setCHUserId(int $a_user_id): void
     {
         $this->ch_user_id = $a_user_id;
     }
 
-    public function getCHUserId() : int
+    public function getCHUserId(): int
     {
         return $this->ch_user_id;
     }
 
-    protected function setMode(int $a_mode) : void
+    protected function setMode(int $a_mode): void
     {
         $this->mode = $a_mode;
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    protected function setTargetRefId(int $a_ref_id) : void
+    protected function setTargetRefId(int $a_ref_id): void
     {
         $this->target_ref_id = $a_ref_id;
     }
 
-    public function getTargetRefId() : int
+    public function getTargetRefId(): int
     {
         return $this->target_ref_id;
     }
 
-    public function setSourceRefId(int $a_val) : void
+    public function setSourceRefId(int $a_val): void
     {
         $this->root_ref_id = $a_val;
     }
 
     /**
      */
-    public function getsourcerefid() : int
+    public function getsourcerefid(): int
     {
         return $this->root_ref_id;
     }
@@ -231,7 +233,7 @@ class ilCalendarCategories
         int $a_source_ref_id = 0,
         bool $a_use_cache = false,
         int $a_cat_id = 0
-    ) : void {
+    ): void {
         if ($this->getMode() != 0) {
             throw new ilCalCategoriesInitializedMultipleException("ilCalendarCategories is initialized multiple times for user " . $this->user_id . ".");
         }
@@ -316,7 +318,7 @@ class ilCalendarCategories
         }
     }
 
-    public function getCategoryInfo(int $a_cat_id) : array
+    public function getCategoryInfo(int $a_cat_id): array
     {
         if (isset($this->categories_info[$a_cat_id])) {
             return $this->categories_info[$a_cat_id];
@@ -332,12 +334,12 @@ class ilCalendarCategories
         return [];
     }
 
-    public function getCategoriesInfo() : array
+    public function getCategoriesInfo(): array
     {
         return $this->categories_info ?: array();
     }
 
-    public function getCategories(bool $a_include_subitem_calendars = false) : array
+    public function getCategories(bool $a_include_subitem_calendars = false): array
     {
         if ($a_include_subitem_calendars) {
             return array_merge($this->categories, $this->subitem_categories);
@@ -346,7 +348,7 @@ class ilCalendarCategories
         return $this->categories ?: array();
     }
 
-    public function getSubitemCategories(int $a_cat_id) : array
+    public function getSubitemCategories(int $a_cat_id): array
     {
         if (!isset($this->categories_info[$a_cat_id]['subitem_ids'])) {
             return array($a_cat_id);
@@ -354,7 +356,7 @@ class ilCalendarCategories
         return array_merge((array) $this->categories_info[$a_cat_id]['subitem_ids'], array($a_cat_id));
     }
 
-    public function prepareCategoriesOfUserForSelection() : array
+    public function prepareCategoriesOfUserForSelection(): array
     {
         $has_personal_calendar = false;
         $cats = [];
@@ -381,7 +383,7 @@ class ilCalendarCategories
      * Get all calendars that allow send of notifications
      * (Editable and course group calendars)
      */
-    public function getNotificationCalendars() : array
+    public function getNotificationCalendars(): array
     {
         $not = array();
         foreach ($this->categories_info as $info) {
@@ -397,7 +399,7 @@ class ilCalendarCategories
     /**
      * check if category is editable
      */
-    public function isEditable(int $a_cat_id) : bool
+    public function isEditable(int $a_cat_id): bool
     {
         return isset($this->categories_info[$a_cat_id]['editable']) && $this->categories_info[$a_cat_id]['editable'];
     }
@@ -405,7 +407,7 @@ class ilCalendarCategories
     /**
      * check if category is visible
      */
-    public function isVisible($a_cat_id) : bool
+    public function isVisible($a_cat_id): bool
     {
         return in_array($a_cat_id, $this->categories) || in_array($a_cat_id, $this->subitem_categories);
     }
@@ -413,7 +415,7 @@ class ilCalendarCategories
     /**
      * Read categories of user
      */
-    protected function readPDCalendars() : void
+    protected function readPDCalendars(): void
     {
         $this->readPublicCalendars();
         $this->readPrivateCalendars();
@@ -429,7 +431,7 @@ class ilCalendarCategories
     /**
      * Read info about selected calendar
      */
-    protected function readSelectedCalendar(int $a_cal_id) : void
+    protected function readSelectedCalendar(int $a_cal_id): void
     {
         $cat = new ilCalendarCategory($a_cal_id);
         if ($cat->getType() == ilCalendarCategory::TYPE_OBJ) {
@@ -440,7 +442,7 @@ class ilCalendarCategories
         }
     }
 
-    protected function readSelectedItemCalendars() : void
+    protected function readSelectedItemCalendars(): void
     {
         $this->readPublicCalendars();
         $this->readPrivateCalendars();
@@ -488,7 +490,7 @@ class ilCalendarCategories
     /**
      * Read available repository calendars
      */
-    protected function readReposCalendars($a_container_only = false) : void
+    protected function readReposCalendars($a_container_only = false): void
     {
         if (!$a_container_only) {
             $this->readPublicCalendars();
@@ -550,12 +552,12 @@ class ilCalendarCategories
             $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
                 return $item->getId();
             }, $talks);
-    
+
             $this->readSelectedCategories($talkIds, 0, false);
         }
     }
 
-    public function readSingleCalendar(int $a_cat_id) : void
+    public function readSingleCalendar(int $a_cat_id): void
     {
         $cat = new ilCalendarCategory($a_cat_id);
         switch ($cat->getType()) {
@@ -584,7 +586,7 @@ class ilCalendarCategories
     /**
      * Read public calendars
      */
-    protected function readPublicCalendars($cat_ids = null) : void
+    protected function readPublicCalendars($cat_ids = null): void
     {
         $in = "";
         if (is_array($cat_ids)) {
@@ -622,7 +624,7 @@ class ilCalendarCategories
     /**
      * Read private calendars
      */
-    protected function readPrivateCalendars(?array $only_cat_ids = null) : void
+    protected function readPrivateCalendars(?array $only_cat_ids = null): void
     {
         $cat_ids = [];
         $in = "";
@@ -690,7 +692,7 @@ class ilCalendarCategories
     /**
      * Read personal consultation hours calendar of all tutors for a container
      */
-    public function readAllConsultationHoursCalendarOfContainer(int $a_container_ref_id) : void
+    public function readAllConsultationHoursCalendarOfContainer(int $a_container_ref_id): void
     {
         $obj_id = ilObject::_lookupObjId($a_container_ref_id);
         $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
@@ -707,7 +709,7 @@ class ilCalendarCategories
     /**
      * Read personal consultation hours calendar
      */
-    public function readConsultationHoursCalendar(?int $a_target_ref_id = null, int $a_cat_id = 0) : void
+    public function readConsultationHoursCalendar(?int $a_target_ref_id = null, int $a_cat_id = 0): void
     {
         if (!$this->getCHUserId()) {
             $this->setCHUserId($this->user_id);
@@ -786,7 +788,7 @@ class ilCalendarCategories
     /**
      * Read booking manager calendar
      */
-    public function readBookingCalendar(?int $user_id = null) : void
+    public function readBookingCalendar(?int $user_id = null): void
     {
         if (!$user_id) {
             $user_id = $this->user_id;
@@ -812,7 +814,7 @@ class ilCalendarCategories
         }
     }
 
-    protected function readSelectedCategories(array $a_obj_ids, int $a_source_ref_id = 0, bool $check_permissions = true) : void
+    protected function readSelectedCategories(array $a_obj_ids, int $a_source_ref_id = 0, bool $check_permissions = true): void
     {
         if (!count($a_obj_ids)) {
             return;
@@ -852,6 +854,7 @@ class ilCalendarCategories
                 continue;
             }
             $this->categories_info[(int) $row->cat_id]['editable'] = $editable;
+            $this->categories_info[(int) $row->cat_id]['accepted'] = false;
             $this->categories_info[(int) $row->cat_id]['settings'] = $settings;
 
             $this->categories[] = (int) $row->cat_id;
@@ -871,7 +874,7 @@ class ilCalendarCategories
      * Add subitem calendars
      * E.g. session calendars in courses, groups
      */
-    protected function addSubitemCalendars() : void
+    protected function addSubitemCalendars(): void
     {
         $course_ids = array();
         foreach ($this->categories as $cat_id) {
@@ -931,7 +934,7 @@ class ilCalendarCategories
      * Lookup private categories of user
      * @return array[]
      */
-    public static function lookupPrivateCategories(int $a_user_id) : array
+    public static function lookupPrivateCategories(int $a_user_id): array
     {
         global $DIC;
 

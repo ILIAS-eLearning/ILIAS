@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -10,8 +24,8 @@
  */
 class ilTestResultHeaderLabelBuilder
 {
-    const LO_TEST_TYPE_INITIAL = 'loTestInitial';
-    const LO_TEST_TYPE_QUALIFYING = 'loTestQualifying';
+    public const LO_TEST_TYPE_INITIAL = 'loTestInitial';
+    public const LO_TEST_TYPE_QUALIFYING = 'loTestQualifying';
     /**
      * @var ilLanguage
      */
@@ -73,14 +87,14 @@ class ilTestResultHeaderLabelBuilder
 
         $this->testType = null;
         $this->crsTitle = null;
-        
+
         $this->objectives = array();
     }
 
     /**
      * @return int
      */
-    public function getObjectiveOrientedContainerId() : ?int
+    public function getObjectiveOrientedContainerId(): ?int
     {
         return $this->objectiveOrientedContainerId;
     }
@@ -96,7 +110,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getTestObjId() : ?int
+    public function getTestObjId(): ?int
     {
         return $this->testObjId;
     }
@@ -112,7 +126,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getTestRefId() : ?int
+    public function getTestRefId(): ?int
     {
         return $this->testRefId;
     }
@@ -128,7 +142,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return int
      */
-    public function getUserId() : ?int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -140,26 +154,26 @@ class ilTestResultHeaderLabelBuilder
     {
         $this->userId = $userId;
     }
-    
+
     public function initObjectiveOrientedMode()
     {
         $this->initTestType();
         $this->initObjectives();
         $this->initCourseTitle();
     }
-    
+
     private function initTestType()
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
         $loSettings = ilLOSettings::getInstanceByObjId($this->getObjectiveOrientedContainerId());
-        
+
         if ($loSettings->getInitialTest() == $this->getTestRefId()) {
             $this->testType = self::LO_TEST_TYPE_INITIAL;
         } elseif ($loSettings->getQualifiedTest() == $this->getTestRefId()) {
             $this->testType = self::LO_TEST_TYPE_QUALIFYING;
         }
     }
-    
+
     private function initObjectives()
     {
         require_once 'Modules/Course/classes/Objectives/class.ilLOTestRun.php';
@@ -169,7 +183,7 @@ class ilTestResultHeaderLabelBuilder
 
         foreach ($loRuns as $loRun) {
             /* @var ilLOTestRun $loRun */
-            
+
             $this->objectives[$loRun->getObjectiveId()] = $this->getObjectiveTitle($loRun);
         }
     }
@@ -182,12 +196,12 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return string
      */
-    public function getPassOverviewHeaderLabel() : string
+    public function getPassOverviewHeaderLabel(): string
     {
         if (!$this->getObjectiveOrientedContainerId()) {
             return $this->lng->txt('tst_results_overview');
         }
-        
+
         if ($this->isInitialTestForAllObjectives()) {
             return sprintf(
                 $this->lng->txt('tst_pass_overview_header_lo_initial_all_objectives'),
@@ -218,7 +232,7 @@ class ilTestResultHeaderLabelBuilder
     /**
      * @return string
      */
-    public function getPassDetailsHeaderLabel($attemptNumber) : string
+    public function getPassDetailsHeaderLabel($attemptNumber): string
     {
         if (!$this->getObjectiveOrientedContainerId()) {
             return sprintf(
@@ -226,7 +240,7 @@ class ilTestResultHeaderLabelBuilder
                 $attemptNumber
             );
         }
-        
+
         if ($this->isInitialTest()) {
             return sprintf(
                 $this->lng->txt('tst_pass_details_header_lo_initial'),
@@ -240,21 +254,21 @@ class ilTestResultHeaderLabelBuilder
                 $this->getAttemptLabel($attemptNumber)
             );
         }
-        
+
         return '';
     }
-    
-    private function isInitialTest() : bool
+
+    private function isInitialTest(): bool
     {
         return $this->testType == self::LO_TEST_TYPE_INITIAL;
     }
 
-    private function isQualifyingTest() : bool
+    private function isQualifyingTest(): bool
     {
         return $this->testType == self::LO_TEST_TYPE_QUALIFYING;
     }
 
-    private function isInitialTestForAllObjectives() : bool
+    private function isInitialTestForAllObjectives(): bool
     {
         if ($this->testType != self::LO_TEST_TYPE_INITIAL) {
             return false;
@@ -267,7 +281,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isInitialTestPerObjective() : bool
+    private function isInitialTestPerObjective(): bool
     {
         if ($this->testType != self::LO_TEST_TYPE_INITIAL) {
             return false;
@@ -280,7 +294,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isQualifyingTestForAllObjectives() : bool
+    private function isQualifyingTestForAllObjectives(): bool
     {
         if ($this->testType != self::LO_TEST_TYPE_QUALIFYING) {
             return false;
@@ -293,7 +307,7 @@ class ilTestResultHeaderLabelBuilder
         return true;
     }
 
-    private function isQualifyingTestPerObjective() : bool
+    private function isQualifyingTestPerObjective(): bool
     {
         if ($this->testType != self::LO_TEST_TYPE_QUALIFYING) {
             return false;
@@ -311,18 +325,18 @@ class ilTestResultHeaderLabelBuilder
         require_once 'Modules/Course/classes/class.ilCourseObjective.php';
         return ilCourseObjective::lookupObjectiveTitle($loRun->getObjectiveId());
     }
-    
-    private function getObjectivesString() : string
+
+    private function getObjectivesString(): string
     {
         return implode(', ', $this->objectives);
     }
-    
-    private function getAttemptLabel($attemptNumber) : string
+
+    private function getAttemptLabel($attemptNumber): string
     {
         return sprintf($this->lng->txt('tst_res_lo_try_n'), $attemptNumber);
     }
-    
-    public function getListOfAnswersHeaderLabel($attemptNumber) : string
+
+    public function getListOfAnswersHeaderLabel($attemptNumber): string
     {
         $langVar = 'tst_eval_results_by_pass';
 
@@ -332,13 +346,13 @@ class ilTestResultHeaderLabelBuilder
 
         return sprintf($this->lng->txt($langVar), $attemptNumber);
     }
-    
-    public function getVirtualListOfAnswersHeaderLabel() : string
+
+    public function getVirtualListOfAnswersHeaderLabel(): string
     {
         return $this->lng->txt('tst_eval_results_lo');
     }
-    
-    public function getVirtualPassDetailsHeaderLabel($objectiveTitle) : string
+
+    public function getVirtualPassDetailsHeaderLabel($objectiveTitle): string
     {
         if ($this->isInitialTest()) {
             return sprintf(
@@ -351,7 +365,7 @@ class ilTestResultHeaderLabelBuilder
                 $objectiveTitle
             );
         }
-        
+
         return '';
     }
 }

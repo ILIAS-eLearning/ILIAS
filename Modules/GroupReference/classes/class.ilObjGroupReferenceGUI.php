@@ -24,7 +24,6 @@
  */
 class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
 {
-
     /**
      * ilObjGroupReferenceGUI constructor.
      * @param $a_data
@@ -44,12 +43,12 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
      *
      * @access public
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         parent::executeCommand();
     }
-    
-    
+
+
     /**
      *  Support for goto php
      *
@@ -59,7 +58,7 @@ class ilObjGroupReferenceGUI extends ilContainerReferenceGUI
     {
         include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
-        
+
         include_once('./Modules/Group/classes/class.ilObjGroupGUI.php');
         ilObjGroupGUI::_goto($target_ref_id);
     }

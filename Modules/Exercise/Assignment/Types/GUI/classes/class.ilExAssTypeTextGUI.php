@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Text type gui implementations
  *
@@ -47,7 +47,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function addEditFormCustomProperties(ilPropertyFormGUI $form) : void
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form): void
     {
         $lng = $this->lng;
 
@@ -70,7 +70,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         $form->addItem($rb_limit_chars);
     }
 
-    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form) : void
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form): void
     {
         $ass->setMaxCharLimit(0);
         $ass->setMinCharLimit(0);
@@ -85,7 +85,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
     /**
      * @inheritdoc
      */
-    public function getFormValuesArray(ilExAssignment $ass) : array
+    public function getFormValuesArray(ilExAssignment $ass): array
     {
         $values = [];
         if ($ass->getMinCharLimit() !== 0) {
@@ -100,7 +100,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission): void
     {
     }
 }

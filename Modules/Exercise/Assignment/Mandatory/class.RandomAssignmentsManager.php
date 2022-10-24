@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise\Assignment\Mandatory;
 
 use ILIAS\Exercise\Assignment;
@@ -62,7 +62,7 @@ class RandomAssignmentsManager
     }
 
     // Checks if the random assignment can be activated (if no learner has already submitted stuff)
-    public function canBeActivated() : bool
+    public function canBeActivated(): bool
     {
         /** @var \ilExAssignment $ass */
         foreach (\ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
@@ -78,7 +78,7 @@ class RandomAssignmentsManager
      * @return string[]
      * @throws \ilExcUnknownAssignmentTypeException
      */
-    public function getDeniedActivationReasons() : array
+    public function getDeniedActivationReasons(): array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
@@ -107,7 +107,7 @@ class RandomAssignmentsManager
     }
 
     // Checks if the random assignment can be activated (if no learner has already submitted stuff)
-    public function canBeDeactivated() : bool
+    public function canBeDeactivated(): bool
     {
         return !$this->hasAnySubmission();
     }
@@ -116,7 +116,7 @@ class RandomAssignmentsManager
      * Get reasons for denied deactivation
      * @return string[]
      */
-    public function getDeniedDeactivationReasons() : array
+    public function getDeniedDeactivationReasons(): array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
@@ -128,22 +128,22 @@ class RandomAssignmentsManager
     }
 
     // Is random assignment activated?
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return ($this->exc->getPassMode() == \ilObjExercise::PASS_MODE_RANDOM);
     }
 
-    public function getTotalNumberOfAssignments() : int
+    public function getTotalNumberOfAssignments(): int
     {
         return count(\ilExAssignment::getInstancesByExercise($this->exc_id));
     }
 
-    public function getNumberOfMandatoryAssignments() : int
+    public function getNumberOfMandatoryAssignments(): int
     {
         return $this->exc->getNrMandatoryRandom();
     }
 
-    protected function hasAnySubmission() : bool
+    protected function hasAnySubmission(): bool
     {
         /** @var \ilExAssignment $ass */
         foreach (\ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
@@ -157,7 +157,7 @@ class RandomAssignmentsManager
     /**
      * Needs current user to start the exercise (by selecting the random assignments)?
      */
-    public function needsStart() : bool
+    public function needsStart(): bool
     {
         if ($this->isActivated()) {
             $ass_of_user = $this->rand_ass_repo->getAssignmentsOfUser($this->user->getId(), $this->exc_id);
@@ -174,14 +174,14 @@ class RandomAssignmentsManager
      * @param int $user_id
      * @return int[] assignment ids
      */
-    public function getMandatoryAssignmentsOfUser(int $user_id) : array
+    public function getMandatoryAssignmentsOfUser(int $user_id): array
     {
         return $this->rand_ass_repo->getAssignmentsOfUser($user_id, $this->exc_id);
     }
 
 
     // Start exercise
-    public function startExercise() : void
+    public function startExercise(): void
     {
         if ($this->needsStart()) {
             $this->rand_ass_repo->saveAssignmentsOfUser(
@@ -191,13 +191,13 @@ class RandomAssignmentsManager
             );
         }
     }
-    
+
     /**
      * Get random assignment selection
      * @return int[]
      * @throws \ilExcUnknownAssignmentTypeException
      */
-    protected function getAssignmentSelection() : array
+    protected function getAssignmentSelection(): array
     {
         $ass_ids = array_map(function ($i) {
             return $i->getId();
@@ -222,7 +222,7 @@ class RandomAssignmentsManager
     public function isAssignmentVisible(
         int $ass_id,
         int $user_id
-    ) : bool {
+    ): bool {
         if ($this->isActivated() && !in_array($ass_id, $this->getMandatoryAssignmentsOfUser($user_id))) {
             return false;
         }

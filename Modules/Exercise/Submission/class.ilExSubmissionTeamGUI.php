@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Exercise\GUIRequest;
 
 /**
@@ -43,7 +43,7 @@ class ilExSubmissionTeamGUI
      */
     protected array $requested_team_ids = [];
     protected GUIRequest $request;
-    
+
     public function __construct(
         ilObjExercise $a_exercise,
         ilExSubmission $a_submission
@@ -57,11 +57,11 @@ class ilExSubmissionTeamGUI
         $ilTabs = $DIC->tabs();
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
-        
+
         $this->exercise = $a_exercise;
         $this->submission = $a_submission;
         $this->assignment = $a_submission->getAssignment();
-    
+
         // :TODO:
         $this->ctrl = $ilCtrl;
         $this->tabs_gui = $ilTabs;
@@ -75,24 +75,24 @@ class ilExSubmissionTeamGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("submissionScreenTeam");
-            
+
         if (!$this->assignment->hasTeam() ||
             !$this->submission->canView()) {
             return;
         }
         $this->team = $this->submission->getTeam();
-        
+
         if (!$this->submission->isTutor()) {
             self::handleTabs();
             $this->tabs_gui->activateTab("team");
         }
-        
+
         switch ($class) {
             case 'ilrepositorysearchgui':
                 $this->ctrl->setReturn($this, 'submissionScreenTeam');
@@ -104,28 +104,28 @@ class ilExSubmissionTeamGUI
                 $rep_search->setCallback($this, 'addTeamMemberActionObject');
                 $this->ctrl->forwardCommand($rep_search);
                 break;
-                            
+
             default:
                 $this->{$cmd . "Object"}();
                 break;
         }
     }
-    
+
     public static function getOverviewContent(
         ilInfoScreenGUI $a_info,
         ilExSubmission $a_submission
-    ) : void {
+    ): void {
         global $DIC;
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
         if (!$a_submission->getAssignment()->hasTeam()) {
             return;
         }
 
         $state = ilExcAssMemberState::getInstanceByIds($a_submission->getAssignment()->getId(), $a_submission->getUserId());
-                                
+
         $team_members = $a_submission->getTeam()->getMembers();
         if ($team_members !== []) {									// we have a team
             $team = array();
@@ -134,7 +134,7 @@ class ilExSubmissionTeamGUI
                 $team[] = ilUserUtil::getNamePresentation($member_id, false, false, "", false);
             }
             $team = implode("; ", $team);
-            
+
             if (!$a_submission->getAssignment()->getTeamTutor()) {
                 #23685
                 // any team member upload?
@@ -170,7 +170,7 @@ class ilExSubmissionTeamGUI
                     $button->setCaption("exc_create_team");		// team creation
                     $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTeamGUI"), "createTeam"));
                     $team_info .= " " . $button->render();
-                    
+
                     $team_info .= '<div class="ilFormInfo">' . $lng->txt("exc_no_team_yet_info") . '</div>';
                 } else {
                     $team_info .= '<div class="ilFormInfo">' . $lng->txt("exc_no_team_yet_info_tutor") . '</div>';
@@ -178,24 +178,24 @@ class ilExSubmissionTeamGUI
             } else {
                 $team_info = '<span class="warning">' . $lng->txt("exc_create_team_times_up_warning") . '</span>';
             }
-            
+
             $a_info->addProperty($lng->txt("exc_team_members"), $team_info);
         }
     }
-    
-    public function returnToParentObject() : void
+
+    public function returnToParentObject(): void
     {
         $this->ctrl->returnToParent($this);
     }
-    
-    public static function handleTabs() : void
+
+    public static function handleTabs(): void
     {
         global $DIC;
 
         $ilTabs = $DIC->tabs();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $ilTabs->addTab(
             "team",
             $lng->txt("exc_team"),
@@ -208,24 +208,24 @@ class ilExSubmissionTeamGUI
             $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "submissionScreenTeamLog")
         );
     }
-    
-    protected function canEditTeam() : bool
+
+    protected function canEditTeam(): bool
     {
         return (($this->submission->canSubmit() &&
             !$this->submission->getAssignment()->getTeamTutor()) ||
             $this->submission->isTutor());
     }
-    
+
     /**
      * Displays a form which allows members to manage team uploads
      */
-    public function submissionScreenTeamObject() : void
+    public function submissionScreenTeamObject(): void
     {
         $ilToolbar = $this->toolbar;
-                        
+
         // #13414
         $read_only = !$this->canEditTeam();
-                
+
         if ($this->submission->getAssignment()->afterDeadlineStrict(false)) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exercise_time_over"));
         } elseif (!$read_only) {
@@ -244,7 +244,7 @@ class ilExSubmissionTeamGUI
         } elseif ($this->submission->getAssignment()->getTeamTutor()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("exc_no_team_yet_info_tutor"));
         }
-        
+
         $tbl = new ilExAssignmentTeamTableGUI(
             $this,
             "submissionScreenTeam",
@@ -253,7 +253,7 @@ class ilExSubmissionTeamGUI
             $this->team,
             $read_only
         );
-        
+
         $this->tpl->setContent($tbl->getHTML());
     }
 
@@ -262,11 +262,11 @@ class ilExSubmissionTeamGUI
      */
     public function addTeamMemberActionObject(
         array $a_user_ids = array()
-    ) : void {
+    ): void {
         if (!$this->canEditTeam()) {
             $this->ctrl->redirect($this, "submissionScreenTeam");
         }
-        
+
         if ($a_user_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             return;
@@ -277,7 +277,7 @@ class ilExSubmissionTeamGUI
         foreach ($a_user_ids as $user_id) {
             if ($this->team->addTeamMember($user_id, $this->exercise->getRefId())) {
                 $new_users[] = $user_id;
-                
+
                 // #14277
                 if (!$this->exercise->members_obj->isAssigned($user_id)) {
                     $this->exercise->members_obj->assignMember($user_id);
@@ -287,7 +287,7 @@ class ilExSubmissionTeamGUI
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("exc_members_already_assigned_team"), true);
             }
         }
-        
+
         if ($new_users !== []) {
             // re-evaluate complete team, as new member could have already submitted
             $this->exercise->processExerciseStatus(
@@ -306,7 +306,7 @@ class ilExSubmissionTeamGUI
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function confirmDeleteTeamObject() : void
+    public function confirmDeleteTeamObject(): void
     {
         $this->confirmRemoveTeamMemberObject(true);
     }
@@ -316,10 +316,10 @@ class ilExSubmissionTeamGUI
      */
     public function confirmRemoveTeamMemberObject(
         bool $a_full_delete = false
-    ) : void {
+    ): void {
         $ilUser = $this->user;
         $tpl = $this->tpl;
-        
+
         if (!$this->submission->isTutor()) {
             $ids = $a_full_delete ? $this->team->getMembers() : $this->requested_team_ids;
 
@@ -333,7 +333,7 @@ class ilExSubmissionTeamGUI
                 $this->returnToParentObject();
             }
         }
-            
+
         $members = $this->team->getMembers();
         if (count($members) <= count($ids)) {
             if (count($members) == 1 && $members[0] == $ilUser->getId()) {
@@ -345,7 +345,7 @@ class ilExSubmissionTeamGUI
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         }
-            
+
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("exc_team_member_remove_sure"));
@@ -355,7 +355,7 @@ class ilExSubmissionTeamGUI
             : "submissionScreenTeam");
 
         $files = $this->submission->getFiles();
-        
+
         foreach ($ids as $id) {
             $details = array();
             foreach ($files as $file) {
@@ -378,9 +378,9 @@ class ilExSubmissionTeamGUI
      */
     public function removeTeamMemberObject(
         bool $a_full_delete = false
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-        
+
         $cancel_cmd = $this->submission->isTutor()
             ? "returnToParent"
             : "submissionScreenTeam";
@@ -397,7 +397,7 @@ class ilExSubmissionTeamGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, $cancel_cmd);
         }
-                
+
         $team_deleted = $a_full_delete;
         if (!$team_deleted) {
             $members = $this->team->getMembers();
@@ -410,18 +410,18 @@ class ilExSubmissionTeamGUI
                 }
             }
         }
-        
+
         foreach ($ids as $user_id) {
             $this->team->removeTeamMember($user_id, $this->exercise->getRefId());
         }
-        
+
         // reset ex team members, as any submission is not valid without team
         $this->exercise->processExerciseStatus(
             $this->assignment,
             $ids,
             false
         );
-        
+
         if (!$team_deleted) {
             // re-evaluate complete team, as removed member might have had submitted
             $this->exercise->processExerciseStatus(
@@ -431,7 +431,7 @@ class ilExSubmissionTeamGUI
                 $this->submission->validatePeerReviews()
             );
         }
-                
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         if (!$team_deleted) {
             $this->ctrl->redirect($this, $cancel_cmd);
@@ -439,21 +439,21 @@ class ilExSubmissionTeamGUI
             $this->ctrl->redirect($this, "returnToParent");
         }
     }
-    
-    public function submissionScreenTeamLogObject() : void
+
+    public function submissionScreenTeamLogObject(): void
     {
         $this->tabs_gui->activateTab("log");
-    
+
         $tbl = new ilExAssignmentTeamLogTableGUI(
             $this,
             "submissionScreenTeamLog",
             $this->team
         );
-        
+
         $this->tpl->setContent($tbl->getHTML());
     }
-    
-    public function createSingleMemberTeamObject() : void
+
+    public function createSingleMemberTeamObject(): void
     {
         ilExAssignmentTeam::getTeamId(
             $this->assignment->getId(),
@@ -463,8 +463,8 @@ class ilExSubmissionTeamGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         $this->returnToParentObject();
     }
-    
-    public function showTeamLogObject() : void
+
+    public function showTeamLogObject(): void
     {
         $tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);
         $this->tpl->setContent($tbl->getHTML());
@@ -473,7 +473,7 @@ class ilExSubmissionTeamGUI
     /**
      * Get Adopt form
      */
-    public function getAdoptForm() : ilPropertyFormGUI
+    public function getAdoptForm(): ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -521,12 +521,12 @@ class ilExSubmissionTeamGUI
         return $form;
     }
 
-    public function createTeamObject() : void
+    public function createTeamObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         $tpl = $this->tpl;
-        
+
         if ($this->submission->canSubmit()) {
             $options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
             if ($options !== []) {
@@ -534,24 +534,24 @@ class ilExSubmissionTeamGUI
                 $tpl->setContent($form->getHTML());
                 return;
             }
-            
+
             ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);
-            
+
             // #18046
             if (!$this->exercise->members_obj->isAssigned($ilUser->getId())) {
                 $this->exercise->members_obj->assignMember($ilUser->getId());
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
         }
-        
+
         $ilCtrl->redirect($this, "returnToParent");
     }
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function createAdoptedTeamObject() : void
+    public function createAdoptedTeamObject(): void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -566,18 +566,18 @@ class ilExSubmissionTeamGUI
             } else {
                 ilExAssignmentTeam::getTeamId($this->assignment->getId(), $ilUser->getId(), true);
             }
-            
+
             $this->tpl->setOnScreenMessage('success', $lng->txt("settings_saved"), true);
         }
-        
+
         $ilCtrl->redirect($this, "returnToParent");
     }
-    
+
     /**
      * Add user as member
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function addUserFromAutoCompleteObject() : void
+    public function addUserFromAutoCompleteObject(): void
     {
         $user_login = $this->request->getUserLogin();
         if ($user_login == "") {
@@ -585,7 +585,7 @@ class ilExSubmissionTeamGUI
             $this->submissionScreenTeamObject();
             return;
         }
-        
+
         $users = explode(',', $user_login);
 
         $user_ids = array();
@@ -597,10 +597,10 @@ class ilExSubmissionTeamGUI
                 $this->submissionScreenTeamObject();
                 return;
             }
-            
+
             $user_ids[] = $user_id;
         }
-    
+
         $this->addTeamMemberActionObject($user_ids);
     }
 }

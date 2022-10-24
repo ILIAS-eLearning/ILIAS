@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,92 +60,92 @@ class ilObjCourseGrouping
         }
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setContainerRefId(int $a_ref_id) : void
+    public function setContainerRefId(int $a_ref_id): void
     {
         $this->ref_id = $a_ref_id;
     }
 
-    public function getContainerRefId() : int
+    public function getContainerRefId(): int
     {
         return $this->ref_id;
     }
 
-    public function setContainerObjId(int $a_obj_id) : void
+    public function setContainerObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    public function getContainerObjId() : int
+    public function getContainerObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getContainerType() : string
+    public function getContainerType(): string
     {
         return $this->container_type;
     }
 
-    public function setContainerType(string $a_type) : void
+    public function setContainerType(string $a_type): void
     {
         $this->container_type = $a_type;
     }
 
-    public function setType(string $a_type) : void
+    public function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setTitle(string $a_title) : void
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_desc) : void
+    public function setDescription(string $a_desc): void
     {
         $this->description = $a_desc;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setUniqueField(string $a_uni) : void
+    public function setUniqueField(string $a_uni): void
     {
         $this->unique_field = $a_uni;
     }
 
-    public function getUniqueField() : string
+    public function getUniqueField(): string
     {
         return $this->unique_field;
     }
 
-    public function getCountAssignedItems() : int
+    public function getCountAssignedItems(): int
     {
         return count($this->getAssignedItems());
     }
 
-    public function getAssignedItems() : array
+    public function getAssignedItems(): array
     {
         $condition_data = ilConditionHandler::_getPersistedConditionsOfTrigger($this->getType(), $this->getId());
         $conditions = array();
@@ -156,7 +158,7 @@ class ilObjCourseGrouping
         return count($conditions) ? $conditions : array();
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         if ($this->getId() && $this->getType() === 'crsg') {
             $query = "DELETE FROM object_data WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
@@ -172,7 +174,7 @@ class ilObjCourseGrouping
         }
     }
 
-    public function create(int $a_course_ref_id, int $a_course_id) : void
+    public function create(int $a_course_ref_id, int $a_course_id): void
     {
         // INSERT IN object_data
         $this->setId($this->db->nextId("object_data"));
@@ -202,7 +204,7 @@ class ilObjCourseGrouping
         $res = $this->db->manipulate($query);
     }
 
-    public function update() : void
+    public function update(): void
     {
         if ($this->getId() && $this->getType() === 'crsg') {
             // UPDATe object_data
@@ -228,7 +230,7 @@ class ilObjCourseGrouping
         }
     }
 
-    public function isAssigned(int $a_course_id) : bool
+    public function isAssigned(int $a_course_id): bool
     {
         foreach ($this->getAssignedItems() as $condition_data) {
             if ($a_course_id == $condition_data['target_obj_id']) {
@@ -238,7 +240,7 @@ class ilObjCourseGrouping
         return false;
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = "SELECT * FROM object_data " .
             "WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
@@ -261,7 +263,7 @@ class ilObjCourseGrouping
         }
     }
 
-    public function _checkAccess(int $grouping_id) : bool
+    public function _checkAccess(int $grouping_id): bool
     {
         $tmp_grouping_obj = new ilObjCourseGrouping($grouping_id);
 
@@ -280,7 +282,7 @@ class ilObjCourseGrouping
      * the given object id is assigned to.
      * @return int[]
      */
-    public static function _getVisibleGroupings(int $a_obj_id) : array
+    public static function _getVisibleGroupings(int $a_obj_id): array
     {
         global $DIC;
 
@@ -325,14 +327,14 @@ class ilObjCourseGrouping
         return $visible_groupings;
     }
 
-    public function assign(int $a_crs_ref_id, int $a_course_id) : void
+    public function assign(int $a_crs_ref_id, int $a_course_id): void
     {
         // Add the parent course of grouping
         $this->__addCondition($this->getContainerRefId(), $this->getContainerObjId());
         $this->__addCondition($a_crs_ref_id, $a_course_id);
     }
 
-    public function cloneGrouping(int $a_target_id, int $a_copy_id) : void
+    public function cloneGrouping(int $a_target_id, int $a_copy_id): void
     {
         $this->logger->debug('Start cloning membership limitations...');
         $mappings = \ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
@@ -382,7 +384,7 @@ class ilObjCourseGrouping
         }
     }
 
-    public function __addCondition(int $a_target_ref_id, int $a_target_obj_id) : void
+    public function __addCondition(int $a_target_ref_id, int $a_target_obj_id): void
     {
         $tmp_condh = new ilConditionHandler();
         $tmp_condh->enableAutomaticValidation(false);
@@ -401,7 +403,7 @@ class ilObjCourseGrouping
         }
     }
 
-    public static function _deleteAll(int $a_course_id) : void
+    public static function _deleteAll(int $a_course_id): void
     {
         global $DIC;
 
@@ -422,7 +424,7 @@ class ilObjCourseGrouping
      * @param $a_course_id
      * @return int[]
      */
-    public static function _getGroupings(int $a_course_id) : array
+    public static function _getGroupings(int $a_course_id): array
     {
         global $DIC;
 
@@ -439,7 +441,7 @@ class ilObjCourseGrouping
         return $groupings;
     }
 
-    public static function _checkCondition(int $trigger_obj_id, string $operator, $value, int $a_usr_id = 0) : bool
+    public static function _checkCondition(int $trigger_obj_id, string $operator, $value, int $a_usr_id = 0): bool
     {
         // in the moment i alway return true, there are some problems with presenting the condition if it fails,
         // only course register class check manually if this condition is fullfilled
@@ -449,7 +451,7 @@ class ilObjCourseGrouping
     /**
      * Get all ids of courses that are grouped with another course
      */
-    public static function _getGroupingCourseIds(int $a_course_ref_id, int $a_course_id) : array
+    public static function _getGroupingCourseIds(int $a_course_ref_id, int $a_course_id): array
     {
         global $DIC;
 
@@ -478,12 +480,12 @@ class ilObjCourseGrouping
         return $course_ids;
     }
 
-    public static function getAssignedObjects() : array
+    public static function getAssignedObjects(): array
     {
         return self::$assignedObjects;
     }
 
-    public static function _checkGroupingDependencies(ilObject $container_obj, ?int $a_user_id = null) : bool
+    public static function _checkGroupingDependencies(ilObject $container_obj, ?int $a_user_id = null): bool
     {
         global $DIC;
 
@@ -561,7 +563,7 @@ class ilObjCourseGrouping
     /**
      * Get courses/groups that are assigned to the same membership limitation
      */
-    public static function _getGroupingItems(ilObject $container_obj) : array
+    public static function _getGroupingItems(ilObject $container_obj): array
     {
         global $DIC;
 

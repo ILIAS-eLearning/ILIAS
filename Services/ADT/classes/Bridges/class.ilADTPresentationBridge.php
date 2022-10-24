@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -24,9 +26,9 @@ abstract class ilADTPresentationBridge
         $this->setADT($a_adt);
     }
 
-    abstract protected function isValidADT(ilADT $a_adt) : bool;
+    abstract protected function isValidADT(ilADT $a_adt): bool;
 
-    protected function setADT(ilADT $a_adt) : void
+    protected function setADT(ilADT $a_adt): void
     {
         if (!$this->isValidADT($a_adt)) {
             throw new InvalidArgumentException('ADTPresentationBridge Type mismatch.');
@@ -34,17 +36,17 @@ abstract class ilADTPresentationBridge
         $this->adt = $a_adt;
     }
 
-    public function getADT() : ?ilADT
+    public function getADT(): ?ilADT
     {
         return $this->adt;
     }
 
-    public function getList() : string
+    public function getList(): string
     {
         return $this->getHTML();
     }
 
-    abstract public function getHTML() : string;
+    abstract public function getHTML(): string;
 
     /**
      * Get sortable value presentation
@@ -56,7 +58,7 @@ abstract class ilADTPresentationBridge
      * Set decorator callback
      * @param callable $a_callback
      */
-    public function setDecoratorCallBack(?callable $a_callback) : void
+    public function setDecoratorCallBack(?callable $a_callback): void
     {
         $this->decorator = $a_callback;
     }

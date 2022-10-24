@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -22,7 +24,7 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesAuthApacheSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
 

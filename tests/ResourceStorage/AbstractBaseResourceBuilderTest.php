@@ -83,7 +83,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      */
     protected $storage_handler_factory;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->storage_handler = $this->createMock(StorageHandler::class);
@@ -107,7 +107,7 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         int $expected_size,
         int $expected_version_number,
         int $expected_owner_id
-    ) : array {
+    ): array {
         $identification = $this->id_generator->getUniqueResourceIdentification();
 
         $upload_result = $this->getDummyUploadResult(

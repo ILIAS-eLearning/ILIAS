@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilLOXmlWriter
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -40,22 +42,22 @@ class ilLOXmlParser
         $this->xml = $a_xml;
     }
 
-    public function setMapping(ilImportMapping $mapping) : void
+    public function setMapping(ilImportMapping $mapping): void
     {
         $this->mapping = $mapping;
     }
 
-    public function getMapping() : ?ilImportMapping
+    public function getMapping(): ?ilImportMapping
     {
         return $this->mapping;
     }
 
-    protected function getCourse() : ilObjCourse
+    protected function getCourse(): ilObjCourse
     {
         return $this->course;
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string(trim($this->xml));
@@ -73,7 +75,7 @@ class ilLOXmlParser
     /**
      * Parse object dependencies (assigned strucure objects, page objects, fixed questions)
      */
-    public function parseObjectDependencies() : void
+    public function parseObjectDependencies(): void
     {
         $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string(trim($this->xml));
@@ -97,7 +99,7 @@ class ilLOXmlParser
         }
     }
 
-    protected function parseSettings(SimpleXMLElement $root) : void
+    protected function parseSettings(SimpleXMLElement $root): void
     {
         $settings = ilLOSettings::getInstanceByObjId($this->getCourse()->getId());
         $this->logger->debug(': Handling element: ' . $root->Settings->getName());
@@ -125,7 +127,7 @@ class ilLOXmlParser
     /**
      * Parse objective
      */
-    protected function parseObjectives(SimpleXMLElement $root) : void
+    protected function parseObjectives(SimpleXMLElement $root): void
     {
         foreach ($root->Objective as $obj) {
             $new_obj = new ilCourseObjective($this->getCourse());
@@ -150,7 +152,7 @@ class ilLOXmlParser
         }
     }
 
-    protected function parseMaterials(SimpleXMLElement $obj, int $a_objective_id) : void
+    protected function parseMaterials(SimpleXMLElement $obj, int $a_objective_id): void
     {
         foreach ($obj->Material as $mat) {
             $mat_ref_id = (string) $mat->attributes()->refId;
@@ -199,7 +201,7 @@ class ilLOXmlParser
         }
     }
 
-    protected function parseTests(SimpleXMLElement $obj, int $a_objective_id) : void
+    protected function parseTests(SimpleXMLElement $obj, int $a_objective_id): void
     {
         $this->logger->debug(': Parsing ' . $obj->getName());
 
@@ -263,28 +265,28 @@ class ilLOXmlParser
         }
     }
 
-    protected function getMappingInfoForItem(int $a_ref_id) : int
+    protected function getMappingInfoForItem(int $a_ref_id): int
     {
         $new_ref_id = $this->getMapping()->getMapping('Services/Container', 'refs', (string) $a_ref_id);
         $this->logger->debug(': Found new ref_id: ' . $new_ref_id . ' for ' . $a_ref_id);
         return (int) $new_ref_id;
     }
 
-    protected function getMappingInfoForItemObject(int $a_obj_id) : int
+    protected function getMappingInfoForItemObject(int $a_obj_id): int
     {
         $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', (string) $a_obj_id);
         $this->logger->debug('Found new ref_id: ' . $new_obj_id . ' for ' . $a_obj_id);
         return (int) $new_obj_id;
     }
 
-    protected function getMappingForQuestion(int $qid) : int
+    protected function getMappingForQuestion(int $qid): int
     {
         $new_qid = $this->getMapping()->getMapping('Modules/Test', 'quest', (string) $qid);
         $this->logger->debug('Found new question_id: ' . $new_qid . ' for ' . $qid);
         return (int) $new_qid;
     }
 
-    protected function getMappingForQpls(int $a_id) : int
+    protected function getMappingForQpls(int $a_id): int
     {
         $new_id = $this->getMapping()->getMapping('Modules/Test', 'rnd_src_pool_def', (string) $a_id);
         if ($new_id) {
@@ -296,7 +298,7 @@ class ilLOXmlParser
     /**
      * Parse xml errors from libxml_get_errors
      */
-    protected function parseXmlErrors() : string
+    protected function parseXmlErrors(): string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {

@@ -20,7 +20,6 @@ require_once './libs/composer/vendor/autoload.php';
  */
 class EntryLockingStringMapTest extends TestCase
 {
-
     /**
      * @var EntryLockingStringMap
      */
@@ -29,7 +28,7 @@ class EntryLockingStringMapTest extends TestCase
     /**
      * @setup
      */
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->subject = new EntryLockingStringMap();
     }

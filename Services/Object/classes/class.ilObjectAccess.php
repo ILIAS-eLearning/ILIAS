@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
 * Class ilObjectAccess
 *
@@ -35,7 +37,7 @@ class ilObjectAccess implements ilWACCheckingClass
     * Please do not check any preconditions handled by
     * ilConditionHandler here. Also don't do any RBAC checks.
     */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
 
         // add no access info item and return false if access is not granted
@@ -46,7 +48,7 @@ class ilObjectAccess implements ilWACCheckingClass
 
         return true;
     }
-    
+
     /**
      * get commands
      *
@@ -60,19 +62,19 @@ class ilObjectAccess implements ilWACCheckingClass
      *	);
      * @return array{permission?:string, cmd?:string, lang_var?:string, default?:bool}[]
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         return [];
     }
-    
+
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
-        
+
         $arr = explode("_", $target);
 
         if (
@@ -90,7 +92,7 @@ class ilObjectAccess implements ilWACCheckingClass
      *
      * Used in ListGUI and Learning Progress
      */
-    public static function _isOffline(int $obj_id) : bool
+    public static function _isOffline(int $obj_id): bool
     {
         global $DIC;
 
@@ -104,19 +106,19 @@ class ilObjectAccess implements ilWACCheckingClass
     /**
      * Preload data
      */
-    public static function _preloadData(array $obj_ids, array $ref_ids) : void
+    public static function _preloadData(array $obj_ids, array $ref_ids): void
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         global $ilAccess;
 
         preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+        foreach (ilObject2::_getAllReferences((int) $results[1]) as $ref_id) {
             if ($ilAccess->checkAccess('visible', '', $ref_id) || $ilAccess->checkAccess('read', '', $ref_id)) {
                 return true;
             }

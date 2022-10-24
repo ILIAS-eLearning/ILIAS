@@ -36,7 +36,6 @@ use Psr\Http\Message\ResponseInterface;
  */
 interface CookieJar
 {
-
     /**
      * Checks if a cookie with the given name is in the jar.
      *
@@ -44,7 +43,7 @@ interface CookieJar
      *
      * @return bool         True if the cookie exists otherwise false.
      */
-    public function has(string $name) : bool;
+    public function has(string $name): bool;
 
 
     /**
@@ -53,7 +52,7 @@ interface CookieJar
      *
      * @param string $name Name of the cookie which should be returned.
      */
-    public function get(string $name) : ?Cookie;
+    public function get(string $name): ?Cookie;
 
 
     /**
@@ -61,7 +60,7 @@ interface CookieJar
      *
      * @return Cookie[]
      */
-    public function getAll() : array;
+    public function getAll(): array;
 
 
     /**
@@ -71,7 +70,7 @@ interface CookieJar
      *
      * @return CookieJar           New cookie jar which holds the new cookie.
      */
-    public function with(Cookie $setCookie) : CookieJar;
+    public function with(Cookie $setCookie): CookieJar;
 
 
     /**
@@ -81,7 +80,7 @@ interface CookieJar
      *
      * @return CookieJar   New cookie jar.
      */
-    public function without(string $name) : CookieJar;
+    public function without(string $name): CookieJar;
 
 
     /**
@@ -89,5 +88,5 @@ interface CookieJar
      *
      *
      */
-    public function renderIntoResponseHeader(ResponseInterface $response) : ResponseInterface;
+    public function renderIntoResponseHeader(ResponseInterface $response): ResponseInterface;
 }

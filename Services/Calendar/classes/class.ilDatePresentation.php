@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -48,22 +50,22 @@ class ilDatePresentation
     /**
      * set use relative dates
      */
-    public static function setUseRelativeDates(bool $a_status) : void
+    public static function setUseRelativeDates(bool $a_status): void
     {
         self::$use_relative_dates = $a_status;
     }
 
-    public static function useRelativeDates() : bool
+    public static function useRelativeDates(): bool
     {
         return self::$use_relative_dates;
     }
 
-    public static function setLanguage(ilLanguage $a_lng) : void
+    public static function setLanguage(ilLanguage $a_lng): void
     {
         self::$lang = $a_lng;
     }
 
-    public static function getLanguage() : ilLanguage
+    public static function getLanguage(): ilLanguage
     {
         global $DIC;
 
@@ -83,7 +85,7 @@ class ilDatePresentation
         self::setUseRelativeDates(true);
     }
 
-    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false, bool $include_seconds = false) : string
+    public static function formatDate(ilDateTime $date, bool $a_skip_day = false, bool $a_include_wd = false, bool $include_seconds = false): string
     {
         global $DIC;
 
@@ -150,7 +152,7 @@ class ilDatePresentation
      * or:        14. Jul 2008 - 16. Jul 2008
      * or:        14. Jul 2008, 12:00 - 16. Jul 2008, 14:00
      */
-    public static function formatPeriod(ilDateTime $start, ilDateTime $end, bool $a_skip_starting_day = false) : string
+    public static function formatPeriod(ilDateTime $start, ilDateTime $end, bool $a_skip_starting_day = false): string
     {
         global $DIC;
 
@@ -208,7 +210,7 @@ class ilDatePresentation
     /**
      * Check if date is "today"
      */
-    public static function isToday(ilDateTime $date) : bool
+    public static function isToday(ilDateTime $date): bool
     {
         global $DIC;
 
@@ -223,7 +225,7 @@ class ilDatePresentation
     /**
      * Check if date is yesterday
      */
-    public static function isYesterday(ilDateTime $date) : bool
+    public static function isYesterday(ilDateTime $date): bool
     {
         global $DIC;
 
@@ -239,7 +241,7 @@ class ilDatePresentation
     /**
      * Check if date is tomorrow
      */
-    public static function isTomorrow(ilDateTime $date) : bool
+    public static function isTomorrow(ilDateTime $date): bool
     {
         global $DIC;
 
@@ -260,7 +262,7 @@ class ilDatePresentation
         int $seconds,
         bool $force_with_seconds = false,
         ?ilLanguage $a_lng = null
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC['lng'];

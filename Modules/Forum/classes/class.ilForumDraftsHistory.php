@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,52 +33,52 @@ class ilForumDraftsHistory
     private string $post_message = '';
     protected string $draft_date = '0000-00-00 00:00:00';
 
-    public function getHistoryId() : int
+    public function getHistoryId(): int
     {
         return $this->history_id;
     }
 
-    public function setHistoryId(int $history_id) : void
+    public function setHistoryId(int $history_id): void
     {
         $this->history_id = $history_id;
     }
 
-    public function getDraftId() : int
+    public function getDraftId(): int
     {
         return $this->draft_id;
     }
 
-    public function setDraftId(int $draft_id) : void
+    public function setDraftId(int $draft_id): void
     {
         $this->draft_id = $draft_id;
     }
 
-    public function getPostSubject() : string
+    public function getPostSubject(): string
     {
         return $this->post_subject;
     }
 
-    public function setPostSubject(string $post_subject) : void
+    public function setPostSubject(string $post_subject): void
     {
         $this->post_subject = $post_subject;
     }
 
-    public function getPostMessage() : string
+    public function getPostMessage(): string
     {
         return $this->post_message;
     }
 
-    public function setPostMessage(string $post_message) : void
+    public function setPostMessage(string $post_message): void
     {
         $this->post_message = $post_message;
     }
 
-    public function getDraftDate() : string
+    public function getDraftDate(): string
     {
         return $this->draft_date;
     }
 
-    public function setDraftDate(string $draft_date) : void
+    public function setDraftDate(string $draft_date): void
     {
         $this->draft_date = $draft_date;
     }
@@ -92,7 +94,7 @@ class ilForumDraftsHistory
         }
     }
 
-    private function readByHistoryId(int $history_id) : void
+    private function readByHistoryId(int $history_id): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE history_id = %s',
@@ -113,7 +115,7 @@ class ilForumDraftsHistory
      * @param int $draft_id
      * @return ilForumDraftsHistory[]
      */
-    public static function getInstancesByDraftId(int $draft_id) : array
+    public static function getInstancesByDraftId(int $draft_id): array
     {
         global $DIC;
 
@@ -138,7 +140,7 @@ class ilForumDraftsHistory
     protected static function populateWithDatabaseRecord(
         ilForumDraftsHistory $history_draft,
         array $row
-    ) : ilForumDraftsHistory {
+    ): ilForumDraftsHistory {
         $history_draft->setHistoryId((int) $row['history_id']);
         $history_draft->setDraftId((int) $row['draft_id']);
         $history_draft->setPostMessage($row['post_message']);
@@ -148,7 +150,7 @@ class ilForumDraftsHistory
         return $history_draft;
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $this->db->manipulateF(
             'DELETE FROM frm_drafts_history WHERE history_id = %s',
@@ -157,7 +159,7 @@ class ilForumDraftsHistory
         );
     }
 
-    public function getFirstAutosaveByDraftId(int $draft_id) : void
+    public function getFirstAutosaveByDraftId(int $draft_id): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY history_id ASC',
@@ -173,7 +175,7 @@ class ilForumDraftsHistory
         }
     }
 
-    public function getLastAutosaveByDraftId(int $draft_id) : void
+    public function getLastAutosaveByDraftId(int $draft_id): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY history_id DESC',
@@ -189,7 +191,7 @@ class ilForumDraftsHistory
         }
     }
 
-    public function addDraftToHistory() : void
+    public function addDraftToHistory(): void
     {
         $next_id = $this->db->nextId('frm_drafts_history');
         $this->db->insert(
@@ -205,7 +207,7 @@ class ilForumDraftsHistory
         $this->setHistoryId($next_id);
     }
 
-    public function deleteMobs() : void
+    public function deleteMobs(): void
     {
         $oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html', $this->getHistoryId());
         foreach ($oldMediaObjects as $oldMob) {
@@ -217,7 +219,7 @@ class ilForumDraftsHistory
         }
     }
 
-    public function rollbackAutosave() : ilForumPostDraft
+    public function rollbackAutosave(): ilForumPostDraft
     {
         $draft = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
         $draft->setPostSubject($this->getPostSubject());
@@ -241,7 +243,7 @@ class ilForumDraftsHistory
      * @param int[] $post_ids
      * @return int[] A list of deleted draft ids
      */
-    public function deleteHistoryByPostIds(array $post_ids = []) : array
+    public function deleteHistoryByPostIds(array $post_ids = []): array
     {
         $draft_ids = [];
         if ($post_ids !== []) {
@@ -264,7 +266,7 @@ class ilForumDraftsHistory
     /**
      * @param int[] $draft_ids
      */
-    public function deleteHistoryByDraftIds(array $draft_ids = []) : void
+    public function deleteHistoryByDraftIds(array $draft_ids = []): void
     {
         if ($draft_ids !== []) {
             $res = $this->db->query(

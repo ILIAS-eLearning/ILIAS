@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Symbol;
 
 /**
@@ -65,7 +67,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Symbol\Icon\Factory
      **/
-    public function icon() : Icon\Factory;
+    public function icon(): Icon\Factory;
 
     /**
      * ---
@@ -116,7 +118,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
      */
-    public function glyph() : Glyph\Factory;
+    public function glyph(): Glyph\Factory;
 
     /**
      * ---
@@ -170,5 +172,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
      **/
-    public function avatar() : Avatar\Factory;
+    public function avatar(): Avatar\Factory;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@ class ilMDUtils
      * This function tries to parse a given string in an array of months, days, hours, minutes and seconds
      * @return int[]  e.g array(1,2,0,1,2) => 1 month,2 days, 0 hours, 1 minute, 2 seconds or empty array if not parsable
      */
-    public static function _LOMDurationToArray(string $a_string) : array
+    public static function _LOMDurationToArray(string $a_string): array
     {
         $a_string = trim($a_string);
         #$pattern = '/^(PT)?(\d{1,2}H)?(\d{1,2}M)?(\d{1,2}S)?$/i';
@@ -75,7 +77,7 @@ class ilMDUtils
         return array((int) $months, (int) $days, (int) $hours, (int) $min, (int) $sec);
     }
 
-    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type) : bool
+    public static function _fillHTMLMetaTags(int $a_rbac_id, int $a_obj_id, string $a_type): bool
     {
         global $DIC;
 
@@ -106,7 +108,7 @@ class ilMDUtils
         return true;
     }
 
-    public static function _parseCopyright(string $a_copyright) : string
+    public static function _parseCopyright(string $a_copyright): string
     {
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {

@@ -63,7 +63,7 @@ class ilDashboardRecommendedContentGUI
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -78,7 +78,7 @@ class ilDashboardRecommendedContentGUI
         }
     }
 
-    public function render() : string
+    public function render(): string
     {
         if (count($this->recommendations) === 0) {
             return "";
@@ -94,7 +94,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @return Group[]
      */
-    protected function getListItemGroups() : array
+    protected function getListItemGroups(): array
     {
         global $DIC;
         $factory = $DIC->ui()->factory();
@@ -118,7 +118,7 @@ class ilDashboardRecommendedContentGUI
         return $item_groups;
     }
 
-    protected function getListItemForData(int $ref_id) : ?Item
+    protected function getListItemForData(int $ref_id): ?Item
     {
         $short_desc = $this->settings->get("rep_shorten_description");
         $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
@@ -172,7 +172,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @throws ilException
      */
-    public function byType(string $a_type) : ilObjectListGUI
+    public function byType(string $a_type): ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
         if (!array_key_exists($a_type, self::$list_by_type)) {
@@ -210,7 +210,7 @@ class ilDashboardRecommendedContentGUI
         return (clone self::$list_by_type[$a_type]);
     }
 
-    protected function remove() : void
+    protected function remove(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -219,7 +219,7 @@ class ilDashboardRecommendedContentGUI
         $ctrl->returnToParent($this);
     }
 
-    protected function makeFavourite() : void
+    protected function makeFavourite(): void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

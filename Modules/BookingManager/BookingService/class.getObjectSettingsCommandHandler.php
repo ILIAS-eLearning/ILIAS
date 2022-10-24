@@ -34,7 +34,7 @@ class getObjectSettingsCommandHandler
         $this->use_book_repo = $use_book_repo;
     }
 
-    public function handle() : getObjectSettingsResponse
+    public function handle(): getObjectSettingsResponse
     {
         $obj_id = $this->cmd->getObjectId();
         $repo = $this->use_book_repo;

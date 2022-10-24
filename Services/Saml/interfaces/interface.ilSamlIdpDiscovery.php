@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,22 +28,22 @@ interface ilSamlIdpDiscovery
      * This method should return an array of IDPs. Each element should be an array as well, providing at least a value for key 'entityid'.
      * @return array
      */
-    public function getList() : array;
+    public function getList(): array;
 
     /**
      * @param int $idpId
      * @param string $metadata
      */
-    public function storeIdpMetadata(int $idpId, string $metadata) : void;
+    public function storeIdpMetadata(int $idpId, string $metadata): void;
 
     /**
      * @param int $idpId
      * @return string
      */
-    public function fetchIdpMetadata(int $idpId) : string;
+    public function fetchIdpMetadata(int $idpId): string;
 
     /**
      * @param int $idpId
      */
-    public function deleteIdpMetadata(int $idpId) : void;
+    public function deleteIdpMetadata(int $idpId): void;
 }

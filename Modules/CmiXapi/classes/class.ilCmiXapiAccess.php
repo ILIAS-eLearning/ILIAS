@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilCmiXapiAccess
 {
     protected ilObjCmiXapi $object;
     protected ilAccessHandler $access;
-    
+
     /**
      * ilCmiXapiAccess constructor.
      */
@@ -39,13 +41,13 @@ class ilCmiXapiAccess
         $this->object = $object;
         $this->access = $DIC->access();
     }
-    
-    public function hasLearningProgressAccess() : bool
+
+    public function hasLearningProgressAccess(): bool
     {
         return ilLearningProgressAccess::checkAccess($this->object->getRefId());
     }
-    
-    public function hasWriteAccess() : bool
+
+    public function hasWriteAccess(): bool
     {
         return $this->access->checkAccess(
             'write',
@@ -55,8 +57,8 @@ class ilCmiXapiAccess
             $this->object->getId()
         );
     }
-    
-    public function hasEditPermissionsAccess() : bool
+
+    public function hasEditPermissionsAccess(): bool
     {
         return $this->access->checkAccess(
             'edit_permission',
@@ -66,8 +68,8 @@ class ilCmiXapiAccess
             $this->object->getId()
         );
     }
-    
-    public function hasOutcomesAccess() : bool
+
+    public function hasOutcomesAccess(): bool
     {
         return $this->access->checkAccess(
             'read_outcomes',
@@ -77,26 +79,26 @@ class ilCmiXapiAccess
             $this->object->getId()
         );
     }
-    
-    public function hasStatementsAccess() : bool
+
+    public function hasStatementsAccess(): bool
     {
         if ($this->object->isStatementsReportEnabled()) {
             return true;
         }
-        
+
         return $this->hasOutcomesAccess();
     }
-    
-    public function hasHighscoreAccess() : bool
+
+    public function hasHighscoreAccess(): bool
     {
         if ($this->object->getHighscoreEnabled()) {
             return true;
         }
-        
+
         return $this->hasOutcomesAccess();
     }
 
-    public static function getInstance(ilObjCmiXapi $object) : \ilCmiXapiAccess
+    public static function getInstance(ilObjCmiXapi $object): \ilCmiXapiAccess
     {
         return new self($object);
     }

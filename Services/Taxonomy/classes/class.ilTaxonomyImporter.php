@@ -27,7 +27,7 @@ class ilTaxonomyImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilTaxonomyDataSet();
         $this->ds->setDSPrefix("ds");
@@ -38,7 +38,7 @@ class ilTaxonomyImporter extends ilXmlImporter
         string $a_id,
         string $a_xml,
         ilImportMapping $a_mapping
-    ) : void {
+    ): void {
         $parser = new ilDataSetImportParser(
             $a_entity,
             $this->getSchemaVersion(),

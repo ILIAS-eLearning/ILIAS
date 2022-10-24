@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 {
-    public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
+    public function testDocumentFormIsProperlyBuiltForNewDocuments(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -126,7 +128,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testFormForNewDocumentsCanBeSavedForValidInput() : void
+    public function testFormForNewDocumentsCanBeSavedForValidInput(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -340,7 +342,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
+    public function testDocumentFormIsProperlyBuiltForExistingDocuments(): void
     {
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
@@ -388,7 +390,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
+    public function testFormForExistingDocumentsCanBeSavedForValidInput(): void
     {
         $expectedSorting = 10;
 
@@ -479,7 +481,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    public function testUploadIssuesAreHandledWhenDocumentFormIsSaved() : void
+    public function testUploadIssuesAreHandledWhenDocumentFormIsSaved(): void
     {
         $lng = $this->getLanguageMock();
 

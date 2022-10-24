@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -59,7 +61,7 @@ class ilCopyWizardOptions
         }
     }
 
-    public static function _getInstance(int $a_copy_id) : ilCopyWizardOptions
+    public static function _getInstance(int $a_copy_id): ilCopyWizardOptions
     {
         if (isset(self::$instances[$a_copy_id])) {
             return self::$instances[$a_copy_id];
@@ -67,7 +69,7 @@ class ilCopyWizardOptions
         return self::$instances[$a_copy_id] = new ilCopyWizardOptions($a_copy_id);
     }
 
-    public function getRequiredSteps() : int
+    public function getRequiredSteps(): int
     {
         $steps = 0;
         if (array_key_exists(0, $this->options) && is_array($this->options[0])) {
@@ -79,7 +81,7 @@ class ilCopyWizardOptions
         return $steps;
     }
 
-    public static function _isFinished(int $a_copy_id) : bool
+    public static function _isFinished(int $a_copy_id): bool
     {
         global $DIC;
 
@@ -95,7 +97,7 @@ class ilCopyWizardOptions
      * Allocate a copy for further entries
      * @todo this is not thread safe
      */
-    public static function _allocateCopyId() : int
+    public static function _allocateCopyId(): int
     {
         global $DIC;
 
@@ -114,7 +116,7 @@ class ilCopyWizardOptions
     /**
      * Save owner for copy. It will be checked against this user id in all soap calls
      */
-    public function saveOwner(int $a_user_id) : void
+    public function saveOwner(int $a_user_id): void
     {
         global $DIC;
 
@@ -129,7 +131,7 @@ class ilCopyWizardOptions
     /**
      * Save root node id
      */
-    public function saveRoot(int $a_root) : void
+    public function saveRoot(int $a_root): void
     {
         global $DIC;
 
@@ -147,12 +149,12 @@ class ilCopyWizardOptions
      * @access public
      * @param int ref_id of copy
      */
-    public function isRootNode(int $a_root) : bool
+    public function isRootNode(int $a_root): bool
     {
         return in_array($a_root, $this->getOptions(self::ROOT_NODE));
     }
 
-    public function getRootNode() : ?int
+    public function getRootNode(): ?int
     {
         $options = $this->getOptions(self::ROOT_NODE);
         if (!is_array($options) || !array_key_exists(0, $options)) {
@@ -164,7 +166,7 @@ class ilCopyWizardOptions
     /**
      * Disable soap calls. Recursive call of ilClone and ilCloneDependencies
      */
-    public function disableSOAP() : void
+    public function disableSOAP(): void
     {
         $this->options[self::DISABLE_SOAP] = 1;
 
@@ -179,7 +181,7 @@ class ilCopyWizardOptions
      * Disable copying of tree.
      * Used for workspace copies
      */
-    public function disableTreeCopy() : void
+    public function disableTreeCopy(): void
     {
         $this->options[self::DISABLE_TREE_COPY] = 1;
 
@@ -193,7 +195,7 @@ class ilCopyWizardOptions
     /**
      * Check if tree copy is enabled
      */
-    public function isTreeCopyDisabled() : bool
+    public function isTreeCopyDisabled(): bool
     {
         if (isset($this->options[self::DISABLE_TREE_COPY]) && $this->options[self::DISABLE_TREE_COPY]) {
             return true;
@@ -204,7 +206,7 @@ class ilCopyWizardOptions
     /**
      * Check if SOAP calls are disabled
      */
-    public function isSOAPEnabled() : bool
+    public function isSOAPEnabled(): bool
     {
         if (isset($this->options[self::DISABLE_SOAP]) and $this->options[self::DISABLE_SOAP]) {
             return false;
@@ -215,17 +217,17 @@ class ilCopyWizardOptions
     /**
      * check owner
      */
-    public function checkOwner(int $a_user_id) : bool
+    public function checkOwner(int $a_user_id): bool
     {
         return in_array($a_user_id, $this->getOptions(self::OWNER_KEY));
     }
 
-    public function getCopyId() : int
+    public function getCopyId(): int
     {
         return $this->copy_id;
     }
 
-    public function initContainer(int $a_source_id, int $a_target_id) : void
+    public function initContainer(int $a_source_id, int $a_target_id): void
     {
         $mapping_source = $this->tree->getParentId($a_source_id);
         $this->addEntry($a_source_id, array('type' => ilCopyWizardOptions::COPY_WIZARD_COPY));
@@ -238,7 +240,7 @@ class ilCopyWizardOptions
      * id 0 is used for recursive call of cloneObject()
      * id -1 is used for recursive call of cloneDependencies()
      */
-    public function storeTree(int $a_source_id) : void
+    public function storeTree(int $a_source_id): void
     {
         $this->readTree($a_source_id);
         $a_tree_structure = $this->tmp_tree;
@@ -262,7 +264,7 @@ class ilCopyWizardOptions
     /**
      * Get first node of stored tree
      */
-    private function fetchFirstNodeById($a_id) : ?array
+    private function fetchFirstNodeById($a_id): ?array
     {
         $tree = $this->getOptions($a_id);
         if (isset($tree[0]) and is_array($tree[0])) {
@@ -274,7 +276,7 @@ class ilCopyWizardOptions
     /**
      * Fetch first node for cloneObject
      */
-    public function fetchFirstNode() : ?array
+    public function fetchFirstNode(): ?array
     {
         return $this->fetchFirstNodeById(0);
     }
@@ -282,7 +284,7 @@ class ilCopyWizardOptions
     /**
      * Fetch first dependencies node
      */
-    public function fetchFirstDependenciesNode() : ?array
+    public function fetchFirstDependenciesNode(): ?array
     {
         return $this->fetchFirstNodeById(-1);
     }
@@ -290,7 +292,7 @@ class ilCopyWizardOptions
     /**
      * Drop first node by id
      */
-    public function dropFirstNodeById(int $a_id) : bool
+    public function dropFirstNodeById(int $a_id): bool
     {
         if (!isset($this->options[$a_id]) || !is_array($this->options[$a_id])) {
             return false;
@@ -318,7 +320,7 @@ class ilCopyWizardOptions
     /**
      * Drop first node (for cloneObject())
      */
-    public function dropFirstNode() : bool
+    public function dropFirstNode(): bool
     {
         return $this->dropFirstNodeById(0);
     }
@@ -326,7 +328,7 @@ class ilCopyWizardOptions
     /**
      * Drop first node (for cloneDependencies())
      */
-    public function dropFirstDependenciesNode() : bool
+    public function dropFirstDependenciesNode(): bool
     {
         return $this->dropFirstNodeById(-1);
     }
@@ -336,7 +338,7 @@ class ilCopyWizardOptions
      * @access public
      * @param int source ref_id
      */
-    public function getOptions(int $a_source_id) : array
+    public function getOptions(int $a_source_id): array
     {
         if (isset($this->options[$a_source_id]) and is_array($this->options[$a_source_id])) {
             return $this->options[$a_source_id];
@@ -347,7 +349,7 @@ class ilCopyWizardOptions
     /**
      * Add new entry
      */
-    public function addEntry(int $a_source_id, array $a_options) : void
+    public function addEntry(int $a_source_id, array $a_options): void
     {
         $query = "DELETE FROM copy_wizard_options " .
             "WHERE copy_id = " . $this->db->quote($this->copy_id, 'integer') . " " .
@@ -366,7 +368,7 @@ class ilCopyWizardOptions
      * @param mixed        $a_target_id
      * @return void
      */
-    public function appendMapping($a_source_id, $a_target_id) : void
+    public function appendMapping($a_source_id, $a_target_id): void
     {
         $query = "SELECT * FROM copy_wizard_options " .
             "WHERE copy_id = " . $this->db->quote($this->copy_id, 'integer') . " " .
@@ -390,7 +392,7 @@ class ilCopyWizardOptions
         ));
     }
 
-    public function getMappings() : array
+    public function getMappings(): array
     {
         if (isset($this->options[-2]) and is_array($this->options[-2])) {
             return $this->options[-2];
@@ -398,7 +400,7 @@ class ilCopyWizardOptions
         return [];
     }
 
-    public function deleteAll() : void
+    public function deleteAll(): void
     {
         if (isset(self::$instances[$this->copy_id])) {
             unset(self::$instances[$this->copy_id]);
@@ -408,7 +410,7 @@ class ilCopyWizardOptions
         $res = $this->db->manipulate($query);
     }
 
-    public function read() : void
+    public function read(): void
     {
         $query = "SELECT * FROM copy_wizard_options " .
             "WHERE copy_id = " . $this->db->quote($this->copy_id, 'integer');
@@ -425,7 +427,7 @@ class ilCopyWizardOptions
      * @access private
      * @param array current node
      */
-    private function readTree(int $a_source_id) : void
+    private function readTree(int $a_source_id): void
     {
         $this->tmp_tree[] = $this->tree->getNodeData($a_source_id);
         foreach ($this->tree->getChilds($a_source_id) as $sub_nodes) {

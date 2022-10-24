@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -28,7 +30,7 @@ class ilECSCourseMemberConnector extends ilECSConnector
     public function getCourseMember($course_member_id, bool $a_details = false)
     {
         $this->path_postfix = '/campusconnect/course_members/' . (int) $course_member_id;
-        
+
         if ($a_details && $course_member_id) {
             $this->path_postfix .= '/details';
         }
@@ -41,14 +43,14 @@ class ilECSCourseMemberConnector extends ilECSConnector
             }
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);
             } else {
                 $ecs_result = new ilECSResult($res);
             }
-            
+
             // Return ECSEContentDetails for details switch
             if ($a_details) {
                 $details = new ilECSEContentDetails();
@@ -56,7 +58,7 @@ class ilECSCourseMemberConnector extends ilECSConnector
                 $details->loadFromJson($ecs_result->getResult());
                 return $details;
             }
-            
+
             return $ecs_result->getResult();
         } catch (ilCurlConnectionException $e) {
             throw new ilECSConnectorException('Error calling ECS service: ' . $e->getMessage());

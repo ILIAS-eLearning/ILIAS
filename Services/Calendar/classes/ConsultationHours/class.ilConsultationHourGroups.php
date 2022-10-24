@@ -1,6 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -11,7 +28,7 @@ class ilConsultationHourGroups
      * Get a all groups of an user
      * @return ilConsultationHourGroup[]
      */
-    public static function getGroupsOfUser(int $a_user_id) : array
+    public static function getGroupsOfUser(int $a_user_id): array
     {
         global $DIC;
 
@@ -29,7 +46,7 @@ class ilConsultationHourGroups
     /**
      * Get number of consultation hour groups
      */
-    public static function getCountGroupsOfUser(int $a_user_id) : int
+    public static function getCountGroupsOfUser(int $a_user_id): int
     {
         global $DIC;
 
@@ -39,14 +56,16 @@ class ilConsultationHourGroups
             'GROUP BY grp_id';
 
         $res = $ilDB->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return (int) $row->num;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            return (int) $row->num;
+        }
+        return 0;
     }
 
     /**
      * Lookup group title
      */
-    public static function lookupTitle(int $a_group_id) : string
+    public static function lookupTitle(int $a_group_id): string
     {
         global $DIC;
 
@@ -63,7 +82,7 @@ class ilConsultationHourGroups
     /**
      * Lookup max number of bookings for group
      */
-    public static function lookupMaxBookings(int $a_group_id) : int
+    public static function lookupMaxBookings(int $a_group_id): int
     {
         global $DIC;
 
@@ -80,7 +99,7 @@ class ilConsultationHourGroups
     /**
      * Get group selection options
      */
-    public static function getGroupSelectOptions(int $a_user_id) : array
+    public static function getGroupSelectOptions(int $a_user_id): array
     {
         global $DIC;
 

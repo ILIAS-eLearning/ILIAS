@@ -28,7 +28,7 @@ class ilPCSection extends ilPageContent
     protected ilLanguage $lng;
     public php4DOMElement $sec_node;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -38,7 +38,7 @@ class ilPCSection extends ilPageContent
         $this->setType("sec");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->sec_node = $a_node->first_child();		// this is the Section node
@@ -48,7 +48,7 @@ class ilPCSection extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->sec_node = $this->dom->create_element("Section");
@@ -56,7 +56,7 @@ class ilPCSection extends ilPageContent
         $this->sec_node->set_attribute("Characteristic", "Block");
     }
 
-    public function setCharacteristic(string $a_char) : void
+    public function setCharacteristic(string $a_char): void
     {
         if (!empty($a_char)) {
             $this->sec_node->set_attribute("Characteristic", $a_char);
@@ -67,7 +67,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    public function getCharacteristic() : string
+    public function getCharacteristic(): string
     {
         if (is_object($this->sec_node)) {
             $char = $this->sec_node->get_attribute("Characteristic");
@@ -78,8 +78,8 @@ class ilPCSection extends ilPageContent
         }
         return "";
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("ed_insert_section");
     }
@@ -92,7 +92,7 @@ class ilPCSection extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         self::saveTimings($a_page);
     }
 
@@ -103,14 +103,14 @@ class ilPCSection extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $a_output = self::insertTimings($a_output);
         $a_output = $this->handleAccess($a_output, $a_mode);
 
         return $a_output;
     }
 
-    public function setActiveFrom(int $a_unix_ts) : void
+    public function setActiveFrom(int $a_unix_ts): void
     {
         if ($a_unix_ts > 0) {
             $this->sec_node->set_attribute("ActiveFrom", $a_unix_ts);
@@ -124,7 +124,7 @@ class ilPCSection extends ilPageContent
     /**
      * Get activation from
      */
-    public function getActiveFrom() : int
+    public function getActiveFrom(): int
     {
         if (is_object($this->sec_node)) {
             return (int) $this->sec_node->get_attribute("ActiveFrom");
@@ -135,7 +135,7 @@ class ilPCSection extends ilPageContent
     /**
      * Set activation to
      */
-    public function setActiveTo(int $a_unix_ts) : void
+    public function setActiveTo(int $a_unix_ts): void
     {
         if ($a_unix_ts > 0) {
             $this->sec_node->set_attribute("ActiveTo", $a_unix_ts);
@@ -146,7 +146,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    public function getActiveTo() : int
+    public function getActiveTo(): int
     {
         if (is_object($this->sec_node)) {
             return (int) $this->sec_node->get_attribute("ActiveTo");
@@ -157,7 +157,7 @@ class ilPCSection extends ilPageContent
     protected function setAttribute(
         string $a_attr,
         string $a_val
-    ) : void {
+    ): void {
         if (!empty($a_val)) {
             $this->sec_node->set_attribute($a_attr, $a_val);
         } else {
@@ -167,7 +167,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    public function getAttribute(string $a_attr) : string
+    public function getAttribute(string $a_attr): string
     {
         if (is_object($this->sec_node)) {
             return $this->sec_node->get_attribute($a_attr);
@@ -179,22 +179,22 @@ class ilPCSection extends ilPageContent
      * Set permission
      * @param string $a_val "read"|"write"|"visible"|"no_read"
      */
-    public function setPermission(string $a_val) : void
+    public function setPermission(string $a_val): void
     {
         $this->setAttribute("Permission", $a_val);
     }
 
-    public function getPermission() : string
+    public function getPermission(): string
     {
         return $this->getAttribute("Permission");
     }
 
-    public function setPermissionRefId(int $a_ref_id) : void
+    public function setPermissionRefId(int $a_ref_id): void
     {
         $this->setAttribute("PermissionRefId", "il__ref_" . $a_ref_id);
     }
 
-    public function getPermissionRefId() : int
+    public function getPermissionRefId(): int
     {
         $id = explode("_", $this->getAttribute("PermissionRefId"));
         if (in_array($id[1], array("", 0, IL_INST_ID))) {
@@ -206,7 +206,7 @@ class ilPCSection extends ilPageContent
     /**
      * Set no link
      */
-    public function setNoLink() : void
+    public function setNoLink(): void
     {
         ilDOMUtil::deleteAllChildsByName($this->sec_node, array("IntLink", "ExtLink"));
     }
@@ -214,7 +214,7 @@ class ilPCSection extends ilPageContent
     /**
      * Set link of area to an external one
      */
-    public function setExtLink(string $a_href) : void
+    public function setExtLink(string $a_href): void
     {
         $this->setNoLink();
         if (trim($a_href) != "") {
@@ -237,7 +237,7 @@ class ilPCSection extends ilPageContent
         string $a_type,
         string $a_target,
         string $a_target_frame
-    ) : void {
+    ): void {
         $this->setNoLink();
         $attributes = array("Type" => $a_type, "Target" => $a_target,
             "TargetFrame" => $a_target_frame);
@@ -251,7 +251,7 @@ class ilPCSection extends ilPageContent
         );
     }
 
-    public function getLink() : array
+    public function getLink(): array
     {
         $childs = $this->sec_node->child_nodes();
         foreach ($childs as $child) {
@@ -273,7 +273,7 @@ class ilPCSection extends ilPageContent
     public function handleAccess(
         string $a_html,
         string $a_mode
-    ) : string {
+    ): string {
         $ilAccess = $this->access;
 
         while (($start = strpos($a_html, "{{{{{Section;Access;")) > 0) {
@@ -308,7 +308,7 @@ class ilPCSection extends ilPageContent
 
     public static function saveTimings(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -362,7 +362,7 @@ class ilPCSection extends ilPageContent
      */
     public static function getCacheTriggerString(
         ilPageObject $a_page
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -392,7 +392,7 @@ class ilPCSection extends ilPageContent
      */
     public function insertTimings(
         string $a_html
-    ) : string {
+    ): string {
         $lng = $this->lng;
 
         $end = 0;
@@ -432,7 +432,7 @@ class ilPCSection extends ilPageContent
         return $a_html;
     }
 
-    public function getProtected() : bool
+    public function getProtected(): bool
     {
         if (is_object($this->sec_node)) {
             return ($this->sec_node->get_attribute("Protected") == "1");
@@ -441,7 +441,7 @@ class ilPCSection extends ilPageContent
         return false;
     }
 
-    public function setProtected(bool $val) : void
+    public function setProtected(bool $val): void
     {
         if ($val) {
             $this->sec_node->set_attribute("Protected", "1");
@@ -450,7 +450,7 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    public function getModel() : ?stdClass
+    public function getModel(): ?stdClass
     {
         if ($this->sec_node->node_name() != "Section") {
             return null;

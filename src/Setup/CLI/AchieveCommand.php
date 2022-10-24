@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\ArrayEnvironment;
@@ -41,11 +43,11 @@ class AchieveCommand extends Command
     use HasAgent;
     use HasConfigReader;
     use ObjectiveHelper;
-    
+
     protected static $defaultName = "achieve";
-    
+
     protected array $preconditions = [];
-    
+
     protected Refinery $refinery;
 
     /**
@@ -63,8 +65,8 @@ class AchieveCommand extends Command
         $this->preconditions = $preconditions;
         $this->refinery = $refinery;
     }
-    
-    protected function configure() : void
+
+    protected function configure(): void
     {
         $this->setDescription("Achieve a named objective from an agent.");
         $this->addArgument(
@@ -83,8 +85,8 @@ class AchieveCommand extends Command
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the objective.");
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
-    
-    protected function execute(InputInterface $input, OutputInterface $output) : int
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -99,7 +101,7 @@ class AchieveCommand extends Command
         return 0;
     }
 
-    private function shouldListNamedObjectives(InputInterface $input) : bool
+    private function shouldListNamedObjectives(InputInterface $input): bool
     {
         return
             (
@@ -114,7 +116,7 @@ class AchieveCommand extends Command
             );
     }
 
-    private function executeListNamedObjectives(IOWrapper $io, OutputInterface $output) : void
+    private function executeListNamedObjectives(IOWrapper $io, OutputInterface $output): void
     {
         $io->title("Listing available objectives");
 
@@ -126,7 +128,7 @@ class AchieveCommand extends Command
         $output->writeln("");
     }
 
-    private function executeAchieveObjective(IOWrapper $io, InputInterface $input) : void
+    private function executeAchieveObjective(IOWrapper $io, InputInterface $input): void
     {
         $agent = $this->getRelevantAgent($input);
         $objective_name = $input->getArgument('objective');

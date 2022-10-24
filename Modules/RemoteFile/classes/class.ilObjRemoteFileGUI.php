@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -36,13 +38,13 @@ class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         $this->lng->loadLanguageModule('rfil');
         $this->lng->loadLanguageModule('file');
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return 'rfil';
     }
-    
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
+
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info): void
     {
         $a_info->addProperty($this->lng->txt('version'), $this->object->getVersion());
         $a_info->addProperty(

@@ -26,6 +26,8 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected ilTree $tree;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, array $a_ass_objects)
     {
@@ -35,6 +37,8 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -54,17 +58,17 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_assigned_objects_row.html", "Services/Skill");
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $obj_type = ilObject::_lookupType($a_set["obj_id"]);
+        $icon = $this->ui_fac->symbol()->icon()->standard(
+            $obj_type,
+            $this->lng->txt("icon") . " " . $this->lng->txt($obj_type),
+            "medium"
+        );
         $this->tpl->setVariable(
             "OBJECT_IMG",
-            ilUtil::img(
-                ilObject::_getIcon(
-                    (int) $a_set["obj_id"]
-                ),
-                $this->lng->txt("icon") . " " . $this->lng->txt($obj_type)
-            )
+            $this->ui_ren->render($icon)
         );
         $this->tpl->setVariable("OBJECT_TITLE", ilObject::_lookupTitle($a_set["obj_id"]));
 

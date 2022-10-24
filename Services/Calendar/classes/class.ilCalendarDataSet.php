@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,7 +14,7 @@ class ilCalendarDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.3.0");
     }
@@ -20,7 +22,7 @@ class ilCalendarDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "http://www.ilias.de/xml/Services/Calendar/" . $a_entity;
     }
@@ -28,7 +30,7 @@ class ilCalendarDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getTypes(string $a_entity, string $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         // calendar
         if ($a_entity == "calendar") {
@@ -107,7 +109,7 @@ class ilCalendarDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         global $DIC;
 
@@ -176,7 +178,7 @@ class ilCalendarDataSet extends ilDataSet
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         switch ($a_entity) {
             case "calendar":
                 $assignmnts = ilCalendarCategoryAssignments::_getAssignedAppointments(array($a_rec["CatId"] ?? []));
@@ -206,7 +208,7 @@ class ilCalendarDataSet extends ilDataSet
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "calendar":
                 // please note: we currently only support private user calendars to

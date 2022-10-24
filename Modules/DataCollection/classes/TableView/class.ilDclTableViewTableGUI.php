@@ -71,7 +71,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -197,7 +197,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     /**
      * @param ilDclTableView $a_set
      */
-    public function fillRowFromObject(ilDclTableView $a_set) : void
+    public function fillRowFromObject(ilDclTableView $a_set): void
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $this->tpl->setVariable("ID", $a_set->getId());
@@ -210,9 +210,13 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
         $this->tpl->setVariable(
             "DCL_CONFIG",
-            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok_monochrome.svg',
-                "/Modules/DataCollection") : ilUtil::getImagePath('icon_not_ok_monochrome.svg',
-                "/Modules/DataCollection")
+            $a_set->validateConfigCompletion() ? ilUtil::getImagePath(
+                'icon_ok_monochrome.svg',
+                "/Modules/DataCollection"
+            ) : ilUtil::getImagePath(
+                'icon_not_ok_monochrome.svg',
+                "/Modules/DataCollection"
+            )
         );
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
@@ -220,7 +224,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
     /**
      * build either actions menu or view button
      */
-    protected function buildAction(int $id) : string
+    protected function buildAction(int $id): string
     {
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $alist = new ilAdvancedSelectionListGUI();
@@ -228,12 +232,21 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->setListTitle($this->lng->txt('actions'));
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
             $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
-            $alist->addItem($this->lng->txt('edit'), '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
-            $alist->addItem($this->lng->txt('copy'), '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy'));
-            $alist->addItem($this->lng->txt('delete'), '',
-                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
+            $alist->addItem(
+                $this->lng->txt('edit'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings')
+            );
+            $alist->addItem(
+                $this->lng->txt('copy'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy')
+            );
+            $alist->addItem(
+                $this->lng->txt('delete'),
+                '',
+                $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete')
+            );
 
             return $alist->getHTML();
         } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -12,19 +14,19 @@ class ilRPCServerSettingsTest extends TestCase
 {
     protected Container $dic;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $rpc_settings = ilRPCServerSettings::getInstance();
         $this->assertInstanceOf(ilRPCServerSettings::class, $rpc_settings);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -35,7 +37,7 @@ class ilRPCServerSettingsTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         $this->dic = new Container();
         $GLOBALS['DIC'] = $this->dic;

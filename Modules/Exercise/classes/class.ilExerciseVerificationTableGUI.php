@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * List all completed exercises for current user
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -59,7 +61,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
     }
 
     // Get all achieved test certificates for the current user
-    protected function getItems() : void
+    protected function getItems(): void
     {
         $ilUser = $this->user;
         $userId = $ilUser->getId();
@@ -80,7 +82,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
 

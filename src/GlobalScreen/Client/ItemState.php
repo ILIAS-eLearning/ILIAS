@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -54,7 +56,7 @@ class ItemState
         $this->refinery = $DIC->refinery();
     }
 
-    public function isItemActive() : bool
+    public function isItemActive(): bool
     {
         $hash = $this->hash($this->identification->serialize());
         $b = isset($this->storage[$hash]) && $this->storage[$hash] == true;
@@ -65,7 +67,7 @@ class ItemState
     /**
      * @return mixed[]
      */
-    public function getStorage() : array
+    public function getStorage(): array
     {
         static $json_decode;
         if (!isset($json_decode)) {

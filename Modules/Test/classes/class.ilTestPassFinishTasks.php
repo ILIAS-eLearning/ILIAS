@@ -1,6 +1,21 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Modules/Test/classes/class.ilTestSession.php';
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * Class ilTestPassFinishTasks
  * @author Guido Vollbach <gvollbach@databay.de>
@@ -29,28 +44,28 @@ class ilTestPassFinishTasks
     public function performFinishTasks(ilTestProcessLocker $processLocker)
     {
         $testSession = $this->testSession;
-        
+
         $processLocker->executeTestFinishOperation(function () use ($testSession) {
             if (!$testSession->isSubmitted()) {
                 $testSession->setSubmitted();
                 $testSession->setSubmittedTimestamp();
                 $testSession->saveToDb();
             }
-            
+
             $lastStartedPass = (
                 $testSession->getLastStartedPass() === null ? -1 : $testSession->getLastStartedPass()
             );
-            
+
             $lastFinishedPass = (
                 $testSession->getLastFinishedPass() === null ? -1 : $testSession->getLastFinishedPass()
             );
-            
+
             if ($lastStartedPass > -1 && $lastFinishedPass < $lastStartedPass) {
                 $testSession->setLastFinishedPass($testSession->getPass());
                 $testSession->increaseTestPass(); // saves to db
             }
         });
-        
+
         $this->updateLearningProgressAfterPassFinishedIsWritten();
     }
 
@@ -62,11 +77,11 @@ class ilTestPassFinishTasks
             $this->obj_id,
             ilObjTestAccess::_getParticipantId($this->active_id)
         );
-        
+
         $caller = $this->getCaller();
         $lp = ilLPStatus::_lookupStatus($this->obj_id, $this->testSession->getUserId());
         $debug = "finPass={$this->testSession->getLastFinishedPass()} / Lp={$lp}";
-        
+
         ilObjAssessmentFolder::_addLog(
             $this->testSession->getUserId(),
             $this->obj_id,
@@ -74,7 +89,7 @@ class ilTestPassFinishTasks
             true
         );
     }
-    
+
     protected function getCaller()
     {
         try {
@@ -82,7 +97,7 @@ class ilTestPassFinishTasks
         } catch (Exception $e) {
             $trace = $e->getTrace();
         }
-        
+
         return $trace[3]['class'];
     }
 }

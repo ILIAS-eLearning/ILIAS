@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -42,7 +44,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteCategoryMappings', $this->lng->txt('delete'));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('TXT_ID', $this->lng->txt('ecs_import_id'));
@@ -68,7 +70,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
      * Parse
      * @param	array	$a_rules	Array of mapping rules
      */
-    public function parse(array $a_rules) : void
+    public function parse(array $a_rules): void
     {
         $content = [];
         foreach ($a_rules as $rule) {
@@ -76,18 +78,18 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
             $tmp_arr['category_id'] = $rule->getContainerId();
             $tmp_arr['category'] = ilObject::_lookupTitle(ilObject::_lookupObjId($rule->getContainerId()));
             $tmp_arr['kind'] = $rule->conditionToString();
-            
+
             $content[] = $tmp_arr;
         }
         $this->setData($content);
     }
-    
-    private function buildPath(int $a_ref_id) : string
+
+    private function buildPath(int $a_ref_id): string
     {
         $loc = new ilLocatorGUI();
         $loc->setTextOnly(false);
         $loc->addContextItems($a_ref_id);
-        
+
         return $loc->getHTML();
     }
 }

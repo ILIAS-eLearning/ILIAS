@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Component;
@@ -31,5 +33,5 @@ interface ViewControl extends Component, Input, Triggerer
     /**
      * Trigger this signal when the control is being operated.
      */
-    public function withOnChange(Signal $signal) : ViewControl;
+    public function withOnChange(Signal $signal): ViewControl;
 }

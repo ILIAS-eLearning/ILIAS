@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilStatisticsTest
@@ -10,19 +26,19 @@ class ilStatisticsTest extends ilTestBaseTestCase
 {
     private ilStatistics $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilStatistics();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilStatistics::class, $this->testObj);
     }
 
-    public function testNANHandling() : void
+    public function testNANHandling(): void
     {
         $this->assertEquals(NAN_HANDLING_REMOVE, $this->testObj->getNANHandling());
 
@@ -33,7 +49,7 @@ class ilStatisticsTest extends ilTestBaseTestCase
         $this->assertEquals(NAN_HANDLING_ZERO, $this->testObj->getNANHandling());
     }
 
-    public function testData() : void
+    public function testData(): void
     {
         $input = [
             "1250",

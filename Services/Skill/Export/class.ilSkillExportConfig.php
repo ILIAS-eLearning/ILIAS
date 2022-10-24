@@ -40,12 +40,12 @@ class ilSkillExportConfig extends ilExportConfig
     protected string $mode = "";
     protected int $skill_tree_id = 0;
 
-    public function setMode(string $a_val) : void
+    public function setMode(string $a_val): void
     {
         $this->mode = $a_val;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         return $this->mode;
     }
@@ -53,7 +53,7 @@ class ilSkillExportConfig extends ilExportConfig
     /**
      * @param int[] $a_val
      */
-    public function setSelectedNodes(array $a_val) : void
+    public function setSelectedNodes(array $a_val): void
     {
         $this->selected_nodes = $a_val;
     }
@@ -61,7 +61,7 @@ class ilSkillExportConfig extends ilExportConfig
     /**
      * @return int[]
      */
-    public function getSelectedNodes() : array
+    public function getSelectedNodes(): array
     {
         return $this->selected_nodes;
     }
@@ -69,7 +69,7 @@ class ilSkillExportConfig extends ilExportConfig
     /**
      * @param int[] $a_val (profile ids)
      */
-    public function setSelectedProfiles(array $a_val) : void
+    public function setSelectedProfiles(array $a_val): void
     {
         $this->selected_profiles = $a_val;
     }
@@ -77,17 +77,17 @@ class ilSkillExportConfig extends ilExportConfig
     /**
      * @return int[] (profile ids)
      */
-    public function getSelectedProfiles() : array
+    public function getSelectedProfiles(): array
     {
         return $this->selected_profiles;
     }
 
-    public function setSkillTreeId(int $skill_tree_id) : void
+    public function setSkillTreeId(int $skill_tree_id): void
     {
         $this->skill_tree_id = $skill_tree_id;
     }
 
-    public function getSkillTreeId() : int
+    public function getSkillTreeId(): int
     {
         return $this->skill_tree_id;
     }

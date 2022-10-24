@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,21 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         #$this->tabs_gui = new ilTabsGUI();
     }
 
-    public function executeCommand() : void
+    /**
+     * assign scorm object to scorm gui object
+     */
+    protected function assignObject(): void
+    {
+        if ($this->id != 0) {
+            if ($this->call_by_reference) {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, true);
+            } else {
+                $this->object = new ilObjSCORM2004LearningModule($this->id, false);
+            }
+        }
+    }
+
+    public function executeCommand(): void
     {
 //        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
@@ -85,7 +101,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * Scorm 2004 module properties
      */
-    public function properties() : void
+    public function properties(): void
     {
         $rbacsystem = $this->rbacsystem;
         $tree = $this->tree;
@@ -110,7 +126,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * Initialize properties form
      */
-    public function initPropertiesForm() : void
+    public function initPropertiesForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -394,7 +410,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
      * Get values for properties form
      */
-    public function getPropertiesFormValues() : void
+    public function getPropertiesFormValues(): void
     {
         //check/select only once
         $this->object->checkMasteryScoreValues();
@@ -436,7 +452,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
     * save scorm 2004 module properties
     */
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $ilSetting = $this->settings;
         $obj_service = $this->getObjectService();
@@ -512,7 +528,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     /**
     * show tracking data
     */
-    protected function showTrackingItemsBySco() : bool
+    protected function showTrackingItemsBySco(): bool
     {
         $ilTabs = $this->tabs;
 
@@ -555,7 +571,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         return true;
     }
 
-    public function showTrackingItems() : bool
+    public function showTrackingItems(): bool
     {
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;

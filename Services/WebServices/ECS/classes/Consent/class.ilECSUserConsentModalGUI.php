@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -81,27 +83,27 @@ class ilECSUserConsentModalGUI
         $this->obj_id = $this->remote_object->getId();
     }
 
-    public function hasConsented() : bool
+    public function hasConsented(): bool
     {
         return $this->consents->hasConsented($this->mid);
     }
 
-    protected function initMid() : void
+    protected function initMid(): void
     {
         $this->mid = $this->remote_object->getMID();
     }
 
-    protected function lookupOrganization() : string
+    protected function lookupOrganization(): string
     {
         return $this->remote_object->getOrganization();
     }
 
-    protected function isLocalObject() : bool
+    protected function isLocalObject(): bool
     {
         return $this->remote_object->isLocalObject();
     }
 
-    public function getTitleLink() : string
+    public function getTitleLink(): string
     {
         if (
             $this->usr_id === ANONYMOUS_USER_ID ||
@@ -114,7 +116,7 @@ class ilECSUserConsentModalGUI
         return $this->ui_renderer->render($components);
     }
 
-    public function addLinkToToolbar(ilToolbarGUI $toolbar) : void
+    public function addLinkToToolbar(ilToolbarGUI $toolbar): void
     {
         if (
             $this->usr_id === ANONYMOUS_USER_ID ||
@@ -129,7 +131,7 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    protected function addRemoteLinkToToolbar(ilToolbarGUI $toolbar) : void
+    protected function addRemoteLinkToToolbar(ilToolbarGUI $toolbar): void
     {
         $button = $this->ui_factory
             ->button()
@@ -140,7 +142,7 @@ class ilECSUserConsentModalGUI
         $toolbar->addComponent($button);
     }
 
-    public function addConsentModalToToolbar(ilToolbarGUI $toolbar) : void
+    public function addConsentModalToToolbar(ilToolbarGUI $toolbar): void
     {
         $components = $this->getConsentModalComponents();
         foreach ($components as $component) {
@@ -150,7 +152,7 @@ class ilECSUserConsentModalGUI
 
     public function addConsentModalToCard(
         RepositoryObject $card
-    ) : RepositoryObject {
+    ): RepositoryObject {
         $components = $this->getConsentModalComponents(self::TRIGGER_TYPE_CARD);
         foreach ($components as $component) {
             if ($component === null) {
@@ -169,7 +171,7 @@ class ilECSUserConsentModalGUI
 
     protected function getConsentModalComponents(
         int $a_trigger_type = self::TRGIGGER_TYPE_STANDARD
-    ) : array {
+    ): array {
         $form = $this->initConsentForm();
         $form_id = 'form_' . $form->getId();
         $agree = $this->ui_factory->button()
@@ -224,7 +226,7 @@ class ilECSUserConsentModalGUI
         return [$button, $modal];
     }
 
-    protected function saveConsent(ilPropertyFormGUI $form) : bool
+    protected function saveConsent(ilPropertyFormGUI $form): bool
     {
         $consented = (bool) ($this->request->getParsedBody()['consent'] ?? 0);
         if ($consented) {
@@ -248,7 +250,7 @@ class ilECSUserConsentModalGUI
         return false;
     }
 
-    protected function initConsentForm() : ilPropertyFormGUI
+    protected function initConsentForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setId(uniqid('form'));
@@ -312,7 +314,7 @@ class ilECSUserConsentModalGUI
         return $form;
     }
 
-    protected function getOrganisation() : ?ilECSOrganisation
+    protected function getOrganisation(): ?ilECSOrganisation
     {
         $server_id = $this->importManager->lookupServerId($this->obj_id);
         $community_reader = ilECSCommunityReader::getInstanceByServerId(
@@ -329,7 +331,7 @@ class ilECSUserConsentModalGUI
         }
     }
 
-    protected function getGUIClassName() : string
+    protected function getGUIClassName(): string
     {
         return get_class($this->remote_gui);
     }
@@ -338,7 +340,7 @@ class ilECSUserConsentModalGUI
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    protected function initRemoteObject() : ilRemoteObjectBase
+    protected function initRemoteObject(): ilRemoteObjectBase
     {
         $remote = ilObjectFactory::getInstanceByRefId($this->ref_id);
         if (!$remote instanceof ilRemoteObjectBase) {

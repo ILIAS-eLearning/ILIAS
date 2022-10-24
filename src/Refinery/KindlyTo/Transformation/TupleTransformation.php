@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class TupleTransformation implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : array
+    public function transform($from): array
     {
         if (!is_array($from)) {
             $from = [$from];
@@ -85,7 +87,7 @@ class TupleTransformation implements Transformation
         return $result;
     }
 
-    private function testLengthOf(array $values) : void
+    private function testLengthOf(array $values): void
     {
         $countOfValues = count($values);
         $countOfTransformations = count($this->transformations);

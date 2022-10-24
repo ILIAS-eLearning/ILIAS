@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Setup\Artifact;
 
 use ILIAS\Setup;
@@ -37,12 +39,12 @@ class ArrayArtifact implements Setup\Artifact
     }
 
 
-    final public function serialize() : string
+    final public function serialize(): string
     {
         return "<?" . "php return " . var_export($this->data, true) . ";";
     }
 
-    private function check(array $a) : void
+    private function check(array $a): void
     {
         foreach ($a as $item) {
             if (is_string($item) || is_int($item) || is_float($item) || is_bool($item) || is_null($item)) {

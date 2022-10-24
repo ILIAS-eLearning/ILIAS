@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -63,7 +65,7 @@ class ilForumPost
         }
     }
 
-    public function insert() : void
+    public function insert(): void
     {
         if ($this->forum_id && $this->thread_id) {
             $this->id = $this->db->nextId('frm_posts');
@@ -90,7 +92,7 @@ class ilForumPost
         }
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         if ($this->id) {
             $this->db->update(
@@ -125,7 +127,7 @@ class ilForumPost
         return false;
     }
 
-    private function read() : void
+    private function read(): void
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -169,7 +171,7 @@ class ilForumPost
         }
     }
 
-    public function isAnyParentDeactivated() : bool
+    public function isAnyParentDeactivated(): bool
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -189,12 +191,12 @@ class ilForumPost
         return false;
     }
 
-    public function reload() : void
+    public function reload(): void
     {
         $this->read();
     }
 
-    public function activatePost() : void
+    public function activatePost(): void
     {
         if ($this->id) {
             $now = date('Y-m-d H:i:s');
@@ -213,7 +215,7 @@ class ilForumPost
         }
     }
 
-    public function activatePostAndChildPosts() : bool
+    public function activatePostAndChildPosts(): bool
     {
         if ($this->id) {
             $query = "SELECT pos_pk FROM frm_posts_tree treea "
@@ -247,7 +249,7 @@ class ilForumPost
         return false;
     }
 
-    public function activateParentPosts() : bool
+    public function activateParentPosts(): bool
     {
         if ($this->id) {
             $query = "SELECT pos_pk FROM frm_posts "
@@ -277,12 +279,12 @@ class ilForumPost
         return false;
     }
 
-    public function isPostRead() : bool
+    public function isPostRead(): bool
     {
         return $this->getIsRead();
     }
 
-    public function isRead(int $a_user_id = 0) : bool
+    public function isRead(int $a_user_id = 0): bool
     {
         if ($a_user_id && $this->id) {
             $res = $this->db->queryF(
@@ -297,7 +299,7 @@ class ilForumPost
         return false;
     }
 
-    public function hasReplies() : bool
+    public function hasReplies(): bool
     {
         if ($this->id && $this->rgt && $this->lft) {
             $res = $this->db->queryF(
@@ -312,7 +314,7 @@ class ilForumPost
         return false;
     }
 
-    public function isOwner(int $a_user_id = 0) : bool
+    public function isOwner(int $a_user_id = 0): bool
     {
         if ($this->pos_author_id && $a_user_id) {
             return $this->pos_author_id === $a_user_id;
@@ -321,267 +323,267 @@ class ilForumPost
         return false;
     }
 
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setForumId(int $a_forum_id) : void
+    public function setForumId(int $a_forum_id): void
     {
         $this->forum_id = $a_forum_id;
     }
 
-    public function getForumId() : int
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    public function setThreadId(int $a_thread_id) : void
+    public function setThreadId(int $a_thread_id): void
     {
         $this->thread_id = $a_thread_id;
     }
 
-    public function getThreadId() : int
+    public function getThreadId(): int
     {
         return $this->thread_id;
     }
 
-    public function setDisplayUserId(int $a_user_id) : void
+    public function setDisplayUserId(int $a_user_id): void
     {
         $this->display_user_id = $a_user_id;
     }
 
-    public function getDisplayUserId() : int
+    public function getDisplayUserId(): int
     {
         return $this->display_user_id;
     }
 
-    public function setUserAlias(?string $a_user_alias) : void
+    public function setUserAlias(?string $a_user_alias): void
     {
         $this->user_alias = $a_user_alias;
     }
 
-    public function getUserAlias() : ?string
+    public function getUserAlias(): ?string
     {
         return $this->user_alias;
     }
 
-    public function setSubject(string $a_subject) : void
+    public function setSubject(string $a_subject): void
     {
         $this->subject = $a_subject;
     }
 
-    public function getSubject() : string
+    public function getSubject(): string
     {
         return $this->subject;
     }
 
-    public function setMessage(string $a_message) : void
+    public function setMessage(string $a_message): void
     {
         $this->message = $a_message;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setCreateDate(?string $a_createdate) : void
+    public function setCreateDate(?string $a_createdate): void
     {
         $this->createdate = $a_createdate;
     }
 
-    public function getCreateDate() : ?string
+    public function getCreateDate(): ?string
     {
         return $this->createdate;
     }
 
-    public function setChangeDate(?string $a_changedate) : void
+    public function setChangeDate(?string $a_changedate): void
     {
         $this->changedate = $a_changedate;
     }
 
-    public function getChangeDate() : ?string
+    public function getChangeDate(): ?string
     {
         return $this->changedate;
     }
 
-    public function setUpdateUserId(int $a_user_id_update) : void
+    public function setUpdateUserId(int $a_user_id_update): void
     {
         $this->user_id_update = $a_user_id_update;
     }
 
-    public function getUpdateUserId() : int
+    public function getUpdateUserId(): int
     {
         return $this->user_id_update;
     }
 
-    public function setCensorship(bool $a_censorship) : void
+    public function setCensorship(bool $a_censorship): void
     {
         $this->censored = $a_censorship;
     }
 
-    public function isCensored() : bool
+    public function isCensored(): bool
     {
         return $this->censored;
     }
 
-    public function setCensorshipComment(?string $a_comment) : void
+    public function setCensorshipComment(?string $a_comment): void
     {
         $this->censorship_comment = $a_comment;
     }
 
-    public function getCensorshipComment() : ?string
+    public function getCensorshipComment(): ?string
     {
         return $this->censorship_comment;
     }
 
-    public function setNotification(bool $a_notification) : void
+    public function setNotification(bool $a_notification): void
     {
         $this->notification = $a_notification;
     }
 
-    public function isNotificationEnabled() : bool
+    public function isNotificationEnabled(): bool
     {
         return $this->notification;
     }
 
-    public function setImportName(?string $a_import_name) : void
+    public function setImportName(?string $a_import_name): void
     {
         $this->import_name = $a_import_name;
     }
 
-    public function getImportName() : ?string
+    public function getImportName(): ?string
     {
         return $this->import_name;
     }
 
-    public function setStatus(bool $a_status) : void
+    public function setStatus(bool $a_status): void
     {
         $this->status = $a_status;
     }
 
-    public function isActivated() : bool
+    public function isActivated(): bool
     {
         return $this->status;
     }
 
-    public function setTreeId(int $a_tree_id) : void
+    public function setTreeId(int $a_tree_id): void
     {
         $this->tree_id = $a_tree_id;
     }
 
-    public function getTreeId() : int
+    public function getTreeId(): int
     {
         return $this->tree_id;
     }
 
-    public function setParentId(int $a_parent_id) : void
+    public function setParentId(int $a_parent_id): void
     {
         $this->parent_id = $a_parent_id;
     }
 
-    public function setIsRead(bool $a_is_read) : void
+    public function setIsRead(bool $a_is_read): void
     {
         $this->post_read = $a_is_read;
     }
 
-    public function getIsRead() : bool
+    public function getIsRead(): bool
     {
         return $this->post_read;
     }
 
-    public function getParentId() : int
+    public function getParentId(): int
     {
         return $this->parent_id;
     }
 
-    public function setLft(int $a_lft) : void
+    public function setLft(int $a_lft): void
     {
         $this->lft = $a_lft;
     }
 
-    public function getLft() : int
+    public function getLft(): int
     {
         return $this->lft;
     }
 
-    public function setRgt(int $a_rgt) : void
+    public function setRgt(int $a_rgt): void
     {
         $this->rgt = $a_rgt;
     }
 
-    public function getRgt() : int
+    public function getRgt(): int
     {
         return $this->rgt;
     }
 
-    public function setDepth(int $a_depth) : void
+    public function setDepth(int $a_depth): void
     {
         $this->depth = $a_depth;
     }
 
-    public function getDepth() : int
+    public function getDepth(): int
     {
         return $this->depth;
     }
 
-    public function setThread(ilForumTopic $thread) : void
+    public function setThread(ilForumTopic $thread): void
     {
         $this->objThread = $thread;
     }
 
-    public function getThread() : ?ilForumTopic
+    public function getThread(): ?ilForumTopic
     {
         return $this->objThread;
     }
 
-    public function setPosAuthorId(int $pos_author_id) : void
+    public function setPosAuthorId(int $pos_author_id): void
     {
         $this->pos_author_id = $pos_author_id;
     }
 
-    public function getPosAuthorId() : int
+    public function getPosAuthorId(): int
     {
         return $this->pos_author_id;
     }
 
-    public function isAuthorModerator() : ?bool
+    public function isAuthorModerator(): ?bool
     {
         return $this->is_author_moderator;
     }
 
-    public function setIsAuthorModerator(?bool $is_author_moderator) : void
+    public function setIsAuthorModerator(?bool $is_author_moderator): void
     {
         $this->is_author_moderator = $is_author_moderator;
     }
 
-    public function getCensoredDate() : ?string
+    public function getCensoredDate(): ?string
     {
         return $this->censored_date;
     }
 
-    public function getPostActivationDate() : ?string
+    public function getPostActivationDate(): ?string
     {
         return $this->post_activation_date;
     }
 
-    public function setPostActivationDate(?string $post_activation_date) : void
+    public function setPostActivationDate(?string $post_activation_date): void
     {
         $this->post_activation_date = $post_activation_date;
     }
 
-    public function setCensoredDate(?string $censored_date) : void
+    public function setCensoredDate(?string $censored_date): void
     {
         $this->censored_date = $censored_date;
     }
 
-    public function assignData(array $row) : void
+    public function assignData(array $row): void
     {
         $this->setUserAlias((string) $row['pos_usr_alias']);
         $this->setSubject((string) $row['pos_subject']);
@@ -592,7 +594,7 @@ class ilForumPost
         $this->setChangeDate($row['pos_update']);
         $this->setUpdateUserId((int) $row['update_user']);
         $this->setCensorship((bool) $row['pos_cens']);
-        $this->setCensoredDate($row['pos_cens_date'] ?? '');
+        $this->setCensoredDate($row['pos_cens_date'] ?? null);
         $this->setCensorshipComment($row['pos_cens_com']);
         $this->setNotification((bool) $row['notify']);
         $this->setImportName($row['import_name']);
@@ -613,7 +615,7 @@ class ilForumPost
      * @param int $targetThreadId
      * @param int[] $excludedPostIds
      */
-    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = []) : void
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = []): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -630,7 +632,7 @@ class ilForumPost
         );
     }
 
-    public static function lookupNotificationStatusByPostId(int $post_id) : bool
+    public static function lookupNotificationStatusByPostId(int $post_id): bool
     {
         global $DIC;
 
@@ -644,7 +646,7 @@ class ilForumPost
         return (bool) $row['notify'];
     }
 
-    public static function lookupPostMessage(int $post_id) : string
+    public static function lookupPostMessage(int $post_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();

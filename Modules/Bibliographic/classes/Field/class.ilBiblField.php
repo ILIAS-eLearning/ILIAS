@@ -14,25 +14,25 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilField
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 {
-    const TABLE_NAME = 'il_bibl_field';
-    
-    public static function returnDbTableName() : string
+    public const TABLE_NAME = 'il_bibl_field';
+
+    public static function returnDbTableName(): string
     {
         return self::TABLE_NAME;
     }
-    
-    public function getConnectorContainerName() : string
+
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
-    
+
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -70,53 +70,53 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
      * @con_is_notnull true
      */
     protected bool $is_standard_field = true;
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getIdentifier() : string
+
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
-    
-    public function setIdentifier(string $identifier) : void
+
+    public function setIdentifier(string $identifier): void
     {
         $this->identifier = $identifier;
     }
-    
-    public function getPosition() : ?int
+
+    public function getPosition(): ?int
     {
         return $this->position;
     }
-    
-    public function setPosition(int $position) : void
+
+    public function setPosition(int $position): void
     {
         $this->position = $position;
     }
-    
-    public function isStandardField() : bool
+
+    public function isStandardField(): bool
     {
         return $this->is_standard_field;
     }
-    
-    public function setIsStandardField(bool $is_standard_field) : void
+
+    public function setIsStandardField(bool $is_standard_field): void
     {
         $this->is_standard_field = $is_standard_field;
     }
-    
-    public function getDataType() : int
+
+    public function getDataType(): int
     {
         return $this->data_type;
     }
-    
-    public function setDataType(int $data_type) : void
+
+    public function setDataType(int $data_type): void
     {
         $this->data_type = $data_type;
     }

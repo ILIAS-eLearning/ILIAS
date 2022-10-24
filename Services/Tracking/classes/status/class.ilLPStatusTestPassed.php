@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilLPStatusTestPassed extends ilLPStatus
 {
-    public static function _getInProgress(int $a_obj_id) : array
+    public static function _getInProgress(int $a_obj_id): array
     {
         $userIds = self::getUserIdsByResultArrayStatus(
             $a_obj_id,
@@ -31,18 +33,18 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $userIds;
     }
 
-    public static function _getCompleted(int $a_obj_id) : array
+    public static function _getCompleted(int $a_obj_id): array
     {
         $userIds = self::getUserIdsByResultArrayStatus($a_obj_id, 'passed');
         return $userIds;
     }
 
-    public static function _getNotAttempted(int $a_obj_id) : array
+    public static function _getNotAttempted(int $a_obj_id): array
     {
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'not_attempted');
     }
 
-    public static function _getFailed(int $a_obj_id) : array
+    public static function _getFailed(int $a_obj_id): array
     {
         return self::getUserIdsByResultArrayStatus($a_obj_id, 'failed');
     }
@@ -64,7 +66,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $user_ids;
     }
 
-    public static function _getStatusInfo(int $a_obj_id) : array
+    public static function _getStatusInfo(int $a_obj_id): array
     {
         $status_info['results'] = ilObjTestAccess::_getPassedUsers($a_obj_id);
         return $status_info;
@@ -97,7 +99,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -158,7 +160,7 @@ class ilLPStatusTestPassed extends ilLPStatus
     protected function determineStatusForScoreLastPassTests(
         bool $is_finished,
         bool $passed
-    ) : int {
+    ): int {
         $status = self::LP_STATUS_IN_PROGRESS_NUM;
 
         if ($is_finished) {
@@ -168,7 +170,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         return $status;
     }
 
-    protected function determineLpStatus(bool $passed) : int
+    protected function determineLpStatus(bool $passed): int
     {
         $status = self::LP_STATUS_FAILED_NUM;
 
@@ -183,7 +185,7 @@ class ilLPStatusTestPassed extends ilLPStatus
         int $a_obj_id,
         int $a_usr_id,
         ?object $a_obj = null
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];

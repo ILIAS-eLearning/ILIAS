@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -36,22 +38,22 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
         }
     }
 
-    public function setClickableType(string $a_val) : void
+    public function setClickableType(string $a_val): void
     {
         $this->clickable_type = $a_val;
     }
-    
-    public function getClickableType() : string
+
+    public function getClickableType(): string
     {
         return $this->clickable_type;
     }
 
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         return "#";
     }
 
-    public function getNodeOnClick($a_node) : string
+    public function getNodeOnClick($a_node): string
     {
         if ($this->select_parent) {
             $this->ctrl->setParameter($this->parent_obj, "grp_act_par_ref_id", $a_node["child"]);
@@ -68,14 +70,14 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
      * @param array $a_node node data
      * @return bool node clickable true/false
      */
-    public function isNodeClickable($a_node) : bool
+    public function isNodeClickable($a_node): bool
     {
         if ($this->select_parent) {
-            if ($this->access->checkAccess("create", "", $a_node["child"], "grp")) {
+            if ($this->access->checkAccess("create", "", (int) $a_node["child"], "grp")) {
                 return true;
             }
         } elseif ($a_node["type"] == $this->getClickableType() &&
-            $this->access->checkAccess("manage_members", "", $a_node["child"])) {
+            $this->access->checkAccess("manage_members", "", (int) $a_node["child"])) {
             return true;
         }
         return false;

@@ -42,7 +42,7 @@ class ilWorkspaceFolderUserSettingsRepository
             : $DIC->database();
     }
 
-    public function getSortation(int $wfld_id) : int
+    public function getSortation(int $wfld_id): int
     {
         $db = $this->db;
 
@@ -57,7 +57,7 @@ class ilWorkspaceFolderUserSettingsRepository
         return (int) ($rec["sortation"] ?? 0);
     }
 
-    public function getSortationMultiple(array $wfld_ids) : array
+    public function getSortationMultiple(array $wfld_ids): array
     {
         $db = $this->db;
 

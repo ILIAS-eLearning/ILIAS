@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -106,14 +108,14 @@ class ilCronManagerGUI
         return $default ?? null;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->rbac->system()->checkAccess('visible,read', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $class = $this->ctrl->getNextClass($this);
-    
+
         /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):
@@ -127,7 +129,7 @@ class ilCronManagerGUI
         $this->$cmd();
     }
 
-    protected function render() : void
+    protected function render(): void
     {
         $tstamp = $this->lng->txt('cronjob_last_start_unknown');
         if ($this->settings->get('last_cronjob_start_ts')) {
@@ -172,7 +174,7 @@ class ilCronManagerGUI
         ]));
     }
 
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(ilPropertyFormGUI $a_form = null): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -190,7 +192,7 @@ class ilCronManagerGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function getScheduleTypeFormElementName(int $scheduleTypeId) : string
+    protected function getScheduleTypeFormElementName(int $scheduleTypeId): string
     {
         switch ($scheduleTypeId) {
             case ilCronJob::SCHEDULE_TYPE_DAILY:
@@ -224,7 +226,7 @@ class ilCronManagerGUI
         ));
     }
 
-    protected function getScheduleValueFormElementName(int $scheduleTypeId) : string
+    protected function getScheduleValueFormElementName(int $scheduleTypeId): string
     {
         switch ($scheduleTypeId) {
             case ilCronJob::SCHEDULE_TYPE_IN_MINUTES:
@@ -243,7 +245,7 @@ class ilCronManagerGUI
         ));
     }
 
-    protected function hasScheduleValue(int $scheduleTypeId) : bool
+    protected function hasScheduleValue(int $scheduleTypeId): bool
     {
         return in_array($scheduleTypeId, [
             ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
@@ -252,7 +254,7 @@ class ilCronManagerGUI
         ], true);
     }
 
-    protected function initEditForm(string $a_job_id) : ilPropertyFormGUI
+    protected function initEditForm(string $a_job_id): ilPropertyFormGUI
     {
         $job = $this->cronRepository->getJobInstanceById($a_job_id);
         if (!($job instanceof ilCronJob)) {
@@ -312,7 +314,7 @@ class ilCronManagerGUI
         return $form;
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -358,12 +360,12 @@ class ilCronManagerGUI
         $this->edit($form);
     }
 
-    public function run() : void
+    public function run(): void
     {
         $this->confirm('run');
     }
 
-    public function confirmedRun() : void
+    public function confirmedRun(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -381,12 +383,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function activate() : void
+    public function activate(): void
     {
         $this->confirm('activate');
     }
 
-    public function confirmedActivate() : void
+    public function confirmedActivate(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -406,12 +408,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function deactivate() : void
+    public function deactivate(): void
     {
         $this->confirm('deactivate');
     }
 
-    public function confirmedDeactivate() : void
+    public function confirmedDeactivate(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -431,12 +433,12 @@ class ilCronManagerGUI
         $this->ctrl->redirect($this, 'render');
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         $this->confirm('reset');
     }
 
-    public function confirmedReset() : void
+    public function confirmedReset(): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -456,7 +458,7 @@ class ilCronManagerGUI
     /**
      * @return array<string, ilCronJob>
      */
-    protected function getMultiActionData() : array
+    protected function getMultiActionData(): array
     {
         $res = [];
 
@@ -482,7 +484,7 @@ class ilCronManagerGUI
         return $res;
     }
 
-    protected function confirm(string $a_action) : void
+    protected function confirm(string $a_action): void
     {
         if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -494,7 +496,7 @@ class ilCronManagerGUI
         }
 
         if ('run' === $a_action) {
-            $jobs = array_filter($jobs, static function (ilCronJob $job) : bool {
+            $jobs = array_filter($jobs, static function (ilCronJob $job): bool {
                 return $job->isManuallyExecutable();
             });
 
@@ -536,7 +538,7 @@ class ilCronManagerGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id): array
     {
         $form_elements = [];
         $fields = [];

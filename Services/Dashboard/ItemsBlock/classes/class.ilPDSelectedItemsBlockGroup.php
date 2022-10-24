@@ -23,17 +23,17 @@ class ilPDSelectedItemsBlockGroup
     protected string $label = '';
     protected array $items = array();
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->label;
     }
 
-    public function hasIcon() : bool
+    public function hasIcon(): bool
     {
         return strlen($this->icon_path) > 0;
     }
 
-    public function getIconPath() : string
+    public function getIconPath(): string
     {
         return $this->icon_path;
     }
@@ -41,7 +41,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param array[] $items
      */
-    public function setItems(array $items) : void
+    public function setItems(array $items): void
     {
         $this->items = $items;
     }
@@ -49,27 +49,27 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param array $item
      */
-    public function pushItem(array $item) : void
+    public function pushItem(array $item): void
     {
         $this->items[] = $item;
     }
 
-    public function setHasIcon(bool $has_icon) : void
+    public function setHasIcon(bool $has_icon): void
     {
         $this->has_icon = $has_icon;
     }
 
-    public function setIconPath(string $icon_path) : void
+    public function setIconPath(string $icon_path): void
     {
         $this->icon_path = $icon_path;
     }
 
-    public function setLabel(string $label) : void
+    public function setLabel(string $label): void
     {
         $this->label = $label;
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }

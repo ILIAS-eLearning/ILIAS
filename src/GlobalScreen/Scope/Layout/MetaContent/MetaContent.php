@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -36,7 +38,7 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDatum;
  */
 class MetaContent
 {
-    const MEDIA_SCREEN = "screen";
+    public const MEDIA_SCREEN = "screen";
 
     private InlineCssCollection $inline_css;
     private OnLoadCodeCollection $on_load_code;
@@ -60,7 +62,7 @@ class MetaContent
     /**
      * Reset
      */
-    public function reset() : void
+    public function reset(): void
     {
         $this->css = new CssCollection($this->resource_version);
         $this->js = new JsCollection($this->resource_version);
@@ -69,72 +71,72 @@ class MetaContent
         $this->meta_data = new MetaDataCollection();
     }
 
-    public function addCss(string $path, string $media = self::MEDIA_SCREEN) : void
+    public function addCss(string $path, string $media = self::MEDIA_SCREEN): void
     {
         $this->css->addItem(new Css($path, $this->resource_version, $media));
     }
 
-    public function addJs(string $path, bool $add_version_number = false, int $batch = 2) : void
+    public function addJs(string $path, bool $add_version_number = false, int $batch = 2): void
     {
         $this->js->addItem(new Js($path, $this->resource_version, $add_version_number, $batch));
     }
 
-    public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN) : void
+    public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN): void
     {
         $this->inline_css->addItem(new InlineCss($content, $this->resource_version, $media));
     }
 
-    public function addOnloadCode(string $content, int $batch = 2) : void
+    public function addOnloadCode(string $content, int $batch = 2): void
     {
         $this->on_load_code->addItem(new OnLoadCode($content, $this->resource_version, $batch));
     }
 
-    public function addMetaDatum(string $key, string $value) : void
+    public function addMetaDatum(string $key, string $value): void
     {
         $this->meta_data->add(new MetaDatum($key, $value));
     }
 
-    public function getInlineCss() : InlineCssCollection
+    public function getInlineCss(): InlineCssCollection
     {
         return $this->inline_css;
     }
 
-    public function getOnLoadCode() : OnLoadCodeCollection
+    public function getOnLoadCode(): OnLoadCodeCollection
     {
         return $this->on_load_code;
     }
 
-    public function getJs() : JsCollection
+    public function getJs(): JsCollection
     {
         return $this->js;
     }
 
-    public function getCss() : CssCollection
+    public function getCss(): CssCollection
     {
         return $this->css;
     }
 
-    public function getMetaData() : MetaDataCollection
+    public function getMetaData(): MetaDataCollection
     {
         return $this->meta_data;
     }
 
-    public function setBaseURL(string $base_url) : void
+    public function setBaseURL(string $base_url): void
     {
         $this->base_url = $base_url;
     }
 
-    public function getBaseURL() : string
+    public function getBaseURL(): string
     {
         return $this->base_url;
     }
 
-    public function getTextDirection() : string
+    public function getTextDirection(): string
     {
         return $this->text_direction;
     }
 
-    public function setTextDirection(string $text_direction) : void
+    public function setTextDirection(string $text_direction): void
     {
         if (!in_array($text_direction, [Standard::LTR, Standard::RTL], true)) {
             throw new \InvalidArgumentException('$text_direction MUST be Standard::LTR, or Standard::RTL');

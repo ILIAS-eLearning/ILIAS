@@ -50,7 +50,7 @@ class Server
         $this->log = \ilLoggerFactory::getLogger('copg');
     }
 
-    public function reply() : void
+    public function reply(): void
     {
         $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
@@ -86,7 +86,7 @@ class Server
 
     protected function getActionHandlerForQuery(
         array $query
-    ) : QueryActionHandler {
+    ): QueryActionHandler {
         $handler = null;
 
         switch ($query["component"]) {
@@ -104,7 +104,7 @@ class Server
     protected function getActionHandlerForCommand(
         array $query,
         array $body
-    ) : CommandActionHandler {
+    ): CommandActionHandler {
         $handler = null;
 
         switch ($body["component"]) {

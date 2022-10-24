@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Breadcrumbs;
 
 use ILIAS\UI\Component\Component;
@@ -32,10 +34,10 @@ interface Breadcrumbs extends Component
      *
      * @return 	Standard[]
      */
-    public function getItems() : array;
+    public function getItems(): array;
 
     /**
      * Append a crumb-entry to the bar.
      */
-    public function withAppendedItem(Standard $crumb) : Breadcrumbs;
+    public function withAppendedItem(Standard $crumb): Breadcrumbs;
 }

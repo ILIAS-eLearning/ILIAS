@@ -74,7 +74,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @param ilDetector $detector
      */
-    public function addDetector(ilDetector $detector) : void
+    public function addDetector(ilDetector $detector): void
     {
         $this->detectors[] = $detector;
         $this->context->registerDetector($detector);
@@ -94,7 +94,7 @@ abstract class ilBaseNode implements ilNode
      * @param ilEmitter $emitter
      * @param bool $else
      */
-    public function addEmitter(ilEmitter $emitter, bool $else = false) : void
+    public function addEmitter(ilEmitter $emitter, bool $else = false): void
     {
         $this->emitters[] = $emitter;
     }
@@ -113,7 +113,7 @@ abstract class ilBaseNode implements ilNode
      * @param ilActivity $activity
      * @param bool $else
      */
-    public function addActivity(ilActivity $activity, bool $else = false) : void
+    public function addActivity(ilActivity $activity, bool $else = false): void
     {
         $this->activities[] = $activity;
     }
@@ -122,7 +122,7 @@ abstract class ilBaseNode implements ilNode
      * Returns all currently set activities
      * @return ilActivity[]|null
      */
-    public function getActivities() : ?array
+    public function getActivities(): ?array
     {
         return $this->activities;
     }
@@ -137,12 +137,12 @@ abstract class ilBaseNode implements ilNode
         return $this->context;
     }
 
-    public function setName($name) : void
+    public function setName($name): void
     {
         $this->name = $name;
     }
 
-    public function getName() : string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -150,7 +150,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * @return array
      */
-    public function getRuntimeVars() : array
+    public function getRuntimeVars(): array
     {
         return $this->runtime_vars;
     }
@@ -158,7 +158,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * @param array $runtime_vars
      */
-    public function setRuntimeVars(array $runtime_vars) : void
+    public function setRuntimeVars(array $runtime_vars): void
     {
         $this->runtime_vars = $runtime_vars;
     }
@@ -167,7 +167,7 @@ abstract class ilBaseNode implements ilNode
      * @param string $name
      * @return array
      */
-    public function getRuntimeVar(string $name) : array
+    public function getRuntimeVar(string $name): array
     {
         return $this->runtime_vars[$name];
     }
@@ -176,7 +176,7 @@ abstract class ilBaseNode implements ilNode
      * @param string $name
      * @param mixed  $value
      */
-    public function setRuntimeVar(string $name, $value) : void
+    public function setRuntimeVar(string $name, $value): void
     {
         $this->runtime_vars[$name] = $value;
     }
@@ -186,7 +186,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return void
      */
-    public function onActivate() : void
+    public function onActivate(): void
     {
     }
 
@@ -195,7 +195,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return void
      */
-    public function onDeactivate() : void
+    public function onDeactivate(): void
     {
     }
 
@@ -204,7 +204,7 @@ abstract class ilBaseNode implements ilNode
      *
      * @return boolean Activation status of the node.
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         return $this->active;
     }

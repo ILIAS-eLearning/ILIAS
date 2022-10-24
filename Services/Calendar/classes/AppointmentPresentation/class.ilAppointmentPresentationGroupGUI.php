@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -8,7 +10,7 @@
  */
 class ilAppointmentPresentationGroupGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         $settings = ilCalendarSettings::_getInstance();
         $app = $this->appointment;

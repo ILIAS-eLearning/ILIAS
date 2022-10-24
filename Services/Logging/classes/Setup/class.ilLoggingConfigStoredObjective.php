@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -17,29 +19,29 @@ class ilLoggingConfigStoredObjective implements Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Fill ini with settings for Services/Logging";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
 
@@ -69,7 +71,7 @@ class ilLoggingConfigStoredObjective implements Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         $enabled = $this->config->isEnabled() ? "1" : "0";

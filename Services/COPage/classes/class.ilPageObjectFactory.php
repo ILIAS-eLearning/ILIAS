@@ -31,7 +31,7 @@ class ilPageObjectFactory
         int $a_id = 0,
         int $a_old_nr = 0,
         string $a_lang = "-"
-    ) : ilPageObject {
+    ): ilPageObject {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
         $obj = new $class($a_id, $a_old_nr, $a_lang);
@@ -44,7 +44,7 @@ class ilPageObjectFactory
      */
     public static function getConfigInstance(
         string $a_parent_type
-    ) : ilPageConfig {
+    ): ilPageConfig {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"] . "Config";
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";

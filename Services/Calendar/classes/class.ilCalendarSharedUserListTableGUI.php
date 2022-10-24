@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -51,7 +53,7 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
         $this->user_ids = $a_user_ids;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
 
@@ -60,10 +62,11 @@ class ilCalendarSharedUserListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LOGIN', $a_set['login']);
     }
 
-    public function parse() : void
+    public function parse(): void
     {
         $users = array();
         foreach ($this->user_ids as $id) {
+            $id = (int) $id;
             $name = ilObjUser::_lookupName($id);
 
             $tmp_data['id'] = $id;

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/TestComponent.php");
 require_once(__DIR__ . "/../Base.php");
 

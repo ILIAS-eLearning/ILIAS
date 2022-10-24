@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,7 +37,7 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
      * @param StandardNotification
      * @return \ILIAS\UI\Component\Item\Notification|mixed
      */
-    public function getNotificationComponentForItem(isItem $item) : \ILIAS\UI\Component\Component
+    public function getNotificationComponentForItem(isItem $item): \ILIAS\UI\Component\Component
     {
         $ui_notification_item = $item->getNotificationItem();
 
@@ -53,7 +55,7 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
      * @param isItem       $item
      * @return Notification
      */
-    protected function attachJSCloseEvent(Notification $ui_notification_item, isItem $item) : Notification
+    protected function attachJSCloseEvent(Notification $ui_notification_item, isItem $item): Notification
     {
         $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildCloseQuery($item);
 

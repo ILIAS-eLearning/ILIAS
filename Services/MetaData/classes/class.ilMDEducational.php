@@ -1,25 +1,22 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Meta Data class (element educational)
@@ -40,7 +37,7 @@ class ilMDEducational extends ilMDBase
     /**
      * @return int[]
      */
-    public function getTypicalAgeRangeIds() : array
+    public function getTypicalAgeRangeIds(): array
     {
         return ilMDTypicalAgeRange::_getIds(
             $this->getRBACId(),
@@ -50,7 +47,7 @@ class ilMDEducational extends ilMDBase
         );
     }
 
-    public function getTypicalAgeRange(int $a_typical_age_range_id) : ?ilMDTypicalAgeRange
+    public function getTypicalAgeRange(int $a_typical_age_range_id): ?ilMDTypicalAgeRange
     {
         if (!$a_typical_age_range_id) {
             return null;
@@ -61,7 +58,7 @@ class ilMDEducational extends ilMDBase
         return $typ;
     }
 
-    public function addTypicalAgeRange() : ilMDTypicalAgeRange
+    public function addTypicalAgeRange(): ilMDTypicalAgeRange
     {
         $typ = new ilMDTypicalAgeRange($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $typ->setParentId($this->getMetaId());
@@ -73,12 +70,12 @@ class ilMDEducational extends ilMDBase
     /**
      * @return int[]
      */
-    public function getDescriptionIds() : array
+    public function getDescriptionIds(): array
     {
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
 
-    public function getDescription(int $a_description_id) : ?ilMDDescription
+    public function getDescription(int $a_description_id): ?ilMDDescription
     {
         if (!$a_description_id) {
             return null;
@@ -89,7 +86,7 @@ class ilMDEducational extends ilMDBase
         return $des;
     }
 
-    public function addDescription() : ilMDDescription
+    public function addDescription(): ilMDDescription
     {
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
@@ -101,12 +98,12 @@ class ilMDEducational extends ilMDBase
     /**
      * @return int[]
      */
-    public function getLanguageIds() : array
+    public function getLanguageIds(): array
     {
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
 
-    public function getLanguage(int $a_language_id) : ?ilMDLanguage
+    public function getLanguage(int $a_language_id): ?ilMDLanguage
     {
         if (!$a_language_id) {
             return null;
@@ -117,7 +114,7 @@ class ilMDEducational extends ilMDBase
         return $lan;
     }
 
-    public function addLanguage() : ilMDLanguage
+    public function addLanguage(): ilMDLanguage
     {
         $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $lan->setParentId($this->getMetaId());
@@ -127,7 +124,7 @@ class ilMDEducational extends ilMDBase
     }
 
     // SET/GET
-    public function setInteractivityType(string $a_iat) : bool
+    public function setInteractivityType(string $a_iat): bool
     {
         switch ($a_iat) {
             case 'Active':
@@ -141,12 +138,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getInteractivityType() : string
+    public function getInteractivityType(): string
     {
         return $this->interactivity_type;
     }
 
-    public function setLearningResourceType(string $a_lrt) : bool
+    public function setLearningResourceType(string $a_lrt): bool
     {
         switch ($a_lrt) {
             case 'Exercise':
@@ -172,12 +169,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getLearningResourceType() : string
+    public function getLearningResourceType(): string
     {
         return $this->learning_resource_type;
     }
 
-    public function setInteractivityLevel(string $a_iat) : bool
+    public function setInteractivityLevel(string $a_iat): bool
     {
         switch ($a_iat) {
             case 'VeryLow':
@@ -193,12 +190,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getInteractivityLevel() : string
+    public function getInteractivityLevel(): string
     {
         return $this->interactivity_level;
     }
 
-    public function setSemanticDensity(string $a_sd) : bool
+    public function setSemanticDensity(string $a_sd): bool
     {
         switch ($a_sd) {
             case 'VeryLow':
@@ -214,12 +211,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getSemanticDensity() : string
+    public function getSemanticDensity(): string
     {
         return $this->semantic_density;
     }
 
-    public function setIntendedEndUserRole(string $a_ieur) : bool
+    public function setIntendedEndUserRole(string $a_ieur): bool
     {
         switch ($a_ieur) {
             case 'Teacher':
@@ -234,12 +231,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getIntendedEndUserRole() : string
+    public function getIntendedEndUserRole(): string
     {
         return $this->intended_end_user_role;
     }
 
-    public function setContext(string $a_context) : bool
+    public function setContext(string $a_context): bool
     {
         switch ($a_context) {
             case 'School':
@@ -254,12 +251,12 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getContext() : string
+    public function getContext(): string
     {
         return $this->context;
     }
 
-    public function setDifficulty(string $a_difficulty) : bool
+    public function setDifficulty(string $a_difficulty): bool
     {
         switch ($a_difficulty) {
             case 'VeryEasy':
@@ -275,7 +272,7 @@ class ilMDEducational extends ilMDBase
         }
     }
 
-    public function getDifficulty() : string
+    public function getDifficulty(): string
     {
         return $this->difficulty;
     }
@@ -286,7 +283,7 @@ class ilMDEducational extends ilMDBase
         int $hours,
         int $minutes,
         int $seconds
-    ) : bool {
+    ): bool {
         if (!$months && !$days && !$hours && !$minutes && !$seconds) {
             $this->setTypicalLearningTime('PT00H00M');
             return true;
@@ -314,17 +311,17 @@ class ilMDEducational extends ilMDBase
         return true;
     }
 
-    public function setTypicalLearningTime(string $a_tlt) : void
+    public function setTypicalLearningTime(string $a_tlt): void
     {
         $this->typical_learning_time = $a_tlt;
     }
 
-    public function getTypicalLearningTime() : string
+    public function getTypicalLearningTime(): string
     {
         return $this->typical_learning_time;
     }
 
-    public function getTypicalLearningTimeSeconds() : int
+    public function getTypicalLearningTimeSeconds(): int
     {
         $time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
         if ($time_arr === []) {
@@ -333,7 +330,7 @@ class ilMDEducational extends ilMDBase
         return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_educational_id'] = array('integer', $next_id = $this->db->nextId('il_meta_educational'));
@@ -345,7 +342,7 @@ class ilMDEducational extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_educational',
@@ -354,7 +351,7 @@ class ilMDEducational extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_educational " .
@@ -382,7 +379,7 @@ class ilMDEducational extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -399,7 +396,7 @@ class ilMDEducational extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_educational " .
@@ -424,7 +421,7 @@ class ilMDEducational extends ilMDBase
         return false;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag(
             'Educational',
@@ -471,7 +468,7 @@ class ilMDEducational extends ilMDBase
     }
 
     // STATIC
-    public static function _getId(int $a_rbac_id, int $a_obj_id) : int
+    public static function _getId(int $a_rbac_id, int $a_obj_id): int
     {
         global $DIC;
 
@@ -488,7 +485,7 @@ class ilMDEducational extends ilMDBase
         return 0;
     }
 
-    public static function _getTypicalLearningTimeSeconds(int $a_rbac_id, int $a_obj_id = 0) : int
+    public static function _getTypicalLearningTimeSeconds(int $a_rbac_id, int $a_obj_id = 0): int
     {
         global $DIC;
 
@@ -502,7 +499,9 @@ class ilMDEducational extends ilMDBase
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
-
+            if (!count($time_arr)) {
+                return 0;
+            }
             return 60 * 60 * 24 * 30 * $time_arr[0] +
                 60 * 60 * 24 * $time_arr[1] +
                 60 * 60 * $time_arr[2] +

@@ -1,9 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilQuestionPoolTaxonomiesDuplicator.php';
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -100,7 +111,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         }
     }
 
-    private function stageQuestionsFromSourcePool($sourcePoolId) : array
+    private function stageQuestionsFromSourcePool($sourcePoolId): array
     {
         $questionIdMapping = array();
 
@@ -233,7 +244,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
     }
     // fau.
 
-    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping) : ilQuestionPoolDuplicatedTaxonomiesKeysMap
+    private function mirrorSourcePoolTaxonomies($sourcePoolId, $questionIdMapping): ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         $duplicator = new ilQuestionPoolTaxonomiesDuplicator();
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
     private ilTestSkillLevelThresholdsTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -57,12 +59,12 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdsTableGUI::class, $this->tableGui);
     }
 
-    public function testQuestionAssignmentColumnsEnabled() : void
+    public function testQuestionAssignmentColumnsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->areQuestionAssignmentColumnsEnabled());
         $this->tableGui->setQuestionAssignmentColumnsEnabled(false);

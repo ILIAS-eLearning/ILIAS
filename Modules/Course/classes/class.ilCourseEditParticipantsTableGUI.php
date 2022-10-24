@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
@@ -85,7 +87,7 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $hasEditPermissionAccess =
             (

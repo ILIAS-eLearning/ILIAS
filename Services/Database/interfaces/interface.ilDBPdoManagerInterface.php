@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,14 +17,14 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilDBPdoManagerInterface
  * All these methods are not in MDB 2 will be moved to a seperate interface file
  */
 interface ilDBPdoManagerInterface
 {
-    public function getIndexName(string $idx) : string;
+    public function getIndexName(string $idx): string;
 
-    public function getSequenceName(string $sqn) : string;
+    public function getSequenceName(string $sqn): string;
 }

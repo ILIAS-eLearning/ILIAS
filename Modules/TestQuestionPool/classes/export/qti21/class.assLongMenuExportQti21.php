@@ -1,5 +1,21 @@
 <?php
-require_once 'Modules/TestQuestionPool/classes/export/qti12/class.assQuestionExport.php';
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class assLongMenuExportQti21 extends assQuestionExport
 {
     /**
@@ -7,13 +23,13 @@ class assLongMenuExportQti21 extends assQuestionExport
      */
     public $object;
 
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
 
         include_once("./Services/Xml/classes/class.ilXmlWriter.php");
-        $xml = new ilXmlWriter;
+        $xml = new ilXmlWriter();
         // set xml header
         $xml->xmlHeader();
         $attrs = array(
@@ -96,7 +112,7 @@ class assLongMenuExportQti21 extends assQuestionExport
             "baseType" => "identifier",
             "view" => "testConstructor"
         );
-        
+
         $xml->xmlStartTag("outcomeDeclaration", $attrs);
         $xml->xmlStartTag("defaultValue");
         $xml->xmlElement("value", null, "TODO IMPLEMENT FEEDBACK");
@@ -104,7 +120,7 @@ class assLongMenuExportQti21 extends assQuestionExport
         $xml->xmlEndTag("outcomeDeclaration");
 
         $longmenu_text = $this->object->getLongMenuTextValue();
-    
+
         for ($i = 1; $i <= sizeof($answers); $i++) {
             $longmenu_text = preg_replace("/\\[" . assLongMenu::GAP_PLACEHOLDER . " " . $i . "]/", $inlineChoice[$i], $longmenu_text);
         }

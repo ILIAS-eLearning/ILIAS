@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,7 +20,7 @@
 
 class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObjectConstants, ilConditionHandling
 {
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = [
             [
@@ -37,7 +39,7 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return $commands;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         $targetAttributes = explode('_', $target);
 
@@ -48,12 +50,12 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
         return parent::_checkGoto($target);
     }
 
-    public static function getConditionOperators() : array
+    public static function getConditionOperators(): array
     {
         return [];
     }
 
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id): bool
     {
         return false;
     }

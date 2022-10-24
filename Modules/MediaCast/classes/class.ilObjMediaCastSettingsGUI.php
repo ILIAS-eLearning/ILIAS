@@ -53,7 +53,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
             ->standardRequest();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -81,7 +81,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $rbac_system = $this->rbac_system;
 
@@ -103,13 +103,13 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(): void
     {
         $this->tabs_gui->setTabActive('mcst_edit_settings');
         $this->initFormSettings();
     }
 
-    public function saveSettings() : void
+    public function saveSettings(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -117,14 +117,15 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $form = $this->getForm();
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+            /*
             foreach ($this->mc_settings->getPurposeSuffixes() as $purpose => $filetypes) {
                 $purposeSuffixes[$purpose] = explode(",", preg_replace("/[^\w,]/", "", strtolower($this->mc_request->getSettingsPurpose($purpose))));
-            }
+            }*/
 
             if ($form->checkInput()) {
-                $this->mc_settings->setPurposeSuffixes($purposeSuffixes);
+                //$this->mc_settings->setPurposeSuffixes($purposeSuffixes);
                 $this->mc_settings->setDefaultAccess($form->getInput("defaultaccess"));
-                $this->mc_settings->setMimeTypes(explode(",", $form->getInput("mimetypes")));
+                //$this->mc_settings->setMimeTypes(explode(",", $form->getInput("mimetypes")));
                 $this->mc_settings->setVideoCompletionThreshold((int) $form->getInput("video_completion_threshold"));
 
                 $this->mc_settings->save();
@@ -140,18 +141,18 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
 
-    public function cancel() : void
+    public function cancel(): void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirect($this, "view");
     }
 
-    protected function initMediaCastSettings() : void
+    protected function initMediaCastSettings(): void
     {
         $this->mc_settings = ilMediaCastSettings::_getInstance();
     }
-    
-    protected function getForm() : ilPropertyFormGUI
+
+    protected function getForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -188,6 +189,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $ti->setValue($this->mc_settings->getVideoCompletionThreshold());
         $form->addItem($ti);
 
+        /*
         foreach ($this->mc_settings->getPurposeSuffixes() as $purpose => $filetypes) {
             if ($purpose !== "VideoAlternative") {
                 $text = new ilTextInputGUI($lng->txt("mcst_" . strtolower($purpose) . "_settings_title"), $purpose);
@@ -204,12 +206,12 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         if (is_array($this->mc_settings->getMimeTypes())) {
             $text->setValue(implode(",", $this->mc_settings->getMimeTypes()));
         }
-        $form->addItem($text);
+        $form->addItem($text);*/
 
         return $form;
     }
 
-    protected function initFormSettings(?ilPropertyFormGUI $form = null) : void
+    protected function initFormSettings(?ilPropertyFormGUI $form = null): void
     {
         if (!$form) {
             $form = $this->getForm();

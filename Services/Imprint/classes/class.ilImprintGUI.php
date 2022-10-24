@@ -41,7 +41,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
             $DIC->http(),
             $DIC->refinery()
         );
-        
+
         if (!ilImprint::_exists("impr", 1)) {
             $page = new ilImprint();
             $page->setId(1);
@@ -50,7 +50,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 
         // there is only 1 imprint page
         parent::__construct("impr", 1);
-        
+
         // content style (using system defaults)
         $this->tpl->setCurrentBlock("SyntaxStyle");
         $this->tpl->setVariable(
@@ -58,7 +58,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
             ilObjStyleSheet::getSyntaxStylePath()
         );
         $this->tpl->parseCurrentBlock();
-    
+
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
@@ -66,22 +66,22 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         );
         $this->tpl->parseCurrentBlock();
     }
-    
-    public function executeCommand() : string
+
+    public function executeCommand(): string
     {
         if (strtolower($this->imprint_request->getBaseClass()) ===
             strtolower(ilImprintGUI::class)) {
             $this->renderFullscreen();
         }
-        
+
         $next_class = $this->ctrl->getNextClass($this);
-        
+
         $title = $this->lng->txt("adm_imprint");
-        
+
         switch ($next_class) {
             default:
                 $this->setPresentationTitle($title);
-    
+
                 $this->locator->addItem(
                     $title,
                     $this->ctrl->getLinkTarget($this, "preview")
@@ -89,21 +89,21 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
                 return parent::executeCommand();
         }
     }
-    
-    public function postOutputProcessing(string $a_output) : string
+
+    public function postOutputProcessing(string $a_output): string
     {
         $lng = $this->lng;
-        
+
         if ($this->getOutputMode() == ilPageObjectGUI::PREVIEW) {
             if (!$this->getPageObject()->getActive()) {
                 $this->tpl->setOnScreenMessage('info', $lng->txt("adm_imprint_inactive"));
             }
         }
-        
+
         return $a_output;
     }
 
-    protected function renderFullscreen() : void
+    protected function renderFullscreen(): void
     {
         if (!ilImprint::isActive()) {
             $this->ctrl->redirectToURL("ilias.php?baseClass=ilDashboardGUI");
@@ -113,7 +113,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 
         $this->setRawPageContent(true);
         $this->tpl->setContent($this->showPage());
-    
+
         $this->tpl->printToStdout("DEFAULT", true, false);
         exit();
     }

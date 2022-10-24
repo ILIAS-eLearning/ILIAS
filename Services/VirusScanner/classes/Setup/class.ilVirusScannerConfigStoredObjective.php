@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,17 +30,17 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         $this->config = $config;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Fill ini with settings for Services/VirusScanner";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return false;
     }
@@ -46,14 +48,14 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
     /**
      * @return ilIniFilesLoadedObjective[]
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
@@ -72,7 +74,7 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 

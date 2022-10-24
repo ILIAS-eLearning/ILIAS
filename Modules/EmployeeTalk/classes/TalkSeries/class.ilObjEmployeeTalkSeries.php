@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -22,7 +23,7 @@ use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
 
 final class ilObjEmployeeTalkSeries extends ilContainer
 {
-    const TYPE = 'tals';
+    public const TYPE = 'tals';
 
     /**
      * @var EmployeeTalkRepository $repository
@@ -75,7 +76,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
              'appointments' => []
             ]
         );
-        
+
         return $this->getId();
     }
 

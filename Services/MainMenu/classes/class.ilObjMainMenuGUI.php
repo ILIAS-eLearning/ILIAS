@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilObjMainMenuGUI
@@ -15,23 +17,23 @@ class ilObjMainMenuGUI extends ilObject2GUI
     protected ilCtrl $ctrl;
     public ilGlobalTemplateInterface $tpl;
     public ilTree $tree;
-    
-    const TAB_PERMISSIONS = 'perm_settings';
-    const TAB_MAIN = 'main';
-    
+
+    public const TAB_PERMISSIONS = 'perm_settings';
+    public const TAB_MAIN = 'main';
+
     /**
      * ilObjMainMenuGUI constructor.
      */
     public function __construct()
     {
         global $DIC;
-        
+
         $this->ref_id = $DIC->http()->wrapper()->query()->has('ref_id')
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
-        
+
         parent::__construct($this->ref_id);
-        
+
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('mme');
@@ -40,22 +42,22 @@ class ilObjMainMenuGUI extends ilObject2GUI
         $this->tree = $DIC['tree'];
         $this->rbac_system = $DIC['rbacsystem'];
         $this->tab_handling = new ilMMTabHandling($this->ref_id);
-        
+
         $this->assignObject();
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
-        
+
         if ($next_class == '') {
             $this->ctrl->redirectByClass(ilMMTopItemGUI::class);
-            
+
             return;
         }
-        
+
         $this->prepareOutput();
-        
+
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
                 $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
@@ -81,11 +83,11 @@ class ilObjMainMenuGUI extends ilObject2GUI
                 break;
         }
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getType() : string
+    public function getType(): string
     {
         return "";
     }

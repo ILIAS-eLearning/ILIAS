@@ -24,30 +24,30 @@ class ilMediaPoolPage extends ilPageObject
 {
     protected ilObjMediaPool $pool;
 
-    public function getParentType() : string
+    public function getParentType(): string
     {
         return "mep";
     }
 
-    public function setPool(ilObjMediaPool $pool) : void
+    public function setPool(ilObjMediaPool $pool): void
     {
         $this->pool = $pool;
     }
 
-    public static function deleteAllPagesOfMediaPool(int $a_media_pool_id) : void
+    public static function deleteAllPagesOfMediaPool(int $a_media_pool_id): void
     {
         // @todo deletion process of snippets
     }
-    
+
     /**
      * Checks whether a page with given title exists
      */
-    public static function exists(int $a_media_pool_id, string $a_title) : void
+    public static function exists(int $a_media_pool_id, string $a_title): void
     {
         // @todo: check if we need this
     }
-    
-    public static function lookupTitle(int $a_page_id) : string
+
+    public static function lookupTitle(int $a_page_id): string
     {
         return ilMediaPoolItem::lookupTitle($a_page_id);
     }
@@ -55,11 +55,11 @@ class ilMediaPoolPage extends ilPageObject
     /**
      * get all usages of current media object
      */
-    public function getUsages(bool $a_incl_hist = true) : array
+    public function getUsages(bool $a_incl_hist = true): array
     {
         return self::lookupUsages($this->getId(), $a_incl_hist);
     }
-    
+
     /**
      * Lookup usages of media object
      * @todo: This should be all in one context -> mob id table
@@ -67,7 +67,7 @@ class ilMediaPoolPage extends ilPageObject
     public static function lookupUsages(
         int $a_id,
         bool $a_incl_hist = true
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -76,11 +76,11 @@ class ilMediaPoolPage extends ilPageObject
         $q = "SELECT * FROM page_pc_usage WHERE pc_id = " .
             $ilDB->quote($a_id, "integer") .
             " AND pc_type = " . $ilDB->quote("incl", "text");
-            
+
         if (!$a_incl_hist) {
             $q .= " AND usage_hist_nr = " . $ilDB->quote(0, "integer");
         }
-            
+
         $us_set = $ilDB->query($q);
         $ret = array();
         $ct = "";
@@ -97,7 +97,7 @@ class ilMediaPoolPage extends ilPageObject
             if ($ut === "pg" && !ilPageObject::_exists($ct, $us_rec["usage_id"])) {
                 $skip = true;
             }
-                
+
             if (!$skip) {
                 $ret[] = array("type" => $us_rec["usage_type"],
                     "id" => $us_rec["usage_id"],
@@ -116,11 +116,11 @@ class ilMediaPoolPage extends ilPageObject
                 "id" => (int) $us_rec["mep_id"]
             ];
         }
-        
+
         return $ret;
     }
 
-    protected function getMetadataType() : string
+    protected function getMetadataType(): string
     {
         return "mpg";
     }
@@ -134,7 +134,7 @@ class ilMediaPoolPage extends ilPageObject
      * object -> ...
      * Use static _writeTitle() ... methods instead.
      */
-    public function MDUpdateListener(string $a_element) : bool
+    public function MDUpdateListener(string $a_element): bool
     {
         switch ($a_element) {
             case 'General':
@@ -157,7 +157,7 @@ class ilMediaPoolPage extends ilPageObject
     /**
      * create meta data entry
      */
-    public function createMetaData(int $pool_id) : bool
+    public function createMetaData(int $pool_id): bool
     {
         $ilUser = $this->user;
 
@@ -173,7 +173,7 @@ class ilMediaPoolPage extends ilPageObject
         return true;
     }
 
-    public function updateMetaData() : void
+    public function updateMetaData(): void
     {
         $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
         $md_gen = $md->getGeneral();
@@ -182,11 +182,10 @@ class ilMediaPoolPage extends ilPageObject
     }
 
 
-    public function deleteMetaData() : void
+    public function deleteMetaData(): void
     {
         // Delete meta data
         $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
         $md->deleteAll();
     }
-
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Dropdown;
 
 use ILIAS\UI\Component\Button\Shy;
@@ -42,5 +44,5 @@ interface Factory
      * @param array<Shy|Horizontal|Standard> array of action items
      * @return \ILIAS\UI\Component\Dropdown\Standard
      */
-    public function standard(array $items) : \ILIAS\UI\Component\Dropdown\Standard;
+    public function standard(array $items): \ILIAS\UI\Component\Dropdown\Standard;
 }

@@ -48,73 +48,73 @@ class ilFeedWriter
         $this->lng = $DIC->language();
     }
 
-    public function setEncoding(string $a_enc) : void
+    public function setEncoding(string $a_enc): void
     {
         $this->encoding = $a_enc;
     }
 
-    public function getEncoding() : string
+    public function getEncoding(): string
     {
         return $this->encoding;
     }
 
-    public function setChannelAbout(string $a_ab) : void
+    public function setChannelAbout(string $a_ab): void
     {
         $this->ch_about = $a_ab;
     }
 
-    public function getChannelAbout() : string
+    public function getChannelAbout(): string
     {
         return $this->ch_about;
     }
 
-    public function setChannelTitle(string $a_title) : void
+    public function setChannelTitle(string $a_title): void
     {
         $this->ch_title = $a_title;
     }
 
-    public function getChannelTitle() : string
+    public function getChannelTitle(): string
     {
         return $this->ch_title;
     }
 
-    public function setChannelLink(string $a_link) : void
+    public function setChannelLink(string $a_link): void
     {
         $this->ch_link = $a_link;
     }
 
-    public function getChannelLink() : string
+    public function getChannelLink(): string
     {
         return $this->ch_link;
     }
 
-    public function setChannelDescription(string $a_desc) : void
+    public function setChannelDescription(string $a_desc): void
     {
         $this->ch_desc = $a_desc;
     }
 
-    public function getChannelDescription() : string
+    public function getChannelDescription(): string
     {
         return $this->ch_desc;
     }
 
-    public function addItem(ilFeedItem $a_item) : void
+    public function addItem(ilFeedItem $a_item): void
     {
         $this->items[] = $a_item;
     }
 
-    public function getItems() : array
+    public function getItems(): array
     {
         return $this->items;
     }
 
-    public function prepareStr(string $a_str) : string
+    public function prepareStr(string $a_str): string
     {
         $a_str = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $a_str);
         return $a_str;
     }
 
-    public function getFeed() : string
+    public function getFeed(): string
     {
         $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
 
@@ -168,13 +168,13 @@ class ilFeedWriter
         return $this->tpl->get();
     }
 
-    public function showFeed() : void
+    public function showFeed(): void
     {
         header("Content-Type: text/xml; charset=UTF-8;");
         echo $this->getFeed();
     }
 
-    public function getContextPath(int $a_ref_id) : string
+    public function getContextPath(int $a_ref_id): string
     {
         $tree = $this->tree;
         $lng = $this->lng;

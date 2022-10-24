@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as C;
@@ -46,7 +48,7 @@ class LightboxTextPage implements LightboxPage, ILightboxTextPage
     /**
      * @inheritdoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -54,7 +56,7 @@ class LightboxTextPage implements LightboxPage, ILightboxTextPage
     /**
      * @inheritdoc
      */
-    public function getComponent() : C\Legacy\Legacy
+    public function getComponent(): C\Legacy\Legacy
     {
         return new Legacy($this->text, new SignalGenerator());
     }

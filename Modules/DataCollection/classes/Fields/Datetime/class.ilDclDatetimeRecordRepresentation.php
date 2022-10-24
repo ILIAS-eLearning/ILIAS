@@ -23,11 +23,10 @@
  */
 class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true) : string
+    public function getHTML(bool $link = true): string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -62,7 +61,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
      * function parses stored value to the variable needed to fill into the form for editing.
      * @param string|int $value
      */
-    public function parseFormInput($value) : ?string
+    public function parseFormInput($value): ?string
     {
         if (!$value || $value == "-") {
             return null;

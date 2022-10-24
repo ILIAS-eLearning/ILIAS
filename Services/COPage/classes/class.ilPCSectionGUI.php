@@ -35,11 +35,11 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
-        
+
         $this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
     }
 
-    public function getHTML(array $params) : string
+    public function getHTML(array $params): string
     {
         $this->getCharacteristicsOfCurrentStyle(["section"]);
 
@@ -49,6 +49,9 @@ class ilPCSectionGUI extends ilPageContentGUI
             $form->setShowTopButtons(false);
 
             $onload_code = [];
+            $char = $form->getItemByPostVar("characteristic");
+            $onload_code = array_merge($onload_code, $char->getOnloadCode());
+
             $from = $form->getItemByPostVar("active_from");
             $from->setSideBySide(false);
             $onload_code = array_merge($onload_code, $from->getOnloadCode());
@@ -86,12 +89,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         return "";
     }
 
-    public static function _getStandardCharacteristics() : array
+    public static function _getStandardCharacteristics(): array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         return array("Block" => $lng->txt("cont_Block"),
             "Mnemonic" => $lng->txt("cont_Mnemonic"),
             "Remark" => $lng->txt("cont_Remark"),
@@ -113,8 +116,8 @@ class ilPCSectionGUI extends ilPageContentGUI
             "Excursus" => $lng->txt("cont_Excursus"),
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
-    
-    public static function _getCharacteristics(string $a_style_id) : array
+
+    public static function _getCharacteristics(string $a_style_id): array
     {
         $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
         $chars = $std_chars;
@@ -166,7 +169,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $ret;
     }
 
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(ilPropertyFormGUI $a_form = null): void
     {
         $this->edit(true, $a_form);
     }
@@ -174,9 +177,9 @@ class ilPCSectionGUI extends ilPageContentGUI
     public function edit(
         bool $a_insert = false,
         ilPropertyFormGUI $a_form = null
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
-        
+
         $this->displayValidationError();
 
         if (!$a_form) {
@@ -188,7 +191,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
     public function initForm(
         bool $a_insert = false
-    ) : ilPropertyFormGUI {
+    ): ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $a_seleted_value = "";
@@ -201,7 +204,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         } else {
             $form->setTitle($this->lng->txt("cont_update_section"));
         }
-        
+
         // characteristic selection
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
@@ -220,7 +223,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $selected = ($a_insert)
             ? "Block"
             : $this->content_obj->getCharacteristic();
-            
+
         foreach ($chars as $k => $char) {
             $html = '<div class="ilCOPgEditStyleSelectionItem"><div class="ilc_section_' . $k . '" style="' . self::$style_selector_reset . '">' .
                 $char . '</div></div>';
@@ -327,7 +330,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $form;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -341,11 +344,11 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
-        
+
         $this->insert($form);
     }
 
-    public function update() : void
+    public function update(): void
     {
         $form = $this->initForm(false);
         if ($form->checkInput()) {
@@ -356,12 +359,12 @@ class ilPCSectionGUI extends ilPageContentGUI
                 $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
             }
         }
-        
+
         $this->pg_obj->addHierIDs();
         $this->edit(false, $form);
     }
 
-    public function setValuesFromForm(ilPropertyFormGUI $form) : void
+    public function setValuesFromForm(ilPropertyFormGUI $form): void
     {
         $this->content_obj->setCharacteristic($form->getInput("characteristic"));
 
@@ -380,7 +383,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId($form->getInput("permission_ref_id"));
+            $this->content_obj->setPermissionRefId((int) $form->getInput("permission_ref_id"));
             $this->content_obj->setPermission($form->getInput("permission"));
         }
 

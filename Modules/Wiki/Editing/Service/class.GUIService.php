@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class GUIService
     public function request(
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
-    ) : EditingGUIRequest {
+    ): EditingGUIRequest {
         return new EditingGUIRequest(
             $this->gui_service->http(),
             $this->domain_service->refinery(),

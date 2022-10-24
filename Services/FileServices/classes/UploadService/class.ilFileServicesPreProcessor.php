@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
@@ -15,34 +31,21 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class ilFileServicesPreProcessor extends BlacklistExtensionPreProcessor
 {
-    protected ilRbacSystem $rbac;
-    
-    private int $fileadmin_ref_id;
-    
+    private ilFileServicesSettings $settings;
+
     public function __construct(
-        ilRbacSystem $rbac,
         ilFileServicesSettings $settings,
-        string $reason = 'Extension is blacklisted.',
-        ?int $fileadmin_ref_id = null
+        string $reason = 'Extension is blacklisted.'
     ) {
+        $this->settings = $settings;
         parent::__construct($settings->getBlackListedSuffixes(), $reason);
-        $this->rbac = $rbac;
-        $this->fileadmin_ref_id = $fileadmin_ref_id ?? $this->determineFileAdminRefId();
     }
-    
-    public function process(FileStream $stream, Metadata $metadata) : ProcessingStatus
+
+    public function process(FileStream $stream, Metadata $metadata): ProcessingStatus
     {
-        if ($this->rbac->checkAccess('upload_blacklisted_files', $this->fileadmin_ref_id)) {
+        if ($this->settings->isByPassAllowedForCurrentUser()) {
             return new ProcessingStatus(ProcessingStatus::OK, 'Blacklist override by RBAC');
         }
         return parent::process($stream, $metadata);
-    }
-    
-    private function determineFileAdminRefId() : int
-    {
-        $objects_by_type = ilObject2::_getObjectsByType('facs');
-        $id = (int) reset($objects_by_type)['obj_id'];
-        $references = ilObject2::_getAllReferences($id);
-        return (int) reset($references);
     }
 }

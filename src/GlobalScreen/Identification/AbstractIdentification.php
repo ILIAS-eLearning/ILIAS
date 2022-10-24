@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -66,7 +68,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return $this->classname;
     }
@@ -74,7 +76,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function getInternalIdentifier() : string
+    public function getInternalIdentifier(): string
     {
         return $this->internal_identifier;
     }
@@ -82,7 +84,7 @@ abstract class AbstractIdentification implements IdentificationInterface
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         global $DIC;
         /**

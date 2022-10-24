@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilExerciseMembers
  *
@@ -44,28 +44,28 @@ class ilExerciseMembers
     }
 
     // Get exercise ref id
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
     // Get exercise obj id
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
-    
-    public function setObjId(int $a_obj_id) : void
+
+    public function setObjId(int $a_obj_id): void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    public function getMembers() : array
+    public function getMembers(): array
     {
         return $this->members ?: array();
     }
-    
-    public function setMembers(array $a_members) : void
+
+    public function setMembers(array $a_members): void
     {
         $this->members = $a_members;
     }
@@ -73,7 +73,7 @@ class ilExerciseMembers
     /**
     * Assign a user to the exercise
     */
-    public function assignMember(int $a_usr_id) : void
+    public function assignMember(int $a_usr_id): void
     {
         $ilDB = $this->db;
 
@@ -90,14 +90,14 @@ class ilExerciseMembers
         );
 
         ilExAssignment::createNewUserRecords($a_usr_id, $this->getObjId());
-        
+
         $this->read();
-        
+
         ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
     }
-    
+
     // Is user assigned to exercise?
-    public function isAssigned(int $a_id) : bool
+    public function isAssigned(int $a_id): bool
     {
         return in_array($a_id, $this->getMembers());
     }
@@ -107,7 +107,7 @@ class ilExerciseMembers
      * @param int[] $a_members
      * @return bool true, if all passed users could be assigned, false otherwise
      */
-    public function assignMembers(array $a_members) : bool
+    public function assignMembers(array $a_members): bool
     {
         $assigned = 0;
         if (is_array($a_members)) {
@@ -130,7 +130,7 @@ class ilExerciseMembers
      * Detaches a user from an exercise
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function deassignMember(int $a_usr_id) : void
+    public function deassignMember(int $a_usr_id): void
     {
         $ilDB = $this->db;
 
@@ -152,7 +152,7 @@ class ilExerciseMembers
         // @todo: delete all assignment associations (and their files)
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
 
@@ -171,7 +171,7 @@ class ilExerciseMembers
     }
 
     // @todo: clone also assignments
-    public function ilClone(int $a_new_id) : void
+    public function ilClone(int $a_new_id): void
     {
         $ilDB = $this->db;
 
@@ -199,24 +199,24 @@ class ilExerciseMembers
                 array($a_new_id, $row["usr_id"], $row["notice"], (int) $row["returned"],
                     $row["status"], (int) $row["feedback"], (int) $row["sent"])
             );
-            
+
             ilLPStatusWrapper::_updateStatus($a_new_id, $row["usr_id"]);
         }
     }
 
     // @todo: delete also assignments
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
 
         $query = "DELETE FROM exc_members WHERE obj_id = " .
             $ilDB->quote($this->getObjId(), "integer");
         $ilDB->manipulate($query);
-        
+
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
     }
 
-    public static function _getMembers(int $a_obj_id) : array
+    public static function _getMembers(int $a_obj_id): array
     {
         global $DIC;
 
@@ -248,7 +248,7 @@ class ilExerciseMembers
      * @param	int		$a_user_id	member id
      * @return	?string null if user is no member,  or notgraded|passed|failed
      */
-    public static function _lookupStatus(int $a_obj_id, int $a_user_id) : ?string
+    public static function _lookupStatus(int $a_obj_id, int $a_user_id): ?string
     {
         global $DIC;
 
@@ -276,21 +276,21 @@ class ilExerciseMembers
         int $a_obj_id,
         int $a_user_id,
         string $a_status
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "UPDATE exc_members SET " .
             " status = " . $ilDB->quote($a_status, "text") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
         );
-        
+
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
     }
-    
+
     /**
      * Write returned status
      *
@@ -303,31 +303,31 @@ class ilExerciseMembers
         int $a_obj_id,
         int $a_user_id,
         int $a_status
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "UPDATE exc_members SET " .
             " returned = " . $ilDB->quote($a_status, "integer") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
         );
-        
+
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
     }
-    
-    
+
+
     //
     // LP
     //
-    
+
     /**
      * Get returned status for all members (if they have anything returned for
      * any assignment)
      */
-    public static function _getReturned(int $a_obj_id) : array
+    public static function _getReturned(int $a_obj_id): array
     {
         global $DIC;
 
@@ -349,12 +349,12 @@ class ilExerciseMembers
     /**
      * Has user returned anything in any assignment?
      */
-    public static function _hasReturned(int $a_obj_id, int $a_user_id) : bool
+    public static function _hasReturned(int $a_obj_id, int $a_user_id): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-    
+
         $set = $ilDB->query(
             "SELECT DISTINCT(usr_id) FROM exc_members WHERE " .
             " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
@@ -367,7 +367,7 @@ class ilExerciseMembers
     /**
      * Get all users that passed the exercise
      */
-    public static function _getPassedUsers(int $a_obj_id) : array
+    public static function _getPassedUsers(int $a_obj_id): array
     {
         global $DIC;
 
@@ -387,7 +387,7 @@ class ilExerciseMembers
     /**
      * Get all users that failed the exercise
      */
-    public static function _getFailedUsers(int $a_obj_id) : array
+    public static function _getFailedUsers(int $a_obj_id): array
     {
         global $DIC;
 

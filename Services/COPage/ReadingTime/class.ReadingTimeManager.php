@@ -42,7 +42,7 @@ class ReadingTimeManager
         $this->repo = new ReadingTimeDBRepo();
     }
 
-    public function saveTime(\ilPageObject $page) : void
+    public function saveTime(\ilPageObject $page): void
     {
         $minutes = 0;
 
@@ -61,7 +61,7 @@ class ReadingTimeManager
         );
     }
 
-    public function getTime(\ilPageObject $page) : int
+    public function getTime(\ilPageObject $page): int
     {
         return $this->repo->getTime(
             $page->getId(),
@@ -74,7 +74,7 @@ class ReadingTimeManager
         string $parent_type,
         int $page_id,
         string $lang = "-"
-    ) : int {
+    ): int {
         return $this->repo->getTime(
             $page_id,
             $parent_type,
@@ -82,7 +82,7 @@ class ReadingTimeManager
         );
     }
 
-    public function setMissingReadingTimes(string $parent_type, int $parent_id) : void
+    public function setMissingReadingTimes(string $parent_type, int $parent_id): void
     {
         $pages = $this->repo->getPagesWithMissingReadingTime($parent_type, $parent_id);
         foreach ($pages as $p) {
@@ -99,7 +99,7 @@ class ReadingTimeManager
     public function getParentReadingTime(
         string $a_parent_type,
         int $a_parent_id
-    ) : int {
+    ): int {
         return $this->repo->getParentReadingTime($a_parent_type, $a_parent_id);
     }
 }

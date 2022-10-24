@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -10,8 +24,8 @@
  */
 class ilAssFileUploadUploadsExporter
 {
-    const ZIP_FILE_MIME_TYPE = 'application/zip';
-    const ZIP_FILE_EXTENSION = '.zip';
+    public const ZIP_FILE_MIME_TYPE = 'application/zip';
+    public const ZIP_FILE_EXTENSION = '.zip';
 
     /**
      * @var ilDBInterface
@@ -22,12 +36,12 @@ class ilAssFileUploadUploadsExporter
      * @var ilLanguage
      */
     protected $lng;
-    
+
     /**
      * @var integer
      */
     protected $refId;
-    
+
     /**
      * @var integer
      */
@@ -42,12 +56,12 @@ class ilAssFileUploadUploadsExporter
      * @var ilObjFileHandlingQuestionType
      */
     private $question;
-    
+
     /**
      * @var string
      */
     private $finalZipFilePath;
-    
+
     /**
      * @var string
      */
@@ -71,19 +85,19 @@ class ilAssFileUploadUploadsExporter
         $this->db = $db;
         $this->lng = $lng;
     }
-    
+
     /**
      * @return int
      */
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->refId;
     }
-    
+
     /**
      * @param int $refId
      */
-    public function setRefId($refId) : void
+    public function setRefId($refId): void
     {
         $this->refId = $refId;
     }
@@ -91,7 +105,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return int
      */
-    public function getTestId() : int
+    public function getTestId(): int
     {
         return $this->testId;
     }
@@ -99,7 +113,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param int $testId
      */
-    public function setTestId($testId) : void
+    public function setTestId($testId): void
     {
         $this->testId = $testId;
     }
@@ -107,7 +121,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return string
      */
-    public function getTestTitle() : string
+    public function getTestTitle(): string
     {
         return $this->testTitle;
     }
@@ -115,7 +129,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param string $testTitle
      */
-    public function setTestTitle($testTitle) : void
+    public function setTestTitle($testTitle): void
     {
         $this->testTitle = $testTitle;
     }
@@ -123,7 +137,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @return ilObjFileHandlingQuestionType
      */
-    public function getQuestion() : ilObjFileHandlingQuestionType
+    public function getQuestion(): ilObjFileHandlingQuestionType
     {
         return $this->question;
     }
@@ -131,38 +145,38 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param ilObjFileHandlingQuestionType $question
      */
-    public function setQuestion($question) : void
+    public function setQuestion($question): void
     {
         $this->question = $question;
     }
 
-    public function build() : void
+    public function build(): void
     {
         $this->initFilenames();
-        
+
         $solutionData = $this->getFileUploadSolutionData();
-        
+
         $participantData = $this->getParticipantData($solutionData);
-        
+
         $this->collectUploadedFiles($solutionData, $participantData);
 
         $this->createFileUploadCollectionZipFile();
 
         $this->removeFileUploadCollection();
     }
-    
-    private function initFilenames() : void
+
+    private function initFilenames(): void
     {
         $this->tempDirPath = ilFileUtils::ilTempnam();
-        
+
         $this->tempZipFilePath = ilFileUtils::ilTempnam($this->tempDirPath) . self::ZIP_FILE_EXTENSION;
-        
+
         $this->mainFolderName = ilFileUtils::getASCIIFilename(
             str_replace(' ', '', $this->getTestTitle() . '_' . $this->question->getTitle())
         );
     }
-    
-    private function getFileUploadSolutionData() : array
+
+    private function getFileUploadSolutionData(): array
     {
         $query = "
 			SELECT tst_solutions.solution_id, tst_solutions.pass, tst_solutions.active_fi, tst_solutions.question_fi, 
@@ -182,7 +196,7 @@ class ilAssFileUploadUploadsExporter
         );
 
         $solutionData = array();
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             if (!isset($solutionData[$row['active_fi']])) {
                 $solutionData[ $row['active_fi'] ] = array();
@@ -194,14 +208,14 @@ class ilAssFileUploadUploadsExporter
 
             $solutionData[ $row['active_fi'] ][ $row['pass'] ][] = $row;
         }
-        
+
         return $solutionData;
     }
-    
-    private function getParticipantData($solutionData) : ilTestParticipantData
+
+    private function getParticipantData($solutionData): ilTestParticipantData
     {
         $activeIds = array();
-            
+
         foreach ($solutionData as $activeId => $passes) {
             $activeIds[] = $activeId;
         }
@@ -213,17 +227,17 @@ class ilAssFileUploadUploadsExporter
             ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId())
         );
         $participantData->load($this->getTestId());
-        
+
         return $participantData;
     }
-    
-    private function collectUploadedFiles($solutionData, ilTestParticipantData $participantData) : void
+
+    private function collectUploadedFiles($solutionData, ilTestParticipantData $participantData): void
     {
         foreach ($solutionData as $activeId => $passes) {
             if (!in_array($activeId, $participantData->getActiveIds())) {
                 continue;
             }
-            
+
             foreach ($passes as $pass => $files) {
                 foreach ($files as $file) {
                     $uploadedFileDir = $this->question->getFileUploadPath(
@@ -240,7 +254,7 @@ class ilAssFileUploadUploadsExporter
                     $destinationDir = $this->tempDirPath . '/' . $this->mainFolderName . '/';
                     $destinationDir .= $participantData->getFileSystemCompliantFullnameByActiveId($activeId) . '/';
                     $destinationDir .= $this->getPassSubDirName($file['pass']) . '/';
-                    
+
                     ilFileUtils::makeDirParents($destinationDir);
 
                     copy($uploadedFileDir . $file['value1'], $destinationDir . $file['value2']);
@@ -248,19 +262,19 @@ class ilAssFileUploadUploadsExporter
             }
         }
     }
-    
-    private function getPassSubDirName($pass) : string
+
+    private function getPassSubDirName($pass): string
     {
         return $this->lng->txt('pass') . '_' . ($pass + 1);
     }
-    
-    private function createFileUploadCollectionZipFile() : void
+
+    private function createFileUploadCollectionZipFile(): void
     {
         ilFileUtils::zip($this->tempDirPath . '/' . $this->mainFolderName, $this->tempZipFilePath);
-        
+
         $pathinfo = pathinfo($this->tempZipFilePath);
         $this->finalZipFilePath = dirname($pathinfo['dirname']) . '/' . $pathinfo['basename'];
-        
+
         try {
             ilFileUtils::rename($this->tempZipFilePath, $this->finalZipFilePath);
         } catch (\ilFileUtilsException $e) {
@@ -268,24 +282,24 @@ class ilAssFileUploadUploadsExporter
         }
     }
 
-    private function removeFileUploadCollection() : void
+    private function removeFileUploadCollection(): void
     {
         ilFileUtils::delDir($this->tempDirPath);
     }
-    
-    public function getFinalZipFilePath() : string
+
+    public function getFinalZipFilePath(): string
     {
         return $this->finalZipFilePath;
     }
-    
-    public function getDispoZipFileName() : string
+
+    public function getDispoZipFileName(): string
     {
         return ilFileUtils::getASCIIFilename(
             $this->mainFolderName . self::ZIP_FILE_EXTENSION
         );
     }
-    
-    public function getZipFileMimeType() : string
+
+    public function getZipFileMimeType(): string
     {
         return self::ZIP_FILE_MIME_TYPE;
     }

@@ -23,38 +23,38 @@
  */
 class ilSurveyLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $lp_active) : array
+    public static function getDefaultModes(bool $lp_active): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_SURVEY_FINISHED
         );
     }
-    
-    public function getDefaultMode() : int
+
+    public function getDefaultMode(): int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED; // :TODO:
     }
-    
-    public function getValidModes() : array
+
+    public function getValidModes(): array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_SURVEY_FINISHED
         );
     }
-    
-    public function isAnonymized() : bool
+
+    public function isAnonymized(): bool
     {
         return ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
     }
 
-    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids) : bool
+    protected static function isLPMember(array &$res, int $usr_id, array $obj_ids): bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // if active id
         $set = $ilDB->query("SELECT ss.obj_fi" .
             " FROM svy_finished sf" .
@@ -64,7 +64,7 @@ class ilSurveyLP extends ilObjectLP
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["obj_fi"]] = true;
         }
-        
+
         return true;
     }
 }

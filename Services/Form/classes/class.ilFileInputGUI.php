@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected array $forbidden_suffixes = [];
     protected array $suffixes = [];
     protected string $value = "";
-    
+
     public function __construct(
         string $a_title = "",
         string $a_postvar = ""
@@ -41,13 +43,13 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $this->lng = $DIC->language();
         $lng = $DIC->language();
-        
+
         parent::__construct($a_title, $a_postvar);
         $this->setType("file");
         $this->setHiddenTitle("(" . $lng->txt("form_file_input") . ")");
     }
-    
-    public function setValueByArray(array $a_values) : void
+
+    public function setValueByArray(array $a_values): void
     {
         $value = $a_values[$this->getPostVar()] ?? null;
         if (!is_array($value)) {
@@ -60,99 +62,99 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     /**
      * Set Value. (used for displaying file title of existing file below input field)
      */
-    public function setValue(string $a_value) : void
+    public function setValue(string $a_value): void
     {
         $this->value = $a_value;
     }
 
-    public function getValue() : string
+    public function getValue(): string
     {
         return $this->value;
     }
-    
-    public function setSize(int $a_size) : void
+
+    public function setSize(int $a_size): void
     {
         $this->size = $a_size;
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
 
     // Set filename value (if filename selection is enabled)
-    public function setFilename(string $a_val) : void
+    public function setFilename(string $a_val): void
     {
         $this->filename = $a_val;
     }
-    
-    public function getFilename() : string
+
+    public function getFilename(): string
     {
         return $this->filename;
     }
 
-    public function setSuffixes(array $a_suffixes) : void
+    public function setSuffixes(array $a_suffixes): void
     {
         $this->suffixes = $a_suffixes;
     }
 
-    public function getSuffixes() : array
+    public function getSuffixes(): array
     {
         return $this->suffixes;
     }
 
-    public function setForbiddenSuffixes(array $a_suffixes) : void
+    public function setForbiddenSuffixes(array $a_suffixes): void
     {
         $this->forbidden_suffixes = $a_suffixes;
     }
 
-    public function getForbiddenSuffixes() : array
+    public function getForbiddenSuffixes(): array
     {
         return $this->forbidden_suffixes;
     }
 
     // Set pending filename value
-    public function setPending(string $a_val) : void
+    public function setPending(string $a_val): void
     {
         $this->pending = $a_val;
     }
-    
-    public function getPending() : string
+
+    public function getPending(): string
     {
         return $this->pending;
     }
-    
+
     // If enabled, users get the possibility to enter a filename for the uploaded file
-    public function enableFileNameSelection(string $a_post_var) : void
+    public function enableFileNameSelection(string $a_post_var): void
     {
         $this->filename_selection = true;
         $this->filename_post = $a_post_var;
     }
-    
-    public function isFileNameSelectionEnabled() : bool
+
+    public function isFileNameSelectionEnabled(): bool
     {
         return $this->filename_selection;
     }
-    
-    public function getFileNamePostVar() : string
+
+    public function getFileNamePostVar(): string
     {
         return $this->filename_post;
     }
 
-    public function setALlowDeletion(bool $a_val) : void
+    public function setALlowDeletion(bool $a_val): void
     {
         $this->allow_deletion = $a_val;
     }
 
-    public function getALlowDeletion() : bool
+    public function getALlowDeletion(): bool
     {
         return $this->allow_deletion;
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         // #18756
         if ($this->getDisabled()) {
             return true;
@@ -160,7 +162,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         // if no information is received, something went wrong
         // this is e.g. the case, if the post_max_size has been exceeded
-        if (!is_array($_FILES[$this->getPostVar()])) {
+        if (!isset($_FILES[$this->getPostVar()]) || !is_array($_FILES[$this->getPostVar()])) {
             $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
             return false;
         }
@@ -198,7 +200,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                         }
                     }
                     break;
-     
+
                 case UPLOAD_ERR_NO_TMP_DIR:
                     $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
                     return false;
@@ -212,7 +214,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     return false;
             }
         }
-        
+
         // check suffixes
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
             if (is_array($this->forbidden_suffixes) && in_array(strtolower($suffix), $this->forbidden_suffixes)) {
@@ -226,7 +228,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 }
             }
         }
-        
+
         // virus handling
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
             $vir = ilVirusScanner::virusHandling($temp_name, $filename);
@@ -235,24 +237,30 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 return false;
             }
         }
-        
+
+        $file_name = $this->str('file_name');
+        if ($file_name === "") {
+            $file_name = $_FILES[$this->getPostVar()]["name"];
+        }
+        $this->setFilename($file_name);
+
         return true;
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         return $_FILES[$this->getPostVar()];
     }
 
-    public function render(string $a_mode = "") : string
+    public function render(string $a_mode = ""): string
     {
         $lng = $this->lng;
-        
+
         $quota_exceeded = $quota_legend = false;
 
         $f_tpl = new ilTemplate("tpl.prop_file.html", true, true, "Services/Form");
-        
-        
+
+
         // show filename selection if enabled
         if ($this->isFileNameSelectionEnabled()) {
             $f_tpl->setCurrentBlock('filename');
@@ -272,7 +280,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     );
                     $f_tpl->parseCurrentBlock();
                 }
-                
+
                 $f_tpl->setCurrentBlock('prop_file_propval');
                 $f_tpl->setVariable('FILE_VAL', $this->getValue());
                 $f_tpl->parseCurrentBlock();
@@ -287,7 +295,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 $f_tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " .
                     $this->getMaxFileSizeString());
                 $f_tpl->parseCurrentBlock();
-                
+
                 if ($quota_legend) {
                     $f_tpl->setVariable("TXT_MAX_SIZE", true);
                     $f_tpl->parseCurrentBlock();
@@ -308,27 +316,27 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 ": " . htmlentities($pending));
             $f_tpl->parseCurrentBlock();
         }
-        
+
         if ($this->getDisabled() || $quota_exceeded) {
             $f_tpl->setVariable(
                 "DISABLED",
                 " disabled=\"disabled\""
             );
         }
-        
+
         $f_tpl->setVariable("POST_VAR", $this->getPostVar());
         $f_tpl->setVariable("ID", $this->getFieldId());
         $f_tpl->setVariable("SIZE", $this->getSize());
-        
-        
+
+
         /* experimental: bootstrap'ed file upload */
         $f_tpl->setVariable("TXT_BROWSE", $lng->txt("select_file"));
-        
-        
+
+
         return $f_tpl->get();
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -341,9 +349,9 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected function outputSuffixes(
         ilTemplate $a_tpl,
         string $a_block = "allowed_suffixes"
-    ) : void {
+    ): void {
         $lng = $this->lng;
-        
+
         if (is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0) {
             $suff_str = $delim = "";
             foreach ($this->getSuffixes() as $suffix) {
@@ -358,57 +366,57 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
             $a_tpl->parseCurrentBlock();
         }
     }
-    
-    protected function getMaxFileSizeString() : string
+
+    protected function getMaxFileSizeString(): string
     {
         // get the value for the maximal uploadable filesize from the php.ini (if available)
         $umf = ini_get("upload_max_filesize");
         // get the value for the maximal post data from the php.ini (if available)
         $pms = ini_get("post_max_size");
-        
+
         //convert from short-string representation to "real" bytes
         $multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
-        
+
         $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        
+
         if (count($umf_parts) == 2) {
             $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) == 2) {
             $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
-        
+
         // use the smaller one as limit
         $max_filesize = min($umf, $pms);
 
         if (!$max_filesize) {
             $max_filesize = max($umf, $pms);
         }
-    
+
         //format for display in mega-bytes
         $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
-        
+
         return $max_filesize;
     }
-    
+
     /**
      * Get number of maximum file uploads as declared in php.ini
      */
-    protected function getMaxFileUploads() : int
+    protected function getMaxFileUploads(): int
     {
         return (int) ini_get("max_file_uploads");
     }
-    
-    public function getDeletionFlag() : bool
+
+    public function getDeletionFlag(): bool
     {
         if ($this->int($this->getPostVar() . "_delete")) {
             return true;
         }
         return false;
     }
-    
-    public function getToolbarHTML() : string
+
+    public function getToolbarHTML(): string
     {
         $html = $this->render("toolbar");
         return $html;

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Exporter class for exercise
  *
@@ -25,7 +25,7 @@ class ilExerciseExporter extends ilXmlExporter
 {
     private ilExerciseDataSet $ds;
 
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilExerciseDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -39,7 +39,7 @@ class ilExerciseExporter extends ilXmlExporter
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
@@ -50,7 +50,7 @@ class ilExerciseExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.1.0" => array(
@@ -92,7 +92,7 @@ class ilExerciseExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         $deps = [];
 
@@ -140,14 +140,14 @@ class ilExerciseExporter extends ilXmlExporter
                 "ids" => $a_ids
             );
         }
-        
+
         return $deps;
     }
 
     /**
      * @return int[]
      */
-    protected function getActiveAdvMDRecords($a_id) : array
+    protected function getActiveAdvMDRecords($a_id): array
     {
         $active = array();
 

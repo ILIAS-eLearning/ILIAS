@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -22,7 +38,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
     // ilTestRandomQuestionSetPoolDefinitionFormGUI
     private $formGui;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->ctrl_mock = $this->createMock(ilCtrl::class);
@@ -49,12 +65,12 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetPoolDefinitionFormGUI::class, $this->formGui);
     }
 
-    protected function testSaveCommand() : void
+    protected function testSaveCommand(): void
     {
         $expected = "testCommand";
 
@@ -63,7 +79,7 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
         $this->assertEquals($expected, $this->formGui->getSaveCommand());
     }
 
-    protected function testSaveAndNewCommand() : void
+    protected function testSaveAndNewCommand(): void
     {
         $expected = "testCommand";
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Exercise;
 
 use ILIAS\HTTP;
@@ -66,7 +68,7 @@ class InternalService
     public function gui(
         array $query_params = null,
         array $post_data = null
-    ) : InternalGUIService {
+    ): InternalGUIService {
         return new InternalGUIService(
             $this,
             $this->http,
@@ -79,7 +81,7 @@ class InternalService
     /**
      * Booking service repos
      */
-    public function repo() : InternalRepoService
+    public function repo(): InternalRepoService
     {
         return $this->repo;
     }
@@ -87,12 +89,12 @@ class InternalService
     /**
      * Booking service data objects
      */
-    public function data() : InternalDataService
+    public function data(): InternalDataService
     {
         return $this->data;
     }
 
-    public function domain() : InternalDomainService
+    public function domain(): InternalDomainService
     {
         return $this->domain;
     }

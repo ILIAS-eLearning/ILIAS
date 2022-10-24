@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -51,7 +53,7 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
      * @param string $uri_string
      * @return URI
      */
-    protected function getURI(string $uri_string) : URI
+    protected function getURI(string $uri_string): URI
     {
         if (strpos($uri_string, 'http') === 0) {
             return new URI($uri_string);
@@ -63,7 +65,7 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item): Component
     {
         $component = $this->getSpecificComponentForItem($item);
         $component = $this->applyDecorator($component, $item);
@@ -71,13 +73,13 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
         return $component;
     }
 
-    abstract protected function getSpecificComponentForItem(isItem $item) : Component;
+    abstract protected function getSpecificComponentForItem(isItem $item): Component;
 
     /**
      * @param isItem $item
      * @return Symbol
      */
-    protected function getStandardSymbol(isItem $item) : Symbol
+    protected function getStandardSymbol(isItem $item): Symbol
     {
         if ($item instanceof hasSymbol && $item->hasSymbol()) {
             return $item->getSymbol();

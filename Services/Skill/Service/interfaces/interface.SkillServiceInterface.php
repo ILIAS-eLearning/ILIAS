@@ -28,5 +28,5 @@ interface SkillServiceInterface
     /**
      * Internal service, do not use in other components
      */
-    public function internal() : SkillInternalService;
+    public function internal(): SkillInternalService;
 }

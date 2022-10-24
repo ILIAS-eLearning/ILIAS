@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -62,7 +64,7 @@ class MainLayoutCollector extends AbstractBaseCollector
         $this->modification_handler = new ModificationHandler();
     }
 
-    public function collectStructure() : void
+    public function collectStructure(): void
     {
         // Client
         $settings = new ClientSettings();
@@ -182,22 +184,22 @@ class MainLayoutCollector extends AbstractBaseCollector
         }
     }
 
-    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    public function filterItemsByVisibilty(bool $skip_async = false): void
     {
         // TODO: Implement filterItemsByVisibilty() method.
     }
 
-    public function prepareItemsForUIRepresentation() : void
+    public function prepareItemsForUIRepresentation(): void
     {
         // TODO: Implement prepareItemsForUIRepresentation() method.
     }
 
-    public function cleanupItemsForUIRepresentation() : void
+    public function cleanupItemsForUIRepresentation(): void
     {
         // TODO: Implement cleanupItemsForUIRepresentation() method.
     }
 
-    public function sortItemsForUIRepresentation() : void
+    public function sortItemsForUIRepresentation(): void
     {
         // TODO: Implement sortItemsForUIRepresentation() method.
     }
@@ -205,7 +207,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     /**
      * @inheritDoc
      */
-    public function getItemsForUIRepresentation() : void
+    public function getItemsForUIRepresentation(): void
     {
         // TODO: Implement getItemsForUIRepresentation() method.
     }
@@ -213,7 +215,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     /**
      * @inheritDoc
      */
-    public function hasItems() : bool
+    public function hasItems(): bool
     {
         return true;
     }
@@ -223,7 +225,7 @@ class MainLayoutCollector extends AbstractBaseCollector
      * @param LayoutModification|null $candicate
      * @param string                  $type
      */
-    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type) : void
+    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type): void
     {
         if (is_a($candicate, $type) && $candicate->hasValidModification()) {
             if ($candicate->getPriority() === $current_modification->getPriority()) {
@@ -237,7 +239,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     /**
      * @return Page
      */
-    public function getFinalPage() : Page
+    public function getFinalPage(): Page
     {
         $this->collectOnce();
 
@@ -247,7 +249,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     /**
      * @return CalledContexts
      */
-    private function getContextStack() : CalledContexts
+    private function getContextStack(): CalledContexts
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
@@ -258,7 +260,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     /**
      * @return MetaContent
      */
-    private function getMetaContent() : MetaContent
+    private function getMetaContent(): MetaContent
     {
         global $DIC;
 

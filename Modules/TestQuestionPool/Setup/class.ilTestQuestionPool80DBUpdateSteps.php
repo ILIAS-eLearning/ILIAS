@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,23 +17,22 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
 class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected ilDBInterface $db;
 
-    public function prepare(ilDBInterface $db) : void
+    public function prepare(ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $this->db->manipulateF("DELETE FROM qpl_qst_type WHERE type_tag = %s", ['text'], ['assJavaApplet']);
         $this->db->manipulateF("DELETE FROM qpl_qst_type WHERE type_tag = %s", ['text'], ['assFlashQuestion']);
     }
-    
-    public function step_2() : void
+
+    public function step_2(): void
     {
         if (!$this->db->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
             $this->db->addTableColumn(
@@ -47,7 +48,7 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $fields = ['gap_id'];
         if (!$this->db->indexExistsByFields('qpl_a_cloze', $fields)) {
@@ -59,7 +60,7 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         $fields = ['gap_fi', 'question_fi'];
         if (!$this->db->indexExistsByFields('qpl_a_cloze_combi_res', $fields)) {
@@ -71,7 +72,7 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         $fields = ['owner'];
         if (!$this->db->indexExistsByFields('qpl_questions', $fields)) {

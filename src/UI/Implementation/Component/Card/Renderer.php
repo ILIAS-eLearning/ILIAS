@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -23,13 +25,15 @@ use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Implementation\Component\Button\Button;
+use ILIAS\UI\Component\Link\Link;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Card\Card $component
@@ -37,8 +41,11 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = $this->getTemplate("tpl.card.html", true, true);
 
-        if ($component->getImage()) {
-            $tpl->setVariable("IMAGE", $default_renderer->render($component->getImage()));
+        $title = $component->getTitle();
+        $image_alt = $title;
+
+        if ($title instanceof Button || $title instanceof Link) {
+            $image_alt = $title->getLabel();
         }
 
         if ($component->isHighlighted()) {
@@ -47,7 +54,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("no_highlight");
         }
 
-        $title = $component->getTitle();
         $id = $this->bindJavaScript($component);
         if (!$id) {
             $id = $this->createId();
@@ -69,6 +75,12 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $tpl->setVariable("TITLE", $title);
+
+        if ($component->getImage()) {
+            $tpl->setVariable("IMAGE", $default_renderer->render(
+                $component->getImage()->withAlt($this->txt("open")." ".strip_tags($image_alt))
+            ));
+        }
 
         if (!empty($component->getTitleAction())) {
             $tpl->touchBlock("title_action_end");
@@ -115,7 +127,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(Component\Card\Card::class);
     }

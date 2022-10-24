@@ -65,12 +65,12 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    public function setCheckInputCalled(bool $status) : void
+    public function setCheckInputCalled(bool $status): void
     {
         $this->check_input_called = $status;
     }
 
-    protected function initForm() : void
+    protected function initForm(): void
     {
         if ($this->document->getId() > 0) {
             $this->setTitle($this->lng->txt('acc_form_edit_doc_head'));
@@ -111,27 +111,27 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    public function hasTranslatedError() : bool
+    public function hasTranslatedError(): bool
     {
         return strlen($this->translatedError) > 0;
     }
 
-    public function getTranslatedError() : string
+    public function getTranslatedError(): string
     {
         return $this->translatedError;
     }
 
-    public function hasTranslatedInfo() : bool
+    public function hasTranslatedInfo(): bool
     {
         return strlen($this->translatedInfo) > 0;
     }
 
-    public function getTranslatedInfo() : string
+    public function getTranslatedInfo(): string
     {
         return $this->translatedInfo;
     }
 
-    public function saveObject() : bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             $this->setValuesByPost();
@@ -143,7 +143,7 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function fillObject() : bool
+    protected function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

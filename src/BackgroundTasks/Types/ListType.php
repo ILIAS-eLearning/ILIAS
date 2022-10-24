@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Types;
 
 /**
@@ -31,7 +31,7 @@ namespace ILIAS\BackgroundTasks\Types;
 class ListType implements Type, Ancestors
 {
     protected \ILIAS\BackgroundTasks\Types\Type $type;
-    
+
     /**
      * SingleType constructor.
      * @param $fullyQualifiedClassName string|Type Give a Value Type or a Type that will be wrapped
@@ -44,15 +44,15 @@ class ListType implements Type, Ancestors
         }
         $this->type = $fullyQualifiedClassName;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         return "[" . $this->type . "]";
     }
-    
+
     /**
      * Is this type a subtype of $type. Not strict! x->isExtensionOf(x) == true.
      * Attention: [Dog].isExtensionOf([Animal]) == true. In other words:
@@ -62,43 +62,43 @@ class ListType implements Type, Ancestors
      * See: https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
      * @param $type Type
      */
-    public function isExtensionOf(Type $type) : bool
+    public function isExtensionOf(Type $type): bool
     {
         if (!$type instanceof ListType) {
             return false;
         }
-        
+
         return $this->type->isExtensionOf($type->getContainedType());
     }
-    
-    public function getContainedType() : \ILIAS\BackgroundTasks\Types\Type
+
+    public function getContainedType(): \ILIAS\BackgroundTasks\Types\Type
     {
         return $this->type;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function getAncestors() : array
+    public function getAncestors(): array
     {
         $ancestors = [];
-        
+
         foreach ($this->type->getAncestors() as $type) {
             $ancestors[] = new ListType($type);
         }
-        
+
         return $ancestors;
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function equals(Type $otherType) : bool
+    public function equals(Type $otherType): bool
     {
         if (!$otherType instanceof ListType) {
             return false;
         }
-        
+
         return $this->type->equals($otherType->getContainedType());
     }
 }

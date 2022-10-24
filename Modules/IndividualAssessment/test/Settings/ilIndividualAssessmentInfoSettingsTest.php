@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,14 +15,15 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Component\Input\Field\Section;
 
 class ilIndividualAssessmentInfoSettingsTest extends TestCase
 {
-    public function test_createObject_simple() : void
+    public function test_createObject_simple(): void
     {
         $obj = new ilIndividualAssessmentInfoSettings(22);
 
@@ -34,7 +37,7 @@ class ilIndividualAssessmentInfoSettingsTest extends TestCase
         $this->assertNull($obj->getConsultationHours());
     }
 
-    public function test_createObject_full() : void
+    public function test_createObject_full(): void
     {
         $obj = new ilIndividualAssessmentInfoSettings(
             33,

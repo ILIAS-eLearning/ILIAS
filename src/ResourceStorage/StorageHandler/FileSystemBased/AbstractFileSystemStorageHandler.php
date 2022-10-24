@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\StorageHandler\FileSystemBased;
 
 use ILIAS\Filesystem\Filesystem;
@@ -58,7 +60,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         }
     }
 
-    private function determineLinksPossible() : bool
+    private function determineLinksPossible(): bool
     {
         $random_filename = "test_" . random_int(10000, 99999);
 
@@ -108,12 +110,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     /**
      * @inheritDoc
      */
-    public function getIdentificationGenerator() : IdentificationGenerator
+    public function getIdentificationGenerator(): IdentificationGenerator
     {
         return $this->id;
     }
 
-    public function has(ResourceIdentification $identification) : bool
+    public function has(ResourceIdentification $identification): bool
     {
         return $this->fs->has($this->getFullContainerPath($identification));
     }
@@ -121,12 +123,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     /**
      * @inheritDoc
      */
-    public function getStream(Revision $revision) : FileStream
+    public function getStream(Revision $revision): FileStream
     {
         return $this->fs->readStream($this->getRevisionPath($revision) . '/' . self::DATA);
     }
 
-    public function storeUpload(UploadedFileRevision $revision) : bool
+    public function storeUpload(UploadedFileRevision $revision): bool
     {
         global $DIC;
 
@@ -143,7 +145,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     /**
      * @inheritDoc
      */
-    public function storeStream(FileStreamRevision $revision) : bool
+    public function storeStream(FileStreamRevision $revision): bool
     {
         try {
             if ($revision->keepOriginal()) {
@@ -171,7 +173,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         return true;
     }
 
-    public function cloneRevision(CloneRevision $revision) : bool
+    public function cloneRevision(CloneRevision $revision): bool
     {
         $stream = $this->getStream($revision->getRevisionToClone());
         try {
@@ -187,7 +189,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     /**
      * @inheritDoc
      */
-    public function deleteRevision(Revision $revision) : void
+    public function deleteRevision(Revision $revision): void
     {
         try {
             $this->fs->deleteDir($this->getRevisionPath($revision));
@@ -198,7 +200,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
     /**
      * @inheritDoc
      */
-    public function deleteResource(StorableResource $resource) : void
+    public function deleteResource(StorableResource $resource): void
     {
         try {
             $this->fs->deleteDir($this->getFullContainerPath($resource->getIdentification()));
@@ -210,7 +212,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         }
     }
 
-    public function cleanUpContainer(StorableResource $resource) : void
+    public function cleanUpContainer(StorableResource $resource): void
     {
         $storage_path = $this->getStorageLocationBasePath();
         $container_path = $this->getContainerPathWithoutBase($resource->getIdentification());
@@ -224,32 +226,32 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         }
     }
 
-    public function getBasePath(ResourceIdentification $identification) : string
+    public function getBasePath(ResourceIdentification $identification): string
     {
         return $this->getFullContainerPath($identification);
     }
 
-    public function getRevisionPath(Revision $revision) : string
+    public function getRevisionPath(Revision $revision): string
     {
         return $this->getFullContainerPath($revision->getIdentification()) . '/' . $revision->getVersionNumber();
     }
 
-    public function getFullContainerPath(ResourceIdentification $identification) : string
+    public function getFullContainerPath(ResourceIdentification $identification): string
     {
         return $this->getStorageLocationBasePath() . '/' . $this->getContainerPathWithoutBase($identification);
     }
 
-    public function getContainerPathWithoutBase(ResourceIdentification $identification) : string
+    public function getContainerPathWithoutBase(ResourceIdentification $identification): string
     {
         return $this->path_generator->getPathFor($identification);
     }
 
-    private function getAbsoluteRevisionPath(Revision $revision) : string
+    private function getAbsoluteRevisionPath(Revision $revision): string
     {
         return rtrim(CLIENT_DATA_DIR, "/") . "/" . ltrim($this->getRevisionPath($revision), "/");
     }
 
-    public function movementImplementation() : string
+    public function movementImplementation(): string
     {
         return $this->links_possible ? 'link' : 'rename';
     }

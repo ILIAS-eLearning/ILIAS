@@ -48,7 +48,7 @@ class ilFSStoragePreview extends ilFileSystemAbstractionStorage
      *
      * @return string directory name
      */
-    protected function getPathPostfix() : string
+    protected function getPathPostfix(): string
     {
         return "preview";
     }
@@ -61,7 +61,7 @@ class ilFSStoragePreview extends ilFileSystemAbstractionStorage
      *
      * @return string path prefix e.g files
      */
-    protected function getPathPrefix() : string
+    protected function getPathPrefix(): string
     {
         return "previews";
     }

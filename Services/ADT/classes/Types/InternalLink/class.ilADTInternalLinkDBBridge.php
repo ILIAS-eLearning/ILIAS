@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -14,7 +16,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return $a_adt instanceof ilADTInternalLink;
     }
@@ -23,16 +25,16 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      * read record
      * @param array $a_row
      */
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
-        $this->getADT()->setTargetRefId($a_row[$this->getElementId()]);
+        $this->getADT()->setTargetRefId((int) $a_row[$this->getElementId()]);
     }
 
     /**
      * prepare insert
      * @param array $a_fields
      */
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         $a_fields[$this->getElementId()] = ["integer", $this->getADT()->getTargetRefId()];
     }

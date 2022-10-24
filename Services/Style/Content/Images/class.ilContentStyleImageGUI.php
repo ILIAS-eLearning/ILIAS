@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -68,7 +70,7 @@ class ilContentStyleImageGUI
         $this->tpl = $gui_service->mainTemplate();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->gui->ctrl();
 
@@ -86,7 +88,7 @@ class ilContentStyleImageGUI
         }
     }
 
-    public function listImages() : void
+    public function listImages(): void
     {
         $tpl = $this->gui->mainTemplate();
         $ilToolbar = $this->gui->toolbar();
@@ -109,7 +111,7 @@ class ilContentStyleImageGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    public function addImage() : void
+    public function addImage(): void
     {
         $tpl = $this->gui->mainTemplate();
 
@@ -117,14 +119,14 @@ class ilContentStyleImageGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function cancelUpload() : void
+    public function cancelUpload(): void
     {
         $ilCtrl = $this->gui->ctrl();
 
         $ilCtrl->redirect($this, "listImages");
     }
 
-    public function uploadImage() : void
+    public function uploadImage(): void
     {
         $tpl = $this->gui->mainTemplate();
         $ilCtrl = $this->gui->ctrl();
@@ -140,7 +142,7 @@ class ilContentStyleImageGUI
         }
     }
 
-    protected function getImageForm() : ilPropertyFormGUI
+    protected function getImageForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->gui->ctrl();
@@ -161,7 +163,7 @@ class ilContentStyleImageGUI
         return $form_gui;
     }
 
-    public function deleteImage() : void
+    public function deleteImage(): void
     {
         $ilCtrl = $this->gui->ctrl();
 
@@ -171,12 +173,12 @@ class ilContentStyleImageGUI
         $ilCtrl->redirect($this, "listImages");
     }
 
-    protected function resizeImageForm() : void
+    protected function resizeImageForm(): void
     {
         $this->tpl->setContent($this->getResizeImageForm()->getHTML());
     }
 
-    public function getResizeImageForm() : ilPropertyFormGUI
+    public function getResizeImageForm(): ilPropertyFormGUI
     {
         $ctrl = $this->gui->ctrl();
         $lng = $this->lng;
@@ -206,7 +208,7 @@ class ilContentStyleImageGUI
         return $form;
     }
 
-    public function resizeImage() : void
+    public function resizeImage(): void
     {
         $ctrl = $this->gui->ctrl();
         $lng = $this->lng;
@@ -218,9 +220,9 @@ class ilContentStyleImageGUI
 
             $this->manager->resizeImage(
                 $this->current_image,
-                (int) $wh["width"],
-                (int) $wh["height"],
-                (bool) $wh["const_prop"]
+                (int) ($wh["width"] ?? 0),
+                (int) ($wh["height"] ?? 0),
+                (bool) ($wh["const_prop"] ?? false)
             );
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);

@@ -6,14 +6,14 @@ use ILIAS\Setup;
 
 class ilSystemFolderMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    public function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new \ilSettingsFactoryExistsObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         if (!$factory) {

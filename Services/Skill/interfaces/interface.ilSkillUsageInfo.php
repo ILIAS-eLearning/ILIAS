@@ -32,5 +32,5 @@ interface ilSkillUsageInfo
      *
      * @return array<string, array<string, array{key: string}[]>>
      */
-    public static function getUsageInfo(array $a_cskill_ids) : array;
+    public static function getUsageInfo(array $a_cskill_ids): array;
 }

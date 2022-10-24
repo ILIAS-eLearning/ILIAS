@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -28,7 +30,7 @@ class ilScormAiccImporter extends ilXmlImporter
         //$this->manifest = [];
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 
@@ -38,7 +40,7 @@ class ilScormAiccImporter extends ilXmlImporter
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_import_dirname, ?ilImportMapping $a_mapping) : void
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_import_dirname, ?ilImportMapping $a_mapping): void
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
@@ -206,7 +208,7 @@ class ilScormAiccImporter extends ilXmlImporter
 //        }
     }
 
-    public function writeData(string $a_entity, string $a_version, int $a_id) : void
+    public function writeData(string $a_entity, string $a_version, int $a_id): void
     {
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);
     }

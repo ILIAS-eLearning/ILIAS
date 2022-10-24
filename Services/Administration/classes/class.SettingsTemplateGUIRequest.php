@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,38 +40,38 @@ class SettingsTemplateGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTemplateId() : int
+    public function getTemplateId(): int
     {
         return $this->int("templ_id");
     }
 
-    public function getTab(string $id) : int
+    public function getTab(string $id): int
     {
         return $this->int("tab_" . $id);
     }
 
-    public function getSetting(string $id) : int
+    public function getSetting(string $id): int
     {
         return $this->int("set_" . $id);
     }
 
-    public function getValue(string $id) : string
+    public function getValue(string $id): string
     {
         return $this->str("value_" . $id);
     }
 
-    public function getHide(string $id) : bool
+    public function getHide(string $id): bool
     {
         return (bool) $this->int("hide_" . $id);
     }
 
     /** @return int[] */
-    public function getTemplateIds() : array
+    public function getTemplateIds(): array
     {
         return $this->intArray("tid");
     }

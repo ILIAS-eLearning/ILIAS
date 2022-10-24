@@ -72,7 +72,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 
-    public function printToString() : string
+    public function printToString(): string
     {
         throw new ilException('not implemented');
     }
@@ -95,7 +95,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Make the template hide the footer.
      */
-    public function hideFooter() : void
+    public function hideFooter(): void
     {
         $this->show_footer = false;
     }
@@ -103,7 +103,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill the footer area.
      */
-    private function fillFooter() : void
+    private function fillFooter(): void
     {
         global $DIC;
 
@@ -194,15 +194,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $main_menu;
     protected string $main_menu_spacer;
 
-    private function getMainMenu() : void
+    private function getMainMenu(): void
     {
     }
 
-    private function fillMainMenu() : void
+    private function fillMainMenu(): void
     {
     }
 
-    private function initHelp() : void
+    private function initHelp(): void
     {
     }
 
@@ -227,7 +227,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         );
     protected array $message = array();
 
-    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false) : void
+    public function setOnScreenMessage(string $type, string $a_txt, bool $a_keep = false): void
     {
         if (!in_array($type, self::$message_types) || $a_txt == "") {
             return;
@@ -242,7 +242,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill message area.
      */
-    private function fillMessage() : void
+    private function fillMessage(): void
     {
         global $DIC;
 
@@ -267,7 +267,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function getMessageTextForType(string $m) : string
+    private function getMessageTextForType(string $m): string
     {
         $txt = "";
         if (ilSession::has($m) && ilSession::get($m) != "") {
@@ -306,7 +306,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add a javascript file that should be included in the header.
      */
-    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2) : void
+    public function addJavaScript(string $a_js_file, bool $a_add_version_parameter = true, int $a_batch = 2): void
     {
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
@@ -331,7 +331,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add on load code
      */
-    public function addOnLoadCode(string $a_code, int $a_batch = 2) : void
+    public function addOnLoadCode(string $a_code, int $a_batch = 2): void
     {
         // three batches currently
         if ($a_batch < 1 || $a_batch > 3) {
@@ -344,7 +344,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * Get js onload code for ajax calls
      * @return string
      */
-    public function getOnLoadCodeForAsynch() : string
+    public function getOnLoadCodeForAsynch(): string
     {
         $js = "";
         for ($i = 1; $i <= 3; $i++) {
@@ -369,7 +369,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Reset javascript files
      */
-    public function resetJavascript() : void
+    public function resetJavascript(): void
     {
         $this->js_files = array();
         $this->js_files_vp = array();
@@ -382,7 +382,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilStartUpGUI
     //    - ilObjPortfolioGUI
     //    - latex.php
-    public function fillJavaScriptFiles(bool $a_force = false) : void
+    public function fillJavaScriptFiles(bool $a_force = false): void
     {
         global $DIC;
 
@@ -424,7 +424,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill add on load code
      */
-    private function fillOnLoadCode() : void
+    private function fillOnLoadCode(): void
     {
         for ($i = 1; $i <= 3; $i++) {
             if (is_array($this->on_load_code[$i])) {
@@ -440,7 +440,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    protected function fillJavascriptFile(string $file, string $vers) : void
+    protected function fillJavascriptFile(string $file, string $vers): void
     {
         $this->setCurrentBlock("js_file");
         if ($this->js_files_vp[$file]) {
@@ -472,7 +472,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add a css file that should be included in the header.
      */
-    public function addCss(string $a_css_file, string $media = "screen") : void
+    public function addCss(string $a_css_file, string $media = "screen"): void
     {
         if (!array_key_exists($a_css_file . $media, $this->css_files)) {
             $this->css_files[$a_css_file . $media] = array("file" => $a_css_file, "media" => $media);
@@ -486,7 +486,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add a css file that should be included in the header.
      */
-    public function addInlineCss(string $a_css, string $media = "screen") : void
+    public function addInlineCss(string $a_css, string $media = "screen"): void
     {
         $this->inline_css[] = array("css" => $a_css, "media" => $media);
     }
@@ -500,7 +500,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * Fill in the css file tags
      * @param bool $a_force
      */
-    public function fillCssFiles(bool $a_force = false) : void
+    public function fillCssFiles(bool $a_force = false): void
     {
         if (!$this->blockExists("css_file")) {
             return;
@@ -529,12 +529,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilTestPlayerAbstractGUI
     //    - ilAssQuestionHintRequestGUI
     //    - ilWorkspaceFolderExplorer
-    public function setBodyClass(string $a_class = "") : void
+    public function setBodyClass(string $a_class = ""): void
     {
         $this->body_class = $a_class;
     }
 
-    private function fillBodyClass() : void
+    private function fillBodyClass(): void
     {
         if ($this->body_class != "" && $this->blockExists("body_class")) {
             $this->setCurrentBlock("body_class");
@@ -546,7 +546,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Reset css files
      */
-    private function resetCss() : void
+    private function resetCss(): void
     {
         $this->css_files = array();
     }
@@ -554,7 +554,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill in the inline css
      */
-    private function fillInlineCss() : void
+    private function fillInlineCss(): void
     {
         if (!$this->blockExists("css_inline")) {
             return;
@@ -569,7 +569,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill Content Style
      */
-    private function fillNewContentStyle() : void
+    private function fillNewContentStyle(): void
     {
         $this->setVariable(
             "LOCATION_NEWCONTENT_STYLESHEET_TAG",
@@ -588,7 +588,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    public function loadStandardTemplate() : void
+    public function loadStandardTemplate(): void
     {
         if ($this->standard_template_loaded) {
             return;
@@ -620,24 +620,24 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected array $title_alerts = array();
     protected string $header_action;
 
-    public function setTitle(string $a_title, bool $hidden = false) : void
+    public function setTitle(string $a_title, bool $hidden = false): void
     {
         $this->title = $a_title;
         $this->header_page_title = $a_title;
     }
 
-    public function setDescription(string $a_descr) : void
+    public function setDescription(string $a_descr): void
     {
         $this->title_desc = $a_descr;
     }
 
-    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = "") : void
+    public function setTitleIcon(string $a_icon_path, string $a_icon_desc = ""): void
     {
         $this->icon_desc = $a_icon_desc;
         $this->icon_path = $a_icon_path;
     }
 
-    public function setAlertProperties(array $alerts) : void
+    public function setAlertProperties(array $alerts): void
     {
         $this->title_alerts = $alerts;
     }
@@ -645,7 +645,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Clear header
      */
-    public function clearHeader() : void
+    public function clearHeader(): void
     {
         $this->setTitle("");
         $this->setTitleIcon("");
@@ -662,7 +662,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilObjPortfolioTemplateGUI
     //    - ilWikiPageGUI
     //    - ilObjWikiGUI
-    public function setHeaderActionMenu(string $a_header) : void
+    public function setHeaderActionMenu(string $a_header): void
     {
         $this->header_action = $a_header;
     }
@@ -672,7 +672,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilObjLanguageExtGUI
     //    - ilTestServiceGUI
     //    - ilWikiPageGUI
-    public function setHeaderPageTitle(string $a_title) : void
+    public function setHeaderPageTitle(string $a_title): void
     {
         $this->header_page_title = $a_title;
     }
@@ -680,7 +680,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill header
      */
-    private function fillHeader() : void
+    private function fillHeader(): void
     {
         global $DIC;
 
@@ -758,7 +758,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Get header action menu
      */
-    private function getHeaderActionMenu() : string
+    private function getHeaderActionMenu(): string
     {
         return $this->header_action;
     }
@@ -770,7 +770,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    public function setLocator() : void
+    public function setLocator(): void
     {
         global $DIC;
 
@@ -801,7 +801,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * sets tabs in standard template
      */
-    public function setTabs(string $a_tabs_html) : void
+    public function setTabs(string $a_tabs_html): void
     {
         if ($a_tabs_html != "" && $this->blockExists("tabs_outer_start")) {
             $this->touchBlock("tabs_outer_start");
@@ -815,12 +815,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * sets subtabs in standard template
      */
-    public function setSubTabs(string $a_tabs_html) : void
+    public function setSubTabs(string $a_tabs_html): void
     {
         $this->setVariable("SUB_TABS", $a_tabs_html);
     }
 
-    private function fillTabs() : void
+    private function fillTabs(): void
     {
         if ($this->blockExists("tabs_outer_start")) {
             $this->touchBlock("tabs_outer_start");
@@ -835,7 +835,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function getTabsHTML() : void
+    private function getTabsHTML(): void
     {
         global $DIC;
 
@@ -857,7 +857,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Sets content for standard template.
      */
-    public function setContent(string $a_html) : void
+    public function setContent(string $a_html): void
     {
         if ($a_html != "") {
             $this->main_content = $a_html;
@@ -867,7 +867,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Sets content of left column.
      */
-    public function setLeftContent(string $a_html) : void
+    public function setLeftContent(string $a_html): void
     {
         $this->left_content = $a_html;
     }
@@ -875,7 +875,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Sets content of left navigation column.
      */
-    public function setLeftNavContent(string $a_content) : void
+    public function setLeftNavContent(string $a_content): void
     {
         $this->left_nav_content = $a_content;
     }
@@ -883,7 +883,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill left navigation frame
      */
-    private function fillLeftNav() : void
+    private function fillLeftNav(): void
     {
         if (trim($this->left_nav_content) != "") {
             $this->setCurrentBlock("left_nav");
@@ -896,12 +896,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Sets content of right column.
      */
-    public function setRightContent(string $a_html) : void
+    public function setRightContent(string $a_html): void
     {
         $this->right_content = $a_html;
     }
 
-    private function setCenterColumnClass() : void
+    private function setCenterColumnClass(): void
     {
         if (!$this->blockExists("center_col_width")) {
             return;
@@ -935,14 +935,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-    private function fillMainContent() : void
+    private function fillMainContent(): void
     {
         if (trim($this->main_content) != "") {
             $this->setVariable("ADM_CONTENT", $this->main_content);
         }
     }
 
-    private function fillLeftContent() : void
+    private function fillLeftContent(): void
     {
         if (trim($this->left_content) != "") {
             $this->setCurrentBlock("left_column");
@@ -955,7 +955,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function fillRightContent() : void
+    private function fillRightContent(): void
     {
         if (trim($this->right_content) != "") {
             $this->setCurrentBlock("right_column");
@@ -971,7 +971,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    private function fillToolbar() : void
+    private function fillToolbar(): void
     {
         global $DIC;
 
@@ -992,7 +992,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add current user language to meta tags
      */
-    private function fillContentLanguage() : void
+    private function fillContentLanguage(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -1003,7 +1003,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function fillWindowTitle() : void
+    private function fillWindowTitle(): void
     {
         global $DIC;
 
@@ -1032,12 +1032,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilLuceneAdvancedSearchGUI
     //    - ilLuceneSearchGUI
     //    - ilContainerGUI
-    public function setPageFormAction(string $a_action) : void
+    public function setPageFormAction(string $a_action): void
     {
         $this->page_form_action = $a_action;
     }
 
-    private function fillPageFormAction() : void
+    private function fillPageFormAction(): void
     {
         if ($this->page_form_action != "") {
             $this->setCurrentBlock("page_form_start");
@@ -1057,7 +1057,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * Set target parameter for login (public sector).
      * This is used by the main menu
      */
-    public function setLoginTargetPar(string $a_val) : void
+    public function setLoginTargetPar(string $a_val): void
     {
         $this->login_target_par = $a_val;
     }
@@ -1065,7 +1065,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Get target parameter for login
      */
-    private function getLoginTargetPar() : string
+    private function getLoginTargetPar(): string
     {
         return $this->login_target_par;
     }
@@ -1093,7 +1093,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         bool $add_standard_elements = false,
         bool $a_main_menu = true,
         bool $a_tabs = true
-    ) : string {
+    ): string {
         if ($add_error_mess) {
             $this->fillMessage();
         }
@@ -1171,7 +1171,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         string $part = self::DEFAULT_BLOCK,
         bool $has_tabs = true,
         bool $skip_main_menu = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $http = $DIC->http();
@@ -1287,7 +1287,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill side icons (upper icon, tree icon, web folder icon)
      */
-    private function fillSideIcons() : void
+    private function fillSideIcons(): void
     {
         global $DIC;
 
@@ -1327,13 +1327,13 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-    public function setTreeFlatIcon(string $a_link, string $a_mode) : void
+    public function setTreeFlatIcon(string $a_link, string $a_mode): void
     {
         $this->tree_flat_link = $a_link;
         $this->tree_flat_mode = $a_mode;
     }
 
-    public function addLightbox(string $a_html, string $a_id) : void
+    public function addLightbox(string $a_html, string $a_id): void
     {
         $this->lightbox[$a_id] = $a_html;
     }
@@ -1343,7 +1343,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * @param
      * @return
      */
-    private function fillLightbox() : void
+    private function fillLightbox(): void
     {
         $html = implode('', $this->lightbox);
         $this->setVariable("LIGHTBOX", $html);
@@ -1364,7 +1364,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         ilToolbarGUI $toolbar,
         bool $is_bottom_panel = true,
         bool $has_arrow = false
-    ) : void {
+    ): void {
         $this->admin_panel_commands_toolbar = $toolbar;
         $this->admin_panel_arrow = $has_arrow;
         $this->admin_panel_bottom = $is_bottom_panel;
@@ -1375,7 +1375,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * - creation selector
      * - admin view on/off button
      */
-    private function fillAdminPanel() : void
+    private function fillAdminPanel(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -1418,7 +1418,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         string $a_append = "",
         string $a_target = "",
         string $a_title = ""
-    ) : void {
+    ): void {
         $this->permanent_link = array(
             "type" => $a_type,
             "id" => $a_id,
@@ -1431,7 +1431,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill in permanent link
      */
-    private function fillPermanentLink() : void
+    private function fillPermanentLink(): void
     {
         if (is_array($this->permanent_link)) {
             $plinkgui = new ilPermanentLinkGUI(
@@ -1450,7 +1450,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Reset all header properties: title, icon, description, alerts, action menu
      */
-    public function resetHeaderBlock(bool $a_reset_header_action = true) : void
+    public function resetHeaderBlock(bool $a_reset_header_action = true): void
     {
         $this->setTitle(null);
         $this->setTitleIcon(null);
@@ -1467,7 +1467,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Enables the file upload into this object by dropping a file.
      */
-    public function setFileUploadRefId(int $a_ref_id) : void
+    public function setFileUploadRefId(int $a_ref_id): void
     {
         $this->enable_fileupload = $a_ref_id;
     }
@@ -1481,12 +1481,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * @param string
      * @return    string
      */
-    public function get(string $part = "DEFAULT") : string
+    public function get(string $part = "DEFAULT"): string
     {
         return $this->template->get($part);
     }
 
-    public function setVariable(string $variable, $value = '') : void
+    public function setVariable(string $variable, $value = ''): void
     {
         $this->template->setVariable($variable, $value);
     }
@@ -1496,27 +1496,27 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         return $this->template->variableExists($a_variablename);
     }
 
-    public function setCurrentBlock(string $part = "DEFAULT") : bool
+    public function setCurrentBlock(string $part = "DEFAULT"): bool
     {
         return $this->template->setCurrentBlock($part);
     }
 
-    public function touchBlock(string $block) : bool
+    public function touchBlock(string $block): bool
     {
         return $this->template->touchBlock($block);
     }
 
-    public function parseCurrentBlock(string $block_name = "DEFAULT") : bool
+    public function parseCurrentBlock(string $block_name = "DEFAULT"): bool
     {
         return $this->template->parseCurrentBlock($block_name);
     }
 
-    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null) : bool
+    public function addBlockFile(string $var, string $block, string $template_name, string $in_module = null): bool
     {
         return $this->template->addBlockFile($var, $block, $template_name, $in_module);
     }
 
-    public function blockExists(string $block_name) : bool
+    public function blockExists(string $block_name): bool
     {
         return $this->template->blockExists($block_name);
     }

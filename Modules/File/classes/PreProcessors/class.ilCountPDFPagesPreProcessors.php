@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\Metadata;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
@@ -29,24 +29,30 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilCountPDFPagesPreProcessors implements PreProcessor
 {
-    const PAGE_COUNT = 'page_count';
+    public const PAGE_COUNT = 'page_count';
+    private ilCountPDFPages $page_counter;
 
-
-    /**
-     * @inheritdoc
-     */
-    public function process(FileStream $stream, Metadata $metadata) : \ILIAS\FileUpload\DTO\ProcessingStatus
+    public function __construct()
     {
-        if ($metadata->getMimeType() == MimeType::APPLICATION__PDF
-            && PATH_TO_GHOSTSCRIPT != ""
-        ) {
-            $PATH_TO_PDF = $stream->getMetadata('uri');
-            $arg = "-q -dNODISPLAY -c \"($PATH_TO_PDF) (r) file runpdfbegin pdfpagecount = quit\";";
-            $return = ilShellUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
+        $this->page_counter = new ilCountPDFPages();
+    }
 
-            $metadata->additionalMetaData()->put(self::PAGE_COUNT, (string) $return[0]);
+    public function process(FileStream $stream, Metadata $metadata): \ILIAS\FileUpload\DTO\ProcessingStatus
+    {
+        if (
+            $this->page_counter->isAvailable()
+            && $metadata->getMimeType() == MimeType::APPLICATION__PDF
+        ) {
+            $path_to_pdf = $stream->getMetadata('uri');
+            $metadata->additionalMetaData()->put(
+                self::PAGE_COUNT,
+                (string) $this->page_counter->extractAmountOfPagesByPath($path_to_pdf)
+            );
         }
 
-        return new ProcessingStatus(ProcessingStatus::OK, 'ilCountPDFPagesPreProcessors');
+        return new ProcessingStatus(
+            ProcessingStatus::OK,
+            'ilCountPDFPagesPreProcessors'
+        );
     }
 }

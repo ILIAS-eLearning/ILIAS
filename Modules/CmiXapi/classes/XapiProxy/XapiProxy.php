@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
     /**
      * This file is part of ILIAS, a powerful learning management system
      * published by ILIAS open source e-Learning e.V.
@@ -14,7 +16,7 @@
      * https://github.com/ILIAS-eLearning
      *
      *********************************************************************/
-    
+
     namespace XapiProxy;
 
     use GuzzleHttp\Psr7\Request;
@@ -31,37 +33,37 @@
             $this->log()->debug($this->msg('proxy initialized'));
         }
 
-        public function setRequestParams(Request $request) : void
+        public function setRequestParams(Request $request): void
         {
             preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
         }
 
-        public function token() : string
+        public function token(): string
         {
             return $this->token;
         }
 
-        public function client() : string
+        public function client(): string
         {
             return $this->client;
         }
 
-        public function lrsType() : ?\ilCmiXapiLrsType
+        public function lrsType(): ?\ilCmiXapiLrsType
         {
             return $this->lrsType;
         }
 
-        public function replacedValues() : ?array
+        public function replacedValues(): ?array
         {
             return $this->replacedValues;
         }
 
-        public function specificAllowedStatements() : ?array
+        public function specificAllowedStatements(): ?array
         {
             return $this->specificAllowedStatements;
         }
 
-        public function blockSubStatements() : bool
+        public function blockSubStatements(): bool
         {
             return $this->blockSubStatements;
         }
@@ -69,67 +71,67 @@
         /**
          * @return mixed[]
          */
-        public function cmdParts() : array
+        public function cmdParts(): array
         {
             return $this->cmdParts;
         }
 
-        public function method() : string
+        public function method(): string
         {
             return $this->method;
         }
 
-        public function getDefaultLrsEndpoint() : string
+        public function getDefaultLrsEndpoint(): string
         {
             return $this->defaultLrsEndpoint;
         }
 
-        public function getDefaultLrsKey() : string
+        public function getDefaultLrsKey(): string
         {
             return $this->defaultLrsKey;
         }
 
-        public function getDefaultLrsSecret() : string
+        public function getDefaultLrsSecret(): string
         {
             return $this->defaultLrsSecret;
         }
 
-        public function getFallbackLrsEndpoint() : string
+        public function getFallbackLrsEndpoint(): string
         {
             return $this->fallbackLrsEndpoint;
         }
 
-        public function getFallbackLrsKey() : string
+        public function getFallbackLrsKey(): string
         {
             return $this->fallbackLrsKey;
         }
 
-        public function getFallbackLrsSecret() : string
+        public function getFallbackLrsSecret(): string
         {
             return $this->fallbackLrsSecret;
         }
 
-        public function setXapiProxyRequest(XapiProxyRequest $xapiProxyRequest) : void
+        public function setXapiProxyRequest(XapiProxyRequest $xapiProxyRequest): void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
-        public function getXapiProxyRequest() : XapiProxyRequest
+        public function getXapiProxyRequest(): XapiProxyRequest
         {
             return $this->xapiProxyRequest;
         }
 
-        public function setXapiProxyResponse(XapiProxyResponse $xapiProxyResponse) : void
+        public function setXapiProxyResponse(XapiProxyResponse $xapiProxyResponse): void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
-        public function getXapiProxyResponse() : XapiProxyResponse
+        public function getXapiProxyResponse(): XapiProxyResponse
         {
             return $this->xapiProxyResponse;
         }
 
-        public function processStatements(\Psr\Http\Message\RequestInterface $request, $body) : ?array
+        public function processStatements(\Psr\Http\Message\RequestInterface $request, $body): ?array
         {
             // everything is allowed
             if (!is_array($this->specificAllowedStatements) && !$this->blockSubStatements) {
@@ -192,7 +194,7 @@
             return null;
         }
 
-        public function modifyBody(string $body) : string
+        public function modifyBody(string $body): string
         {
             $obj = json_decode($body, false);
 
@@ -225,7 +227,7 @@
             return json_encode($obj);
         }
 
-        private function handleStatementEvaluation(object $xapiStatement) : void
+        private function handleStatementEvaluation(object $xapiStatement): void
         {
             global $DIC;
             if ($this->plugin) {
@@ -251,7 +253,7 @@
             }
         }
 
-        private function setValue(object &$obj, string $path, string $value) : void
+        private function setValue(object &$obj, string $path, string $value): void
         {
             $path_components = explode('.', $path);
             if (count($path_components) == 1) {
@@ -265,7 +267,7 @@
             }
         }
 
-        private function setStatus(object $obj) : void
+        private function setStatus(object $obj): void
         {
 //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
 //                $verb = $obj->verb->id;
@@ -286,7 +288,7 @@
         }
 
 
-        private function isSubStatementCheck(object $obj) : bool
+        private function isSubStatementCheck(object $obj): bool
         {
             if (
                 isset($obj->context) &&

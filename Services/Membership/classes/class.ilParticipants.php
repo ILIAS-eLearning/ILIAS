@@ -1,5 +1,7 @@
-<?php declare(strict_types=1);
-    
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Base class for course and group participants
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -84,12 +86,12 @@ abstract class ilParticipants
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
         $this->recommended_content_manager = new ilRecommendedContentManager();
-    
+
         $this->readParticipants();
         $this->readParticipantsStatus();
     }
 
-    public static function getInstance(int $a_ref_id) : ilParticipants
+    public static function getInstance(int $a_ref_id): ilParticipants
     {
         global $DIC;
 
@@ -117,7 +119,7 @@ abstract class ilParticipants
      * @deprecated since version 5.4 use getInstance() (ref_id based)
      * @todo       remove this method in favour of selff::getInstance
      */
-    public static function getInstanceByObjId(int $a_obj_id) : ilParticipants
+    public static function getInstanceByObjId(int $a_obj_id): ilParticipants
     {
         global $DIC;
 
@@ -146,7 +148,7 @@ abstract class ilParticipants
      * Get component name
      * Used for raising events
      */
-    protected function getComponent() : string
+    protected function getComponent(): string
     {
         return $this->component;
     }
@@ -154,7 +156,7 @@ abstract class ilParticipants
     /**
      * Check if (current) user has access to the participant list
      */
-    public static function hasParticipantListAccess(int $a_obj_id, int $a_usr_id = null) : bool
+    public static function hasParticipantListAccess(int $a_obj_id, int $a_usr_id = null): bool
     {
         global $DIC;
 
@@ -196,9 +198,9 @@ abstract class ilParticipants
         array $a_user_ids,
         array $a_type,
         bool $a_only_member_roles
-    ) : array {
+    ): array {
         global $DIC;
-        
+
         $ilDB = $DIC->database();
 
         $j2 = $a2 = '';
@@ -244,7 +246,7 @@ abstract class ilParticipants
         int $a_usr_id,
         array $a_type,
         bool $a_only_member_role = false
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -275,9 +277,10 @@ abstract class ilParticipants
             "JOIN object_reference obr ON fa.parent = obr.ref_id " .
             "JOIN object_data obd ON obr.obj_id = obd.obj_id " .
             $j2 .
-            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") .
+            "WHERE " . $ilDB->in("obd.type", $a_type, false, "text") . ' ' .
             "AND fa.assign = 'y' " .
             "AND ua.usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
+            'AND obr.deleted IS NULL ' .
             $a2;
         $res = $ilDB->query($query);
         $ref_ids = [];
@@ -290,7 +293,7 @@ abstract class ilParticipants
     /**
      * Static function to check if a user is a participant of the container object
      */
-    public static function _isParticipant(int $a_ref_id, int $a_usr_id) : bool
+    public static function _isParticipant(int $a_ref_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -302,7 +305,7 @@ abstract class ilParticipants
     /**
      * Lookup the number of participants (crs admins, tutors, members, grp admins, members)
      */
-    public static function lookupNumberOfParticipants(int $a_ref_id) : int
+    public static function lookupNumberOfParticipants(int $a_ref_id): int
     {
         global $DIC;
 
@@ -314,7 +317,7 @@ abstract class ilParticipants
     /**
      * Lookup number of members
      */
-    public static function lookupNumberOfMembers(int $a_ref_id) : int
+    public static function lookupNumberOfMembers(int $a_ref_id): int
     {
         global $DIC;
 
@@ -345,7 +348,7 @@ abstract class ilParticipants
     /**
      * Check if user is blocked
      */
-    public static function _isBlocked(int $a_obj_id, int $a_usr_id) : bool
+    public static function _isBlocked(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -361,7 +364,7 @@ abstract class ilParticipants
     /**
      * Check if user has passed course
      */
-    public static function _hasPassed(int $a_obj_id, int $a_usr_id) : bool
+    public static function _hasPassed(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -378,7 +381,7 @@ abstract class ilParticipants
      * Delete all entries
      * Normally called in case of object deletion
      */
-    public static function _deleteAllEntries(int $a_obj_id) : void
+    public static function _deleteAllEntries(int $a_obj_id): void
     {
         global $DIC;
 
@@ -399,7 +402,7 @@ abstract class ilParticipants
     /**
      * Delete user data
      */
-    public static function _deleteUser(int $a_usr_id) : void
+    public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -413,7 +416,7 @@ abstract class ilParticipants
         ilCourseWaitingList::_deleteUser($a_usr_id);
     }
 
-    public static function getDefaultMemberRole(int $a_ref_id) : int
+    public static function getDefaultMemberRole(int $a_ref_id): int
     {
         global $DIC;
 
@@ -436,12 +439,12 @@ abstract class ilParticipants
         return 0;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -450,7 +453,7 @@ abstract class ilParticipants
      * Get admin, tutor which have notification enabled
      * @return int[] of user ids
      */
-    public function getNotificationRecipients() : array
+    public function getNotificationRecipients(): array
     {
         $query = "SELECT * FROM obj_members " .
             "WHERE notification = 1 " .
@@ -468,7 +471,7 @@ abstract class ilParticipants
     /**
      * Get number of members (not participants)
      */
-    public function getCountMembers() : int
+    public function getCountMembers(): int
     {
         return count($this->members);
     }
@@ -476,7 +479,7 @@ abstract class ilParticipants
     /**
      * Get number of participants
      */
-    public function getCountParticipants() : int
+    public function getCountParticipants(): int
     {
         return count($this->participants);
     }
@@ -485,7 +488,7 @@ abstract class ilParticipants
      * Get all participants ids
      * @return int[]
      */
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         return $this->participants;
     }
@@ -495,7 +498,7 @@ abstract class ilParticipants
      * Use get participants to fetch all
      * @return int[]
      */
-    public function getMembers() : array
+    public function getMembers(): array
     {
         return $this->members;
     }
@@ -504,12 +507,12 @@ abstract class ilParticipants
      * Get all admins ids
      * @return int[]
      */
-    public function getAdmins() : array
+    public function getAdmins(): array
     {
         return $this->admins;
     }
 
-    public function getCountAdmins() : int
+    public function getCountAdmins(): int
     {
         return count($this->getAdmins());
     }
@@ -518,7 +521,7 @@ abstract class ilParticipants
      * Get all tutors ids
      * @return int[]
      */
-    public function getTutors() : array
+    public function getTutors(): array
     {
         return $this->tutors;
     }
@@ -526,7 +529,7 @@ abstract class ilParticipants
     /**
      * check if user is admin
      */
-    public function isAdmin(int $a_usr_id) : bool
+    public function isAdmin(int $a_usr_id): bool
     {
         return in_array($a_usr_id, $this->admins);
     }
@@ -534,7 +537,7 @@ abstract class ilParticipants
     /**
      * is user tutor
      */
-    public function isTutor(int $a_usr_id) : bool
+    public function isTutor(int $a_usr_id): bool
     {
         return in_array($a_usr_id, $this->tutors);
     }
@@ -542,7 +545,7 @@ abstract class ilParticipants
     /**
      * is user member
      */
-    public function isMember(int $a_usr_id) : bool
+    public function isMember(int $a_usr_id): bool
     {
         return in_array($a_usr_id, $this->members);
     }
@@ -550,7 +553,7 @@ abstract class ilParticipants
     /**
      * check if user is assigned
      */
-    public function isAssigned(int $a_usr_id) : bool
+    public function isAssigned(int $a_usr_id): bool
     {
         return in_array($a_usr_id, $this->participants);
     }
@@ -558,7 +561,7 @@ abstract class ilParticipants
     /**
      * Check if user is last admin
      */
-    public function isLastAdmin(int $a_usr_id) : bool
+    public function isLastAdmin(int $a_usr_id): bool
     {
         return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) === 1;
     }
@@ -566,7 +569,7 @@ abstract class ilParticipants
     /**
      * Get object roles
      */
-    public function getRoles() : array
+    public function getRoles(): array
     {
         return $this->roles;
     }
@@ -574,7 +577,7 @@ abstract class ilParticipants
     /**
      * Get assigned roles
      */
-    public function getAssignedRoles(int $a_usr_id) : array
+    public function getAssignedRoles(int $a_usr_id): array
     {
         $assigned = [];
         foreach ($this->roles as $role) {
@@ -591,7 +594,7 @@ abstract class ilParticipants
      * @param int usr_id
      * @param int[] array of new roles
      */
-    public function updateRoleAssignments($a_usr_id, $a_roles) : void
+    public function updateRoleAssignments($a_usr_id, $a_roles): void
     {
         foreach ($this->getRoles() as $role_id) {
             if ($this->rbacReview->isAssigned($a_usr_id, $role_id)) {
@@ -613,7 +616,7 @@ abstract class ilParticipants
      * @param int[] array of user ids for deletion
      * @todo   fix this and add unit test
      */
-    public function checkLastAdmin(array $a_usr_ids) : bool
+    public function checkLastAdmin(array $a_usr_ids): bool
     {
         foreach ($this->getAdmins() as $admin_id) {
             if (!in_array($admin_id, $a_usr_ids)) {
@@ -626,7 +629,7 @@ abstract class ilParticipants
     /**
      * Check if user is blocked
      */
-    public function isBlocked(int $a_usr_id) : bool
+    public function isBlocked(int $a_usr_id): bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
             return (bool) $this->participants_status[$a_usr_id]['blocked'];
@@ -637,7 +640,7 @@ abstract class ilParticipants
     /**
      * Check if user has passed object
      */
-    public function hasPassed(int $a_usr_id) : bool
+    public function hasPassed(int $a_usr_id): bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
             return (bool) $this->participants_status[$a_usr_id]['passed'];
@@ -648,7 +651,7 @@ abstract class ilParticipants
     /**
      * Drop user from all roles
      */
-    public function delete(int $a_usr_id) : void
+    public function delete(int $a_usr_id): void
     {
         $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
         foreach ($this->roles as $role_id) {
@@ -676,7 +679,7 @@ abstract class ilParticipants
     /**
      * Update blocked status
      */
-    public function updateBlocked(int $a_usr_id, bool $a_blocked) : void
+    public function updateBlocked(int $a_usr_id, bool $a_blocked): void
     {
         $this->participants_status[$a_usr_id]['blocked'] = (int) $a_blocked;
         $query = "SELECT * FROM obj_members " .
@@ -701,7 +704,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function updateContact(int $a_usr_id, bool $a_contact) : void
+    public function updateContact(int $a_usr_id, bool $a_contact): void
     {
         $this->ilDB->manipulate(
             'UPDATE obj_members SET ' .
@@ -716,7 +719,7 @@ abstract class ilParticipants
      * get user ids which are confirgured as contact
      * @return int[]
      */
-    public function getContacts() : array
+    public function getContacts(): array
     {
         $contacts = array();
         foreach ($this->participants_status as $usr_id => $status) {
@@ -730,7 +733,7 @@ abstract class ilParticipants
     /**
      * Update notification status
      */
-    public function updateNotification(int $a_usr_id, bool $a_notification) : void
+    public function updateNotification(int $a_usr_id, bool $a_notification): void
     {
         $this->participants_status[$a_usr_id]['notification'] = $a_notification;
 
@@ -756,7 +759,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function add(int $a_usr_id, int $a_role) : bool
+    public function add(int $a_usr_id, int $a_role): bool
     {
         if ($this->isAssigned($a_usr_id)) {
             return false;
@@ -805,7 +808,7 @@ abstract class ilParticipants
     /**
      * @param int[]
      */
-    public function deleteParticipants(array $a_user_ids) : bool
+    public function deleteParticipants(array $a_user_ids): bool
     {
         foreach ($a_user_ids as $user_id) {
             $this->delete($user_id);
@@ -817,14 +820,14 @@ abstract class ilParticipants
      * Add desktop item
      * @access public
      */
-    public function addRecommendation(int $a_usr_id) : void
+    public function addRecommendation(int $a_usr_id): void
     {
         // deactivated for now, see discussion at
         // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
         // $this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
     }
 
-    public function isNotificationEnabled(int $a_usr_id) : bool
+    public function isNotificationEnabled(int $a_usr_id): bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
             return (bool) $this->participants_status[$a_usr_id]['notification'];
@@ -832,7 +835,7 @@ abstract class ilParticipants
         return false;
     }
 
-    public function isContact(int $a_usr_id) : bool
+    public function isContact(int $a_usr_id): bool
     {
         if (isset($this->participants_status[$a_usr_id])) {
             return (bool) $this->participants_status[$a_usr_id]['contact'];
@@ -840,7 +843,7 @@ abstract class ilParticipants
         return false;
     }
 
-    public function getAutoGeneratedRoleId(int $a_role_type) : int
+    public function getAutoGeneratedRoleId(int $a_role_type): int
     {
         if (array_key_exists($a_role_type, $this->role_data)) {
             return $this->role_data[$a_role_type];
@@ -848,7 +851,7 @@ abstract class ilParticipants
         return 0;
     }
 
-    protected function readParticipants() : void
+    protected function readParticipants(): void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
         $this->participants = [];
@@ -964,7 +967,7 @@ abstract class ilParticipants
     /**
      * Read status of participants (blocked, notification, passed)
      */
-    protected function readParticipantsStatus() : void
+    protected function readParticipantsStatus(): void
     {
         $query = "SELECT * FROM obj_members " .
             "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " ";
@@ -981,7 +984,7 @@ abstract class ilParticipants
     /**
      * Check membership for
      */
-    public function isGroupingMember(int $a_usr_id, string $a_field = '') : bool
+    public function isGroupingMember(int $a_usr_id, string $a_field = ''): bool
     {
         if ($a_field === '') {
             return false;
@@ -1023,7 +1026,7 @@ abstract class ilParticipants
     /**
      * @return int[]
      */
-    public static function lookupSubscribers(int $a_obj_id) : array
+    public static function lookupSubscribers(int $a_obj_id): array
     {
         global $DIC;
 
@@ -1044,23 +1047,23 @@ abstract class ilParticipants
      * get all subscribers
      * int[]
      */
-    public function getSubscribers() : array
+    public function getSubscribers(): array
     {
         $this->readSubscribers();
         return $this->subscribers;
     }
 
-    public function getCountSubscribers() : int
+    public function getCountSubscribers(): int
     {
         return count($this->getSubscribers());
     }
 
-    public function getSubscriberData(int $a_usr_id) : array
+    public function getSubscriberData(int $a_usr_id): array
     {
         return $this->readSubscriberData($a_usr_id);
     }
 
-    public function assignSubscribers(array $a_usr_ids) : bool
+    public function assignSubscribers(array $a_usr_ids): bool
     {
         if (!is_array($a_usr_ids) || !count($a_usr_ids)) {
             return false;
@@ -1073,7 +1076,7 @@ abstract class ilParticipants
         return true;
     }
 
-    public function assignSubscriber(int $a_usr_id) : bool
+    public function assignSubscriber(int $a_usr_id): bool
     {
         $this->error->setMessage("");
         if (!$this->isSubscriber($a_usr_id)) {
@@ -1112,7 +1115,7 @@ abstract class ilParticipants
     /**
      * @todo check and fix notification
      */
-    public function autoFillSubscribers() : int
+    public function autoFillSubscribers(): int
     {
         $this->readSubscribers();
         $counter = 0;
@@ -1125,7 +1128,7 @@ abstract class ilParticipants
         return $counter;
     }
 
-    public function addSubscriber(int $a_usr_id) : void
+    public function addSubscriber(int $a_usr_id): void
     {
         $query = "INSERT INTO il_subscribers (usr_id,obj_id,subject,sub_time) " .
             " VALUES (" .
@@ -1137,7 +1140,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime) : void
+    public function updateSubscriptionTime(int $a_usr_id, int $a_subtime): void
     {
         $query = "UPDATE il_subscribers " .
             "SET sub_time = " . $this->ilDB->quote($a_subtime, 'integer') . " " .
@@ -1146,7 +1149,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function updateSubject(int $a_usr_id, string $a_subject) : void
+    public function updateSubject(int $a_usr_id, string $a_subject): void
     {
         $query = "UPDATE il_subscribers " .
             "SET subject = " . $this->ilDB->quote($a_subject, 'text') . " " .
@@ -1155,7 +1158,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function deleteSubscriber(int $a_usr_id) : void
+    public function deleteSubscriber(int $a_usr_id): void
     {
         $query = "DELETE FROM il_subscribers " .
             "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
@@ -1163,7 +1166,7 @@ abstract class ilParticipants
         $res = $this->ilDB->manipulate($query);
     }
 
-    public function deleteSubscribers(array $a_usr_ids) : bool
+    public function deleteSubscribers(array $a_usr_ids): bool
     {
         if (!count($a_usr_ids)) {
             $this->error->setMessage('');
@@ -1177,7 +1180,7 @@ abstract class ilParticipants
         return true;
     }
 
-    public function isSubscriber(int $a_usr_id) : bool
+    public function isSubscriber(int $a_usr_id): bool
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
@@ -1190,7 +1193,7 @@ abstract class ilParticipants
         return false;
     }
 
-    public static function _isSubscriber(int $a_obj_id, int $a_usr_id) : bool
+    public static function _isSubscriber(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -1209,7 +1212,7 @@ abstract class ilParticipants
     /**
      * @todo fix performance; check if method is in use
      */
-    protected function readSubscribers() : void
+    protected function readSubscribers(): void
     {
         $this->subscribers = [];
         $query = "SELECT usr_id FROM il_subscribers " .
@@ -1228,7 +1231,7 @@ abstract class ilParticipants
     /**
      * @return array<{time: int, usr_id: int, subject: string}>
      */
-    protected function readSubscriberData(int $a_usr_id) : array
+    protected function readSubscriberData(int $a_usr_id): array
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
@@ -1248,7 +1251,7 @@ abstract class ilParticipants
      * @param int $a_usr_id
      * @return array<int, array<{time: int, usr_id: int, subject: string}>>
      */
-    public static function lookupSubscribersData(int $a_obj_id) : array
+    public static function lookupSubscribersData(int $a_obj_id): array
     {
         global $DIC;
 
@@ -1274,7 +1277,7 @@ abstract class ilParticipants
      * @todo  join the two queries or alternatively reuse _getMembershipByType
      * @todo  fix returning fetchAssoc result
      */
-    public static function _getAllSupportContactsOfUser(int $a_usr_id, string $a_type) : array
+    public static function _getAllSupportContactsOfUser(int $a_usr_id, string $a_type): array
     {
         global $DIC;
 
@@ -1316,7 +1319,7 @@ abstract class ilParticipants
     /**
      * Set role order position
      */
-    public function setRoleOrderPosition(int $a_user_id) : string
+    public function setRoleOrderPosition(int $a_user_id): string
     {
         $counter = 0;
         $sortable_assignments = '9999999999';

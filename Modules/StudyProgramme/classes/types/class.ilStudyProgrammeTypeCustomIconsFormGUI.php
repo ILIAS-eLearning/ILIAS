@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,6 +42,8 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         ilObjUser $user,
         Filesystem $web_dir
     ) {
+        parent::__construct();
+
         $this->parent_gui = $parent_gui;
         $this->type_repo = $type_repo;
         $this->ctrl = $ctrl;
@@ -55,7 +59,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
     /**
      * Save object (create or update)
      */
-    public function saveObject(ilStudyProgrammeType $type) : bool
+    public function saveObject(ilStudyProgrammeType $type): bool
     {
         $type = $this->fillObject($type);
         if (!$type) {
@@ -72,7 +76,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function initForm() : void
+    public function initForm(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('prg_type_custom_icon'));
@@ -86,7 +90,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
     /**
      * Add all fields to the form
      */
-    public function fillForm(ilStudyProgrammeType $type) : void
+    public function fillForm(ilStudyProgrammeType $type): void
     {
         $item = $this->getItemByPostVar('icon');
         if ($type->getIcon() !== '' && $this->webdir->has($type->getIconPath(true))) {
@@ -98,7 +102,7 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
     /**
      * Check validity of form and pass values from form to object
      */
-    public function fillObject(ilStudyProgrammeType $type) : ?ilStudyProgrammeType
+    public function fillObject(ilStudyProgrammeType $type): ?ilStudyProgrammeType
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {

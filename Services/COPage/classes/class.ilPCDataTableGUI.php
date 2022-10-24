@@ -44,7 +44,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->http = $DIC->http();
     }
 
-    protected function getFormTitle(string $a_mode = "edit") : string
+    protected function getFormTitle(string $a_mode = "edit"): string
     {
         if ($a_mode === "create") {
             return $this->lng->txt("cont_ed_insert_dtab");
@@ -59,7 +59,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     public function executeCommand()
     {
         $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
-        
+
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -75,7 +75,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         return $ret;
     }
 
-    
+
     ////
     //// Classic editing
     ////
@@ -83,7 +83,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update table data in dom and update page in db
      */
-    public function update(bool $a_redirect = true) : void
+    public function update(bool $a_redirect = true): void
     {
         $lng = $this->lng;
 
@@ -103,7 +103,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 }
             }
         }
-        
+
         $this->updated = $this->content_obj->setData($data);
 
         if ($this->updated !== true) {
@@ -122,11 +122,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update via JavaScript
      */
-    public function updateJS() : void
+    public function updateJS(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-                
+
         if ($this->request->getString("cancel_update") != "") {
             //			$this->ctrl->redirect($this, "editData");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -139,7 +139,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
             if (substr($k, 0, 5) != "cell_") {
                 continue;
             }
-            
+
             // determine cell content
             $div = ilUtil::stripSlashes($content, false);
             $p1 = strpos($div, '>');
@@ -211,15 +211,15 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Get new table object
      */
-    public function getNewTableObject() : ilPCDataTable
+    public function getNewTableObject(): ilPCDataTable
     {
         return new ilPCDataTable($this->getPage());
     }
-    
+
     /**
      * After creation processing
      */
-    public function afterCreation() : void
+    public function afterCreation(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -229,11 +229,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
         $ilCtrl->redirect($this, "editData");
     }
-    
+
     /**
      * Perform operation on table (adding, moving, deleting rows/cols)
      */
-    public function tableAction() : void
+    public function tableAction(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -254,16 +254,16 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
         $ilCtrl->redirect($this, "editData");
     }
-    
+
     /**
      * Set tabs
      */
-    public function setTabs(string $data_tab_txt_key = "") : void
+    public function setTabs(string $data_tab_txt_key = ""): void
     {
         parent::setTabs("cont_ed_edit_data");
     }
 
-    protected function getCellContent(int $i, int $j) : string
+    protected function getCellContent(int $i, int $j): string
     {
         $cmd = $this->ctrl->getCmd();
         if ($cmd == "update") {

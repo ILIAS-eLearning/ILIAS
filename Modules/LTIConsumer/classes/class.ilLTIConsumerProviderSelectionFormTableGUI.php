@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,45 +39,47 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
     public function __construct(string $newType, ilObjLTIConsumerGUI $parentGui, string $parentCmd, string $applyFilterCmd, string $resetFilterCmd)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        parent::__construct();
+
         $this->table = new ilLTIConsumerProviderTableGUI($parentGui, $parentCmd);
-        
+
         $this->table->setFilterCommand($applyFilterCmd);
         $this->table->setResetCommand($resetFilterCmd);
-        
+
         $this->table->setSelectProviderCmd('save');
         $this->table->setOwnProviderColumnEnabled(true);
-        
+
         $this->table->setDefaultFilterVisiblity(true);
         $this->table->setDisableFilterHiding(true);
-        
+
         $this->table->init();
-        
+
         $this->setTitle($DIC->language()->txt($newType . '_select_provider'));
     }
-    
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->table->setTitle($a_title);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->table->getTitle();
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         return $this->table->getHTML();
     }
-    
-    public function applyFilter() : void
+
+    public function applyFilter(): void
     {
         $this->table->writeFilterToSession();
         $this->table->resetOffset();
     }
-    
-    public function resetFilter() : void
+
+    public function resetFilter(): void
     {
         $this->table->resetFilter();
         $this->table->resetOffset();
@@ -87,15 +91,15 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
     public function getFilter(string $a_field)
     {
         $field = $this->table->getFilterItemByPostVar($a_field);
-        
+
         if ($field instanceof ilCheckboxInputGUI) {
             return $field->getChecked();
         }
-        
+
         return $field->getValue();
     }
-    
-    public function setData(array $data) : void
+
+    public function setData(array $data): void
     {
         $this->table->setData($data);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -14,21 +16,21 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
     }
 
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
-    {
-        return array();
-    }
-
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         return array();
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
+    {
+        return array();
+    }
+
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         $parts = explode(":", $a_id);
         if (sizeof($parts) != 2) {
@@ -130,7 +132,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
         return "";
     }
 
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.4.0" => array(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ interface ilCertificatePlaceholderValues
      * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilInvalidCertificateException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array;
+    public function getPlaceholderValues(int $userId, int $objId): array;
 
     /**
      * This method is different then the 'getPlaceholderValues' method, this
@@ -42,5 +44,5 @@ interface ilCertificatePlaceholderValues
      * @param int $objId
      * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array;
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array;
 }

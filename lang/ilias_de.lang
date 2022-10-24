@@ -74,7 +74,7 @@ acc#:#acc_tree_on#:#Baumansicht an
 adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
-adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von ILIAS-Konten.
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_support_contacts_info#:#Komma-separierte Liste von Anmeldenamen. Die hier eingetragenen Personen werden in der Fußzeile als Betreuung verlinkt. Falls die „Wer ist online?“-Anzeige genutzt wird, werden die Personen auch dort als technische Betreuung angezeigt.
@@ -292,7 +292,7 @@ administration#:#obj_prfa_desc#:#Globale Portfolioeinstellungen
 administration#:#obj_taxs#:#Taxonomie
 administration#:#obj_taxs_desc#:#Globale Taxonomieeinstellungen
 administration#:#options#:#Optionen
-administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
+administration#:#org_op_edit_user_accounts#:#Anmeldekonten bearbeiten
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
 administration#:#purge_age_limit#:#Begrenze Alter
@@ -892,6 +892,7 @@ assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpassw
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt
+assessment#:#mailnottype_desc#:#Der Besitzer des Tests wird auch dann benachrichtigt, wenn die Anzahl Durchläufe nicht beschränkt ist.
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
@@ -972,6 +973,7 @@ assessment#:#oq_btn_use_order_pictures#:#Verwende Antwort mit Bildern
 assessment#:#oq_btn_use_order_terms#:#Verwende Antwort mit Termen
 assessment#:#oq_header_ordering_elements#:#Anordnungs-Elemente
 assessment#:#or#:#oder
+assessment#:#order#:#Sortierung
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordertext#:#Anzuordnender Text
 assessment#:#ordertext_info#:#Bitte geben Sie den Text in der Reihenfolge ein, in der er horizontal angeordnet werden soll. Die einzelnen Bestandteile werden durch Leerzeichen getrennt. Wenn Sie eine abweichende Trennung benötigen, verwenden Sie bitte stattdessen den Trenner %s anstelle der Leerzeichen.
@@ -1251,9 +1253,9 @@ assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_set_type#:#Auswahl der Testfragen
 assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
-assessment#:#test_question_set_type_fixed_info#:#Alen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch nue erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_fixed_info#:#Allen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
 assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
-assessment#:#test_question_set_type_random_info#:#jedem Teilnehmden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
+assessment#:#test_question_set_type_random_info#:#Jedem Teilnehmenden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
@@ -1293,10 +1295,10 @@ assessment#:#tst_activate_skill_service_desc#:#Erlaubt die Zuordnung von Fragen 
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden. Der weitere Zugriff, auch auf bereits laufende Tests, wird zum Ende des Zeitraums unterbunden.
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_IPE#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
 assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen und Lösungshinweise mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
+assessment#:#tst_add_quest_cont_edit_mode_RTE#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten, Rückmeldungen und Lösungshinweise. Rückmeldungen und Lösungshinweise werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#Sie haben den Test bestanden. Der Test kann nicht noch einmal gestartet werden.
 assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
@@ -1998,24 +2000,24 @@ assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
 auth#:#auth_account_code#:#Code
-auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
-auth#:#auth_account_code_title#:#Benutzerkonten-Code
-auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
-auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto
-auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
+auth#:#auth_account_code_info#:#Um Ihr ILIAS-Konto zu reaktivieren, können Sie einen ILIAS-Anmeldekonten-Code benutzen.
+auth#:#auth_account_code_title#:#Anmeldekonten-Code
+auth#:#auth_account_code_used#:#Ihr ILIAS-Konto wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
+auth#:#auth_account_migration#:#Neues ILIAS-Konto
+auth#:#auth_account_migration_keep#:#Bestehendes Anmeldekonto migrieren
 auth#:#auth_account_migration_name#:#Migration
-auth#:#auth_account_migration_new#:#Neues ILIAS-Benutzerkonto anlegen
+auth#:#auth_account_migration_new#:#Neues ILIAS-Konto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
-auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
+auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Anmeldename/Passwort auch für jene Anmeldekonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
 auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen zu vieler falscher Login-Versuche deaktiviert.
-auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
-auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
+auth#:#auth_err_login_attempts_deactivation#:#Das ILIAS-Konto wurde wegen zu vieler falscher Login-Versuche deaktiviert.
+auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues ILIAS-Konto angelegt.
+auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Konto besitzen, geben Sie bitte den Anmeldenamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginseite gestalten
 auth#:#auth_oidc#:#OpenId Connect
@@ -2081,21 +2083,21 @@ auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines I
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
 auth#:#auth_saml_migration#:#Account-Migration:
-auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS Benutzerkonten auf SAML-Authentifizierung umzustellen.
+auth#:#auth_saml_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS-Anmeldekonten auf SAML-Authentifizierung umzustellen.
 auth#:#auth_saml_role_select#:#Rolle:
-auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity-Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity-Provider unwiderruflich löschen möchten? Für die betroffenen Anmeldekonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_sync#:#Benutzer-Synchronisierung
-auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Benutzerkonto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügen.  Des Weiteren werden bei Aktivierung bereits vorhandene Benutzerkonten aktualisiert.
-auth#:#auth_saml_uid_claim#:#Eindeutiges Attribut für die Benutzerkonten-Identifikation
-auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS bei der Authentifizierung ermitteln kann, ob ein Benutzerkonto bereits existiert, oder ob es sich um ein bereits vorhandenes Benutzerkonto handelt.
+auth#:#auth_saml_sync_info#:#Wenn aktiviert, wird automatisch ein ILIAS-Konto für Personen angelegt, wenn sich diese erfolgreich gegen SAML authentifiziert haben, bisher aber noch nicht über ein eigenes ILIAS-Konto verfügen. Des Weiteren werden bei Aktivierung bereits vorhandene ILIAS-Konten aktualisiert.
+auth#:#auth_saml_uid_claim#:#Eindeutiges Attribut für die Anmeldekonten-Identifikation
+auth#:#auth_saml_uid_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS bei der Authentifizierung ermitteln kann, ob ein Anmeldekonto bereits existiert, oder ob es sich um ein bereits vorhandenes Anmeldekonto handelt.
 auth#:#auth_saml_unknow_idp#:#Der Identity-Provider existiert nicht.
 auth#:#auth_saml_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_saml_user_mapping#:#Zuordnung der Profildaten
-auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Benutzernamen
-auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Benutzernamen generieren soll.
+auth#:#auth_saml_username_claim#:#Attribut für den Anzeigenamen/Anmeldenamen
+auth#:#auth_saml_username_claim_info#:#Definieren Sie hier das Attribut, anhand dessen ILIAS den Anzeigenamen/Anmeldenamen generieren soll.
 auth#:#auth_sync#:#Benutzer-Synchronisierung
-auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über keinen ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
+auth#:#auth_sync_cas#:#Automatische Generierung von ILIAS-Anmeldekonten
+auth#:#auth_sync_cas_info#:#Benutzer, die sich erfolgreich gegen CAS authentifiziert haben, jedoch über kein ILIAS-Konto verfügen, werden automatisch angelegt.
 auth#:#err_auth_ldap_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren ILIAS-Administrator.
 auth#:#err_auth_saml_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren Administrator.
@@ -2150,7 +2152,7 @@ badge#:#badge_add_to_profile#:#Zum Profil hinzufügen
 badge#:#badge_assignment_deletion_confirmation#:#Wollen Sie wirklich die folgenden Badge-Zuordnungen für "%s" entziehen?
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_backpack_connect_failed#:#Das Mozilla Backpack konnte nicht für %s angefragt werden.
-badge#:#badge_backpack_email#:#Mozilla Backpack Account (E-Mail)
+badge#:#badge_backpack_email#:#Mozilla-Backpack-Account (E-Mail)
 badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
 badge#:#badge_backpack_list#:#Mein Backpack
 badge#:#badge_backpack_no_groups#:#Das Mozilla Backpack ist leer bzw. nicht öffentlich.
@@ -2613,14 +2615,17 @@ buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System ü
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
 buddysystem#:#buddy_noti_cr_profile_not_published#:#Profil nicht veröffentlicht
 buddysystem#:#buddy_notification_contact_request#:#Kontaktanfrage
+buddysystem#:#buddy_notification_contact_request_ignore#:#Anfrage ignorieren
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#Anfrage ignorieren
+buddysystem#:#buddy_notification_contact_request_link#:#Anfrage bestätigen
 buddysystem#:#buddy_notification_contact_request_link_osd#:#Anfrage bestätigen
-buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION], "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.
+buddysystem#:#buddy_notification_contact_request_long#:#[SALUTATION][BR][BR]"[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.[BR][BR]Link zum Persönlichen Profil: [PERSONAL_PROFILE_LINK][BR][BR][APPROVE_REQUEST_TXT] [APPROVE_REQUEST][BR][IGNORE_REQUEST_TXT] [IGNORE_REQUEST]
 buddysystem#:#buddy_notification_contact_request_short#:#Der Benutzer "[REQUESTING_USER]" möchte mit Ihnen in Kontakt treten.
 buddysystem#:#buddy_relation_requested#:#Dem Benutzer wurde eine Kontaktanfrage gesendet.
 buddysystem#:#buddy_request_approved#:#Der Kontakt wurde erfolgreich hergestellt.
 buddysystem#:#buddy_request_ignored#:#Sie haben den Benutzer ignoriert.
 buddysystem#:#buddy_tbl_filter_state#:#Status
+buddysystem#:#buddy_tbl_state_actions_col_label#:#Status / Aktion
 buddysystem#:#buddy_tbl_title_relations#:#Beziehungen zu anderen Benutzern
 buddysystem#:#buddy_use_osd#:#Popup Kontaktanfragen
 buddysystem#:#buddy_use_osd_info#:#Zeigt ein Popup an, wenn ein Benutzer mit mir in Kontakt treten möchte.
@@ -2784,9 +2789,9 @@ chatroom#:#chat_anonymous_not_allowed#:#Um den Chatraum nutzen zu können, logge
 chatroom#:#chat_auth_token_info#:#Bitte definieren Sie hier zwei eindeutige Zeichenketten, die ILIAS zur Authentifizierung in Anfragen an den Chat-Server nutzt. Alternativ können diese bei Klick auf den Button automatisch generiert werden. Der Chat-Server kann mehrere ILIAS-Mandanten verwalten, jeder Mandant benötigt aber eine <b>eindeutige</b> Mandanten-ID.
 chatroom#:#chat_ban#:#Sperren
 chatroom#:#chat_broadcast_typing#:#Tippen von Nachrichten anzeigen
-chatroom#:#chat_broadcast_typing_info#:#Falls aktiviert, wird Ihren Chatpartnern in einer Konversation oder einem Chatraum angezeigt, wenn Sie beginnen eine Nachricht zu schreiben.
-chatroom#:#chat_broadcast_typing_no#:#Tippen von Nachrichten bei Chatpartnern nicht anzeigen
-chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten bei Chatpartnern anzeigen
+chatroom#:#chat_broadcast_typing_info#:#Anderen Anwesenden in einem Chat bzw. Chatraum wird angezeigt, wenn Sie beginnen, eine Nachricht zu schreiben.
+chatroom#:#chat_broadcast_typing_no#:#Anderen das Tippen von Nachrichten nicht anzeigen
+chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten den Anwesenden anzeigen
 chatroom#:#chat_connection_disconnected#:#--- <b>#username#</b> hat den Chatraum verlassen ---
 chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum betreten +++
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
@@ -2806,7 +2811,7 @@ chatroom#:#chat_https_cert_info#:#Bitte geben Sie den absoluten Serverpfad zum S
 chatroom#:#chat_https_dhparam_info#:#Bitte geben Sie hier den absoluten Serverpfad zu einer Datei an (bspw.: /etc/ssl/private/dhparam.pem), um Diffie-Hellman-Parameter auszuhandeln (z.B. generiert via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
 chatroom#:#chat_https_key_info#:#Bitte geben Sie den absoluten Serverpfad zum privaten Schlüssel an (bspw.: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#"[INVITER_NAME]" lädt ein in Chatraum "[ROOM_NAME]"
-chatroom#:#chat_invitation_long#:#[SALUTATION]  Sie wurden in einen Chatraum eingeladen: Titel des Chatraums: [ROOM_NAME] Eingeladen von: [INVITER_NAME] Zum Betreten des Chatraums folgen Sie bitte dem angegebenen Link.
+chatroom#:#chat_invitation_long#:#[SALUTATION][BR][BR]Sie wurden in einen Chatraum eingeladen:[BR]Titel des Chatraums: [ROOM_NAME][BR]Eingeladen von: [INVITER_NAME][BR]URL: [LINK][BR][BR]Zum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_nc_inv_x#:#Sie haben %s Chateinladungen.
 chatroom#:#chat_invitation_nc_no_inv#:#Sie haben keine Chateinaldungen.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Link, um den Chatraum zu betreten.
@@ -2825,34 +2830,38 @@ chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird Chatpartnern nicht angezei
 chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
+chatroom#:#chat_osc_accept_msg_info_slate#:#Um private Konversationen zu nuten, müssen Sie die Einstellungen "Anchatten erlauben" aktivieren.
+chatroom#:#chat_osc_accept_msg_info_slate_link_txt#:#Sichtbarkeit (in "Profil und Datenschutz)
+chatroom#:#chat_osc_accept_no_conv_info_slate#:#Aktuelle gibt es keine minimierten Konversationen.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
 chatroom#:#chat_osc_accepts_messages_yes#:#Empfängt Chat-Nachrichten
 chatroom#:#chat_osc_add_user#:#Weitere Benutzer zum Chat hinzufügen
-chatroom#:#chat_osc_conversations#:#Konversationen
-chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
-chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
+chatroom#:#chat_osc_conversations#:#Chat
+chatroom#:#chat_osc_doesnt_accept_msg#:#Chatten nicht möglich
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu einem Chat eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Persönlichen Einstellungen'
 chatroom#:#chat_osc_emoticons#:#Emoticons
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Benutzer
-chatroom#:#chat_osc_invite_to_conversation#:#Zu Konversation hinzufügen
-chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
-chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Konversationen.
-chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine minimierte Konversation.
-chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
+chatroom#:#chat_osc_invite_to_conversation#:#Zu Chat hinzufügen
+chatroom#:#chat_osc_leave_grp_conv#:#Chat verlassen
+chatroom#:#chat_osc_minimize#:#Minimieren
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Chats.
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben einen minimierten Chat.
+chatroom#:#chat_osc_nc_no_conv#:#Keine Chats vorhanden
 chatroom#:#chat_osc_nc_prop_time#:#Zeit
-chatroom#:#chat_osc_no_conv#:#Keine Konversationen vorhanden.
+chatroom#:#chat_osc_no_conv#:#Keine Chats vorhanden.
 chatroom#:#chat_osc_no_sub_directory#:#Relativer Pfad
 chatroom#:#chat_osc_no_sub_directory_info#:#Wird der Chatserver so konfiguriert, dass der zugehörige URL einen Unterpfad der Form "http(s)://[IP/Domain]/[UNTERVERZEICHNIS]" enthält, muss hier das relative [UNTERVERZEICHNIS] angegeben werden. In den meisten Szenarien kann dieses Feld leer gelassen werden.
 chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
-chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einem Benutzer, den Sie zur Konversation hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird der Benutzer zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
-chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht an der Konversation teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
+chatroom#:#chat_osc_search_modal_info#:#Suchen Sie hier nach einer Person, die Sie zum Chat hinzufügen möchten. Wenn Sie den Suchdialog in einem Gruppen-Chat geöffnet haben, wird die Person zu diesem hinzugefügt. Wenn Sie den Suchdialog aus aus einem Einzel-Chat heraus geöffnet haben, öffnet sich nach dem Hinzufügen ein neues Fenster für den Gruppen-Chat.
+chatroom#:#chat_osc_self_rej_msgs#:#Sie können aktuell nicht am Chat teilnehmen, da Sie den Empfang von Chat-Nachrichten in Ihren Einstellungen aktuell unterdrückt haben.
 chatroom#:#chat_osc_send#:#Senden
-chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_start_conversation#:#Chat starten
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
-chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
-chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
+chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Chatspartner möchten aktuell keine Nachrichten mehr empfangen: %s
+chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie den Gruppenchat verlassen möchten?
 chatroom#:#chat_osc_user#:#Benutzer
-chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
+chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat den Gruppenchat verlassen.
 chatroom#:#chat_osc_write_a_msg#:#Eine Nachricht verfassen …
 chatroom#:#chat_select_room#:#Chatraum auswählen
 chatroom#:#chat_settings#:#Chat-Einstellungen
@@ -2873,7 +2882,7 @@ chatroom#:#chatroom_auth_secret#:#Authentifikation-Geheimnis
 chatroom#:#chatroom_client_name#:#Name
 chatroom#:#chatroom_client_name_info#:#Geben Sie hier einen global eindeutigen Namen des Mandanten zur Registrierung am Chat-Server ein. Initial wird hier die Mandanten-ID genutzt. Beim Ändern dieses Wertes muss der Chat-Server neu gestartet werden.
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
-chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
+chatroom#:#chatroom_enable_osc_info#:#Der On-Screen-Chat steht allen auf der Plattform zur Verfügung. Jede Person kann jedoch individuell entscheiden, ob er oder sie von anderen Personen angesprochen werden möchte. Chats können über das „Who is online?“-Tool gestartet werden.
 chatroom#:#chatroom_log#:#Chatserver Log-File
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
 chatroom#:#chatserver_address#:#IP-Adresse/FQN des Chat-Servers
@@ -2915,7 +2924,7 @@ chatroom#:#history_title_private_room#:#Unterhaltungen im Séparée "%s"
 chatroom#:#ilias_chatserver_connection#:#Verbindung ILIAS zum Server
 chatroom#:#ilias_proxy_info#:#Falls der Server nicht über die eigentliche IP-Adresse und Port erreichbar ist, ist es möglich, einen alternative URL für die Verbindung zwischen ILIAS und Server zu definieren.
 chatroom#:#invite_to_private_room#:#In aktuellen Raum einladen
-chatroom#:#invite_username#:#Benutzername
+chatroom#:#invite_username#:#Anmeldenamen
 chatroom#:#key#:#Schlüssel
 chatroom#:#kick_question#:#Wollen Sie den Benutzer wirklich aus dem aktuellen Chatraum rauswerfen?
 chatroom#:#kicked#:#Die Moderation hat Sie aus dem Chat entfernt.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2926,12 +2935,12 @@ chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
 chatroom#:#no_messages#:#Es sind keine Nachrichten für den ausgewählten Zeitraum verfügbar.
-chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
+chatroom#:#no_username_given#:#Bitte wählen Sie einen Anmeldenamen
 chatroom#:#obj_chtr#:#Chatroom
 chatroom#:#osc_browser_noti_no_permission_error#:#Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems. Andernfalls kann ILIAS keine Browser-Benachrichtigungen zustellen.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser-Benachrichtigungen werden mit Ihrem aktuellem Browser nicht unterstützt. Bitte stellen Sie sicher, dass Sie via HTTPS auf ILIAS zugreifen, und Ihr Browser als <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">unterstützter Browser</a> aufgelistet wird.
 chatroom#:#osc_browser_noti_req_permission_error#:#Die Browser-Benachrichtigungen konnten nicht aktiviert werden, da Sie den Zugriff in Ihrem Browser verweigert haben. Bitte entfernen Sie die ILIAS-Domain von der Liste der blockierten Websites in den Benachrichtigungs-Einstellungen Ihres Browsers oder Betriebssystems.
-chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten einer Konversation mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
+chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Chats oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Chat-Beiträgen mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#period#:#Zeitraum
@@ -2982,9 +2991,9 @@ chatroom_adm#:#chatserver_settings_title#:#Chat-Server
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
 chatroom_adm#:#https#:#HTTPS
-chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
+chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Chat-Beiträge und -Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
 chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
-chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten eines Chats, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Zeit zwischen Benachrichtigungen
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#protocol#:#Protokoll
@@ -3097,20 +3106,24 @@ cmix#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Auf
 cmix#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
 cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_privacy_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
+cmix#:#conf_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_sha256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_privacy_ident_il_uuid_sha256url_info#:#Dies ist identisch mit jedem Aufruf, mit maximal 80 Zeichen deutlich kürzer als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse auf den ILIAS-Benutzer.
 cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 cmix#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-cmix#:#conf_privacy_name#:#Benutzername
+cmix#:#conf_privacy_name#:#Anmeldenamen
 cmix#:#conf_privacy_name_firstname#:#Vorname
 cmix#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_privacy_name_fullname#:#Vollständiger Name
 cmix#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 cmix#:#conf_privacy_name_lastname#:#Titel und Nachname
 cmix#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_privacy_name_none#:#Keiner
@@ -3133,19 +3146,19 @@ cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufru
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-cmix#:#conf_user_name#:#Benutzername
+cmix#:#conf_user_name#:#Anmeldenamen
 cmix#:#conf_user_name_firstname#:#Vorname
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
 cmix#:#conf_user_name_fullname#:#Vollständiger Name
 cmix#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-cmix#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 cmix#:#conf_user_name_lastname#:#Titel und Nachname
 cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 cmix#:#conf_user_name_none#:#Keiner
 cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
 cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
 cmix#:#content_privacy_ident#:#Benutzeridentifikation
-cmix#:#content_privacy_name#:#Benutzername
+cmix#:#content_privacy_name#:#Anmeldenamen
 cmix#:#create_lrs_type_form#:#Neuer LRS-Typ
 cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
@@ -3374,8 +3387,8 @@ common#:#access_users#:#Eingeloggte Benutzer
 common#:#accesscount_registered_users#:#Gelesen von Benutzern (Anzahl)
 common#:#accessibility_control_concept#:#Info Barrierefreiheit
 common#:#account#:#Mein Konto
-common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#Benutzerzugang
+common#:#account_expires_body#:#Ihr ILIAS-Konto ist zeitlich begrenzt. Ablauftermin:
+common#:#account_expires_subject#:#ILIAS-Konto
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -3444,7 +3457,7 @@ common#:#apply#:#Übernehmen
 common#:#apply_filter#:#Filter anwenden
 common#:#appointment#:#Termin
 common#:#approve_date#:#Freigegeben am
-common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Benutzername ID)
+common#:#approve_recipient#:#E-Mail-Benachrichtigung für (Anmeldename ID)
 common#:#archive#:#Archiv
 common#:#archive_broken#:#Archiv scheint beschädigt oder leer zu sein.
 common#:#are_you_sure#:#Sind Sie sicher?
@@ -3483,7 +3496,7 @@ common#:#attempts#:#Versuche
 common#:#auth_active_roles#:#Verfügbare globale Rollen auf dem Registrierformular
 common#:#auth_allow_local#:#Erlaube lokale Authentifizierung
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#Erlaubt CAS-Benutzern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort anzumelden/zu authentifizieren.
+common#:#auth_cas_allow_local_desc#:#Erlaubt Personen mit CAS-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort anzumelden.
 common#:#auth_cas_auth#:#Konfiguriere CAS-Authentifizierung
 common#:#auth_cas_auth_desc#:#CAS erfordert PHP 4.3.1 oder höher mit CURL-Unterstützung (7.5 oder höher)
 common#:#auth_cas_port_desc#:#Zum Beispiel "443" bei einer CAS-Server-URI "https://auth.yourserver.com:443/cas/"
@@ -3497,7 +3510,7 @@ common#:#auth_ecs#:#ECS
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_enable#:#LDAP-Unterstützung aktivieren
 common#:#auth_ldap_migration#:#Account-Migration
-common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS-Benutzerkonten auf LDAP-Authentifizierung umzustellen.
+common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten, eventuell vorhandene ILIAS-Anmeldekonten auf LDAP-Authentifizierung umzustellen.
 common#:#auth_local#:#ILIAS Auth
 common#:#auth_login_instructions#:#Anweisungen auf dem Anmeldebildschirm
 common#:#auth_mode#:#Authentifizierungsmodus
@@ -3505,7 +3518,7 @@ common#:#auth_mode_not_changed#:#(Keine Änderung)
 common#:#auth_mode_roles_changed#:#Authentifizierungsmodus für diese Rolle geändert
 common#:#auth_new_account_mail_desc#:#Mail für neue Benutzer.
 common#:#auth_per_default#:#Standardwert
-common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
+common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Anmeldenamen und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Benutzerdefiniert
@@ -3517,10 +3530,10 @@ common#:#auth_shib_instructions#:#Bitte lesen Sie die Hinweise (README) zur Konf
 common#:#auth_shib_not_configured#:#Shibboleth ist noch nicht eingerichtet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
-common#:#auth_soap_allow_local_desc#:#Erlaubt SOAP-Benutzern, sich mit ihrem lokalen ILIAS-Benutzernamen und -Passwort zu authentifizieren/anzumelden.
+common#:#auth_soap_allow_local_desc#:#Erlaubt Personen mit SOAP-Konten, sich mit ihrem lokalen ILIAS-Anmeldenamen und -Passwort zu authentifizieren/anzumelden.
 common#:#auth_soap_auth#:#Konfiguriere SOAP-Authentifizierung
 common#:#auth_soap_auth_desc#:#Diese Einstellung betrifft nur die SOAP-basierte Benutzerauthentifizierung, nicht aber das ILIAS-SOAP-Interface.
-common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Benutzerkonto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über einen ILIAS-Account verfügten.
+common#:#auth_soap_create_users_desc#:#Erzeugt automatisch ein ILIAS-Konto für Personen, die sich erfolgreich gegen SOAP authentifiziert haben, bisher aber noch nicht über ein ILIAS-Konto verfügen.
 common#:#auth_soap_namespace#:#Namensraum
 common#:#auth_soap_namespace_desc#:#Entsprechend Definition in WSDL. Muss angegeben werden, wenn .NET-SOAP-Style genutzt wird.
 common#:#auth_soap_port_desc#:#Zum Beispiel "8080", wenn die absolute SOAP-Server-URI http://auth.yourserver.com:8080/dir/server.php lautet.
@@ -3623,7 +3636,7 @@ common#:#change_owner#:#Speichern###Modified as part of gender mainstreaming act
 common#:#change_sort_direction#:#Sortierrichtung ändern
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
-common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
+common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Anmeldenamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
 common#:#characters#:#Zeichen
 common#:#chat_enter_public_room#:#Öffentl. Chat
@@ -3749,9 +3762,9 @@ common#:#cron_mail_notification_message#:#Mail content as part of the e-mail not
 common#:#cron_mail_notification_message_info#:#E-Mail-Benachrichtigungen enthalten den kompletten Inhalt der in ILIAS erhaltenen Mails. So können diese ohne weitere Anmeldung gelesen werden.
 common#:#cron_mail_notification_never#:#Nie
 common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
-common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
+common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Anmeldekonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
-common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#cronjob_last_start#:#Letzter Start des Cron-Jobs
 common#:#cronjob_last_start_unknown#:#Konnte nicht ermittelt werden
 common#:#crs#:#Kurs
@@ -3784,6 +3797,7 @@ common#:#crsr#:#Kurslink
 common#:#crsr_add#:#Kurslink anlegen
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
 common#:#crsr_new#:#Neuen Kurslink anlegen
+common#:#crsr_settings#:#Einstellungen des Kurslinks
 common#:#csv_export#:#CSV-Export
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
@@ -3828,15 +3842,15 @@ common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
 common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das ILIAS-Konto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#ILIAS-Konto wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -3937,8 +3951,8 @@ common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authen
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
 common#:#err_in_line#:#Fehler in Zeile
-common#:#err_inactive#:#Dieses Benutzerkonto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
-common#:#err_inactive_login_attempts#:#Ihr Benutzerkonto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf 'Technische Betreuung kontaktieren' am Fuße dieser Seite, um die Administratoren zu informieren, dass sie Ihr Benutzerkonto wieder aktivieren sollen.
+common#:#err_inactive#:#Dieses ILIAS-Konto ist nicht aktiv bzw. noch nicht aktiviert worden. Bitte kontaktieren Sie den Technischen Support (siehe Link unten) für weitere Unterstützung.
+common#:#err_inactive_login_attempts#:#Ihr ILIAS-Konto wurde wegen falscher Login-Versuche deaktiviert. Klicken Sie auf „Technische Betreuung kontaktieren“ am Fuße dieser Seite, um die Administratoren zu informieren, dass diese Ihr ILIAS-Konto wieder aktivieren sollen.
 common#:#err_invalid_port#:#Ungültige Portnummer
 common#:#err_no_cookies#:#Bitte aktivieren Sie Session-Cookies in Ihrem Browser!
 common#:#err_no_langfile_found#:#Keine Sprachdateien gefunden!
@@ -3946,9 +3960,9 @@ common#:#err_no_param#:#Keine Parameter!
 common#:#err_over_3_param#:#Mehr als 3 Parameter!
 common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Benutzer zugeordnet werden
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
-common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Anmeldekonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_header#:#Grund: Falscher Header
-common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_wrong_login#:#Der Anmeldename oder das Passwort sind ungültig.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
@@ -4080,7 +4094,7 @@ common#:#folders#:#Ordner
 common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
 common#:#force_accept_usr_agreement#:#Sie müssen die Nutzungsvereinbarung akzeptieren!
 common#:#forgot_password#:#Passwort vergessen?
-common#:#forgot_username#:#Benutzernamen vergessen?
+common#:#forgot_username#:#Anmeldenamen vergessen?
 common#:#form_input_not_valid#:#Einige Angaben sind unvollständig oder ungültig. Bitte korrigieren Sie Ihre Eingabe.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Benachrichtigung
@@ -4097,7 +4111,7 @@ common#:#forums_last_post#:#Letzter Beitrag
 common#:#forums_new_articles#:#Neue Beiträge
 common#:#forums_notification_settings#:#Benachrichtigung über neue und geänderte Forenbeiträge
 common#:#forums_threads#:#Themen
-common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "anonym" geschrieben markiert.
+common#:#forums_use_alias#:#Sie können hier ein Pseudonym eingeben, das Sie für diesen Beitrag verwenden möchten. Wenn Sie dieses Feld leer lassen, wird Ihr Beitrag als von "%s" geschrieben markiert.
 common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_add#:#Forum anlegen
@@ -4193,6 +4207,7 @@ common#:#grpr_add#:#Gruppenlink anlegen
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
 common#:#grpr_new#:#Neuen Gruppenlink anlegen
+common#:#grpr_settings#:#Einstellungen des Gruppenlinks
 common#:#header_searchable#:#Durchsuchbar
 common#:#header_title#:#Installationsüberschrift
 common#:#header_visible_registration#:#Sichtbar im Registrierungsformular
@@ -4341,7 +4356,7 @@ common#:#itgr_add#:#Objekteblock anlegen
 common#:#itgr_new#:#Neuen Objekteblock anlegen
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
-common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowie PDF-Dateien gesucht werden.
+common#:#java_server_info#:#Diese indexbasierte Suchart durchsucht sowohl die ILIAS-Datenbank als auch Dateien. Sie wird für größere ILIAS-Installationen empfohlen. Um die Lucene-Suche in ILIAS verwenden zu können, muss der JAVA-basierte ilServer installiert und konfiguriert sein (siehe Reiter „Lucene“).
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
 common#:#join#:#Beitreten
@@ -4649,7 +4664,7 @@ common#:#msg_may_not_contain#:#Dieses Objekt darf keine Objekte des folgenden Ty
 common#:#msg_min_one_role#:#Jeder Benutzer muss mindestens einer globalen Rolle zugewiesen sein!
 common#:#msg_multi_language_selected#:#Es ist nicht möglich, für mehrere Übersetzungen die gleiche Sprache auszuwählen
 common#:#msg_no_default_language#:#Keine Standardübersetzung bestimmt! Sie müssen eine Sprache als Standardübersetzung definieren.
-common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Benutzerkonto löschen.
+common#:#msg_no_delete_yourself#:#Sie können nicht Ihr eigenes Anmeldekonto löschen.
 common#:#msg_no_file#:#Sie haben keine Datei ausgewählt oder die ausgewählte Datei war zu groß.
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 common#:#msg_no_language_selected#:#Angabe einer Übersetzungsprache fehlt! Sie müssen für alle Übersetzungen eine Sprache bestimmen
@@ -4796,8 +4811,8 @@ common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
 common#:#obj_cld#:#Cloud Object###29 07 2022 new variable
-common#:#obj_cmis#:#xAPI/cmi5
-common#:#obj_cmis_desc#:#Konfiguration Learning Record Store Typen
+common#:#obj_cmis#:#LRS
+common#:#obj_cmis_desc#:#Typen von Learning Record Stores konfigurieren
 common#:#obj_cmix#:#xAPI/cmi5
 common#:#obj_cmps#:#Plugins
 common#:#obj_cmps_desc#:#Allgemeine Einstellungen für Plugins
@@ -5016,7 +5031,7 @@ common#:#obj_type#:#Objekttyp
 common#:#obj_user#:#Benutzer
 common#:#obj_usr#:#Benutzer
 common#:#obj_usrf#:#Benutzerverwaltung
-common#:#obj_usrf_desc#:#Benutzerkontenverwaltung
+common#:#obj_usrf_desc#:#Anmeldekontenverwaltung
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
 common#:#obj_wbrs#:#Weblink
@@ -5238,6 +5253,7 @@ common#:#prg_wizard_page#:#Studienprogramm kopieren (Schritt 2/2)
 common#:#prgr_add#:#Link zu Studienprogramm anlegen
 common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_settings#:#Einstellungen des Links zum Studienprogramm
 common#:#print#:#Drucken
 common#:#print_view#:#Druckansicht
 common#:#private_notes#:#Private Notizen
@@ -5294,11 +5310,11 @@ common#:#refresh#:#Aktualisieren
 common#:#refresh_languages#:#Alle Sprachen aktualisieren
 common#:#refuse#:#Antrag ablehnen
 common#:#refuse_tos_acceptance#:#Akzeptanz der Nutzungsvereinbarung ablehnen
-common#:#reg_account_confirmation_successful#:#Das Benutzerkonto wurde bestätigt und aktiviert.
+common#:#reg_account_confirmation_successful#:#Das ILIAS-Konto wurde bestätigt und aktiviert.
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
 common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
-common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Login-Seite.
+common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für dieses ILIAS-Konto zu beantragen, nutzen Sie bitte die Funktion „Passwort vergessen?“ auf der Login-Seite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
 common#:#reg_mail_body_text2#:#Ihre Zugangsdaten:
@@ -5311,7 +5327,7 @@ common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" bean
 common#:#registered_since#:#Eingetragen seit
 common#:#registered_user#:#registrierter Benutzer
 common#:#registered_users#:#registrierte Benutzer
-common#:#registration#:#Neues Benutzerkonto registrieren
+common#:#registration#:#Neues ILIAS-Konto registrieren
 common#:#related_to#:#Bezieht sich auf
 common#:#remove#:#Entfernen
 common#:#remove_entries#:#Einträge löschen
@@ -5412,8 +5428,8 @@ common#:#scorm_create_export_file_pdf#:#PDF-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom12#:#SCORM 1.2-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom2004#:#SCORM 2004-Exportdatei erzeugen
 common#:#scorm_create_export_file_scrom2004_4th#:#SCORM 2004-4th_edition-Exportdatei erstellen
-common#:#scorm_login_as_learner_id#:#SCORM 2004: Setze ILIAS-Benutzernamen als cmi.learner_id
-common#:#scorm_login_as_learner_id_info#:#Wenn aktiviert wird der ILIAS-Benutzername an Stelle der ILIAS-Benutzer-ID für die cmi.learner_id gesetzt.
+common#:#scorm_login_as_learner_id#:#SCORM 2004: Setze ILIAS-Anmeldenamen als cmi.learner_id
+common#:#scorm_login_as_learner_id_info#:#An Stelle der ILIAS-Benutzer-ID wird der ILIAS-Anmeldename für die cmi.learner_id gesetzt.
 common#:#scorm_lp_auto_activate#:#Standardeinstellungen für den Lernfortschritt
 common#:#scorm_lp_auto_activate_info#:#Wenn der Lernfortschritt im Allgemeinen aktiviert ist, wird bei neuen SCORM-Lernmodulen der Gesamtstatus des Lernfortschritts bestimmt durch ausgewählte SCORM-Materialien (SCOs) und alle SCOs werden für die Lernfortschritts-Bestimmung ausgewählt. Anpassungen sind weiterhin bei jedem SCORM-Lernmodul möglich.
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
@@ -5432,7 +5448,7 @@ common#:#search_result#:#Suchergebnis
 common#:#search_results#:#Suchergebnisse
 common#:#search_user#:#Benutzer suchen
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
-common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
+common#:#seas_max_hits_info#:#Stellen Sie hier die Maximalanzahl von Suchergebnissen ein, die nach einer Suchanfrage ausgegeben werden. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
 common#:#seas_settings#:#Sucheinstellungen
 common#:#second#:#Sekunde
 common#:#second_email#:#Zweite E-Mail
@@ -5662,6 +5678,7 @@ common#:#toggle_dropdown#:#Toggle Dropdown
 common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
 common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht, um Darstellungsprobleme beim Toggle Button zu verhindern!
 common#:#tomorrow#:#Morgen
+common#:#toolbar_more_actions#:#Mehr Aktionen
 common#:#tools#:#Tools
 common#:#top_of_page#:#Seitenanfang
 common#:#total#:#Gesamt
@@ -5684,7 +5701,7 @@ common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
 common#:#tutors#:#Tutoren
 common#:#txt_registered#:#Sie haben sich erfolgreich bei ILIAS registriert. Klicken Sie bitte auf den untenstehenden Button, um in ILIAS zu gelangen.
 common#:#txt_registered_passw_gen#:#Sie haben sich erfolgreich bei ILIAS registriert. Sie werden in Kürze eine E-Mail mit Ihrem Passwort erhalten.
-common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Benutzerkonto muss noch vom Systemadministrator freigegeben werden. Wir bitten um Ihre Geduld.
+common#:#txt_submitted#:#Sie haben sich erfolgreich bei ILIAS registriert. Ihr Konto muss noch von der Systemadministration freigegeben werden. Wir bitten um Ihre Geduld.
 common#:#typ#:#Objekttyp-Definition
 common#:#type#:#Typ
 common#:#udf_added_field#:#Ein neues Feld wurde angelegt.
@@ -5750,15 +5767,15 @@ common#:#user_defined_fields#:#Benutzerdefinierte Felder
 common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
-common#:#user_ext_account#:#Externes Benutzerkonto
-common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP- oder LDAP-Authentifizierung)
+common#:#user_ext_account#:#Externes Anmeldekonto
+common#:#user_ext_account_desc#:#Anmeldekonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP- oder LDAP-Authentifizierung)
 common#:#user_image#:#Benutzerbild
 common#:#user_import_failed#:#Benutzerimport fehlgeschlagen.
 common#:#user_imported#:#Benutzerimport abgeschlossen.
 common#:#user_imported_with_warnings#:#Benutzerimport mit Warnungen abgeschlossen.
 common#:#user_language#:#Benutzersprache
 common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
-common#:#user_never_logged_in_info#:#Accounts werden gelöscht, wenn sie sich noch nie in ILIAS angemeldet haben.
+common#:#user_never_logged_in_info#:#ILIAS-Konten werden gelöscht, wenn sich noch nie jemand damit in ILIAS angemeldet hat.
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
 common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
 common#:#user_new_account_mail_desc#:#Diese E-Mail wird nach dem Anlegen eines ILIAS-Kontos verschickt. Wurde das Konto von der technischen Leitung angelegt, verschickt ILIAS nur dann eine E-Mail, wenn beim Anlegen die Option „Benutzer per Mail über Änderungen informieren“ aktiviert wurde.
@@ -5797,25 +5814,25 @@ common#:#usr_name_undisclosed#:#Nicht freigegeben
 common#:#usr_new#:#Neuer Benutzer
 common#:#usr_settings_changeable_lua#:#Änderbar in lokaler Benutzerverwaltung
 common#:#usr_settings_explanation_profile#:#Bestimmen Sie in der folgenden Tabelle, welche Felder für einen Benutzer sichtbar und welche änderbar sind. Ist ein Datenfeld 'Sichtbar', werden die Daten angezeigt, können aber nicht geändert werden. Ist ein Datenfeld 'Änderbar' kann der Benutzer die Daten nachträglich ändern. Bei der Einstellung 'Erforderliche Angabe' ist die Eingabe verpflichtend. Unabhängig von diesen Einstellungen können Systemadministratoren alle Daten in der Benutzeradministration ändern.
-common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
+common#:#usr_settings_header_profile#:#Einstellungen für die Anmeldekonten
 common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
 common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
-common#:#usrf#:#Benutzerkonten
-common#:#usrf_profile_link#:#Link zum Benutzerkonto
+common#:#usrf#:#Anmeldekonten
+common#:#usrf_profile_link#:#Link zum ILIAS-Konto
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
 common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
-common#:#usrimport_cant_delete#:#Kann "Delete" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
-common#:#usrimport_cant_insert#:#Kann "Insert" Aktion nicht ausführen. Benutzerkonto bereits in Datenbank vorhanden.
-common#:#usrimport_cant_update#:#Kann "Update" Aktion nicht ausführen. Kein Benutzerkonto in Datenbank vorhanden.
+common#:#usrimport_cant_delete#:#Kann „Delete“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
+common#:#usrimport_cant_insert#:#Kann „Insert“ Aktion nicht ausführen. ILIAS-Konto ist bereits in der Datenbank vorhanden.
+common#:#usrimport_cant_update#:#Kann „Update“ Aktion nicht ausführen. Kein passendes ILIAS-Konto in der Datenbank vorhanden.
 common#:#usrimport_conflict_handling_info#:#Bei „Ignoriere bei Konflikt“ überspringt ILIAS alle Daten, die nicht problemlos importiert werden können. In diesem Fall würde zum Beispiel eine „Insert“-Aktion nicht ausgeführt, wenn bereits ein Konto mit dem gleichen Anmeldenamen in der Datenbank vorhanden ist. Sie erhalten einen Fehlerbericht, um Ihre Importdatei zu korrigieren. <br>Bei „Aktualisieren bei Konflikt“ überschreibt ILIAS bei Problemen die Inhalte auf der Datenbank. Hierbei kann es zu einem Datenverlust kommen. Nutzen Sie diese Option nur, wenn Sie sicher sind, dass Ihre Importdatei fehlerfrei ist.
 common#:#usrimport_form_not_evaluabe#:#Das Formular konnte nicht ausgelesen werden.
 common#:#usrimport_global_role_for_action_required#:#Für die "%1$s" Aktion muss mindestens eine globale Rolle angegeben werden.
 common#:#usrimport_ignore_role#:#Rolle ignorieren
 common#:#usrimport_login_is_not_unique#:#Anmeldename ist nicht eindeutig.###Modified as part of gender mainstreaming activities for ILIAS 8
-common#:#usrimport_no_insert_ext_account_exists#:#Import nicht möglich. Externes Benutzerkonto existiert bereits.
-common#:#usrimport_no_update_ext_account_exists#:#Update nicht möglich. Externes Benutzerkonto existiert bereits.
+common#:#usrimport_no_insert_ext_account_exists#:#Import nicht möglich. Externes Anmeldekonto existiert bereits.
+common#:#usrimport_no_update_ext_account_exists#:#Update nicht möglich. Externes Anmeldekonto existiert bereits.
 common#:#usrimport_with_specified_role_not_permitted#:#Sie haben keine Berechtigung zum Importieren von Benutzern mit der angegebenen Rolle.
 common#:#usrimport_wrong_file_count#:#Zu viele Dateien im Import-Ordner. Bitte versuchen Sie es erneut.
 common#:#usrimport_xml_attribute_missing#:#Attribut "%2$s" fehlt in Element "%1$s".
@@ -5900,20 +5917,20 @@ common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ei
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
 common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Autorisierungssystems, und teilen Sie Ihre Absicht mit.
-common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr Account gelöscht.
+common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen, wird Ihr ILIAS-Konto gelöscht.
 common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
-common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der Nutzeraccount wurde gelöscht.
-common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
+common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der ILIAS-Konto wurde gelöscht.
+common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des ILIAS-Kontos nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_mail_text#:#Guten Tag,[BR][BR]hiermit widerrufe ich mein Einverständnis zur Nutzungsvereinbarung Ihrer ILIAS-Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Anmeldename: %2$s[BR]Externes Konto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr ILIAS-Konto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#    Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
+common#:#wizard_title_info#:#Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
@@ -6842,13 +6859,13 @@ content#:#cont_sc_auto_review_passed#:#nicht speichern ab Status 'bestanden'
 content#:#cont_sc_auto_review_passed_or_failed#:#nicht speichern ab Status 'bestanden' oder 'nicht bestanden'
 content#:#cont_sc_id_setting#:#student_id gemäß SCORM 1.2 entspricht
 content#:#cont_sc_id_setting_2004#:#learner_id gemäß SCORM 2004 entspricht
-content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische Id für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option 'ILIAS-Benutzername'. Der Zusatz RefId bzw. ObjId kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
+content#:#cont_sc_id_setting_info#:#Für den Fall, dass eine numerische ID für student_id (SCORM 1.2) bzw. learner_id (SCORM 2004) beim Lernmodul zu Problemen führt, nutzen Sie die Option „ILIAS-Anmeldename“. Der Zusatz „Ref-ID“ bzw. „Obj-ID“ kann für Lernmodule sinnvoll sein, die sich mit einem externen Server verbinden.
 content#:#cont_sc_id_setting_user_id#:#ILIAS-UserId (Standard)
 content#:#cont_sc_id_setting_user_id_plus_obj_id#:#ILIAS-UserId zuzüglich ObjId des Lernmoduls
 content#:#cont_sc_id_setting_user_id_plus_ref_id#:#ILIAS-UserId zuzüglich RefId des Lernmoduls
-content#:#cont_sc_id_setting_user_login#:#ILIAS-Benutzername
-content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Benutzername zuzüglich ObjId des Lernmoduls
-content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Benutzername zuzüglich RefId des Lernmoduls
+content#:#cont_sc_id_setting_user_login#:#ILIAS-Anmeldename
+content#:#cont_sc_id_setting_user_login_plus_obj_id#:#ILIAS-Anmeldename zuzüglich ObjId des Lernmoduls
+content#:#cont_sc_id_setting_user_login_plus_ref_id#:#ILIAS-Anmeldename zuzüglich RefId des Lernmoduls
 content#:#cont_sc_less_mode_browse#:#Nur Vorschau / Preview ('browse')
 content#:#cont_sc_less_mode_normal#:#Normale Nutzung ('normal')
 content#:#cont_sc_max_attempt_exceed#:#Die maximale Anzahl an Versuchen für dieses Modul wurde erreicht.
@@ -7327,7 +7344,6 @@ crs#:#crs_contact_phone#:#Telefon
 crs#:#crs_contact_responsibility#:#Zuständigkeit
 crs#:#crs_content#:#Kursinhalt
 crs#:#crs_copy#:#Kurs kopieren
-crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_course_group_notification_link#:#Link:
 crs#:#crs_course_period_not_valid#:#Der Zeitraum ist nicht gültig.
 crs#:#crs_course_status_of_users#:#Bestehen des Kurses
@@ -7853,6 +7869,7 @@ crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen akt
 crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
 crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls die Veranstaltung nicht stattfindet. Oder ändern Sie die Mindestanzahl der Mitglieder bzw. den Beitrittszeitraum. Passen Sie hierzu die Einstellungen im Abschnitt „Zeitlich begrenzter Beitritt“ bzw. „Begrenzte Mitgliederanzahl“ an.
+crs#:#obj_count_members#:#Anzahl der Mitglieder
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
@@ -8050,7 +8067,7 @@ dateplaner#:#cal_ch_grp_selection#:#Zuordnung zu Sprechstundengruppen
 dateplaner#:#cal_ch_grp_update_tbl#:#Sprechstundengruppe bearbeiten
 dateplaner#:#cal_ch_grps#:#Sprechstundengruppen
 dateplaner#:#cal_ch_manager#:#Sprechstunden-Manager
-dateplaner#:#cal_ch_manager_info#:#Benutzername des Anwenders, der ebenfalls Ihre Sprechstunden bearbeiten und betreuen darf.
+dateplaner#:#cal_ch_manager_info#:#Um Ihre Sprechstunden von einer anderen Person verwalten zu lassen, müssen Sie hier deren Anmeldename eintragen.
 dateplaner#:#cal_ch_max_books#:#Buchungen pro Teilnehmer
 dateplaner#:#cal_ch_multi_edit_sequence#:#Termine editieren
 dateplaner#:#cal_ch_num_appointments#:#Anzahl an Terminen pro Sprechstunde
@@ -8062,7 +8079,7 @@ dateplaner#:#cal_ch_reject_booking#:#Terminbuchung absagen
 dateplaner#:#cal_ch_target_object#:#Objekt im Magazin
 dateplaner#:#cal_ch_target_object_info#:#Die Sprechstunden werden in Kursen und Gruppen in einem kleinen Block rechts angezeigt. Um dies auf bestimmte Kurse oder Gruppen zu beschränken, geben Sie die Ref-ID des betreffenden Objektes ein. Sie finden diese in der URL des entsprechenden Objekts. Mehrere Ref-IDs geben Sie kommagetrennt ein. Unabhängig davon können Sprechstunden auch in Ihren E-Portfolios erscheinen.
 dateplaner#:#cal_ch_unknown_repository_object#:#Die angegebene Kennung des Objekts ist nicht gültig.
-dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Benutzername existiert nicht.
+dateplaner#:#cal_ch_unknown_user#:#Der eingegebene Anmeldename existiert nicht.
 dateplaner#:#cal_ch_user_assignment_failed_info#:#Die folgenden Benutzer konnten keinem Termin zugeordnet werden, da die maximale Anzahl an Buchungen überschritten wurde.
 dateplaner#:#cal_change_calendar_view#:#Kalenderansicht ändern
 dateplaner#:#cal_change_responsible_users#:#Verantwortliche Mitglieder ändern
@@ -8267,8 +8284,8 @@ dateplaner#:#cal_unshare_cal#:#Freigabe beenden
 dateplaner#:#cal_unshared_selected_usr#:#Die Freigabe für die ausgewählten Benutzer/Rollen wurde beendet.
 dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
-dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
-dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mail-Adressen ein.
+dateplaner#:#cal_user_notification#:#Einzelbenachrichtigung
+dateplaner#:#cal_user_notification_info#:#Eine Mail mit den Termindetails wird an die hier eingetragenen ILIAS-Anmeldenamen oder E-Mail-Adressen versandt.
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
 dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
@@ -9423,7 +9440,7 @@ file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
 file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
+file#:#file_upload_info_file_with_critical_extension#:#Mindestens eine Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator. Dateiname(n): %s
 file#:#file_uploaded_by#:#Version hochgeladen von
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
@@ -9596,6 +9613,8 @@ forum#:#frm_action_not_possible_parent_deleted#:#Die Aktion kann nicht durchgef�
 forum#:#frm_action_not_possible_thr_closed#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde geschlossen.
 forum#:#frm_action_not_possible_thr_deleted#:#Die Aktion kann nicht durchgeführt werden, das Thema wurde gelöscht.
 forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
+forum#:#frm_all_postings_stats#:#Alle
+forum#:#frm_all_threads#:#Alle Themen
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Beiträge können unter beliebigem Namen geschrieben werden. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens eine Person für die Moderation zuständig sein.###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -9934,6 +9953,7 @@ help#:#help_modules#:#Hilfe-Pakete
 help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
 help#:#help_open_online_help#:#Online-Hilfe öffnen
 help#:#help_search_label#:#Suche in Hilfe
+help#:#help_select_a_file#:#Bitte wählen Sie eine Datei.
 help#:#help_set_mode#:#Hilfemodus setzen
 help#:#help_sure_delete_help_modules#:#Wollen Sie diese Pakete wirklich löschen?
 help#:#help_toggle_tooltips#:#Hilfe-Tooltips
@@ -10009,7 +10029,6 @@ iass#:#iass_remove_user_qst#:#Soll der Teilnehmer wirklich entfernt werden?
 iass#:#iass_responsibility#:#Zuständigkeit
 iass#:#iass_save_amend#:#Geänderte Prüfungsdaten speichern
 iass#:#iass_settings_saved#:#Einstellungen gespeichert.
-iass#:#iass_sort#:#Sortierung
 iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
 iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
 iass#:#iass_sort_examiner_login_asc#:#Bewertet von → aufsteigend###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -10175,7 +10194,7 @@ ldap#:#ldap_mapping_table#:#Zuordnung von LDAP-Attributen zu ILIAS-Benutzerdaten
 ldap#:#ldap_mapping_template#:#Vorlage benutzen für Objektklasse:
 ldap#:#ldap_member_info#:#Geben Sie hier den Attributnamen ein, dem die Gruppenmitglieder zugeordnet sind. Wählen Sie 'Attributwert ist DN', wenn die Mitgliedernamen als DN angelegt werden.
 ldap#:#ldap_memberisdn#:#Attributwert ist DN
-ldap#:#ldap_missing_bind_user#:#Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Benutzernamen und das Passwort ein.
+ldap#:#ldap_missing_bind_user#:#Sie haben als Verbindungsart 'Als Benutzer verbinden ausgewählt': Bitte tragen Sie einen Anmeldenamen und das Passwort ein.
 ldap#:#ldap_missing_role_assignment#:#Bitte wählen Sie eine globale Rolle aus, der neu anzulegende Benutzer zugeordnet werden sollen.
 ldap#:#ldap_moment_sync#:#Synchronisierungsart
 ldap#:#ldap_new_role_assignment#:#Neue Zuordnung anlegen
@@ -10192,8 +10211,8 @@ ldap#:#ldap_role_at_name#:#Attributname
 ldap#:#ldap_role_at_value#:#Attributwert
 ldap#:#ldap_role_bind_pass#:#Passwort
 ldap#:#ldap_role_bind_pass_info#:#Passwort des LDAP-Benutzers.
-ldap#:#ldap_role_bind_user#:#Benutzername
-ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Benutzernamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
+ldap#:#ldap_role_bind_user#:#Anmeldename
+ldap#:#ldap_role_bind_user_info#:#Bitte geben einen LDAP-Anmeldenamen ein. Dieser Benutzer muss Schreibzugriff auf die zu aktualisierenden Gruppen besitzen.
 ldap#:#ldap_role_by_attribute#:#Benutzerattribut
 ldap#:#ldap_role_by_group#:#Gruppenzugehörigkeit
 ldap#:#ldap_role_by_plugin#:#Per Plugin
@@ -10239,9 +10258,9 @@ ldap#:#ldap_user_scope#:#Suchbereich
 ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zweifelsfall "Sub".
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_cron#:#LDAP-Benutzersynchronisierung
-ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
+ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Anmeldekonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
-ldap#:#ldap_username_filter#:#Benutzernamen Filter
+ldap#:#ldap_username_filter#:#Anmeldenamen-Filter
 ldap#:#ldap_username_filter_info#:#Benutzen Sie * als Wildcard.
 lhist#:#cont_create_lhist#:#Element für Lernverlauf erstellen
 lhist#:#cont_update_lhist#:#Element für Lernverlaufs bearbeiten
@@ -10410,7 +10429,7 @@ lso#:#table_title#:#Titel
 lso#:#unparticipate#:#Lernsequenz verlassen
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#activity_id#:#Activity-ID
-lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
+lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider bzw. -Tool verwendet, um Statements zu identifizieren.
 lti#:#auth_lti#:#LTI Auth
 lti#:#conf_privacy_ident#:#Benutzeridentifikation
 lti#:#conf_privacy_ident_il_uuid_SHA256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
@@ -10418,18 +10437,22 @@ lti#:#conf_privacy_ident_il_uuid_SHA256_info#:#Dies ist identisch mit jedem Aufr
 lti#:#conf_privacy_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
-lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Benutzernamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_login_info#:#Sendet den Anmeldenamen. Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_privacy_ident_il_uuid_sha256#:#Hash kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_sha256_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkten Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_privacy_ident_il_uuid_sha256url#:#Hash kombiniert mit der ILIAS-Domain, die als E-Mail-Adresse formatiert ist
+lti#:#conf_privacy_ident_il_uuid_sha256url_info#:#Dies ist identisch mit jedem Aufruf, mit maximal 80 Zeichen deutlich kürzer als die Variante mit der ILIAS-Plattform-ID und ermöglicht nur sehr eingeschränkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 lti#:#conf_privacy_ident_il_uuid_user_id_info#:#Sendet die interne numerische Benutzer-Id. Dies ist identisch mit jedem Aufruf, ermöglicht aber Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_privacy_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_privacy_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_privacy_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-lti#:#conf_privacy_name#:#Benutzername
+lti#:#conf_privacy_name#:#Anmeldename
 lti#:#conf_privacy_name_firstname#:#Vorname
 lti#:#conf_privacy_name_firstname_info#:#Sendet den Vornamen.
 lti#:#conf_privacy_name_fullname#:#Vollständiger Name
 lti#:#conf_privacy_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_privacy_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_privacy_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 lti#:#conf_privacy_name_lastname#:#Titel und Nachname
 lti#:#conf_privacy_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_privacy_name_none#:#Keiner
@@ -10444,12 +10467,12 @@ lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
 lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
-lti#:#conf_user_name#:#Benutzername
+lti#:#conf_user_name#:#Anmeldename
 lti#:#conf_user_name_firstname#:#Vorname
 lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
 lti#:#conf_user_name_fullname#:#Vollständiger Name
 lti#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
-lti#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_user_name_info#:#Das Senden eines Anmeldenamens ist in der Regel nicht erforderlich.
 lti#:#conf_user_name_lastname#:#Titel und Nachname
 lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
 lti#:#conf_user_name_none#:#Keiner
@@ -10458,9 +10481,9 @@ lti#:#consumers#:#Konsumenten
 lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
 lti#:#field_provider_xml#:#XML-Datei
 lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
-lti#:#form_import_provider#:#Globalen Provider importieren
+lti#:#form_import_provider#:#Globalen Provider bzw. globales Tool importieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
-lti#:#global_provider_subtab#:#Globale Provider für alle Anwender
+lti#:#global_provider_subtab#:#Globale Provider bzw. Tools für alle Anwender
 lti#:#highscore_achieved_ts#:#Datum
 lti#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
 lti#:#highscore_all_tables#:#Eigener Rang und Bestenliste
@@ -10491,7 +10514,7 @@ lti#:#launch_method_own_win_info#:#Der Inhalt wird im gleichen Fenster geöffnet
 lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
 lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
-lti#:#lti13_hints#:#Hinweise
+lti#:#lti13_hints#:#Wenn das Tool ohne dynamische Registrierung angelegt wurde, müssen nachfolgende Daten für die Ablauffähigkeit beim Tool eingetragen werden.
 lti#:#lti_13_client_id#:#Client-ID
 lti#:#lti_13_deployment_id#:#Deployment-ID
 lti#:#lti_13_platform_id#:#Plattform-ID
@@ -10499,16 +10522,16 @@ lti#:#lti_13_step1#:#Schritt 1
 lti#:#lti_13_step1_info#:#Tragen Sie bei der initierenden Plattform (Consumer) die folgende Adresse für Launch URL, Initiate Login URL, Redirection URI und Registration URL ein:
 lti#:#lti_13_step2#:#Schritt 2
 lti#:#lti_13_step2_info#:#Von der initierenden Plattform (Consumer) erhalten Sie Angaben, die Sie in den folgenden Feldern eintragen müssen. Nach dem Speichern stehen die LTI 1.3-Funktionalitäten zur Verfügung.
-lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
-lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
-lti#:#lti_action_delete_providers#:#Provider löschen
-lti#:#lti_action_edit_provider#:#Provider bearbeiten
-lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
-lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
-lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
-lti#:#lti_add_own_provider#:#Provider-Einstellungen anlegen
+lti#:#lti_action_accept_provider_as_global#:#Provider bzw. Tool global für alle Benutzer übernehmen.
+lti#:#lti_action_accept_providers_as_global#:#Provider bzw. Tool als globalen Provider bzw. globales Tool übernehmen
+lti#:#lti_action_delete_providers#:#Provider bzw. Tool löschen
+lti#:#lti_action_edit_provider#:#Provider bzw. Tool bearbeiten
+lti#:#lti_action_reset_provider_to_user_scope#:#Provider bzw. Tool als benutzerdefiniert zurücksetzen
+lti#:#lti_action_reset_providers_to_user_scope#:#Provider bzw. Tool als benutzerdefinierten Provider bzw. benutzerdefiniertes Tool zurücksetzen
+lti#:#lti_add_global_provider#:#Provider bzw. Tool global für alle Benutzer hinzufügen
+lti#:#lti_add_own_provider#:#Einstellungen für Provider bzw. Tool anlegen
 lti#:#lti_admin#:#LTI-Rolle Administrator
-lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
+lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider bzw. Tool konnte nicht gelöscht werden, da dieser Provider bzw. dieses Tool von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_con_content_item#:#Unterstützung für Deep Linking
 lti#:#lti_con_content_item_url#:#Inhalts-URL
@@ -10520,7 +10543,7 @@ lti#:#lti_con_key_type_rsa#:#RSA-Schlüssel
 lti#:#lti_con_key_type_rsa_public_key#:#Öffentlicher Schlüssel
 lti#:#lti_con_key_type_rsa_public_key_info#:#Tragen Sie den vom Tool (Provider) bereitgestellten Schlüssel im PEM-Format hier ein.
 lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
-lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
+lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider bzw. Tool mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
 lti#:#lti_con_prov_authentication#:#Authentifizierung
 lti#:#lti_con_prov_availability#:#Verfügbarkeit
 lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
@@ -10531,11 +10554,15 @@ lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein 
 lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
 lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
 lti#:#lti_con_prov_description#:#Beschreibung
-lti#:#lti_con_prov_external_provider#:#Externer Provider
-lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider wird den Nutzern ein Hinweis angezeigt. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
-lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
-lti#:#lti_con_prov_has_outcome_service#:#Provider unterstützt Outcome Service
-lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Der Provider gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
+lti#:#lti_con_prov_dyn_reg_params#:#Optionale Parameter
+lti#:#lti_con_prov_dyn_reg_params_info#:#Dies kann die ID einer Ressource (z.B. eines Kurses) sein. Bei aktiviertem 'Deep Linking' ist eine Angabe erforderlich um direkt zur Ressource zu gelangen.
+lti#:#lti_con_prov_dyn_reg_url#:#Registrierungs-URL des Tools
+lti#:#lti_con_prov_dyn_reg_url_info#:#Diese Angabe erhalten Sie vom Anbieter des Tools. Fragen Sie nach der 'Registration URL' oder der 'Registrierungs-URL'.
+lti#:#lti_con_prov_external_provider#:#Externer Provider bzw. Externes Tool
+lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider bzw. externem Tool wird den Nutzern ein Hinweis angezeigt. Externe Provider bzw. Tools sind gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider bzw. das Tool. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
+lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern bzw. Tools
+lti#:#lti_con_prov_has_outcome_service#:#Provider bzw. Tool unterstützt Outcome Service
+lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Ein Provider bzw. Tool gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
 lti#:#lti_con_prov_hints#:#Hinweise
 lti#:#lti_con_prov_icon#:#Icon
 lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
@@ -10561,11 +10588,11 @@ lti#:#lti_con_prov_provider_key_global_info#:#Wenn nicht gesetzt, müssen Benutz
 lti#:#lti_con_prov_remarks#:#Interne Bemerkungen
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Titel
-lti#:#lti_con_prov_url#:#URL des Providers
-lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
-lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
-lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
-lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
+lti#:#lti_con_prov_url#:#URL des Providers bzw. des Tools
+lti#:#lti_con_prov_use_provider_id#:#Provider-ID bzw. Tool-ID verwenden
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider bzw. das Tool übertragen. Einige Provider bzw. Tools verknüpfen diese Ref-ID mit der breitgestellten Ressource. Um immer die gleiche Ressource von diesen Providern bzw. Tools zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_use_xapi#:#Provider bzw. Tool unterstützt die Abfrage von xAPI-Statements
+lti#:#lti_con_prov_use_xapi_info#:#Provider bzw. Tool unterstützt xAPI-Statements
 lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
 lti#:#lti_con_prov_xapi_activity_id_info#:#Diese ID wird benötigt, um die Daten aus dem LRS in ILIAS anzeigen zu können. Sie erhalten diese ID von der Organisation, die diese Ressource anbietet.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_con_prov_xapi_launch_key#:#Key des LRS-Endpoints
@@ -10574,12 +10601,13 @@ lti#:#lti_con_prov_xapi_launch_secret#:#Secret des LRS-Endpunkts
 lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
 lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
 lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
-lti#:#lti_con_redirection_uris#:#Redirection URI
+lti#:#lti_con_redirection_uris#:#Redirection URIs
 lti#:#lti_con_tool_url#:#Login URL
 lti#:#lti_con_version#:#LTI Version
 lti#:#lti_con_version_1.1#:#Version 1.1
 lti#:#lti_con_version_1.3#:#Version 1.3
-lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
+lti#:#lti_con_version_1.3_before_id#:#Wenn keine dynamische Registrierung genutzt wird, erscheinen nach Eingabe der vom Tool bereitgestellten Daten weitere Daten, die beim Tool einzutragen sind.
+lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider bzw. Tools löschen möchten?
 lti#:#lti_consumer#:#Freigegeben für
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
 lti#:#lti_consumer_deleted#:#Konsument gelöscht
@@ -10594,29 +10622,31 @@ lti#:#lti_create_consumer#:#Konsumenten hinzufügen
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
-lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
-lti#:#lti_delete_consume_provider#:#Provider löschen
-lti#:#lti_delete_consume_providers#:#Provider löschen
-lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_custom_new#:#Eigene Provider- bzw. Tool-Einstellungen anlegen
+lti#:#lti_delete_consume_provider#:#Provider bzw. Tool löschen
+lti#:#lti_delete_consume_providers#:#Provider bzw. Tools löschen
+lti#:#lti_delete_provider#:#Provider bzw. Tool löschen
+lti#:#lti_dyn_reg_add_tool#:#Anlegen
+lti#:#lti_dynamic_registration#:#Eigene Tool-Einstellungen mit dynamischer Registrierung anlegen (LTI 1.3)
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_exit#:#LTI-Sitzung beenden
 lti#:#lti_exited#:#LTI-Sitzung beendet
 lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
-lti#:#lti_form_provider_create#:#Provider-Einstellungen anlegen
-lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
+lti#:#lti_form_provider_create#:#Einstellungen für einen Provider bzw. ein Tool anlegen
+lti#:#lti_form_provider_edit#:#Einstellungen für den Provider bzw. das Tool bearbeiten
 lti#:#lti_form_section_appearance#:#Optionen für den Start
 lti#:#lti_global_settings_form#:#Globale Einstellungen
-lti#:#lti_import_global_provider#:#Globalen Provider für alle Benutzer mit XML-Datei importieren
-lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Auf externe Provider haben Sie als Betreiber der ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten, zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.###Modified as part of gender mainstreaming activities for ILIAS 8
-lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
+lti#:#lti_import_global_provider#:#Globalen Provider bzw. globales Tool für alle Benutzer mit XML-Datei importieren
+lti#:#lti_info_external_provider_info#:#Der verwendete Provider bzw. das Tool gilt als 'extern'. Hier haben Verantwortliche für diese ILIAS-Installation möglicherweise nur begrenzten Einfluss auf den Umgang mit Daten - zum Beispiel wenn es keine Rechte zum Löschen von Daten gibt.###Modified as part of gender mainstreaming activities for ILIAS 8
+lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider bzw. dieses Tool
 lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
-lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider übermittelt wurden.###Modified as part of gender mainstreaming activities for ILIAS 8
+lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider bzw. das Tool übermittelt werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 lti#:#lti_launch_url#:#URL
 lti#:#lti_member#:#LTI-Rolle Mitglied / Lerner
 lti#:#lti_navigation#:#Navigation
-lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
+lti#:#lti_no_provider_selected#:#Kein Provider oder Tool ausgewählt
 lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
-lti#:#lti_obj_active#:#LTI-Tool-Provider
+lti#:#lti_obj_active#:#LTI-Provider / -Tool
 lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
 lti#:#lti_obj_version#:#LTI Version
 lti#:#lti_obj_version_11#:#Version 1.1
@@ -10624,18 +10654,18 @@ lti#:#lti_obj_version_13#:#Version 1.3
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
-lti#:#lti_provider_not_avail_msg#:#LTI-Provider ist auf „Nicht verfügbar“ gesetzt.
-lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
+lti#:#lti_provider_not_avail_msg#:#LTI-Provider bzw. -Tool ist auf „Nicht verfügbar“ gesetzt.
+lti#:#lti_providing_tab#:#ILIAS als LTI-Provider / -Tool
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_select_provider#:#Provider auswählen
+lti#:#lti_select_provider#:#Provider bzw. Tool auswählen
 lti#:#lti_session#:#LTI-Sitzung
 lti#:#lti_settings#:#LTI-Einstellungen
 lti#:#lti_settings_form#:#Objekteinstellungen
-lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider für alle Anwender übernommen
-lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider für alle Anwender übernommen
+lti#:#lti_success_accept_as_global#:#Erfolgreich als Global-Provider bzw. -Tool für alle Anwender übernommen
+lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global-Provider bzw. -Tools für alle Anwender übernommen
 lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
-lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
-lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
+lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider bzw. Tool
+lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierte Provider bzw. Tools
 lti#:#lti_tutor#:#LTI-Rolle Tutor
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_user_role_info#:#In dieser Installation wurde die empfohlene globale Rolle für LTI-User noch nicht angelegt. Diese spezielle globale Rolle enthält nur Lese-Rechte für Magazin und Kategorien.
@@ -10644,13 +10674,13 @@ lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als a
 lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden
 lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
 lti#:#prefix#:#Prefix
-lti#:#provider_info#:#Benutzter Provider
+lti#:#provider_info#:#Provider bzw. Tool
 lti#:#settings_subtab#:#Einstellungen
 lti#:#show_statements#:#Lernerfahrungen anzeigen
 lti#:#show_statements_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
 lti#:#subtab_certificate#:#Zertifikat
 lti#:#subtab_object_settings#:#Objekteinstellungen
-lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
+lti#:#subtab_provider_settings#:#Einstellungen für Provider bzw. Tool
 lti#:#tab_content#:#Inhalt
 lti#:#tab_info#:#Info
 lti#:#tab_scoring#:#Platzierungen
@@ -10667,47 +10697,47 @@ lti#:#tbl_lti_prov_keywords#:#Schlagwörter
 lti#:#tbl_lti_prov_outcome#:#Outcome Service
 lti#:#tbl_lti_prov_own_provider#:#Eigener Provider
 lti#:#tbl_lti_prov_provider_creator#:#Erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
-lti#:#tbl_lti_prov_title#:#Titel des Providers
+lti#:#tbl_lti_prov_title#:#Titel des Providers bzw. Tools
 lti#:#tbl_lti_prov_usages#:#Verwendung
 lti#:#tbl_lti_prov_usages_trashed#:#Im Papierkorb
 lti#:#tbl_lti_prov_usages_untrashed#:#Nicht im Papierkorb
 lti#:#tbl_lti_prov_used_by#:#Objekte (im Baum), die diesen Provider verwenden
-lti#:#tbl_lti_prov_with_key#:#Vordefiniert mit Key / Secret
-lti#:#tbl_provider_header#:#LTI-Provider
-lti#:#tbl_provider_usage_header#:#LTI-Provider
-lti#:#tbl_provider_usage_header_info#:#Vor dem Löschen von LTI-Providern müssen auch diese nutzenden Objekte aus dem Papierkorb gelöscht werden.
+lti#:#tbl_lti_prov_with_key#:#vordefiniert
+lti#:#tbl_provider_header#:#LTI-Provider/Tool
+lti#:#tbl_provider_usage_header#:#LTI-Provider/Tool
+lti#:#tbl_provider_usage_header_info#:#Vor dem Löschen von LTI-Providern bzw. -Tools müssen auch diese nutzenden Objekte aus dem Papierkorb gelöscht werden.
 lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
 lti#:#usage_subtab#:#Verwendung
 lti#:#use_xapi#:#xAPI-Unterstützung verwenden
-lti#:#use_xapi_info#:#Dieser LTI-Provider unterstützt die Abfrage von xAPI-Statements.
+lti#:#use_xapi_info#:#LTI-Provider bzw. -Tool unterstützt die Abfrage von xAPI-Statements.
 lti#:#user_lng#:#Benutzersprache
-lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
+lti#:#user_provider_subtab#:#Von Benutzern definierte Provider bzw. Tools
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
-mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
+mail#:#chat_users_without_login#:#Die folgenden Benutzer haben kein ILIAS-Konto und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
 mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#deleteTemplate#:#Löschen
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#forward#:#Weiterleiten
-mail#:#goto_invitation_chat#:#Öffne Chatraum
+mail#:#goto_invitation_chat#:#Chatraum öffnen
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
 mail#:#link_check_affected_links#:#Betroffene Links
 mail#:#link_check_introduction#:#die folgenden Externen Links sind ungültig:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#Sie erhalten diese Benachrichtigung, da Sie die Benachrichtigung über ungültige Externe Links aktiviert haben.
-mail#:#mail_account_mail#:#Benutzerkonten-Mail
+mail#:#mail_account_mail#:#Anmeldekonten-Mail
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
 mail#:#mail_add_recipient#:#Bitte geben Sie an, wer die Mail erhalten soll. Geben Sie ILIAS-Anmeldenamen oder gültige E-Mail-Adressen an.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_add_subfolder#:#Unterordner hinzufügen
 mail#:#mail_add_subject#:#Bitte geben Sie einen Betreff ein
 mail#:#mail_allow_external#:#Externe E-Mails
 mail#:#mail_allow_external_info#:#Sofern nicht aktiviert, wird der Versand von externen E-Mails (via SMTP) global unterdrückt.
-mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler
+mail#:#mail_assign_entry_to_mailing_list#:#Zuordnung eines Kontakts zum Verteiler "%s"
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
@@ -10771,6 +10801,7 @@ mail#:#mail_folder_deleted#:#Der Ordner wurde gelöscht
 mail#:#mail_folder_exists#:#Ein Ordner mit diesem Namen existiert bereits
 mail#:#mail_folder_name_changed#:#Der Ordner wurde umbenannt
 mail#:#mail_following_rcp_not_valid#:#Die folgenden Angaben sind nicht gültig:###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_form_placeholders_label#:#Verfügbare Platzhalter
 mail#:#mail_generic_rcp_error#:#Beim Validieren des „An”-Feldes ist ein Fehler aufgetreten: %1$s###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
@@ -10796,7 +10827,7 @@ mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Datei
 mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
 mail#:#mail_maxsize_attachment_error#:#Die maximale Dateigröße beträgt:
 mail#:#mail_member_notification#:#Teilnehmerbenachrichtigung
-mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste
+mail#:#mail_members_of_mailing_list#:#Mitglieder der Verteilerliste "%s"
 mail#:#mail_members_search_continue#:#Weiter
 mail#:#mail_message_send#:#Die Mail wurde versandt
 mail#:#mail_move_error#:#Fehler beim Mailversand
@@ -10812,7 +10843,7 @@ mail#:#mail_nacc_if_timelimit#:#Dieser Textblock wird nur eingefügt, wenn der B
 mail#:#mail_nacc_ilias_url#:#URL des ILIAS-Systems
 mail#:#mail_nacc_installation_desc#:#Beschreibung der Installation
 mail#:#mail_nacc_installation_name#:#Name der Installation
-mail#:#mail_nacc_login#:#Login-Account
+mail#:#mail_nacc_login#:#Anmeldenamen
 mail#:#mail_nacc_no_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer ohne Passwort angelegt wurde.
 mail#:#mail_nacc_pw_block#:#Dieser Textblock wird nur eingefügt, wenn der neue Benutzer mit Passwort angelegt wurde.
 mail#:#mail_nacc_salutation#:#Begrüßung
@@ -10848,7 +10879,7 @@ mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
 mail#:#mail_second_email#:#Zweite E-Mail-Adresse
 mail#:#mail_sel_label#:#Mail senden an###Modified as part of gender mainstreaming activities for ILIAS 8
-mail#:#mail_sel_users#:#an ausgewählte Personen###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_sel_users#:#Ausgewählte Personen###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_select_attachment#:#Bitte einen Anhang zum Herunterladen auswählen.
 mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
 mail#:#mail_select_group#:#Bitte mindestens eine Gruppe auswählen.
@@ -10891,7 +10922,7 @@ mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_system_usr_env_from_addr#:#Technische Absendeadresse („SENDER“)###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_env_from_addr_info#:#Tragen Sie hier die technische Absendeadresse („SENDER”-Header) ein. Lassen Sie das Feld leer, wird bei externem Versand die E-Mail-Adresse der absendenden Person („FROM“-Header) genutzt. Andernfalls ist es die Aufgabe der Server-Administration, den Header zu konfigurieren.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_addr#:#„FROM”-Adresse für manuell versendete E-Mails###Modified as part of gender mainstreaming activities for ILIAS 8
-mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem Benutzerkonto gehörige Adresse als Antwortadresse (technisch: „REPLY- TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
+mail#:#mail_system_usr_from_addr_info#:#Damit die manuell aus ILIAS versendeten E-Mails nicht als Spam abgelehnt werden, muss hier eine absendende Adresse (technisch: „FROM”-Header) eingetragen werden. Bei manuell verschickten E-Mails wird die zu einem ILIAS-Konto gehörige Adresse als Antwortadresse (technisch: „REPLY-TO”-Header) übernommen. <br /><br />Beispiele: <span style="font-style: italic">info@institution.de</span> oder <span style="font-style: italic">no-reply@institution.de</span>###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name#:#„FROM”-Name und Format###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_system_usr_from_name_info#:#Dieser Name wird üblicherweise im E-Mail-Client in der Spalte „Von“ angezeigt. Als Platzhalter können [FULLNAME], [FIRSTNAME] und [LASTNAME] genutzt werden. Diese werden dann durch die jeweiligen Daten der Person ersetzt, die eine manuelle E-Mail versendet hat.###Modified as part of gender mainstreaming activities for ILIAS 8
 mail#:#mail_tbl_head_attachments#:#Anhang
@@ -10936,7 +10967,7 @@ mail#:#send_mail_tutors#:#Alle Tutoren
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Benutzer können ihre Mail-Einstellungen im Bereich „Einstellungen“ oder „Mail“ selbst vornehmen.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
-mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Benutzerkonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Anmeldekonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
 maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
@@ -11376,7 +11407,7 @@ meta#:#meta_c_ME#:#Montenegro
 meta#:#meta_c_MF#:#Saint-Martin (franz. Teil)
 meta#:#meta_c_MG#:#Madagaskar
 meta#:#meta_c_MH#:#Marshall Inseln
-meta#:#meta_c_MK#:#Mazedonien
+meta#:#meta_c_MK#:#Nordmazedonien
 meta#:#meta_c_ML#:#Mali
 meta#:#meta_c_MM#:#Myanmar
 meta#:#meta_c_MN#:#Mongolei
@@ -11395,7 +11426,7 @@ meta#:#meta_c_MZ#:#Mozambik
 meta#:#meta_c_NA#:#Namibia
 meta#:#meta_c_NC#:#Neu Kaledonien
 meta#:#meta_c_NE#:#Niger
-meta#:#meta_c_NF#:#Norfolk Inseln
+meta#:#meta_c_NF#:#Norfolk Island
 meta#:#meta_c_NG#:#Nigeria
 meta#:#meta_c_NI#:#Nicaragua
 meta#:#meta_c_NL#:#Niederlande
@@ -11567,7 +11598,7 @@ meta#:#meta_l_as#:#Assamesisch
 meta#:#meta_l_ay#:#Aymara
 meta#:#meta_l_az#:#Aserbaidschanisch
 meta#:#meta_l_ba#:#Baschkirisch
-meta#:#meta_l_be#:#Weißrussisch
+meta#:#meta_l_be#:#Belarussisch
 meta#:#meta_l_bg#:#Bulgarisch
 meta#:#meta_l_bh#:#Biharisch
 meta#:#meta_l_bi#:#Bislamisch
@@ -11587,9 +11618,9 @@ meta#:#meta_l_eo#:#Esperanto
 meta#:#meta_l_es#:#Spanisch
 meta#:#meta_l_et#:#Estnisch
 meta#:#meta_l_eu#:#Baskisch
-meta#:#meta_l_fa#:#Persisch
+meta#:#meta_l_fa#:#Persisch (Farsi)
 meta#:#meta_l_fi#:#Finnisch
-meta#:#meta_l_fj#:#Fiji
+meta#:#meta_l_fj#:#Fidschi
 meta#:#meta_l_fo#:#Faröisch
 meta#:#meta_l_fr#:#Französisch
 meta#:#meta_l_fy#:#Friesisch
@@ -11598,7 +11629,7 @@ meta#:#meta_l_gd#:#Schottisches Gälisch
 meta#:#meta_l_gl#:#Galizisch
 meta#:#meta_l_gn#:#Guarani
 meta#:#meta_l_gu#:#Gujaratisch
-meta#:#meta_l_ha#:#Haussa
+meta#:#meta_l_ha#:#Hausa
 meta#:#meta_l_he#:#Hebräisch
 meta#:#meta_l_hi#:#Hindi
 meta#:#meta_l_hr#:#Kroatisch
@@ -11643,19 +11674,19 @@ meta#:#meta_l_nl#:#Niederländisch
 meta#:#meta_l_no#:#Norwegisch
 meta#:#meta_l_oc#:#Okzitanisch
 meta#:#meta_l_om#:#Oromo
-meta#:#meta_l_or#:#Oriya
-meta#:#meta_l_pa#:#Punjabisch
+meta#:#meta_l_or#:#Odia
+meta#:#meta_l_pa#:#Punjabi
 meta#:#meta_l_pl#:#Polnisch
 meta#:#meta_l_ps#:#Paschtu
 meta#:#meta_l_pt#:#Portugiesisch
 meta#:#meta_l_qu#:#Quechua
 meta#:#meta_l_rm#:#Rätoromanisch
-meta#:#meta_l_rn#:#Kurundisch
+meta#:#meta_l_rn#:#Kirundi
 meta#:#meta_l_ro#:#Rumänisch
 meta#:#meta_l_ru#:#Russisch
 meta#:#meta_l_rw#:#Kinyarwanda
 meta#:#meta_l_sa#:#Sanskrit
-meta#:#meta_l_sd#:#Zinti
+meta#:#meta_l_sd#:#Sindhi
 meta#:#meta_l_sg#:#Sango
 meta#:#meta_l_sh#:#Serbokroatisch
 meta#:#meta_l_si#:#Singhalesisch
@@ -11666,7 +11697,7 @@ meta#:#meta_l_sn#:#Shona
 meta#:#meta_l_so#:#Somalisch
 meta#:#meta_l_sq#:#Albanisch
 meta#:#meta_l_sr#:#Serbisch
-meta#:#meta_l_ss#:#Swasiländisch
+meta#:#meta_l_ss#:#Siswati
 meta#:#meta_l_st#:#Sesothisch
 meta#:#meta_l_su#:#Sundanesisch
 meta#:#meta_l_sv#:#Schwedisch
@@ -11693,14 +11724,14 @@ meta#:#meta_l_vo#:#Volapük
 meta#:#meta_l_wo#:#Wolof
 meta#:#meta_l_xh#:#Xhosa
 meta#:#meta_l_yi#:#Jiddish
-meta#:#meta_l_yo#:#Joruba
+meta#:#meta_l_yo#:#Yoruba
 meta#:#meta_l_za#:#Zhuang
 meta#:#meta_l_zh#:#Chinesisch
 meta#:#meta_l_zu#:#Zulu
 meta#:#meta_language#:#Sprache
 meta#:#meta_learner#:#Lernender
 meta#:#meta_learning_resource_type#:#Art des Lernmittels
-meta#:#meta_lecture#:#Lektüre
+meta#:#meta_lecture#:#Vorlesung
 meta#:#meta_lifecycle#:#Lebenszyklus
 meta#:#meta_linear#:#Linear
 meta#:#meta_local#:#Lokal
@@ -11731,7 +11762,7 @@ meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
-meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Resource (OER) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
@@ -11852,7 +11883,7 @@ mme#:#sub_active#:#Aktiv
 mme#:#sub_active_byline#:#Diesen Eintrag aktivieren
 mme#:#sub_global_roles#:#Globale Rollen
 mme#:#sub_icon#:#Icon
-mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
+mme#:#sub_icon_byline#:#Hochgeladen eines individuellen SVG-Icons.
 mme#:#sub_parent#:#Haupteintrag
 mme#:#sub_position#:#Position
 mme#:#sub_provider#:#Provider
@@ -11882,7 +11913,7 @@ mme#:#topitem_css_id#:#CSS-ID
 mme#:#topitem_delete#:#Löschen
 mme#:#topitem_edit#:#Bearbeiten
 mme#:#topitem_icon#:#Icon
-mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
+mme#:#topitem_icon_byline#:#Hochgeladen eines individuellen SVG-Icons.
 mme#:#topitem_position#:#Position
 mme#:#topitem_provider#:#Provider
 mme#:#topitem_subentries#:#Einträge
@@ -11915,6 +11946,7 @@ mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe fü
 mob#:#mob_object#:#Objekt
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
+mob#:#mob_srt_not_allowed#:#Dateien vom Typ .srt können aktuell nicht hochgeladen werden. Um die Funktion zu aktivieren, muss diese durch einen Systemadministrator entsprechend konfiguriert werden (Administration > Datei-Services).
 mob#:#mob_subtitle_file#:#Datei für Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
 mob#:#mob_subtitles#:#Untertitel
@@ -11923,6 +11955,8 @@ mob#:#mob_upload_multi_srt#:#Hochladen als ZIP-Datei
 mob#:#mob_upload_multi_srt_howto#:#Die .zip-Datei / .zip-Archiv darf keine Unterverzeichnisse enthalten. Alle .srt-Dateien müssen auf oberster Ebene liegen, um erkannt zu werden. Die Dateinamen müssen enden mit "_&lt;SPRACHE&gt;.srt", wobei SPRACHE die entsprechende Sprachkennung ist (z. B. "en", "it" oder "de"). Der Rest des Dateinamens muss dem Namen der zugehörigen Videodatei entsprechen. Die Datei für englische Untertitel des Videos "my_video.mp4" heißt entsprechend "my_video_en.srt".
 mob#:#mob_url#:#URL
 mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info1#:#External resource URL, allowed suffixes are:
+mob#:#mob_url_info_video#:#You may also refer to a Youtube or Vimeo URL.
 mst#:#mst_cert_issued_on#:#Ausgestellt am
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_download_certificate#:#Zertifikat herunterladen
@@ -12034,13 +12068,13 @@ news#:#passwd_equals_ilpasswd#:#Bitte geben Sie aus Sicherheitsgründen ein ande
 news#:#priv_feed_disabled#:#Privater Newsfeed wurde deaktiviert.
 news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
 note#:#note_comment_notification_link#:#Link
-note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, da Ihr Account als Empfänger für alle Kommentare in der ILIAS Adminstration gepflegt ist.
+note#:#note_comment_notification_reason#:#Sie erhalten diese Nachricht, weil in der ILIAS-Adminstration eingetragen ist, Sie über alle Kommentare zu benachrichtigen.
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_user_has_written#:#%s hat geschrieben:
 note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
-note#:#note_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
+note#:#note_comments_notification_info#:#Kommagetrennte Liste von ILIAS-Konten, welche jeden Kommentar als E-Mail erhalten.
 note#:#note_enable_comments#:#Kommentare aktivieren
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
@@ -12539,7 +12573,7 @@ prg#:#prg_cancel#:#Abbrechen
 prg#:#prg_cancel_tree_order#:#Reihenfolge des Baums verwerfen.
 prg#:#prg_changed_by#:#Geändert durch
 prg#:#prg_completion_by#:#Abgeschlossen durch
-prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_completion_date#:#Abschlussdatum
 prg#:#prg_confirm_delete#:#Löschen
 prg#:#prg_create_new_leaf#:#Neuen Kurslink hinzufügen.
 prg#:#prg_create_new_node#:#Neues Studienprogramm hinzufügen
@@ -12708,7 +12742,7 @@ prg#:#send_re_assigned_mail#:#E-Mail bei automat. Wiederaufnahme
 prg#:#send_re_assigned_mail_info#:#Versand einer E-Mail bei erneuter Zuweisung zum Studienprogramm.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Risiko der Nicht-Qualifikation
 prg#:#send_risky_to_fail_mail_info#:#Versand einer E-Mail, wenn Qualifikation noch nicht erworben wurde und Bearbeitungszeitraum endet
-prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_completion_date#:#Abschlussdatum
 prg#:#sp_certificate_description#:#Beschreibung des Programms
 prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
 prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
@@ -12891,8 +12925,8 @@ ps#:#ps_error_message_password_min1_because_chars#:#Minimale Passwortlänge darf
 ps#:#ps_error_message_password_min2_because_chars_numbers#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben und Zahlen enthalten soll.
 ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimale Passwortlänge darf nicht kleiner als %s sein, wenn das Passwort Buchstaben, Zahlen und Sonderzeichen enthalten soll.
 ps#:#ps_export_admin#:#Administratoren
-ps#:#ps_export_confirm#:#Nutzungsvereinbarung für Kursmitglieder aktivieren
-ps#:#ps_export_confirm_group#:#Nutzungsvereinbarung für Gruppenmitglieder aktivieren
+ps#:#ps_export_confirm#:#Zustimmung neuer Mitglieder beim Kursbeitritt, dass Kursverwaltung ihre persönlichen Profildaten einsehen kann
+ps#:#ps_export_confirm_group#:#Zustimmung neuer Mitglieder beim Gruppenbeitritt, dass Gruppenverwaltung ihre persönlichen Profildaten einsehen kann
 ps#:#ps_export_course#:#Export der Persönlichen Daten aus Kursen erlauben
 ps#:#ps_export_data#:#Daten des Persönlichen Profils
 ps#:#ps_export_excel#:#Starte Excel-Export
@@ -12912,7 +12946,7 @@ ps#:#ps_login_max_attempts_info#:# Bestimmt wie viele Anmeldeversuche eines Benu
 ps#:#ps_not_accepted#:#Nicht zugestimmt
 ps#:#ps_participants_list_courses#:#Aktivierung von Teilnehmerlisten in der Mitgliedergalerie der Kurse erlauben
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#Die Aktion wurde erfolgreich durchgeführt.
-ps#:#ps_passwd_policy_changed_force_user_reset#:#Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Benutzerkonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?
+ps#:#ps_passwd_policy_changed_force_user_reset#:#Die Änderungen wurden erfolgreich übernommen. Sie haben mindestens eine Änderung bzgl. der Passwortrichtlinie vorgenommen. Möchten Sie, dass lokale Anmeldekonten nach der nächsten erfolgreichen Anmeldung ein neues Passwort vergeben müssen?
 ps#:#ps_password_change_on_first_login_enabled#:#Passwort ändern bei Erstanmeldung
 ps#:#ps_password_change_on_first_login_enabled_info#:#Zwingt Benutzer, die sich nicht selbst registriert haben, bei der ersten Anmeldung in ILIAS ihr Passwort zu ändern.
 ps#:#ps_password_chars_and_numbers_enabled#:#Buchstaben und Zahlen erzwingen
@@ -12928,7 +12962,7 @@ ps#:#ps_password_special_chars_enabled#:#Sonderzeichen erzwingen
 ps#:#ps_password_special_chars_enabled_info#:#Wenn aktiviert, müssen Passwörter Sonderzeichen enthalten.
 ps#:#ps_perform_export#:#CSV-Export starten
 ps#:#ps_prevent_simultaneous_logins#:#Verhindern gleichzeitiger Logins
-ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit gleichem Account auf verschiedenen Rechnern verhindert.
+ps#:#ps_prevent_simultaneous_logins_info#:#Wenn dies aktiviert ist, werden gleichzeitige Logins mit dem gleichem ILIAS-Konto über verschiedene Rechner verhindert.
 ps#:#ps_privacy_protection#:#Einstellungen zum Datenschutz
 ps#:#ps_profile_export#:#Schutz der Daten des Persönlichen Profils
 ps#:#ps_security_protection#:#Einstellungen zur Sicherheit
@@ -12954,14 +12988,14 @@ pwassist#:#pwassist_enter_email#:#Geben Sie hier Ihre E-Mail-Adresse ein. ILIAS 
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Anmeldenamen und die dazugehörige E-Mail-Adresse ein. ILIAS sendet an diese Adresse eine Anleitung, um ein neues Passwort festzulegen. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_enter_username_and_new_password#:#Tragen Sie den Anmeldenamen ein, und vergeben Sie ein neues Passwort.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_login_not_match#:#Der eingegebene Anmeldename stimmt nicht überein mit dem Anmeldenamen, für den Sie die Passwort-Unterstützung angefordert hatten. Bitte geben Sie den korrekten Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Anmeldekonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Anmeldenamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Anmeldekonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort für den Anmeldenamen %1$s wurde erfolgreich gespeichert.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Benutzernamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
-pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Anmeldenamen, die in ILIAS dieser E-Mail-Adresse zugeordnet sind: %s  <br><br>Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s<br><br>Sie (oder jemand mit der Adresse %s) hat die Anmeldenamenauflistung für die E-Mail-Adresse '%s' angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Anmeldenamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.<br><br>• Sie sind sicher, dass Sie nie Anmeldenamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.<br><br>• Sie haben um Anmeldenamen-Unterstützung angefragt: Bitte gehen Sie wie folgt vor:<br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  <br>Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Anmeldenamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#unassist_disabled_no_access#:#Die Anmeldenamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
@@ -13079,13 +13113,13 @@ rbac#:#cals_edit_permission#:#Rechteeinstellung der Administration ändern
 rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
 rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
 rbac#:#cals_write#:#Einstellungen der Kalender-Administration bearbeiten
-rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
-rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
+rbac#:#cat_administrate_users#:#Lokale Anmeldekonten verwalten
+rbac#:#cat_cat_administrate_users#:#Lokale Anmeldekonten können angelegt und verwaltet werden
 rbac#:#cat_copy#:#Kategorie kopieren
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#cat_read#:#Seiteninhalt der Kategorie kann gelesen werden
-rbac#:#cat_read_users#:#Lokale Benutzerkonten dieser Kategorie können eingesehen werden
+rbac#:#cat_read_users#:#Lokale Anmeldekonten dieser Kategorie können eingesehen werden
 rbac#:#cat_visible#:#Kategorie ist sichtbar
 rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 rbac#:#catr_copy#:#Kategorielinks kopieren
@@ -13468,12 +13502,12 @@ rbac#:#org_op_score_participants#:#Untergeordnete Teilnehmer bewerten
 rbac#:#org_op_view_certificates#:#Zertifikate untergeordneter Benutzern einsehen
 rbac#:#org_op_view_competences#:#Kompetenzen untergeordneter Benutzern einsehen
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
-rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
+rbac#:#orgu_cat_administrate_users#:#Lokale Anmeldekonten können angelegt und verwaltet werden
 rbac#:#orgu_copy#:#Organisationseinheit kopieren
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#orgu_read#:#Lesezugriff auf Organisationseinheit
-rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit können eingesehen werden
+rbac#:#orgu_read_users#:#Lokale Anmeldekonten dieser Organisationseinheit können eingesehen werden
 rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
 rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.
@@ -13707,7 +13741,7 @@ rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
 rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
 rbac#:#read_results#:#Umfrageergebnisse
-rbac#:#read_users#:#Lokale Benutzerkonten einsehen
+rbac#:#read_users#:#Lokale Anmeldekonten einsehen
 rbac#:#recf_edit_permission#:#Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Verwaltung wiederhergestellter Objekte ist sichtbar
@@ -13854,14 +13888,14 @@ rbac#:#tst_tst_statistics#:#Zugriff auf Teststatistik
 rbac#:#tst_visible#:#Test ist sichtbar
 rbac#:#tst_write#:#Test zusammenstellen und Einstellungen bearbeiten
 rbac#:#upload_blacklisted_files#:#Blacklist umgehen
-rbac#:#usrf_delete#:#Benutzerkonten löschen
-rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Benutzerkontenverwaltung ändern
-rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
+rbac#:#usrf_delete#:#Anmeldekonten löschen
+rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Anmeldekontenverwaltung ändern
+rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Anmeldekonten ändern
 rbac#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte anderen Benutzern als empfohlene Inhalte vorzulegen.
-rbac#:#usrf_read#:#Lesezugriff auf Benutzerkontenverwaltung
-rbac#:#usrf_read_users#:#Lesezugriff auf Benutzerkonten für lokale Administratoren
-rbac#:#usrf_visible#:#Benutzerkontenverwaltung ist sichtbar
-rbac#:#usrf_write#:#Einstellungen in Benutzerkontenverwaltung bearbeiten
+rbac#:#usrf_read#:#Lesezugriff auf Anmeldekontenverwaltung
+rbac#:#usrf_read_users#:#Lesezugriff auf Anmeldekonten für lokale Administratoren
+rbac#:#usrf_visible#:#Anmeldekontenverwaltung ist sichtbar
+rbac#:#usrf_write#:#Einstellungen in Anmeldekontenverwaltung bearbeiten
 rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
 rbac#:#wbdv_read#:#Lesezugriff auf Administration für WebDAV
 rbac#:#wbdv_visible#:#Administration für WebDAV ist sichtbar.
@@ -13926,8 +13960,8 @@ registration#:#reg_available_roles#:#Verfügbare Rollen:
 registration#:#reg_confirmation_hash_life_time#:#Gültigkeitsdauer
 registration#:#reg_confirmation_hash_life_time_expired#:#Der Bestätigungslink ist nicht mehr gültig. Bitte registrieren Sie sich erneut!
 registration#:#reg_confirmation_hash_life_time_info#:#Geben Sie die Gültigkeitsdauer des Bestätigungslinks (in Sekunden) an. Empfohlener Wert sind 1800 Sekunden.
-registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem Benutzerkonto.
-registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr Benutzerkonto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr Benutzerkonto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
+registration#:#reg_confirmation_hash_not_found#:#Dieser Bestätigungslink passt zu keinem ILIAS-Konto.
+registration#:#reg_confirmation_link_successful#:#Sie haben sich erfolgreich bei ILIAS registriert. Jetzt müssen Sie noch Ihr ILIAS-Konto aktivieren. Dazu wurde Ihnen soeben eine E-Mail mit einem Bestätigungslink geschickt. Bitte klicken Sie innerhalb der nächsten Minuten auf den Bestätigungslink, um Ihr ILIAS-Konto zu aktivieren. Danach können Sie sich in ILIAS einloggen.
 registration#:#reg_default#:#Standard
 registration#:#reg_deleted_assignment#:#Die Zuordnungen wurde(n) gelöscht.
 registration#:#reg_direct#:#Direkte Anmeldung
@@ -13942,11 +13976,11 @@ registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
 registration#:#reg_mail_body_activation#:#um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:###Modified as part of gender mainstreaming activities for ILIAS 8
 registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
-registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
+registration#:#reg_mail_body_confirmation#:#Um das ILIAS-Konto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_mail_body_profile#:#Profildaten:
 registration#:#reg_mail_body_profile_changed#:#Ihre Profildaten wurden geändert.
 registration#:#reg_mail_body_pwd_generation#:#Allerdings muss Ihr Zugang noch von dem/der AdministratorIn freigeschaltet werden. Wenn dies erfolgt ist, erhalten Sie noch eine Bestätigungsmail.
-registration#:#reg_mail_body_reason#:#Sie erhalten diese Mail, da die Benachrichtigung über neue Benutzerkonten für Sie in der Administration aktiviert ist.
+registration#:#reg_mail_body_reason#:#Sie erhalten diese Mail, da die Benachrichtigung über neue Anmeldekonten für Sie in der Administration aktiviert ist.
 registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
 registration#:#reg_mail_new_user#:#Anmeldung eines neuen Benutzers
 registration#:#reg_mail_new_user_body#:#Ein neuer Benutzer hat sich angemeldet.
@@ -13963,7 +13997,7 @@ registration#:#reg_selectable_roles#:#Auswählbare Rollen
 registration#:#reg_settings_header#:#Einstellungen
 registration#:#reg_type#:#Registrierungsart
 registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
-registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
+registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des ILIAS-Kontos.
 registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gültig:
 registration#:#registration_code#:#Code
 registration#:#registration_code_not_valid#:#Der gegebene Registrierungscode ist ungültig oder wurde bereits benutzt.
@@ -13981,12 +14015,12 @@ registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang 
 registration#:#registration_codes_roles#:#Globale Rolle
 registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zugangsbefristung
 registration#:#registration_codes_roles_local#:#Lokale Rolle(n)
-registration#:#registration_codes_roles_title#:#Rolle für neue Accounts
+registration#:#registration_codes_roles_title#:#Rolle für neue ILIAS-Konten
 registration#:#registration_codes_type#:#Codetyp
-registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Benutzerkonten
-registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Benutzerkonten verwendet werden.
+registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Anmeldekonten
+registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Anmeldekonten verwendet werden.
 registration#:#registration_codes_type_reg#:#Registrierungscode
-registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Benutzerkonten verwendet werden.
+registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Anmeldekonten verwendet werden.
 registration#:#registration_disabled_no_access#:#Die Selbstregistrierung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 registration#:#registration_generated#:#Erzeugt am
@@ -14019,6 +14053,7 @@ rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 rep#:#rep_add_to_favourites#:#Zu Favoriten hinzufügen
 rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_added_to_favourites#:#Das Objekt wurden den Favoriten hinzugefügt.
+rep#:#rep_allowed_types#:#Allowed Types
 rep#:#rep_breadcr_crs#:#Brotkrumennavigation beginnt mit Kurs
 rep#:#rep_breadcr_crs_overwrite#:#Brotkrumendarstellung kann im Kurs konfiguriert werden.
 rep#:#rep_breadcr_crs_overwrite_not#:#Brotkrumendarstellung kann im Kurs nicht konfiguriert werden.
@@ -14422,14 +14457,14 @@ search#:#lucene_host_info#:#Bitte tragen Sie hier den Rechnernamen bzw. die IP-A
 search#:#lucene_index_path#:#Verzeichnis für Indexdateien
 search#:#lucene_index_path_info#:#Bitte geben Sie ein Verzeichnis an, in dem die Indexdateien der Lucene-suche abgelegt werden.
 search#:#lucene_last_index_time#:#Letzte Indexerstellung
-search#:#lucene_last_index_time_info#:#Bitte ändern Sie dieses Einstellung nur dann, wenn Sie ein Backup einer Lucene Indexdatei installiert haben.
+search#:#lucene_last_index_time_info#:#Bitte ändern Sie diese Einstellung nur dann, wenn Sie das Backup einer Lucene-Indexdatei eingespielt haben.
 search#:#lucene_level#:#Log-Level
 search#:#lucene_log#:#Pfad zur Logdatei
 search#:#lucene_log_info#:#Bitte tragen Sie hier den absoluten Pfad zu einer Datei ein, in die Log-Nachrichten geschrieben werden. Wenn die Datei noch nicht existiert, wird sie automatisch erzeugt.
 search#:#lucene_max_fs#:#Maximale Dateigröße (in MB)
 search#:#lucene_max_fs_info#:#Definiert das Dateigrößenlimit, bis zu dem Dateien indexiert werden. Der Inhalt größerer Dateien wird nicht in den Index aufgenommen.
 search#:#lucene_max_sub#:#Anzahl von Unterobjekten
-search#:#lucene_max_sub_info#:#Bitte geben Sie Anzahl von Unterobjekten (Forenthemen, Glossarbegriffe...) ein, die maximal angezeigt werden.
+search#:#lucene_max_sub_info#:#Bitte geben Sie die Anzahl von Unterobjekten (z. B. Forenthemen bei Foren oder Glossarbegriffe bei Glossaren) ein, die maximal angezeigt werden.
 search#:#lucene_more_hits_link#:#%s weitere Treffer...
 search#:#lucene_num_frag_info#:#Bitte geben Sie die Maximalanzahl von Textabschnitten ein, die zur Hervorhebung der Suchtreffer ausgegeben werden sollen.
 search#:#lucene_num_fragments#:#Anzahl Textabschnitte
@@ -14443,9 +14478,9 @@ search#:#lucene_relevance_short#:#Relevanz
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Einstellungen zur Lucene-Suche
 search#:#lucene_show_relevance#:#Relevanz anzeigen
-search#:#lucene_show_relevance_info#:#Suchergebnisse werden sortiert nach ihrer Relevanz ausgegeben. Wenn aktiviert, wird die Relevanz des jeweiligen Suchergebnisses als zusätzliche Information für alle Treffer angezeigt.
+search#:#lucene_show_relevance_info#:#Suchergebnisse werden nach ihrer Relevanz sortiert ausgegeben. Die Relevanz des jeweiligen Suchergebnisses wird als zusätzliche Information für alle Treffer angezeigt.
 search#:#lucene_show_sub_relevance#:#Relevanz von Unterobjekten anzeigen
-search#:#lucene_size_frag_info#:#Bitte wählen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden.
+search#:#lucene_size_frag_info#:#Bitte bestimmen Sie die maximale Länge der Textabschnitte, die zur Hervorhebung der Suchtreffer ausgegeben werden. Geben Sie dazu die Anzahl der Zeichen einschließlich Leerzeichen ein.
 search#:#lucene_size_fragments#:#Länge der Textabschnitte
 search#:#lucene_tbl_create_ini#:#Java-Server Konfigurationsdatei erstellen
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
@@ -14459,7 +14494,7 @@ search#:#search_area#:#Suchbereich
 search#:#search_area_info#:#Bitte wählen Sie einen Bereich aus innerhalb dessen die Suche starten soll.
 search#:#search_auto_complete_length#:#Anzahl der Einträge in Auto-Complete-Liste
 search#:#search_cdate_filter#:#Suche nach Erstellungsdatum
-search#:#search_cdate_filter_info#:#Wenn aktiviert, kann die Suche mit einem Filter für das Erstellungsdatum von Objekten durchgeführt werden.
+search#:#search_cdate_filter_info#:#Bei der Suche kann das Erstellungsdatum von Objekten berücksichtigt werden.
 search#:#search_choose_object_type#:#Bitte wählen Sie mindestens einen Objekttyp aus.
 search#:#search_content#:#Seiteninhalt
 search#:#search_created_after#:#Objekte erstellt nach dem...
@@ -14471,6 +14506,7 @@ search#:#search_direct#:#Direktsuche
 search#:#search_err_user_not_exist#:#Es konnte kein entsprechender Benutzer gefunden werden.
 search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlagwörtern
 search#:#search_field#:#Sucheingabefeld
+search#:#search_field_perform#:#Sucheingabe absenden
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_filter_cd#:#Filter nach Erstellungsdatum
 search#:#search_for_crs_members#:#Nach Kursen suchen
@@ -14482,13 +14518,13 @@ search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
-search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.
+search#:#search_like_info#:#Erlaubt die Suche in der ILIAS-Datenbank ohne Zusatzsoftware. Der Inhalt von Dateien (z. B. PDFs oder HTML-Lernmodule) wird nicht erfasst und deshalb auch nicht als Suchergebnis angezeigt.
 search#:#search_limit_reached#:#Ihre Suche ergab mehr als %s Treffer. Sie können die Abfrage weiter einschränken, um detailliertere Treffer zu erhalten.
 search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
 search#:#search_mime_excel#:#Excel-Dateien
 search#:#search_mime_filter_form#:#Dateitypen-Filter
-search#:#search_mime_filter_form_info#:#Suche wird auf die ausgewählten Dateitypen beschränkt.
+search#:#search_mime_filter_form_info#:#Beschränkt die Suche auf die ausgewählten Dateitypen.
 search#:#search_mime_image#:#Bilder
 search#:#search_mime_pdf#:#PDF-Dateien
 search#:#search_mime_powerpoint#:#Powerpoint-Dateien
@@ -14517,7 +14553,7 @@ search#:#search_type#:#Suchart
 search#:#search_user#:#Benutzer
 search#:#search_user_extended#:#Erweiterte Benutzersuche
 search#:#search_user_search_form#:#Globale Benutzersuche
-search#:#search_user_search_info_form#:#Benutzerkonten können in der globalen Suche gefunden werden. Sofern die Lucene-Volltextsuche aktiviert ist, werden auch Profildaten in den Index aufgenommen.
+search#:#search_user_search_info_form#:#Anmeldekonten können in der globalen Suche gefunden werden. Sofern die Lucene-Volltextsuche aktiviert ist, werden auch Profildaten in den Index aufgenommen.
 search#:#search_users#:#Benutzer suchen
 search#:#select_orgu#:#Organisationseinheiten auswählen
 search#:#until#:#bis
@@ -14613,8 +14649,8 @@ sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 sess#:#sess_warn_sess_type_changed#:#Sind Sie sicher, dass Sie die Sitzungsart ändern möchten? Die Rechteeinstellungen dieser Sitzung werden überschrieben und an die neue Art der Sitzung angepasst.
-shib#:#shib_activate_new#:#Neue Accounts mit Freischaltung
-shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts inaktiv angelegt und müssen von einem Administrator aktiviert werden.
+shib#:#shib_activate_new#:#Neue Anmeldekonten mit Freischaltung
+shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue ILIAS-Konten inaktiv angelegt und müssen von der Administration aktiviert werden.
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
 shib#:#shib_assignment_type#:#Art der Zuordnung
@@ -15423,11 +15459,11 @@ survey#:#export_all_survey_codes#:#Alle Zugangsschlüssel exportieren
 survey#:#export_label_only#:#Nur Label exportieren
 survey#:#export_title_label#:#Titel und Label exportieren
 survey#:#export_title_only#:#Nur Titel exportieren
-survey#:#external_recipients_imported#:#Es wurden externe Empfänger importiert.
+survey#:#external_recipients_imported#:#Die Daten wurden importiert.
 survey#:#externalmails#:#Importdatei
-survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift 'email' für die externen Empfänger beinhalten.
+survey#:#externalmails_info#:#Die Importdatei muss eine CSV-Datei sein. Die Spalten müssen durch ein Semikolon getrennt werden. Die erste Zeile muss die Spaltenüberschriften beinhalten. Die Datei muss mindestens eine Spalte mit der Spaltenüberschrift „email" enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
 survey#:#externaltext#:#Text importieren
-survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen per Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die E-Mail-Adresse des jeweiligen Empfängers enthalten.
+survey#:#externaltext_info#:#Der importierte Text muss in Zeilen und Spalten aufgeteilt sein. Spalten müssen durch ein Semikolon getrennt sein. Die erste Zeile beinhaltet die Spaltentitel. Der Text muss mindestens einen Eintrag für die jeweilige E-Mail-Adresse enthalten. So können Personen ohne ILIAS-Konto Zugangsschlüssel per E-Mail empfangen.
 survey#:#filter#:#Filter
 survey#:#filter_all_question_types#:#Alle Fragetypen
 survey#:#filter_all_questionpools#:#Alle Fragenpools
@@ -15465,8 +15501,8 @@ survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
 survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
 survey#:#mail_sent_short#:#Versendet
 survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
-survey#:#mailaddresses#:#Empfängeradressen
-survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
+survey#:#mailaddresses#:#Senden an
+survey#:#mailaddresses_info#:#Tragen Sie kommagetrennte Anmeldenamen ein.
 survey#:#mailnotification#:#Einzelne E-Mail je beendeter Umfrage
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
 survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
@@ -15504,7 +15540,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangsschlüssels ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
+survey#:#message_content_info#:#Geben Sie hier den Text ein, mit welchem die Zugangsschlüssel versendet werden. Nutzen Sie die Platzhalter [code] für den Zugangsschlüssel, [url] für den Link zu dieser Umfrage und die Platzhalter [%s], die Sie in den Importdaten verwendet haben. Die Platzhalter werden automatisch ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
@@ -15536,7 +15572,7 @@ survey#:#no_questions_available#:#Es sind keine Fragen verfügbar!
 survey#:#no_target_selected_for_move#:#Sie müssen eine Zielposition auswählen!
 survey#:#no_user_invited#:#Allen eingeladenen Benutzern fehlen die notwendigen Rechte, um die Umfrage durchzuführen. Es wurde niemand eingeladen.
 survey#:#non_ratio#:#Intervallskala
-survey#:#not_sent_only#:#Nur an neue Empfänger versenden (die bislang noch keine Mail erhalten haben)
+survey#:#not_sent_only#:#Personen, die bislang noch keine Mail erhalten haben
 survey#:#not_used#:#noch nicht verwendet
 survey#:#nr_max_answers#:#Maximum
 survey#:#nr_min_answers#:#Minimum
@@ -15587,7 +15623,7 @@ survey#:#questions_removed#:#Fragen und/oder Fragenblock entfernt!
 survey#:#questiontype#:#Fragetyp
 survey#:#ratio_absolute#:#Absolutskaliert
 survey#:#ratio_non_absolute#:#Verhältnisskaliert
-survey#:#recipients#:#Empfänger
+survey#:#recipients#:#Senden an
 survey#:#remove_question#:#Entfernen
 survey#:#remove_questions#:#Sind Sie sicher, dass Sie die folgenden Fragen und/oder Fragenblöcke aus der Umfrage entfernen wollen?
 survey#:#reset_filter#:#Filter zurücksetzen
@@ -15614,9 +15650,9 @@ survey#:#select_relation#:#Relation auswählen
 survey#:#select_target_position_for_move_question#:#Bitte wählen Sie eine Zielposition aus, um Fragen zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
 survey#:#select_value#:#Wert festlegen
 survey#:#selection#:#Auswahl
-survey#:#send_to_all#:#An alle eingetragenen externen Empfänger von Zugangsschlüsseln
-survey#:#send_to_answered#:#An alle Empfänger, welche die Umfrage bereits beendet haben
-survey#:#send_to_unanswered#:#An alle Empfänger, welche die Umfrage noch nicht beendet haben (Erinnerung)
+survey#:#send_to_all#:#Alle Personen, für welche Zugangsschlüssel erzeugt wurden
+survey#:#send_to_answered#:#Alle Personen, welche die Umfrage bereits beendet haben
+survey#:#send_to_unanswered#:#Personen, welche die Umfrage noch nicht beendet haben
 survey#:#show_questiontext#:#Fragentext anzeigen
 survey#:#show_questiontext_description#:#Wenn dieses Kontrollkästchen aktiviert ist, wird für jede Frage innerhalb des Fragenblocks der Fragentext angezeigt (Standard). Wenn dieses Kontrollkästchen nicht aktiviert ist, werden die Fragentexte nicht angezeigt und nur die Antworten angeboten. Dies kann sinnvoll sein, wenn Sie mehrere Fragen mit identischen Fragentexten in einem Fragenblock anbieten.
 survey#:#skipped#:#übersprungen
@@ -15675,7 +15711,7 @@ survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_self_appraisee#:#Offenes Feedback
-survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
+survey#:#survey_360_self_appraisee_info#:#Im Reiter „Info“ wird allen ein Link angezeigt. Über diesen Link können sich Personen selbst als Feedback-Nehmer für diese Umfrage eintragen.
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
 survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
@@ -15726,6 +15762,7 @@ survey#:#survey_edit_heading#:#Überschrift bearbeiten
 survey#:#survey_edit_settings#:#Einstellungen bearbeiten
 survey#:#survey_error_insert_incomplete_question#:#Sie haben versucht, eine unvollständige Frage zur Umfrage hinzuzufügen. Die Frage wurde nicht hinzugefügt.
 survey#:#survey_execution_exit#:#Zurück zum Magazin
+survey#:#survey_execution_exit_360#:#Zurück
 survey#:#survey_execution_sure_finish#:#Wollen Sie wirklich die Umfrage beenden? Sie können danach Ihre Antworten nicht mehr korrigieren.
 survey#:#survey_existing_pool#:#Vorhandenen Fragenpool verwenden
 survey#:#survey_finish#:#Umfrage beenden >>
@@ -15746,7 +15783,7 @@ survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da Sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den Persönlichen Schreibtisch gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
-survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl der Empfänger: %s
+survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl: %s
 survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
@@ -15825,7 +15862,7 @@ survey#:#survey_using_template_link#:#Vorlage nicht mehr verwenden
 survey#:#svy_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird nur der Titel der Umfrage angezeigt, die Fragen sind nicht zugänglich.
 survey#:#svy_activation_online_info#:#Nur wenn die Umfrage online ist, können Benutzer an der Umfrage teilnehmen.
 survey#:#svy_add_internal_user#:#Benutzer hinzufügen
-survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen einen Benutzer-Account auf der Plattform.
+survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen ein ILIAS-Konto für diese Installation.
 survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
 survey#:#svy_all_raters#:#Alle Feedbackgeber
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
@@ -15878,7 +15915,7 @@ survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
 survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
 survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
-survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben keinen Nutzer-Account auf der Plattform.
+survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben kein Anmeldekonto auf der Plattform.
 survey#:#svy_fraction_of_selections#:#Anteil an den insgesamt ausgewählten Antwortoptionen
 survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_general_properties#:#Allgemeine Einstellungen
@@ -15916,7 +15953,7 @@ survey#:#svy_rater#:#Feedback-Geber
 survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
 survey#:#svy_reminder_mail_template#:#Mail-Vorlage
 survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
-survey#:#svy_result_mail_notification_info#:#Nach Beenden einer Umfrage werden die Antworten des Teilnehmers an die eingetragen Empfänger gesendet.
+survey#:#svy_result_mail_notification_info#:#Nachdem eine Person die Umfrage beendet hat, werden ihre Ergebnisse per Mail versendet.
 survey#:#svy_results#:#Ergebnisse
 survey#:#svy_results_mail_confirm#:#Teilnehmer kann sich Teilnahmebestätigung senden
 survey#:#svy_results_mail_confirm_info#:#Teilnehmer können sich nach Beendigung der Umfrage eine Teilnahmebestätigung per E-Mail zusenden lassen.
@@ -15976,6 +16013,7 @@ svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_current_page#:#Aktuelle Seite
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_link_to_svy#:#Link zur Umfrage
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_print_selection#:#Auswahl Druckansicht
 svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
@@ -15993,6 +16031,7 @@ svy#:#svy_user_added_360_appraisee_mail#:#Sie wurden der Umfrage als Feedback-Ne
 svy#:#svy_user_added_360_rater#:#360°-Umfrage '%1'
 svy#:#svy_user_added_360_rater_mail#:#Sie wurden als Feedback-Geber hinzugefügt.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
+svy#:#svy_user_not_found#:#Es wurde kein entsprechender Benutzer gefunden.
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 sysc#:#sysc_action_list_tree#:#Dump der Baumstruktur erzeugen
 sysc#:#sysc_action_repair#:#Reparieren
@@ -16103,6 +16142,8 @@ tbl#:#tbl_template_created#:#Die aktuelle Ansicht wurde gespeichert.
 tbl#:#tbl_template_delete#:#Gespeicherte Ansicht löschen
 tbl#:#tbl_template_deleted#:#Die gespeicherte Ansicht wurde gelöscht.
 tbl#:#tbl_templates#:#Ansicht
+tos#:#deleteDocument#:#Löschen
+tos#:#detachCriterionAssignment#:#Löschen
 tos#:#tos_acceptance_history#:#Zustimmungshistorie
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 tos#:#tos_add_document_btn_label#:#Dokument hinzufügen
@@ -16159,7 +16200,7 @@ tos#:#tos_status_desc#:#Benutzer werden zum Unterzeichnen der Nutzungsvereinbaru
 tos#:#tos_status_enable#:#Nutzungsvereinbarungen aktivieren
 tos#:#tos_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
 tos#:#tos_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die z.B. für die SOAP Web-Services genutzt werden.
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Anmeldekonten, die z.B. für die SOAP Web-Services genutzt werden.
 tos#:#tos_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
 tos#:#tos_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
 tos#:#tos_tbl_docs_head_created#:#Erstellungsdatum
@@ -16176,8 +16217,8 @@ tos#:#tos_tbl_hist_head_firstname#:#Vorname
 tos#:#tos_tbl_hist_head_lastname#:#Nachname
 tos#:#tos_tbl_hist_head_login#:#Anmeldename
 tos#:#tos_tos_settings#:#Einstellungen
-tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
+tos#:#tos_withdrawal_usr_deletion#:#Löschung des ILIAS-Kontos beim Widerruf
+tos#:#tos_withdrawal_usr_deletion_info#:#Wird die Zustimmung zur Nutzungsvereinbarung widerrufen, erfolgt automatisch die Löschung des ILIAS-Kontos.
 trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
 trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
 trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".
@@ -16465,13 +16506,13 @@ user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
 user#:#clipboard_add_from_btn#:#Aus der Zwischenablage hinzufügen
 user#:#clipboard_empty_btn#:#Zwischenablage leeren
 user#:#clipboard_remove_btn#:#Aus Zwischenablage entfernen
-user#:#clipboard_table_title#:#Zwischenablage (Benutzerkonten)
+user#:#clipboard_table_title#:#Zwischenablage (Anmeldekonten)
 user#:#clipboard_user_added#:#Die ausgewählten Benutzer wurden der Zwischenablage hinzugefügt.
 user#:#confirm_delete_starting_point#:#Sind Sie sich sicher, dass diese Regel gelöscht werden soll?
 user#:#create_starting_point#:#Regel erstellen
 user#:#criteria#:#Kriterium
-user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher vorraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
-user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr ILIAS-Konto wird daher voraussichtlich am %4$s gelöscht. Bitte melden Sie sich erneut an, damit Ihr ILIAS-Konto erhalten bleibt.
+user#:#del_mail_subject#:#[ILIAS] – Ihr ILIAS-Konto wird bald gelöscht
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf E-Mail-Versand getestet wird.
 user#:#editing_this_role#:#Regel editieren
@@ -16486,14 +16527,14 @@ user#:#interests_help_looking#:#Suche Hilfe
 user#:#interests_help_offered#:#Biete Hilfe
 user#:#msg_spoint_not_modified#:#Die Startseite wurde nicht geändert.
 user#:#obj_ref_id_not_exist#:#Die eingegebene Referenz-ID existiert nicht.
-user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Benutzerkonten
-user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Benutzerkonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Benutzerkonten", um auf lokale Benutzerkonten in Kategorien und auf die globalen Benutzerkonten zugreifen zu können.
+user#:#restrict_user_access#:#Eingeschränkter Zugriff auf Anmeldekonten
+user#:#restrict_user_access_info#:#Aktivieren Sie diese Option nur, wenn Sie den Zugriff auf Anmeldekonten beschränken möchten. Wenn aktiviert, benötigen Benutzer das Recht "Lesezugriff auf Anmeldekonten", um auf lokale Anmeldekonten in Kategorien und auf die globalen Anmeldekonten zugreifen zu können.
 user#:#roles_without_starting_point#:#Rollen ohne definierte Startseite
 user#:#save_order#:#Reihenfolge speichern
-user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß um den Versand einer E-Mail vor der Löschung des Accounts zu gewährleisten.
+user#:#send_mail_reminder_window_too_small#:#Das Intervall ist zu groß, um den Versand einer E-Mail vor der Löschung des Kontos zu gewährleisten.
 user#:#send_mail_to_inactive_users#:#Benachrichtigungsmail
-user#:#send_mail_to_inactive_users_desc#:#Bevor Benutzeraccounts gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Benutzer. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
-user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
+user#:#send_mail_to_inactive_users_desc#:#Bevor ILIAS-Konten gelöscht werden, sendet ILIAS eine E-Mail an die betroffenen Personen. Durch ein erneutes Anmelden einer Person in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer E-Mail-Empfang möglich ist. Bei Aktivierung des Cronjobs mit Benachrichtigungsmail, kann es vorkommen, dass zu Beginn die Zeitspanne zwischen Benachrichtigung und Löschung geringer ist als die eingestellte Zeitspanne.
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert „Vergangene Tage seit letzter Anmeldung“.
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben. Ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_suffix#:#Tage bis zur Löschung.
 user#:#show_own_online_status#:#Eigenen Online-Status anzeigen
@@ -16509,8 +16550,8 @@ user#:#user_account_code#:#Code
 user#:#user_account_code_generated#:#Erzeugt am
 user#:#user_account_code_generated_all#:#Alle Daten
 user#:#user_account_code_not_valid#:#Der gegebene Code ist ungültig oder wurde bereits benutzt.
-user#:#user_account_code_setting#:#Account-Reaktivierung durch Codes ermöglichen
-user#:#user_account_code_setting_info#:#Benutzer können mithilfe eines Registrierungscodes ihren abgelaufenen Account reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter Benutzerkonten werden in 'Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes' erzeugt. Inaktive Accounts können mit Codes nicht reaktiviert werden.
+user#:#user_account_code_setting#:#Reaktivierung von ILIAS-Konten durch Codes ermöglichen
+user#:#user_account_code_setting_info#:#Personen können mithilfe eines Registrierungscodes ihr abgelaufenes ILIAS-Konto reaktieren. Entsprechende Codes für die Verlängerung zeitlich begrenzter ILIAS-Konten werden in „Administration » Authentifizierung / Neuanmeldung » ILIAS-Auth/Selbstregistrierung : Registrierungscodes“ erzeugt. Inaktive Konten können mit Codes nicht reaktiviert werden.
 user#:#user_account_code_used#:#Verbraucht am
 user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
@@ -16520,26 +16561,26 @@ user#:#user_account_codes_add#:#Codes erzeugen
 user#:#user_account_codes_edit_header#:#Neue Codes erzeugen
 user#:#user_account_codes_export#:#Codes exportieren
 user#:#user_account_codes_number#:#Anzahl Codes
-user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
+user#:#user_account_deleted_confirmation#:#Ihr ILIAS-Konto wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
 user#:#user_activate_public_profile#:#Aktivierung
 user#:#user_activate_public_profile_info#:#Vor- und Nachname sind bei aktiviertem Profil immer sichtbar.
 user#:#user_activation#:#Aktivierung
 user#:#user_adm_enable_alpha_nav#:#Alphabetische Navigation in der Benutzeradministration
 user#:#user_all#:#Alle
-user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
+user#:#user_allow_delete_own_account#:#Benutzer können eigenes ILIAS-Konto löschen
 user#:#user_any#:#Alle
 user#:#user_awrn_all_users#:#Alle Benutzer
 user#:#user_awrn_all_users_info#:#Alle Benutzer der Plattform werden aufgelistet. Achtung: Wird die Option "Online und offline" gewählt, ist bei hoher Benutzerzahl mit erheblichen Performanzeinbußen zu rechnen.
 user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#user_chooses_starting_page#:#Benutzer setzt Startseite
-user#:#user_delete_own_account#:#Account löschen
-user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
-user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde am %s gelöscht.
-user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
-user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiderruflich aus dem System entfernt werden soll.
-user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
+user#:#user_delete_own_account#:#ILIAS-Konto löschen
+user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Das Konto ist unverändert.
+user#:#user_delete_own_account_email_body#:#Ihr ILIAS-Konto "%s" auf %s wurde am %s gelöscht.
+user#:#user_delete_own_account_email_subject#:#ILIAS-Konto gelöscht
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr ILIAS-Konto unwiderruflich aus dem System entfernt werden soll.
+user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen ILIAS-Konto löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
-user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_confirmation#:#Ihr ILIAS-Konto wurde zur Löschung markiert, bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
 user#:#user_field#:#Feld
 user#:#user_global_role#:#Globale Rolle

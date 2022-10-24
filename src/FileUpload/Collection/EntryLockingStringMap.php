@@ -55,7 +55,7 @@ final class EntryLockingStringMap implements StringMap
      * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
      * @since 5.3
      */
-    public function get(string $key) : string
+    public function get(string $key): string
     {
         $this->stringTypeCheck($key, 'key');
 
@@ -74,7 +74,7 @@ final class EntryLockingStringMap implements StringMap
      *
      * @since 5.3
      */
-    public function toArray() : array
+    public function toArray(): array
     {
         return $this->map->getArrayCopy();
     }
@@ -88,7 +88,7 @@ final class EntryLockingStringMap implements StringMap
      * @throws \InvalidArgumentException Thrown if the key type is not of the type string.
      * @since 5.3
      */
-    public function has(string $key) : bool
+    public function has(string $key): bool
     {
         $this->stringTypeCheck($key, 'key');
 
@@ -108,7 +108,7 @@ final class EntryLockingStringMap implements StringMap
      *                                           string.
      * @since 5.3
      */
-    public function put(string $key, string $value) : void
+    public function put(string $key, string $value): void
     {
         $this->stringTypeCheck($key, 'key');
         $this->stringTypeCheck($value, 'value');

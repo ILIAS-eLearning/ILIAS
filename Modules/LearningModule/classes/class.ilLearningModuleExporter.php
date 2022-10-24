@@ -27,7 +27,7 @@ class ilLearningModuleExporter extends ilXmlExporter
     private ilExportConfig $config;
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -48,7 +48,7 @@ class ilLearningModuleExporter extends ilXmlExporter
         string $a_entity,
         string $a_target_release,
         array $a_ids
-    ) : array {
+    ): array {
         $deps = array();
 
         if ($a_entity == "lm") {
@@ -131,7 +131,7 @@ class ilLearningModuleExporter extends ilXmlExporter
         string $a_entity,
         string $a_schema_version,
         string $a_id
-    ) : string {
+    ): string {
         // workaround: old question export
         $q_ids = array();
         $pages = ilLMPageObject::getPageList($a_id);
@@ -165,7 +165,7 @@ class ilLearningModuleExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(
         string $a_entity
-    ) : array {
+    ): array {
         return array(
             "5.4.0" => array(
                 "namespace" => "https://www.ilias.de/Modules/LearningModule/lm/5_4",

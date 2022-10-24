@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,22 +40,22 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getTargetId() : int
+    public function getTargetId(): int
     {
         return $this->int("target_id");
     }
 
-    public function getCreationMode() : int
+    public function getCreationMode(): int
     {
         return $this->int("creation_mode");
     }
 
-    public function getNewType() : string
+    public function getNewType(): string
     {
         return $this->str("new_type");
     }

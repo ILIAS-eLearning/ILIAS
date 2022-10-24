@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Get LearningProgress and availability of items in sequence.
  */
@@ -40,7 +42,7 @@ class ilLearnerProgressDB
      *
      * @return LSLearnerItem[]|[]
      */
-    public function getLearnerItems(int $usr_id, int $container_ref_id) : array
+    public function getLearnerItems(int $usr_id, int $container_ref_id): array
     {
         $items = [];
         $ls_items = $this->items_db->getLSItems($container_ref_id);
@@ -57,12 +59,12 @@ class ilLearnerProgressDB
         return $items;
     }
 
-    protected function getObjIdForRefId(int $ref_id) : int
+    protected function getObjIdForRefId(int $ref_id): int
     {
         return ilObject::_lookupObjId($ref_id);
     }
 
-    protected function getLearningProgressFor(int $usr_id, LSItem $ls_item) : int
+    protected function getLearningProgressFor(int $usr_id, LSItem $ls_item): int
     {
         $obj_id = $this->getObjIdForRefId($ls_item->getRefId());
 
@@ -73,7 +75,7 @@ class ilLearnerProgressDB
         return (int) $il_lp_status;
     }
 
-    protected function isItemVisibleForUser(int $usr_id, LSItem $ls_item) : bool
+    protected function isItemVisibleForUser(int $usr_id, LSItem $ls_item): bool
     {
         $online = $ls_item->isOnline();
         $access = $this->access->checkAccessOfUser(
@@ -85,7 +87,7 @@ class ilLearnerProgressDB
         return ($online && $access);
     }
 
-    protected function getAvailabilityFor(int $usr_id, LSItem $ls_item) : int
+    protected function getAvailabilityFor(int $usr_id, LSItem $ls_item): int
     {
         $this->access->clear(); //clear access cache; condition-checks refer to previous state otherwise.
         $readable = $this->access->checkAccessOfUser($usr_id, 'read', '', $ls_item->getRefId());

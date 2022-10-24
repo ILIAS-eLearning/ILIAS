@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,7 +34,7 @@
 
 class ilWikiContentSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->setFields(array('content'));
 
@@ -46,7 +48,7 @@ class ilWikiContentSearch extends ilAbstractSearch
             $where .
             "AND il_wiki_page.id = page_object.page_id " .
             $in;
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry(
@@ -62,26 +64,26 @@ class ilWikiContentSearch extends ilAbstractSearch
 
 
     // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement() : string
+    public function __createInStatement(): string
     {
         if (!$this->getFilter() and !$this->getIdFilter()) {
             return '';
         }
-        
-        
+
+
         $in = '';
         if ($this->getFilter()) {
             $type = "('";
             $type .= implode("','", $this->getFilter());
             $type .= "')";
-            
+
             $in = " AND parent_type IN " . $type . ' ';
         }
         if ($this->getIdFilter()) {
             $in .= ' AND ';
             $in .= $this->db->in('il_wiki_page.wiki_id', $this->getIdFilter(), false, 'integer');
         }
-        
+
         return $in;
     }
 }

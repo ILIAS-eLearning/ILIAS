@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage;
 
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
@@ -88,17 +90,17 @@ class Services
         );
     }
 
-    public function manage() : Manager
+    public function manage(): Manager
     {
         return $this->manager;
     }
 
-    public function consume() : Consumers
+    public function consume(): Consumers
     {
         return $this->consumers;
     }
 
-    public function preload(array $identification_strings) : void
+    public function preload(array $identification_strings): void
     {
         $this->preloader->preload($identification_strings);
     }

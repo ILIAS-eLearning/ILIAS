@@ -13,13 +13,11 @@ CSS-classes you need to use. You will be able to talk to other people (like user
 or designers) using the same concepts and problem space as they do. This is also
 not a templating framework.
 
-## Compose GUIs from Simple Parts
+## Semantics of Components
 
-In the ILIAS UI-Framework, GUIs are described by composing large chunks from
-smaller components. The available components and their possible compositions are
-described in the Kitchen Sink. The single components only have little  configuration,
-complex GUIs emerge from simple parts. You also won't need to modify existing
-components, just use them as provided.
+UI Components serve a specific purpose. They are not simply named html structures that are composed to larger structures, 
+but semantically different identities. It is possible that two different component look the same and act the same by 
+accident, but still remain different identities. However it is also possible that the same component, looks different in serpereate contexts.
 
 ## Correctness by Construction and Testability
 

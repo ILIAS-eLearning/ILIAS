@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\UI\Component\JavaScriptBindable;
@@ -30,7 +32,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
     /**
      * Get the label of the input.
      */
-    public function getLabel() : string;
+    public function getLabel(): string;
 
     /**
      * Get an input like this, but with a replaced label.
@@ -42,7 +44,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
     /**
      * Get the byline of the input.
      */
-    public function getByline() : ?string;
+    public function getByline(): ?string;
 
     /**
      * Get an input like this, but with an additional/replaced label.
@@ -54,7 +56,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
     /**
      * Is this field required?
      */
-    public function isRequired() : bool;
+    public function isRequired(): bool;
 
     /**
      * Get an input like this, but set the field to be required (or not).
@@ -66,7 +68,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
     /**
      * Is this input disabled?
      */
-    public function isDisabled() : bool;
+    public function isDisabled(): bool;
 
     /**
      * Get an input like this, but set it to a disabled state.
@@ -78,7 +80,7 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
     /**
      * The error of the input as used in HTML.
      */
-    public function getError() : ?string;
+    public function getError(): ?string;
 
     /**
      * Get an input like this one, with a different error.
@@ -96,5 +98,5 @@ interface FormInput extends Input, JavaScriptBindable, OnUpdateable
      * - on every input change.
      * It must pass a readable string representation of its value in parameter 'string_value'.
      */
-    public function getUpdateOnLoadCode() : Closure;
+    public function getUpdateOnLoadCode(): Closure;
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,32 +69,32 @@ class ilStudyProgrammeAutoMembershipSource
         $this->last_edited = $last_edited;
     }
 
-    public function getPrgObjId() : int
+    public function getPrgObjId(): int
     {
         return $this->prg_obj_id;
     }
 
-    public function getSourceType() : string
+    public function getSourceType(): string
     {
         return $this->source_type;
     }
 
-    public function getSourceId() : int
+    public function getSourceId(): int
     {
         return $this->source_id;
     }
 
-    public function isEnabled() : bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function getLastEditorId() : int
+    public function getLastEditorId(): int
     {
         return $this->last_edited_usr_id;
     }
 
-    public function getLastEdited() : DateTimeImmutable
+    public function getLastEdited(): DateTimeImmutable
     {
         return $this->last_edited;
     }

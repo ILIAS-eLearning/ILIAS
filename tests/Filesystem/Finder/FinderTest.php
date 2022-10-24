@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\Data\DataSize;
 use ILIAS\Filesystem;
@@ -26,7 +28,7 @@ class FinderTest extends TestCase
      * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    private function getFlatFileSystemStructure() : Filesystem\Filesystem
+    private function getFlatFileSystemStructure(): Filesystem\Filesystem
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -54,7 +56,7 @@ class FinderTest extends TestCase
      * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    private function getNestedFileSystemStructure() : Filesystem\Filesystem
+    private function getNestedFileSystemStructure(): Filesystem\Filesystem
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -109,7 +111,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory() : void
+    public function testFinderWillFindNoFilesOrFoldersInAnEmptyDirectory(): void
     {
         $fileSystem = $this->getMockBuilder(Filesystem\Filesystem::class)->getMock();
 
@@ -125,7 +127,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersInFlatStructure() : void
+    public function testFinderWillFindFilesAndFoldersInFlatStructure(): void
     {
         $finder = (new Finder($this->getFlatFileSystemStructure()))->in(['/']);
 
@@ -137,7 +139,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersInNestedStructure() : void
+    public function testFinderWillFindFilesAndFoldersInNestedStructure(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -149,7 +151,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth() : void
+    public function testFinderWillFindFilesAndFoldersForACertainDirectoryDepth(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -187,7 +189,7 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillNotSearchInExcludedFolders() : void
+    public function testFinderWillNotSearchInExcludedFolders(): void
     {
         $finder = (new Finder($this->getNestedFileSystemStructure()))->in(['/']);
 
@@ -206,7 +208,7 @@ class FinderTest extends TestCase
      * @return Filesystem\Filesystem
      * @throws ReflectionException
      */
-    public function testFinderWillFilterFilesAndFoldersByCreationTimestamp() : Filesystem\Filesystem
+    public function testFinderWillFilterFilesAndFoldersByCreationTimestamp(): Filesystem\Filesystem
     {
         $now = new \DateTimeImmutable('2019-03-30 13:00:00');
 
@@ -216,7 +218,7 @@ class FinderTest extends TestCase
         $fs
             ->expects($this->atLeast(1))
             ->method('getTimestamp')
-            ->willReturnCallback(function ($path) use ($now) : \DateTimeImmutable {
+            ->willReturnCallback(function ($path) use ($now): \DateTimeImmutable {
                 switch ($path) {
                     case'file_1.txt':
                         return $now;
@@ -262,14 +264,14 @@ class FinderTest extends TestCase
     /**
      * @throws ReflectionException
      */
-    public function testFinderWillFilterFilesBySize() : void
+    public function testFinderWillFilterFilesBySize(): void
     {
         $fs = $this->getNestedFileSystemStructure();
         $fs->method('has')->willReturn(true);
 
         $fs->expects($this->atLeast(1))
             ->method('getSize')
-            ->willReturnCallback(function ($path) : \ILIAS\Data\DataSize {
+            ->willReturnCallback(function ($path): \ILIAS\Data\DataSize {
                 switch ($path) {
                     case'file_1.txt':
                         return new DataSize(PHP_INT_MAX, DataSize::Byte);
@@ -313,7 +315,7 @@ class FinderTest extends TestCase
      * @param Filesystem\Filesystem $fs
      * @depends testFinderWillFilterFilesAndFoldersByCreationTimestamp
      */
-    public function testSortingWorksAsExpected(Filesystem\Filesystem $fs) : void
+    public function testSortingWorksAsExpected(Filesystem\Filesystem $fs): void
     {
         $finder = (new Finder($fs))->in(['/']);
 
@@ -329,7 +331,7 @@ class FinderTest extends TestCase
         $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
         $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
-        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) : int {
+        $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right): int {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
                 return -1;
             }

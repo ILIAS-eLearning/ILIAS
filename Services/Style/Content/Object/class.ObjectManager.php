@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -62,7 +64,7 @@ class ObjectManager
      * this returns an empty array. If a ref id is provided for the manager,
      * upper container will be searched for shared local content styles.
      */
-    public function getSelectableStyles() : array
+    public function getSelectableStyles(): array
     {
         $settings = $this->settings;
         $tree = $this->domain_service->repositoryTree();
@@ -95,7 +97,7 @@ class ObjectManager
         return $st_styles;
     }
 
-    protected function isSelectable(int $style_id) : bool
+    protected function isSelectable(int $style_id): bool
     {
         $sel_types = $this->getSelectableStyles();
         if (isset($sel_types[$style_id])) {
@@ -104,17 +106,17 @@ class ObjectManager
         return false;
     }
 
-    public function updateStyleId(int $style_id) : void
+    public function updateStyleId(int $style_id): void
     {
         ilObjStyleSheet::writeStyleUsage($this->obj_id, $style_id);
     }
 
-    public function setOwnerOfStyle(int $style_id) : void
+    public function setOwnerOfStyle(int $style_id): void
     {
         ilObjStyleSheet::writeOwner($this->obj_id, $style_id);
     }
 
-    public function getStyleId() : int
+    public function getStyleId(): int
     {
         return ilObjStyleSheet::lookupObjectStyle($this->obj_id);
     }
@@ -122,7 +124,7 @@ class ObjectManager
     /**
      * Clones a style to a new object (or references the same standard style)
      */
-    public function cloneTo(int $obj_id) : void
+    public function cloneTo(int $obj_id): void
     {
         $style_id = $this->getStyleId();
         if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id)) {
@@ -138,7 +140,7 @@ class ObjectManager
     /**
      * Inherits a non local style from the parent container
      */
-    public function inheritFromParent() : void
+    public function inheritFromParent(): void
     {
         if ($this->ref_id > 0) {
             $tree = $this->domain_service->repositoryTree();
@@ -154,7 +156,7 @@ class ObjectManager
         }
     }
 
-    public function getEffectiveStyleId() : int
+    public function getEffectiveStyleId(): int
     {
         $settings = $this->settings;
 
@@ -184,7 +186,7 @@ class ObjectManager
     }
 
     // is a style owned by an object?
-    public function isOwned(int $style_id) : bool
+    public function isOwned(int $style_id): bool
     {
         return $this->object_repo->isOwned($this->obj_id, $style_id);
     }

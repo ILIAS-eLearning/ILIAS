@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -80,7 +82,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
      * Maps generated dynamic inputs to their file-id, which must be
      * provided in or as $value.
      */
-    public function withValue($value) : HasDynamicInputsBase
+    public function withValue($value): HasDynamicInputsBase
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
@@ -101,7 +103,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     // END OVERWRITTEN METHODS OF HasDynamicInputs
     // ===============================================
 
-    public function hasMetadataInputs() : bool
+    public function hasMetadataInputs(): bool
     {
         return $this->has_metadata_inputs;
     }
@@ -109,7 +111,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
     /**
      * @return array<string, string>
      */
-    public function getTranslations() : array
+    public function getTranslations(): array
     {
         return [
             'invalid_mime' => $this->language->txt('ui_file_input_invalid_mime'),
@@ -119,18 +121,25 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         ];
     }
 
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return static function () {
         };
     }
 
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
-        return $this->refinery->to()->string();
+        return $this->refinery->custom()->constraint(
+            function ($value) {
+                return (is_array($value) && count($value) > 0);
+            },
+            function ($txt, $value) {
+                return $txt("msg_no_files_selected");
+            },
+        );
     }
 
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (!is_array($value)) {
             return false;
@@ -161,7 +170,7 @@ class File extends HasDynamicInputsBase implements C\Input\Field\File
         return true;
     }
 
-    protected function createDynamicInputsTemplate(?InputInterface $metadata_input) : InputInterface
+    protected function createDynamicInputsTemplate(?InputInterface $metadata_input): InputInterface
     {
         $default_metadata_input = new Hidden(
             $this->data_factory,

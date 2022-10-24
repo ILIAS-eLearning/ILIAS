@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -27,17 +29,17 @@ use ILIAS\UI\Implementation as I;
  */
 class BreadcrumbsTest extends ILIAS_UI_TestBase
 {
-    public function getFactory() : NoUIFactory
+    public function getFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function breadcrumbs(array $crumbs) : C\Breadcrumbs\Breadcrumbs
+        return new class () extends NoUIFactory {
+            public function breadcrumbs(array $crumbs): C\Breadcrumbs\Breadcrumbs
             {
                 return new I\Component\Breadcrumbs\Breadcrumbs($crumbs);
             }
         };
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->getFactory();
 
@@ -48,7 +50,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testCrumbs() : void
+    public function testCrumbs(): void
     {
         $f = $this->getFactory();
         $crumbs = array(
@@ -60,7 +62,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $this->assertEquals($crumbs, $c->getItems());
     }
 
-    public function testAppending() : void
+    public function testAppending(): void
     {
         $f = $this->getFactory();
         $crumb = new I\Component\Link\Standard("label2", '#');
@@ -70,7 +72,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $this->assertEquals(array($crumb), $c->getItems());
     }
 
-    public function testRendering() : void
+    public function testRendering(): void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

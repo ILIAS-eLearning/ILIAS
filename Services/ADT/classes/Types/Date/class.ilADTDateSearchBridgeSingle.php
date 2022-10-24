@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTDateDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -19,7 +21,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         $adt_date = $this->getADT()->getDate();
 
@@ -34,12 +36,12 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
     /**
      * @inheritDoc
      */
-    protected function shouldBeImportedFromPost($a_post) : bool
+    protected function shouldBeImportedFromPost($a_post): bool
     {
         return (bool) $a_post["tgl"];
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -64,7 +66,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $this->db->quote($this->getADT()->getDate()->get(IL_CAL_DATE), "date");
@@ -72,7 +74,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTDate);
 
@@ -81,7 +83,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getDate()->get(IL_CAL_DATE)));
@@ -89,7 +91,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

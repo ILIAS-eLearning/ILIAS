@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery\Factory as Factory;
 use ILIAS\HTTP\Services as Services;
 
@@ -69,7 +71,7 @@ class ilExportGUI
         }
     }
 
-    protected function initFileIdentifierFromQuery() : string
+    protected function initFileIdentifierFromQuery(): string
     {
         if ($this->http->wrapper()->query()->has('file')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -80,7 +82,7 @@ class ilExportGUI
         return '';
     }
 
-    protected function initFileIdentifiersFromPost() : array
+    protected function initFileIdentifiersFromPost(): array
     {
         if ($this->http->wrapper()->post()->has('file')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -93,7 +95,7 @@ class ilExportGUI
         return [];
     }
 
-    protected function initFormatFromPost() : string
+    protected function initFormatFromPost(): string
     {
         if ($this->http->wrapper()->post()->has('format')) {
             return $this->http->wrapper()->post()->retrieve(
@@ -104,7 +106,7 @@ class ilExportGUI
         return '';
     }
 
-    protected function initExportOptionsFromPost() : array
+    protected function initExportOptionsFromPost(): array
     {
         $options = [];
         if ($this->http->wrapper()->post()->has('cp_options')) {
@@ -122,12 +124,12 @@ class ilExportGUI
     }
 
 
-    protected function buildExportTableGUI() : ilExportTableGUI
+    protected function buildExportTableGUI(): ilExportTableGUI
     {
         return new ilExportTableGUI($this, "listExportFiles", $this->obj);
     }
 
-    protected function getParentGUI() : object
+    protected function getParentGUI(): object
     {
         return $this->parent_gui;
     }
@@ -137,7 +139,7 @@ class ilExportGUI
         string $a_txt = "",
         object $a_call_obj = null,
         string $a_call_func = ""
-    ) : void {
+    ): void {
         if ($a_txt == "") {
             $a_txt = $this->lng->txt("exp_" . $a_key);
         }
@@ -149,12 +151,12 @@ class ilExportGUI
         );
     }
 
-    public function getFormats() : array
+    public function getFormats(): array
     {
         return $this->formats;
     }
 
-    public function addCustomColumn(string $a_txt, object $a_obj, string $a_func) : void
+    public function addCustomColumn(string $a_txt, object $a_obj, string $a_func): void
     {
         $this->custom_columns[] = array("txt" => $a_txt,
                                         "obj" => $a_obj,
@@ -162,7 +164,7 @@ class ilExportGUI
         );
     }
 
-    public function addCustomMultiCommand(string $a_txt, object $a_obj, string $a_func) : void
+    public function addCustomMultiCommand(string $a_txt, object $a_obj, string $a_func): void
     {
         $this->custom_multi_commands[] = array("txt" => $a_txt,
                                                "obj" => $a_obj,
@@ -170,17 +172,17 @@ class ilExportGUI
         );
     }
 
-    public function getCustomMultiCommands() : array
+    public function getCustomMultiCommands(): array
     {
         return $this->custom_multi_commands;
     }
 
-    public function getCustomColumns() : array
+    public function getCustomColumns(): array
     {
         return $this->custom_columns;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // this should work (at least) for repository objects
         if (method_exists($this->obj, 'getRefId') and $this->obj->getRefId()) {
@@ -216,7 +218,7 @@ class ilExportGUI
         }
     }
 
-    public function listExportFiles() : void
+    public function listExportFiles(): void
     {
         $button = ilSubmitButton::getInstance();
 
@@ -255,7 +257,7 @@ class ilExportGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function createExportFile() : void
+    public function createExportFile(): void
     {
         if ($this->ctrl->getCmd() == "createExportFile") {
             $format = $this->initFormatFromPost();
@@ -283,7 +285,7 @@ class ilExportGUI
     /**
      * Confirm file deletion
      */
-    public function confirmDeletion() : void
+    public function confirmDeletion(): void
     {
         $files = $this->initFileIdentifiersFromPost();
         if (!count($files)) {
@@ -309,7 +311,7 @@ class ilExportGUI
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $files = $this->initFileIdentifiersFromPost();
         foreach ($files as $file) {
@@ -342,7 +344,7 @@ class ilExportGUI
     /**
      * Download file
      */
-    public function download() : void
+    public function download(): void
     {
         $file = $this->initFileIdentifierFromQuery();
         if (!$file) {
@@ -364,7 +366,7 @@ class ilExportGUI
         );
     }
 
-    public function handleCustomMultiCommand() : void
+    public function handleCustomMultiCommand(): void
     {
         $cmd = substr($this->ctrl->getCmd(), 6);
         foreach ($this->getCustomMultiCommands() as $c) {
@@ -377,7 +379,7 @@ class ilExportGUI
     /**
      * Show container item selection table
      */
-    protected function showItemSelection() : void
+    protected function showItemSelection(): void
     {
         $this->tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
         $this->tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
@@ -387,7 +389,7 @@ class ilExportGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function saveItemSelection() : void
+    protected function saveItemSelection(): void
     {
         $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
         $eo->addOption(ilExportOptions::KEY_ROOT, 0, 0, $this->obj->getId());

@@ -59,7 +59,7 @@ abstract class ilAbstractSearch
         $this->search_result = new ilSearchResult();
     }
 
-    public function setFields(array $a_fields) : void
+    public function setFields(array $a_fields): void
     {
         $this->fields = $a_fields;
     }
@@ -67,17 +67,17 @@ abstract class ilAbstractSearch
     /**
     * @return string[] array of search fields. E.g. array(title,description)
     */
-    public function getFields() : array
+    public function getFields(): array
     {
         return $this->fields;
     }
 
-    public function setFilter(array $a_filter) : void
+    public function setFilter(array $a_filter): void
     {
         $this->object_types = $a_filter;
     }
 
-    public function setIdFilter(array $a_id_filter) : void
+    public function setIdFilter(array $a_id_filter): void
     {
         $this->id_filter = $a_id_filter;
     }
@@ -85,12 +85,12 @@ abstract class ilAbstractSearch
     /**
      * @return int[]
      */
-    public function getIdFilter() : array
+    public function getIdFilter(): array
     {
         return $this->id_filter;
     }
 
-    public function appendToFilter(string $a_type) : void
+    public function appendToFilter(string $a_type): void
     {
         if (!in_array($a_type, $this->object_types)) {
             $this->object_types[] = $a_type;
@@ -101,12 +101,12 @@ abstract class ilAbstractSearch
     /**
      * @param string[] Array of object types (e.g array('lm','st','pg','dbk'))
      */
-    public function getFilter() : array
+    public function getFilter(): array
     {
         return $this->object_types;
     }
 
-    public function __createLocateString() : string
+    public function __createLocateString(): string
     {
         if ($this->query_parser->getCombination() == ilQueryParser::QP_COMBINATION_OR) {
             return '';
@@ -129,11 +129,11 @@ abstract class ilAbstractSearch
             $locate .= (' found' . $counter++);
             $locate .= ' ';
         }
-        
+
         return $locate;
     }
 
-    public function __prepareFound(object $row) : array
+    public function __prepareFound(object $row): array
     {
         if ($this->query_parser->getCombination() == 'or') {
             return array();

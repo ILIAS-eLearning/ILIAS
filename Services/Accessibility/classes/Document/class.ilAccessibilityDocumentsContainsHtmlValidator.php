@@ -28,7 +28,7 @@ class ilAccessibilityDocumentsContainsHtmlValidator
         $this->text = $text;
     }
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
             return false;

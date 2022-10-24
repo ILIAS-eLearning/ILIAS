@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use org\bovigo\vfs;
@@ -19,14 +20,14 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
     /** @var ilEmptyWorkflow $workflow */
     public ilEmptyWorkflow $workflow;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -35,12 +36,12 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
             $DIC['ilSetting']->delete('IL_PHPUNIT_TEST_MICROTIME');
         }
     }
-    
-    public function testConstructorValidContext() : void
+
+    public function testConstructorValidContext(): void
     {
         // Act
         $node = new ilCaseNode($this->workflow);
-        
+
         // Assert
         // No exception - good
         $this->assertTrue(
@@ -49,14 +50,14 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext() : void
+    public function testGetContext(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
-        
+
         // Act
         $actual = $node->getContext();
-        
+
         // Assert
         if ($actual === $this->workflow) {
             $this->assertEquals($actual, $this->workflow);
@@ -64,8 +65,8 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
             $this->fail('Context not identical.');
         }
     }
-    
-    public function testIsActiveAndActivate() : void
+
+    public function testIsActiveAndActivate(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -75,13 +76,13 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 
         // Act
         $node->activate();
-        
+
         // Assert
         $actual = $node->isActive();
         $this->assertTrue($actual);
     }
-    
-    public function testDeactivate() : void
+
+    public function testDeactivate(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -94,12 +95,12 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $was_activated = $node->isActive();
         $node->deactivate();
         $was_deactivated = !$node->isActive();
-        
+
         // Assert
         $this->assertEquals($was_activated, $was_deactivated);
     }
 
-    public function testCheckTransitionPreconditionsValid() : void
+    public function testCheckTransitionPreconditionsValid(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -111,15 +112,15 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 
         $detector1->trigger(null);
         $detector2->trigger(null);
-        
+
         // Act
         $preconditions = $node->checkTransitionPreconditions();
-        
+
         // Assert
         $this->assertTrue($preconditions);
     }
 
-    public function testCheckTransitionPreconditionsValidOnExclusiveJoin() : void
+    public function testCheckTransitionPreconditionsValidOnExclusiveJoin(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -139,7 +140,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($preconditions);
     }
 
-    public function testNotifyDetectorSatisfactionAndTransit() : void
+    public function testNotifyDetectorSatisfactionAndTransit(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -158,7 +159,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($node->isActive());
     }
 
-    public function testCheckTransitionPreconditionsInvalid() : void
+    public function testCheckTransitionPreconditionsInvalid(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -178,7 +179,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($preconditions);
     }
 
-    public function testAttemptTransitionPreconditionsValidOnExclusiveJoin() : void
+    public function testAttemptTransitionPreconditionsValidOnExclusiveJoin(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -198,7 +199,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($success);
     }
 
-    public function testExecuteTransition() : void
+    public function testExecuteTransition(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -206,16 +207,16 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $detector = new ilSimpleDetector($node);
         $node->addDetector($detector);
         $node->activate();
-        
+
         // Act
         $node->executeTransition();
         $state = $node->isActive();
-        
+
         // Assert
         $this->assertFalse($state);
     }
 
-    public function testExecuteTransitionExclusiveFork() : void
+    public function testExecuteTransitionExclusiveFork(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -233,7 +234,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($state);
     }
 
-    public function testExecuteActivitiesViaExecuteTransition() : void
+    public function testExecuteActivitiesViaExecuteTransition(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -265,7 +266,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testExecuteEmitterViaExecuteTransition() : void
+    public function testExecuteEmitterViaExecuteTransition(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -280,7 +281,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $foo_detector = new ilSimpleDetector($t_node);
         $t_node->addDetector($foo_detector);
         // again a foo_detector to keep the t_node from transitting
-        
+
         $emitter = new ilActivationEmitter($node);
         $emitter->setTargetDetector($t_detector);
         $node->addEmitter($emitter);
@@ -293,7 +294,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
 
-    public function testExecuteEmitterViaExecuteTransitionExclusiveFork() : void
+    public function testExecuteEmitterViaExecuteTransitionExclusiveFork(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -322,7 +323,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($t_node->isActive());
     }
 
-    public function testAddDetectorFirst() : void
+    public function testAddDetectorFirst(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);
@@ -332,12 +333,12 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         // Act
         $node->addDetector($detector);
         $detectors = $node->getDetectors();
-        
+
         // Assert
         $this->assertEquals($detector, $detectors[0]);
     }
 
-    public function testAddGetActivity() : void
+    public function testAddGetActivity(): void
     {
         // Arrange
         $node = new ilCaseNode($this->workflow);

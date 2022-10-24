@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -72,7 +74,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ctrl = $this->ctrl;
 
@@ -93,7 +95,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
      * @return string
      * @throws ilTemplateException
      */
-    public function render() : string
+    public function render(): string
     {
         if ($this->getCurrentTag() != "") {
             $content = $this->renderResourcesForTag();
@@ -104,7 +106,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
     }
 
     // Get tag cloud
-    protected function renderTagCloud() : string
+    protected function renderTagCloud(): string
     {
         $ilCtrl = $this->ctrl;
         $this->clearCurrentTag();
@@ -146,7 +148,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
 
 
     // Render resources
-    protected function renderResourcesForTag() : string
+    protected function renderResourcesForTag(): string
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -196,6 +198,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
             $mbox = $f->messageBox()->info(
                 sprintf($lng->txt("tagging_no_obj_for_tag"), ilUtil::secureString($tag))
             );
+            $this->removeTagsWithoutAccess();
             $components = [$back_button, $mbox];
         }
 
@@ -206,7 +209,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
      * show resources
      * @throws ResponseSendingException
      */
-    protected function showResourcesForTag() : void
+    protected function showResourcesForTag(): void
     {
         $this->send($this->renderResourcesForTag());
     }
@@ -215,14 +218,14 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
      * Show tag cloud
      * @throws ResponseSendingException
      */
-    protected function showTagCloud() : void
+    protected function showTagCloud(): void
     {
         $this->send($this->renderTagCloud());
     }
 
 
     // Remove tags without access
-    public function removeTagsWithoutAccess() : void
+    public function removeTagsWithoutAccess(): void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -234,7 +237,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $objs = ilTagging::getObjectsForTagAndUser($ilUser->getId(), $tag);
 
         foreach ($objs as $key => $obj) {
-            $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
+            $ref_ids = ilObject::_getAllReferences((int) $obj["obj_id"]);
             if (count($ref_ids) == 0) {
                 $inaccessible = true;
             } else {
@@ -253,17 +256,20 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                     $inaccessible = true;
                 }
                 if ($inaccessible) {
-                    ilTagging::deleteTagOfObjectForUser($ilUser->getId(), $obj["obj_id"], $obj["obj_type"], $obj["sub_obj_id"], $obj["sub_obj_type"], $tag);
+                    ilTagging::deleteTagOfObjectForUser(
+                        $ilUser->getId(),
+                        (int) $obj["obj_id"],
+                        (string) $obj["obj_type"],
+                        (int) $obj["sub_obj_id"],
+                        (string) $obj["sub_obj_type"],
+                        $tag
+                    );
                 }
             }
         }
-
-        $this->main_tpl->setOnScreenMessage('success', $lng->txt("tag_tags_deleted"), true);
-
-        $ilCtrl->returnToParent($this);
     }
 
-    public function getNoTagsUsedMessage() : ILIAS\UI\Component\MessageBox\MessageBox
+    public function getNoTagsUsedMessage(): ILIAS\UI\Component\MessageBox\MessageBox
     {
         $txt = $this->lng->txt("no_tag_text_1") . "<br>";
         $txt .= sprintf(
@@ -277,7 +283,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         return $mbox;
     }
 
-    protected function getRepositoryTitle() : string
+    protected function getRepositoryTitle(): string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
@@ -294,7 +300,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
      * @param string $output
      * @throws ResponseSendingException
      */
-    protected function send(string $output) : void
+    protected function send(string $output): void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)
@@ -303,18 +309,18 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $this->http->close();
     }
 
-    protected function setCurrentTag(string $tag) : void
+    protected function setCurrentTag(string $tag): void
     {
         $this->store->set(self::CURRENT_TAG_KEY, $tag);
     }
 
-    protected function getCurrentTag() : string
+    protected function getCurrentTag(): string
     {
         // PHP8 Review: Type cast is unnecessary
         return (string) $this->store->get(self::CURRENT_TAG_KEY);
     }
 
-    protected function clearCurrentTag() : void
+    protected function clearCurrentTag(): void
     {
         $this->store->set(self::CURRENT_TAG_KEY, "");
     }

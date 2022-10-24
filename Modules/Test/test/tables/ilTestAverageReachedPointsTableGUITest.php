@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestAverageReachedPointsTableGUITest extends ilTestBaseTestCase
     private ilTestAverageReachedPointsTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -51,12 +53,12 @@ class ilTestAverageReachedPointsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestAverageReachedPointsTableGUI($this->parentObj_mock, "");
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestAverageReachedPointsTableGUI::class, $this->tableGui);
     }
 
-    public function testNumericOrdering() : void
+    public function testNumericOrdering(): void
     {
         $this->assertTrue($this->tableGui->numericOrdering("points"));
         $this->assertTrue($this->tableGui->numericOrdering("qid"));

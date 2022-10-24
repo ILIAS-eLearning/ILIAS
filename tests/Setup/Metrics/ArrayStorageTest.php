@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\Setup\Metrics;
 
 use ILIAS\Setup\Metrics;
@@ -24,12 +26,12 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayStorageTest extends TestCase
 {
-    public function setUp() : void
+    public function setUp(): void
     {
-        $this->storage = new Metrics\ArrayStorage;
+        $this->storage = new Metrics\ArrayStorage();
     }
 
-    public function testBasicStorage() : void
+    public function testBasicStorage(): void
     {
         $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
         $m2 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc2");
@@ -45,7 +47,7 @@ class ArrayStorageTest extends TestCase
         $this->assertEquals($expected, $this->storage->get());
     }
 
-    public function testOverwrites() : void
+    public function testOverwrites(): void
     {
         $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
         $m2 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc2");
@@ -60,7 +62,7 @@ class ArrayStorageTest extends TestCase
         $this->assertEquals($expected, $this->storage->get());
     }
 
-    public function testNesting() : void
+    public function testNesting(): void
     {
         $m1 = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc1");
 
@@ -77,7 +79,7 @@ class ArrayStorageTest extends TestCase
         $this->assertEquals($expected, $this->storage->get());
     }
 
-    public function testAsMetric() : void
+    public function testAsMetric(): void
     {
         $this->storage->store("a", new M(M::STABILITY_STABLE, M::TYPE_COUNTER, 0));
         $this->storage->store("b.c", new M(M::STABILITY_VOLATILE, M::TYPE_BOOL, true));

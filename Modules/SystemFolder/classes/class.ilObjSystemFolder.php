@@ -48,7 +48,7 @@ class ilObjSystemFolder extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete() : bool
+    public function delete(): bool
     {
         // DISABLED
         return false;
@@ -145,7 +145,7 @@ class ilObjSystemFolder extends ilObject
         return $row->obj_id;
     }
 
-    public static function _getHeaderTitle() : string
+    public static function _getHeaderTitle(): string
     {
         /**
          * @var $ilDB ilDBInterface

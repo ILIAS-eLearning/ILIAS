@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\UI\Component\Component;
@@ -35,25 +37,25 @@ interface MetaBar extends Component, JavaScriptBindable
      * @param Button\Bulky|Slate $entry
      * @throws \InvalidArgumentException 	if $id is already taken
      */
-    public function withAdditionalEntry(string $id, $entry) : MetaBar;
+    public function withAdditionalEntry(string $id, $entry): MetaBar;
 
     /**
      * @return array <string, Bulky|Slate>
      */
-    public function getEntries() : array;
+    public function getEntries(): array;
 
     /**
      * The Signal is triggered when any Entry is being clicked.
      */
-    public function getEntryClickSignal() : Signal;
+    public function getEntryClickSignal(): Signal;
 
     /**
      * This signal disengages all slates when triggered.
      */
-    public function getDisengageAllSignal() : Signal;
+    public function getDisengageAllSignal(): Signal;
 
     /**
      * Get a copy of this MetaBar without any entries.
      */
-    public function withClearedEntries() : MetaBar;
+    public function withClearedEntries(): MetaBar;
 }

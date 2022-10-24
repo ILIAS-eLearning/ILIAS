@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,29 +37,31 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
 
     protected string $type;
     protected string $title;
+    protected string $parent_type;
 
-    public function __construct(string $type, string $title)
+    public function __construct(string $type, string $title, string $parent_type = "")
     {
         $this->type = $type;
         $this->title = $title;
+        $this->parent_type = $parent_type;
     }
 
-    public function getHash() : string
+    public function getHash(): string
     {
-        return hash("sha256", self::class);
+        return hash("sha256", self::class . "::" . $this->type);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Add new admin node to tree (type=$this->type;title=$this->title)";
     }
 
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
 
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective(),
@@ -65,7 +69,7 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         ];
     }
 
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         global $DIC;
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
@@ -118,10 +122,31 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
             0,
             $db
         );
-        $tree->insertNode((int) $ref_id, (int) SYSTEM_FOLDER_ID);
+        if ($this->parent_type) {
+            $set = $db->queryF(
+                "SELECT * FROM object_data " .
+                " WHERE type = %s ",
+                ["text"],
+                [$this->parent_type]
+            );
+            $rec = $db->fetchAssoc($set);
+
+            $set = $db->queryF(
+                "SELECT * FROM object_reference " .
+                " WHERE obj_id = %s ",
+                ["integer"],
+                [$rec["obj_id"]]
+            );
+            $rec = $db->fetchAssoc($set);
+            $parent_type_ref_id = $rec["ref_id"];
+
+            $tree->insertNode((int) $ref_id, (int) $parent_type_ref_id);
+        } else {
+            $tree->insertNode((int) $ref_id, (int) SYSTEM_FOLDER_ID);
+        }
 
         foreach ($this->rbac_ops as $ops_id) {
-            if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id)) {
+            if (ilRbacReview::_isRBACOperation($obj_type_id, $ops_id, $db)) {
                 continue;
             }
             $values = [
@@ -133,7 +158,7 @@ class ilTreeAdminNodeAddedObjective implements Setup\Objective
         return $environment;
     }
 
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         $db = $environment->getResource(Environment::RESOURCE_DATABASE);
         return !((bool) ilObject::_getObjectTypeIdByTitle($this->type, $db));

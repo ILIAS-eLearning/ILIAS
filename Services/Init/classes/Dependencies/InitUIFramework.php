@@ -13,14 +13,15 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Responsible for loading the UI Framework into the dependency injection container of ILIAS
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c) : void
+    public function init(\ILIAS\DI\Container $c): void
     {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
@@ -208,6 +209,7 @@ class InitUIFramework
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
+                $c["ui.signal_generator"],
                 $c["ui.upload_limit_resolver"],
                 $c["ui.factory.input"],
                 $c["lng"]
@@ -280,7 +282,7 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
         };
 
-        $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {
+        $c["ui.pathresolver"] = function ($c): ILIAS\UI\Implementation\Render\ImagePathResolver {
             return new ilImagePathResolver();
         };
     }

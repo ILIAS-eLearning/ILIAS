@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests
@@ -12,7 +27,7 @@ class assClozeTestTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +50,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -46,7 +61,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertInstanceOf('assClozeTest', $instance);
     }
 
-    public function test_cleanQuestionText_shouldReturnCleanedText() : void
+    public function test_cleanQuestionText_shouldReturnCleanedText(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -59,7 +74,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_isComplete_shouldReturnFalseIfIncomplete() : void
+    public function test_isComplete_shouldReturnFalseIfIncomplete(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -71,20 +86,20 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetStartTag_shouldReturnValueUnchanged() : void
+    public function test_setGetStartTag_shouldReturnValueUnchanged(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
         $instance = new assClozeTest();
         $expected = '<gappo_the_great>';
-        
+
         $instance->setStartTag($expected);
         $actual = $instance->getStartTag();
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetStartTag_defaultShoulBeApplied() : void
+    public function test_setGetStartTag_defaultShoulBeApplied(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -95,14 +110,14 @@ class assClozeTestTest extends assBaseTestCase
         $instance->setStartTag($alternate_tag);
         $intermediate = $instance->getStartTag();
         $this->assertEquals($alternate_tag, $intermediate);
-        
+
         $instance->setStartTag();
         $actual = $instance->getStartTag();
 
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetEndTag_shouldReturnValueUnchanged() : void
+    public function test_setGetEndTag_shouldReturnValueUnchanged(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -115,7 +130,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetEndTag_defaultShoulBeApplied() : void
+    public function test_setGetEndTag_defaultShoulBeApplied(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -133,7 +148,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getQuestionType_shouldReturnQuestionType() : void
+    public function test_getQuestionType_shouldReturnQuestionType(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -145,7 +160,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetIdenticalScoring_shouldReturnValueUnchanged() : void
+    public function test_setGetIdenticalScoring_shouldReturnValueUnchanged(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -158,7 +173,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getAdditionalTableName_shouldReturnAdditionalTableName() : void
+    public function test_getAdditionalTableName_shouldReturnAdditionalTableName(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -170,7 +185,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getAnswerTableName_shouldReturnAnswerTableName() : void
+    public function test_getAnswerTableName_shouldReturnAnswerTableName(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';
@@ -182,7 +197,7 @@ class assClozeTestTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetFixedTextLength_shouldReturnValueUnchanged() : void
+    public function test_setGetFixedTextLength_shouldReturnValueUnchanged(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeTest.php';

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -101,33 +102,33 @@ final class VEvent
     private function getStartAndEnd(): string
     {
         if ($this->allDay) {
-            return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->startTime). "\r\n" .
-                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->endTime). "\r\n" .
+            return  'DTSTART;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->startTime) . "\r\n" .
+                    'DTEND;TZID=Europe/Paris;VALUE=DATE:' . date("Ymd", $this->endTime) . "\r\n" .
                     "X-MICROSOFT-CDO-ALLDAYEVENT: TRUE\r\n";
         } else {
-            return  'DTSTART;TZID=Europe/Paris:' . date("Ymd\THis", $this->startTime). "\r\n" .
-                    'DTEND;TZID=Europe/Paris:'.date("Ymd\THis", $this->endTime). "\r\n";
+            return  'DTSTART;TZID=Europe/Paris:' . date("Ymd\THis", $this->startTime) . "\r\n" .
+                    'DTEND;TZID=Europe/Paris:' . date("Ymd\THis", $this->endTime) . "\r\n";
         }
     }
 
     public function render(): string
     {
         return 'BEGIN:VEVENT' . "\r\n" .
-        'UID: ' .$this->uid. "\r\n" .
+        'UID: ' . $this->uid . "\r\n" .
         'DESCRIPTION:' . $this->description . "\r\n" .
         $this->getStartAndEnd() .
-        'DTSTAMP:'.date("Ymd\THis"). "\r\n" .
+        'DTSTAMP:' . date("Ymd\THis") . "\r\n" .
         'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
-        'ORGANIZER;CN="'.$this->organiserName.'":MAILTO:'.$this->organiserEmail. "\r\n" .
-        'ATTENDEE;CN="'.$this->attendeeName.'";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:'.$this->attendeeEmail. "\r\n" .
+        'ORGANIZER;CN="' . $this->organiserName . '":MAILTO:' . $this->organiserEmail . "\r\n" .
+        'ATTENDEE;CN="' . $this->attendeeName . '";ROLE=REQ-PARTICIPANT;RSVP=TRUE:MAILTO:' . $this->attendeeEmail . "\r\n" .
         'SUMMARY:' . $this->summary . "\r\n" .
         'LOCATION:' . $this->location . "\r\n" .
-        'SEQUENCE:'. $this->sequence . "\r\n" .
+        'SEQUENCE:' . $this->sequence . "\r\n" .
         "PRIORITY:5\r\n" .
         'STATUS:' . $this->status . "\r\n" .
         "TRANSP:OPAQUE\r\n" .
         "X-MICROSOFT-CDO-BUSYSTATUS:BUSY\r\n" .
-        'CLASS:PUBLIC'. "\r\n" .
+        'CLASS:PUBLIC' . "\r\n" .
         "X-MICROSOFT-DISALLOW-COUNTER:TRUE\r\n" .
         //'URL:'. $this->url . "\r\n" .
 
@@ -137,6 +138,6 @@ final class VEvent
         'ACTION:DISPLAY' . "\r\n" .
         'END:VALARM' . "\r\n" .
 
-        'END:VEVENT'. "\r\n";
+        'END:VEVENT' . "\r\n";
     }
 }

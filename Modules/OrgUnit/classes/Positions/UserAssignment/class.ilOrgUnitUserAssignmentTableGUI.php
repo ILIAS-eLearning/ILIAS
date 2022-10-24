@@ -50,7 +50,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    private function setTableHeaders() : void
+    private function setTableHeaders(): void
     {
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("firstname"), "first_name");
@@ -58,7 +58,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    public function parseData() : void
+    public function parseData(): void
     {
         $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()
                                                  ->getAssignements($_GET["ref_id"], $this->ilOrgUnitPosition));
@@ -68,7 +68,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
     /**
      * @param int[] $user_ids
      */
-    private function parseRows(array $user_ids) : array
+    private function parseRows(array $user_ids): array
     {
         $data = array();
         foreach ($user_ids as $user_id) {
@@ -77,7 +77,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         return $data;
     }
 
-    private function getRowForUser(int $user_id) : array
+    private function getRowForUser(int $user_id): array
     {
         $user = new ilObjUser($user_id);
         $set = [];
@@ -89,7 +89,7 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         return $set;
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
 
@@ -101,8 +101,11 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
         //		$this->ctrl->setParameterByClass(ilLearningProgressGUI::class, "obj_id", $set["user_id"]);
         //		$this->ctrl->setParameterByClass(ilObjOrgUnitGUI::class, "obj_id", $set["user_id"]);
         $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'usr_id', $a_set["user_id"]);
-        $this->ctrl->setParameterByClass(ilOrgUnitUserAssignmentGUI::class, 'position_id',
-            $this->ilOrgUnitPosition->getId());
+        $this->ctrl->setParameterByClass(
+            ilOrgUnitUserAssignmentGUI::class,
+            'position_id',
+            $this->ilOrgUnitPosition->getId()
+        );
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($lng->txt("Actions"));
         $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
@@ -112,17 +115,25 @@ class ilOrgUnitUserAssignmentTableGUI extends ilTable2GUI
             && ilObjUserTracking::_enabledUserRelatedData()
         ) {
             $this->ctrl->setParameterByClass(ilLearningProgressGUI::class, 'obj_id', $a_set["user_id"]);
-            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress",
+            $selection->addItem(
+                $lng->txt("show_learning_progress"),
+                "show_learning_progress",
                 $this->ctrl->getLinkTargetByClass(array(
                     ilAdministrationGUI::class,
                     ilObjOrgUnitGUI::class,
                     ilLearningProgressGUI::class,
-                ), ""));
+                ), "")
+            );
         }
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            $selection->addItem($this->lng->txt("remove"), "delete_from_employees",
-                $this->ctrl->getLinkTargetByClass(ilOrgUnitUserAssignmentGUI::class,
-                    ilOrgUnitUserAssignmentGUI::CMD_CONFIRM));
+            $selection->addItem(
+                $this->lng->txt("remove"),
+                "delete_from_employees",
+                $this->ctrl->getLinkTargetByClass(
+                    ilOrgUnitUserAssignmentGUI::class,
+                    ilOrgUnitUserAssignmentGUI::CMD_CONFIRM
+                )
+            );
         }
         $this->tpl->setVariable("ACTIONS", $selection->getHTML());
     }

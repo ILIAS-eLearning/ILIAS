@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
      * checks whether a user may invoke a command or not
      * (this method is called by ilAccessHandler::checkAccess)
      */
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -60,7 +62,7 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         return true; // ORLY?
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         //$workflow = substr($params, 2, strpos($params,'EVT')-2);
         //$event = substr($params, strpos($params, 'EVT')+3);

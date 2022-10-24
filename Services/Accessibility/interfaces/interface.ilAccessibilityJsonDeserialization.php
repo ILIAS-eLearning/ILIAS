@@ -24,5 +24,5 @@ interface ilAccessibilityJsonDeserialization
     /**
      * @param string $json
      */
-    public function fromJson(string $json) : void;
+    public function fromJson(string $json): void;
 }

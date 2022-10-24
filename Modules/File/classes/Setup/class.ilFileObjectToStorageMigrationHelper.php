@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilFileObjectToStorageMigrationHelper
 {
     protected string $base_path = '/var/iliasdata/ilias/default/ilFile';
@@ -32,7 +32,7 @@ class ilFileObjectToStorageMigrationHelper
         $this->database = $database;
     }
 
-    public function getNext() : ilFileObjectToStorageDirectory
+    public function getNext(): ilFileObjectToStorageDirectory
     {
         do {
             $next_id = $this->getNextFileId();
@@ -50,7 +50,7 @@ class ilFileObjectToStorageMigrationHelper
         } while (!$path_found);
     }
 
-    private function getNextFileId() : int
+    private function getNextFileId(): int
     {
         $query = "SELECT file_id 
                     FROM file_data 
@@ -68,7 +68,7 @@ class ilFileObjectToStorageMigrationHelper
     }
 
 
-    private function createPathFromId(int $file_id) : string
+    private function createPathFromId(int $file_id): string
     {
         $path = [];
         $found = false;

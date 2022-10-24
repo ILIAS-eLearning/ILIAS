@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -20,9 +22,9 @@ use DateTimeZone;
 
 interface ClockFactory
 {
-    public function system() : ClockInterface;
+    public function system(): ClockInterface;
 
-    public function utc() : ClockInterface;
+    public function utc(): ClockInterface;
 
-    public function local(DateTimeZone $time_zone) : ClockInterface;
+    public function local(DateTimeZone $time_zone): ClockInterface;
 }

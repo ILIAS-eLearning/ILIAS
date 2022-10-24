@@ -64,21 +64,21 @@ class ilTabsGUI
         $this->back_2_title = "";
     }
 
-    public function setSetupMode(bool $a_val) : void
+    public function setSetupMode(bool $a_val): void
     {
         $this->setup_mode = $a_val;
     }
 
-    public function getSetupMode() : bool
+    public function getSetupMode(): bool
     {
         return $this->setup_mode;
     }
-    
+
     public function setBackTarget(
         string $a_title,
         string $a_target,
         string $a_frame = ""
-    ) : void {
+    ): void {
         $this->back_title = $a_title;
         $this->back_target = $a_target;
         $this->back_frame = $a_frame;
@@ -88,18 +88,18 @@ class ilTabsGUI
         string $a_title,
         string $a_target,
         string $a_frame = ""
-    ) : void {
+    ): void {
         $this->back_2_title = $a_title;
         $this->back_2_target = $a_target;
         $this->back_2_frame = $a_frame;
     }
 
-    public function setForcePresentationOfSingleTab(bool $a_val) : void
+    public function setForcePresentationOfSingleTab(bool $a_val): void
     {
         $this->force_one_tab = $a_val;
     }
 
-    public function getForcePresentationOfSingleTab() : bool
+    public function getForcePresentationOfSingleTab(): bool
     {
         return $this->force_one_tab;
     }
@@ -117,7 +117,7 @@ class ilTabsGUI
         string $a_frame = "",
         bool $a_activate = false,
         bool $a_dir_text = false
-    ) : void {
+    ): void {
         if (!$a_cmdClass) {
             $a_cmdClass = array();
         }
@@ -130,7 +130,7 @@ class ilTabsGUI
             "cmd" => $a_cmd, "cmdClass" => $a_cmdClass, "frame" => $a_frame,
             "activate" => $a_activate, "dir_text" => $a_dir_text, "id" => $a_text);
     }
-    
+
     /**
      * Add a Tab
      */
@@ -139,15 +139,15 @@ class ilTabsGUI
         string $a_text,
         string $a_link,
         string $a_frame = ""
-    ) : void {
+    ): void {
         $this->target[] = array("text" => $a_text, "link" => $a_link,
             "frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
     }
-    
+
     /**
      * Remove a tab identified by its id.
      */
-    public function removeTab(string $a_id) : void
+    public function removeTab(string $a_id): void
     {
         foreach ($this->target as $key => $target) {
             if ($target['id'] == $a_id) {
@@ -159,7 +159,7 @@ class ilTabsGUI
     /**
      * Remove a subtab identified by its id.
      */
-    public function removeSubTab(string $a_id) : void
+    public function removeSubTab(string $a_id): void
     {
         foreach ($this->sub_target as $i => $sub_target) {
             if ($this->sub_target[$i]['id'] == $a_id) {
@@ -177,7 +177,7 @@ class ilTabsGUI
         string $a_text,
         string $a_link,
         string $a_frame = ''
-    ) : void {
+    ): void {
         for ($i = 0, $iMax = count($this->target); $i < $iMax; $i++) {
             if ($this->target[$i]['id'] == $a_old_id) {
                 $this->target[$i] = array(
@@ -194,7 +194,7 @@ class ilTabsGUI
     /**
      * clear all targets
      */
-    public function clearTargets() : void
+    public function clearTargets(): void
     {
         global $DIC;
 
@@ -228,7 +228,7 @@ class ilTabsGUI
         string $a_frame = "",
         bool $a_activate = false,
         bool $a_dir_text = false
-    ) : void {
+    ): void {
         if (!$a_cmdClass) {
             $a_cmdClass = array();
         }
@@ -248,7 +248,7 @@ class ilTabsGUI
         string $a_text,
         string $a_link,
         string $a_frame = ""
-    ) : void {
+    ): void {
         $this->sub_target[] = array("text" => $a_text, "link" => $a_link,
             "frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
     }
@@ -256,7 +256,7 @@ class ilTabsGUI
     /**
      * @deprecated since version 5.2
      */
-    public function setTabActive(string $a_id) : void
+    public function setTabActive(string $a_id): void
     {
         foreach ($this->target as $key => $target) {
             $this->target[$key]['activate'] = $this->target[$key]['id'] === $a_id;
@@ -268,7 +268,7 @@ class ilTabsGUI
         }
     }
 
-    public function activateTab(string $a_id) : void
+    public function activateTab(string $a_id): void
     {
         $this->setTabActive($a_id);
     }
@@ -276,7 +276,7 @@ class ilTabsGUI
     /**
      * @deprecated since version 5.2
      */
-    public function setSubTabActive(string $a_text) : void
+    public function setSubTabActive(string $a_text): void
     {
         for ($i = 0, $iMax = count($this->sub_target); $i < $iMax; $i++) {
             $this->sub_target[$i]['activate'] = $this->sub_target[$i]['id'] === $a_text;
@@ -284,22 +284,22 @@ class ilTabsGUI
         $this->subtab_manual_activation = true;
     }
 
-    public function activateSubTab(string $a_id) : void
+    public function activateSubTab(string $a_id): void
     {
         $this->setSubTabActive($a_id);
     }
 
-    public function clearSubTabs() : void
+    public function clearSubTabs(): void
     {
         $this->sub_target = array();
     }
 
-    public function getHTML(bool $a_after_tabs_anchor = false) : string
+    public function getHTML(bool $a_after_tabs_anchor = false): string
     {
         return $this->__getHTML(false, $a_after_tabs_anchor);
     }
-    
-    public function getSubTabHTML() : string
+
+    public function getSubTabHTML(): string
     {
         return $this->__getHTML(true);
     }
@@ -309,12 +309,12 @@ class ilTabsGUI
         string $a_text,
         string $a_link,
         string $a_frame = ""
-    ) : void {
+    ): void {
         $this->non_tabbed_link[] = array("text" => $a_text, "link" => $a_link,
             "frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
     }
 
-    public function removeNonTabbedLinks() : void
+    public function removeNonTabbedLinks(): void
     {
         $this->non_tabbed_link = [];
     }
@@ -322,7 +322,7 @@ class ilTabsGUI
     private function __getHTML(
         bool $a_get_sub_tabs,
         bool $a_after_tabs_anchor = false
-    ) : string {
+    ): string {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -353,7 +353,7 @@ class ilTabsGUI
             }
         }
 
-        
+
         // user interface hook [uihk]
         if (!$this->getSetupMode()) {
             $cmd = $ilCtrl->getCmd();
@@ -384,7 +384,7 @@ class ilTabsGUI
 
                 $tpl->parseCurrentBlock();
             }
-            
+
             // back tab
             if ($this->back_title !== "") {
                 $tpl->setCurrentBlock("back_tab");
@@ -407,7 +407,7 @@ class ilTabsGUI
             || (count($this->non_tabbed_link) > 0 && !$a_get_sub_tabs)) {
             foreach ($targets as $target) {
                 $i++;
-                
+
                 if (isset($target['cmd'])) {
                     if (!is_array($target['cmd'])) {
                         $target['cmd'] = [$target['cmd']];
@@ -421,7 +421,7 @@ class ilTabsGUI
                 } else {
                     $tabtype = $pre . "tabinactive";
                 }
-                
+
                 if (($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) && ($target["activate"] ?? false)) {
                     $tabtype = $pre . "tabactive";
                 }
@@ -430,7 +430,7 @@ class ilTabsGUI
                     $tpl->setCurrentBlock("sel_text");
                     $tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
                     $tpl->parseCurrentBlock();
-                    
+
                     if (!$this->getSetupMode()) {
                         if ($a_get_sub_tabs) {
                             $part = ilHelpGUI::ID_PART_SUB_SCREEN;
@@ -440,10 +440,10 @@ class ilTabsGUI
                         $ilHelp->setDefaultScreenId($part, $target["id"]);
                     }
                 }
-    
+
                 $tpl->setCurrentBlock($pre . "tab");
                 $tpl->setVariable("ID", $pre . "tab_" . $target["id"]);
-                
+
                 // tooltip
                 if (!$this->getSetupMode()) {
                     $ttext = $ilHelp->getTabTooltipText($target["id"]);
@@ -478,7 +478,7 @@ class ilTabsGUI
                 }
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($a_get_sub_tabs) {
                 $tpl->setVariable("TXT_SUBTABS", $lng->txt("subtabs"));
             } else {
@@ -494,7 +494,7 @@ class ilTabsGUI
                     $tpl->setVariable("TAB_TARGET", $link["frame"]);
                     $tpl->setVariable("ID", "nontab_" . $link["id"]);
                     $tpl->parseCurrentBlock();
-                    
+
                     // tooltip
                     if (!$this->getSetupMode()) {
                         $ttext = $ilHelp->getTabTooltipText($link["id"]);
@@ -517,8 +517,8 @@ class ilTabsGUI
             return "";
         }
     }
-    
-    public function getActiveTab() : string
+
+    public function getActiveTab(): string
     {
         foreach ($this->target as $i => $target) {
             if ($this->target[$i]['activate']) {
@@ -527,13 +527,13 @@ class ilTabsGUI
         }
         return "";
     }
-    
-    public function hasTabs() : bool
+
+    public function hasTabs(): bool
     {
         return $this->target !== [];
     }
 
-    private function isTabActive(bool $isSubTabsContext, array $target, ?string $cmd, ?string $cmdClass) : bool
+    private function isTabActive(bool $isSubTabsContext, array $target, ?string $cmd, ?string $cmdClass): bool
     {
         if (($isSubTabsContext && $this->subtab_manual_activation) || (!$isSubTabsContext && $this->manual_activation)) {
             return false;
@@ -546,7 +546,7 @@ class ilTabsGUI
             !$target['cmdClass'] ||
             in_array(strtolower($cmdClass), array_map('strtolower', $target['cmdClass']), true)
         );
-        
+
         $targetMatchesCmd = (
             in_array(strtolower($cmd), array_map('strtolower', $target['cmd']), true) ||
             (count($target['cmd']) === 1 && $target['cmd'][0] === '')

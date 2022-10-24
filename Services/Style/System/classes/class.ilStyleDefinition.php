@@ -84,7 +84,7 @@ class ilStyleDefinition
      * use always this function instead of getting the account's skin
      * the current skin may be changed on the fly by setCurrentSkin()
      */
-    public static function getCurrentSkin() : ?string
+    public static function getCurrentSkin(): ?string
     {
         global $DIC;
 
@@ -118,12 +118,12 @@ class ilStyleDefinition
     /**
      * @return ilSkinStyle[]
      */
-    public function getStyles() : array
+    public function getStyles(): array
     {
         return $this->getSkin()->getStyles();
     }
 
-    public function getTemplateName() : string
+    public function getTemplateName(): string
     {
         return $this->getSkin()->getName();
     }
@@ -131,7 +131,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public function getStyle(string $a_id) : ilSkinStyle
+    public function getStyle(string $a_id): ilSkinStyle
     {
         return $this->getSkin()->getStyle($a_id);
     }
@@ -139,7 +139,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public function getStyleName(string $a_id) : string
+    public function getStyleName(string $a_id): string
     {
         return $this->getSkin()->getStyle($a_id)->getName();
     }
@@ -147,7 +147,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public function getImageDirectory(string $style_id) : string
+    public function getImageDirectory(string $style_id): string
     {
         if (!$style_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_STYLE_ID, $style_id);
@@ -162,7 +162,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public function getSoundDirectory(string $style_id) : string
+    public function getSoundDirectory(string $style_id): string
     {
         return $this->getSkin()->getStyle($style_id)->getSoundDirectory();
     }
@@ -170,7 +170,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public static function getAllSkins(?ilSystemStyleConfig $system_style_config = null) : array
+    public static function getAllSkins(?ilSystemStyleConfig $system_style_config = null): array
     {
         if (!self::$skins) {
             if (!$system_style_config) {
@@ -212,7 +212,7 @@ class ilStyleDefinition
     /**
      * Check whether a skin exists. Not using array_key_exists($skin_id,self::getAllSkins()); for performance reasons
      */
-    public static function skinExists(string $skin_id, ?ilSystemStyleConfig $system_style_config = null) : bool
+    public static function skinExists(string $skin_id, ?ilSystemStyleConfig $system_style_config = null): bool
     {
         if (!$system_style_config) {
             $system_style_config = new ilSystemStyleConfig();
@@ -234,7 +234,7 @@ class ilStyleDefinition
      * the current style may be changed on the fly by setCurrentStyle()
      * @throws ilSystemStyleException
      */
-    public static function getCurrentStyle() : ?string
+    public static function getCurrentStyle(): ?string
     {
         global $DIC;
 
@@ -316,7 +316,7 @@ class ilStyleDefinition
      * Attention: tempalte_name/template_id in this array is only used for legacy reasons an might be removed in future.
      * @throws ilSystemStyleException
      */
-    public static function getAllSkinStyles() : ?array
+    public static function getAllSkinStyles(): ?array
     {
         global $DIC;
 
@@ -364,7 +364,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public static function setCurrentSkin(string $a_skin) : void
+    public static function setCurrentSkin(string $a_skin): void
     {
         global $DIC;
 
@@ -379,7 +379,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public static function styleExists(string $style_id) : bool
+    public static function styleExists(string $style_id): bool
     {
         foreach (self::getSkins() as $skin) {
             if ($skin->hasStyle($style_id)) {
@@ -392,7 +392,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public static function styleExistsForSkinId(string $skin_id, string $style_id) : bool
+    public static function styleExistsForSkinId(string $skin_id, string $style_id): bool
     {
         global $DIC;
 
@@ -404,14 +404,14 @@ class ilStyleDefinition
         return $skin->hasStyle($style_id);
     }
 
-    public static function styleExistsForCurrentSkin(string $style_id) : bool
+    public static function styleExistsForCurrentSkin(string $style_id): bool
     {
         global $DIC;
 
         return $DIC->systemStyle()->getSkin()->hasStyle($style_id);
     }
 
-    public static function setCurrentStyle(string $a_style) : void
+    public static function setCurrentStyle(string $a_style): void
     {
         self::$current_style = $a_style;
     }
@@ -420,7 +420,7 @@ class ilStyleDefinition
      * @return ilSkin[]
      * @throws ilSystemStyleException
      */
-    public static function getSkins() : array
+    public static function getSkins(): array
     {
         return self::getAllSkins();
     }
@@ -428,22 +428,22 @@ class ilStyleDefinition
     /**
      * @param ilSkin[] $skins
      */
-    public static function setSkins(array $skins) : void
+    public static function setSkins(array $skins): void
     {
         self::$skins = $skins;
     }
 
-    public function getSkin() : ilSkin
+    public function getSkin(): ilSkin
     {
         return $this->skin;
     }
 
-    public function setSkin(ilSkin $skin) : void
+    public function setSkin(ilSkin $skin): void
     {
         $this->skin = $skin;
     }
 
-    protected static function getCachedAllStylesInformation() : ?array
+    protected static function getCachedAllStylesInformation(): ?array
     {
         if (!isset(self::$cached_all_styles_information)) {
             return null;
@@ -451,12 +451,12 @@ class ilStyleDefinition
         return self::$cached_all_styles_information;
     }
 
-    protected static function setCachedAllStylesInformation(array $cached_all_styles_information) : void
+    protected static function setCachedAllStylesInformation(array $cached_all_styles_information): void
     {
         self::$cached_all_styles_information = $cached_all_styles_information;
     }
 
-    public function getSystemStylesConf() : ilSystemStyleConfig
+    public function getSystemStylesConf(): ilSystemStyleConfig
     {
         return $this->system_style_config;
     }

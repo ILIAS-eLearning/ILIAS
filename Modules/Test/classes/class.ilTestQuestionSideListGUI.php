@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -14,7 +28,7 @@ class ilTestQuestionSideListGUI
      * @var ilCtrl
      */
     protected $ctrl;
-    
+
     /**
      * @var ilLanguage
      */
@@ -24,7 +38,7 @@ class ilTestQuestionSideListGUI
      * @var ilTestPlayerAbstractGUI
      */
     private $targetGUI;
-    
+
     /**
      * @var array
      */
@@ -53,7 +67,7 @@ class ilTestQuestionSideListGUI
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-            
+
         $this->questionSummaryData = array();
         $this->currentSequenceElement = null;
         $this->disabled = false;
@@ -62,7 +76,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return ilTestPlayerAbstractGUI
      */
-    public function getTargetGUI() : ilTestPlayerAbstractGUI
+    public function getTargetGUI(): ilTestPlayerAbstractGUI
     {
         return $this->targetGUI;
     }
@@ -78,7 +92,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return array
      */
-    public function getQuestionSummaryData() : array
+    public function getQuestionSummaryData(): array
     {
         return $this->questionSummaryData;
     }
@@ -94,7 +108,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return int
      */
-    public function getCurrentSequenceElement() : ?int
+    public function getCurrentSequenceElement(): ?int
     {
         return $this->currentSequenceElement;
     }
@@ -110,7 +124,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    public function getCurrentPresentationMode() : string
+    public function getCurrentPresentationMode(): string
     {
         return $this->currentPresentationMode;
     }
@@ -126,7 +140,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return boolean
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return $this->disabled;
     }
@@ -142,7 +156,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return ilPanelGUI
      */
-    private function buildPanel() : ilPanelGUI
+    private function buildPanel(): ilPanelGUI
     {
         require_once 'Services/UIComponent/Panel/classes/class.ilPanelGUI.php';
         $panel = ilPanelGUI::getInstance();
@@ -155,7 +169,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    private function renderList() : string
+    private function renderList(): string
     {
         $tpl = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
 
@@ -169,13 +183,13 @@ class ilTestQuestionSideListGUI
             }
 
             $active = ($row['sequence'] == $this->getCurrentSequenceElement()) ? ' active' : '';
-            
+
             $class = (
                 $row['worked_through'] ? 'answered' . $active : 'unanswered' . $active
             );
 
             $headerclass = ($row['sequence'] == $this->getCurrentSequenceElement()) ? 'bold' : '';
-            
+
             if ($row['marked']) {
                 $tpl->setCurrentBlock("mark_icon");
                 $tpl->setVariable("ICON_SRC", ilUtil::getImagePath('marked.svg'));
@@ -183,7 +197,7 @@ class ilTestQuestionSideListGUI
                 $tpl->setVariable("ICON_CLASS", 'ilTestMarkQuestionIcon');
                 $tpl->parseCurrentBlock();
             }
-            
+
             if ($this->isDisabled() || $row['disabled']) {
                 $tpl->setCurrentBlock('disabled_entry');
                 $tpl->setVariable('CLASS', $class);
@@ -214,7 +228,7 @@ class ilTestQuestionSideListGUI
     /**
      * @return string
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $panel = $this->buildPanel();
         $panel->setBody($this->renderList());
@@ -225,7 +239,7 @@ class ilTestQuestionSideListGUI
      * @param $row
      * @return string
      */
-    private function buildLink($sequenceElement) : string
+    private function buildLink($sequenceElement): string
     {
         $this->ctrl->setParameter(
             $this->getTargetGUI(),

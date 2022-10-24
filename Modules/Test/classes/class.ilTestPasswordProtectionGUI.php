@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -12,9 +26,9 @@
  */
 class ilTestPasswordProtectionGUI
 {
-    const CMD_SHOW_PASSWORD_FORM = 'showPasswordForm';
-    const CMD_SAVE_ENTERED_PASSWORD = 'saveEnteredPassword';
-    const CMD_BACK_TO_INFO_SCREEN = 'backToInfoScreen';
+    public const CMD_SHOW_PASSWORD_FORM = 'showPasswordForm';
+    public const CMD_SAVE_ENTERED_PASSWORD = 'saveEnteredPassword';
+    public const CMD_BACK_TO_INFO_SCREEN = 'backToInfoScreen';
     private \ILIAS\Test\InternalRequestService $testrequest;
 
     /**
@@ -36,7 +50,7 @@ class ilTestPasswordProtectionGUI
      * @var ilTestPlayerAbstractGUI
      */
     protected $parentGUI;
-    
+
     /**
      * @var ilTestPasswordChecker
      */
@@ -51,7 +65,7 @@ class ilTestPasswordProtectionGUI
      * @var string
      */
     private $nextCommandCmd;
-    
+
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilTestPlayerAbstractGUI $parentGUI, ilTestPasswordChecker $passwordChecker)
     {
         global $DIC;
@@ -62,7 +76,7 @@ class ilTestPasswordProtectionGUI
         $this->parentGUI = $parentGUI;
         $this->passwordChecker = $passwordChecker;
     }
-    
+
     public function executeCommand()
     {
         $this->ctrl->saveParameter($this, 'nextCommand');
@@ -79,13 +93,13 @@ class ilTestPasswordProtectionGUI
                 $this->$cmd();
         }
     }
-    
-    protected function buildPasswordMsg() : string
+
+    protected function buildPasswordMsg(): string
     {
         if (!$this->passwordChecker->wrongUserEnteredPasswordExist()) {
             return '';
         }
-        
+
         return ilUtil::getSystemMessageHTML(
             $this->lng->txt('tst_password_entered_wrong_password'),
             'failure'
@@ -95,7 +109,7 @@ class ilTestPasswordProtectionGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildPasswordForm() : ilPropertyFormGUI
+    protected function buildPasswordForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("tst_password_form"));
@@ -125,18 +139,18 @@ class ilTestPasswordProtectionGUI
             $msg . $this->ctrl->getHTML($form)
         );
     }
-    
+
     private function saveEnteredPasswordCmd()
     {
         $this->passwordChecker->setUserEnteredPassword($_POST["password"]);
-        
+
         if (!$this->passwordChecker->isUserEnteredPasswordCorrect()) {
             $this->passwordChecker->logWrongEnteredPassword();
         }
 
         $this->ctrl->redirectByClass($this->getNextCommandClass(), $this->getNextCommandCmd());
     }
-    
+
     private function backToInfoScreenCmd()
     {
         $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
@@ -147,7 +161,7 @@ class ilTestPasswordProtectionGUI
         $this->nextCommandClass = $nextCommandClass;
     }
 
-    private function getNextCommandClass() : string
+    private function getNextCommandClass(): string
     {
         return $this->nextCommandClass;
     }
@@ -157,7 +171,7 @@ class ilTestPasswordProtectionGUI
         $this->nextCommandCmd = $nextCommandCmd;
     }
 
-    private function getNextCommandCmd() : string
+    private function getNextCommandCmd(): string
     {
         return $this->nextCommandCmd;
     }

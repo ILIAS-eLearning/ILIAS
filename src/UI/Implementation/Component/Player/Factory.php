@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Player;
 
 use ILIAS\UI\Component\Player as P;
@@ -26,12 +28,12 @@ use ILIAS\UI\Component\Player as P;
  */
 class Factory implements P\Factory
 {
-    public function audio(string $source, string $transcript = "") : P\Audio
+    public function audio(string $source, string $transcript = ""): P\Audio
     {
         return new Audio($source, $transcript);
     }
 
-    public function video(string $source) : P\Video
+    public function video(string $source): P\Video
     {
         return new Video($source);
     }

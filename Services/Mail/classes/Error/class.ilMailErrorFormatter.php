@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilMailErrorFormatter
      * will be used as a headline for the list of errors.
      * @param ilMailError[] $errors
      */
-    public function format(array $errors) : string
+    public function format(array $errors): string
     {
         if (0 === count($errors)) {
             return '';
@@ -53,7 +55,7 @@ class ilMailErrorFormatter
             ) {
                 $errorsToDisplay[] = $translation;
             } else {
-                $escapedPlaceholderValues = array_map(static function (string $address) : string {
+                $escapedPlaceholderValues = array_map(static function (string $address): string {
                     return ilLegacyFormElementsUtil::prepareFormOutput($address);
                 }, $error->getPlaceHolderValues());
 

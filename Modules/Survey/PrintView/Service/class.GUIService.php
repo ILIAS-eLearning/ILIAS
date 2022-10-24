@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -42,7 +44,7 @@ class GUIService
         $this->domain_service = $domain_service;
     }
 
-    public function page(int $ref_id) : PrintProcessGUI
+    public function page(int $ref_id): PrintProcessGUI
     {
         $provider = new PagePrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -53,7 +55,7 @@ class GUIService
     }
 
 
-    public function resultsOverview(int $ref_id) : PrintProcessGUI
+    public function resultsOverview(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsOverviewPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -63,7 +65,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    public function resultsDetails(int $ref_id) : PrintProcessGUI
+    public function resultsDetails(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsDetailsPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -73,7 +75,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    public function resultsPerUser(int $ref_id) : PrintProcessGUI
+    public function resultsPerUser(int $ref_id): PrintProcessGUI
     {
         $provider = new ResultsPerUserPrintViewProviderGUI(
             $this->domain_service->lng(),
@@ -83,7 +85,7 @@ class GUIService
         return $this->getPrintProcessGUI($provider);
     }
 
-    protected function getPrintProcessGUI(PrintViewProvider $provider) : PrintProcessGUI
+    protected function getPrintProcessGUI(PrintViewProvider $provider): PrintProcessGUI
     {
         return new PrintProcessGUI(
             $provider,

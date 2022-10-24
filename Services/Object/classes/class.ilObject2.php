@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Alex Killing <alex.killing@gmx.de>
@@ -34,20 +34,20 @@ abstract class ilObject2 extends ilObject
         parent::__construct($a_id, $a_reference);
     }
 
-    abstract protected function initType() : void;
-    
-    final public function read() : void
+    abstract protected function initType(): void;
+
+    final public function read(): void
     {
         parent::read();
         $this->doRead();
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
     }
-    
 
-    final public function create(bool $a_clone_mode = false) : int
+
+    final public function create(bool $a_clone_mode = false): int
     {
         if ($this->beforeCreate()) {
             $id = parent::create();
@@ -59,7 +59,7 @@ abstract class ilObject2 extends ilObject
         return 0;
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
     }
 
@@ -69,35 +69,35 @@ abstract class ilObject2 extends ilObject
      *
      * @return bool
      */
-    protected function beforeCreate() : bool
+    protected function beforeCreate(): bool
     {
         return true;
     }
-    
-    final public function update() : bool
+
+    final public function update(): bool
     {
         if ($this->beforeUpdate()) {
             if (!parent::update()) {
                 return false;
             }
             $this->doUpdate();
-            
+
             return true;
         }
-        
+
         return false;
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
     }
-    
-    protected function beforeUpdate() : bool
+
+    protected function beforeUpdate(): bool
     {
         return true;
     }
 
-    final public function delete() : bool
+    final public function delete(): bool
     {
         if ($this->beforeDelete()) {
             if (parent::delete()) {
@@ -109,21 +109,21 @@ abstract class ilObject2 extends ilObject
         return false;
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
     }
-    
-    protected function beforeDelete() : bool
+
+    protected function beforeDelete(): bool
     {
         return true;
     }
 
-    final public function cloneMetaData(ilObject $target_obj) : bool
+    final public function cloneMetaData(ilObject $target_obj): bool
     {
         return parent::cloneMetaData($target_obj);
     }
-    
-    final public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+
+    final public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         if ($this->beforeCloneObject()) {
             $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
@@ -134,12 +134,12 @@ abstract class ilObject2 extends ilObject
         }
         return null;
     }
-    
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
     }
-    
-    protected function beforeCloneObject() : bool
+
+    protected function beforeCloneObject(): bool
     {
         return true;
     }

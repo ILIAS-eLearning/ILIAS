@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,9 +36,8 @@
 
 class ilLikeMetaDataSearch extends ilMetaDataSearch
 {
-
     // Private
-    public function __createKeywordWhereCondition() : string
+    public function __createKeywordWhereCondition(): string
     {
         $concat = ' keyword ';
         $where = " WHERE (";
@@ -52,7 +53,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
         return $where . ') ';
     }
 
-    public function __createContributeWhereCondition() : string
+    public function __createContributeWhereCondition(): string
     {
         $concat = ' entity ';
         $where = " WHERE (";
@@ -67,22 +68,22 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
         }
         return $where . ') ';
     }
-    public function __createTitleWhereCondition() : string
+    public function __createTitleWhereCondition(): string
     {
-        
+
         /*
         $concat = ' CONCAT(title,coverage) '; // broken if coverage is null
         // DONE: fix coverage search
         $concat = ' title ';
         */
-        
+
         $concat = $this->db->concat(
             array(
                 array('title','text'),
                 array('coverage','text'))
         );
-        
-        
+
+
         $where = " WHERE (";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
@@ -96,7 +97,7 @@ class ilLikeMetaDataSearch extends ilMetaDataSearch
         return $where . ' )';
     }
 
-    public function __createDescriptionWhereCondition() : string
+    public function __createDescriptionWhereCondition(): string
     {
         $concat = ' description ';
         $where = " WHERE (";

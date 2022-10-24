@@ -30,11 +30,15 @@ il.VideoWidget = il.VideoWidget || {};
     _boot();
 
     const progress = () => {
-      console.log("monitoring progress");
+      //console.log("monitoring progress");
+      // for all wrappers
       t.wrapper_ids.forEach(function(wrapper_id, i, a) {
+        // get player
         let p = t.widget[wrapper_id].player
+        // if the wrapper defines a progress callback, call it
         if (t.widget[wrapper_id].progress_cb) {
-          console.log(p);
+          //console.log(p);
+          // get current time, duration and ended information to callback
           t.widget[wrapper_id].progress_cb(wrapper_id, p.getCurrentTime(), p.node.duration, p.node.ended);
         }
       });
@@ -132,6 +136,10 @@ console.log(video_el);
       }
     };
 
+    const player = (wrapper_id) => {
+      return t.widget[wrapper_id].player;
+    };
+
     return {
       init: init,
       loadFile: loadFile,
@@ -139,7 +147,8 @@ console.log(video_el);
       setPreviousCallback: setPreviousCallback,
       setNextCallback: setNextCallback,
       previous: previous,
-      next: next
+      next: next,
+      player: player
     };
   })($);
 })($, il);
@@ -194,7 +203,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
       //$tpl.find("[data-elementtype='description']").html(item.description);
       //$tpl.find("[data-elementtype='preview']").html(item.preview);
 
-      tpl = tpl.replace("#video-title#", item.title);
+      tpl = tpl.replace("#video-title#", item.linked_title);
       tpl = tpl.replace("#description#", item.description);
       tpl = tpl.replace("#img-src#", item.preview_pic);
       tpl = tpl.replace("#img-alt#", item.title);
@@ -320,7 +329,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
 
       if (current_time > 0 && duration && duration > 0) {
         perc = 100 / duration * current_time;
-        console.log(perc);
+        //console.log(perc);
       }
 
       for (let list_wrapper in t.playlist) {
@@ -356,9 +365,9 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         }
       }
 
-      console.log("duration " + duration);
-      console.log("current time " + current_time);
-      console.log("ended " + ended);
+      //console.log("duration " + duration);
+      //console.log("current time " + current_time);
+      //console.log("ended " + ended);
     };
 
     const refreshNavigation = (list_wrapper) => {
@@ -426,6 +435,23 @@ il.VideoPlaylist = il.VideoPlaylist || {};
         loadItem(list_wrapper, nextItem, true);
       }
       console.log("auto play next" + list_wrapper);
+    }
+
+    const toggleItem = (list_wrapper, id) => {
+      const current = t.current_item[t.playlist[list_wrapper].player_wrapper];
+
+      const player = il.VideoWidget.player(t.playlist[list_wrapper].player_wrapper);
+
+      //const isVideoPlaying = video => !!(video.currentTime > 0 && !video.paused && !video.ended && video.readyState > 2);
+      if (current !== id) {
+        loadItem(list_wrapper, id, true);
+      } else {
+        if (player.domNode.paused) {
+          player.play();
+        } else {
+          player.pause();
+        }
+      }
     }
 
     /**
@@ -538,6 +564,7 @@ il.VideoPlaylist = il.VideoPlaylist || {};
     return {
       init: init,
       loadItem: loadItem,
+      toggleItem: toggleItem,
       autoplay: autoplay,
       nextItems: nextItems,
       previousItems: previousItems

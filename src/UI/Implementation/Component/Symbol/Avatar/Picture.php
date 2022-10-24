@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component as C;
@@ -30,7 +32,7 @@ class Picture extends Avatar implements C\Symbol\Avatar\Picture
         parent::__construct($username);
     }
 
-    public function getPicturePath() : string
+    public function getPicturePath(): string
     {
         return $this->picture_path;
     }

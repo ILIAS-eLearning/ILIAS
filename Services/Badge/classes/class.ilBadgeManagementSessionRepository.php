@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,12 +30,12 @@ class ilBadgeManagementSessionRepository
     {
     }
 
-    public function setBadgeIds(array $ids) : void
+    public function setBadgeIds(array $ids): void
     {
         \ilSession::set(self::KEY, $ids);
     }
 
-    public function getBadgeIds() : array
+    public function getBadgeIds(): array
     {
         if (\ilSession::has(self::KEY)) {
             return \ilSession::get(self::KEY);
@@ -41,7 +43,7 @@ class ilBadgeManagementSessionRepository
         return [];
     }
 
-    public function clear() : void
+    public function clear(): void
     {
         \ilSession::clear(self::KEY);
     }

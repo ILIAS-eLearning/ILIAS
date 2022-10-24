@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -51,7 +53,7 @@ class ilSessionReminderCheck
         $this->clock = $utcClock;
     }
 
-    public function handle() : ResponseInterface
+    public function handle(): ResponseInterface
     {
         $sessionIdHash = ilUtil::stripSlashes(
             $this->http->wrapper()->post()->retrieve(
@@ -154,19 +156,19 @@ class ilSessionReminderCheck
      * @param mixed $data
      * @return ResponseInterface
      */
-    private function toJsonResponse($data) : ResponseInterface
+    private function toJsonResponse($data): ResponseInterface
     {
         return $this->http->response()
             ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
             ->withBody(Streams::ofString(json_encode($data, JSON_THROW_ON_ERROR)));
     }
 
-    private function isSessionAlreadyExpired(int $expirationTime) : bool
+    private function isSessionAlreadyExpired(int $expirationTime): bool
     {
         return $expirationTime < $this->clock->now()->getTimestamp();
     }
 
-    private function isAuthenticatedUsrSession(?array $data) : bool
+    private function isAuthenticatedUsrSession(?array $data): bool
     {
         return (
             is_array($data) &&

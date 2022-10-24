@@ -56,17 +56,17 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             ->standardRequest();
     }
 
-    protected function withDeclarationOfAuthorship(
+    public function withDeclarationOfAuthorship(
         \ilPortfolioDeclarationOfAuthorship $decl,
         \ilObjUser $user
-    ) : self {
+    ): self {
         $c = clone $this;
         $c->declaration_of_authorship = $decl;
         $c->user = $user;
         return $c;
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -152,7 +152,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $form;
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
@@ -167,7 +167,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         ];
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $lng = $this->lng;
         $portfolio = $this->portfolio;

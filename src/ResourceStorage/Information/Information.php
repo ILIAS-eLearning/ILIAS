@@ -14,7 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Information;
 
 use DateTimeImmutable;
@@ -25,13 +25,13 @@ use DateTimeImmutable;
  */
 interface Information
 {
-    public function getTitle() : string;
+    public function getTitle(): string;
 
-    public function getSuffix() : string;
+    public function getSuffix(): string;
 
-    public function getMimeType() : string;
+    public function getMimeType(): string;
 
-    public function getSize() : int;
+    public function getSize(): int;
 
-    public function getCreationDate() : DateTimeImmutable;
+    public function getCreationDate(): DateTimeImmutable;
 }

@@ -23,7 +23,7 @@ use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
  */
 class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {
-    public function testNewUpload() : void
+    public function testNewUpload(): void
     {
         // EXPECTED VALUES
         $expected_file_name = 'info.xml';

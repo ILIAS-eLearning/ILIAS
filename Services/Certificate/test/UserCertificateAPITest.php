@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ use ILIAS\Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
-    public function testUserDataCall() : void
+    public function testUserDataCall(): void
     {
         $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()

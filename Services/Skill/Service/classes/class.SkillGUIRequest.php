@@ -54,7 +54,7 @@ class SkillGUIRequest
     /**
      * get integer parameter kindly
      */
-    protected function int(string $key) : int
+    protected function int(string $key): int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
@@ -64,13 +64,13 @@ class SkillGUIRequest
      * get integer array kindly
      * @return int[]|array<int|string, int>
      */
-    protected function intArray(string $key) : array
+    protected function intArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
-            static function (array $arr) : array {
+            static function (array $arr): array {
                 // keep keys(!), transform all values to int
                 return array_map('intval', $arr);
             }
@@ -81,7 +81,7 @@ class SkillGUIRequest
     /**
      * get string parameter kindly
      */
-    protected function str(string $key) : string
+    protected function str(string $key): string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
@@ -91,16 +91,16 @@ class SkillGUIRequest
      * get string array kindly
      * @return string[]|array<int|string, string>
      */
-    protected function strArray(string $key) : array
+    protected function strArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
-            static function (array $arr) : array {
+            static function (array $arr): array {
                 // keep keys(!), transform all values to string
                 return array_map(
-                    static function ($v) : string {
+                    static function ($v): string {
                         return \ilUtil::stripSlashes((string) $v);
                     },
                     $arr
@@ -113,7 +113,7 @@ class SkillGUIRequest
     /**
      * get bool parameter kindly
      */
-    protected function bool(string $key) : bool
+    protected function bool(string $key): bool
     {
         $t = $this->refinery->kindlyTo()->bool();
         return (bool) ($this->get($key, $t) ?? false);
@@ -123,13 +123,13 @@ class SkillGUIRequest
      * get bool array kindly
      * @return bool[]|array<int|string, bool>
      */
-    protected function boolArray(string $key) : array
+    protected function boolArray(string $key): array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
-            static function (array $arr) : array {
+            static function (array $arr): array {
                 // keep keys(!), transform all values to bool
                 return array_map('boolval', $arr);
             }
@@ -140,7 +140,7 @@ class SkillGUIRequest
     /**
      * Check if parameter is an array
      */
-    protected function isArray(string $key) : bool
+    protected function isArray(string $key): bool
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
             $no_transform = $this->refinery->identity();
@@ -189,7 +189,7 @@ class SkillGUIRequest
     /**
      * @return int[]
      */
-    protected function getIds() : array
+    protected function getIds(): array
     {
         return $this->intArray("id");
     }

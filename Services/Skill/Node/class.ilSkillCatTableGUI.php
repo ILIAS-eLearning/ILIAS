@@ -37,6 +37,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_ref_id = 0;
+    protected \ILIAS\UI\Factory $ui_fac;
+    protected \ILIAS\UI\Renderer $ui_ren;
 
     public const MODE_SCAT = 0;
     public const MODE_SCTP = 1;
@@ -54,23 +56,25 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->tref_id = $a_tref_id;
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
 
         $this->requested_node_id = $this->admin_gui_request->getNodeId();
         $this->requested_tref_id = $this->admin_gui_request->getTrefId();
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
-        
+
         $this->mode = $a_mode;
         $this->skill_tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_obj_id);
         $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         if ($this->mode == self::MODE_SCAT) {
             $this->manage_perm = $this->tree_access_manager->hasManageCompetencesPermission();
             $childs = $this->skill_tree->getChildsByTypeFilter(
@@ -99,7 +103,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("skmg_order"), "", "1px");
         }
         $this->addColumn($this->lng->txt("title"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
 
@@ -114,7 +118,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -127,7 +131,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $ret = $ilCtrl->getLinkTargetByClass("ilskillcategorygui", "listItems");
                 $ilCtrl->setParameterByClass("ilskillcategorygui", "node_id", $this->requested_node_id);
                 break;
-                
+
             // skill template reference
             case "sktr":
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_set["child"]);
@@ -137,16 +141,16 @@ class ilSkillCatTableGUI extends ilTable2GUI
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "node_id", $this->requested_node_id);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $this->requested_tref_id);
                 break;
-                
+
             // skill
             case "skll":
                 $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilbasicskillgui", "edit");
                 $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $this->requested_node_id);
                 break;
-                
+
             // --------
-                
+
             // template
             case "sktp":
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_set["child"]);
@@ -177,16 +181,21 @@ class ilSkillCatTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable("HREF_TITLE", $ret);
-        
+
         $this->tpl->setVariable("TITLE", $a_set["title"]);
-        $icon = ilSkillTreeNode::getIconPath(
+        $icon_path = ilSkillTreeNode::getIconPath(
             $a_set["child"],
             $a_set["type"],
             "",
             ilSkillTreeNode::_lookupStatus($a_set["child"])
         );
-        $this->tpl->setVariable("ICON", ilUtil::img($icon, ""));
+        $icon = $this->ui_fac->symbol()->icon()->custom(
+            $icon_path,
+            "",
+            "medium"
+        );
+        $this->tpl->setVariable("ICON", $this->ui_ren->render($icon));
     }
 }

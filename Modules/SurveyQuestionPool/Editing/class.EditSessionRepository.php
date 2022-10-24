@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class EditSessionRepository
     {
     }
 
-    public function addQuestionToClipboard(int $qid, string $action) : void
+    public function addQuestionToClipboard(int $qid, string $action): void
     {
         $entries = [];
         if (\ilSession::has(self::KEY_QCLIP)) {
@@ -48,7 +50,7 @@ class EditSessionRepository
         \ilSession::set(self::KEY_QCLIP, $entries);
     }
 
-    public function getQuestionsFromClipboard() : array
+    public function getQuestionsFromClipboard(): array
     {
         $entries = [];
         if (\ilSession::has(self::KEY_QCLIP)) {
@@ -57,53 +59,53 @@ class EditSessionRepository
         return $entries;
     }
 
-    public function clearClipboardQuestions() : void
+    public function clearClipboardQuestions(): void
     {
         if (\ilSession::has(self::KEY_QCLIP)) {
             \ilSession::clear(self::KEY_QCLIP);
         }
     }
 
-    public function setSearchLinkType(string $type) : void
+    public function setSearchLinkType(string $type): void
     {
         \ilSession::set(self::KEY_SLTYPE, $type);
     }
 
-    public function getSearchLinkType() : string
+    public function getSearchLinkType(): string
     {
         return (string) \ilSession::get(self::KEY_SLTYPE);
     }
 
-    public function clearSearchLinkType() : void
+    public function clearSearchLinkType(): void
     {
         if (\ilSession::has(self::KEY_SLTYPE)) {
             \ilSession::clear(self::KEY_SLTYPE);
         }
     }
 
-    public function setNewLinkType(string $type) : void
+    public function setNewLinkType(string $type): void
     {
         \ilSession::set(self::KEY_NLTYPE, $type);
     }
 
-    public function getNewLinkType() : string
+    public function getNewLinkType(): string
     {
         return (string) \ilSession::get(self::KEY_NLTYPE);
     }
 
-    public function clearNewLinkType() : void
+    public function clearNewLinkType(): void
     {
         if (\ilSession::has(self::KEY_NLTYPE)) {
             \ilSession::clear(self::KEY_NLTYPE);
         }
     }
 
-    public function setPhraseData(array $data) : void
+    public function setPhraseData(array $data): void
     {
         \ilSession::set(self::KEY_PHRASE_DATA, $data);
     }
 
-    public function getPhraseData() : array
+    public function getPhraseData(): array
     {
         return (\ilSession::get(self::KEY_PHRASE_DATA) ?? []);
     }

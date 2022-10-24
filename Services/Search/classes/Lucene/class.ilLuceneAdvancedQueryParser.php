@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -44,15 +46,15 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
     public function __construct($a_query_data)
     {
         parent::__construct('');
-        
+
         $this->field_definition = ilLuceneAdvancedSearchFields::getInstance();
         $this->query_data = $a_query_data;
     }
-    
+
     /**
      * Get field definition settings
      */
-    public function getFieldDefinition() : ilLuceneAdvancedSearchFields
+    public function getFieldDefinition(): ilLuceneAdvancedSearchFields
     {
         return $this->field_definition;
     }
@@ -67,8 +69,8 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
         }
         return $this->query_data ?? '';
     }
-    
-    public function parse() : void
+
+    public function parse(): void
     {
         foreach ((array) $this->getQueryData() as $field => $query) {
             if (!is_array($query) && !trim($query)) {

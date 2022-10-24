@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -27,7 +29,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function current() : ?string
+    public function current(): ?string
     {
         if ($this->valid()) {
             return current($this->data);
@@ -39,7 +41,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function next() : void
+    public function next(): void
     {
         next($this->data);
     }
@@ -47,7 +49,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function key() : ?string
+    public function key(): ?string
     {
         if ($this->valid()) {
             return key($this->data);
@@ -59,7 +61,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function valid() : bool
+    public function valid(): bool
     {
         $value = current($this->data);
         $key = key($this->data);
@@ -79,7 +81,7 @@ class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function rewind() : void
+    public function rewind(): void
     {
         reset($this->data);
     }

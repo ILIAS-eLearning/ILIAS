@@ -35,25 +35,25 @@ class ilConfirmationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $lng = $DIC->language();
-        
+
         $this->use_icons = $a_use_icons;
-        
+
         parent::__construct(null, "");
         $this->setTitle($lng->txt(""));
         $this->setLimit(9999);
-        
+
         if ($this->use_icons) {
             $this->addColumn($this->lng->txt("type"), "", "1");
         }
         $this->addColumn($this->lng->txt("title"));
-        
+
         $this->setEnableHeader(true);
         $this->setRowTemplate("tpl.confirmation_row.html", "Services/Utilities");
         $this->disable("footer");
         $this->setEnableTitle(true);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         if ($this->use_icons) {
             if ($a_set["img"] != "") {

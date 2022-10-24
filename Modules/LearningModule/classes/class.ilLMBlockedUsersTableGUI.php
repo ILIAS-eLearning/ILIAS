@@ -44,14 +44,14 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getBlockedUsers());
         $this->setTitle($lng->txt(""));
-        
+
         $this->addColumn("", "", "1px");
         $this->addColumn($this->lng->txt("user"), "user");
         $this->addColumn($this->lng->txt("question"), "");
         $this->addColumn($this->lng->txt("page"), "page_title");
         $this->addColumn($this->lng->txt("cont_last_try"), "last_try");
         $this->addColumn($this->lng->txt("cont_unlocked"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.blocked_users.html", "Modules/LearningModule");
 
@@ -60,15 +60,15 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         $this->addMultiCommand("unlockQuestion", $lng->txt("cont_unlock_allow_continue"));
     }
 
-    protected function getBlockedUsers() : array
+    protected function getBlockedUsers(): array
     {
         /** @var ilLMTracker $track */
         $track = ilLMTracker::getInstance($this->lm->getRefId());
 
         return $track->getBlockedUsersInformation();
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 
@@ -76,7 +76,12 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable("USER_NAME", $a_set["user_name"]);
         $this->tpl->setVariable("QUESTION", $a_set["question_text"]);
         $this->tpl->setVariable("PAGE", $a_set["page_title"]);
-        $this->tpl->setVariable("LAST_TRY", $a_set["last_try"]);
-        $this->tpl->setVariable("IGNORE_FAIL", ($a_set["unlocked"] ? $lng->txt("yes") : $lng->txt("no")));
+        $this->tpl->setVariable("LAST_TRY", $a_set["last_try"] ?? "");
+        $this->tpl->setVariable(
+            "IGNORE_FAIL",
+            (($a_set["unlocked"] ?? false)
+                ? $lng->txt("yes")
+                : $lng->txt("no"))
+        );
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,12 +26,12 @@
  */
 class ilCategoryReferenceImporter extends ilContainerReferenceImporter
 {
-    protected function getType() : string
+    protected function getType(): string
     {
         return 'catr';
     }
-    
-    protected function initParser(string $a_xml) : ilContainerReferenceXmlParser
+
+    protected function initParser(string $a_xml): ilContainerReferenceXmlParser
     {
         return new ilCategoryReferenceXmlParser($a_xml);
     }

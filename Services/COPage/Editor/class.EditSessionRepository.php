@@ -36,7 +36,7 @@ class EditSessionRepository
     {
     }
 
-    public function clear(?array $text_ref_ids = null) : void
+    public function clear(?array $text_ref_ids = null): void
     {
         $this->clearPageError();
         $this->clearMediaPool();
@@ -49,7 +49,7 @@ class EditSessionRepository
         }
     }
 
-    public function clearPageError() : void
+    public function clearPageError(): void
     {
         \ilSession::clear(self::ERROR_KEY);
     }
@@ -57,7 +57,7 @@ class EditSessionRepository
     /**
      * @param string|array $error
      */
-    public function setPageError($error) : void
+    public function setPageError($error): void
     {
         \ilSession::set(self::ERROR_KEY, $error);
     }
@@ -70,62 +70,62 @@ class EditSessionRepository
         return \ilSession::get(self::ERROR_KEY) ?? "";
     }
 
-    public function clearSubCmd() : void
+    public function clearSubCmd(): void
     {
         \ilSession::clear(self::SUB_CMD_KEY);
     }
 
-    public function setSubCmd(string $sub_cmd) : void
+    public function setSubCmd(string $sub_cmd): void
     {
         \ilSession::set(self::SUB_CMD_KEY, $sub_cmd);
     }
 
-    public function getSubCmd() : string
+    public function getSubCmd(): string
     {
         return \ilSession::get(self::SUB_CMD_KEY) ?? "";
     }
 
-    public function clearTextLang(int $ref_id) : void
+    public function clearTextLang(int $ref_id): void
     {
         \ilSession::clear(self::TXT_LANG_KEY . "_" . $ref_id);
     }
 
-    public function setTextLang(int $ref_id, string $lang_key) : void
+    public function setTextLang(int $ref_id, string $lang_key): void
     {
         \ilSession::set(self::TXT_LANG_KEY . "_" . $ref_id, $lang_key);
     }
 
-    public function getTextLang(int $ref_id) : string
+    public function getTextLang(int $ref_id): string
     {
         return \ilSession::get(self::TXT_LANG_KEY . "_" . $ref_id) ?? "";
     }
 
-    public function clearMediaPool() : void
+    public function clearMediaPool(): void
     {
         \ilSession::clear(self::MEP_KEY);
     }
 
-    public function setMediaPool(int $pool_id) : void
+    public function setMediaPool(int $pool_id): void
     {
         \ilSession::set(self::MEP_KEY, $pool_id);
     }
 
-    public function getMediaPool() : int
+    public function getMediaPool(): int
     {
         return \ilSession::get(self::MEP_KEY) ?? 0;
     }
 
-    public function clearQuestionPool() : void
+    public function clearQuestionPool(): void
     {
         \ilSession::clear(self::QPL_KEY);
     }
 
-    public function setQuestionPool(int $pool_id) : void
+    public function setQuestionPool(int $pool_id): void
     {
         \ilSession::set(self::QPL_KEY, $pool_id);
     }
 
-    public function getQuestionPool() : int
+    public function getQuestionPool(): int
     {
         return \ilSession::get(self::QPL_KEY) ?? 0;
     }

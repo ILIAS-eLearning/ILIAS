@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilLearningSequenceXMLParser extends ilSaxParser
 {
     protected ilObjLearningSequence $obj;
@@ -63,7 +65,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     /**
      * @return array<string, mixed>
      */
-    public function start() : array
+    public function start(): array
     {
         $this->startParsing();
 
@@ -76,7 +78,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         return $ret;
     }
 
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers($a_xml_parser): void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, "handleBeginTag", "handleEndTag");
@@ -87,7 +89,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         $parser,
         string $name,
         array $attributes
-    ) : void {
+    ): void {
         $this->actual_name = $name;
 
         switch ($name) {
@@ -103,7 +105,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         }
     }
 
-    public function handleEndTag($parser, string $name) : void
+    public function handleEndTag($parser, string $name): void
     {
         $this->cdata = trim($this->cdata);
 
@@ -157,23 +159,23 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
-    public function handleCharacterData($parser, $data) : void
+    public function handleCharacterData($parser, $data): void
     {
         $this->cdata .= ($data ?? "");
         $this->storeData();
     }
 
-    protected function beginStoreCData() : void
+    protected function beginStoreCData(): void
     {
         $this->storing = true;
     }
 
-    protected function endStoreCData() : void
+    protected function endStoreCData(): void
     {
         $this->storing = false;
     }
 
-    protected function storeData() : void
+    protected function storeData(): void
     {
         if ($this->storing) {
             $this->ls_item_data[$this->counter][$this->actual_name] = $this->cdata ?? "";

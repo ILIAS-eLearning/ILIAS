@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component as CImpl;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
@@ -30,7 +32,7 @@ trait IliasMocks
      *
      * @return UIFactory|MockObject
      */
-    protected function mockUIFactory() : UIFactory
+    protected function mockUIFactory(): UIFactory
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
@@ -66,15 +68,15 @@ trait IliasMocks
     }
 
 
-    public function uiFactoryBreadcrumbs(...$args) : CImpl\Breadcrumbs\Breadcrumbs
+    public function uiFactoryBreadcrumbs(...$args): CImpl\Breadcrumbs\Breadcrumbs
     {
         return new CImpl\Breadcrumbs\Breadcrumbs($args[0]);
     }
-    
+
     /**
      * @return ilLanguage|MockObject
      */
-    protected function mockIlLanguage() : ilLanguage
+    protected function mockIlLanguage(): ilLanguage
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

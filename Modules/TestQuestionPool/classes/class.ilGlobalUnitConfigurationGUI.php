@@ -1,16 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 /**
@@ -20,27 +25,27 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
 {
     public const REQUEST_PARAM_SUB_CONTEXT = 'context';
 
-    protected function getDefaultCommand() : string
+    protected function getDefaultCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    public function getUnitCategoryOverviewCommand() : string
+    public function getUnitCategoryOverviewCommand(): string
     {
         return 'showGlobalUnitCategories';
     }
 
-    public function isCRUDContext() : bool
+    public function isCRUDContext(): bool
     {
         return true;
     }
 
-    public function getUniqueId() : string
+    public function getUniqueId(): string
     {
         return $this->repository->getConsumerId() . '_global';
     }
 
-    protected function showGlobalUnitCategories() : void
+    protected function showGlobalUnitCategories(): void
     {
         global $DIC;
 
@@ -54,7 +59,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
         parent::showGlobalUnitCategories();
     }
 
-    protected function showUnitCategories(array $categories) : void
+    protected function showUnitCategories(array $categories): void
     {
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
         $table->setData($categories);

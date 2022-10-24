@@ -1,16 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 namespace ILIAS\Repository\Form;
@@ -24,6 +29,7 @@ use ILIAS\UI\Component\Input\Field\FormInput;
 class FormAdapterGUI
 {
     protected const DEFAULT_SECTION = "@internal_default_section";
+    protected \ilLanguage $lng;
     protected string $title = "";
     /**
      * @var mixed|null
@@ -54,9 +60,10 @@ class FormAdapterGUI
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
+        $this->lng = $DIC->language();
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -65,7 +72,7 @@ class FormAdapterGUI
         string $key,
         string $title,
         string $description = ""
-    ) : self {
+    ): self {
         if ($this->title == "") {
             $this->title = $title;
         }
@@ -83,7 +90,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->text($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -97,7 +104,7 @@ class FormAdapterGUI
         string $title,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->textarea($title, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -112,7 +119,7 @@ class FormAdapterGUI
         array $options,
         string $description = "",
         ?string $value = null
-    ) : self {
+    ): self {
         $field = $this->ui->factory()->input()->field()->select($title, $options, $description);
         if (!is_null($value)) {
             $field = $field->withValue($value);
@@ -129,17 +136,24 @@ class FormAdapterGUI
         string $title,
         \Closure $result_handler,
         string $id_parameter,
+        string $description = "",
         int $max_files = 1,
         array $mime_types = []
-    ) : self {
+    ): self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
             $id_parameter
         );
 
+        if (count($mime_types) > 0) {
+            $description.= $this->lng->txt("rep_allowed_types") . ": " .
+                implode(", ", $mime_types);
+        }
+
         $field = $this->ui->factory()->input()->field()->file(
             $this->upload_handler[$key],
-            $title
+            $title,
+            $description
         )
             ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
             ->withMaxFiles($max_files);
@@ -154,7 +168,7 @@ class FormAdapterGUI
         return $this;
     }
 
-    public function getRepoStandardUploadHandlerGUI(string $key) : \ilRepoStandardUploadHandlerGUI
+    public function getRepoStandardUploadHandlerGUI(string $key): \ilRepoStandardUploadHandlerGUI
     {
         if (!isset($this->upload_handler[$key])) {
             throw new \ilException("Unknown file upload field: " . $key);
@@ -163,7 +177,7 @@ class FormAdapterGUI
     }
 
 
-    protected function addField(string $key, FormInput $field) : void
+    protected function addField(string $key, FormInput $field): void
     {
         if (isset($this->section_of_field[$key])) {
             throw new \ilException("Duplicate Input Key: " . $key);
@@ -176,7 +190,7 @@ class FormAdapterGUI
         $this->form = null;
     }
 
-    protected function getForm() : Form\Standard
+    protected function getForm(): Form\Standard
     {
         $ctrl = $this->ctrl;
 
@@ -232,7 +246,7 @@ class FormAdapterGUI
         return $section_data[$key];
     }
 
-    public function render() : string
+    public function render(): string
     {
         return $this->ui->renderer()->render($this->getForm());
     }

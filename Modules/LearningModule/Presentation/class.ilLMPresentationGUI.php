@@ -177,12 +177,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->notes = $DIC->notes()->domain();
     }
 
-    public function getUnsafeGetCommands() : array
+    public function getUnsafeGetCommands(): array
     {
         return [];
     }
 
-    public function getSafePostCommands() : array
+    public function getSafePostCommands(): array
     {
         return [
             "showPrintView",
@@ -198,7 +198,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function initByRequest(
         ?array $query_params = null,
         bool $embed_mode = false
-    ) : void {
+    ): void {
         global $DIC;
 
         $this->service = new ilLMPresentationService(
@@ -260,17 +260,17 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->content_style_domain = $this->cs->domain()->styleForRefId($this->lm->getRefId());
     }
 
-    public function getService() : \ilLMPresentationService
+    public function getService(): \ilLMPresentationService
     {
         return $this->service;
     }
 
-    public function injectTemplate(ilGlobalTemplateInterface $tpl) : void
+    public function injectTemplate(ilGlobalTemplateInterface $tpl): void
     {
         $this->tpl = $tpl;
     }
 
-    protected function getTracker() : ilLMTracker
+    protected function getTracker(): ilLMTracker
     {
         return $this->service->getTracker();
     }
@@ -280,7 +280,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
      * @throws ilLMPresentationException
      * @throws ilPermissionException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilNavigationHistory = $this->nav_history;
         $ilAccess = $this->access;
@@ -340,11 +340,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             case "illearningprogressgui":
                 $this->initScreenHead("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->requested_ref_id,
                     $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
+                $this->tpl->printToStdout();
                 break;
 
             case "ilratinggui":
@@ -402,12 +403,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * checks whether offline content generation is activated
      */
-    public function offlineMode() : bool
+    public function offlineMode(): bool
     {
         return $this->offline;
     }
 
-    public function getExportFormat() : string
+    public function getExportFormat(): string
     {
         return $this->export_format;
     }
@@ -415,11 +416,11 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * this dummy function is needed for offline package creation
      */
-    public function nop() : void
+    public function nop(): void
     {
     }
 
-    public function attrib2arr(?array $a_attributes) : array
+    public function attrib2arr(?array $a_attributes): array
     {
         $attr = array();
         if (!is_array($a_attributes)) {
@@ -434,7 +435,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * get frames of current frame set
      */
-    public function getCurrentFrameSet() : array
+    public function getCurrentFrameSet(): array
     {
         return $this->frames;
     }
@@ -442,7 +443,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Determine layout
      */
-    public function determineLayout() : string
+    public function determineLayout(): string
     {
         return "standard";
     }
@@ -450,7 +451,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * @throws ilLMPresentationException
      */
-    public function resume() : void
+    public function resume(): void
     {
         $this->layout();
     }
@@ -458,7 +459,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     public function layout(
         string $a_xml = "main.xml",
         bool $doShow = true
-    ) : string {
+    ): string {
         $content = "";
         $tpl = $this->tpl;
         $ilUser = $this->user;
@@ -468,7 +469,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
-    
+
         $doc = domxml_open_mem($xmlfile);
         $this->layout_doc = $doc;
         //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
@@ -608,7 +609,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return ($content);
     }
 
-    protected function addResourceFiles() : void
+    protected function addResourceFiles(): void
     {
         iljQueryUtil::initjQuery($this->tpl);
         iljQueryUtil::initjQueryUI($this->tpl);
@@ -631,7 +632,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($last_frame_url != "") {
                     $this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('" . $last_frame_url . "', 'center_bottom');");
                 }
-    
+
                 $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
                     $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
                         il.LearningModule.openInitFrames();
@@ -649,18 +650,18 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
     }
 
-    public function saveFrameUrl() : void
+    public function saveFrameUrl(): void
     {
         $store = new ilSessionIStorage("lm");
         $store->set("cf_" . $this->lm->getId(), $this->requested_url);
     }
 
-    public function fullscreen() : string
+    public function fullscreen(): string
     {
         return $this->media();
     }
 
-    public function media() : string
+    public function media(): string
     {
         $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
 
@@ -677,7 +678,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return "";
     }
 
-    public function glossary() : string
+    public function glossary(): string
     {
         $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
         $this->renderPageTitle();
@@ -696,7 +697,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return "";
     }
 
-    public function page() : string
+    public function page(): string
     {
         $ilUser = $this->user;
         $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "Modules/LearningModule");
@@ -725,7 +726,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * table of contents
      */
-    public function ilTOC() : ilLMTOCExplorerGUI
+    public function ilTOC(): ilLMTOCExplorerGUI
     {
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");
@@ -733,17 +734,17 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $exp;
     }
 
-    public function getLMPresentationTitle() : string
+    public function getLMPresentationTitle(): string
     {
         return $this->service->getPresentationStatus()->getLMPresentationTitle();
     }
 
-    public function ilLMMenu() : void
+    public function ilLMMenu(): void
     {
         $this->renderTabs("content", $this->getCurrentPageId());
     }
 
-    public function setHeader() : void
+    public function setHeader(): void
     {
         $this->tpl->setTitle($this->getLMPresentationTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
@@ -752,7 +753,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * output learning module submenu
      */
-    public function ilLMSubMenu() : void
+    public function ilLMSubMenu(): void
     {
         $rbacsystem = $this->rbacsystem;
         if ($this->abstract) {
@@ -792,13 +793,13 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
     }
 
-    public function redrawHeaderAction() : void
+    public function redrawHeaderAction(): void
     {
         echo $this->getHeaderAction(true);
         exit;
     }
 
-    public function addHeaderAction() : void
+    public function addHeaderAction(): void
     {
         //$this->tpl->setVariable("HEAD_ACTION", $this->getHeaderAction());
         $this->tpl->setHeaderActionMenu($this->getHeaderAction());
@@ -806,7 +807,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function getHeaderAction(
         bool $a_redraw = false
-    ) : string {
+    ): string {
         if ($this->offline) {
             return "";
         }
@@ -828,9 +829,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         );
         $dispatcher->setSubObject("pg", $this->getCurrentPageId());
 
-        $this->ctrl->setParameter($this, "embed_mode", $this->embed_mode);
-        $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", $this->embed_mode);
-        $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", $this->embed_mode);
+        $this->ctrl->setParameter($this, "embed_mode", (int) $this->embed_mode);
+        $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", (int) $this->embed_mode);
+        $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", (int) $this->embed_mode);
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             "",
@@ -857,7 +858,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 true,
                 $this->lng->txt("lm_rating"),
                 false,
-                array("ilcommonactiondispatchergui", "ilratinggui")
+                array("ilcommonactiondispatchergui", "ilratinggui"),
+                true
             );
         }
 
@@ -925,7 +927,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * output notes of page
      */
-    public function ilLMNotes() : string
+    public function ilLMNotes(): string
     {
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
@@ -978,7 +980,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $html;
     }
 
-    public function ilLocator() : void
+    public function ilLocator(): void
     {
         global $DIC;
         $ltiview = $DIC["lti"];
@@ -1048,7 +1050,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         } else {        // lonely page
             $ilLocator->addItem(
                 $this->getLMPresentationTitle(),
-                $this->linker->getLink("layout", "", $this->requested_frame)
+                $this->linker->getLink("layout", 0, $this->requested_frame)
             );
 
             $lm_obj = ilLMObjectFactory::getInstance($this->lm, $a_id);
@@ -1066,7 +1068,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Get the current page id
      */
-    public function getCurrentPageId() : ?int
+    public function getCurrentPageId(): ?int
     {
         return $this->service->getNavigationStatus()->getCurrentPage();
     }
@@ -1074,7 +1076,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Set content style
      */
-    protected function setContentStyles() : void
+    protected function setContentStyles(): void
     {
         // content style
         $this->content_style_gui->addCss(
@@ -1087,14 +1089,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Set system style
      */
-    protected function setSystemStyle() : void
+    protected function setSystemStyle(): void
     {
         $this->tpl->addCss(ilUtil::getStyleSheetLocation());
     }
 
     public function getContent(
         bool $skip_nav = false
-    ) : string {
+    ): string {
         $this->fill_on_load_code = true;
         $this->setContentStyles();
 
@@ -1121,7 +1123,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $tpl->get();
     }
 
-    protected function getPageContent() : string
+    protected function getPageContent(): string
     {
         $content_renderer = new ilLMContentRendererGUI(
             $this->service,
@@ -1137,7 +1139,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $content_renderer->render();
     }
 
-    protected function renderRating() : string
+    protected function renderRating(): string
     {
         // rating
         $rating = "";
@@ -1159,11 +1161,10 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $rating;
     }
 
-    public function updatePageRating() : void
+    public function updatePageRating(): void
     {
         $ilUser = $this->user;
-
-        $pg_id = $this->requested_pg_id;
+        $pg_id = $this->getCurrentPageId();
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
@@ -1198,7 +1199,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         exit();
     }
 
-    public function basicPageGuiInit(\ilPageObjectGUI $a_page_gui) : void
+    public function basicPageGuiInit(\ilPageObjectGUI $a_page_gui): void
     {
         $a_page_gui->setStyleId(
             $this->content_style_domain->getEffectiveStyleId()
@@ -1226,7 +1227,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink("download_paragraph"));
     }
 
-    public function ilGlossary() : void
+    public function ilGlossary(): void
     {
         $ilCtrl = $this->ctrl;
 
@@ -1248,7 +1249,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
     }
 
-    public function ilMedia() : void
+    public function ilMedia(): void
     {
         $pg_frame = "";
         $this->setContentStyles();
@@ -1318,7 +1319,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         string $a_inline = "",
         string $a_file = "",
         string $a_location = ""
-    ) : void {
+    ): void {
         if ($a_inline != "") {
             $js_tpl = new ilTemplate($a_inline, true, false, $a_location);
             $js = $js_tpl->get();
@@ -1331,7 +1332,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -1341,14 +1342,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * info screen call from inside learning module
      */
-    public function showInfoScreen() : void
+    public function showInfoScreen(): void
     {
         $this->outputInfoScreen();
     }
 
     protected function initScreenHead(
         string $a_active_tab = "info"
-    ) : void {
+    ): void {
         $ilAccess = $this->access;
         $ilLocator = $this->locator;
 
@@ -1372,7 +1373,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * info screen
      */
-    public function outputInfoScreen() : string
+    public function outputInfoScreen(): string
     {
         $ilAccess = $this->access;
 
@@ -1422,7 +1423,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * show selection screen for print view
      */
-    public function showPrintViewSelection() : void
+    public function showPrintViewSelection(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -1586,7 +1587,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             );
         }
 
-        $f = $this->form->getHTML();
+        $f = $this->form->getHTMLAsync();
 
         $tpl->setVariable("ITEM_SELECTION", $f);
 
@@ -1600,7 +1601,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     protected function filterNonAccessibleNode(
         array $nodes
-    ) : array {
+    ): array {
         $tracker = $this->getTracker();
         // if navigation is restricted based on correct answered questions
         // check if we have preceeding pages including unsanswered/incorrect answered questions
@@ -1614,7 +1615,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         return $nodes;
     }
 
-    public function initPrintViewSelectionForm() : void
+    public function initPrintViewSelectionForm(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1646,7 +1647,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    public function showPrintView() : void
+    public function showPrintView(): void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -2181,7 +2182,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * download file of file lists
      */
-    public function downloadFile() : void
+    public function downloadFile(): void
     {
         $page_gui = $this->getLMPageGUI($this->getCurrentPageId());
         $page_gui->downloadFile();
@@ -2190,7 +2191,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * show download list
      */
-    public function showDownloadList() : void
+    public function showDownloadList(): void
     {
         if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
             return;
@@ -2228,7 +2229,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * send download file (xml/html)
      */
-    public function downloadExportFile() : void
+    public function downloadExportFile(): void
     {
         if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
             return;
@@ -2257,14 +2258,14 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         int $a_ref_id,
         int $a_obj_id,
         int $a_return_ref_id
-    ) : string {
+    ): string {
         return "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $a_ref_id . "&amp;obj_id=" . $a_obj_id . "&amp;focus_id=" .
             $a_obj_id . "&amp;focus_return=" . $a_return_ref_id;
     }
 
     public function showMessageScreen(
         string $a_content
-    ) : void {
+    ): void {
         // content style
         $this->setContentStyles();
 
@@ -2277,7 +2278,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Show info message, if page is not accessible in public area
      */
-    public function showNoPublicAccess() : void
+    public function showNoPublicAccess(): void
     {
         $this->showMessageScreen($this->lng->txt("msg_page_no_public_access"));
     }
@@ -2285,7 +2286,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Show info message, if page is not accessible in public area
      */
-    public function showNoPageAccess() : void
+    public function showNoPageAccess(): void
     {
         $this->showMessageScreen($this->lng->txt("msg_no_page_access"));
     }
@@ -2294,12 +2295,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
      * Show message if navigation to page is not allowed due to unanswered
      * questions.
      */
-    public function showNavRestrictionDueToQuestions() : void
+    public function showNavRestrictionDueToQuestions(): void
     {
         $this->showMessageScreen($this->lng->txt("cont_no_page_access_unansw_q"));
     }
 
-    public function getSourcecodeDownloadLink() : string
+    public function getSourcecodeDownloadLink(): string
     {
         if (!$this->offlineMode()) {
             return $this->ctrl->getLinkTarget($this, "");
@@ -2308,7 +2309,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
     }
 
-    public function getOfflineDirectory() : string
+    public function getOfflineDirectory(): string
     {
         return $this->offline_directory;
     }
@@ -2322,7 +2323,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         int $paragraph_id,
         string $title,
         string $text
-    ) : void {
+    ): void {
         $directory = $this->getOfflineDirectory() . "/codefiles/" . $page_id . "/" . $paragraph_id;
         ilFileUtils::makeDirParents($directory);
         $file = $directory . "/" . $title;
@@ -2336,26 +2337,27 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     }
 
     // #8613
-    protected function renderPageTitle() : void
+    protected function renderPageTitle(): void
     {
         $this->tpl->setHeaderPageTitle($this->getLMPresentationTitle());
     }
 
-    public function getLMPageGUI(int $a_id) : ilLMPageGUI
+    public function getLMPageGUI(int $a_id): ilLMPageGUI
     {
+        $concrete_lang = $this->service->getPresentationStatus()->getConcreteLang();
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
-            return new ilLMPageGUI($a_id, 0, false, $this->lang);
+            return new ilLMPageGUI($a_id, 0, false, $this->lang, $concrete_lang);
         }
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
-            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage(), $concrete_lang);
         }
-        return new ilLMPageGUI($a_id);
+        return new ilLMPageGUI($a_id, 0, false, "", $concrete_lang);
     }
 
     public function getLMPage(
         int $a_id,
         string $a_type = ""
-    ) : ilPageObject {
+    ): ilPageObject {
         $type = ($a_type == "mep")
             ? "mep"
             : "lm";
@@ -2379,7 +2381,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Refresh toc (called if questions have been answered correctly)
      */
-    public function refreshToc() : void
+    public function refreshToc(): void
     {
         $exp = $this->ilTOC();
 
@@ -2398,7 +2400,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         string $a_type,
         string $a_action,
         int $a_note_id
-    ) : void {
+    ): void {
         $note = $this->notes->getById($a_note_id);
         $text = $note->getText();
 
@@ -2417,7 +2419,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected function renderTabs(
         string $active_tab,
         int $current_page_id
-    ) : void {
+    ): void {
         $menu_editor = new ilLMMenuEditor();
         $menu_editor->setObjId($this->lm->getId());
 
@@ -2448,7 +2450,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     /**
      * Get HTML (called by kiosk mode through ilCtrl)
      */
-    public function getHTML(array $pars) : string
+    public function getHTML(array $pars): string
     {
         $this->addResourceFiles();
         switch ($pars["cmd"]) {

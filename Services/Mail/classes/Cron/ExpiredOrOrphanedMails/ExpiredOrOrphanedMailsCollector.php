@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -53,7 +55,7 @@ class ExpiredOrOrphanedMailsCollector
         $this->collect();
     }
 
-    private function collect() : void
+    private function collect(): void
     {
         $mail_only_inbox_trash = (bool) $this->settings->get('mail_only_inbox_trash', '0');
         $mail_expiration_warning_days = (int) $this->settings->get('mail_notify_orphaned', '0');
@@ -114,7 +116,7 @@ class ExpiredOrOrphanedMailsCollector
         }
     }
 
-    private function addMailIdToDelete(int $mail_id) : void
+    private function addMailIdToDelete(int $mail_id): void
     {
         $this->mail_ids[] = $mail_id;
     }
@@ -122,7 +124,7 @@ class ExpiredOrOrphanedMailsCollector
     /**
      * @return int[]
      */
-    public function mailIdsToDelete() : array
+    public function mailIdsToDelete(): array
     {
         return $this->mail_ids;
     }

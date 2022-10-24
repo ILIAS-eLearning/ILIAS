@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,12 +52,12 @@ class Dataset
         $this->dimensions = $dimensions;
     }
 
-    public function getDimensions() : array
+    public function getDimensions(): array
     {
         return $this->dimensions;
     }
 
-    protected function checkDimensionCongruenceForValues(array $values) : void
+    protected function checkDimensionCongruenceForValues(array $values): void
     {
         if (array_diff_key($values, $this->getDimensions())
             || array_diff_key($this->getDimensions(), $values)
@@ -71,7 +73,7 @@ class Dataset
      * @param array<string, mixed> $values key: Dimension name, value: mixed (validity depends on the dimension)
      * @return $this
      */
-    public function withPoint(string $measurement_item_label, array $values) : self
+    public function withPoint(string $measurement_item_label, array $values): self
     {
         $this->checkDimensionCongruenceForValues($values);
 
@@ -86,12 +88,12 @@ class Dataset
         return $clone;
     }
 
-    public function getPoints() : array
+    public function getPoints(): array
     {
         return $this->points;
     }
 
-    public function getPointsPerDimension() : array
+    public function getPointsPerDimension(): array
     {
         $points_restructured = [];
         foreach ($this->getPoints() as $measurement_item_label => $points_for_dimensions) {
@@ -108,7 +110,7 @@ class Dataset
      * @param array<string, string> $values key: Dimension name, value: Alternative text as string value or null
      * @return $this
      */
-    public function withAlternativeInformation(string $measurement_item_label, array $values) : self
+    public function withAlternativeInformation(string $measurement_item_label, array $values): self
     {
         $this->checkDimensionCongruenceForValues($values);
 
@@ -126,12 +128,12 @@ class Dataset
         return $clone;
     }
 
-    public function getAlternativeInformation() : array
+    public function getAlternativeInformation(): array
     {
         return $this->alternative_information;
     }
 
-    public function getAlternativeInformationPerDimension() : array
+    public function getAlternativeInformationPerDimension(): array
     {
         $alternative_information_restructured = [];
         foreach ($this->getAlternativeInformation() as $measurement_item_label => $alternative_information_for_dimensions) {
@@ -146,7 +148,7 @@ class Dataset
     /**
      * Returns an empty Dataset clone
      */
-    public function withResetDataset() : self
+    public function withResetDataset(): self
     {
         $clone = clone $this;
         $clone->points = [];
@@ -154,7 +156,7 @@ class Dataset
         return $clone;
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         if (empty($this->getPoints())) {
             return true;
@@ -162,7 +164,7 @@ class Dataset
         return false;
     }
 
-    public function getMinValueForDimension(string $dimension_name) : float
+    public function getMinValueForDimension(string $dimension_name): float
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException(
@@ -187,7 +189,7 @@ class Dataset
         return (float) $min;
     }
 
-    public function getMaxValueForDimension(string $dimension_name) : float
+    public function getMaxValueForDimension(string $dimension_name): float
     {
         if ($this->isEmpty()) {
             throw new \RuntimeException(

@@ -27,7 +27,7 @@
 */
 class ilTestSearch extends ilAbstractSearch
 {
-    public function __searchTestIntroduction() : ilSearchResult
+    public function __searchTestIntroduction(): ilSearchResult
     {
         $this->setFields(array('introduction'));
 
@@ -50,7 +50,7 @@ class ilTestSearch extends ilAbstractSearch
         return $this->search_result;
     }
 
-    public function __searchTestTitle() : ilSearchResult
+    public function __searchTestTitle(): ilSearchResult
     {
         $this->setFields(array('title','description'));
 
@@ -72,7 +72,7 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function __searchSurveyIntroduction() : ilSearchResult
+    public function __searchSurveyIntroduction(): ilSearchResult
     {
         $this->setFields(array('introduction'));
 
@@ -94,7 +94,7 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function __searchSurveyTitle() : ilSearchResult
+    public function __searchSurveyTitle(): ilSearchResult
     {
         $this->setFields(array('title','description'));
 
@@ -118,7 +118,7 @@ class ilTestSearch extends ilAbstractSearch
     }
 
 
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         $this->__searchTestTitle();
         $this->__searchTestIntroduction();

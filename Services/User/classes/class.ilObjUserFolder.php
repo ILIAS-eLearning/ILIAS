@@ -37,14 +37,14 @@ class ilObjUserFolder extends ilObject
     }
 
 
-    public function delete() : bool
+    public function delete(): bool
     {
         return false;
     }
 
     public function getExportFilename(
         string $a_mode = self::FILE_TYPE_EXCEL
-    ) : string {
+    ): string {
         $filename = "";
         $inst_id = IL_INST_ID;
 
@@ -64,7 +64,7 @@ class ilObjUserFolder extends ilObject
         return $filename;
     }
 
-    public function getExportDirectory() : string
+    public function getExportDirectory(): string
     {
         $export_dir = ilFileUtils::getDataDir() . "/usrf_data/export";
 
@@ -75,7 +75,7 @@ class ilObjUserFolder extends ilObject
      * Get a list of the already exported files in the export directory
      * @return array<string,string>[]
      */
-    public function getExportFiles() : array
+    public function getExportFiles(): array
     {
         $dir = $this->getExportDirectory();
 
@@ -111,7 +111,7 @@ class ilObjUserFolder extends ilObject
         return $file;
     }
 
-    protected function escapeXML(string $value) : string
+    protected function escapeXML(string $value): string
     {
         $value = str_replace(["&", "<", ">"], ["&amp;", "&lt;", "&gt;"], $value);
         return $value;
@@ -121,7 +121,7 @@ class ilObjUserFolder extends ilObject
         array $settings,
         array $data,
         string $filename
-    ) : void {
+    ): void {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
@@ -146,7 +146,7 @@ class ilObjUserFolder extends ilObject
     /**
      * Get all exportable user defined fields
      */
-    protected function getUserDefinedExportFields() : array // Missing array type.
+    protected function getUserDefinedExportFields(): array // Missing array type.
     {
         $udf_obj = ilUserDefinedFields::_getInstance();
 
@@ -165,7 +165,7 @@ class ilObjUserFolder extends ilObject
         array $settings,
         array $data,
         string $filename
-    ) : void {
+    ): void {
 
         // header
         $headerrow = array();
@@ -211,10 +211,10 @@ class ilObjUserFolder extends ilObject
         array $settings,
         array $data,
         string $filename
-    ) : void {
+    ): void {
         $worksheet = new ilExcel();
         $worksheet->addSheet($this->lng->txt("users"));
-        
+
         $row = 1;
         $col = 0;
 
@@ -263,7 +263,7 @@ class ilObjUserFolder extends ilObject
                             : null;
                         $worksheet->setCell($row, $col, $value);
                         break;
-                        
+
                     case "interests_general":
                     case "interests_help_offered":
                     case "interests_help_looking":
@@ -273,7 +273,7 @@ class ilObjUserFolder extends ilObject
                             $value = null;
                         }
                         // fallthrough
-                        
+
                         // no break
                     default:
                         $worksheet->setCell($row, $col, $value);
@@ -292,21 +292,21 @@ class ilObjUserFolder extends ilObject
                 }
             }
         }
-        
+
         $worksheet->writeToFile($filename);
     }
 
     /**
      * @return array of exportable fields
      */
-    public static function getExportSettings() : array // Missing array type.
+    public static function getExportSettings(): array // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
         $db_settings = array();
-        
+
         $up = new ilUserProfile();
         $up->skipField("roles");
         $profile_fields = $up->getStandardFields();
@@ -359,7 +359,7 @@ class ilObjUserFolder extends ilObject
         string $a_mode = self::FILE_TYPE_EXCEL,
         ?array $user_data_filter = null,
         bool $use_temp_dir = false
-    ) : string {
+    ): string {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -378,7 +378,7 @@ class ilObjUserFolder extends ilObject
         //get data
         //$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
         $settings = self::getExportSettings();
-        
+
         // user languages
         $query = "SELECT * FROM usr_pref WHERE keyword = " . $ilDB->quote('language', 'text');
         $res = $ilDB->query($query);
@@ -386,7 +386,7 @@ class ilObjUserFolder extends ilObject
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $languages[$row['usr_id']] = $row['value'];
         }
-        
+
         // multi-text
         $multi = array();
         $set = $ilDB->query("SELECT * FROM usr_data_multi");
@@ -396,7 +396,7 @@ class ilObjUserFolder extends ilObject
                 $multi[$row["usr_id"]][$row["field_id"]][] = $row["value"];
             }
         }
-        
+
         $data = array();
         $query = "SELECT usr_data.* FROM usr_data  " .
             " ORDER BY usr_data.lastname, usr_data.firstname";
@@ -407,11 +407,11 @@ class ilObjUserFolder extends ilObject
             } else {
                 $row['language'] = $lng->getDefaultLanguage();
             }
-            
+
             if (isset($multi[$row["usr_id"]])) {
                 $row = array_merge($row, $multi[$row["usr_id"]]);
             }
-            
+
             if (is_array($user_data_filter)) {
                 if (in_array($row["usr_id"], $user_data_filter)) {
                     $data[] = $row;
@@ -440,7 +440,7 @@ class ilObjUserFolder extends ilObject
     /**
      * creates data directory for export files
      */
-    protected function createExportDirectory() : void
+    protected function createExportDirectory(): void
     {
         if (!is_dir($this->getExportDirectory())) {
             $usrf_data_dir = ilFileUtils::getDataDir() . "/usrf_data";
@@ -459,12 +459,12 @@ class ilObjUserFolder extends ilObject
         }
     }
 
-    
+
     /**
      * Get profile fields
      * @deprecated use ilUserProfile() instead
      */
-    public static function getProfileFields() : array // Missing array type.
+    public static function getProfileFields(): array // Missing array type.
     {
         $up = new ilUserProfile();
         $up->skipField("username");
@@ -486,11 +486,11 @@ class ilObjUserFolder extends ilObject
         string $a_sal_f,
         string $a_sal_m,
         string $a_body
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (self::_lookupNewAccountMail($a_lang)) {
             $values = array(
                 'subject' => array('text',$a_subject),
@@ -526,17 +526,17 @@ class ilObjUserFolder extends ilObject
         string $a_lang,
         string $a_tmp_name,
         string $a_name
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
         $fs->create();
         $path = $fs->getAbsolutePath() . "/";
 
         ilFileUtils::moveUploadedFile($a_tmp_name, $a_lang, $path . $a_lang);
-        
+
         $ilDB->update(
             'mail_template',
             array('att_file' => array('text', $a_name)),
@@ -549,11 +549,11 @@ class ilObjUserFolder extends ilObject
      */
     public static function _deleteAccountMailAttachment(
         string $a_lang
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
         $path = $fs->getAbsolutePath() . "/";
 
@@ -572,7 +572,7 @@ class ilObjUserFolder extends ilObject
      * @param string $a_lang
      * @return array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
      */
-    public static function _lookupNewAccountMail(string $a_lang) : array
+    public static function _lookupNewAccountMail(string $a_lang): array
     {
         global $DIC;
 
@@ -596,11 +596,11 @@ class ilObjUserFolder extends ilObject
     public static function _updateUserFolderAssignment(
         int $a_old_id,
         int $a_new_id
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "UPDATE usr_data SET time_limit_owner = " . $ilDB->quote($a_new_id, "integer") . " " .
             "WHERE time_limit_owner = " . $ilDB->quote($a_old_id, "integer") . " ";
         $ilDB->manipulate($query);

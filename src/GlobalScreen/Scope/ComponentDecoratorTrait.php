@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,14 +39,14 @@ trait ComponentDecoratorTrait
      * @param Closure $component_decorator
      * @return isGlobalScreenItem
      */
-    public function addComponentDecorator(Closure $component_decorator) : isGlobalScreenItem
+    public function addComponentDecorator(Closure $component_decorator): isGlobalScreenItem
     {
         if (!$this->checkClosure($component_decorator)) {
             throw new LogicException('first argument and return value of closure must be type-hinted to \ILIAS\UI\Component\Component');
         }
         if ($this->component_decorator instanceof Closure) {
             $existing = $this->component_decorator;
-            $this->component_decorator = static function (Component $c) use ($component_decorator, $existing) : Component {
+            $this->component_decorator = static function (Component $c) use ($component_decorator, $existing): Component {
                 $component = $existing($c);
 
                 return $component_decorator($component);
@@ -59,12 +61,12 @@ trait ComponentDecoratorTrait
     /**
      * @return Closure|null
      */
-    public function getComponentDecorator() : ?Closure
+    public function getComponentDecorator(): ?Closure
     {
         return $this->component_decorator;
     }
 
-    private function checkClosure(Closure $c) : bool
+    private function checkClosure(Closure $c): bool
     {
         try {
             $r = new ReflectionFunction($c);

@@ -22,14 +22,14 @@ abstract class arStatement
 {
     protected string $table_name_as = '';
 
-    abstract public function asSQLStatement(ActiveRecord $ar) : string;
+    abstract public function asSQLStatement(ActiveRecord $ar): string;
 
-    public function getTableNameAs() : string
+    public function getTableNameAs(): string
     {
         return $this->table_name_as;
     }
 
-    public function setTableNameAs(string $table_name_as) : void
+    public function setTableNameAs(string $table_name_as): void
     {
         $this->table_name_as = $table_name_as;
     }

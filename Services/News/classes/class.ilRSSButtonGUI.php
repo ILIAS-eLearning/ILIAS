@@ -39,7 +39,7 @@ class ilRSSButtonGUI
     public static function get(
         string $a_type,
         string $a_href = ""
-    ) : string {
+    ): string {
         $tpl = new ilTemplate("tpl.rss_icon.html", true, true, "Services/News");
 
         if ($a_href !== "") {

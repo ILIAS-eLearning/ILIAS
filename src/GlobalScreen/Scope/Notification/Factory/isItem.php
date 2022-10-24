@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,15 +29,14 @@ use ILIAS\UI\Factory as UIFactory;
  */
 interface isItem
 {
-    
     /**
      * @return IdentificationInterface
      */
-    public function getProviderIdentification() : IdentificationInterface;
-    
+    public function getProviderIdentification(): IdentificationInterface;
+
     /**
      * @param UIFactory $factory
      * @return NotificationRenderer
      */
-    public function getRenderer(UIFactory $factory) : NotificationRenderer;
+    public function getRenderer(UIFactory $factory): NotificationRenderer;
 }

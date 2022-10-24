@@ -44,14 +44,14 @@ abstract class AbstractBaseTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->id_generator = new DummyIDGenerator();
         $this->db_mock = $this->getMockBuilder(\ilDBInterface::class)->getMock();
     }
 
-    protected function getDummyUploadResult(string $file_name, string $mime_type, int $size) : UploadResult
+    protected function getDummyUploadResult(string $file_name, string $mime_type, int $size): UploadResult
     {
         return new UploadResult(
             $file_name,
@@ -63,12 +63,12 @@ abstract class AbstractBaseTest extends TestCase
         );
     }
 
-    public function getDummyStream() : FileStream
+    public function getDummyStream(): FileStream
     {
         return Streams::ofString('dummy_content');
     }
 
-    protected function getDummyFileRevision(ResourceIdentification $id) : \ILIAS\ResourceStorage\Revision\FileRevision
+    protected function getDummyFileRevision(ResourceIdentification $id): \ILIAS\ResourceStorage\Revision\FileRevision
     {
         return new FileRevision($id);
     }

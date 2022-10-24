@@ -54,7 +54,7 @@ class ilUserAvatarResolver
         $this->init();
     }
 
-    private function init() : void
+    private function init(): void
     {
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
@@ -98,7 +98,7 @@ class ilUserAvatarResolver
         }
     }
 
-    private function useUploadedFile() : bool
+    private function useUploadedFile(): bool
     {
         return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
     }
@@ -108,7 +108,7 @@ class ilUserAvatarResolver
      *                                           text for screenreaders will be set differently, to reduce redundancy
      *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
      */
-    public function getAvatar(bool $name_as_set_as_text_closely = false) : Avatar
+    public function getAvatar(bool $name_as_set_as_text_closely = false): Avatar
     {
         if ($name_as_set_as_text_closely) {
             $alternative_text = $this->lng->txt("user_avatar");
@@ -134,7 +134,7 @@ class ilUserAvatarResolver
         return $this->ui->symbol()->avatar()->letter($this->abbreviation)->withLabel($alternative_text);
     }
 
-    public function getLegacyPictureURL() : string
+    public function getLegacyPictureURL(): string
     {
         global $DIC;
         if ($this->useUploadedFile()) {
@@ -149,12 +149,12 @@ class ilUserAvatarResolver
         return $avatar->getUrl();
     }
 
-    public function setForcePicture(bool $force_image) : void
+    public function setForcePicture(bool $force_image): void
     {
         $this->force_image = $force_image;
     }
 
-    public function setSize(string $size) : void
+    public function setSize(string $size): void
     {
         if ($size === 'small' || $size === 'big') {
             $size = 'xsmall';

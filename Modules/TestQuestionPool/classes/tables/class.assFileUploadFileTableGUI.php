@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 *
@@ -55,7 +68,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function hasPostVar() : bool
+    protected function hasPostVar(): bool
     {
         return (bool) strlen($this->getPostVar());
     }
@@ -63,7 +76,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPostVar() : string
+    public function getPostVar(): string
     {
         return $this->postVar;
     }
@@ -71,14 +84,14 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @param string $postVar
      */
-    public function setPostVar($postVar) : void
+    public function setPostVar($postVar): void
     {
         $this->postVar = $postVar;
     }
     // hey.
 
     // hey: prevPassSolutions - support file reuse with table
-    public function initCommand(ilAssFileUploadFileTableCommandButton $commandButton, $postVar) : void
+    public function initCommand(ilAssFileUploadFileTableCommandButton $commandButton, $postVar): void
     {
         if (count($this->getData())) {
             $this->enable('select_all');
@@ -99,7 +112,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
      * @param
      * @return void
      */
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -121,7 +134,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @param $a_set
      */
-    protected function buildFileItemContent($a_set) : string
+    protected function buildFileItemContent($a_set): string
     {
         if (!isset($a_set['webpath']) || !strlen($a_set['webpath'])) {
             return ilLegacyFormElementsUtil::prepareFormOutput($a_set['value2']);
@@ -129,7 +142,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 
         $link = "<a href='{$a_set['webpath']}{$a_set['value1']}' download target='_blank'>";
         $link .= ilLegacyFormElementsUtil::prepareFormOutput($a_set['value2']) . '</a>';
-        
+
         return $link;
     }
     // hey.

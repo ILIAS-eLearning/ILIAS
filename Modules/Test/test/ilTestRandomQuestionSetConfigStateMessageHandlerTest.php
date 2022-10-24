@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestRandomQuestionSetConfigStateMessageHandlerTest
@@ -10,7 +26,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
 {
     private ilTestRandomQuestionSetConfigStateMessageHandler $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -20,12 +36,12 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetConfigStateMessageHandler::class, $this->testObj);
     }
 
-    public function testLostPools() : void
+    public function testLostPools(): void
     {
         $expected = [
             new ilTestRandomQuestionSetNonAvailablePool(),
@@ -37,7 +53,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         $this->assertEquals($expected, $this->testObj->getLostPools());
     }
 
-    public function testParticipantDataExists() : void
+    public function testParticipantDataExists(): void
     {
         $this->testObj->setParticipantDataExists(false);
         $this->assertFalse($this->testObj->doesParticipantDataExists());
@@ -46,27 +62,27 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         $this->assertTrue($this->testObj->doesParticipantDataExists());
     }
 
-    public function testTargetGUI() : void
+    public function testTargetGUI(): void
     {
         $targetGui_mock = $this->createMock(ilTestRandomQuestionSetConfigGUI::class);
         $this->testObj->setTargetGUI($targetGui_mock);
         $this->assertEquals($targetGui_mock, $this->testObj->getTargetGUI());
     }
 
-    public function testContext() : void
+    public function testContext(): void
     {
         $this->testObj->setContext("test");
         $this->assertEquals("test", $this->testObj->getContext());
     }
 
-    public function testQuestionSetConfig() : void
+    public function testQuestionSetConfig(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetConfig::class);
         $this->testObj->setQuestionSetConfig($mock);
         $this->assertEquals($mock, $this->testObj->getQuestionSetConfig());
     }
 
-    public function testValidationFailed() : void
+    public function testValidationFailed(): void
     {
         $this->testObj->setValidationFailed(false);
         $this->assertFalse($this->testObj->isValidationFailed());
@@ -75,7 +91,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         $this->assertTrue($this->testObj->isValidationFailed());
     }
 
-    public function testHasValidationReport() : void
+    public function testHasValidationReport(): void
     {
         $expected = [
             "test1",
@@ -86,7 +102,7 @@ class ilTestRandomQuestionSetConfigStateMessageHandlerTest extends ilTestBaseTes
         $this->assertEquals(2, $this->testObj->hasValidationReports());
     }
 
-    public function testGetValidationReportHtml() : void
+    public function testGetValidationReportHtml(): void
     {
         $expected = "test1<br />test2";
         $this->testObj->addValidationReport("test1");

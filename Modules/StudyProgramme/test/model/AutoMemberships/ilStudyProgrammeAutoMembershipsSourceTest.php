@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     protected int $usr_id;
     protected DateTimeImmutable $dat;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->prg_obj_id = 123;
         $this->source_type = ilStudyProgrammeAutoMembershipSource::TYPE_ROLE;
@@ -37,7 +39,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
         $this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
     }
 
-    public function testConstruction() : ilStudyProgrammeAutoMembershipSource
+    public function testConstruction(): ilStudyProgrammeAutoMembershipSource
     {
         $ams = new ilStudyProgrammeAutoMembershipSource(
             $this->prg_obj_id,
@@ -57,7 +59,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetPrgObjId(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function testGetPrgObjId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
             $this->prg_obj_id,
@@ -68,7 +70,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetSourceType(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function testGetSourceType(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
             $this->source_type,
@@ -78,7 +80,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetSourceId(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function testGetSourceId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
             $this->source_id,
@@ -89,7 +91,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEditorId(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function testGetLastEditorId(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
             $this->usr_id,
@@ -100,7 +102,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEdited(ilStudyProgrammeAutoMembershipSource $ams) : void
+    public function testGetLastEdited(ilStudyProgrammeAutoMembershipSource $ams): void
     {
         $this->assertEquals(
             $this->dat,

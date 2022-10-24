@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilFileObjectToStorageDirectory
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -41,7 +41,7 @@ class ilFileObjectToStorageDirectory
         $this->initVersions();
     }
 
-    private function initVersions() : void
+    private function initVersions(): void
     {
         $history_data = $this->getHistoryData();
 
@@ -84,7 +84,7 @@ class ilFileObjectToStorageDirectory
     }
 
 
-    private function getHistoryData() : array
+    private function getHistoryData(): array
     {
         $info = ilHistory::_getEntriesForObject($this->object_id, 'file');
         $history_data = [];
@@ -106,7 +106,7 @@ class ilFileObjectToStorageDirectory
     /**
      * @return Generator|ilFileObjectToStorageVersion[]
      */
-    public function getVersions() : Generator
+    public function getVersions(): Generator
     {
         yield from $this->versions;
     }
@@ -114,17 +114,17 @@ class ilFileObjectToStorageDirectory
     /**
      * @return int
      */
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->object_id;
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
     }
 
-    public static function parseInfoParams(array $entry) : array
+    public static function parseInfoParams(array $entry): array
     {
         $data = explode(",", $entry["info_params"]);
 

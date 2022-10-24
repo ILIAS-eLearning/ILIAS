@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -33,16 +35,16 @@ require_once 'libs/composer/vendor/autoload.php';
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 class ilServicesGlobalCacheSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
-        
+
         require_once("./Services/GlobalCache/test/ilServicesGlobalCacheTest.php");
         $suite->addTestSuite("ilServicesGlobalCacheTest");
-        
+
         return $suite;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,7 +34,7 @@
 class ilLuceneSearchResultParser
 {
     private string $xml;
-    
+
     /**
      * Constructor
      */
@@ -40,22 +42,22 @@ class ilLuceneSearchResultParser
     {
         $this->xml = $a_xml;
     }
-    
+
 
     /**
      * get xml
      * @param
      * @return string
      */
-    public function getXML() : string
+    public function getXML(): string
     {
         return $this->xml;
     }
-    
+
     /**
      * Parse XML
      */
-    public function parse(ilLuceneSearchResult $result) : ilLuceneSearchResult
+    public function parse(ilLuceneSearchResult $result): ilLuceneSearchResult
     {
         if (!strlen($this->getXML())) {
             return $result;
@@ -64,7 +66,7 @@ class ilLuceneSearchResultParser
         $result->setLimit($result->getLimit() + (int) ((string) $hits['limit']));
         $result->setMaxScore((int) $hits['maxScore']);
         $result->setTotalHits((int) $hits['totalHits']);
-        
+
         foreach ($hits->children() as $object) {
             if (isset($object['absoluteScore'])) {
                 $result->addObject((int) $object['id'], (float) $object['absoluteScore']);

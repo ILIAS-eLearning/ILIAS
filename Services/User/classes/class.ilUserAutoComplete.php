@@ -26,7 +26,7 @@ class ilUserAutoComplete
     public const SEARCH_TYPE_EQUALS = 2;
     public const PRIVACY_MODE_RESPECT_USER_SETTING = 1;
     public const PRIVACY_MODE_IGNORE_USER_SETTING = 2;
-    
+
     private ?ilLogger $logger = null;
     private bool $searchable_check = false;
     private bool $user_access_check = true;
@@ -34,7 +34,7 @@ class ilUserAutoComplete
     private string $result_field;
     private int $search_type;
     private int $privacy_mode;
-    private ilObjUser $user;
+    private ?ilObjUser $user = null;
     private int $limit = 0;
     private bool $user_limitations = true;
     private bool $respect_min_search_character_count = true;
@@ -44,21 +44,21 @@ class ilUserAutoComplete
     public function __construct()
     {
         global $DIC;
-        
+
         $this->result_field = 'login';
 
         $this->setSearchType(self::SEARCH_TYPE_LIKE);
         $this->setPrivacyMode(self::PRIVACY_MODE_IGNORE_USER_SETTING);
-        
+
         $this->logger = $DIC->logger()->user();
     }
 
-    public function respectMinimumSearchCharacterCount(bool $a_status) : void
+    public function respectMinimumSearchCharacterCount(bool $a_status): void
     {
         $this->respect_min_search_character_count = $a_status;
     }
 
-    public function getRespectMinimumSearchCharacterCount() : bool
+    public function getRespectMinimumSearchCharacterCount(): bool
     {
         return $this->respect_min_search_character_count;
     }
@@ -71,47 +71,47 @@ class ilUserAutoComplete
      * return $filtered_users
      * }
      */
-    public function addUserAccessFilterCallable(Closure $user_filter) : void
+    public function addUserAccessFilterCallable(Closure $user_filter): void
     {
         $this->user_filter = $user_filter;
     }
-    
-    public function setLimit(int $a_limit) : void
+
+    public function setLimit(int $a_limit): void
     {
         $this->limit = $a_limit;
     }
-    
-    public function getLimit() : int
+
+    public function getLimit(): int
     {
         return $this->limit;
     }
 
-    public function setSearchType(int $search_type) : void
+    public function setSearchType(int $search_type): void
     {
         $this->search_type = $search_type;
     }
 
-    public function getSearchType() : int
+    public function getSearchType(): int
     {
         return $this->search_type;
     }
 
-    public function setPrivacyMode(int $privacy_mode) : void
+    public function setPrivacyMode(int $privacy_mode): void
     {
         $this->privacy_mode = $privacy_mode;
     }
 
-    public function getPrivacyMode() : int
+    public function getPrivacyMode(): int
     {
         return $this->privacy_mode;
     }
 
-    public function setUser(ilObjUser $user) : void
+    public function setUser(ilObjUser $user): void
     {
         $this->user = $user;
     }
 
-    public function getUser() : ilObjUser
+    public function getUser(): ?ilObjUser
     {
         return $this->user;
     }
@@ -119,12 +119,12 @@ class ilUserAutoComplete
     /**
      * Enable the check whether the field is searchable in Administration -> Settings -> Standard Fields
      */
-    public function enableFieldSearchableCheck(bool $a_status) : void
+    public function enableFieldSearchableCheck(bool $a_status): void
     {
         $this->searchable_check = $a_status;
     }
 
-    public function isFieldSearchableCheckEnabled() : bool
+    public function isFieldSearchableCheckEnabled(): bool
     {
         return $this->searchable_check;
     }
@@ -133,7 +133,7 @@ class ilUserAutoComplete
      * Enable user access check.
      * @see Administration -> User Accounts -> Settings -> General Settings
      */
-    public function enableUserAccessCheck(bool $a_status) : void
+    public function enableUserAccessCheck(bool $a_status): void
     {
         $this->user_access_check = $a_status;
     }
@@ -141,7 +141,7 @@ class ilUserAutoComplete
     /**
      * Check if user access check is enabled
      */
-    public function isUserAccessCheckEnabled() : bool
+    public function isUserAccessCheckEnabled(): bool
     {
         return $this->user_access_check;
     }
@@ -149,7 +149,7 @@ class ilUserAutoComplete
     /**
      * Set searchable fields
      */
-    public function setSearchFields(array $a_fields) : void // Missing array type.
+    public function setSearchFields(array $a_fields): void // Missing array type.
     {
         $this->possible_fields = $a_fields;
     }
@@ -157,7 +157,7 @@ class ilUserAutoComplete
     /**
      * get possible search fields
      */
-    public function getSearchFields() : array // Missing array type.
+    public function getSearchFields(): array // Missing array type.
     {
         return $this->possible_fields;
     }
@@ -165,7 +165,7 @@ class ilUserAutoComplete
     /**
      * Get searchable fields
      */
-    protected function getFields() : array // Missing array type.
+    protected function getFields(): array // Missing array type.
     {
         if (!$this->isFieldSearchableCheckEnabled()) {
             return $this->getSearchFields();
@@ -182,7 +182,7 @@ class ilUserAutoComplete
     /**
      * Set result field
      */
-    public function setResultField(string $a_field) : void
+    public function setResultField(string $a_field): void
     {
         $this->result_field = $a_field;
     }
@@ -190,11 +190,11 @@ class ilUserAutoComplete
     /**
      * Get completion list
      */
-    public function getList(string $a_str) : string
+    public function getList(string $a_str): string
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $parsed_query = $this->parseQueryString($a_str);
 
         if (ilStr::strLen($parsed_query['query']) < ilQueryParser::MIN_WORD_LENGTH) {
@@ -224,12 +224,12 @@ class ilUserAutoComplete
         if ($this->isFieldSearchableCheckEnabled() && !ilUserSearchOptions::_isEnabled("email")) {
             $add_email = false;
         }
-        
+
         $add_second_email = true;
         if ($this->isFieldSearchableCheckEnabled() && !ilUserSearchOptions::_isEnabled("second_email")) {
             $add_second_email = false;
         }
-        
+
         $max = $this->getLimit() ?: ilSearchSettings::getInstance()->getAutoCompleteLength();
         $cnt = 0;
         $more_results = false;
@@ -260,11 +260,11 @@ class ilUserAutoComplete
             if ($add_email && $rec['email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['email_value'])) {
                 $label .= ', ' . $rec['email'];
             }
-            
+
             if ($add_second_email && $rec['second_email'] && (self::PRIVACY_MODE_RESPECT_USER_SETTING != $this->getPrivacyMode() || 'y' == $rec['second_email_value'])) {
                 $label .= ', ' . $rec['second_email'];
             }
-            
+
             $result[$cnt]['value'] = (string) $rec[$this->result_field];
             $result[$cnt]['label'] = $label;
             $result[$cnt]['id'] = $rec['usr_id'];
@@ -273,13 +273,13 @@ class ilUserAutoComplete
 
         $result_json['items'] = $result;
         $result_json['hasMoreResults'] = $more_results;
-        
+
         $this->logger->dump($result_json, ilLogLevel::DEBUG);
-        
+
         return json_encode($result_json, JSON_THROW_ON_ERROR);
     }
 
-    protected function getSelectPart() : string
+    protected function getSelectPart(): string
     {
         $fields = array(
             'ud.usr_id',
@@ -299,7 +299,7 @@ class ilUserAutoComplete
         return implode(', ', $fields);
     }
 
-    protected function getFromPart() : string
+    protected function getFromPart(): string
     {
         global $DIC;
 
@@ -315,7 +315,7 @@ class ilUserAutoComplete
             $joins[] = 'LEFT JOIN usr_pref pubemail
 				ON pubemail.usr_id = ud.usr_id
 				AND pubemail.keyword = ' . $ilDB->quote('public_email', 'text');
-            
+
             $joins[] = 'LEFT JOIN usr_pref pubsecondemail
 				ON pubsecondemail.usr_id = ud.usr_id
 				AND pubsecondemail.keyword = ' . $ilDB->quote('public_second_email', 'text');
@@ -328,7 +328,7 @@ class ilUserAutoComplete
         }
     }
 
-    protected function getWherePart(array $search_query) : string // Missing array type.
+    protected function getWherePart(array $search_query): string // Missing array type.
     {
         global $DIC;
 
@@ -356,7 +356,7 @@ class ilUserAutoComplete
         $field_conditions = array();
         foreach ($this->getFields() as $field) {
             $field_condition = $this->getQueryConditionByFieldAndValue($field, $search_query);
-            
+
             if ('email' == $field && self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode()) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
@@ -423,25 +423,25 @@ class ilUserAutoComplete
         return implode(' AND ', $outer_conditions);
     }
 
-    protected function getOrderByPart() : string
+    protected function getOrderByPart(): string
     {
         return 'login ASC';
     }
 
-    protected function getQueryConditionByFieldAndValue(string $field, array $query) : string // Missing array type.
+    protected function getQueryConditionByFieldAndValue(string $field, array $query): string // Missing array type.
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
         $query_strings = array($query['query']);
-        
+
         if (array_key_exists($field, $query)) {
             $query_strings = array($query[$field]);
         } elseif (array_key_exists('parts', $query)) {
             $query_strings = $query['parts'];
         }
-        
+
         $query_condition = '( ';
         $num = 0;
         foreach ($query_strings as $query_string) {
@@ -461,7 +461,7 @@ class ilUserAutoComplete
     /**
      * allow user limitations like inactive and access limitations
      */
-    public function setUserLimitations(bool $a_limitations) : void
+    public function setUserLimitations(bool $a_limitations): void
     {
         $this->user_limitations = $a_limitations;
     }
@@ -469,12 +469,12 @@ class ilUserAutoComplete
     /**
      * allow user limitations like inactive and access limitations
      */
-    public function getUserLimitations() : bool
+    public function getUserLimitations(): bool
     {
         return $this->user_limitations;
     }
 
-    public function isMoreLinkAvailable() : bool
+    public function isMoreLinkAvailable(): bool
     {
         return $this->more_link_available;
     }
@@ -482,28 +482,28 @@ class ilUserAutoComplete
     /**
      * IMPORTANT: remember to read request parameter 'fetchall' to use this function
      */
-    public function setMoreLinkAvailable(bool $more_link_available) : void
+    public function setMoreLinkAvailable(bool $more_link_available): void
     {
         $this->more_link_available = $more_link_available;
     }
-    
+
     /**
      * Parse query string
      */
-    public function parseQueryString(string $a_query) : array // Missing array type.
+    public function parseQueryString(string $a_query): array // Missing array type.
     {
         $query = array();
-        
+
         if (strpos($a_query, '\\') === false) {
             $a_query = str_replace(['%', '_'], ['\%', '\_'], $a_query);
         }
 
         $query['query'] = trim($a_query);
-        
+
         // "," means fixed search for lastname, firstname
         if (strpos($a_query, ',')) {
             $comma_separated = explode(',', $a_query);
-            
+
             if (count($comma_separated) == 2) {
                 if (trim($comma_separated[0])) {
                     $query['lastname'] = trim($comma_separated[0]);
@@ -520,9 +520,9 @@ class ilUserAutoComplete
                 }
             }
         }
-        
+
         $this->logger->dump($query, ilLogLevel::DEBUG);
-        
+
         return $query;
     }
 }

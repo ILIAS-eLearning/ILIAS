@@ -60,7 +60,7 @@ class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
     }
 
 
-    public function sendIssueMail() : void
+    public function sendIssueMail(): void
     {
         $back_url = $this->http->request()->getServerParams()['HTTP_REFERER'];
         $this->ctrl->redirectToURL(
@@ -80,7 +80,7 @@ class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
     /**
      * @return string
      */
-    private function getAccessibilityIssueMailMessage(string $back_url) : string
+    private function getAccessibilityIssueMailMessage(string $back_url): string
     {
         $sig = chr(13) . chr(10) . chr(13) . chr(10) . chr(13) . chr(10);
         $sig .= $this->lng->txt('report_accessibility_link');
@@ -96,7 +96,7 @@ class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
      *
      * @return string
      */
-    private function getContactLogins() : string
+    private function getContactLogins(): string
     {
         $logins = [];
 

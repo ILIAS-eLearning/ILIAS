@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEvaluationBaseTest
 {
-    public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll() : void
+    public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll(): void
     {
         $user = $this->getUserMock();
         $criterionTypeFactory = $this->getCriterionTypeFactoryMock();
@@ -42,7 +44,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch() : void
+    public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch(): void
     {
         $user = $this->getUserMock();
         $log = $this->getLogMock();
@@ -103,7 +105,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch() : void
+    public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch(): void
     {
         $user = $this->getUserMock();
         $log = $this->getLogMock();
@@ -164,7 +166,7 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertFalse($evaluator->evaluate($doc));
     }
 
-    public function testMutatingTheContextUserResultsInANewInstance() : void
+    public function testMutatingTheContextUserResultsInANewInstance(): void
     {
         $evaluator = new ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation(
             $this->getCriterionTypeFactoryMock(),

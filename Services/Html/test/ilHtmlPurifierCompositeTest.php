@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,15 +26,15 @@ use PHPUnit\Framework\TestCase;
  */
 class ilHtmlPurifierCompositeTest extends TestCase
 {
-    private function getFakePurifier() : ilHtmlPurifierInterface
+    private function getFakePurifier(): ilHtmlPurifierInterface
     {
-        return new class implements ilHtmlPurifierInterface {
-            public function purify(string $html) : string
+        return new class () implements ilHtmlPurifierInterface {
+            public function purify(string $html): string
             {
                 return $html . '.';
             }
 
-            public function purifyArray(array $htmlCollection) : array
+            public function purifyArray(array $htmlCollection): array
             {
                 foreach ($htmlCollection as $key => &$html) {
                     $html .= '.';
@@ -43,7 +45,7 @@ class ilHtmlPurifierCompositeTest extends TestCase
         };
     }
 
-    public function testPurifierNodesAreCalledIfStringGetsPurified() : void
+    public function testPurifierNodesAreCalledIfStringGetsPurified(): void
     {
         $purifier = new ilHtmlPurifierComposite();
 
@@ -63,7 +65,7 @@ class ilHtmlPurifierCompositeTest extends TestCase
         $this->assertSame('phpunit..', $purifier->purify('phpunit'));
     }
 
-    public function testPurifierNodesAreCalledIfArrayOfStringGetssPurified() : void
+    public function testPurifierNodesAreCalledIfArrayOfStringGetssPurified(): void
     {
         $purifier = new ilHtmlPurifierComposite();
 
@@ -82,18 +84,18 @@ class ilHtmlPurifierCompositeTest extends TestCase
             'phpunit3',
         ];
 
-        $this->assertSame(array_map(static function (string $html) : string {
+        $this->assertSame(array_map(static function (string $html): string {
             return $html . '...';
         }, $toPurify), $purifier->purifyArray($toPurify));
 
         $purifier->removePurifier($p2);
 
-        $this->assertSame(array_map(static function (string $html) : string {
+        $this->assertSame(array_map(static function (string $html): string {
             return $html . '..';
         }, $toPurify), $purifier->purifyArray($toPurify));
     }
 
-    public function invalidHtmlDataTypeProvider() : array
+    public function invalidHtmlDataTypeProvider(): array
     {
         return [
             'integer' => [5],
@@ -109,7 +111,7 @@ class ilHtmlPurifierCompositeTest extends TestCase
     /**
      * @dataProvider invalidHtmlDataTypeProvider
      */
-    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element) : void
+    public function testExceptionIsRaisedIfNonStringElementsArePassedForHtmlBatchProcessing($element): void
     {
         $this->expectException(InvalidArgumentException::class);
 

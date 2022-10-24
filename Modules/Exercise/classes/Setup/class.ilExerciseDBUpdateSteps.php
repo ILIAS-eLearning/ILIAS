@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,40 +27,40 @@ class ilExerciseDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         if (!$this->db->indexExistsByFields('exc_assignment', ['exc_id'])) {
             $this->db->addIndex('exc_assignment', ['exc_id'], 'i1');
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         if (!$this->db->indexExistsByFields('exc_members', ['usr_id'])) {
             $this->db->addIndex('exc_members', ['usr_id'], 'i1');
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         if (!$this->db->indexExistsByFields('exc_assignment', ['deadline_mode', 'exc_id'])) {
             $this->db->addIndex('exc_assignment', ['deadline_mode', 'exc_id'], 'i2');
         }
     }
 
-    public function step_4() : void
+    public function step_4(): void
     {
         if (!$this->db->indexExistsByFields('exc_ass_file_order', ['assignment_id'])) {
             $this->db->addIndex('exc_ass_file_order', ['assignment_id'], 'i1');
         }
     }
 
-    public function step_5() : void
+    public function step_5(): void
     {
         if (!$this->db->indexExistsByFields('il_exc_team', ['id'])) {
             $this->db->addIndex('il_exc_team', ['id'], 'i1');

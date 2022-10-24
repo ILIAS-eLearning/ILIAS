@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,7 +31,7 @@ class BasicScreenContext implements ScreenContext
     protected ReferenceId $reference_id;
     protected Collection $additional_data;
     protected string $context_identifier = '';
-    
+
     /**
      * BasicScreenContext constructor.
      * @param string $context_identifier
@@ -40,67 +42,67 @@ class BasicScreenContext implements ScreenContext
         $this->additional_data = new Collection();
         $this->reference_id = new ReferenceId(0);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function hasReferenceId() : bool
+    public function hasReferenceId(): bool
     {
         return $this->reference_id->toInt() > 0;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getReferenceId() : ReferenceId
+    public function getReferenceId(): ReferenceId
     {
         return $this->reference_id;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withReferenceId(ReferenceId $reference_id) : ScreenContext
+    public function withReferenceId(ReferenceId $reference_id): ScreenContext
     {
         $clone = clone $this;
         $clone->reference_id = $reference_id;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function withAdditionalData(Collection $collection) : ScreenContext
+    public function withAdditionalData(Collection $collection): ScreenContext
     {
         $clone = clone $this;
         $clone->additional_data = $collection;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getAdditionalData() : Collection
+    public function getAdditionalData(): Collection
     {
         return $this->additional_data;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function addAdditionalData(string $key, $value) : ScreenContext
+    public function addAdditionalData(string $key, $value): ScreenContext
     {
         $this->additional_data->add($key, $value);
-        
+
         return $this;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getUniqueContextIdentifier() : string
+    public function getUniqueContextIdentifier(): string
     {
         return $this->context_identifier;
     }

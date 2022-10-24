@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\Data\Chart\Dataset;
@@ -26,7 +28,7 @@ class Factory implements \ILIAS\UI\Component\Chart\Bar\Factory
         string $title,
         Dataset $dataset,
         array $bar_configs = []
-    ) : Vertical {
+    ): Vertical {
         return new Vertical($title, $dataset, $bar_configs);
     }
 
@@ -34,7 +36,7 @@ class Factory implements \ILIAS\UI\Component\Chart\Bar\Factory
         string $title,
         Dataset $dataset,
         array $bar_configs = []
-    ) : Horizontal {
+    ): Horizontal {
         return new Horizontal($title, $dataset, $bar_configs);
     }
 }

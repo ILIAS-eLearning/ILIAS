@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,22 +49,22 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
             $DIC->refinery()
         );
     }
-    
-    public function saveObject() : void
+
+    public function saveObject(): void
     {
         parent::saveObject();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         exit();
     }
 
-    public function removeFromSystemObject() : void
+    public function removeFromSystemObject(): void
     {
         $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($this->admin_request->getSelectedIds(), true);
         $this->ctrl->redirect($this, "view");
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -84,12 +86,12 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         }
     }
 
-    protected function showPossibleSubObjects() : void
+    protected function showPossibleSubObjects(): void
     {
         $this->sub_objects = "";
     }
-    
-    public function getActions() : array
+
+    public function getActions(): array
     {
         // standard actions for container
         return array(

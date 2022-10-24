@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,7 +20,7 @@ declare(strict_types=1);
 
 final class ilObjTalkTemplateAdministration extends ilContainer
 {
-    const TABLE_NAME = 'etal_data';
+    public const TABLE_NAME = 'etal_data';
 
     private static int $root_ref_id = -1;
     protected static int $root_id = -1;
@@ -57,7 +58,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
     /**
      * @return int
      */
-    public static function getRootRefId() : int
+    public static function getRootRefId(): int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -68,7 +69,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
     /**
      * @return int
      */
-    public static function getRootObjId() : int
+    public static function getRootObjId(): int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -76,7 +77,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
     }
 
 
-    private static function loadRootOrgRefIdAndId() : void
+    private static function loadRootOrgRefIdAndId(): void
     {
         if (self::$root_ref_id === -1 || self::$root_id === -1) {
             global $DIC;

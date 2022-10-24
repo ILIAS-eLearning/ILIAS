@@ -33,7 +33,7 @@ class OrgUnitUserService
      * @param int[] $user_ids
      * @return string[]
      */
-    public function getEmailAdressesOfSuperiors(array $user_ids) : array
+    public function getEmailAdressesOfSuperiors(array $user_ids): array
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->withSuperiors();

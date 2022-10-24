@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilSessionIStorage
     private string $session_id = "";
     private string $component_id;
     private static array $values = [];
-    
+
     /**
      * Constructor
      *
@@ -58,24 +60,24 @@ class ilSessionIStorage
         }
     }
 
-    private function initComponentCacheIfNotExists() : void
+    private function initComponentCacheIfNotExists(): void
     {
         if (!isset(self::$values[$this->component_id]) || !is_array(self::$values[$this->component_id])) {
             self::$values[$this->component_id] = [];
         }
     }
-    
+
     /**
      * Set a value
      *
      * @param string $a_val value
      */
-    public function set(string $a_key, string $a_val) : void
+    public function set(string $a_key, string $a_val): void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $this->initComponentCacheIfNotExists();
 
         self::$values[$this->component_id][$a_key] = $a_val;
@@ -94,16 +96,16 @@ class ilSessionIStorage
      * @param string $a_key
      * @return string
      */
-    public function get(string $a_key) : string
+    public function get(string $a_key): string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (isset(self::$values[$this->component_id][$a_key]) && is_array(self::$values[$this->component_id])) {
             return self::$values[$this->component_id][$a_key];
         }
-        
+
         $set = $ilDB->query(
             "SELECT value FROM usr_sess_istorage " .
             " WHERE session_id = " . $ilDB->quote($this->session_id, "text") .
@@ -119,15 +121,15 @@ class ilSessionIStorage
 
         return $value;
     }
-    
+
     /**
      * Destroy session(s). This is called by ilSession->destroy
      * @param $a_session_id string|array ids of sessions to be deleted
      */
-    public static function destroySession($a_session_id) : void
+    public static function destroySession($a_session_id): void
     {
         global $DIC;
-        
+
         if (!is_array($a_session_id)) {
             $q = "DELETE FROM usr_sess_istorage WHERE session_id = " .
                 $DIC->database()->quote($a_session_id, "text");
@@ -135,7 +137,7 @@ class ilSessionIStorage
             $q = "DELETE FROM usr_sess_istorage WHERE " .
                 $DIC->database()->in("session_id", $a_session_id, false, "text");
         }
-    
+
         $DIC->database()->manipulate($q);
     }
 }

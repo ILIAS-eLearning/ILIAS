@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@
  */
 class ilSCORM2004StoreData
 {
-    public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null) : void
+    public static function scormPlayerUnload(int $packageId, int $refId, bool $time_from_lms, ?int $userId = null): void
     {
         global $DIC;
 
@@ -86,7 +88,7 @@ class ilSCORM2004StoreData
         print("");
     }
 
-    public static function checkIfAllowed(int $packageId, int $userId, string $hash) : void
+    public static function checkIfAllowed(int $packageId, int $userId, int $hash): void
     {
         global $DIC;
 
@@ -97,14 +99,14 @@ class ilSCORM2004StoreData
             array($packageId, $userId, date('Y-m-d H:i:s'))
         );
         $rowtmp = $ilDB->fetchAssoc($res);
-        if ((string) $rowtmp['hash'] == $hash) {
+        if ((int) $rowtmp['hash'] == $hash) {
             return;
         }
 
         die("not allowed");
     }
 
-    protected static function ensureObjectDataCacheExistence() : void
+    protected static function ensureObjectDataCacheExistence(): void
     {
         /**
          * @var $ilObjDataCache ilObjectDataCache
@@ -130,7 +132,7 @@ class ilSCORM2004StoreData
         bool $time_from_lms,
         ?string $data = null,
         ?int $userId = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilLog = ilLoggerFactory::getLogger('sc13');
@@ -195,7 +197,7 @@ class ilSCORM2004StoreData
         bool $getComments,
         bool $getInteractions,
         bool $getObjectives
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -220,11 +222,11 @@ class ilSCORM2004StoreData
                 continue;
             }
 
-            $ilLog->write("SCORM: setCMIData, table -" . $table . "-");
+            $ilLog->debug("SCORM: setCMIData, table -" . $table . "-");
 
             // now iterate through data rows from input
             foreach ($data->$table as &$row) {
-                $ilLog->write("Checking table: " . $table);
+                $ilLog->debug("Checking table: " . $table);
 
                 switch ($table) {
                     case 'node': //is always first and has only 1 row
@@ -235,14 +237,15 @@ class ilSCORM2004StoreData
                             array($row[19], $userId)
                         );
                         $rowtmp = $ilDB->fetchAssoc($res);
-                        $cmi_node_id = $rowtmp['cmi_node_id'];
-                        if ($cmi_node_id != null) {
+
+                        if ($rowtmp != null) {
+                            $cmi_node_id = $rowtmp['cmi_node_id'];
                             $b_node_update = true;
                         } else {
                             $cmi_node_id = $ilDB->nextId('cmi_node');
                             $b_node_update = false;
                         }
-                        $ilLog->write("setCMIdata with cmi_node_id = " . $cmi_node_id);
+                        $ilLog->debug("setCMIdata with cmi_node_id = " . $cmi_node_id);
                         $a_data = array(
                             'accesscount' => array('integer', $row[0]),
                             'accessduration' => array('text', $row[1]),
@@ -292,10 +295,10 @@ class ilSCORM2004StoreData
 
                         if ($b_node_update == false) {
                             $ilDB->insert('cmi_node', $a_data);
-                            $ilLog->write("inserted");
+                            $ilLog->debug("inserted");
                         } else {
                             $ilDB->update('cmi_node', $a_data, array('cmi_node_id' => array('integer', $cmi_node_id)));
-                            $ilLog->write("updated");
+                            $ilLog->debug("updated");
                         }
 
                         if ($b_node_update == true) {
@@ -415,7 +418,7 @@ class ilSCORM2004StoreData
         return $result;
     }
 
-    protected static function setGlobalObjectives(int $userId, int $packageId, object $data) : void
+    protected static function setGlobalObjectives(int $userId, int $packageId, object $data): void
     {
         $ilLog = ilLoggerFactory::getLogger('sc13');
         $changed_seq_utilities = $data->changed_seq_utilities;
@@ -431,7 +434,7 @@ class ilSCORM2004StoreData
     /**
      * @return mixed[]|null[]
      */
-    public static function writeGObjective(int $user, int $package, ?array $g_data) : array
+    public static function writeGObjective(int $user, int $package, ?array $g_data): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -455,12 +458,23 @@ class ilSCORM2004StoreData
             foreach ($value as $skey => $svalue) {
                 $ilLog->debug("SCORM2004 writeGObjective -skey: " . $skey);
                 //we always have objective and learner id
-                if ($g_data->$key->$skey->$user->$package) {
-                    $o_value = $g_data->$key->$skey->$user->$package;
+//                var_dump($svalue->$user->{"null"});
+//                die();
+//                if ($g_data->$key->$skey->$user->$package) { //check
+//                    $o_value = $g_data->$key->$skey->$user->$package;
+//                    $scope = $package;
+//                } else { //UK: is this okay? can $scope=0 and $user->{"null"}; when is $scope used?
+//                    //scope 0
+//                    $o_value = $g_data->$key->$skey->$user->{"null"};
+//                    //has to be converted to NULL in JS Later
+//                    $scope = 0;
+//                }
+                if (isset($svalue->$user->$package)) {
+                    $o_value = $svalue->$user->$package;
                     $scope = $package;
                 } else { //UK: is this okay? can $scope=0 and $user->{"null"}; when is $scope used?
                     //scope 0
-                    $o_value = $g_data->$key->$skey->$user->{"null"};
+                    $o_value = null;
                     //has to be converted to NULL in JS Later
                     $scope = 0;
                 }
@@ -469,13 +483,14 @@ class ilSCORM2004StoreData
                 $objective_id = $skey;
                 $toset = $o_value;
                 $dbuser = $user;
-
                 if ($key === "status") {
-
                     //special handling for status
-                    $completed = $g_data->$key->$skey->$user->{"completed"};
-                    $measure = $g_data->$key->$skey->$user->{"measure"};
-                    $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
+//                    $completed = $g_data->$key->$skey->$user->{"completed"};
+//                    $measure = $g_data->$key->$skey->$user->{"measure"};
+//                    $satisfied = $g_data->$key->$skey->$user->{"satisfied"};
+                    $completed = $svalue->$user->{"completed"};
+                    $measure = $svalue->$user->{"measure"};
+                    $satisfied = $svalue->$user->{"satisfied"};
 
                     $returnAr = array($completed, $satisfied, $measure);
 
@@ -485,7 +500,7 @@ class ilSCORM2004StoreData
                     $res = $ilDB->queryF(
                         '
 			    		SELECT user_id FROM cmi_gobjective
-			    		WHERE objective_id =%s 
+			    		WHERE objective_id =%s
 			    		AND user_id = %s
 			    		AND scope_id = %s',
                         array('text', 'integer', 'integer'),
@@ -496,7 +511,7 @@ class ilSCORM2004StoreData
                         $ilDB->manipulateF(
                             '
 				    		INSERT INTO cmi_gobjective
-				    		(user_id, status, scope_id, measure, satisfied, objective_id) 
+				    		(user_id, status, scope_id, measure, satisfied, objective_id)
 				    		VALUES (%s, %s, %s, %s, %s, %s)',
                             array('integer', 'text', 'integer', 'text', 'text', 'text'),
                             array($dbuser, $completed, $pkg_id, $measure, $satisfied, $obj)
@@ -506,16 +521,16 @@ class ilSCORM2004StoreData
                         $ilDB->manipulateF(
                             '
 				    		UPDATE cmi_gobjective
-				    		SET status = %s, 
+				    		SET status = %s,
 				    			measure = %s,
-				    			satisfied = %s 
-		    				WHERE objective_id = %s 
+				    			satisfied = %s
+		    				WHERE objective_id = %s
 			    			AND user_id = %s
 			    			AND scope_id = %s',
                             array('text', 'text', 'text', 'text', 'integer', 'integer'),
                             array($completed, $measure, $satisfied, $obj, $dbuser, $pkg_id)
                         );
-                        $ilLog->debug("SCORM2004 cmi_gobjective Update status=" . $completed . " scope_id=" . $pkg_id . " measure=" . $measure . " satisfied=" . $satisfied . " objective_id=" . $obj);
+//                        $ilLog->debug("SCORM2004 cmi_gobjective Update status=" . $completed . " scope_id=" . $pkg_id . " measure=" . $measure . " satisfied=" . $satisfied . " objective_id=" . $obj);
                     }
                 } else { //add it to the rows_to_insert
                     //create the row if this is the first time it has been found
@@ -640,7 +655,7 @@ class ilSCORM2004StoreData
         return $returnAr;
     }
 
-    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms) : void
+    public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, int $new_global_status, bool $time_from_lms): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -658,13 +673,12 @@ class ilSCORM2004StoreData
         );
 
         self::ensureObjectDataCacheExistence();
-        global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
         // update learning progress
         if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, $data->percentageCompleted);
+            ilLPStatus::writeStatus($packageId, $userId, $new_global_status, (int) $data->percentageCompleted);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }

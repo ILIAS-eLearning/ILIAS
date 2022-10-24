@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -37,25 +39,25 @@ class ilPollBlock extends ilCustomBlock
         parent::__construct($a_id);
         $this->lng = $DIC->language();
     }
-    
+
     /**
      * Set ref id (needed for poll access)
      */
-    public function setRefId(int $a_id) : void
+    public function setRefId(int $a_id): void
     {
         $this->poll = new ilObjPoll($a_id, true);
         $this->answers = $this->poll->getAnswers();
     }
 
-    public function getPoll() : ilObjPoll
+    public function getPoll(): ilObjPoll
     {
         return $this->poll;
     }
-    
+
     /**
      * Check if user will see any content (vote/result)
      */
-    public function hasAnyContent(int $a_user_id, int $a_ref_id) : bool
+    public function hasAnyContent(int $a_user_id, int $a_ref_id): bool
     {
         if (!count($this->answers)) {
             return false;
@@ -65,39 +67,39 @@ class ilPollBlock extends ilCustomBlock
         if (!$this->active) {
             return false;
         }
-        
+
         if (!$this->mayVote($a_user_id) &&
             !$this->maySeeResults($a_user_id)) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function mayVote(int $a_user_id) : bool
+
+    public function mayVote(int $a_user_id): bool
     {
         if (!$this->active) {
             return false;
         }
-        
+
         if ($a_user_id === ANONYMOUS_USER_ID) {
             return false;
         }
-        
+
         if ($this->poll->hasUserVoted($a_user_id)) {
             return false;
         }
-        
+
         if ($this->poll->getVotingPeriod() &&
             ($this->poll->getVotingPeriodBegin() > time() ||
             $this->poll->getVotingPeriodEnd() < time())) {
             return false;
         }
-        
+
         return true;
     }
-    
-    public function mayNotResultsYet() : bool
+
+    public function mayNotResultsYet(): bool
     {
         if ($this->poll->getViewResults() === ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
             $this->poll->getVotingPeriod() &&
@@ -106,24 +108,24 @@ class ilPollBlock extends ilCustomBlock
         }
         return false;
     }
-    
-    public function maySeeResults(int $a_user_id) : bool
+
+    public function maySeeResults(int $a_user_id): bool
     {
         if (!$this->active) {
             return false;
         }
-        
+
         switch ($this->poll->getViewResults()) {
             case ilObjPoll::VIEW_RESULTS_NEVER:
                 return false;
-                
+
             case ilObjPoll::VIEW_RESULTS_ALWAYS:
                 // fallthrough
-                
+
             // #12023 - see mayNotResultsYet()
             case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:
                 return true;
-                
+
             case ilObjPoll::VIEW_RESULTS_AFTER_VOTE:
                 if ($this->poll->hasUserVoted($a_user_id)) {
                     return true;
@@ -132,13 +134,13 @@ class ilPollBlock extends ilCustomBlock
         }
         return false;
     }
-    
-    public function getMessage(int $a_user_id) : ?string
+
+    public function getMessage(int $a_user_id): ?string
     {
         if (!count($this->answers)) {
             return $this->lng->txt("poll_block_message_no_answers");
         }
-        
+
         if (!$this->active) {
             if ($this->poll->getOfflineStatus()) {
                 return $this->lng->txt("poll_block_message_offline");
@@ -155,7 +157,7 @@ class ilPollBlock extends ilCustomBlock
     /**
      * Show Results as (Barchart or Piechart)
      */
-    public function showResultsAs() : int
+    public function showResultsAs(): int
     {
         return $this->poll->getShowResultsAs();
     }
@@ -163,7 +165,7 @@ class ilPollBlock extends ilCustomBlock
     /**
      * Are comments enabled or disabled
      */
-    public function showComments() : bool
+    public function showComments(): bool
     {
         return $this->poll->getShowComments();
     }

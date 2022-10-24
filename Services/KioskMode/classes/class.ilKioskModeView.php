@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -46,7 +48,7 @@ abstract class ilKioskModeView implements ILIAS\KioskMode\View
     /**
      * Get the class of objects this view displays.
      */
-    abstract protected function getObjectClass() : string;
+    abstract protected function getObjectClass(): string;
 
     /**
      * Set the object for this view.
@@ -60,7 +62,7 @@ abstract class ilKioskModeView implements ILIAS\KioskMode\View
      * Check if the global user has permission to access the kiosk mode of the
      * supplied object.
      */
-    abstract protected function hasPermissionToAccessKioskMode() : bool;
+    abstract protected function hasPermissionToAccessKioskMode(): bool;
 
     // Note that methods of ILIAS\KioskMode\View need to be implemented as well.
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,6 +29,9 @@ use ilFileUtils;
 use ilMailCronOrphanedMails;
 use ilDBInterface;
 use Throwable;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+use SplFileInfo;
 
 class MailDeletionHandler
 {
@@ -68,7 +73,7 @@ class MailDeletionHandler
     /**
      * @return string[]
      */
-    private function determineDeletableAttachmentPaths() : array
+    private function determineDeletableAttachmentPaths(): array
     {
         $attachment_paths = [];
 
@@ -108,7 +113,7 @@ class MailDeletionHandler
         return $attachment_paths;
     }
 
-    private function deleteDirectory(string $directory) : void
+    private function deleteDirectory(string $directory): void
     {
         if ($this->delete_directory_callback !== null) {
             call_user_func($this->delete_directory_callback, $directory);
@@ -117,7 +122,7 @@ class MailDeletionHandler
         }
     }
 
-    private function deleteAttachments() : void
+    private function deleteAttachments(): void
     {
         $attachment_paths = $this->determineDeletableAttachmentPaths();
 
@@ -185,7 +190,7 @@ class MailDeletionHandler
         );
     }
 
-    private function deleteMails() : void
+    private function deleteMails(): void
     {
         $this->db->manipulate(
             'DELETE FROM mail WHERE ' .
@@ -193,7 +198,7 @@ class MailDeletionHandler
         );
     }
 
-    private function deleteMarkedAsNotified() : void
+    private function deleteMarkedAsNotified(): void
     {
         if ((int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->db->manipulate(
@@ -205,7 +210,7 @@ class MailDeletionHandler
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         if (count($this->collector->mailIdsToDelete()) > 0) {
             $this->deleteAttachments();

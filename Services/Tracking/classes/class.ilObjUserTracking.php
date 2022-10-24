@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -43,17 +45,17 @@ class ilObjUserTracking extends ilObject
         $this->__readSettings();
     }
 
-    public function enableLearningProgress(bool $a_enable) : void
+    public function enableLearningProgress(bool $a_enable): void
     {
         $this->learning_progress = $a_enable;
     }
 
-    public function enabledLearningProgress() : bool
+    public function enabledLearningProgress(): bool
     {
         return $this->learning_progress;
     }
 
-    public static function _enabledLearningProgress() : bool
+    public static function _enabledLearningProgress(): bool
     {
         global $DIC;
 
@@ -62,12 +64,12 @@ class ilObjUserTracking extends ilObject
         return (bool) $ilSetting->get("enable_tracking", '0');
     }
 
-    public function enableUserRelatedData(bool $a_enable) : void
+    public function enableUserRelatedData(bool $a_enable): void
     {
         $this->tracking_user_related = $a_enable;
     }
 
-    public function enabledUserRelatedData() : bool
+    public function enabledUserRelatedData(): bool
     {
         return $this->tracking_user_related;
     }
@@ -80,7 +82,7 @@ class ilObjUserTracking extends ilObject
         return (bool) $ilSetting->get('save_user_related_data', '0');
     }
 
-    public static function _enabledObjectStatistics() : bool
+    public static function _enabledObjectStatistics(): bool
     {
         global $DIC;
 
@@ -88,27 +90,27 @@ class ilObjUserTracking extends ilObject
         return (bool) $ilSetting->get('object_statistics', '0');
     }
 
-    public function enableObjectStatistics(bool $newValue) : void
+    public function enableObjectStatistics(bool $newValue): void
     {
         $this->object_statistics_enabled = $newValue;
     }
 
-    public function enabledObjectStatistics() : bool
+    public function enabledObjectStatistics(): bool
     {
         return $this->object_statistics_enabled;
     }
 
-    public function enableSessionStatistics(bool $newValue) : void
+    public function enableSessionStatistics(bool $newValue): void
     {
         $this->session_statistics_enabled = $newValue;
     }
 
-    public function enabledSessionStatistics() : bool
+    public function enabledSessionStatistics(): bool
     {
         return $this->session_statistics_enabled;
     }
 
-    public static function _enabledSessionStatistics() : bool
+    public static function _enabledSessionStatistics(): bool
     {
         global $DIC;
 
@@ -116,17 +118,17 @@ class ilObjUserTracking extends ilObject
         return (bool) $ilSetting->get('session_statistics', '1');
     }
 
-    public function setValidTimeSpan(int $a_time_span) : void
+    public function setValidTimeSpan(int $a_time_span): void
     {
         $this->valid_time = $a_time_span;
     }
 
-    public function getValidTimeSpan() : int
+    public function getValidTimeSpan(): int
     {
         return $this->valid_time;
     }
 
-    public static function _getValidTimeSpan() : int
+    public static function _getValidTimeSpan(): int
     {
         global $DIC;
 
@@ -137,24 +139,24 @@ class ilObjUserTracking extends ilObject
         );
     }
 
-    public function enableChangeEventTracking(bool $newValue) : void
+    public function enableChangeEventTracking(bool $newValue): void
     {
         $this->is_change_event_tracking_enabled = $newValue;
     }
 
-    public function enabledChangeEventTracking() : bool
+    public function enabledChangeEventTracking(): bool
     {
         return $this->is_change_event_tracking_enabled;
     }
 
     // END ChangeEvent
 
-    public function setExtendedData(int $a_value) : void
+    public function setExtendedData(int $a_value): void
     {
         $this->extended_data = $a_value;
     }
 
-    public function hasExtendedData(int $a_code) : bool
+    public function hasExtendedData(int $a_code): bool
     {
         return (bool) ($this->extended_data & $a_code);
     }
@@ -193,7 +195,7 @@ class ilObjUserTracking extends ilObject
         );
     }
 
-    protected function __readSettings() : void
+    protected function __readSettings(): void
     {
         $this->enableLearningProgress(
             (bool) $this->settings->get("enable_tracking", '0')
@@ -229,7 +231,7 @@ class ilObjUserTracking extends ilObject
         );
     }
 
-    public static function _deleteUser(int $a_usr_id) : void
+    public static function _deleteUser(int $a_usr_id): void
     {
         global $DIC;
 
@@ -258,7 +260,7 @@ class ilObjUserTracking extends ilObject
         );
     }
 
-    public static function _hasLearningProgressOtherUsers() : bool
+    public static function _hasLearningProgressOtherUsers(): bool
     {
         global $DIC;
 
@@ -270,17 +272,17 @@ class ilObjUserTracking extends ilObject
         return $rbacsystem->checkAccess("lp_other_users", $ref_id);
     }
 
-    public function setLearningProgressLearner(bool $a_value) : void
+    public function setLearningProgressLearner(bool $a_value): void
     {
         $this->lp_learner = $a_value;
     }
 
-    public function hasLearningProgressLearner() : bool
+    public function hasLearningProgressLearner(): bool
     {
         return $this->lp_learner;
     }
 
-    public static function _hasLearningProgressLearner() : bool
+    public static function _hasLearningProgressLearner(): bool
     {
         global $DIC;
 
@@ -288,17 +290,17 @@ class ilObjUserTracking extends ilObject
         return (bool) $ilSetting->get("lp_learner", '1');
     }
 
-    public function setLearningProgressListGUI(bool $a_value) : void
+    public function setLearningProgressListGUI(bool $a_value): void
     {
         $this->lp_list_gui = $a_value;
     }
 
-    public function hasLearningProgressListGUI() : bool
+    public function hasLearningProgressListGUI(): bool
     {
         return $this->lp_list_gui;
     }
 
-    public static function _hasLearningProgressListGUI() : bool
+    public static function _hasLearningProgressListGUI(): bool
     {
         global $DIC;
 

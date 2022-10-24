@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,47 +42,47 @@ class ilObjChatroom extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function setAccessVisibility(int $a_value) : void
+    public function setAccessVisibility(int $a_value): void
     {
         $this->access_visibility = $a_value;
     }
 
-    public function getAccessVisibility() : ?int
+    public function getAccessVisibility(): ?int
     {
         return $this->access_visibility;
     }
 
-    public function getAccessType() : ?int
+    public function getAccessType(): ?int
     {
         return $this->access_type;
     }
 
-    public function setAccessType(int $access_type) : void
+    public function setAccessType(int $access_type): void
     {
         $this->access_type = $access_type;
     }
 
-    public function getAccessBegin() : ?int
+    public function getAccessBegin(): ?int
     {
         return $this->access_begin;
     }
 
-    public function setAccessBegin(?int $access_begin) : void
+    public function setAccessBegin(?int $access_begin): void
     {
         $this->access_begin = $access_begin;
     }
 
-    public function getAccessEnd() : ?int
+    public function getAccessEnd(): ?int
     {
         return $this->access_end;
     }
 
-    public function setAccessEnd(?int $access_end) : void
+    public function setAccessEnd(?int $access_end): void
     {
         $this->access_end = $access_end;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         if ($this->referenced && $this->ref_id) {
             $activation = new ilObjectActivation();
@@ -101,7 +103,7 @@ class ilObjChatroom extends ilObject
         return parent::update();
     }
 
-    public function read() : void
+    public function read(): void
     {
         if ($this->referenced && $this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -116,14 +118,14 @@ class ilObjChatroom extends ilObject
         parent::read();
     }
 
-    public static function _getPublicRefId() : int
+    public static function _getPublicRefId(): int
     {
         $settings = new ilSetting('chatroom');
 
         return (int) $settings->get('public_room_ref', '0');
     }
 
-    public static function _getPublicObjId() : int
+    public static function _getPublicObjId(): int
     {
         global $DIC;
 
@@ -137,7 +139,7 @@ class ilObjChatroom extends ilObject
         return 0;
     }
 
-    public function getPersonalInformation(ilChatroomUser $user) : stdClass
+    public function getPersonalInformation(ilChatroomUser $user): stdClass
     {
         $userInfo = new stdClass();
         $userInfo->username = $user->getUsername();
@@ -146,12 +148,12 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    public function initDefaultRoles() : void
+    public function initDefaultRoles(): void
     {
         $this->createDefaultRole();
     }
 
-    protected function createDefaultRole() : ilObjRole
+    protected function createDefaultRole(): ilObjRole
     {
         return ilObjRole::createDefaultRole(
             'il_chat_moderator_' . $this->getRefId(),
@@ -161,7 +163,7 @@ class ilObjChatroom extends ilObject
         );
     }
 
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         $original_room = ilChatroom::byObjectId($this->getId());
 
@@ -188,7 +190,7 @@ class ilObjChatroom extends ilObject
         return $newObj;
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         $this->db->manipulateF(
             'DELETE FROM chatroom_users WHERE chatroom_users.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',

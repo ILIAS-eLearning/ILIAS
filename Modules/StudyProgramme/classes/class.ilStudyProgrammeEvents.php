@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ class ilStudyProgrammeEvents
         $this->assignment_repo = $assignment_repo;
     }
 
-    public function raise(string $event, array $parameter) : void
+    public function raise(string $event, array $parameter): void
     {
         $this->app_event_handler->raise(self::COMPONENT, $event, $parameter);
     }
 
-    public function userAssigned(ilStudyProgrammeAssignment $assignment) : void
+    public function userAssigned(ilStudyProgrammeAssignment $assignment): void
     {
         $this->raise(
             "userAssigned",
@@ -48,7 +50,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userReAssigned(ilStudyProgrammeAssignment $a_assignment) : void
+    public function userReAssigned(ilStudyProgrammeAssignment $a_assignment): void
     {
         $this->raise(
             "userReAssigned",
@@ -59,7 +61,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userDeassigned(ilStudyProgrammeAssignment $a_assignment) : void
+    public function userDeassigned(ilStudyProgrammeAssignment $a_assignment): void
     {
         $this->raise(
             "userDeassigned",
@@ -71,7 +73,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userSuccessful(ilStudyProgrammeProgress $a_progress) : void
+    public function userSuccessful(ilStudyProgrammeProgress $a_progress): void
     {
         $ass = $this->assignment_repo->get($a_progress->getAssignmentId());
         $this->raise(
@@ -85,7 +87,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function informUserByMailToRestart(ilStudyProgrammeProgress $progress) : void
+    public function informUserByMailToRestart(ilStudyProgrammeProgress $progress): void
     {
         $this->raise(
             'informUserToRestart',
@@ -97,7 +99,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userRiskyToFail(ilStudyProgrammeProgress $progress) : void
+    public function userRiskyToFail(ilStudyProgrammeProgress $progress): void
     {
         $this->raise(
             "userRiskyToFail",

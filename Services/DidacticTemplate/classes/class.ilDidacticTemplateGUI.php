@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class for didactic template settings inside repository objects
@@ -33,7 +50,11 @@ class ilDidacticTemplateGUI
         $this->logger = $DIC->logger()->otpl();
 
         $this->parent_object = $a_parent_obj;
-        $this->initTemplateIdFromPost();
+        if ($requested_template_id === 0) {
+            $this->initTemplateIdFromPost();
+        } else {
+            $this->requested_template_id = $requested_template_id;
+        }
     }
 
     protected function initTemplateIdFromPost()
@@ -47,12 +68,12 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function getParentObject() : object
+    public function getParentObject(): object
     {
         return $this->parent_object;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -68,7 +89,7 @@ class ilDidacticTemplateGUI
         }
     }
 
-    public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id) : bool
+    public function appendToolbarSwitch(ilToolbarGUI $toolbar, string $a_obj_type, int $a_ref_id): bool
     {
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
         $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
@@ -109,7 +130,7 @@ class ilDidacticTemplateGUI
         }
 
         $tpl_selection = new ilSelectInputGUI(
-            '',
+            $this->lng->txt('didactic_selected_tpl_option'),
             'tplid'
         );
         $tpl_selection->setOptions($options);
@@ -124,7 +145,7 @@ class ilDidacticTemplateGUI
     /**
      * Show didactic template switch confirmation screen
      */
-    protected function confirmTemplateSwitch() : void
+    protected function confirmTemplateSwitch(): void
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
@@ -173,12 +194,12 @@ class ilDidacticTemplateGUI
     /**
      * Return to parent gui
      */
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    protected function switchTemplate() : void
+    protected function switchTemplate(): void
     {
         $new_tpl_id = $this->requested_template_id;
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->getObject()->getRefId(), $new_tpl_id);

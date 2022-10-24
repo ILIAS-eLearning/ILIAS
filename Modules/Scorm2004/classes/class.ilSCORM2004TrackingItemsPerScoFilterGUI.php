@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,7 +46,7 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
     /**
      * @throws ilCtrlException
      */
-    public function parse(string $scoSelected, string $report, array $reports) : void
+    public function parse(string $scoSelected, string $report, array $reports): void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -53,7 +55,7 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
-        $scos = $this->parent_obj->object->getTrackedItems();
+        $scos = $this->parent_obj->getObject()->getTrackedItems();
         foreach ($scos as $row) {
             $options[$row["id"]] = $row["title"];
         }

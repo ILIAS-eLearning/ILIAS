@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTextSubsetCorrectionsInputGUI
@@ -16,24 +30,24 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
      * @var bool
      */
     protected $hidePointsEnabled = false;
-    
+
     /**
      * @return bool
      */
-    public function isHidePointsEnabled() : bool
+    public function isHidePointsEnabled(): bool
     {
         return $this->hidePointsEnabled;
     }
-    
+
     /**
      * @param bool $hidePointsEnabled
      */
-    public function setHidePointsEnabled(bool $hidePointsEnabled) : void
+    public function setHidePointsEnabled(bool $hidePointsEnabled): void
     {
         $this->hidePointsEnabled = $hidePointsEnabled;
     }
-    
-    public function setValue($a_value) : void
+
+    public function setValue($a_value): void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
@@ -43,18 +57,18 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
             }
         }
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
         $this->sanitizeSuperGlobalSubmitValue();
         $foundvalues = $_POST[$this->getPostVar()];
-        
+
         if ($this->isHidePointsEnabled()) {
             return true;
         }
-        
+
         if (is_array($foundvalues)) {
             // check points
             $max = 0;
@@ -72,7 +86,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
                             $this->getMinValue() !== false &&
                             $points <= $this->getMinValue()) {
                             $this->setAlert($lng->txt("form_msg_value_too_low"));
-                            
+
                             return false;
                         }
                     } else {
@@ -80,7 +94,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
                             $this->getMinValue() !== false &&
                             $points < $this->getMinValue()) {
                             $this->setAlert($lng->txt("form_msg_value_too_low"));
-                            
+
                             return false;
                         }
                     }
@@ -94,15 +108,15 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
-        
+
         return $this->checkSubItemsInput();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];
-        
+
         $tpl = new ilTemplate("tpl.prop_textsubsetcorrection_input.html", true, true, "Modules/TestQuestionPool");
         $i = 0;
         foreach ($this->values as $value) {
@@ -114,20 +128,20 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
                 $tpl->setVariable("POINTS", ilLegacyFormElementsUtil::prepareFormOutput($value->getPoints()));
                 $tpl->parseCurrentBlock();
             }
-            
+
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("ANSWER", ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext()));
             $tpl->parseCurrentBlock();
             $i++;
         }
-        
+
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());
         $tpl->setVariable("ANSWER_TEXT", $this->getTextInputLabel($lng));
-        
+
         if (!$this->isHidePointsEnabled()) {
             $tpl->setVariable("POINTS_TEXT", $this->getPointsInputLabel($lng));
         }
-        
+
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();

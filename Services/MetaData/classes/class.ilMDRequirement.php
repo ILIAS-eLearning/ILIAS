@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,17 +39,17 @@ class ilMDRequirement extends ilMDBase
     private string $browser_maximum_version = '';
 
     // SET/GET
-    public function setOrCompositeId(int $a_or_composite_id) : void
+    public function setOrCompositeId(int $a_or_composite_id): void
     {
         $this->or_composite_id = $a_or_composite_id;
     }
 
-    public function getOrCompositeId() : int
+    public function getOrCompositeId(): int
     {
         return $this->or_composite_id;
     }
 
-    public function setOperatingSystemName(string $a_val) : bool
+    public function setOperatingSystemName(string $a_val): bool
     {
         switch ($a_val) {
             case 'PC-DOS':
@@ -64,32 +66,32 @@ class ilMDRequirement extends ilMDBase
         }
     }
 
-    public function getOperatingSystemName() : string
+    public function getOperatingSystemName(): string
     {
         return $this->operating_system_name;
     }
 
-    public function setOperatingSystemMinimumVersion(string $a_val) : void
+    public function setOperatingSystemMinimumVersion(string $a_val): void
     {
         $this->operating_system_minimum_version = $a_val;
     }
 
-    public function getOperatingSystemMinimumVersion() : string
+    public function getOperatingSystemMinimumVersion(): string
     {
         return $this->operating_system_minimum_version;
     }
 
-    public function setOperatingSystemMaximumVersion(string $a_val) : void
+    public function setOperatingSystemMaximumVersion(string $a_val): void
     {
         $this->operating_system_maximum_version = $a_val;
     }
 
-    public function getOperatingSystemMaximumVersion() : string
+    public function getOperatingSystemMaximumVersion(): string
     {
         return $this->operating_system_maximum_version;
     }
 
-    public function setBrowserName(string $a_val) : bool
+    public function setBrowserName(string $a_val): bool
     {
         switch ($a_val) {
             case 'Any':
@@ -106,32 +108,32 @@ class ilMDRequirement extends ilMDBase
         }
     }
 
-    public function getBrowserName() : string
+    public function getBrowserName(): string
     {
         return $this->browser_name;
     }
 
-    public function setBrowserMinimumVersion(string $a_val) : void
+    public function setBrowserMinimumVersion(string $a_val): void
     {
         $this->browser_minimum_version = $a_val;
     }
 
-    public function getBrowserMinimumVersion() : string
+    public function getBrowserMinimumVersion(): string
     {
         return $this->browser_minimum_version;
     }
 
-    public function setBrowserMaximumVersion(string $a_val) : void
+    public function setBrowserMaximumVersion(string $a_val): void
     {
         $this->browser_maximum_version = $a_val;
     }
 
-    public function getBrowserMaximumVersion() : string
+    public function getBrowserMaximumVersion(): string
     {
         return $this->browser_maximum_version;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_requirement_id'] = array('integer', $next_id = $this->db->nextId('il_meta_requirement'));
@@ -143,7 +145,7 @@ class ilMDRequirement extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_requirement',
@@ -152,7 +154,7 @@ class ilMDRequirement extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_requirement " .
@@ -166,7 +168,7 @@ class ilMDRequirement extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -184,7 +186,7 @@ class ilMDRequirement extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_requirement " .
@@ -214,7 +216,7 @@ class ilMDRequirement extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlStartTag('Requirement');
         $writer->xmlStartTag('Type');
@@ -248,7 +250,7 @@ class ilMDRequirement extends ilMDBase
         int $a_parent_id,
         string $a_parent_type,
         int $a_or_composite_id = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

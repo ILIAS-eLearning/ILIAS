@@ -72,12 +72,12 @@ class ilUIHookProcessor
     /**
      * @return bool Should HTML be replaced completely?
      */
-    public function replaced() : bool
+    public function replaced(): bool
     {
         return $this->replaced;
     }
 
-    public function getHTML(string $html) : string
+    public function getHTML(string $html): string
     {
         if ($this->replaced) {
             $html = $this->replace;

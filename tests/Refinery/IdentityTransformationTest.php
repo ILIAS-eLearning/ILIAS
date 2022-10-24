@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 
 class IdentityTransformationTest extends TestCase
 {
-    public function testTransform() : void
+    public function testTransform(): void
     {
         $value = 'hejaaa';
 
@@ -34,7 +36,7 @@ class IdentityTransformationTest extends TestCase
         $this->assertEquals($value, $actual);
     }
 
-    public function testApplyToOk() : void
+    public function testApplyToOk(): void
     {
         $value = ['im in an array'];
         $result = (new IdentityTransformation())->applyTo(new Ok($value));
@@ -42,7 +44,7 @@ class IdentityTransformationTest extends TestCase
         $this->assertEquals($value, $result->value());
     }
 
-    public function testApplyToError() : void
+    public function testApplyToError(): void
     {
         $error = new Error('some error');
         $result = (new IdentityTransformation())->applyTo($error);

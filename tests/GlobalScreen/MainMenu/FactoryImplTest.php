@@ -30,7 +30,7 @@ class FactoryImplTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class FactoryImplTest extends TestCase
     }
 
 
-    public function testAvailableMethods() : void
+    public function testAvailableMethods(): void
     {
         $r = new ReflectionClass($this->factory);
 
@@ -68,7 +68,7 @@ class FactoryImplTest extends TestCase
     }
 
 
-    public function testInterchangeableContraints() : void
+    public function testInterchangeableContraints(): void
     {
         $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->topLinkItem($this->id));
         $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->topParentItem($this->id));

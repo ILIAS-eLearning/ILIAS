@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -58,7 +60,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withTitle(string $title) : hasTitle
+    public function withTitle(string $title): hasTitle
     {
         $this->title = $title;
 
@@ -68,7 +70,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -76,7 +78,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withContent(Component $ui_component) : hasContent
+    public function withContent(Component $ui_component): hasContent
     {
         return $this;
     }
@@ -84,7 +86,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withContentWrapper(Closure $content_wrapper) : hasContent
+    public function withContentWrapper(Closure $content_wrapper): hasContent
     {
         return $this;
     }
@@ -92,7 +94,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getContent() : Component
+    public function getContent(): Component
     {
         global $DIC;
 
@@ -102,7 +104,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withParent(IdentificationInterface $identification) : isItem
+    public function withParent(IdentificationInterface $identification): isItem
     {
         $this->parent = $identification;
 
@@ -112,7 +114,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function hasParent() : bool
+    public function hasParent(): bool
     {
         return $this->parent instanceof isParent;
     }
@@ -120,7 +122,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getParent() : IdentificationInterface
+    public function getParent(): IdentificationInterface
     {
         return $this->parent;
     }
@@ -128,7 +130,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function overrideParent(IdentificationInterface $identification) : isItem
+    public function overrideParent(IdentificationInterface $identification): isItem
     {
         $this->parent = $identification;
 
@@ -138,7 +140,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -147,7 +149,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      * @inheritDoc
      * @param isChild[] $children
      */
-    public function withChildren(array $children) : isParent
+    public function withChildren(array $children): isParent
     {
         $this->children = $children;
 
@@ -157,7 +159,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function appendChild(isItem $child) : isParent
+    public function appendChild(isItem $child): isParent
     {
         $this->children[] = $child;
 
@@ -167,9 +169,9 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function removeChild(isItem $child) : isParent
+    public function removeChild(isItem $child): isParent
     {
-        $this->children = array_filter($this->children, static function (isItem $item) use ($child) : bool {
+        $this->children = array_filter($this->children, static function (isItem $item) use ($child): bool {
             return $item->getProviderIdentification()->serialize() !== $child->getProviderIdentification()->serialize();
         });
 
@@ -179,7 +181,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function hasChildren() : bool
+    public function hasChildren(): bool
     {
         return count($this->children) > 0;
     }
@@ -187,7 +189,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withAction(string $action) : hasAction
+    public function withAction(string $action): hasAction
     {
         // noting to to
         return $this;
@@ -196,7 +198,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return "#";
     }
@@ -204,7 +206,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withIsLinkToExternalAction(bool $is_external) : hasAction
+    public function withIsLinkToExternalAction(bool $is_external): hasAction
     {
         // noting to to
         return $this;
@@ -213,7 +215,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function isLinkWithExternalAction() : bool
+    public function isLinkWithExternalAction(): bool
     {
         return false;
     }
@@ -221,7 +223,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function withSymbol(Symbol $symbol) : hasSymbol
+    public function withSymbol(Symbol $symbol): hasSymbol
     {
         return $this;
     }
@@ -229,7 +231,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function getSymbol() : Symbol
+    public function getSymbol(): Symbol
     {
         return new Glyph(Glyph::MORE, '');
     }
@@ -237,7 +239,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function hasSymbol() : bool
+    public function hasSymbol(): bool
     {
         return false;
     }

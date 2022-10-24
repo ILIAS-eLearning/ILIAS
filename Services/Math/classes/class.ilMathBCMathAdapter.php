@@ -113,7 +113,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     /**
      * @inheritDoc
      */
-    public function comp($left_operand, $right_operand, int $scale = null) : int
+    public function comp($left_operand, $right_operand, int $scale = null): int
     {
         return bccomp($left_operand, $right_operand, $scale);
     }

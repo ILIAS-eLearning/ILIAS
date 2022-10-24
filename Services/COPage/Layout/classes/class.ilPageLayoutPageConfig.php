@@ -25,7 +25,7 @@ class ilPageLayoutPageConfig extends ilPageConfig
 {
     protected ilSetting $settings;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 

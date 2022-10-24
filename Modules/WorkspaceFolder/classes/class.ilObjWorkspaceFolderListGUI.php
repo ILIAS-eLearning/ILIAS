@@ -23,7 +23,7 @@
  */
 class ilObjWorkspaceFolderListGUI extends ilObjectListGUI
 {
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;

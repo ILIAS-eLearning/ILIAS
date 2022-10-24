@@ -41,7 +41,7 @@ abstract class ilButtonBase implements ilToolbarItem
     public const TYPE_LINK = 2;
     public const TYPE_SPLIT = 3;
     public const TYPE_BUTTON = 4;
-    
+
     protected function __construct(int $a_type)
     {
         global $DIC;
@@ -49,150 +49,150 @@ abstract class ilButtonBase implements ilToolbarItem
         $this->lng = $DIC->language();
         $this->setType($a_type);
     }
-    
+
     public function __clone()
     {
         $this->setId(null);
     }
-    
-    abstract public static function getInstance() : self;
-    
+
+    abstract public static function getInstance(): self;
+
     //
     // properties
     //
-    
-    protected function setType(int $a_value) : void
+
+    protected function setType(int $a_value): void
     {
         $this->type = $a_value;
     }
-    
-    public function getType() : int
+
+    public function getType(): int
     {
         return $this->type;
     }
-        
-    public function setId(?string $a_value) : void
+
+    public function setId(?string $a_value): void
     {
         $this->id = $a_value;
     }
-    
-    public function getId() : ?string
+
+    public function getId(): ?string
     {
         return $this->id;
     }
-    
-    public function setCaption(string $a_value, bool $a_is_lng_id = true) : void
+
+    public function setCaption(string $a_value, bool $a_is_lng_id = true): void
     {
         $this->caption = $a_value;
         $this->caption_is_lng_id = $a_is_lng_id;
     }
-    
-    public function getCaption(bool $a_translate = true) : string
+
+    public function getCaption(bool $a_translate = true): string
     {
         $lng = $this->lng;
-        
+
         $caption = $this->caption;
-        
+
         if ($this->caption_is_lng_id &&
             $a_translate) {
             $caption = $lng->txt($caption);
         }
-    
+
         return $caption;
     }
 
-    public function setPrimary(bool $a_value) : void
+    public function setPrimary(bool $a_value): void
     {
         $this->primary = $a_value;
     }
-    
-    public function isPrimary() : bool
+
+    public function isPrimary(): bool
     {
         return $this->primary;
     }
-    
+
     /**
      * Toggle double submission prevention status
      */
-    public function setOmitPreventDoubleSubmission(bool $a_value) : void
+    public function setOmitPreventDoubleSubmission(bool $a_value): void
     {
         $this->omit_prevent_double_submission = $a_value;
     }
-    
-    public function getOmitPreventDoubleSubmission() : bool
+
+    public function getOmitPreventDoubleSubmission(): bool
     {
         return $this->omit_prevent_double_submission;
     }
-    
-    public function setOnClick(string $a_value) : void
+
+    public function setOnClick(string $a_value): void
     {
         $this->onclick = trim($a_value);
     }
-    
-    public function getOnClick() : string
+
+    public function getOnClick(): string
     {
         return $this->onclick;
     }
 
-    public function setDisabled(bool $a_value) : void
+    public function setDisabled(bool $a_value): void
     {
         $this->disabled = $a_value;
     }
-    
-    public function isDisabled() : bool
+
+    public function isDisabled(): bool
     {
         return $this->disabled;
     }
-    
-    public function addCSSClass(string $a_value) : void
+
+    public function addCSSClass(string $a_value): void
     {
         $this->css[] = $a_value;
     }
-    
-    public function getCSSClasses() : array
+
+    public function getCSSClasses(): array
     {
         return $this->css;
     }
-    
-    
+
+
     //
     // render
     //
-    
-    protected function gatherCssClasses() : string
+
+    protected function gatherCssClasses(): string
     {
         $css = array_unique($this->getCSSClasses());
-    
+
         if ($this->isPrimary()) {
             $css[] = "btn-primary";
         }
         if ($this->getOmitPreventDoubleSubmission()) {
             $css[] = "omitPreventDoubleSubmission";
         }
-        
+
         return implode(" ", $css);
     }
-    
-    protected function renderAttributesHelper(array $a_attr) : string
+
+    protected function renderAttributesHelper(array $a_attr): string
     {
         $res = array();
-        
+
         foreach ($a_attr as $id => $value) {
             if (trim($value)) {
                 $res[] = strtolower(trim($id)) . '="' . $value . '"';
             }
         }
-        
+
         if (count($res)) {
             return " " . implode(" ", $res);
         }
         return "";
     }
-    
+
     /**
      * Render current HTML attributes
      */
-    protected function renderAttributes(array $a_additional_attr = null) : string
+    protected function renderAttributes(array $a_additional_attr = null): string
     {
         $attr = array();
         $attr["id"] = $this->getId();
@@ -202,15 +202,15 @@ abstract class ilButtonBase implements ilToolbarItem
         if ($this->isDisabled()) {
             $attr["disabled"] = "disabled";
         }
-        
+
         if (count($a_additional_attr)) {
             $attr = array_merge($attr, $a_additional_attr);
         }
-        
+
         return $this->renderAttributesHelper($attr);
     }
-    
-    protected function prepareRender() : void
+
+    protected function prepareRender(): void
     {
         if ($this->applyDefaultCss()) {
             $this->addCSSClass("btn");
@@ -218,19 +218,19 @@ abstract class ilButtonBase implements ilToolbarItem
         }
     }
 
-    public function applyDefaultCss(?bool $apply_default_css = null) : ?bool
+    public function applyDefaultCss(?bool $apply_default_css = null): ?bool
     {
         if (null === $apply_default_css) {
             return $this->apply_default_css;
         }
-        
+
         $this->apply_default_css = $apply_default_css;
         return false;
     }
-     
-    abstract public function render() : string;
 
-    public function getToolbarHTML() : string
+    abstract public function render(): string;
+
+    public function getToolbarHTML(): string
     {
         return $this->render();
     }

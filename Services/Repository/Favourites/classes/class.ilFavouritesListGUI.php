@@ -45,7 +45,7 @@ class ilFavouritesListGUI
         $this->lng->loadLanguageModule("rep");
     }
 
-    public function render() : string
+    public function render(): string
     {
         $f = $this->ui->factory();
         $item_groups = [];

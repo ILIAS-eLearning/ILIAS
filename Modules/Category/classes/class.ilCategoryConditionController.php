@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,12 +25,12 @@
  */
 class ilCategoryConditionController implements ilConditionControllerInterface
 {
-    public function isContainerConditionController(int $a_container_ref_id) : bool
+    public function isContainerConditionController(int $a_container_ref_id): bool
     {
         return false;
     }
 
-    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id) : ilConditionSet
+    public function getConditionSetForRepositoryObject(int $a_container_child_ref_id): ilConditionSet
     {
         global $DIC;
 

@@ -1,6 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacAbstractComposite.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class AbstractOperation
@@ -11,7 +25,6 @@ include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/il
  */
 abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
 {
-
     /**
      * @var bool
      */
@@ -20,12 +33,12 @@ abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
     /**
      * @return string
      */
-    abstract public function getPattern() : string;
+    abstract public function getPattern(): string;
 
     /**
      * @param boolean $negated
      */
-    public function setNegated($negated) : void
+    public function setNegated($negated): void
     {
         $this->negated = $negated;
     }
@@ -33,7 +46,7 @@ abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
     /**
      * @return boolean
      */
-    public function isNegated() : bool
+    public function isNegated(): bool
     {
         return $this->negated;
     }

@@ -51,15 +51,15 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     /**
      * Get explorer handle command function
      */
-    public function getExplHandleCmd() : string
+    public function getExplHandleCmd(): string
     {
         return "handleExplorerCommand";
     }
-    
+
     /**
      * Handle explorer command
      */
-    public function handleExplorerCommand() : void
+    public function handleExplorerCommand(): void
     {
         $val = $this->getValue();
         if (is_array($val)) {
@@ -73,16 +73,16 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         }
         $this->explorer_gui->handleCommand();
     }
-    
+
     /**
      * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
      */
-    abstract public function getTitleForNodeId($a_id) : string;
+    abstract public function getTitleForNodeId($a_id): string;
 
     /**
      * @param string|int|array node id or array of node ids (multi mode)
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         if ($this->multi_nodes && !is_array($a_value)) {
             if ($a_value !== false) {
@@ -106,7 +106,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     /**
      * Set value by array
      */
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
@@ -115,10 +115,10 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    bool        Input ok, true/false
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         // check required
         if ($this->getRequired()) {
             if ((!$this->multi_nodes && trim($this->getInput()) === "") ||
@@ -145,7 +145,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     /**
      * Render item
      */
-    public function render(string $a_mode = "property_form") : string
+    public function render(string $a_mode = "property_form"): string
     {
         $lng = $this->lng;
 
@@ -192,7 +192,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $this->global_template->addOnLoadCode($ol_js);
 
         //		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
-        
+
         //added disabled
         if (!$this->disabled) {
             $tpl->setCurrentBlock("txt_select");
@@ -205,34 +205,34 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
             $tpl->setVariable("ID_TXT_RESET", $this->getFieldId());
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
-        
+
         $top_tb = new ilToolbarGUI();
-        
+
         $button = ilLinkButton::getInstance();
         $button->setCaption("select");
         $button->addCSSClass("ilExplSelectInputButS");
         $button->setOmitPreventDoubleSubmission(true);
         $top_tb->addStickyItem($button);
-        
+
         $button = ilLinkButton::getInstance();
         $button->setCaption("cancel");
         $button->addCSSClass("ilExplSelectInputButC");
         $button->setOmitPreventDoubleSubmission(true);
         $top_tb->addStickyItem($button);
-        
+
         // :TODO: we should probably clone the buttons properly
         $tpl->setVariable("TOP_TB", $top_tb->getHTML());
         $tpl->setVariable("BOT_TB", $top_tb->getHTML());
 
         return $tpl->get();
     }
-    
+
     /**
      * Insert property html
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
@@ -242,7 +242,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     /**
      * Get HTML for table filter
      */
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render("table_filter");
         return $html;

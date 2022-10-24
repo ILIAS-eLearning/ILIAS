@@ -1,7 +1,20 @@
 <?php
 
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacMissingBracket.php";
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacConditionParserException.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ConditionParser
@@ -13,7 +26,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Ex
  */
 class ilAssLacConditionParser
 {
-
     /**
      * The condition which should be parsed into a ParserComposite to match a branch condition
      *
@@ -69,7 +81,7 @@ class ilAssLacConditionParser
      * @see CompositeBuilder::create()
      * @return array
      */
-    public function parse($condition) : array
+    public function parse($condition): array
     {
         $this->condition = $condition;
         $this->checkBrackets();
@@ -88,7 +100,7 @@ class ilAssLacConditionParser
      * @see ExpressionManufacturer::getPattern()
      * @see Parser::$expressions
      */
-    protected function fetchExpressions() : void
+    protected function fetchExpressions(): void
     {
         $manufacturer = ilAssLacExpressionManufacturer::_getInstance();
         $this->expressions = $manufacturer->match($this->condition);
@@ -101,7 +113,7 @@ class ilAssLacConditionParser
      * @see OperationManufacturer::getPattern()
      * @see Parser::$operators
      */
-    protected function fetchOperators() : void
+    protected function fetchOperators(): void
     {
         $manufacturer = ilAssLacOperationManufacturer::_getInstance();
         $this->operators = $manufacturer->match($this->condition);
@@ -114,7 +126,7 @@ class ilAssLacConditionParser
      * <br />
      * (n o n) o (n o n) o n
      */
-    protected function cannonicalizeCondition() : void
+    protected function cannonicalizeCondition(): void
     {
         $manufacturer = ilAssLacExpressionManufacturer::_getInstance();
         $this->condition = preg_replace($manufacturer->getPattern(), 'n', $this->condition);
@@ -130,7 +142,7 @@ class ilAssLacConditionParser
         }
     }
 
-    protected function checkBrackets() : void
+    protected function checkBrackets(): void
     {
         $num_brackets_open = substr_count($this->condition, "(");
         $num_brackets_close = substr_count($this->condition, ")");
@@ -165,7 +177,7 @@ class ilAssLacConditionParser
      *
      * @return array
      */
-    protected function createNodeArray() : array
+    protected function createNodeArray(): array
     {
         $expected = array("n", "(", "!");
         $group = array();
@@ -205,7 +217,7 @@ class ilAssLacConditionParser
     /**
      * @return array
      */
-    public function getExpressions() : array
+    public function getExpressions(): array
     {
         return $this->expressions;
     }
@@ -213,7 +225,7 @@ class ilAssLacConditionParser
     /**
      * @param int $index
      */
-    protected function surroundNegationExpression($index) : void
+    protected function surroundNegationExpression($index): void
     {
         $start = strpos($this->condition, "n", $index + 1);
         $end = false;

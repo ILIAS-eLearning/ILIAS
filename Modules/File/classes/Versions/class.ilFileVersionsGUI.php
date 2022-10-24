@@ -31,20 +31,20 @@ class ilFileVersionsGUI
     public const KEY_FILE_EXTRACT = 'file_extract';
     public const KEY_FILE_STRUCTURE = 'file_structure';
 
-    const CMD_DEFAULT = 'index';
-    const CMD_DELETE_VERSIONS = "deleteVersions";
-    const CMD_ROLLBACK_VERSION = "rollbackVersion";
-    const CMD_DOWNLOAD_VERSION = "sendFile";
-    const HIST_ID = 'hist_id';
-    const CMD_CANCEL_DELETE = "cancelDeleteFile";
-    const CMD_CONFIRMED_DELETE_FILE = "confirmDeleteFile";
-    const CMD_CONFIRMED_DELETE_VERSIONS = 'confirmDeleteVersions';
-    const CMD_ADD_NEW_VERSION = 'addNewVersion';
-    const CMD_CREATE_NEW_VERSION = 'saveVersion';
-    const CMD_ADD_REPLACING_VERSION = 'addReplacingVersion';
-    const CMD_CREATE_REPLACING_VERSION = 'createReplacingVersion';
-    const CMD_UNZIP_CURRENT_REVISION = 'unzipCurrentRevision';
-    const CMD_PROCESS_UNZIP = 'processUnzip';
+    public const CMD_DEFAULT = 'index';
+    public const CMD_DELETE_VERSIONS = "deleteVersions";
+    public const CMD_ROLLBACK_VERSION = "rollbackVersion";
+    public const CMD_DOWNLOAD_VERSION = "sendFile";
+    public const HIST_ID = 'hist_id';
+    public const CMD_CANCEL_DELETE = "cancelDeleteFile";
+    public const CMD_CONFIRMED_DELETE_FILE = "confirmDeleteFile";
+    public const CMD_CONFIRMED_DELETE_VERSIONS = 'confirmDeleteVersions';
+    public const CMD_ADD_NEW_VERSION = 'addNewVersion';
+    public const CMD_CREATE_NEW_VERSION = 'saveVersion';
+    public const CMD_ADD_REPLACING_VERSION = 'addReplacingVersion';
+    public const CMD_CREATE_REPLACING_VERSION = 'createReplacingVersion';
+    public const CMD_UNZIP_CURRENT_REVISION = 'unzipCurrentRevision';
+    public const CMD_PROCESS_UNZIP = 'processUnzip';
 
     private ilToolbarGUI $toolbar;
     private \ILIAS\ResourceStorage\Services $storage;
@@ -58,6 +58,7 @@ class ilFileVersionsGUI
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private \ilObjFile $file;
+    private ilFileServicesSettings $file_service_settings;
     protected ?int $version_id = null;
     protected ilTree $tree;
     protected int $parent_id;
@@ -78,6 +79,7 @@ class ilFileVersionsGUI
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
         $this->storage = $DIC->resourceStorage();
+        $this->file_service_settings = $DIC->fileServiceSettings();
         $this->ui = $DIC->ui();
         if ($this->isWorkspaceContext()) {
             $this->tree = new ilWorkspaceTree($DIC->user()->getId());
@@ -91,13 +93,13 @@ class ilFileVersionsGUI
             ? $this->http->wrapper()->query()->retrieve(self::HIST_ID, $DIC->refinery()->kindlyTo()->int())
             : null;
     }
-    
+
     /**
      * @return void
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    protected function performCommand() : void
+    protected function performCommand(): void
     {
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
         switch ($cmd) {
@@ -139,12 +141,12 @@ class ilFileVersionsGUI
                 break;
         }
     }
-    
+
     /**
      * @return void
      * @throws ilCtrlException
      */
-    protected function setBackTab() : void
+    protected function setBackTab(): void
     {
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -152,8 +154,8 @@ class ilFileVersionsGUI
             $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)
         );
     }
-    
-    public function executeCommand() : void
+
+    public function executeCommand(): void
     {
         // bugfix mantis 26007: use new function hasPermission to ensure that the check also works for workspace files
         if (!$this->hasPermission('write')) {
@@ -173,8 +175,8 @@ class ilFileVersionsGUI
                 break;
         }
     }
-    
-    private function unzipCurrentRevision() : void
+
+    private function unzipCurrentRevision(): void
     {
         $this->setBackTab();
         $this->tpl->setContent(
@@ -184,7 +186,7 @@ class ilFileVersionsGUI
         );
     }
 
-    private function processUnzip() : void
+    private function processUnzip(): void
     {
         $form = $this->getFileZipOptionsForm()->withRequest($this->http->request());
         $data = $form->getData();
@@ -194,6 +196,17 @@ class ilFileVersionsGUI
             if (null !== $file_rid) {
                 $processor = $this->getFileProcessor($data[self::KEY_FILE_STRUCTURE]);
                 $processor->process($file_rid);
+
+                if ($processor->getInvalidFileNames() !== []) {
+                    $this->ui->mainTemplate()->setOnScreenMessage(
+                        'info',
+                        sprintf(
+                            $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                            implode(', ', $processor->getInvalidFileNames())
+                        ),
+                        true
+                    );
+                }
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_unzip_success'), true);
                 $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $this->parent_id);
@@ -210,7 +223,7 @@ class ilFileVersionsGUI
         );
     }
 
-    private function index() : void
+    private function index(): void
     {
         // Buttons
         $add_version = ilLinkButton::getInstance();
@@ -227,7 +240,7 @@ class ilFileVersionsGUI
 
         // only add unzip button if the current revision is a zip.
         if (null !== $current_file_revision &&
-            'application/zip' === $current_file_revision->getInformation()->getMimeType()
+            ilObjFileAccess::isZIP($current_file_revision->getInformation()->getMimeType())
         ) {
             $unzip_button = ilLinkButton::getInstance();
             $unzip_button->setCaption($this->lng->txt('unzip'), false);
@@ -245,10 +258,10 @@ class ilFileVersionsGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    private function addVersion(int $mode = ilFileVersionFormGUI::MODE_ADD) : void
+    private function addVersion(int $mode = ilFileVersionFormGUI::MODE_ADD): void
     {
         $this->setBackTab();
-        
+
         $form = new ilFileVersionFormGUI($this, $mode);
         $this->tpl->setContent($form->getHTML());
     }
@@ -257,7 +270,7 @@ class ilFileVersionsGUI
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    private function saveVersion(int $mode = ilFileVersionFormGUI::MODE_ADD) : void
+    private function saveVersion(int $mode = ilFileVersionFormGUI::MODE_ADD): void
     {
         $form = new ilFileVersionFormGUI($this, $mode);
         if ($form->saveObject()) {
@@ -267,7 +280,7 @@ class ilFileVersionsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function downloadVersion() : void
+    private function downloadVersion(): void
     {
         try {
             $this->file->sendFile($this->version_id);
@@ -275,7 +288,7 @@ class ilFileVersionsGUI
         }
     }
 
-    private function deleteVersions() : void
+    private function deleteVersions(): void
     {
         $version_ids = $this->getVersionIdsFromRequest();
         $existing_versions = $this->file->getVersions();
@@ -338,7 +351,7 @@ class ilFileVersionsGUI
         }
     }
 
-    private function rollbackVersion() : void
+    private function rollbackVersion(): void
     {
         $version_ids = $this->getVersionIdsFromRequest();
 
@@ -355,7 +368,7 @@ class ilFileVersionsGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    private function confirmDeleteVersions() : void
+    private function confirmDeleteVersions(): void
     {
         // delete versions after confirmation
         $versions_to_delete = $this->getVersionIdsFromRequest();
@@ -368,7 +381,7 @@ class ilFileVersionsGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-    private function confirmDeleteFile() : void
+    private function confirmDeleteFile(): void
     {
         $parent_id = $this->tree->getParentId($this->ref_id);
 
@@ -379,12 +392,12 @@ class ilFileVersionsGUI
         $this->ctrl->redirectByClass(ilRepositoryGUI::class);
     }
 
-    public function getFile() : ilObjFile
+    public function getFile(): ilObjFile
     {
         return $this->file;
     }
 
-    private function getVersionIdsFromRequest() : array
+    private function getVersionIdsFromRequest(): array
     {
         // get ids either from GET (if single item was clicked) or
         // from POST (if multiple items were selected)
@@ -397,7 +410,7 @@ class ilFileVersionsGUI
             $version_ids = (array) $request->getParsedBody()[self::HIST_ID];
         }
 
-        array_walk($version_ids, static function (&$i) : void {
+        array_walk($version_ids, static function (&$i): void {
             $i = (int) $i;
         });
 
@@ -408,10 +421,10 @@ class ilFileVersionsGUI
      * @param array $version_ids
      * @return array
      */
-    private function getVersionsToKeep(array $version_ids) : array
+    private function getVersionsToKeep(array $version_ids): array
     {
         $versions_to_keep = $this->file->getVersions();
-        array_udiff($versions_to_keep, $version_ids, static function ($v1, $v2) : bool {
+        array_udiff($versions_to_keep, $version_ids, static function ($v1, $v2): bool {
             if (is_array($v1) || $v1 instanceof ilObjFileVersion) {
                 $v1 = (int) $v1["hist_entry_id"];
             } else {
@@ -439,7 +452,7 @@ class ilFileVersionsGUI
      * this function was created to ensure that the access check not only works for repository objects
      * but for workspace objects too
      */
-    private function hasPermission(string $a_permission) : bool
+    private function hasPermission(string $a_permission): bool
     {
         // determine if the permission check concerns a workspace- or repository-object
         if ($this->isWorkspaceContext()) {
@@ -457,7 +470,7 @@ class ilFileVersionsGUI
         return false;
     }
 
-    private function getFileZipOptionsForm() : Form
+    private function getFileZipOptionsForm(): Form
     {
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getFormActionByClass(self::class, self::CMD_PROCESS_UNZIP),
@@ -471,7 +484,7 @@ class ilFileVersionsGUI
         );
     }
 
-    private function getFileProcessor(bool $keep_structure) : ilObjFileProcessorInterface
+    private function getFileProcessor(bool $keep_structure): ilObjFileProcessorInterface
     {
         $context = $this->getParentIdType();
 
@@ -484,6 +497,7 @@ class ilFileVersionsGUI
                     $this->parent_id
                 ),
                 $this->storage,
+                $this->file_service_settings,
                 $this->tree
             );
         }
@@ -496,11 +510,12 @@ class ilFileVersionsGUI
                 $this->parent_id
             ),
             $this->storage,
+            $this->file_service_settings,
             $this->tree
         );
     }
 
-    private function getCurrentFileRevision() : ?Revision
+    private function getCurrentFileRevision(): ?Revision
     {
         $file_rid = $this->storage->manage()->find($this->file->getResourceId());
         if (null !== $file_rid) {
@@ -510,14 +525,14 @@ class ilFileVersionsGUI
         return null;
     }
 
-    private function getParentIdType() : int
+    private function getParentIdType(): int
     {
         return ($this->isWorkspaceContext()) ?
             ilObject2GUI::WORKSPACE_NODE_ID :
             ilObject2GUI::REPOSITORY_NODE_ID;
     }
 
-    private function isWorkspaceContext() : bool
+    private function isWorkspaceContext(): bool
     {
         return $this->http->wrapper()->query()->has('wsp_id');
     }

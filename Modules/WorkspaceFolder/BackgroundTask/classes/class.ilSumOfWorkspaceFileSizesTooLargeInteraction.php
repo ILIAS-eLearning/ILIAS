@@ -37,19 +37,19 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         $this->lng->loadLanguageModule('background_tasks');
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return [
             new SingleType(ilWorkspaceCopyDefinition::class),
         ];
     }
 
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-    public function getRemoveOption() : Option
+    public function getRemoveOption(): Option
     {
         return new UserInteractionOption('ok', self::OPTION_OK);
     }
@@ -58,7 +58,7 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         array $input,
         Option $user_selected_option,
         Bucket $bucket
-    ) : Value {
+    ): Value {
         if ($user_selected_option->getValue() == self::OPTION_OK) {
             // Set state to finished to stop the BackgroundTask and remove it from the popover.
             $bucket->setState(3);
@@ -67,17 +67,17 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         return $input[0];
     }
 
-    public function getOptions(array $input) : array
+    public function getOptions(array $input): array
     {
         return array();
     }
 
-    public function getMessage(array $input) : string
+    public function getMessage(array $input): string
     {
         return $this->lng->txt('ui_msg_files_violate_maxsize');
     }
 
-    public function canBeSkipped(array $input) : bool
+    public function canBeSkipped(array $input): bool
     {
         $copy_definition = $input[0];
         if ($copy_definition->getAdheresToLimit()->getValue()) {
@@ -91,8 +91,14 @@ class ilSumOfWorkspaceFileSizesTooLargeInteraction extends AbstractUserInteracti
         }
     }
 
-    public function getSkippedValue(array $input) : Value
+    public function getSkippedValue(array $input): Value
     {
         return $input[0];
     }
+
+    public function isFinal(): bool
+    {
+        return false;
+    }
+
 }

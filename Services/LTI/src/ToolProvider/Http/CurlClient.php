@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\Http;
  */
 class CurlClient implements ClientInterface
 {
-
     /**
      * Send the request to the target URL.
      *
@@ -35,7 +34,7 @@ class CurlClient implements ClientInterface
      *
      * @return bool True if the request was successful
      */
-    public function send(HttpMessage $message) : bool
+    public function send(HttpMessage $message): bool
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);

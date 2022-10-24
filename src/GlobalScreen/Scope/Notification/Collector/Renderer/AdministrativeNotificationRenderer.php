@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -30,22 +32,25 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 class AdministrativeNotificationRenderer extends AbstractBaseNotificationRenderer implements NotificationRenderer
 {
     use Hasher;
-    
+
     /**
      * @inheritDoc
      */
-    public function getNotificationComponentForItem(isItem $item) : \ILIAS\UI\Component\Component
+    public function getNotificationComponentForItem(isItem $item): \ILIAS\UI\Component\Component
     {
         /**
          * @var $item AdministrativeNotification
          */
         $system_info = $this->ui_factory->mainControls()->systemInfo($item->getTitle(), $item->getSummary())->withDenotation($item->getDenotation());
-        
+
         if ($item->hasClosedCallable()) {
-            $url = ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildCloseQuery($item);
+            $url = rtrim(
+                ILIAS_HTTP_PATH,
+                "/"
+            ) . "/" . ClientNotifications::NOTIFY_ENDPOINT . "?" . $this->buildCloseQuery($item);
             $system_info = $system_info->withDismissAction(new URI($url));
         }
-        
+
         return $system_info;
     }
 }

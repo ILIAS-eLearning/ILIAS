@@ -17,20 +17,20 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 class ilTemporaryStakeholder extends AbstractResourceStakeholder
 {
     protected int $owner_id;
-    
+
     public function __construct()
     {
         global $DIC;
-        
+
         $this->owner_id = $DIC->user()->getId();
     }
-    
-    public function getId() : string
+
+    public function getId(): string
     {
         return 'irss_temp';
     }
-    
-    public function getOwnerOfNewResources() : int
+
+    public function getOwnerOfNewResources(): int
     {
         return $this->owner_id;
     }

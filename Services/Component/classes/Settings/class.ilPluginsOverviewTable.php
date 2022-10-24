@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
@@ -39,7 +41,7 @@ class ilPluginsOverviewTable
         $this->filter = $filter;
     }
 
-    public function getTable() : string
+    public function getTable(): string
     {
         return $this->renderer->render($this->ui->table()->presentation(
             'Plugins',
@@ -58,7 +60,7 @@ class ilPluginsOverviewTable
         )->withData($this->filterData($this->getData())));
     }
 
-    protected function getImportantFields(ilPluginInfo $plugin_info) : array
+    protected function getImportantFields(ilPluginInfo $plugin_info): array
     {
         $fields = [];
 
@@ -81,7 +83,7 @@ class ilPluginsOverviewTable
         return $fields;
     }
 
-    protected function getContent(ilPluginInfo $plugin_info) : array
+    protected function getContent(ilPluginInfo $plugin_info): array
     {
         return [
             $this->lng->txt("cmps_is_installed") => $this->boolToString($plugin_info->isInstalled()),
@@ -102,7 +104,7 @@ class ilPluginsOverviewTable
         ];
     }
 
-    protected function boolToString(bool $value) : string
+    protected function boolToString(bool $value): string
     {
         if ($value) {
             return $this->lng->txt("yes");
@@ -114,12 +116,12 @@ class ilPluginsOverviewTable
      * @param ilPluginInfo[] $data
      * @return ilPluginInfo[]
      */
-    protected function filterData(array $data) : array
+    protected function filterData(array $data): array
     {
-        $active_filters = array_filter($this->filter, static function ($value) : bool {
+        $active_filters = array_filter($this->filter, static function ($value): bool {
             return !empty($value);
         });
-        $plugins = array_filter($data, static function (ilPluginInfo $plugin_info) use ($active_filters) : bool {
+        $plugins = array_filter($data, static function (ilPluginInfo $plugin_info) use ($active_filters): bool {
             $matches_filter = true;
             if (isset($active_filters[self::F_PLUGIN_NAME])) {
                 $matches_filter = strpos($plugin_info->getName(), $active_filters[self::F_PLUGIN_NAME]) !== false;
@@ -152,19 +154,19 @@ class ilPluginsOverviewTable
         return $plugins;
     }
 
-    public function withData(array $data) : ilPluginsOverviewTable
+    public function withData(array $data): ilPluginsOverviewTable
     {
         $clone = clone $this;
         $clone->data = $data;
         return $clone;
     }
 
-    protected function getData() : array
+    protected function getData(): array
     {
         return $this->data;
     }
 
-    protected function getActions(ilPluginInfo $plugin_info) : Dropdown
+    protected function getActions(ilPluginInfo $plugin_info): Dropdown
     {
         $this->setParameter($plugin_info);
 
@@ -209,7 +211,7 @@ class ilPluginsOverviewTable
         return $this->ui->dropdown()->standard($items);
     }
 
-    protected function setParameter(ilPluginInfo $plugin) : void
+    protected function setParameter(ilPluginInfo $plugin): void
     {
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_PLUGIN_ID, $plugin->getId());
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_CTYPE, $plugin->getComponent()->getType());
@@ -218,7 +220,7 @@ class ilPluginsOverviewTable
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_PLUGIN_NAME, $plugin->getName());
     }
 
-    protected function clearParameter() : void
+    protected function clearParameter(): void
     {
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_CTYPE, null);
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_CNAME, null);
@@ -226,7 +228,7 @@ class ilPluginsOverviewTable
         $this->ctrl->setParameter($this->parent_gui, ilObjComponentSettingsGUI::P_PLUGIN_NAME, null);
     }
 
-    protected function getDropdownButton(string $caption, string $command) : Shy
+    protected function getDropdownButton(string $caption, string $command): Shy
     {
         return $this->ui->button()->shy(
             $this->lng->txt($caption),
@@ -234,7 +236,7 @@ class ilPluginsOverviewTable
         );
     }
 
-    protected function hasLang(ilPluginInfo $plugin_info) : bool
+    protected function hasLang(ilPluginInfo $plugin_info): bool
     {
         $language_handler = new ilPluginLanguage($plugin_info);
         return $language_handler->hasAvailableLangFiles();

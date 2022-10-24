@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestRandomQuestionSetPoolDeriverTest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionSetPoolDeriver $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,24 +37,24 @@ class ilTestRandomQuestionSetPoolDeriverTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetPoolDeriver::class, $this->testObj);
     }
 
-    public function testTargetContainerRef() : void
+    public function testTargetContainerRef(): void
     {
         $this->testObj->setTargetContainerRef(125);
         $this->assertEquals(125, $this->testObj->getTargetContainerRef());
     }
 
-    public function testOwnerId() : void
+    public function testOwnerId(): void
     {
         $this->testObj->setOwnerId(125);
         $this->assertEquals(125, $this->testObj->getOwnerId());
     }
 
-    public function testSourcePoolDefinitionList() : void
+    public function testSourcePoolDefinitionList(): void
     {
         $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
         $this->testObj->setSourcePoolDefinitionList($mock);

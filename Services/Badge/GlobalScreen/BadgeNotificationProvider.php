@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,10 +23,14 @@ namespace ILIAS\Badge\GlobalScreen;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\Notifications\ilNotificationOSDHandler;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 
 class BadgeNotificationProvider extends AbstractNotificationProvider
 {
-    public function getNotifications() : array
+    public const NOTIFICATION_TYPE = 'badge_received';
+
+    public function getNotifications(): array
     {
         $lng = $this->dic->language();
         $ui = $this->dic->ui();
@@ -34,7 +40,7 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
         $lng->loadLanguageModule("badge");
 
         $factory = $this->globalScreen()->notifications()->factory();
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -55,14 +61,21 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
             ->withDescription(str_replace("%1", (string) $new_badges, $lng->txt("badge_new_badges")))
             ->withProperties([$lng->txt("time") => \ilDatePresentation::formatDate($latest)]);
 
+        $osd_notification_handler = new ilNotificationOSDHandler(new ilNotificationOSDRepository($this->dic->database()));
+
         $group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
             ->addNotification(
                 $factory->standard($id('badge_bucket'))->withNotificationItem($badge_notification_item)
                 ->withClosedCallable(
-                    function () use ($user) {
+                    function () use ($user, $osd_notification_handler): void {
                         // Stuff we do, when the notification is closed
                         $noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository($user);
                         $noti_repo->updateLastCheckedTimestamp();
+
+                        $osd_notification_handler->deleteStaleNotificationsForUserAndType(
+                            $this->dic->user()->getId(),
+                            self::NOTIFICATION_TYPE
+                        );
                     }
                 )
                 ->withNewAmount($new_badges)

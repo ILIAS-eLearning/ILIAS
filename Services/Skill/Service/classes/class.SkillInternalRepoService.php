@@ -34,42 +34,42 @@ class SkillInternalRepoService
         $this->factory = $factory;
     }
 
-    public function getLevelRepo() : \ilSkillLevelRepository
+    public function getLevelRepo(): \ilSkillLevelRepository
     {
         return new \ilSkillLevelDBRepository($this->getTreeRepo());
     }
 
-    public function getUserLevelRepo() : \ilSkillUserLevelRepository
+    public function getUserLevelRepo(): \ilSkillUserLevelRepository
     {
         return new \ilSkillUserLevelDBRepository();
     }
 
-    public function getTreeRepo() : \ilSkillTreeRepository
+    public function getTreeRepo(): \ilSkillTreeRepository
     {
         return new \ilSkillTreeDBRepository($this->factory->tree());
     }
 
-    public function getProfileRepo() : Profile\SkillProfileDBRepository
+    public function getProfileRepo(): Profile\SkillProfileDBRepository
     {
         return new Profile\SkillProfileDBRepository();
     }
 
-    public function getProfileLevelsRepo() : Profile\SkillProfileLevelsDBRepository
+    public function getProfileLevelsRepo(): Profile\SkillProfileLevelsDBRepository
     {
         return new Profile\SkillProfileLevelsDBRepository();
     }
 
-    public function getProfileUserRepo() : Profile\SkillProfileUserDBRepository
+    public function getProfileUserRepo(): Profile\SkillProfileUserDBRepository
     {
         return new Profile\SkillProfileUserDBRepository();
     }
 
-    public function getProfileRoleRepo() : Profile\SkillProfileRoleDBRepository
+    public function getProfileRoleRepo(): Profile\SkillProfileRoleDBRepository
     {
         return new Profile\SkillProfileRoleDBRepository();
     }
 
-    public function getProfileCompletionRepo() : Profile\SkillProfileCompletionDBRepository
+    public function getProfileCompletionRepo(): Profile\SkillProfileCompletionDBRepository
     {
         return new Profile\SkillProfileCompletionDBRepository();
     }

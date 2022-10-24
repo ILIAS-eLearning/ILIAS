@@ -41,7 +41,7 @@ class ilTestSequenceFactory
         $this->component_repository = $component_repository;
         $this->testOBJ = $testOBJ;
     }
-    
+
     /**
      * creates and returns an instance of a test sequence
      * that corresponds to the current test mode and the pass stored in test session
@@ -53,7 +53,7 @@ class ilTestSequenceFactory
     {
         return $this->getSequenceByActiveIdAndPass($testSession->getActiveId(), $testSession->getPass());
     }
-    
+
     /**
      * creates and returns an instance of a test sequence
      * that corresponds to the current test mode and given active/pass
@@ -80,7 +80,7 @@ class ilTestSequenceFactory
                     $this->testOBJ->isRandomTest()
                 );
             }
-            
+
             if ($this->testOBJ->isDynamicTest()) {
                 $questionSet = new ilTestDynamicQuestionSet(
                     $this->db,

@@ -44,7 +44,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
 
-    public function handle(array $query, array $body) : Server\Response
+    public function handle(array $query, array $body): Server\Response
     {
         switch ($body["action"]) {
             case "insert":
@@ -58,7 +58,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         }
     }
 
-    protected function insertCommand(array $body) : Server\Response
+    protected function insertCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -90,7 +90,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
-    protected function updateCommand(array $body) : Server\Response
+    protected function updateCommand(array $body): Server\Response
     {
         $page = $this->page_gui->getPageObject();
 
@@ -102,7 +102,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"] ?? ""));
         $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"] ?? ""));
 
-        $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
+        $quick_edit->setUseFullscreen((bool) ($body["fullscreen"] ?? false));
         $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"] ?? ""));
         $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"] ?? ""));
 

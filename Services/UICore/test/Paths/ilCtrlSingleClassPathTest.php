@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ require_once __DIR__ . '/ilCtrlPathTestBase.php';
  */
 class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
 {
-    public function testSinglePathWithUnknownClass() : void
+    public function testSinglePathWithUnknownClass(): void
     {
         $invalid_class = ilCtrlInvalidGuiClass::class;
         $path = new ilCtrlSingleClassPath(
@@ -39,7 +41,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testSinglePathWithoutBaseClass() : void
+    public function testSinglePathWithoutBaseClass(): void
     {
         // mocked context that returns no cid-path.
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -61,7 +63,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testSinglePathWithContextBaseClass() : void
+    public function testSinglePathWithContextBaseClass(): void
     {
         // mocked context that returns a cid-path containing a baseclass.
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -79,7 +81,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $this->assertEquals('0:2', $path->getCidPath());
     }
 
-    public function testSinglePathWithProvidedBaseClass() : void
+    public function testSinglePathWithProvidedBaseClass(): void
     {
         // mocked context that returns no cid-path
         $context = $this->createMock(ilCtrlContextInterface::class);
@@ -97,7 +99,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $this->assertEquals('0', $path->getCidPath());
     }
 
-    public function testSinglePathWithSameTargetClass() : void
+    public function testSinglePathWithSameTargetClass(): void
     {
         // mocked context that returns a cid-path that already
         // contains the target class.
@@ -116,7 +118,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $this->assertEquals('1:2:3', $path->getCidPath());
     }
 
-    public function testSinglePathWithEmptyTargetClassString() : void
+    public function testSinglePathWithEmptyTargetClassString(): void
     {
         $path = new ilCtrlSingleClassPath(
             $this->structure,
@@ -130,7 +132,7 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         throw $path->getException();
     }
 
-    public function testSinglePathBaseclassPriority() : void
+    public function testSinglePathBaseclassPriority(): void
     {
         // mocked context that returns a cid-path containing a baseclass.
         $context = $this->createMock(ilCtrlContextInterface::class);

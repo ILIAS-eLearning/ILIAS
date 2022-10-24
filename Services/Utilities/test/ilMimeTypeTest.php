@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@ use ILIAS\FileUpload\MimeType;
 
 class ilMimeTypeTest extends TestCase
 {
-    public function testMimeTypeForYoutubeUrlCouldBeCorrectlyDetected() : void
+    public function testMimeTypeForYoutubeUrlCouldBeCorrectlyDetected(): void
     {
         $expected = 'video/youtube';
         $actual = MimeType::lookupMimeType(
@@ -33,7 +35,7 @@ class ilMimeTypeTest extends TestCase
     }
 
 
-    public function testMimeTypeForVimeoUrlCouldBeCorrectlyDetected() : void
+    public function testMimeTypeForVimeoUrlCouldBeCorrectlyDetected(): void
     {
         $expected = 'video/vimeo';
         $actual = MimeType::lookupMimeType(

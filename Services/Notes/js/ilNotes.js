@@ -194,7 +194,8 @@ const ilNotes = {
           if (o.argument.reg_type === "post" ||
             (typeof o.argument.url == "string" &&
               (o.argument.url.indexOf("cmd=activateComments") !== -1 ||
-                o.argument.url.indexOf("cmd=deactivateComments") !== -1
+                o.argument.url.indexOf("cmd=deactivateComments") !== -1 ||
+                o.argument.url.indexOf("cmd=confirmDelete") !== -1
               ))) {
             eval(ilNotes.update_code);
           }

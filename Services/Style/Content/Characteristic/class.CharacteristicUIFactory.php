@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -45,7 +47,7 @@ class CharacteristicUIFactory
         StyleAccessManager $access_manager,
         CharacteristicManager $characteristic_manager,
         ImageManager $image_manager
-    ) : ilStyleCharacteristicGUI {
+    ): ilStyleCharacteristicGUI {
         return new ilStyleCharacteristicGUI(
             $this->domain_service,
             $this->gui_service,
@@ -65,7 +67,7 @@ class CharacteristicUIFactory
         ilObjStyleSheet $a_style,
         CharacteristicManager $manager,
         Access\StyleAccessManager $access_manager
-    ) : CharacteristicTableGUI {
+    ): CharacteristicTableGUI {
         return new CharacteristicTableGUI(
             $this->gui_service,
             $a_parent_obj,

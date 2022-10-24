@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -11,8 +24,8 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
  */
 class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
 {
-    const PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE = 'questionWorkingStateUpdate';
-    
+    public const PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE = 'questionWorkingStateUpdate';
+
     /**
      * @var ilAssQuestionProcessLockFileStorage
      */
@@ -35,7 +48,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingPersistWorkingStateOperation() : void
+    protected function onBeforeExecutingPersistWorkingStateOperation(): void
     {
         $this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -43,7 +56,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onAfterExecutingPersistWorkingStateOperation() : void
+    protected function onAfterExecutingPersistWorkingStateOperation(): void
     {
         $this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -51,7 +64,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
+    protected function onBeforeExecutingUserSolutionAdoptOperation(): void
     {
         $this->requestLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -59,7 +72,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onAfterExecutingUserSolutionAdoptOperation() : void
+    protected function onAfterExecutingUserSolutionAdoptOperation(): void
     {
         $this->releaseLock(self::PROCESS_NAME_QUESTION_WORKING_STATE_UPDATE);
     }
@@ -67,7 +80,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * @param string $processName
      */
-    private function requestLock($processName) : void
+    private function requestLock($processName): void
     {
         $lockFilePath = $this->getLockFilePath($processName);
         $this->lockFileHandles[$processName] = fopen($lockFilePath, 'w');
@@ -78,7 +91,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
      * @param string $processName
      * @return string
      */
-    private function getLockFilePath($processName) : string
+    private function getLockFilePath($processName): string
     {
         $path = $this->lockFileStorage->getPath();
         return $path . '/' . $processName . '.lock';
@@ -87,7 +100,7 @@ class ilAssQuestionProcessLockerFile extends ilAssQuestionProcessLocker
     /**
      * @param string $processName
      */
-    private function releaseLock($processName) : void
+    private function releaseLock($processName): void
     {
         flock($this->lockFileHandles[$processName], LOCK_UN);
         fclose($this->lockFileHandles[$processName]);

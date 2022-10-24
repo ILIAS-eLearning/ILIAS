@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Caches (check) access information on list items.
  *
@@ -36,27 +38,27 @@ class ilListItemAccessCache extends ilCache
         $this->setExpiresAfter(0);
         self::$disabled = true;
     }
-    
+
     /**
      * Check if cache is disabled
      */
-    public function isDisabled() : bool
+    public function isDisabled(): bool
     {
         return self::$disabled or parent::isDisabled();
     }
-    
+
     /**
      * Read an entry
      */
-    protected function readEntry(string $id) : bool
+    protected function readEntry(string $id): bool
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($id);
         }
         return false;
     }
-    
-    
+
+
     /**
      * Id is user_id:ref_id, we store ref_if additionally
      */
@@ -67,7 +69,7 @@ class ilListItemAccessCache extends ilCache
         ?int $int_key2 = null,
         ?string $text_key1 = null,
         ?string $text_key2 = null
-    ) : void {
+    ): void {
         if (!$this->isDisabled()) {
             parent::storeEntry($id, $value, $int_key1);
         }
@@ -76,7 +78,7 @@ class ilListItemAccessCache extends ilCache
     /**
      * This one can be called, e.g.
      */
-    public function deleteByRefId(int $ref_id) : void
+    public function deleteByRefId(int $ref_id): void
     {
         parent::deleteByAdditionalKeys($ref_id);
     }

@@ -38,32 +38,32 @@ class ilSkillContainerGUIRequest extends SkillGUIRequest
         parent::__construct($http, $refinery, $passed_query_params, $passed_post_data);
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("usr_id");
     }
 
-    public function getUserIds() : array
+    public function getUserIds(): array
     {
         return $this->intArray("usr_id");
     }
 
-    public function getSelectedSkill() : string
+    public function getSelectedSkill(): string
     {
         return $this->str("selected_skill");
     }
 
-    public function getCombinedSkillIds() : array
+    public function getCombinedSkillIds(): array
     {
         return $this->strArray("id");
     }
 
-    public function getSelectedProfileId() : int
+    public function getSelectedProfileId(): int
     {
         return $this->int("p_id");
     }
 
-    public function getProfileIds() : array
+    public function getProfileIds(): array
     {
         return $this->getIds();
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
 use ILIAS\UI\Component\Table\Column as I;
@@ -24,12 +26,12 @@ use ILIAS\Data\DateFormat\DateFormat;
 
 class Factory implements I\Factory
 {
-    public function text(string $title) : I\Text
+    public function text(string $title): I\Text
     {
         throw new NotImplementedException('NYI');
     }
 
-    public function number(string $title) : I\Number
+    public function number(string $title): I\Number
     {
         throw new NotImplementedException('NYI');
     }

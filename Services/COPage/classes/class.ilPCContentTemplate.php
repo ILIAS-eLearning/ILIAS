@@ -24,7 +24,7 @@
  */
 class ilPCContentTemplate extends ilPageContent
 {
-    public function init() : void
+    public function init(): void
     {
         $this->setType("templ");
     }
@@ -32,12 +32,12 @@ class ilPCContentTemplate extends ilPageContent
     /**
      * Set node (in fact this will never be called, since these types of nodes do not exist
      */
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
     }
 
-    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, int $a_page_templ) : void
+    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, int $a_page_templ): void
     {
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);

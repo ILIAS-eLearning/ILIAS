@@ -25,7 +25,7 @@ abstract class ilFile
     /**
      * delete trailing slash of path variables
      */
-    public function deleteTrailingSlash(string $a_path) : string
+    public function deleteTrailingSlash(string $a_path): string
     {
         // DELETE TRAILING '/'
         if (substr($a_path, -1) == '/' or substr($a_path, -1) == "\\") {

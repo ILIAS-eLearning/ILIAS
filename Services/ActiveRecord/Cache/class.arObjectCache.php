@@ -26,7 +26,7 @@ class arObjectCache
      * @param $class
      * @param $id
      */
-    public static function isCached($class, $id) : bool
+    public static function isCached($class, $id): bool
     {
         $instance = new $class();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
@@ -45,7 +45,7 @@ class arObjectCache
         return array_key_exists($id, self::$cache[$class]);
     }
 
-    public static function store(ActiveRecord $object) : void
+    public static function store(ActiveRecord $object): void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             if ($object->getCache()->set($object->getCacheIdentifier(), $object, $object->getTTL())) {
@@ -57,7 +57,7 @@ class arObjectCache
         }
     }
 
-    public static function printStats() : void
+    public static function printStats(): void
     {
         foreach (self::$cache as $class => $objects) {
             echo $class;
@@ -72,7 +72,7 @@ class arObjectCache
      * @param $id
      * @throws arException
      */
-    public static function get($class, $id) : \ActiveRecord
+    public static function get($class, $id): \ActiveRecord
     {
         $instance = new $class();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
@@ -87,7 +87,7 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-    public static function purge(ActiveRecord $object) : void
+    public static function purge(ActiveRecord $object): void
     {
         if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             $object->getCache()->delete($object->getCacheIdentifier());
@@ -98,7 +98,7 @@ class arObjectCache
     /**
      * @param $class_name
      */
-    public static function flush($class_name) : void
+    public static function flush($class_name): void
     {
         $instance = new $class_name();
         if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {

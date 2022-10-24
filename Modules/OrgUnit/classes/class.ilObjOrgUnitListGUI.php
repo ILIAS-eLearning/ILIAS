@@ -39,7 +39,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -59,23 +59,21 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand() : void
+    public function insertTimingsCommand(): void
     {
-
     }
 
     /**
      * no social commands needed in orgunits.
      */
-    public function insertCommonSocialCommands(bool $a_header_actions = false) : void
+    public function insertCommonSocialCommands(bool $a_header_actions = false): void
     {
-
     }
 
     /**
      * insert info screen command
      */
-    public function insertInfoScreenCommand() : void
+    public function insertInfoScreenCommand(): void
     {
         if ($this->std_cmd_only) {
             return;
@@ -83,59 +81,37 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
 
-        $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
-            ilUtil::getImagePath("icon_info.svg"));
+        $this->insertCommand(
+            $cmd_link,
+            $this->lng->txt("info_short"),
+            $cmd_frame,
+            ilUtil::getImagePath("icon_info.svg")
+        );
     }
 
-    public function getCommandLink(string $a_cmd) : string
+    public function getCommandLink(string $a_cmd): string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
-    public function insertIconsAndCheckboxes() : void
+    /**
+     * Get object type specific type icon
+     */
+    public function getTypeIcon(): string
     {
-
-        // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
-        if (!$this->settings->get('custom_icons')) {
-            parent::insertIconsAndCheckboxes();
-
-            return;
-        }
         $icons_cache = ilObjOrgUnit::getIconsCache();
         if (isset($icons_cache[$this->obj_id])) {
             $icon_file = $icons_cache[$this->obj_id];
-            // icon link
-            if (!$this->default_command or (!$this->getCommandsStatus() and !$this->restrict_to_goto)) {
-            } else {
-                $this->tpl->setCurrentBlock("icon_link_s");
-
-                if ($this->default_command["frame"] != "") {
-                    $this->tpl->setVariable("ICON_TAR", "target='" . $this->default_command["frame"] . "'");
-                }
-
-                $this->tpl->setVariable("ICON_HREF", $this->default_command["link"]);
-                $this->tpl->parseCurrentBlock();
-                $this->tpl->touchBlock("icon_link_e");
-            }
-            $this->enableIcon(false);
-            if ($this->getContainerObject()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
-                $this->tpl->touchBlock("i_1");    // indent main div  }
-                $this->tpl->touchBlock("d_2");    // indent main div  } #0014913
-            } else {
-                $this->tpl->touchBlock("d_1");
-            }
-
-            parent::insertIconsAndCheckboxes();
-            $this->tpl->setCurrentBlock("icon");
-            $this->tpl->setVariable("ALT_ICON",
-                $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->getIconImageType()));
-            $this->tpl->setVariable("SRC_ICON", $icon_file);
-            $this->tpl->parseCurrentBlock();
-            $this->enableIcon(true);
-        } else {
-            parent::insertIconsAndCheckboxes();
+            return $icon_file;
         }
+
+        return ilObject::getIconForReference(
+            $this->ref_id,
+            $this->obj_id,
+            'small',
+            $this->getIconImageType()
+        );
     }
 }

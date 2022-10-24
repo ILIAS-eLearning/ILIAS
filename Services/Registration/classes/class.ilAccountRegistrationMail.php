@@ -1,16 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccountRegistrationMail
@@ -32,26 +38,26 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         parent::__construct(false);
     }
 
-    public function getMode() : int
+    public function getMode(): int
     {
         return $this->mode;
     }
 
-    public function withDirectRegistrationMode() : ilAccountRegistrationMail
+    public function withDirectRegistrationMode(): ilAccountRegistrationMail
     {
         $clone = clone $this;
         $clone->mode = self::MODE_DIRECT_REGISTRATION;
         return $clone;
     }
 
-    public function withEmailConfirmationRegistrationMode() : ilAccountRegistrationMail
+    public function withEmailConfirmationRegistrationMode(): ilAccountRegistrationMail
     {
         $clone = clone $this;
         $clone->mode = self::MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION;
         return $clone;
     }
 
-    private function isEmptyMailConfigurationData(array $mailData) : bool
+    private function isEmptyMailConfigurationData(array $mailData): bool
     {
         return !(
             isset($mailData['body'], $mailData['subject']) &&
@@ -62,7 +68,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         );
     }
 
-    private function trySendingUserDefinedAccountMail(ilObjUser $user, string $rawPassword) : bool
+    private function trySendingUserDefinedAccountMail(ilObjUser $user, string $rawPassword): bool
     {
         $trimStrings = static function ($value) {
             if (is_string($value)) {
@@ -114,7 +120,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart) : string {
+            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart): string {
                 return trim($pathPart, '/');
             }, [
                 $fs->getAbsolutePath(),
@@ -143,7 +149,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         ilObjUser $user,
         string $rawPassword,
         bool $usedRegistrationCode
-    ) : void {
+    ): void {
         $this->logger->debug(sprintf(
             "Sending language variable dependent welcome email to user %s (id: %s|language: %s) as fallback ...",
             $user->getLogin(),
@@ -195,7 +201,7 @@ class ilAccountRegistrationMail extends ilMimeMailNotification
         $this->logger->debug("Welcome email sent");
     }
 
-    public function send(ilObjUser $user, string $rawPassword = '', bool $usedRegistrationCode = false) : void
+    public function send(ilObjUser $user, string $rawPassword = '', bool $usedRegistrationCode = false): void
     {
         if (!$this->trySendingUserDefinedAccountMail($user, $rawPassword)) {
             $this->sendLanguageVariableBasedAccountMail($user, $rawPassword, $usedRegistrationCode);

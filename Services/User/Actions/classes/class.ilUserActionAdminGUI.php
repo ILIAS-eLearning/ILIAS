@@ -46,18 +46,18 @@ class ilUserActionAdminGUI
             $DIC->refinery()
         );
     }
-    
-    public function setActionContext(ilUserActionContext $a_val = null) : void
+
+    public function setActionContext(ilUserActionContext $a_val = null): void
     {
         $this->action_context = $a_val;
     }
-    
-    public function getActionContext() : ilUserActionContext
+
+    public function getActionContext(): ilUserActionContext
     {
         return $this->action_context;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -70,7 +70,7 @@ class ilUserActionAdminGUI
         }
     }
 
-    public function show() : void
+    public function show(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("user_actions_activation_info"));
 
@@ -86,7 +86,7 @@ class ilUserActionAdminGUI
     /**
      * Save !!!! note in the future this must depend on the context, currently we only have one
      */
-    public function save() : void
+    public function save(): void
     {
         if (!$this->rbabsystem->checkAccess("write", $this->ref_id)) {
             $this->ctrl->redirect($this, "show");
@@ -99,7 +99,7 @@ class ilUserActionAdminGUI
                 $this->action_context->getContextId(),
                 $a["action_comp_id"],
                 $a["action_type_id"],
-                (bool) $active[$a["action_comp_id"] . ":" . $a["action_type_id"]]
+                (bool) ($active[$a["action_comp_id"] . ":" . $a["action_type_id"]] ?? false)
             );
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
@@ -110,7 +110,7 @@ class ilUserActionAdminGUI
      * Get actions, !!!! note in the future this must depend on the context, currently we only have one
      * @return array[]
      */
-    public function getActions() : array
+    public function getActions(): array
     {
         $data = array();
         foreach (ilUserActionProviderFactory::getAllProviders() as $p) {

@@ -38,58 +38,58 @@ class ilModalGUI
     {
     }
 
-    public static function getInstance() : self
+    public static function getInstance(): self
     {
         return new ilModalGUI();
     }
 
-    public function setId(string $a_val) : void
+    public function setId(string $a_val): void
     {
         $this->id = $a_val;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function setHeading(string $a_val) : void
+    public function setHeading(string $a_val): void
     {
         $this->heading = $a_val;
     }
 
 
-    public function getHeading() : string
+    public function getHeading(): string
     {
         return $this->heading;
     }
 
-    public function setBody(string $a_val) : void
+    public function setBody(string $a_val): void
     {
         $this->body = $a_val;
     }
 
-    public function getBody() : string
+    public function getBody(): string
     {
         return $this->body;
     }
-    
+
     /**
      * Set type
      *
      * @param string $a_val type const ilModalGUI::TYPE_SMALL|ilModalGUI::TYPE_MEDIUM|ilModalGUI::TYPE_LARGE
      */
-    public function setType(string $a_val) : void
+    public function setType(string $a_val): void
     {
         $this->type = $a_val;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function addButton(ilButtonBase $but) : void
+    public function addButton(ilButtonBase $but): void
     {
         $this->buttons[] = $but;
     }
@@ -98,12 +98,12 @@ class ilModalGUI
      * Get buttons
      * @return ilButtonBase[]
      */
-    public function getButtons() : array
+    public function getButtons(): array
     {
         return $this->buttons;
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $tpl = new ilTemplate("tpl.modal.html", true, true, "Services/UIComponent/Modal");
 
@@ -135,7 +135,7 @@ class ilModalGUI
         return $tpl->get();
     }
 
-    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null) : void
+    public static function initJS(ilGlobalTemplateInterface $a_main_tpl = null): void
     {
         global $DIC;
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Init\StartupSequence;
@@ -13,20 +15,20 @@ abstract class StartUpSequenceStep
     /**
      * @return bool
      */
-    abstract public function shouldStoreRequestTarget() : bool;
+    abstract public function shouldStoreRequestTarget(): bool;
 
     /**
      * @return bool
      */
-    abstract public function shouldInterceptRequest() : bool;
+    abstract public function shouldInterceptRequest(): bool;
 
     /**
      * @return bool
      */
-    abstract public function isInFulfillment() : bool;
+    abstract public function isInFulfillment(): bool;
 
     /**
      * @return void
      */
-    abstract public function execute() : void;
+    abstract public function execute(): void;
 }

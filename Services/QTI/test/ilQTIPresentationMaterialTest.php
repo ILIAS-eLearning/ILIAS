@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,12 +23,12 @@ use PHPUnit\Framework\TestCase;
 
 class ilQTIPresentationMaterialTest extends TestCase
 {
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilQTIPresentationMaterial::class, new ilQTIPresentationMaterial());
     }
 
-    public function testAddFlowMat() : void
+    public function testAddFlowMat(): void
     {
         $flowMat = $this->getMockBuilder(ilQTIFlowMat::class)->disableOriginalConstructor()->getMock();
         $instance = new ilQTIPresentationMaterial();

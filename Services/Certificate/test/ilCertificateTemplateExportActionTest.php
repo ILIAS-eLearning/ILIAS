@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 {
-    public function testExport() : void
+    public function testExport(): void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 

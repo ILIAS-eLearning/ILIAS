@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
     private const VALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS_2 = 2;
     private const INVALID_PROCESSING_ENDS_NOT_SUCCESSFUL_DAYS = 0;
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -57,7 +59,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         );
     }
 
-    public function testFailCreateWithInvalidReminderNotRestartedByUserDays() : void
+    public function testFailCreateWithInvalidReminderNotRestartedByUserDays(): void
     {
         try {
             new ilStudyProgrammeAutoMailSettings(
@@ -71,7 +73,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         }
     }
 
-    public function testFailCreateWithInvalidProcessingEndsNotSuccessfulDays() : void
+    public function testFailCreateWithInvalidProcessingEndsNotSuccessfulDays(): void
     {
         try {
             new ilStudyProgrammeAutoMailSettings(
@@ -85,7 +87,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithSendReAssignedMail() : void
+    public function testSuccessfulWithSendReAssignedMail(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -108,7 +110,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         );
     }
 
-    public function testSuccessfulWithReminderNotRestartedByUserDays() : void
+    public function testSuccessfulWithReminderNotRestartedByUserDays(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -131,7 +133,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         );
     }
 
-    public function testFailWithReminderNotRestartedByUserDays() : void
+    public function testFailWithReminderNotRestartedByUserDays(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -146,7 +148,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithProcessingEndsNotSuccessfulDays() : void
+    public function testSuccessfulWithProcessingEndsNotSuccessfulDays(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -169,7 +171,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         );
     }
 
-    public function testFailWithProcessingEndsNotSuccessfulDays() : void
+    public function testFailWithProcessingEndsNotSuccessfulDays(): void
     {
         $obj = new ilStudyProgrammeAutoMailSettings(
             self::VALID_SEND_REASSIGNED_MAIL_1,
@@ -186,7 +188,7 @@ class ilStudyProgrammeAutoMailSettingsTest extends TestCase
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();

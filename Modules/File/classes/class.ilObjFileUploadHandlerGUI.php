@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,8 +34,8 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
     private Services $storage;
     private ilObjFileStakeholder $stakeholder;
-    private array $class_path = [ilRepositoryGUI::class, self::class];
-    
+    private array $class_path = [self::class];
+
     public function __construct()
     {
         global $DIC;
@@ -47,7 +49,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_UPLOAD, null, true);
     }
@@ -55,7 +57,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     /**
      * @inheritDoc
      */
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_INFO, null, true);
     }
@@ -64,7 +66,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      * overrides parent method in order to provide an async URL.
      * @return string
      */
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
         return $this->ctrl->getLinkTargetByClass($this->class_path, self::CMD_REMOVE, null, true);
     }
@@ -73,7 +75,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      * @return HandlerResult
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
-    protected function getUploadResult() : HandlerResult
+    protected function getUploadResult(): HandlerResult
     {
         $this->upload->register(new ilCountPDFPagesPreProcessors());
         $this->upload->process();
@@ -98,7 +100,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      * @param string $identifier
      * @return HandlerResult
      */
-    protected function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
             $this->storage->manage()->remove($id, $this->stakeholder);
@@ -116,7 +118,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      * @param string $identifier
      * @return FileInfoResult
      */
-    public function getInfoResult(string $identifier) : ?FileInfoResult
+    public function getInfoResult(string $identifier): ?FileInfoResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
             $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();
@@ -135,7 +137,7 @@ class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      * @param array $file_ids
      * @return FileInfoResult[]
      */
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $info_results = [];
         foreach ($file_ids as $identifier) {

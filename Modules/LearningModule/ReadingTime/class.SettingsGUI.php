@@ -48,7 +48,7 @@ class SettingsGUI
         $this->lm_id = $lm_id;
     }
 
-    public function addSettingToForm(\ilPropertyFormGUI $form) : void
+    public function addSettingToForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $cb = new \ilCheckboxInputGUI($this->lng->txt("lm_est_reading_time"), "est_reading_time");
@@ -57,7 +57,7 @@ class SettingsGUI
         }
     }
 
-    public function saveSettingFromForm(\ilPropertyFormGUI $form) : void
+    public function saveSettingFromForm(\ilPropertyFormGUI $form): void
     {
         if ($this->manager->isGloballyActivated()) {
             $this->manager->activate(

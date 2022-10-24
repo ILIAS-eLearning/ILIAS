@@ -36,7 +36,7 @@ class SurveyCategories
         $this->log = ilLoggerFactory::getLogger("svy");
     }
 
-    public function getCategoryCount() : int
+    public function getCategoryCount(): int
     {
         return count($this->categories);
     }
@@ -51,7 +51,7 @@ class SurveyCategories
         int $other = 0,
         int $neutral = 0,
         ?string $label = null
-    ) : void {
+    ): void {
         if (array_key_exists($position, $this->categories)) {
             $head = array_slice($this->categories, 0, $position);
             $tail = array_slice($this->categories, $position);
@@ -60,8 +60,8 @@ class SurveyCategories
             $this->categories[] = new ilSurveyCategory($categoryname, $other, $neutral, $label);
         }
     }
-    
-    public function moveCategoryUp(int $index) : void
+
+    public function moveCategoryUp(int $index): void
     {
         if ($index > 0) {
             $temp = $this->categories[$index - 1];
@@ -69,8 +69,8 @@ class SurveyCategories
             $this->categories[$index] = $temp;
         }
     }
-    
-    public function moveCategoryDown(int $index) : void
+
+    public function moveCategoryDown(int $index): void
     {
         if ($index < (count($this->categories) - 1)) {
             $temp = $this->categories[$index + 1];
@@ -85,19 +85,19 @@ class SurveyCategories
         int $neutral = 0,
         ?string $label = null,
         ?int $scale = null
-    ) : void {
+    ): void {
         $this->categories[] = new ilSurveyCategory($categoryname, $other, $neutral, $label, $scale);
     }
-    
+
     /**
      * @param array $categories array with categories
      */
-    public function addCategoryArray(array $categories) : void
+    public function addCategoryArray(array $categories): void
     {
         $this->categories = array_merge($this->categories, $categories);
     }
-    
-    public function removeCategory(int $index) : void
+
+    public function removeCategory(int $index): void
     {
         unset($this->categories[$index]);
         $this->categories = array_values($this->categories);
@@ -106,7 +106,7 @@ class SurveyCategories
     /**
      * @param int[] $array index positions
      */
-    public function removeCategories(array $array) : void
+    public function removeCategories(array $array): void
     {
         foreach ($array as $index) {
             unset($this->categories[$index]);
@@ -116,7 +116,7 @@ class SurveyCategories
 
     public function removeCategoryWithName(
         string $name
-    ) : void {
+    ): void {
         foreach ($this->categories as $index => $category) {
             if (strcmp($category->title, $name) == 0) {
                 $this->removeCategory($index);
@@ -124,16 +124,16 @@ class SurveyCategories
             }
         }
     }
-    
+
     public function getCategory(
         int $index
-    ) : ?ilSurveyCategory {
+    ): ?ilSurveyCategory {
         return $this->categories[$index] ?? null;
     }
 
     public function getCategoryForScale(
         int $scale
-    ) : ?ilSurveyCategory {
+    ): ?ilSurveyCategory {
         foreach ($this->categories as $cat) {
             if ($cat->scale == $scale) {
                 return $cat;
@@ -144,7 +144,7 @@ class SurveyCategories
 
     public function getCategoryIndex(
         string $name
-    ) : ?int {
+    ): ?int {
         foreach ($this->categories as $index => $category) {
             if (strcmp($category->title, $name) == 0) {
                 return $index;
@@ -153,7 +153,7 @@ class SurveyCategories
         return null;
     }
 
-    public function getIndex(ilSurveyCategory $category) : ?int
+    public function getIndex(ilSurveyCategory $category): ?int
     {
         foreach ($this->categories as $index => $cat) {
             if ($cat == $category) {
@@ -162,8 +162,8 @@ class SurveyCategories
         }
         return null;
     }
-    
-    public function getNewScale() : int
+
+    public function getNewScale(): int
     {
         $max = 0;
         foreach ($this->categories as $index => $category) {
@@ -179,7 +179,7 @@ class SurveyCategories
     // note, if the index is not found, we get a new scale back
     public function getScale(
         int $index
-    ) : int {
+    ): int {
         $obj = $this->categories[$index];
         if (is_object($obj) && $obj->scale > 0) {
             $this->log->debug("getScale has scale =" . $obj->scale);
@@ -189,13 +189,13 @@ class SurveyCategories
         }
         return $obj->scale;
     }
-    
-    public function flushCategories() : void
+
+    public function flushCategories(): void
     {
         $this->categories = array();
     }
 
-    public function getCategories() : array
+    public function getCategories(): array
     {
         return $this->categories;
     }

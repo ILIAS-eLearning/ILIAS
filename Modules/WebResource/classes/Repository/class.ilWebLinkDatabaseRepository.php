@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -40,7 +42,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         $this->update_history = $update_history;
     }
 
-    public function createItem(ilWebLinkDraftItem $item) : ilWebLinkItem
+    public function createItem(ilWebLinkDraftItem $item): ilWebLinkItem
     {
         $next_link_id = $this->db->nextId(self::ITEMS_TABLE);
 
@@ -128,7 +130,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         return $new_item;
     }
 
-    public function createList(ilWebLinkDraftList $list) : ilWebLinkList
+    public function createList(ilWebLinkDraftList $list): ilWebLinkList
     {
         $new_list = new ilWebLinkList(
             $this->getWebrId(),
@@ -162,7 +164,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         return $new_list;
     }
 
-    public function createAllItemsInDraftContainer(ilWebLinkDraftItemsContainer $container) : ilWebLinkItemsContainer
+    public function createAllItemsInDraftContainer(ilWebLinkDraftItemsContainer $container): ilWebLinkItemsContainer
     {
         $new_items = [];
 
@@ -176,7 +178,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function getAllItemsAsContainer(bool $only_active = false) : ilWebLinkItemsContainer
+    public function getAllItemsAsContainer(bool $only_active = false): ilWebLinkItemsContainer
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer');
@@ -216,7 +218,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function getItemByLinkId(int $link_id) : ilWebLinkItem
+    public function getItemByLinkId(int $link_id): ilWebLinkItem
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
@@ -251,7 +253,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function doesOnlyOneItemExist(bool $only_active = false) : bool
+    public function doesOnlyOneItemExist(bool $only_active = false): bool
     {
         $query = "SELECT COUNT(*) AS num FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer');
@@ -269,7 +271,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     public function getParameterinItemByParamId(
         ilWebLinkItem $item,
         int $param_id
-    ) : ilWebLinkParameter {
+    ): ilWebLinkParameter {
         $res = $this->db->query(
             "SELECT * FROM " . $this->db->quoteIdentifier(self::PARAMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
@@ -293,7 +295,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function getList() : ilWebLinkList
+    public function getList(): ilWebLinkList
     {
         $res = $this->db->query(
             "SELECT * FROM " . $this->db->quoteIdentifier(self::LISTS_TABLE) . " " .
@@ -315,7 +317,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function doesListExist() : bool
+    public function doesListExist(): bool
     {
         $res = $this->db->query(
             "SELECT COUNT(*) AS num FROM " . $this->db->quoteIdentifier(self::LISTS_TABLE) . " " .
@@ -330,7 +332,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     public function updateItem(
         ilWebLinkItem $item,
         ilWebLinkDraftItem $drafted_item
-    ) : void {
+    ): void {
         if ($item->getWebrId() !== $this->getWebrId()) {
             throw new ilWebLinkDatabaseRepositoryException(
                 'Cannot update an item from a different web link object.'
@@ -436,7 +438,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     public function updateList(
         ilWebLinkList $list,
         ilWebLinkDraftList $drafted_list
-    ) : void {
+    ): void {
         if ($list->getWebrId() !== $this->getWebrId()) {
             throw new ilWebLinkDatabaseRepositoryException(
                 'Cannot update a list from a different web link object.'
@@ -464,7 +466,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         }
     }
 
-    public function deleteAllItems() : void
+    public function deleteAllItems(): void
     {
         $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::ITEMS_TABLE) . " " .
@@ -477,7 +479,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function deleteItemByLinkID(int $link_id) : void
+    public function deleteItemByLinkID(int $link_id): void
     {
         if ($this->isUpdateHistory()) {
             $title = $this->getItemByLinkId($link_id)->getTitle();
@@ -507,7 +509,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     public function deleteParameterByLinkIdAndParamId(
         int $link_id,
         int $param_id
-    ) : void {
+    ): void {
         $this->db->manipulate(
             "DELETE FROM " . $this->db->quoteIdentifier(self::PARAMS_TABLE) . " " .
             "WHERE webr_id = " . $this->db->quote($this->getWebrId(), 'integer') . " " .
@@ -516,7 +518,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         );
     }
 
-    public function deleteList() : void
+    public function deleteList(): void
     {
         if ($this->isUpdateHistory()) {
             $title = $this->getList()->getTitle();
@@ -539,7 +541,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     /**
      * @return ilWebLinkParameter[]
      */
-    protected function getParametersByLinkId(int $link_id) : array
+    protected function getParametersByLinkId(int $link_id): array
     {
         $res = $this->db->query(
             "SELECT * FROM " . $this->db->quoteIdentifier(self::PARAMS_TABLE) . " " .
@@ -565,7 +567,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     /**
      * @throws ilWebLinkDatabaseRepositoryException
      */
-    protected function validateParameter(ilWebLinkBaseParameter $parameter) : void
+    protected function validateParameter(ilWebLinkBaseParameter $parameter): void
     {
         if (!in_array(
             $parameter->getValue(),
@@ -580,7 +582,7 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
     /**
      * @throws ilWebLinkDatabaseRepositoryException
      */
-    protected function validateInternalItemTarget(ilWebLinkDraftItem $item) : void
+    protected function validateInternalItemTarget(ilWebLinkDraftItem $item): void
     {
         if (
             $item->isInternal() &&
@@ -592,27 +594,27 @@ class ilWebLinkDatabaseRepository implements ilWebLinkRepository
         }
     }
 
-    public function getWebrId() : int
+    public function getWebrId(): int
     {
         return $this->webr_id;
     }
 
-    public function isUpdateHistory() : bool
+    public function isUpdateHistory(): bool
     {
         return $this->update_history;
     }
 
-    public function setUpdateHistory(bool $update_history) : void
+    public function setUpdateHistory(bool $update_history): void
     {
         $this->update_history = $update_history;
     }
 
-    protected function getCurrentTime() : int
+    protected function getCurrentTime(): int
     {
         return time();
     }
 
-    protected function getNewDateTimeImmutable() : DateTimeImmutable
+    protected function getNewDateTimeImmutable(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }

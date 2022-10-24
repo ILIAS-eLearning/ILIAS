@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -55,7 +57,7 @@ class ilForumAutoSaveAsyncDraftAction
         $this->action = $action;
     }
 
-    public function executeAndGetResponseObject() : stdClass
+    public function executeAndGetResponseObject(): stdClass
     {
         $response = new stdClass();
         $response->draft_id = 0;
@@ -102,7 +104,7 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
                 $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
-                $draftObj->setNotificationStatus($inputValues['notify']);
+                $draftObj->setNotificationStatus((bool) $inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
                 $draftObj->setPostAuthorId($this->actor->getId());
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
@@ -146,7 +148,7 @@ class ilForumAutoSaveAsyncDraftAction
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
             $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
-            $draftObj->setNotificationStatus($inputValues['notify']);
+            $draftObj->setNotificationStatus((bool) $inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
@@ -182,7 +184,7 @@ class ilForumAutoSaveAsyncDraftAction
         array $uploadedObjects,
         array $oldMediaObjects,
         array $curMediaObjects
-    ) : void {
+    ): void {
         foreach ($uploadedObjects as $mob) {
             ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->actor->getId());
             ilObjMediaObject::_saveUsage($mob, $type, $draftId);
@@ -197,7 +199,7 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
-    protected function getInputValuesFromForm() : array
+    protected function getInputValuesFromForm(): array
     {
         $inputValues = [];
 

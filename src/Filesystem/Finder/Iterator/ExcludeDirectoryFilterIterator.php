@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
@@ -44,7 +45,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements Recursive
      */
     public function __construct(PhpIterator $iterator, array $directories)
     {
-        array_walk($directories, static function ($directory) : void {
+        array_walk($directories, static function ($directory): void {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
                     throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
@@ -77,7 +78,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements Recursive
     /**
      * @inheritdoc
      */
-    public function accept() : bool
+    public function accept(): bool
     {
         /** @var Metadata $metadata */
         $metadata = $this->current();
@@ -99,7 +100,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements Recursive
     /**
      * @inheritdoc
      */
-    public function hasChildren() : bool
+    public function hasChildren(): bool
     {
         return $this->isRecursive && $this->iterator->hasChildren();
     }
@@ -107,7 +108,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements Recursive
     /**
      * @inheritdoc
      */
-    public function getChildren() : \ILIAS\Filesystem\Finder\Iterator\ExcludeDirectoryFilterIterator
+    public function getChildren(): \ILIAS\Filesystem\Finder\Iterator\ExcludeDirectoryFilterIterator
     {
         $children = new self($this->iterator->getChildren(), []);
         $children->excludedDirs = $this->excludedDirs;

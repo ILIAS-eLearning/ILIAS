@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -18,12 +33,12 @@ class ilAssQuestionSkillAssignmentExporter
      * @var array
      */
     protected $questionIds;
-    
+
     /**
      * @var ilAssQuestionSkillAssignmentList
      */
     protected $assignmentList;
-    
+
     /**
      * ilAssQuestionSkillAssignmentExporter constructor.
      */
@@ -37,7 +52,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return ilXmlWriter
      */
-    public function getXmlWriter() : ?ilXmlWriter
+    public function getXmlWriter(): ?ilXmlWriter
     {
         return $this->xmlWriter;
     }
@@ -45,7 +60,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    public function setXmlWriter(ilXmlWriter $xmlWriter) : void
+    public function setXmlWriter(ilXmlWriter $xmlWriter): void
     {
         $this->xmlWriter = $xmlWriter;
     }
@@ -53,7 +68,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return array
      */
-    public function getQuestionIds() : array
+    public function getQuestionIds(): array
     {
         return $this->questionIds;
     }
@@ -61,34 +76,34 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @param array $questionIds
      */
-    public function setQuestionIds($questionIds) : void
+    public function setQuestionIds($questionIds): void
     {
         $this->questionIds = $questionIds;
     }
-    
+
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getAssignmentList() : ?ilAssQuestionSkillAssignmentList
+    public function getAssignmentList(): ?ilAssQuestionSkillAssignmentList
     {
         return $this->assignmentList;
     }
-    
+
     /**
      * @param ilAssQuestionSkillAssignmentList $assignmentList
      */
-    public function setAssignmentList($assignmentList) : void
+    public function setAssignmentList($assignmentList): void
     {
         $this->assignmentList = $assignmentList;
     }
 
-    public function export() : void
+    public function export(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
         $this->getXmlWriter()->xmlStartTag('QuestionSkillAssignments');
-        
+
         foreach ($this->getQuestionIds() as $questionId) {
             $this->getXmlWriter()->xmlStartTag('TriggerQuestion', array('Id' => $questionId));
 
@@ -99,13 +114,13 @@ class ilAssQuestionSkillAssignmentExporter
                     'BaseId' => $questionSkillAssignment->getSkillBaseId(),
                     'TrefId' => $questionSkillAssignment->getSkillTrefId()
                 ));
-                
+
                 $this->getXmlWriter()->xmlElement(
                     'OriginalSkillTitle',
                     null,
                     $questionSkillAssignment->getSkillTitle()
                 );
-                
+
                 $this->getXmlWriter()->xmlElement(
                     'OriginalSkillPath',
                     null,

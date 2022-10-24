@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +36,7 @@ class ilBuddySystemRelationStateFactory
         $this->lng = $lng;
     }
 
-    public static function getInstance(?ilLanguage $lng = null) : self
+    public static function getInstance(?ilLanguage $lng = null): self
     {
         global $DIC;
 
@@ -47,7 +49,7 @@ class ilBuddySystemRelationStateFactory
         return self::$instance;
     }
 
-    public function reset() : void
+    public function reset(): void
     {
         self::$instance = null;
     }
@@ -56,7 +58,7 @@ class ilBuddySystemRelationStateFactory
      * Get all valid states
      * @return ilBuddySystemRelationState[]
      */
-    public function getValidStates() : array
+    public function getValidStates(): array
     {
         return self::$validStates ?? (self::$validStates = [
             new ilBuddySystemUnlinkedRelationState(),
@@ -70,7 +72,7 @@ class ilBuddySystemRelationStateFactory
      * @return ilBuddySystemRelationState
      * @throws ilBuddySystemException
      */
-    public function getInitialState() : ilBuddySystemRelationState
+    public function getInitialState(): ilBuddySystemRelationState
     {
         foreach ($this->getValidStates() as $state) {
             if ($state->isInitial()) {
@@ -81,7 +83,7 @@ class ilBuddySystemRelationStateFactory
         throw new ilBuddySystemException('Could not find an initial state class');
     }
 
-    public function getTableFilterStateMapper(ilBuddySystemRelationState $state) : ilBuddySystemRelationStateTableFilterMapper
+    public function getTableFilterStateMapper(ilBuddySystemRelationState $state): ilBuddySystemRelationStateTableFilterMapper
     {
         $stateClass = get_class($state);
         $class = $stateClass . 'TableFilterMapper';
@@ -92,7 +94,7 @@ class ilBuddySystemRelationStateFactory
     public function getStateButtonRendererByOwnerAndRelation(
         int $ownerId,
         ilBuddySystemRelation $relation
-    ) : ilBuddySystemRelationStateButtonRenderer {
+    ): ilBuddySystemRelationStateButtonRenderer {
         $stateClass = get_class($relation->getState());
         $class = $stateClass . 'ButtonRenderer';
 

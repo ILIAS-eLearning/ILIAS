@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use Sabre\DAV\Locks\LockInfo;
 
 /**
@@ -33,7 +35,7 @@ class ilWebDAVLockObject
     protected int $depth;
     protected string $type;
     protected int $scope;
-    
+
     public function __construct(
         string $token,
         int $obj_id,
@@ -53,51 +55,51 @@ class ilWebDAVLockObject
         $this->type = $type;
         $this->scope = $scope;
     }
-    
-    public function getToken() : string
+
+    public function getToken(): string
     {
         return $this->token;
     }
-    
-    public function getObjId() : int
+
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
-    
-    public function getIliasOwner() : int
+
+    public function getIliasOwner(): int
     {
         return $this->ilias_owner;
     }
-    
-    public function getDavOwner() : string
+
+    public function getDavOwner(): string
     {
         return $this->dav_owner;
     }
-    
-    public function getExpires() : int
+
+    public function getExpires(): int
     {
         return $this->expires;
     }
-    
-    public function getDepth() : int
+
+    public function getDepth(): int
     {
         return $this->depth;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function getScope() : int
+
+    public function getScope(): int
     {
         return $this->scope;
     }
-    
-    public function getAsSabreDavLock(string $uri) : LockInfo
+
+    public function getAsSabreDavLock(string $uri): LockInfo
     {
         $timestamp = time();
-        
+
         $sabre_lock = new LockInfo();
         $sabre_lock->created = $timestamp;
         $sabre_lock->depth = $this->depth;
@@ -107,7 +109,7 @@ class ilWebDAVLockObject
         $sabre_lock->created = $this->expires - 3600;
         $sabre_lock->token = $this->token;
         $sabre_lock->uri = $uri;
-        
+
         return $sabre_lock;
     }
 }

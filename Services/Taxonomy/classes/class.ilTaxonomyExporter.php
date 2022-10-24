@@ -27,7 +27,7 @@ class ilTaxonomyExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init() : void
+    public function init(): void
     {
         $this->ds = new ilTaxonomyDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -41,7 +41,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param array        ids
      * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         return array();
     }
@@ -53,7 +53,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param array        ids
      * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids): array
     {
         return array();
     }
@@ -65,7 +65,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param string        id
      * @return    string        xml string
      */
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
@@ -77,7 +77,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param string $a_entity
      * @return array
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "4.3.0" => array(

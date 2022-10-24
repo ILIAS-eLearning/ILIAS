@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -28,10 +30,10 @@ interface ReplaceSignal extends Signal
     /**
      * Get the same signal returning an element from the given url
      */
-    public function withAsyncRenderUrl(string $url) : ReplaceSignal;
+    public function withAsyncRenderUrl(string $url): ReplaceSignal;
 
     /**
      * Get the url called to return the content.
      */
-    public function getAsyncRenderUrl() : string;
+    public function getAsyncRenderUrl(): string;
 }

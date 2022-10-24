@@ -1,7 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-/******************************************************************************
- *
+declare(strict_types=1);
+
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +13,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\Notifications;
 
@@ -26,9 +27,9 @@ use ILIAS\Notifications\Model\ilNotificationObject;
  */
 abstract class ilNotificationHandler
 {
-    abstract public function notify(ilNotificationObject $notification) : void;
+    abstract public function notify(ilNotificationObject $notification): void;
 
-    public function showSettings($form) : void
+    public function showSettings($form): void
     {
     }
 }

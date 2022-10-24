@@ -28,7 +28,7 @@ class ilLMObjectFactory
         ilObjLearningModule $a_content_obj,
         int $a_id = 0,
         bool $a_halt = true
-    ) : ?ilLMObject {
+    ): ?ilLMObject {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -39,20 +39,22 @@ class ilLMObjectFactory
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
         $obj = null;
-        switch ($obj_rec["type"]) {
-            case "st":
-                $obj = new ilStructureObject($a_content_obj);
-                $obj->setId($obj_rec["obj_id"]);
-                $obj->setDataRecord($obj_rec);
-                $obj->read();
-                break;
+        if ($obj_rec) {
+            switch ($obj_rec["type"]) {
+                case "st":
+                    $obj = new ilStructureObject($a_content_obj);
+                    $obj->setId($obj_rec["obj_id"]);
+                    $obj->setDataRecord($obj_rec);
+                    $obj->read();
+                    break;
 
-            case "pg":
-                $obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
-                $obj->setId($obj_rec["obj_id"]);
-                $obj->setDataRecord($obj_rec);
-                $obj->read();
-                break;
+                case "pg":
+                    $obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
+                    $obj->setId($obj_rec["obj_id"]);
+                    $obj->setDataRecord($obj_rec);
+                    $obj->read();
+                    break;
+            }
         }
         return $obj;
     }

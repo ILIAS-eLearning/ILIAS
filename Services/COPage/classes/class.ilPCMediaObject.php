@@ -34,7 +34,7 @@ class ilPCMediaObject extends ilPageContent
     protected ilLanguage $lng;
     protected ilGlobalPageTemplate $global_tpl;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -49,46 +49,46 @@ class ilPCMediaObject extends ilPageContent
             ->usage();
     }
 
-    public function readMediaObject(int $a_mob_id = 0) : void
+    public function readMediaObject(int $a_mob_id = 0): void
     {
         if ($a_mob_id > 0) {
             $mob = new ilObjMediaObject($a_mob_id);
             $this->setMediaObject($mob);
         }
     }
-    
-    public function setNode(php4DOMElement $a_node) : void
+
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->mob_node = $a_node->first_child();
     }
 
-    public function setDom(php4DOMDocument $a_dom) : void
+    public function setDom(php4DOMDocument $a_dom): void
     {
         $this->dom = $a_dom;
     }
 
-    public function setHierId(string $a_hier_id) : void
+    public function setHierId(string $a_hier_id): void
     {
         $this->hier_id = $a_hier_id;
     }
 
-    public function setMediaObject(ilObjMediaObject $a_mediaobject) : void
+    public function setMediaObject(ilObjMediaObject $a_mediaobject): void
     {
         $this->mediaobject = $a_mediaobject;
     }
 
-    public function getMediaObject() : ?ilObjMediaObject
+    public function getMediaObject(): ?ilObjMediaObject
     {
         return $this->mediaobject;
     }
-    
-    public function createMediaObject() : void
+
+    public function createMediaObject(): void
     {
         $this->setMediaObject(new ilObjMediaObject());
     }
 
-    public function create() : void
+    public function create(): void
     {
         $this->node = $this->createPageContentNode();
     }
@@ -97,7 +97,7 @@ class ilPCMediaObject extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->dom->create_element("PageContent");
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->mob_node = $this->dom->create_element("MediaObject");
@@ -189,13 +189,13 @@ class ilPCMediaObject extends ilPageContent
             }
         }
     }
-    
+
     /**
      * Updates the media object referenced by the media alias.
      * This makes only sense, after the media object has changed.
      * (-> change object reference function)
      */
-    public function updateObjectReference() : void
+    public function updateObjectReference(): void
     {
         if (is_object($this->mob_node)) {
             $this->mal_node = $this->mob_node->first_child();
@@ -205,13 +205,13 @@ class ilPCMediaObject extends ilPageContent
         }
     }
 
-    public function dumpXML() : string
+    public function dumpXML(): string
     {
         $xml = $this->dom->dump_node($this->node);
         return $xml;
     }
-    
-    public function setClass(string $a_class) : void
+
+    public function setClass(string $a_class): void
     {
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
@@ -230,7 +230,7 @@ class ilPCMediaObject extends ilPageContent
     /**
      * Get characteristic of section.
      */
-    public function getClass() : string
+    public function getClass(): string
     {
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
@@ -245,7 +245,7 @@ class ilPCMediaObject extends ilPageContent
     /**
      * Set caption style class of media object
      */
-    public function setCaptionClass(string $a_class) : void
+    public function setCaptionClass(string $a_class): void
     {
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
@@ -261,7 +261,7 @@ class ilPCMediaObject extends ilPageContent
         }
     }
 
-    public function getCaptionClass() : string
+    public function getCaptionClass(): string
     {
         if (is_object($this->mob_node)) {
             $mal_node = $this->mob_node->first_child();
@@ -273,7 +273,7 @@ class ilPCMediaObject extends ilPageContent
         return "";
     }
 
-    public static function getLangVars() : array
+    public static function getLangVars(): array
     {
         return array("pc_mob");
     }
@@ -290,7 +290,7 @@ class ilPCMediaObject extends ilPageContent
         DOMDocument $a_domdoc,
         string $a_xml,
         bool $a_creation
-    ) : void {
+    ): void {
         if (!$a_page->getImportMode()) {
             $mob_ids = ilObjMediaObject::_getMobsOfObject(
                 $a_page->getParentType() . ":pg",
@@ -310,10 +310,10 @@ class ilPCMediaObject extends ilPageContent
             }
         }
     }
-    
+
     public static function beforePageDelete(
         ilPageObject $a_page
-    ) : void {
+    ): void {
         $mob_ids = ilObjMediaObject::_getMobsOfObject(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
@@ -351,7 +351,7 @@ class ilPCMediaObject extends ilPageContent
         DOMDocument $a_old_domdoc,
         string $a_old_xml,
         int $a_old_nr
-    ) : void {
+    ): void {
         self::saveMobUsage($a_page, $a_old_domdoc, $a_old_nr);
     }
 
@@ -359,9 +359,9 @@ class ilPCMediaObject extends ilPageContent
         ilPageObject $a_page,
         DOMDocument $a_domdoc,
         int $a_old_nr = 0
-    ) : array {
+    ): array {
         $usages = array();
-        
+
         // media aliases
         $xpath = new DOMXPath($a_domdoc);
         $nodes = $xpath->query('//MediaAlias');
@@ -418,7 +418,7 @@ class ilPCMediaObject extends ilPageContent
                 );
             }
         }
-        
+
         return $usages;
     }
 
@@ -426,7 +426,7 @@ class ilPCMediaObject extends ilPageContent
         string $a_output,
         string $a_mode,
         bool $a_abstract_only = false
-    ) : string {
+    ): string {
         $ilUser = $this->user;
 
         if ($a_mode == "offline") {
@@ -476,7 +476,7 @@ class ilPCMediaObject extends ilPageContent
 
     public function getJavascriptFiles(
         string $a_mode
-    ) : array {
+    ): array {
         $js_files = ilPlayerUtil::getJsFilePaths();
         $js_files[] = iljQueryUtil::getLocalMaphilightPath();
         return $js_files;
@@ -484,13 +484,13 @@ class ilPCMediaObject extends ilPageContent
 
     public function getCssFiles(
         string $a_mode
-    ) : array {
+    ): array {
         $js_files = ilPlayerUtil::getCssFilePaths();
 
         return $js_files;
     }
 
-    public function getStandardMediaAliasItem() : ilMediaAliasItem
+    public function getStandardMediaAliasItem(): ilMediaAliasItem
     {
         $std_alias_item = new ilMediaAliasItem(
             $this->dom,
@@ -501,7 +501,7 @@ class ilPCMediaObject extends ilPageContent
         return $std_alias_item;
     }
 
-    public function getFullscreenMediaAliasItem() : ilMediaAliasItem
+    public function getFullscreenMediaAliasItem(): ilMediaAliasItem
     {
         $std_alias_item = new ilMediaAliasItem(
             $this->dom,
@@ -512,7 +512,7 @@ class ilPCMediaObject extends ilPageContent
         return $std_alias_item;
     }
 
-    public function checkInstanceEditing() : bool
+    public function checkInstanceEditing(): bool
     {
         // if any properties are set on the instance,
         // that are not accessible through the quick editing screen
@@ -550,7 +550,7 @@ class ilPCMediaObject extends ilPageContent
         int $page_id,
         string $lang,
         int $delete_lower_than_nr
-    ) : void {
+    ): void {
         global $DIC;
 
         $mob_usage_repo = $DIC->mediaObjects()

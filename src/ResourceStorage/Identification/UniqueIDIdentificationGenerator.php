@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -14,7 +16,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
- 
+
 namespace ILIAS\ResourceStorage\Identification;
 
 use ILIAS\Data\UUID\Factory;
@@ -39,7 +41,7 @@ class UniqueIDIdentificationGenerator implements IdentificationGenerator
     /**
      * @throws \Exception
      */
-    public function getUniqueResourceIdentification() : ResourceIdentification
+    public function getUniqueResourceIdentification(): ResourceIdentification
     {
         try {
             $unique_id = $this->factory->uuid4AsString();

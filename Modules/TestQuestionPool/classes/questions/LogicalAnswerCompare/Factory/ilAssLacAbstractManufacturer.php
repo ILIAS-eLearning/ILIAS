@@ -1,6 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacManufacturerInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class AbstractManufacturer
@@ -11,7 +25,6 @@ include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInterface
 {
-
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
      * @param string $subject
@@ -19,7 +32,7 @@ abstract class ilAssLacAbstractManufacturer implements ilAssLacManufacturerInter
      *@throws ilAssLacUnableToParseCondition
      * @see ManufacturerInterface::getPattern()
      */
-    public function match(string $subject) : array
+    public function match(string $subject): array
     {
         $matches = array();
         $num_matches = preg_match_all($this->getPattern(), $subject, $matches);

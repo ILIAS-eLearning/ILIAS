@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -24,15 +24,14 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
 {
-
     /**
      * Number of maximum allowed characters for attributes in order to fit in the database
      * @var int
      */
-    const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
-    const ENCODING_UTF_8 = 'UTF-8';
-    const ENCODING_ASCII = 'ASCII';
-    const ENCODING_ISO_8859_1 = 'ISO-8859-1';
+    public const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
+    public const ENCODING_UTF_8 = 'UTF-8';
+    public const ENCODING_ASCII = 'ASCII';
+    public const ENCODING_ISO_8859_1 = 'ISO-8859-1';
     protected string $file_content = '';
     protected string $path_to_file = '';
     protected \ilBiblEntryFactoryInterface $entry_factory;
@@ -59,7 +58,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         $this->storage = $DIC["resource_storage"];
     }
 
-    public function readContent(ResourceIdentification $identification) : bool
+    public function readContent(ResourceIdentification $identification): bool
     {
         $stream = $this->storage->consume()->stream($identification)->getStream();
         $this->setFileContent($stream->getContents());
@@ -67,7 +66,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return true;
     }
 
-    protected function convertStringToUTF8(string $string) : string
+    protected function convertStringToUTF8(string $string): string
     {
         if (!function_exists('mb_detect_encoding') || !function_exists('mb_detect_order')
             || !function_exists("mb_convert_encoding")
@@ -93,29 +92,29 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         return $string;
     }
 
-    public function getFileContent() : string
+    public function getFileContent(): string
     {
         return $this->file_content;
     }
 
-    public function setFileContent(string $file_content) : void
+    public function setFileContent(string $file_content): void
     {
         $this->file_content = $file_content;
     }
-    
-    abstract public function parseContent() : array;
+
+    abstract public function parseContent(): array;
 
     /**
      * @inheritDoc
      */
-    public function parseContentToEntries(ilObjBibliographic $bib) : array
+    public function parseContentToEntries(ilObjBibliographic $bib): array
     {
         $this->entry_factory->deleteEntriesById($bib->getId());
-        
+
         $entries_from_file = $this->parseContent();
         $entry_instances = [];
         //fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
-        
+
         foreach ($entries_from_file as $file_entry) {
             $type = null;
             $x = 0;
@@ -142,7 +141,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
                 $parsed_entry[$x]['value'] = $attribute;
                 $x++;
             }
-     
+
             if ($type === null) {
                 continue;
             }
@@ -164,7 +163,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getEntryFactory() : ilBiblEntryFactoryInterface
+    public function getEntryFactory(): ilBiblEntryFactoryInterface
     {
         return $this->entry_factory;
     }
@@ -172,7 +171,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritdoc
      */
-    public function getFieldFactory() : ilBiblFieldFactoryInterface
+    public function getFieldFactory(): ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
@@ -180,7 +179,7 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
     /**
      * @inheritDoc
      */
-    public function getAttributeFactory() : ilBiblAttributeFactoryInterface
+    public function getAttributeFactory(): ilBiblAttributeFactoryInterface
     {
         return $this->attribute_factory;
     }

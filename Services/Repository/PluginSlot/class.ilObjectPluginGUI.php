@@ -27,7 +27,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
-    protected ilPlugin $plugin;
+    protected ?ilPlugin $plugin = null;
     protected PluginSlotGUIRequest $slot_request;
     protected ilComponentFactory $component_factory;
 
@@ -59,7 +59,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->plugin = $this->getPlugin();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -181,7 +181,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    protected function addLocatorItems() : void
+    protected function addLocatorItems(): void
     {
         $ilLocator = $this->locator;
 
@@ -199,7 +199,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * Get plugin object
      * @throws ilPluginException
      */
-    protected function getPlugin() : ilPlugin
+    protected function getPlugin(): ilPlugin
     {
         if (!$this->plugin) {
             $this->plugin = $this->component_factory->getPlugin($this->getType());
@@ -207,7 +207,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return $this->plugin;
     }
 
-    final protected function txt(string $a_var) : string
+    final protected function txt(string $a_var): string
     {
         return $this->getPlugin()->txt($a_var);
     }
@@ -215,7 +215,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Use custom creation form titles
      */
-    protected function getCreationFormTitle(int $a_form_type) : string
+    protected function getCreationFormTitle(int $a_form_type): string
     {
         switch ($a_form_type) {
             case self::CFORM_NEW:
@@ -234,7 +234,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * Init creation forms
      * this will create the default creation forms: new, import, clone
      */
-    protected function initCreationForms(string $new_type) : array
+    protected function initCreationForms(string $new_type): array
     {
         $forms = [];
         $forms[self::CFORM_NEW] = $this->initCreateForm($new_type);
@@ -252,7 +252,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * @return bool returns true if this plugin object supports cloning
      */
-    protected function supportsCloning() : bool
+    protected function supportsCloning(): bool
     {
         return true;
     }
@@ -260,7 +260,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Init object creation form
      */
-    protected function initCreateForm(string $new_type) : ilPropertyFormGUI
+    protected function initCreateForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -289,7 +289,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Init object update form
      */
-    protected function initEditForm() : ilPropertyFormGUI
+    protected function initEditForm(): ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -323,7 +323,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      * @param string    new type
      * @return    ilPropertyFormGUI
      */
-    protected function initImportForm(string $new_type) : ilPropertyFormGUI
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -341,7 +341,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return $form;
     }
 
-    protected function afterSave(ilObject $new_object) : void
+    protected function afterSave(ilObject $new_object): void
     {
         $ilCtrl = $this->ctrl;
         // always send a message
@@ -355,13 +355,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Cmd that will be redirected to after creation of a new object.
      */
-    abstract public function getAfterCreationCmd() : string;
+    abstract public function getAfterCreationCmd(): string;
 
-    abstract public function getStandardCmd() : string;
+    abstract public function getStandardCmd(): string;
 
-    abstract public function performCommand(string $cmd) : void;
+    abstract public function performCommand(string $cmd): void;
 
-    public function addInilPluginAdminfoTab() : void
+    public function addInilPluginAdminfoTab(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -379,7 +379,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    public function addPermissionTab() : void
+    public function addPermissionTab(): void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -396,7 +396,25 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    public function addExportTab() : void
+    public function addInfoTab(): void
+    {
+        $ilAccess = $this->access;
+        $ilTabs = $this->tabs;
+
+        // info screen
+        if ($ilAccess->checkAccess('visible', "", $this->object->getRefId())) {
+            $ilTabs->addTarget(
+                "info_short",
+                $this->ctrl->getLinkTargetByClass(
+                    "ilinfoscreengui",
+                    "showSummary"
+                ),
+                "showSummary"
+            );
+        }
+    }
+
+    public function addExportTab(): void
     {
         // write
         if ($this->access->checkAccess('write', "", $this->object->getRefId())) {
@@ -409,7 +427,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    public function infoScreen() : void
+    public function infoScreen(): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -434,14 +452,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Add items to info screen
      */
-    public function addInfoItems(ilInfoScreenGUI $info) : void
+    public function addInfoItems(ilInfoScreenGUI $info): void
     {
     }
 
     /**
      * Goto redirection
      */
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -471,14 +489,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    protected function supportsExport() : bool
+    protected function supportsExport(): bool
     {
         $component_repository = $this->component_repository;
 
         return $component_repository->getPluginSlotById("robj")->getPluginByName($this->getPlugin()->getPluginName())->supportsExport();
     }
 
-    protected function lookupParentTitleInCreationMode() : string
+    protected function lookupParentTitleInCreationMode(): string
     {
         return ilObject::_lookupTitle(ilObject::_lookupObjId(
             $this->slot_request->getRefId()

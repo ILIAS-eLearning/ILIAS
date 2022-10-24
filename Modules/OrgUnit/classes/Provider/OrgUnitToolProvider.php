@@ -37,7 +37,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_ORGU_TREE = 'show_orgu_tree';
 
-    public function isInterestedInContexts() : ContextCollection
+    public function isInterestedInContexts(): ContextCollection
     {
         return $this->context_collection->main()->administration();
     }
@@ -46,30 +46,32 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
      * @param CalledContexts $called_contexts
      * @return \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool[]
      */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
+    public function getToolsForContextStack(CalledContexts $called_contexts): array
     {
         $tools = [];
 
         if ($called_contexts->current()->getAdditionalData()->is(self::SHOW_ORGU_TREE, true)) {
-            $iff = function(string $id) {
+            $iff = function (string $id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
             };
 
-            $t = function(string $key) : string {
+            $t = function (string $key): string {
                 return $this->dic->language()->txt($key);
             };
 
             $tools[] = $this->factory->treeTool($iff('tree_new'))
                                      ->withTitle($t('tree'))
-                                     ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu',
-                                         'Orgu'))
+                                     ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard(
+                                         'orgu',
+                                         'Orgu'
+                                     ))
                                      ->withTree($this->getTree());
         }
 
         return $tools;
     }
 
-    private function getTree() : Tree
+    private function getTree(): Tree
     {
         global $DIC;
         $lng = $DIC->language();
@@ -81,7 +83,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
                          ->withData($tree->getChildsOfNode($parent_node_id));
     }
 
-    private function getTreeRecursion() : TreeRecursion
+    private function getTreeRecursion(): TreeRecursion
     {
         $tree = new ilOrgUnitExplorerGUI(
             "orgu_explorer",
@@ -93,7 +95,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $ref_id = (int)($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? 0);
-        if($ref_id !== 0) {
+        if ($ref_id !== 0) {
             $tree->setPathOpen((int)$ref_id);
         }
         $tree->setOrderField('title');
@@ -104,7 +106,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     /**
      * @return int[]
      */
-    private function getTreeWhiteList() : array
+    private function getTreeWhiteList(): array
     {
         $whiteList = array('orgu');
         $pls = ilOrgUnitExtension::getActivePluginIdsForTree();

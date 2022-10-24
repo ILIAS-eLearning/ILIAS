@@ -39,7 +39,7 @@ class ilWorkspaceFolderUserSettings
             : new ilWorkspaceTree($user_id);
     }
 
-    public function getSortation(int $wfld_id) : int
+    public function getSortation(int $wfld_id): int
     {
         $sort = $this->repo->getSortation($wfld_id);
         if ($sort > 0) {
@@ -60,7 +60,7 @@ class ilWorkspaceFolderUserSettings
      * Get effective sortation for a workspace folder (next upper
      * context that has sortation > 0)
      */
-    public function getEffectiveSortation(int $wfld_wsp_id) : int
+    public function getEffectiveSortation(int $wfld_wsp_id): int
     {
         $tree = $this->tree;
 

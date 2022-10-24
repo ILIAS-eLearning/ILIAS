@@ -23,32 +23,32 @@
 abstract class ilADNAbstractGUI
 {
     public const IDENTIFIER = 'identifier';
-    
+
     protected \ILIAS\DI\UIServices $ui;
-    
+
     protected \ILIAS\HTTP\Services $http;
-    
+
     protected ilToolbarGUI $toolbar;
     protected \ilADNTabHandling $tab_handling;
-    
+
     protected ilTabsGUI $tabs;
-    
+
     public ilLanguage $lng;
-    
+
     protected ilCtrl $ctrl;
-    
+
     public ilGlobalTemplateInterface $tpl;
-    
+
     public ilTree $tree;
     protected \ilObjAdministrativeNotificationAccess $access;
-    
+
     /**
      * ilADNAbstractGUI constructor.
      */
     public function __construct(ilADNTabHandling $tab_handling)
     {
         global $DIC;
-        
+
         $this->tab_handling = $tab_handling;
         $this->tabs = $DIC['ilTabs'];
         $this->lng = $DIC->language();
@@ -59,37 +59,37 @@ abstract class ilADNAbstractGUI
         $this->http = $DIC->http();
         $this->ui = $DIC->ui();
         $this->access = new ilObjAdministrativeNotificationAccess();
-        
+
         $this->lng->loadLanguageModule('form');
     }
-    
+
     /**
      * @throws ilException
      */
-    protected function determineCommand(?string $standard = null) : ?string
+    protected function determineCommand(?string $standard = null): ?string
     {
         $this->access->checkAccessAndThrowException('visible,read');
         $cmd = $this->ctrl->getCmd();
         if ($cmd !== '') {
             return $cmd;
         }
-        
+
         return $standard;
     }
-    
-    abstract protected function dispatchCommand(string $cmd) : string;
-    
-    public function executeCommand() : void
+
+    abstract protected function dispatchCommand(string $cmd): string;
+
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass();
-        
+
         if ($next_class === '') {
             $cmd = $this->determineCommand();
             $this->tpl->setContent($this->dispatchCommand($cmd));
-            
+
             return;
         }
-        
+
         switch ($next_class) {
             case strtolower(ilADNNotificationGUI::class):
                 $this->tab_handling->initTabs(ilObjAdministrativeNotificationGUI::TAB_MAIN, ilADNNotificationGUI::TAB_TABLE, false);

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider;
@@ -31,16 +30,15 @@ use ILIAS\LTI\ToolProvider\Platform;
  */
 class LineItem extends AssignmentGrade
 {
-
     /**
      * Line item media type.
      */
-    const MEDIA_TYPE_LINE_ITEM = 'application/vnd.ims.lis.v2.lineitem+json';
+    public const MEDIA_TYPE_LINE_ITEM = 'application/vnd.ims.lis.v2.lineitem+json';
 
     /**
      * Line item container media type.
      */
-    const MEDIA_TYPE_LINE_ITEMS = 'application/vnd.ims.lis.v2.lineitemcontainer+json';
+    public const MEDIA_TYPE_LINE_ITEMS = 'application/vnd.ims.lis.v2.lineitemcontainer+json';
 
     /**
      * Access scope.
@@ -155,7 +153,7 @@ class LineItem extends AssignmentGrade
      * @param \ILIAS\LTI\ToolProvider\LineItem $lineItem Line item object //UK: changed from LTI\LineItem
      * @return bool  True if successful
      */
-    public function createLineItem(ToolProvider\LineItem $lineItem) : bool
+    public function createLineItem(ToolProvider\LineItem $lineItem): bool
     {
         $lineItem->endpoint = null;
         $this->mediaType = self::MEDIA_TYPE_LINE_ITEM;
@@ -176,7 +174,7 @@ class LineItem extends AssignmentGrade
      * @param \ILIAS\LTI\ToolProvider\LineItem $lineItem Line item object //UK: changed from LTI\LineItem
      * @return bool  True if successful
      */
-    public function saveLineItem(ToolProvider\LineItem $lineItem) : bool
+    public function saveLineItem(ToolProvider\LineItem $lineItem): bool
     {
         $this->mediaType = self::MEDIA_TYPE_LINE_ITEM;
         $http = $this->send('PUT', null, self::toJson($lineItem));
@@ -196,7 +194,7 @@ class LineItem extends AssignmentGrade
      * @param ToolProvider\LineItem $lineItem Line item object //UK: changed from LTI\LineItem
      * @return bool  True if successful
      */
-    public function deleteLineItem(ToolProvider\LineItem $lineItem) : bool
+    public function deleteLineItem(ToolProvider\LineItem $lineItem): bool
     {
         $this->mediaType = self::MEDIA_TYPE_LINE_ITEM;
         $http = $this->send('DELETE');
@@ -236,7 +234,7 @@ class LineItem extends AssignmentGrade
      * @param object   $json     JSON object to convert
      * @return null|\ILIAS\LTI\ToolProvider\LineItem  LineItem object, or null on error //UK: changed from LTI\\LineItem|null
      */
-    private static function toLineItem(Platform $platform, object $json) : ?ToolProvider\LineItem
+    private static function toLineItem(Platform $platform, object $json): ?ToolProvider\LineItem
     {
         if (!empty($json->id) && !empty($json->label) && !empty($json->scoreMaximum)) {
 //            $lineItem = new LTI\LineItem($platform, $json->label, $json->scoreMaximum);
@@ -271,7 +269,7 @@ class LineItem extends AssignmentGrade
      * @param ToolProvider\LineItem $lineItem Line item object //UK: changed from LTI\\LineItem|null
      * @return string    JSON representation of line item
      */
-    private static function toJson(ToolProvider\LineItem $lineItem) : string
+    private static function toJson(ToolProvider\LineItem $lineItem): string
     {
         $json = new \stdClass();
         if (!empty($lineItem->endpoint)) {

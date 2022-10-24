@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Exercise\Assignment\Mandatory;
 
 /**
@@ -53,16 +53,16 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
             $request->getExercise()
         );
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-    
+
         $this->setTitle($lng->txt("exc_assignments"));
         $this->setTopCommands(true);
-        
+
         // if you add pagination and disable the unlimited setting:
         // fix saving of ordering of single pages!
         $this->setLimit(9999);
-        
+
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("exc_assignment_type"), "type");
@@ -73,13 +73,13 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("exc_peer_review"), "peer");
         $this->addColumn($this->lng->txt("exc_instruction"), "", "30%");
         $this->addColumn($this->lng->txt("actions"));
-        
+
         $this->setDefaultOrderField("val_order");
         $this->setDefaultOrderDirection("asc");
-        
+
         //$this->setDefaultOrderField("name");
         //$this->setDefaultOrderDirection("asc");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.exc_assignments_row.html", "Modules/Exercise");
@@ -88,11 +88,11 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox("id");
 
         $this->addMultiCommand("confirmAssignmentsDeletion", $lng->txt("delete"));
-        
+
         $this->addCommandButton("orderAssignmentsByDeadline", $lng->txt("exc_order_by_deadline"));
         $this->addCommandButton("saveAssignmentOrder", $lng->txt("exc_save_order"));
         //$this->addCommandButton("addAssignment", $lng->txt("exc_add_assignment"));
-        
+
         $data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
         foreach ($data as $idx => $row) {
             // #14450
@@ -103,14 +103,17 @@ class ilAssignmentsTableGUI extends ilTable2GUI
                 if (is_array($peer_reviews)) {
                     $data[$idx]["peer_invalid"] = $peer_reviews["invalid"];
                 }
+                if (is_null($peer_reviews)) {
+                    $data[$idx]["peer_invalid"] = false;
+                }
             }
             $data[$idx]["ass_type"] = $this->types->getById($row["type"]);
             $data[$idx]["type"] = $data[$idx]["ass_type"]->getTitle();
         }
         $this->setData($data);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         // #12000
         if (in_array($a_field, array("order_val", "deadline", "start_time"))) {
@@ -122,7 +125,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -177,12 +180,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("exc_random"));
         }
-        
+
         $ilCtrl->setParameter($this->parent_obj, "ass_id", $a_set["id"]);
-        
+
         if ($a_set["peer"]) {
             $this->tpl->setVariable("TXT_PEER", $lng->txt("yes") . " (" . $a_set["peer_min"] . ")");
-            
+
             if ($a_set["peer_invalid"]) {
                 $this->tpl->setVariable("TXT_PEER_INVALID", $lng->txt("exc_peer_reviews_invalid_warning"));
             }
@@ -197,11 +200,11 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("TXT_PEER", $lng->txt("no"));
         }
-        
+
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
         $this->tpl->setVariable("ORDER_VAL", $a_set["order_val"]);
-        
+
         $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
         $this->tpl->setVariable(
             "CMD_EDIT",

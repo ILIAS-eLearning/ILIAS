@@ -41,7 +41,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         string $pcid
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -90,7 +90,7 @@ class ParagraphResponseFactory
         \ilPageObjectGUI $page_gui,
         $updated,
         array $pcids
-    ) : Server\Response {
+    ): Server\Response {
         $error = null;
         $rendered_content = null;
         $last_change = null;
@@ -126,7 +126,7 @@ class ParagraphResponseFactory
     protected function getParagraphOutput(
         \ilPageObjectGUI $page_gui,
         string $pcid
-    ) : string {
+    ): string {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 

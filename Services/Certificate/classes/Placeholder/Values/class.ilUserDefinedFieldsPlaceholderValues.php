@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -58,7 +60,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * @throws ilInvalidCertificateException
      * @throws ilException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         /** @var ilObjUser $user */
         $user = $this->objectHelper->getInstanceByObjId($userId);
@@ -95,7 +97,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * @param int $objId
      * @return array - [PLACEHOLDER] => 'dummy value'
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
 

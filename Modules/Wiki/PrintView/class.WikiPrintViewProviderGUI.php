@@ -74,7 +74,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
             );
     }
 
-    public function getTemplateInjectors() : array
+    public function getTemplateInjectors(): array
     {
         $resource_collector = new COPage\ResourcesCollector(
             \ilPageObjectGUI::OFFLINE,
@@ -89,10 +89,9 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         ];
     }
 
-    public function getPages() : array
+    public function getPages(): array
     {
         $print_pages = [];
-
         foreach ($this->selected_pages as $p_id) {
             $page_gui = new \ilWikiPageGUI($p_id);
             $page_gui->setWiki($this->wiki);
@@ -103,7 +102,7 @@ class WikiPrintViewProviderGUI extends Export\AbstractPrintViewProvider
         return $print_pages;
     }
 
-    public function getSelectionForm() : ?ilPropertyFormGUI
+    public function getSelectionForm(): ?ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

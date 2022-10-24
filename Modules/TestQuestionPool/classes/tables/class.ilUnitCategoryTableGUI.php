@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilUnitCategoryTableGUI
@@ -10,7 +22,6 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
-
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -22,7 +33,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $this->setId('ucats_' . $controller->getUniqueId());
 
         parent::__construct($controller, $cmd);
@@ -55,19 +66,19 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
     }
 
-    abstract protected function populateTitle() : void;
+    abstract protected function populateTitle(): void;
 
     /**
      * @param array $row
      */
-    public function fillRow(array $row) : void
+    public function fillRow(array $row): void
     {
         /**
          * @var $ilCtrl ilCtrl
          */
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $row['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'category_ids[]', $row['category_id']);
 
         $action = new ilAdvancedSelectionListGUI();

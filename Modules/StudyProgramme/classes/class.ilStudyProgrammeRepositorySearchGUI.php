@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
 */
 class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
-    public function addUser() : void
+    public function addUser(): void
     {
         global $DIC;
         $post_wrapper = $DIC->http()->wrapper()->post();
@@ -46,7 +48,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         ilToolbarGUI $toolbar = null,
         $a_options = array(),
         $a_sticky = false
-    ) : ilToolbarGUI {
+    ): ilToolbarGUI {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
         $lng = $DIC['lng'];
@@ -56,7 +58,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         if (!$toolbar instanceof ilToolbarGUI) {
             $toolbar = $ilToolbar;
         }
-        
+
         // Fill default options
         if (!isset($a_options['auto_complete_name'])) {
             $a_options['auto_complete_name'] = $lng->txt('obj_user');
@@ -67,7 +69,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         if (!isset($a_options['submit_name'])) {
             $a_options['submit_name'] = $lng->txt('btn_add');
         }
-        
+
         $ajax_url = $ilCtrl->getLinkTargetByClass(
             array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
             'doUserAutoComplete',
@@ -85,7 +87,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             $toolbar->addStickyItem($ul, true);
         }
 
-        if (count((array) $a_options['user_type'])) {
+        if (count($a_options['user_type'] ?? [])) {
             $si = new ilSelectInputGUI("", "user_type");
             $si->setOptions($a_options['user_type']);
             if (!$a_sticky) {
@@ -94,7 +96,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                 $toolbar->addStickyItem($si);
             }
         }
-        
+
         $button = ilSubmitButton::getInstance();
         $button->setCaption($a_options['submit_name'], false);
         $button->setCommand('addUserFromAutoComplete');
@@ -107,9 +109,9 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         if ((bool) $a_options['add_search'] ||
             is_numeric($a_options['add_from_container'])) {
             $lng->loadLanguageModule("search");
-            
+
             $toolbar->addSeparator();
-                    
+
             if ((bool) $a_options['add_search']) {
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("search_users");
@@ -117,7 +119,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                 $toolbar->addButtonInstance($button);
             }
 
-            if (is_numeric($a_options['add_from_container'])) {
+            if (isset($a_options['add_from_container']) && is_numeric($a_options['add_from_container'])) {
                 $parent_ref_id = (int) $a_options['add_from_container'];
                 $parent_container_ref_id = $tree->checkForParentType($parent_ref_id, "grp");
                 $parent_container_type = "grp";
@@ -129,13 +131,13 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                     if ((bool) $a_options['add_search']) {
                         $toolbar->addSpacer();
                     }
-                    
+
                     $ilCtrl->setParameterByClass(
                         'ilStudyProgrammeRepositorySearchGUI',
                         "list_obj",
                         ilObject::_lookupObjId($parent_container_ref_id)
                     );
-                    
+
                     $button = ilLinkButton::getInstance();
                     $button->setCaption("search_add_members_from_container_" . $parent_container_type);
                     $button->setUrl(
@@ -148,7 +150,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                 }
             }
         }
-        
+
         $toolbar->setFormAction(
             $ilCtrl->getFormActionByClass(
                 array(

@@ -1,4 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\TA\Questions\Ordering;
 
@@ -7,9 +25,9 @@ namespace ILIAS\TA\Questions\Ordering;
  */
 class assOrderingQuestionDatabaseRepository
 {
-    const TABLE_NAME_BASE = 'qpl_questions';
-    const TABLE_NAME_QUESTIONS = 'qpl_qst_ordering';
-    const TABLE_NAME_ANSWERS = 'qpl_a_ordering';
+    public const TABLE_NAME_BASE = 'qpl_questions';
+    public const TABLE_NAME_QUESTIONS = 'qpl_qst_ordering';
+    public const TABLE_NAME_ANSWERS = 'qpl_a_ordering';
 
     protected \ilDBInterface $db;
 
@@ -18,12 +36,12 @@ class assOrderingQuestionDatabaseRepository
         $this->db = $db;
     }
 
-    public function getOrderingList(int $question_id) : \ilAssOrderingElementList
+    public function getOrderingList(int $question_id): \ilAssOrderingElementList
     {
         return $this->buildOrderingList($question_id);
     }
 
-    public function updateOrderingList(\ilAssOrderingElementList $list) : void
+    public function updateOrderingList(\ilAssOrderingElementList $list): void
     {
         $atom_query = $this->db->buildAtomQuery();
         $atom_query->addTableLock(self::TABLE_NAME_ANSWERS);
@@ -39,11 +57,11 @@ class assOrderingQuestionDatabaseRepository
         );
         $atom_query->run();
     }
-    
+
     protected function buildOrderingList(
         int $question_id,
         array $elements = []
-    ) : \ilAssOrderingElementList {
+    ): \ilAssOrderingElementList {
         $elements = $this->getOrderingElementsForList($question_id);
         return new \ilAssOrderingElementList($question_id, $elements);
     }
@@ -51,7 +69,7 @@ class assOrderingQuestionDatabaseRepository
     /**
      * @return ilAssOrderingElement[]
      */
-    protected function getOrderingElementsForList(int $question_id) : array
+    protected function getOrderingElementsForList(int $question_id): array
     {
         $query = 'SELECT' . PHP_EOL
             . 'answer_id, answertext, solution_key, random_id, depth, position' . PHP_EOL
@@ -74,14 +92,14 @@ class assOrderingQuestionDatabaseRepository
         return $elements;
     }
 
-    protected function deleteOrderingElements(int $question_id) : void
+    protected function deleteOrderingElements(int $question_id): void
     {
         $query = 'DELETE FROM ' . self::TABLE_NAME_ANSWERS . PHP_EOL
             . 'WHERE question_fi = ' . $question_id;
         $this->db->manipulate($query);
     }
 
-    protected function insertOrderingElement(\ilAssOrderingElement $order_element, int $question_id) : void
+    protected function insertOrderingElement(\ilAssOrderingElement $order_element, int $question_id): void
     {
         $next_id = $this->db->nextId(self::TABLE_NAME_ANSWERS);
         $values = array(
@@ -109,7 +127,7 @@ class assOrderingQuestionDatabaseRepository
         int $position,
         int $indentation,
         string $content
-    ) : \ilAssOrderingElement {
+    ): \ilAssOrderingElement {
         return (new \ilAssOrderingElement($answer_id))
             ->withRandomIdentifier($random_identifier)
             ->withSolutionIdentifier($solution_identifier)

@@ -63,22 +63,22 @@ class ilLMNavigationStatus
     /**
      * Has current chapter no active page?
      */
-    public function isChapterWithoutActivePage() : bool
+    public function isChapterWithoutActivePage(): bool
     {
         return $this->chapter_has_no_active_page;
     }
 
-    public function isDeactivatedPage() : bool
+    public function isDeactivatedPage(): bool
     {
         return $this->deactivated_page;
     }
 
-    public function getCurrentPage() : int
+    public function getCurrentPage(): int
     {
         return $this->current_page_id;
     }
 
-    protected function determineStatus() : void
+    protected function determineStatus(): void
     {
         $user = $this->user;
 
@@ -172,7 +172,7 @@ class ilLMNavigationStatus
         $this->current_page_id = $page_id;
     }
 
-    public function getBackPageId() : int
+    public function getBackPageId(): int
     {
         $page_id = $this->current_page_id;
 
@@ -186,7 +186,7 @@ class ilLMNavigationStatus
         return $back_pg;
     }
 
-    public function getSuccessorPageId() : int
+    public function getSuccessorPageId(): int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -207,7 +207,10 @@ class ilLMNavigationStatus
             }
         }
         while (!$found) {
-            $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+            $succ_node = null;
+            if ($this->lm_tree->isInTree($c_id)) {
+                $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+            }
             if (is_array($succ_node)) {
                 $c_id = $succ_node["obj_id"];
 
@@ -245,7 +248,7 @@ class ilLMNavigationStatus
         return 0;
     }
 
-    public function getPredecessorPageId() : int
+    public function getPredecessorPageId(): int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -259,7 +262,10 @@ class ilLMNavigationStatus
             $c_id = $page_id;
         }
         while (!$found) {
-            $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+            $pre_node = null;
+            if ($this->lm_tree->isInTree($c_id)) {
+                $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+            }
             if (is_array($pre_node)) {
                 $c_id = $pre_node["obj_id"];
                 $active = ilLMPage::_lookupActive(

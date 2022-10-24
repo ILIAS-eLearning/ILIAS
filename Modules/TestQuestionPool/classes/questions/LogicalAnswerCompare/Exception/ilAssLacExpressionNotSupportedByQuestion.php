@@ -1,7 +1,20 @@
 <?php
 
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacException.php';
-require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacFormAlertProvider.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ExpressionNotSupportedByQuestion
@@ -32,7 +45,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     {
         $this->expression = $expression;
         $this->question_index = $question_index;
-        
+
         if ($this->getQuestionIndex() === null) {
             $msg = sprintf(
                 'The expression "%s" is not supported by the current question',
@@ -52,7 +65,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return int
      */
-    public function getQuestionIndex() : int
+    public function getQuestionIndex(): int
     {
         return $this->question_index;
     }
@@ -60,7 +73,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
     /**
      * @return string
      */
-    public function getExpression() : string
+    public function getExpression(): string
     {
         return $this->expression;
     }
@@ -69,7 +82,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
      * @param ilLanguage $lng
      * @return string
      */
-    public function getFormAlert(ilLanguage $lng) : string
+    public function getFormAlert(ilLanguage $lng): string
     {
         if ($this->getQuestionIndex() === null) {
             return sprintf(
@@ -77,7 +90,7 @@ class ilAssLacExpressionNotSupportedByQuestion extends ilAssLacException impleme
                 $this->getExpression()
             );
         }
-        
+
         return sprintf(
             $lng->txt("ass_lac_expression_not_supported_by_question"),
             $this->getQuestionIndex(),

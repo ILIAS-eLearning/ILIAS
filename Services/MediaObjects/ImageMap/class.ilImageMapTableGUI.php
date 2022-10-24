@@ -42,10 +42,10 @@ class ilImageMapTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->media_object = $a_media_object;
-        
+
         $this->highl_modes = ilMapArea::getAllHighlightModes();
         $this->highl_classes = ilMapArea::getAllHighlightClasses();
-        
+
         $this->initColumns();
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -59,8 +59,8 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         $this->setEnableTitle(false);
     }
-    
-    public function initColumns() : void
+
+    public function initColumns(): void
     {
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("cont_name"), "title", "");
@@ -70,11 +70,11 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_highlight_class"));
         $this->addColumn($this->lng->txt("cont_link"), "", "");
     }
-    
-    public function initActions() : void
+
+    public function initActions(): void
     {
         $lng = $this->lng;
-        
+
         // action commands
         $this->addMultiCommand("deleteAreas", $lng->txt("delete"));
         $this->addMultiCommand("editLink", $lng->txt("cont_set_link"));
@@ -82,19 +82,19 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->addMultiCommand("editShapeRectangle", $lng->txt("cont_edit_shape_rectangle"));
         $this->addMultiCommand("editShapeCircle", $lng->txt("cont_edit_shape_circle"));
         $this->addMultiCommand("editShapePolygon", $lng->txt("cont_edit_shape_polygon"));
-        
+
         $data = $this->getData();
         if (count($data) > 0) {
             $this->addCommandButton("updateAreas", $lng->txt("save"));
         }
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $max = ilMapArea::_getMaxNr($st_item->getId());
         $areas = array();
-        
+
         for ($i = 1; $i <= $max; $i++) {
             $area = new ilMapArea($st_item->getId(), $i);
             $areas[] = array("nr" => $i, "area" => $area, "title" => $area->getTitle());
@@ -103,7 +103,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->setData($areas);
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $area = $a_set["area"];
         $i = $a_set["nr"];
@@ -114,7 +114,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAR_NAME", "name_" . $i);
         $this->tpl->setVariable("VAL_NAME", ilLegacyFormElementsUtil::prepareFormOutput($area->getTitle()));
         $this->tpl->setVariable("VAL_SHAPE", $area->getShape());
-        
+
         $this->tpl->setVariable(
             "VAL_HIGHL_MODE",
             ilLegacyFormElementsUtil::formSelect(
@@ -135,7 +135,7 @@ class ilImageMapTableGUI extends ilTable2GUI
                 true
             )
         );
-        
+
         $this->tpl->setVariable(
             "VAL_COORDS",
             implode(", ", explode(",", $area->getCoords()))

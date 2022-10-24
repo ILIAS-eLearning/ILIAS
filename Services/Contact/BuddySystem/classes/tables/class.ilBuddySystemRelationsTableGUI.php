@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -75,7 +77,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('name'), 'public_name');
         $this->addColumn($this->lng->txt('login'), 'login');
-        $this->addColumn('');
+        $this->addColumn($this->lng->txt('buddy_tbl_state_actions_col_label'), '', '', false, 'ilRight');
 
         $this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'Services/Contact/BuddySystem');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -89,7 +91,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         $this->filters = [];
         $this->filter = [];
@@ -125,7 +127,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
      * @param mixed $value
      * @return void
      */
-    public function applyFilterValue(string $filterKey, $value) : void
+    public function applyFilterValue(string $filterKey, $value): void
     {
         foreach ([$this->getFilterItems(), $this->getFilterItems(true)] as $filterItems) {
             foreach ($filterItems as $item) {
@@ -139,7 +141,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         }
     }
 
-    public function populate() : void
+    public function populate(): void
     {
         $this->setExternalSorting(false);
         $this->setExternalSegmentation(false);
@@ -150,7 +152,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $state_filter = (string) $this->filter[self::STATE_FILTER_ELM_ID];
         $state_factory = ilBuddySystemRelationStateFactory::getInstance();
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory) : bool {
+        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use ($state_filter, $state_factory): bool {
             $state_filter_mapper = $state_factory->getTableFilterStateMapper($relation->getState());
             return $state_filter === '' || $state_filter_mapper->filterMatchesRelation($state_filter, $relation);
         });
@@ -158,7 +160,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         $public_names = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, true, false);
         $logins = ilUserUtil::getNamePresentation($relations->getKeys(), false, false, '', false, false, false);
 
-        $logins = array_map(static function (string $value) : string {
+        $logins = array_map(static function (string $value): string {
             $matches = null;
             preg_match_all('/\[([^\[]+?)\]/', $value, $matches);
             return (
@@ -175,7 +177,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             $relations,
             $public_names,
             $logins
-        ) : bool {
+        ): bool {
             $usrId = $relations->getKey($relation);
 
             $hasMatchingName = (
@@ -208,7 +210,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         if ($this->hasAccessToMailSystem) {
             $a_set['chb'] = ilLegacyFormElementsUtil::formCheckbox(false, 'usr_id[]', (string) $a_set['usr_id']);
@@ -238,7 +240,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function render() : string
+    public function render(): string
     {
         $listener_tpl = new ilTemplate(
             'tpl.buddy_system_relation_table_listener.html',

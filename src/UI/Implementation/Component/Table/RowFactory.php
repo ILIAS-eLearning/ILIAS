@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
@@ -35,7 +37,7 @@ class RowFactory implements T\RowFactory
         $this->cell_transformations = $cell_transformations;
     }
 
-    public function map(array $record) : array
+    public function map(array $record): array
     {
         $row = [];
         foreach (array_keys($this->cell_transformations) as $id) {

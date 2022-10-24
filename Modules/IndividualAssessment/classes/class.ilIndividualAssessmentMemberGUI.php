@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,14 +34,14 @@ use ILIAS\Refinery;
 
 class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 {
-    const CMD_VIEW = 'view';
-    const CMD_EDIT = 'edit';
-    const CMD_UPDATE = 'update';
-    const CMD_FINALIZE = 'finalize';
-    const CMD_FINALIZE_CONFIRMATION = 'finalizeConfirmation';
-    const CMD_AMEND = 'amend';
-    const CMD_SAVE_AMEND = "saveAmend";
-    const CMD_DOWNLOAD_FILE = "downloadFile";
+    public const CMD_VIEW = 'view';
+    public const CMD_EDIT = 'edit';
+    public const CMD_UPDATE = 'update';
+    public const CMD_FINALIZE = 'finalize';
+    public const CMD_FINALIZE_CONFIRMATION = 'finalizeConfirmation';
+    public const CMD_AMEND = 'amend';
+    public const CMD_SAVE_AMEND = "saveAmend";
+    public const CMD_DOWNLOAD_FILE = "downloadFile";
 
     protected ilLanguage $lng;
     protected ilGlobalPageTemplate $tpl;
@@ -100,7 +102,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->request_wrapper = $request_wrapper;
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -125,7 +127,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         if (!$this->mayBeViewed()) {
             $this->handleAccessViolation();
@@ -135,7 +137,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function edit() : void
+    protected function edit(): void
     {
         if (!$this->mayBeEdited()) {
             $this->handleAccessViolation();
@@ -147,7 +149,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function update() : void
+    protected function update(): void
     {
         $form = $this
             ->buildForm($this->getFormActionForCommand(self::CMD_UPDATE), true)
@@ -183,7 +185,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->redirect(self::CMD_EDIT);
     }
 
-    protected function amend() : void
+    protected function amend(): void
     {
         if (!$this->mayBeAmended()) {
             $this->handleAccessViolation();
@@ -195,7 +197,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->tpl->setContent($this->renderer->render($form));
     }
 
-    protected function getFormActionForCommand(string $cmd) : string
+    protected function getFormActionForCommand(string $cmd): string
     {
         $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
         $action = $this->ctrl->getFormAction($this, $cmd);
@@ -204,14 +206,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $action;
     }
 
-    protected function downloadFile() : void
+    protected function downloadFile(): void
     {
         $path = $this->getUserFileStorage()->getFilePath();
         $file_name = $this->getMember()->fileName();
         ilFileDelivery::deliverFileLegacy($path, $file_name);
     }
 
-    protected function saveAmend() : void
+    protected function saveAmend(): void
     {
         if (!$this->mayBeAmended()) {
             $this->handleAccessViolation();
@@ -246,7 +248,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         string $form_action,
         bool $may_be_edited,
         bool $amend = false
-    ) : ILIAS\UI\Component\Input\Container\Form\Form {
+    ): ILIAS\UI\Component\Input\Container\Form\Form {
         $section = $this->getMember()->getGrading()->toFormInput(
             $this->input_factory->field(),
             $this->data_factory,
@@ -269,7 +271,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    protected function finalize() : void
+    protected function finalize(): void
     {
         if (!$this->mayBeEdited()) {
             $this->handleAccessViolation();
@@ -309,7 +311,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->redirect('view');
     }
 
-    protected function finalizeConfirmation() : void
+    protected function finalizeConfirmation(): void
     {
         if (!$this->mayBeEdited()) {
             $this->handleAccessViolation();
@@ -336,7 +338,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         ilIndividualAssessmentUserGrading $grading,
         bool $keep_examiner = false,
         bool $amend = false
-    ) : void {
+    ): void {
         $member = $this->getMember()
             ->withGrading($grading)
         ;
@@ -351,7 +353,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         $this->getObject()->membersStorage()->updateMember($member);
     }
 
-    protected function getPossibleLPStates() : array
+    protected function getPossibleLPStates(): array
     {
         return [
             ilIndividualAssessmentMembers::LP_IN_PROGRESS => $this->lng->txt('iass_status_pending'),
@@ -360,7 +362,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         ];
     }
 
-    protected function getUploadResult() : HandlerResult
+    protected function getUploadResult(): HandlerResult
     {
         $this->upload->process();
         $array = $this->upload->getResults();
@@ -379,7 +381,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    protected function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier): HandlerResult
     {
         $status = HandlerResult::STATUS_FAILED;
         $message = $this->lng->txt('iass_file_deleted');
@@ -397,7 +399,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    public function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier): FileInfoResult
     {
         $filename = $this->getFileName();
         if ($filename != $identifier) {
@@ -414,7 +416,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    public function getInfoForExistingFiles(array $file_ids) : array
+    public function getInfoForExistingFiles(array $file_ids): array
     {
         $name = $this->getFileName();
 
@@ -444,12 +446,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         ];
     }
 
-    public function getFileIdentifierParameterName() : string
+    public function getFileIdentifierParameterName(): string
     {
         return 'iass';
     }
 
-    public function getUploadURL() : string
+    public function getUploadURL(): string
     {
         $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
         $link = $this->ctrl->getLinkTarget($this, self::CMD_UPLOAD);
@@ -458,7 +460,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $link;
     }
 
-    public function getExistingFileInfoURL() : string
+    public function getExistingFileInfoURL(): string
     {
         $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
         $link = $this->ctrl->getLinkTarget($this, self::CMD_INFO);
@@ -467,7 +469,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $link;
     }
 
-    public function getFileRemovalURL() : string
+    public function getFileRemovalURL(): string
     {
         $this->ctrl->setParameter($this, 'usr_id', $this->getExaminee()->getId());
         $this->ctrl->setParameter($this, $this->getFileIdentifierParameterName(), $this->getFileName());
@@ -478,23 +480,23 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $link;
     }
 
-    protected function uploadFile(UploadResult $result) : string
+    protected function uploadFile(UploadResult $result): string
     {
         $storage = $this->getUserFileStorage();
         $storage->create();
         $storage->deleteCurrentFile();
         $storage->uploadFile($result);
 
-        return $result->getName();
+        return $storage->getFileName();
     }
 
-    protected function deleteFile() : void
+    protected function deleteFile(): void
     {
         $storage = $this->getUserFileStorage();
         $storage->deleteCurrentFile();
     }
 
-    protected function getFileName() : ?string
+    protected function getFileName(): ?string
     {
         $path = $this->getFilePath();
         if (is_null($path)) {
@@ -505,7 +507,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return end($array);
     }
 
-    protected function getFilePath() : ?string
+    protected function getFilePath(): ?string
     {
         $storage = $this->getUserFileStorage();
         if ($storage->isEmpty()) {
@@ -515,33 +517,33 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $storage->getFilePath();
     }
 
-    protected function redirect(string $cmd) : void
+    protected function redirect(string $cmd): void
     {
         $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
         $this->ctrl->redirect($this, $cmd);
     }
 
-    public function setObject(ilObjIndividualAssessment $object) : void
+    public function setObject(ilObjIndividualAssessment $object): void
     {
         $this->object = $object;
     }
 
-    protected function getObject() : ilObjIndividualAssessment
+    protected function getObject(): ilObjIndividualAssessment
     {
         return $this->object;
     }
 
-    public function setParentGUI(ilIndividualAssessmentMembersGUI $parent_gui) : void
+    public function setParentGUI(ilIndividualAssessmentMembersGUI $parent_gui): void
     {
         $this->parent_gui = $parent_gui;
     }
 
-    public function getParentGUI() : ilIndividualAssessmentMembersGUI
+    public function getParentGUI(): ilIndividualAssessmentMembersGUI
     {
         return $this->parent_gui;
     }
 
-    protected function getAccessHandler() : ilIndividualAssessmentAccessHandler
+    protected function getAccessHandler(): ilIndividualAssessmentAccessHandler
     {
         if (is_null($this->iass_access)) {
             $this->iass_access = $this->getObject()->accessHandler();
@@ -549,19 +551,19 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         return $this->iass_access;
     }
 
-    protected function getExaminee() : ilObjUser
+    protected function getExaminee(): ilObjUser
     {
         return new ilObjUser($this->request_wrapper->retrieve('usr_id', $this->refinery->kindlyTo()->int()));
     }
 
-    protected function getUserFileStorage() : ilIndividualAssessmentFileStorage
+    protected function getUserFileStorage(): ilIndividualAssessmentFileStorage
     {
         $storage = $this->getObject()->getFileStorage();
         $storage->setUserId($this->getExaminee()->getId());
         return $storage;
     }
 
-    protected function getMember() : ilIndividualAssessmentMember
+    protected function getMember(): ilIndividualAssessmentMember
     {
         return $this->getObject()->membersStorage()->loadMember(
             $this->getObject(),
@@ -569,7 +571,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         );
     }
 
-    protected function setToolbar() : void
+    protected function setToolbar(): void
     {
         $member = $this->getMember();
         if ($member->fileName() != '') {
@@ -582,12 +584,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
     }
 
-    protected function mayBeEdited() : bool
+    protected function mayBeEdited(): bool
     {
         return $this->getAccessHandler()->isSystemAdmin() || (!$this->isFinalized() && $this->userMayGrade());
     }
 
-    protected function mayBeViewed() : bool
+    protected function mayBeViewed(): bool
     {
         return
             $this->getAccessHandler()->isSystemAdmin() ||
@@ -595,12 +597,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             ;
     }
 
-    protected function mayBeAmended() : bool
+    protected function mayBeAmended(): bool
     {
         return $this->getAccessHandler()->isSystemAdmin() || ($this->isFinalized() && $this->userMayAmend());
     }
 
-    protected function userMayGrade() : bool
+    protected function userMayGrade(): bool
     {
         return
             $this->getAccessHandler()->isSystemAdmin() ||
@@ -608,17 +610,17 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             ;
     }
 
-    protected function userMayView() : bool
+    protected function userMayView(): bool
     {
         return $this->getAccessHandler()->isSystemAdmin() || $this->getAccessHandler()->mayViewUser();
     }
 
-    protected function userMayAmend() : bool
+    protected function userMayAmend(): bool
     {
         return $this->getAccessHandler()->isSystemAdmin() || $this->getAccessHandler()->mayAmendGradeUser();
     }
 
-    protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member) : bool
+    protected function targetWasEditedByOtherUser(ilIndividualAssessmentMember $member): bool
     {
         return
             (int) $member->examinerId() !== $this->user->getId() &&
@@ -626,12 +628,12 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             ;
     }
 
-    protected function isFinalized() : bool
+    protected function isFinalized(): bool
     {
         return $this->getMember()->finalized();
     }
 
-    public function handleAccessViolation() : void
+    public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->lng->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }

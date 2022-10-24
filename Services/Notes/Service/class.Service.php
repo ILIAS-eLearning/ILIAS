@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class Service
     /**
      * Internal service, do not use in other components
      */
-    public function internal() : InternalService
+    public function internal(): InternalService
     {
         return new InternalService($this->DIC);
     }
@@ -43,7 +45,7 @@ class Service
     /**
      * External data service facade
      */
-    public function data() : DataService
+    public function data(): DataService
     {
         return new DataService($this->internal()->data());
     }
@@ -51,7 +53,7 @@ class Service
     /**
      * External domain service facade
      */
-    public function domain() : DomainService
+    public function domain(): DomainService
     {
         return new DomainService($this->internal()->domain());
     }
@@ -59,7 +61,7 @@ class Service
     /**
      * External gui service facade
      */
-    public function gui() : GUIService
+    public function gui(): GUIService
     {
         return new GUIService($this->internal()->gui());
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -26,5 +28,5 @@ interface MultiSelect extends FilterInput
     /**
      * Get options as value=>label.
      */
-    public function getOptions() : array;
+    public function getOptions(): array;
 }

@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider\AccessToken;
@@ -33,7 +32,6 @@ use ILIAS\LTI\ToolProvider\Util;
  */
 class Service
 {
-
     /**
      * Whether service request should be sent unsigned.
      *
@@ -107,7 +105,7 @@ class Service
      *
      * @return Platform  Platform for this service
      */
-    public function getPlatform() : ?Platform
+    public function getPlatform(): ?Platform
     {
         return $this->platform;
     }
@@ -117,7 +115,7 @@ class Service
      *
      * @return string Access scope
      */
-    public function getScope() : ?string
+    public function getScope(): ?string
     {
         return $this->scope;
     }
@@ -129,7 +127,7 @@ class Service
      * @param string|null $body       Body of request (optional, default is null)
      * @return HttpMessage HTTP object containing request and response details
      */
-    public function send(string $method, array $parameters = array(), string $body = null) : ?HTTPMessage
+    public function send(string $method, array $parameters = array(), string $body = null): ?HTTPMessage
     {
         $url = $this->endpoint;
         if (!empty($parameters)) {
@@ -203,7 +201,7 @@ class Service
      *
      * @return HttpMessage HTTP object containing request and response details
      */
-    public function getHttpMessage() : ?HTTPMessage
+    public function getHttpMessage(): ?HTTPMessage
     {
         return $this->http;
     }
@@ -218,7 +216,7 @@ class Service
      * @param array  $arr      Array to be parsed
      * @return array Parsed array
      */
-    protected function parseContextsInArray(object $contexts, array $arr) : array
+    protected function parseContextsInArray(object $contexts, array $arr): array
     {
         if (is_array($contexts)) {
             $contextdefs = array();

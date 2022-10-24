@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 
@@ -25,7 +25,7 @@ use ILIAS\Setup\Objective;
  */
 class ilDatabaseUpdateStepsExecutedObjective implements Objective
 {
-    const STEP_METHOD_PREFIX = "step_";
+    public const STEP_METHOD_PREFIX = "step_";
 
     protected ilDatabaseUpdateSteps $steps;
     protected string $steps_class;
@@ -40,7 +40,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      * The hash for the objective is calculated over the classname and the steps
      * that are contained.
      */
-    final public function getHash() : string
+    final public function getHash(): string
     {
         return hash(
             "sha256",
@@ -48,7 +48,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
         );
     }
 
-    final public function getLabel() : string
+    final public function getLabel(): string
     {
         return "Database update steps in $this->steps_class.";
     }
@@ -56,7 +56,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     /**
      * @inheritdocs
      */
-    final public function isNotable() : bool
+    final public function isNotable(): bool
     {
         return true;
     }
@@ -64,7 +64,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function getPreconditions(Environment $environment) : array
+    public function getPreconditions(Environment $environment): array
     {
         return [
             new ilDBStepExecutionDBExistsObjective(),
@@ -76,7 +76,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     /**
      * @inheritdocs
      */
-    public function achieve(Environment $environment) : Environment
+    public function achieve(Environment $environment): Environment
     {
         $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
@@ -114,7 +114,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Environment $environment) : bool
+    public function isApplicable(Environment $environment): bool
     {
         $execution_log = $environment->getResource(ilDatabaseUpdateStepExecutionLog::class);
         $step_reader = $environment->getResource(ilDBStepReader::class);
@@ -125,7 +125,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
         );
     }
 
-    protected function throwStepNotFinishedException(int $started, int $finished) : void
+    protected function throwStepNotFinishedException(int $started, int $finished): void
     {
         throw new RuntimeException(
             "For update steps in $this->steps_class: step $started was started " .

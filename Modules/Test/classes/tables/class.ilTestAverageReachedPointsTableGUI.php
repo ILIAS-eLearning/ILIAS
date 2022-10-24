@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Helmut Schottmüller <ilias@aurealis.de>
@@ -15,7 +27,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
     {
         $this->setId('tstAvgReachedPointsTbl');
         $this->setPrefix('tstAvgReachedPointsTbl');
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         global $DIC;
@@ -49,7 +61,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
      * Should this field be sorted numeric?
      * @return bool  numeric ordering; default is false
      */
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         switch ($a_field) {
             case 'percentage':
@@ -62,7 +74,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["qid"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -71,7 +83,7 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ANSWERS", $a_set["answers"]);
     }
 
-    protected function formatPoints(array $data) : string
+    protected function formatPoints(array $data): string
     {
         return sprintf("%.2f", $data['points_reached']) . " " . strtolower($this->lng->txt("of")) . " " . sprintf("%.2f", $data['points_max']);
     }

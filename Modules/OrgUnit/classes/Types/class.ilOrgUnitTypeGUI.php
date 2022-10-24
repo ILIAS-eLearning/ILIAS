@@ -53,7 +53,7 @@ class ilOrgUnitTypeGUI
         $this->checkAccess();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -102,7 +102,7 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    private function checkAccess() : void
+    private function checkAccess(): void
     {
         if (!$this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -110,12 +110,15 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    private function setSubTabsEdit(string $active_tab_id) : void
+    private function setSubTabsEdit(string $active_tab_id): void
     {
         $this->tabs->addSubTab('general', $this->lng->txt('meta_general'), $this->ctrl->getLinkTarget($this, 'edit'));
         if ($this->settings->get('custom_icons')) {
-            $this->tabs->addSubTab('custom_icons', $this->lng->txt('icon_settings'),
-                $this->ctrl->getLinkTarget($this, 'editCustomIcons'));
+            $this->tabs->addSubTab(
+                'custom_icons',
+                $this->lng->txt('icon_settings'),
+                $this->ctrl->getLinkTarget($this, 'editCustomIcons')
+            );
         }
         if (count(ilOrgUnitType::getAvailableAdvancedMDRecordIds())) {
             $this->tabs->addSubTab('amd', $this->lng->txt('md_advanced'), $this->ctrl->getLinkTarget($this, 'editAMD'));
@@ -126,13 +129,13 @@ class ilOrgUnitTypeGUI
     /**
      * Display form for editing custom icons
      */
-    private function editCustomIcons() : void
+    private function editCustomIcons(): void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function updateCustomIcons() : void
+    private function updateCustomIcons(): void
     {
         $form = new ilOrgUnitTypeCustomIconsFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -143,13 +146,13 @@ class ilOrgUnitTypeGUI
         }
     }
 
-    private function editAMD() : void
+    private function editAMD(): void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
-    private function updateAMD() : void
+    private function updateAMD(): void
     {
         $form = new ilOrgUnitTypeAdvancedMetaDataFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -163,7 +166,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display all types in a table with actions to edit/delete
      */
-    private function listTypes() : void
+    private function listTypes(): void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption('orgu_type_add');
@@ -177,7 +180,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display form to create a new OrgUnit type
      */
-    private function add() : void
+    private function add(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         $this->tpl->setContent($form->getHTML());
@@ -186,7 +189,7 @@ class ilOrgUnitTypeGUI
     /**
      * Display form to edit an existing OrgUnit type
      */
-    private function edit() : void
+    private function edit(): void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         $form = new ilOrgUnitTypeFormGUI($this, $type);
@@ -196,7 +199,7 @@ class ilOrgUnitTypeGUI
     /**
      * Create (save) type
      */
-    protected function create() : void
+    protected function create(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType());
         if ($form->saveObject()) {
@@ -210,7 +213,7 @@ class ilOrgUnitTypeGUI
     /**
      * Update (save) type
      */
-    private function update() : void
+    private function update(): void
     {
         $form = new ilOrgUnitTypeFormGUI($this, new ilOrgUnitType((int) $_GET['type_id']));
         if ($form->saveObject()) {
@@ -224,7 +227,7 @@ class ilOrgUnitTypeGUI
     /**
      * Delete a type
      */
-    private function delete() : void
+    private function delete(): void
     {
         $type = new ilOrgUnitType((int) $_GET['type_id']);
         try {

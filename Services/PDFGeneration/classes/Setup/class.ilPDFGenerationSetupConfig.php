@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilPDFGenerationSetupConfig implements Setup\Config
         $this->path_to_phantom_js = $this->toLinuxConvention($path_to_phantom_js);
     }
 
-    protected function toLinuxConvention(?string $p) : ?string
+    protected function toLinuxConvention(?string $p): ?string
     {
         if (!$p) {
             return null;
@@ -36,7 +38,7 @@ class ilPDFGenerationSetupConfig implements Setup\Config
         return preg_replace("/\\\\/", "/", $p);
     }
 
-    public function getPathToPhantomJS() : ?string
+    public function getPathToPhantomJS(): ?string
     {
         return $this->path_to_phantom_js;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilLTIToolConsumerTest extends TestCase
 {
-    public function testTitle() : void
+    public function testTitle(): void
     {
         $ltiToolConsumer = new ilLTIPlatform();
         $testString = str_shuffle(uniqid('abcdefgh'));

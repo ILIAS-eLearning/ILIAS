@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,14 +33,14 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
     public function __construct($a_title, $a_postvar)
     {
         global $DIC;
-        
+
         $this->refinery = $DIC->refinery();
         $this->httpState = $DIC->http();
 
         parent::__construct($a_title, $a_postvar);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $ok = parent::checkInput();
 
@@ -63,7 +65,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
     }
 
-    public function render(string $a_mode = '') : string
+    public function render(string $a_mode = ''): string
     {
         $tpl = new ilTemplate(
             'tpl.prop_mail_quick_filter_input.html',

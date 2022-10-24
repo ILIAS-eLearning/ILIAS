@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -9,6 +26,7 @@
  */
 class ilCalendarMonthGUI extends ilCalendarViewGUI
 {
+    protected int $bkid;    // booking user
     protected int $num_appointments = 1;
     protected array $schedule_filters = array();
 
@@ -19,9 +37,15 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     public function __construct(ilDate $seed_date)
     {
         parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_MONTH);
+        $this->bkid = $this->initBookingUserFromQuery();
     }
 
-    public function initialize(int $a_calendar_presentation_type) : void
+    public function setBkId(int $bkid = 0): void
+    {
+        $this->bkid = $bkid;
+    }
+
+    public function initialize(int $a_calendar_presentation_type): void
     {
         parent::initialize($a_calendar_presentation_type);
         $this->tabs_gui->setSubTabActive('app_month');
@@ -32,7 +56,7 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $this->ctrl->saveParameter($this, 'seed');
 
@@ -64,12 +88,12 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
     /**
      * Add schedule filter
      */
-    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter) : void
+    public function addScheduleFilter(ilCalendarScheduleFilter $a_filter): void
     {
         $this->schedule_filters[] = $a_filter;
     }
 
-    public function show() : void
+    public function show(): void
     {
         $this->tpl = new ilTemplate('tpl.month_view.html', true, true, 'Services/Calendar');
 
@@ -84,9 +108,8 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $bkid = $this->initBookingUserFromQuery();
-        if ($bkid) {
-            $user_id = $bkid;
+        if ($this->bkid) {
+            $user_id = $this->bkid;
             $disable_empty = true;
             $no_add = true;
         } else {
@@ -106,7 +129,6 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
             $no_add = true;
             $is_portfolio_embedded = true;
         }
-
         $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_MONTH, $user_id);
         $scheduler->addSubitemCalendars(true);
         if (sizeof($this->schedule_filters)) {
@@ -207,13 +229,13 @@ class ilCalendarMonthGUI extends ilCalendarViewGUI
         }
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->show();
         return $this->tpl->get();
     }
 
-    protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date) : int
+    protected function showEvents(ilCalendarSchedule $scheduler, ilDate $date): int
     {
         $count = 0;
         $time = '';

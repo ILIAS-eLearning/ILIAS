@@ -22,6 +22,6 @@
  */
 class ilDclDateSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
 {
-    const PROP_SELECTION_TYPE = 'date_selection_type';
-    const PROP_SELECTION_OPTIONS = 'date_selection_options';
+    public const PROP_SELECTION_TYPE = 'date_selection_type';
+    public const PROP_SELECTION_OPTIONS = 'date_selection_options';
 }

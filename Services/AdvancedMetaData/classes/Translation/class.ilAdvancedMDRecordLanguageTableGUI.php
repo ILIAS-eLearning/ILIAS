@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -42,7 +44,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init() : void
+    public function init(): void
     {
         $this->lng->loadLanguageModule('meta');
         $this->setTitle($this->lng->txt('md_adv_record_lng_table'));
@@ -67,7 +69,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * Parse content
      */
-    public function parse() : void
+    public function parse(): void
     {
         $all_languages = $this->readLanguages();
         $installed_languages = ilLanguage::_getInstalledLanguages();
@@ -91,8 +93,8 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setMaxCount(count($rows));
         $this->setData($rows);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set[self::COL_LANGUAGE_CODE]);
 
@@ -125,7 +127,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * @return array<int, string>
      */
-    private function readLanguages() : array
+    private function readLanguages(): array
     {
         $languages = ilObject::_getObjectsByType('lng');
         $parsed_languages = [];

@@ -42,12 +42,12 @@ class VideoWidgetGUI
         $this->lng = $DIC->language();
     }
 
-    public function setVideo(?VideoItem $a_val = null) : void
+    public function setVideo(?VideoItem $a_val = null): void
     {
         $this->video = $a_val;
     }
 
-    public function getVideo() : ?VideoItem
+    public function getVideo(): ?VideoItem
     {
         return $this->video;
     }
@@ -55,7 +55,7 @@ class VideoWidgetGUI
     /**
      * @throws \ilTemplateException
      */
-    public function render() : string
+    public function render(): string
     {
         $ui = $this->ui;
         $video = $ui->factory()->player()->video("")->withPoster("");

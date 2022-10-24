@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Bucket;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -41,34 +41,34 @@ class BasicBucket implements Bucket
     protected string $description = "";
     protected int $percentage = 0;
     protected int $last_heartbeat = 0;
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->user_id ?? 0;
     }
-    
-    public function setUserId(int $user_id) : void
+
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
-    
-    public function setPercentage(Task $task, int $percentage) : void
+
+    public function setPercentage(Task $task, int $percentage): void
     {
         $this->percentages[spl_object_hash($task)] = $percentage;
         $this->calculateOverallPercentage();
     }
-    
-    public function setOverallPercentage(int $percentage) : void
+
+    public function setOverallPercentage(int $percentage): void
     {
         $this->percentage = $percentage;
     }
-    
-    public function setCurrentTask(Task $task) : void
+
+    public function setCurrentTask(Task $task): void
     {
         $this->current_task = $task;
     }
-    
-    public function setTask(Task $task) : void
+
+    public function setTask(Task $task): void
     {
         $this->tasks = $task->unfoldTask();
         $this->total_number_of_tasks = count($this->tasks);
@@ -77,11 +77,11 @@ class BasicBucket implements Bucket
             $this->percentages[spl_object_hash($subTask)] = 0;
         }
     }
-    
+
     /**
      * Calculates the percentage up to the last task.
      */
-    public function calculateOverallPercentage() : void
+    public function calculateOverallPercentage(): void
     {
         $countable_tasks = 0;
         /**
@@ -92,41 +92,41 @@ class BasicBucket implements Bucket
                 $countable_tasks++;
             }
         }
-        
+
         $this->percentage = array_sum($this->percentages) / $countable_tasks;
     }
-    
-    public function getOverallPercentage() : int
+
+    public function getOverallPercentage(): int
     {
         return $this->percentage;
     }
-    
-    public function setState(int $state) : void
+
+    public function setState(int $state): void
     {
         $this->state = $state;
     }
-    
-    public function getCurrentTask() : Task
+
+    public function getCurrentTask(): Task
     {
         return $this->current_task;
     }
-    
-    public function hasCurrentTask() : bool
+
+    public function hasCurrentTask(): bool
     {
         return isset($this->current_task);
     }
-    
-    public function getTask() : Task
+
+    public function getTask(): Task
     {
         return $this->root_task;
     }
-    
-    public function getState() : int
+
+    public function getState(): int
     {
         return $this->state;
     }
-    
-    public function checkIntegrity() : bool
+
+    public function checkIntegrity(): bool
     {
         if ($this->getUserId() === 0) {
             foreach ($this->getTask()->unfoldTask() as $task) {
@@ -135,17 +135,17 @@ class BasicBucket implements Bucket
                 }
             }
         }
-        
+
         return true;
     }
-    
+
     /**
      * @throws Exception
      */
-    public function userInteraction(Option $option) : void
+    public function userInteraction(Option $option): void
     {
         $currentTask = $this->getCurrentTask();
-        
+
         if ($this->getState() != State::USER_INTERACTION) {
             throw new Exception("Cannot continue a task that is not in the state 'user interaction'");
         }
@@ -153,11 +153,11 @@ class BasicBucket implements Bucket
             // TODO: Maybe cleanup task?
             throw new Exception("Observer is in an invalid state! state: userInteraction but current task is not a user interaction!");
         }
-        
+
         // From the current task we do the interaction.
         $inputs = $currentTask->getInput();
         $resulting_value = $currentTask->interaction($inputs, $option, $this);
-        
+
         if ($currentTask === $this->root_task) {
             // If this user interaction was the last thing to do, we set the state to finished. We can throw away the resulting value.
             $this->setState(State::FINISHED);
@@ -166,15 +166,15 @@ class BasicBucket implements Bucket
             $this->replaceThunkValue($currentTask, $resulting_value);
         }
     }
-    
+
     /**
      * In the structure of the task of this bucket the result of $currentTask is replaced with the
      * $resulting_value
      */
-    protected function replaceThunkValue(Task $currentTask, Value $resulting_value) : void
+    protected function replaceThunkValue(Task $currentTask, Value $resulting_value): void
     {
         $tasks = $this->getTask()->unfoldTask();
-        
+
         foreach ($tasks as $task) {
             $newInputs = [];
             foreach ($task->getInput() as $input) {
@@ -187,42 +187,42 @@ class BasicBucket implements Bucket
             $task->setInput($newInputs);
         }
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    public function setDescription(string $description) : void
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
-    
+
     /**
      * There was something going on in the bucket, it's still working.
      */
-    public function heartbeat() : void
+    public function heartbeat(): void
     {
         $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->last_heartbeat = $now->getTimestamp();
     }
-    
-    public function setLastHeartbeat(int $timestamp) : void
+
+    public function setLastHeartbeat(int $timestamp): void
     {
         $this->last_heartbeat = $timestamp;
     }
-    
-    public function getLastHeartbeat() : int
+
+    public function getLastHeartbeat(): int
     {
         return $this->last_heartbeat;
     }

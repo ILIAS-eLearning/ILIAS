@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,17 +52,17 @@ class ilNotificationConfig
         $this->type = $type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function setAutoDisable(bool $value) : void
+    public function setAutoDisable(bool $value): void
     {
         $this->disableAfterDelivery = $value;
     }
 
-    public function hasDisableAfterDeliverySet() : bool
+    public function hasDisableAfterDeliverySet(): bool
     {
         return $this->disableAfterDelivery;
     }
@@ -68,7 +70,7 @@ class ilNotificationConfig
     /**
      * @param ilNotificationLink[] $links
      */
-    public function setLinks(array $links) : void
+    public function setLinks(array $links): void
     {
         $this->links = $links;
     }
@@ -76,17 +78,17 @@ class ilNotificationConfig
     /**
      * @return ilNotificationLink[]
      */
-    public function getLinks() : array
+    public function getLinks(): array
     {
         return $this->links;
     }
 
-    public function setIconPath(string $path) : void
+    public function setIconPath(string $path): void
     {
         $this->iconPath = $path;
     }
 
-    public function getIconPath() : ?string
+    public function getIconPath(): ?string
     {
         return $this->iconPath;
     }
@@ -94,12 +96,12 @@ class ilNotificationConfig
     /**
      * @param string[]  $parameters
      */
-    public function setTitleVar(string $name, array $parameters = [], string $language_module = 'notification') : void
+    public function setTitleVar(string $name, array $parameters = [], string $language_module = 'notification'): void
     {
         $this->title = new ilNotificationParameter($name, $parameters, $language_module);
     }
 
-    public function getTitleVar() : string
+    public function getTitleVar(): string
     {
         return $this->title->getName();
     }
@@ -107,12 +109,12 @@ class ilNotificationConfig
     /**
      * @param string[]  $parameters
      */
-    public function setShortDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification') : void
+    public function setShortDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification'): void
     {
         $this->short_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
 
-    public function getShortDescriptionVar() : string
+    public function getShortDescriptionVar(): string
     {
         return $this->short_description->getName();
     }
@@ -120,12 +122,12 @@ class ilNotificationConfig
     /**
      * @param string[]  $parameters
      */
-    public function setLongDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification') : void
+    public function setLongDescriptionVar(string $name, array $parameters = [], string $language_module = 'notification'): void
     {
         $this->long_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
 
-    public function getLongDescriptionVar() : string
+    public function getLongDescriptionVar(): string
     {
         return $this->long_description->getName();
     }
@@ -133,7 +135,7 @@ class ilNotificationConfig
     /**
      * @return array<string, ilNotificationParameter>
      */
-    public function getLanguageParameters() : array
+    public function getLanguageParameters(): array
     {
         $params = [
             'title' => $this->title,
@@ -148,53 +150,53 @@ class ilNotificationConfig
         return $params;
     }
 
-    public function setValidForSeconds(int $seconds) : void
+    public function setValidForSeconds(int $seconds): void
     {
         $this->validForSeconds = $seconds;
     }
 
-    public function getValidForSeconds() : int
+    public function getValidForSeconds(): int
     {
         return $this->validForSeconds;
     }
 
-    public function getVisibleForSeconds() : int
+    public function getVisibleForSeconds(): int
     {
         return $this->visibleForSeconds;
     }
 
-    public function setVisibleForSeconds(int $visibleForSeconds) : void
+    public function setVisibleForSeconds(int $visibleForSeconds): void
     {
         $this->visibleForSeconds = $visibleForSeconds;
     }
 
-    protected function beforeSendToUsers() : void
+    protected function beforeSendToUsers(): void
     {
     }
 
-    protected function afterSendToUsers() : void
+    protected function afterSendToUsers(): void
     {
     }
 
-    protected function beforeSendToListeners() : void
+    protected function beforeSendToListeners(): void
     {
     }
 
-    protected function afterSendToListeners() : void
+    protected function afterSendToListeners(): void
     {
     }
 
     /**
      * @param int[] $recipients
      */
-    final public function notifyByUsers(array $recipients, bool $processAsync = false) : void
+    final public function notifyByUsers(array $recipients, bool $processAsync = false): void
     {
         $this->beforeSendToUsers();
         ilNotificationSystem::sendNotificationToUsers($this, $recipients, $processAsync);
         $this->afterSendToUsers();
     }
 
-    final public function notifyByListeners(int $ref_id, $processAsync = false) : void
+    final public function notifyByListeners(int $ref_id, $processAsync = false): void
     {
         $this->beforeSendToListeners();
         ilNotificationSystem::sendNotificationToListeners($this, $ref_id, $processAsync);
@@ -204,12 +206,12 @@ class ilNotificationConfig
     /**
      * @param string[] $roles
      */
-    final public function notifyByRoles(array $roles, bool $processAsync = false) : void
+    final public function notifyByRoles(array $roles, bool $processAsync = false): void
     {
         ilNotificationSystem::sendNotificationToRoles($this, $roles, $processAsync);
     }
 
-    public function getUserInstance(ilObjUser $user, array $languageVars, string $defaultLanguage) : ilNotificationObject
+    public function getUserInstance(ilObjUser $user, array $languageVars, string $defaultLanguage): ilNotificationObject
     {
         $notificationObject = new ilNotificationObject($this, $user);
 
@@ -246,6 +248,7 @@ class ilNotificationConfig
         }
         $notificationObject->longDescription = $long;
 
+        $process_links = [];
         foreach ($this->links as $link) {
             $link_title = $link->getTitle()->getName();
             if (isset($languageVars[$link->getTitle()->getName()])) {
@@ -256,15 +259,19 @@ class ilNotificationConfig
                     $link_title = $var[$defaultLanguage];
                 }
             }
-            $link->setTitle($link_title);
+
+            $process_link = clone $link;
+            $process_link->setTitle($link_title);
+            $process_links[] = $process_link;
         }
+        $notificationObject->links = $process_links;
 
         $notificationObject->iconPath = $this->iconPath;
 
         return $notificationObject;
     }
 
-    public function setHandlerParam(string $name, string $value) : void
+    public function setHandlerParam(string $name, string $value): void
     {
         if (strpos($name, '.')) {
             $nsParts = explode('.', $name, 2);
@@ -276,12 +283,12 @@ class ilNotificationConfig
         }
     }
 
-    public function getHandlerParams() : array
+    public function getHandlerParams(): array
     {
         return $this->handlerParams;
     }
 
-    public function unsetHandlerParam(string $name) : void
+    public function unsetHandlerParam(string $name): void
     {
         unset($this->handlerParams[$name]);
     }

@@ -50,7 +50,7 @@ class ilTaskService
      *
      * This function is not part of the API and for internal use only.
      */
-    public function getDependencies() : ilTaskServiceDependencies
+    public function getDependencies(): ilTaskServiceDependencies
     {
         return $this->_deps;
     }
@@ -62,7 +62,7 @@ class ilTaskService
      *
      * @return ilDerivedTaskService
      */
-    public function derived() : ilDerivedTaskService
+    public function derived(): ilDerivedTaskService
     {
         return new ilDerivedTaskService($this);
     }

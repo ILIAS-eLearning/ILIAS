@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Member administration related logic, add and remove members,
@@ -8,33 +24,33 @@
  */
 class ilIndividualAssessmentMembers implements Iterator, Countable
 {
-    const FIELD_FIRSTNAME = 'firstname';
-    const FIELD_LASTNAME = 'lastname';
-    const FIELD_LOGIN = 'login';
-    const FIELD_USR_ID = 'usr_id';
-    const FIELD_LEARNING_PROGRESS = 'learning_progress';
-    const FIELD_EXAMINER_ID = 'examiner_id';
-    const FIELD_EXAMINER_FIRSTNAME = 'examiner_firstname';
-    const FIELD_EXAMINER_LASTNAME = 'examiner_lastname';
-    const FIELD_CHANGER_ID = "changer_id";
-    const FIELD_CHANGER_FIRSTNAME = "changer_firstname";
-    const FIELD_CHANGER_LASTNAME = "changer_lastname";
-    const FIELD_CHANGE_TIME = "change_time";
-    const FIELD_RECORD = 'record';
-    const FIELD_INTERNAL_NOTE = 'internal_note';
-    const FIELD_NOTIFY = 'notify';
-    const FIELD_FINALIZED = 'finalized';
-    const FIELD_NOTIFICATION_TS = 'notification_ts';
-    const FIELD_PLACE = "place";
-    const FIELD_EVENTTIME = "event_time";
-    const FIELD_FILE_NAME = "file_name";
-    const FIELD_USER_VIEW_FILE = "user_view_file";
+    public const FIELD_FIRSTNAME = 'firstname';
+    public const FIELD_LASTNAME = 'lastname';
+    public const FIELD_LOGIN = 'login';
+    public const FIELD_USR_ID = 'usr_id';
+    public const FIELD_LEARNING_PROGRESS = 'learning_progress';
+    public const FIELD_EXAMINER_ID = 'examiner_id';
+    public const FIELD_EXAMINER_FIRSTNAME = 'examiner_firstname';
+    public const FIELD_EXAMINER_LASTNAME = 'examiner_lastname';
+    public const FIELD_CHANGER_ID = "changer_id";
+    public const FIELD_CHANGER_FIRSTNAME = "changer_firstname";
+    public const FIELD_CHANGER_LASTNAME = "changer_lastname";
+    public const FIELD_CHANGE_TIME = "change_time";
+    public const FIELD_RECORD = 'record';
+    public const FIELD_INTERNAL_NOTE = 'internal_note';
+    public const FIELD_NOTIFY = 'notify';
+    public const FIELD_FINALIZED = 'finalized';
+    public const FIELD_NOTIFICATION_TS = 'notification_ts';
+    public const FIELD_PLACE = "place";
+    public const FIELD_EVENTTIME = "event_time";
+    public const FIELD_FILE_NAME = "file_name";
+    public const FIELD_USER_VIEW_FILE = "user_view_file";
 
-    const LP_NOT_ATTEMPTED = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
-    const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-    const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
-    const LP_FAILED = ilLPStatus::LP_STATUS_FAILED_NUM;
-    const LP_ASSESSMENT_NOT_COMPLETED = "not_completed";
+    public const LP_NOT_ATTEMPTED = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+    public const LP_IN_PROGRESS = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+    public const LP_COMPLETED = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+    public const LP_FAILED = ilLPStatus::LP_STATUS_FAILED_NUM;
+    public const LP_ASSESSMENT_NOT_COMPLETED = "not_completed";
 
     protected array $member_records = array();
     protected int $position = 0;
@@ -48,7 +64,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Countable Methods
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->member_records);
     }
@@ -70,19 +86,19 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
         return key($this->member_records);
     }
 
-    public function next() : void
+    public function next(): void
     {
         $this->position++;
         next($this->member_records);
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->position = 0;
         reset($this->member_records);
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->position < count($this->member_records);
     }
@@ -90,7 +106,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Get the Individual assessment object that is corresponding to this
      */
-    public function referencedObject() : ilObjIndividualAssessment
+    public function referencedObject(): ilObjIndividualAssessment
     {
         return $this->iass;
     }
@@ -101,7 +117,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      * @param int|string|null[]	$record
      * @return	bool
      */
-    public function recordOK(array $record) : bool
+    public function recordOK(array $record): bool
     {
         if (isset($record[self::FIELD_USR_ID])) {
             if (
@@ -127,7 +143,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      * @param int|string	$usr_id
      * @return	bool
      */
-    public function userAllreadyMemberByUsrId($usr_id) : bool
+    public function userAllreadyMemberByUsrId($usr_id): bool
     {
         return isset($this->member_records[$usr_id]);
     }
@@ -135,12 +151,12 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Check if a user is member of this
      */
-    public function userAllreadyMember(ilObjUser $usr) : bool
+    public function userAllreadyMember(ilObjUser $usr): bool
     {
         return $this->userAllreadyMemberByUsrId($usr->getId());
     }
 
-    protected function userExists(int $usr_id) : bool
+    protected function userExists(int $usr_id): bool
     {
         return ilObjUser::_exists($usr_id, false, 'usr');
     }
@@ -150,7 +166,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      *
      * @param	int|string|null[]	$record
      */
-    public function withAdditionalRecord(array $record) : ilIndividualAssessmentMembers
+    public function withAdditionalRecord(array $record): ilIndividualAssessmentMembers
     {
         if ($this->recordOK($record)) {
             $clone = clone $this;
@@ -163,7 +179,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Clone this and add a record created for user
      */
-    public function withAdditionalUser(ilObjUser $usr) : ilIndividualAssessmentMembers
+    public function withAdditionalUser(ilObjUser $usr): ilIndividualAssessmentMembers
     {
         if (!$this->userAllreadyMember($usr)) {
             $clone = clone $this;
@@ -173,7 +189,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
         throw new ilIndividualAssessmentException('User allready member');
     }
 
-    protected function buildNewRecordOfUser(ilObjUser $usr) : array
+    protected function buildNewRecordOfUser(ilObjUser $usr): array
     {
         return [
             self::FIELD_USR_ID => $usr->getId(),
@@ -199,7 +215,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Clone this and remove record corresponding to user
      */
-    public function withoutPresentUser(ilObjUser $usr) : ilIndividualAssessmentMembers
+    public function withoutPresentUser(ilObjUser $usr): ilIndividualAssessmentMembers
     {
         $usr_id = $usr->getId();
         if (isset($this->member_records[$usr_id]) && (string) $this->member_records[$usr_id][self::FIELD_FINALIZED] !== "1") {
@@ -213,7 +229,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     /**
      * Remove all users that do not exist in list of given ids.
      */
-    public function withOnlyUsersByIds(array $keep_users_ids) : ilIndividualAssessmentMembers
+    public function withOnlyUsersByIds(array $keep_users_ids): ilIndividualAssessmentMembers
     {
         $clone = clone $this;
 
@@ -231,7 +247,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      */
     public function withAccessHandling(
         ilOrgUnitPositionAndRBACAccessHandler $access_handler
-    ) : ilIndividualAssessmentMembers {
+    ): ilIndividualAssessmentMembers {
         return $this->withOnlyUsersByIds(
             $access_handler->filterUserIdsByRbacOrPositionOfCurrentUser(
                 "read_learning_progress",
@@ -248,11 +264,11 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
      *
      * @return	int[]|string[]
      */
-    public function membersIds() : array
+    public function membersIds(): array
     {
         return array_keys($this->member_records);
     }
-    
+
     /**
      * Store the data to a persistent medium
      *
@@ -262,7 +278,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     public function updateStorageAndRBAC(
         ilIndividualAssessmentMembersStorage $storage,
         IndividualAssessmentAccessHandler $access_handler
-    ) : void {
+    ): void {
         $current = $storage->loadMembers($this->referencedObject());
         $iass = $this->referencedObject();
         foreach ($this as $usr_id => $record) {

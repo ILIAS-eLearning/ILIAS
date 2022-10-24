@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,12 +31,12 @@ class AwarenessSessionRepository
     {
     }
 
-    public function setOnlineUsersTS(string $ts) : void
+    public function setOnlineUsersTS(string $ts): void
     {
         \ilSession::set(self::KEY_BASE . "_online_users_ts", $ts);
     }
 
-    public function getOnlineUsersTS() : string
+    public function getOnlineUsersTS(): string
     {
         if (\ilSession::has(self::KEY_BASE . "_online_users_ts")) {
             return \ilSession::get(self::KEY_BASE . "_online_users_ts");
@@ -42,13 +44,13 @@ class AwarenessSessionRepository
         return "";
     }
 
-    public function setLastUpdate(int $val) : void
+    public function setLastUpdate(int $val): void
     {
         $key = self::KEY_BASE . "last_update";
         \ilSession::set($key, (string) $val);
     }
 
-    public function getLastUpdate() : int
+    public function getLastUpdate(): int
     {
         $key = self::KEY_BASE . "last_update";
         if (\ilSession::has($key)) {
@@ -57,13 +59,13 @@ class AwarenessSessionRepository
         return 0;
     }
 
-    public function setCount(int $val) : void
+    public function setCount(int $val): void
     {
         $key = self::KEY_BASE . "cnt";
         \ilSession::set($key, (string) $val);
     }
 
-    public function getCount() : int
+    public function getCount(): int
     {
         $key = self::KEY_BASE . "cnt";
         if (\ilSession::has($key)) {
@@ -72,13 +74,13 @@ class AwarenessSessionRepository
         return 0;
     }
 
-    public function setHighlightCount(int $val) : void
+    public function setHighlightCount(int $val): void
     {
         $key = self::KEY_BASE . "hcnt";
         \ilSession::set($key, (string) $val);
     }
 
-    public function getHighlightCount() : int
+    public function getHighlightCount(): int
     {
         $key = self::KEY_BASE . "hcnt";
         if (\ilSession::has($key)) {

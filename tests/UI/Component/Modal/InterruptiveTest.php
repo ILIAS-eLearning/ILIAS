@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,11 +17,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . '/ModalBase.php');
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Tests on implementation for the interruptive modal
@@ -28,25 +30,25 @@ use \ILIAS\UI\Implementation as I;
  */
 class InterruptiveTest extends ModalBase
 {
-    public function test_get_title() : void
+    public function test_get_title(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $this->assertEquals('myTitle', $interruptive->getTitle());
     }
 
-    public function test_get_message() : void
+    public function test_get_message(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $this->assertEquals('myMessage', $interruptive->getMessage());
     }
 
-    public function test_get_form_action() : void
+    public function test_get_form_action(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $this->assertEquals('myFormAction', $interruptive->getFormAction());
     }
 
-    public function test_get_affected_items() : void
+    public function test_get_affected_items(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $items = [$this->getInterruptiveItem(), $this->getInterruptiveItem()];
@@ -54,7 +56,7 @@ class InterruptiveTest extends ModalBase
         $this->assertEquals($items, $interruptive->getAffectedItems());
     }
 
-    public function test_with_form_action() : void
+    public function test_with_form_action(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $interruptive2 = $interruptive->withFormAction('myFormAction2');
@@ -62,7 +64,7 @@ class InterruptiveTest extends ModalBase
         $this->assertEquals('myFormAction2', $interruptive2->getFormAction());
     }
 
-    public function test_with_affected_items() : void
+    public function test_with_affected_items(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('myTitle', 'myMessage', 'myFormAction');
         $items = [$this->getInterruptiveItem(), $this->getInterruptiveItem()];
@@ -71,7 +73,7 @@ class InterruptiveTest extends ModalBase
         $this->assertEquals($items, $interruptive2->getAffectedItems());
     }
 
-    public function test_simple_rendering() : void
+    public function test_simple_rendering(): void
     {
         $interruptive = $this->getModalFactory()->interruptive('Title', 'Message', 'myAction.php');
         $expected = $this->normalizeHTML($this->getExpectedHTML());
@@ -79,19 +81,19 @@ class InterruptiveTest extends ModalBase
         $this->assertEquals($expected, $actual);
     }
 
-    protected function getInterruptiveItem() : InterruptiveItemMock
+    protected function getInterruptiveItem(): InterruptiveItemMock
     {
         return new InterruptiveItemMock();
     }
 
-    protected function getExpectedHTML() : string
+    protected function getExpectedHTML(): string
     {
         $expected = <<<EOT
 <div class="modal fade il-modal-interruptive" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog" role="document">
 		<form action="myAction.php" method="POST">
 			<div class="modal-content">
-				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="close">
 					<span aria-hidden="true"></span></button><span class="modal-title">Title</span>
 				</div>
 				<div class="modal-body">
@@ -110,7 +112,7 @@ EOT;
     }
 
 
-    public function testLabels() : void
+    public function testLabels(): void
     {
         $action_label = 'actionlabel';
         $cancel_label = 'cancellabel';
@@ -131,22 +133,22 @@ EOT;
 
 class InterruptiveItemMock implements C\Modal\InterruptiveItem
 {
-    public function getId() : string
+    public function getId(): string
     {
         return '1';
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return 'title';
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'description';
     }
 
-    public function getIcon() : C\Image\Image
+    public function getIcon(): C\Image\Image
     {
         return new I\Component\Image\Image(C\Image\Image::STANDARD, '', '');
     }

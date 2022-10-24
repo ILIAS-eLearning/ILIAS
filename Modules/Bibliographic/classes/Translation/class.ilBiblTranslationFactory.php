@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblTranslationFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -35,7 +35,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         $this->field_factory = $field_factory;
     }
 
-    public function translate(ilBiblFieldInterface $field) : string
+    public function translate(ilBiblFieldInterface $field): string
     {
         if ($this->translationExistsForFieldAndUsersLanguage($field)) {
             return $this->getInstanceForFieldAndUsersLanguage($field)->getTranslation();
@@ -52,7 +52,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         return $field->getIdentifier();
     }
 
-    public function translateAttribute(ilBiblAttributeInterface $attribute) : string
+    public function translateAttribute(ilBiblAttributeInterface $attribute): string
     {
         $field = $this->field_factory->findOrCreateFieldOfAttribute($attribute);
 
@@ -60,7 +60,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     }
 
 
-    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute) : string
+    public function translateAttributeString(int $type_id, ilBiblAttributeInterface $attribute): string
     {
         $field = $this->getFieldFactory()
                       ->findOrCreateFieldByTypeAndIdentifier($type_id, $attribute->getIdentifier());
@@ -68,12 +68,12 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
         return $this->translate($field);
     }
 
-    public function getFieldFactory() : \ilBiblFieldFactoryInterface
+    public function getFieldFactory(): \ilBiblFieldFactoryInterface
     {
         return $this->field_factory;
     }
 
-    private function translateInCore(ilBiblFieldInterface $field) : string
+    private function translateInCore(ilBiblFieldInterface $field): string
     {
         $prefix = $this->getFieldFactory()->getType()->getStringRepresentation();
         $middle = "default";
@@ -87,7 +87,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool
+    public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field): bool
     {
         return !is_null($this->getInstanceForFieldAndUsersLanguage($field));
     }
@@ -95,7 +95,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool
+    public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field): bool
     {
         return !is_null($this->getInstanceForFieldAndSystemsLanguage($field));
     }
@@ -103,7 +103,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function translationExistsForField(ilBiblFieldInterface $field) : bool
+    public function translationExistsForField(ilBiblFieldInterface $field): bool
     {
         return $this->getCollectionOfTranslationsForField($field)->hasSets();
     }
@@ -111,10 +111,10 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface
+    public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field): ?\ilBiblTranslationInterface
     {
         global $DIC;
-    
+
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getCollectionOfTranslationsForField($field)
                     ->where(["language_key" => $DIC->user()->getCurrentLanguage(),])
@@ -124,11 +124,11 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface
+    public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field): ?\ilBiblTranslationInterface
     {
         global $DIC;
         $lng = $DIC->language()->getDefaultLanguage();
-    
+
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return $this->getCollectionOfTranslationsForField($field)
                     ->where(["language_key" => $lng,])
@@ -141,7 +141,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     public function findArCreateInstanceForFieldAndlanguage(
         ilBiblFieldInterface $field,
         string $language_key
-    ) : \ilBiblTranslationInterface {
+    ): \ilBiblTranslationInterface {
         $inst = $this->getCollectionOfTranslationsForField($field)
                      ->where(["language_key" => $language_key,])
                      ->get();
@@ -159,7 +159,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAllTranslationsForField(ilBiblFieldInterface $field) : array
+    public function getAllTranslationsForField(ilBiblFieldInterface $field): array
     {
         return $this->getCollectionOfTranslationsForField($field)->get();
     }
@@ -167,12 +167,12 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array
+    public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field): array
     {
         return $this->getCollectionOfTranslationsForField($field)->getArray();
     }
 
-    private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field) : \ActiveRecordList
+    private function getCollectionOfTranslationsForField(ilBiblFieldInterface $field): \ActiveRecordList
     {
         return ilBiblTranslation::where(['field_id' => $field->getId()])->orderBy('language_key');
     }
@@ -180,7 +180,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function findById(int $id) : \ilBiblTranslationInterface
+    public function findById(int $id): \ilBiblTranslationInterface
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilBiblTranslation::findOrFail($id);
@@ -189,7 +189,7 @@ class ilBiblTranslationFactory implements ilBiblTranslationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function deleteById(int $id) : bool
+    public function deleteById(int $id): bool
     {
         self::findById($id)->delete();
 

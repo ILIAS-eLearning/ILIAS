@@ -28,12 +28,12 @@
  */
 class ilObjTestDynamicQuestionSetConfigGUI
 {
-    const CMD_SHOW_FORM = 'showForm';
-    const CMD_SAVE_FORM = 'saveForm';
-    const CMD_GET_TAXONOMY_OPTIONS_ASYNC = 'getTaxonomyOptionsAsync';
+    public const CMD_SHOW_FORM = 'showForm';
+    public const CMD_SAVE_FORM = 'saveForm';
+    public const CMD_GET_TAXONOMY_OPTIONS_ASYNC = 'getTaxonomyOptionsAsync';
 
-    const QUESTION_ORDERING_TYPE_UPDATE_DATE = 'ordering_by_date';
-    const QUESTION_ORDERING_TYPE_TAXONOMY = 'ordering_by_tax';
+    public const QUESTION_ORDERING_TYPE_UPDATE_DATE = 'ordering_by_date';
+    public const QUESTION_ORDERING_TYPE_TAXONOMY = 'ordering_by_tax';
 
     protected ilCtrlInterface $ctrl;
     protected ilAccessHandler $access;
@@ -76,14 +76,14 @@ class ilObjTestDynamicQuestionSetConfigGUI
     public function executeCommand()
     {
         // allow only write access
-        
+
         if (!$this->access->checkAccess("write", "", $this->testOBJ->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("cannot_edit_test"), true);
             $this->ctrl->redirectByClass('ilObjTestGUI', "infoScreen");
         }
-        
+
         // activate corresponding tab (auto activation does not work in ilObjTestGUI-Tabs-Salad)
-        
+
         $this->tabs->activateTab('assQuestions');
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("ctm_cannot_be_changed"));
     }

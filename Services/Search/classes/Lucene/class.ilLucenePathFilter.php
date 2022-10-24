@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,7 +36,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
     protected int $root;
     protected array $subnodes = [];
     protected ilTree $tree;
-    
+
     public function __construct(int $a_root)
     {
         global $DIC;
@@ -42,11 +44,11 @@ class ilLucenePathFilter implements ilLuceneResultFilter
         $this->tree = $DIC->repositoryTree();
         $this->root = $a_root;
     }
-    
+
     /**
      * Return whether a object reference is valid or not
      */
-    public function filter(int $a_ref_id) : bool
+    public function filter(int $a_ref_id): bool
     {
         if ($this->root == ROOT_FOLDER_ID) {
             return true;
@@ -56,12 +58,12 @@ class ilLucenePathFilter implements ilLuceneResultFilter
         }
         return $this->tree->isGrandChild($this->root, $a_ref_id);
     }
-    
+
     /**
      * Read valid reference ids
      * @return void
      */
-    protected function init() : void
+    protected function init(): void
     {
         if ($this->root == ROOT_FOLDER_ID) {
             $this->subnodes = array();

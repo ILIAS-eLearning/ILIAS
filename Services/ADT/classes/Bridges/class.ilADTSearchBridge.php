@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,7 +34,7 @@ abstract class ilADTSearchBridge
     public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected ?ilPropertyFormGUI $form = null;
-    protected ilTable2GUI $table_gui;
+    protected ?ilTable2GUI $table_gui = null;
     protected array $table_filter_fields = [];
     protected string $id = '';
     protected string $title = '';
@@ -52,48 +54,48 @@ abstract class ilADTSearchBridge
         $this->http = $DIC->http();
     }
 
-    abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;
+    abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool;
 
-    abstract protected function setDefinition(ilADTDefinition $a_adt_def) : void;
+    abstract protected function setDefinition(ilADTDefinition $a_adt_def): void;
 
-    abstract public function isNull() : bool;
+    abstract public function isNull(): bool;
 
-    public function setForm(ilPropertyFormGUI $a_form) : void
+    public function setForm(ilPropertyFormGUI $a_form): void
     {
         $this->form = $a_form;
     }
 
-    public function getForm() : ?ilPropertyFormGUI
+    public function getForm(): ?ilPropertyFormGUI
     {
         return $this->form;
     }
 
-    public function setElementId(string $a_value) : void
+    public function setElementId(string $a_value): void
     {
         $this->id = $a_value;
     }
 
-    public function getElementId() : string
+    public function getElementId(): string
     {
         return $this->id;
     }
 
-    public function setTitle(string $a_value) : void
+    public function setTitle(string $a_value): void
     {
         $this->title = trim($a_value);
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getSearchColumn() : string
+    public function getSearchColumn(): string
     {
         return self::DEFAULT_SEARCH_COLUMN;
     }
 
-    public function setTableGUI(ilTable2GUI $a_table) : void
+    public function setTableGUI(ilTable2GUI $a_table): void
     {
         $this->table_gui = $a_table;
     }
@@ -101,7 +103,7 @@ abstract class ilADTSearchBridge
     /**
      * Get table gui
      */
-    public function getTableGUI() : ?ilTable2GUI
+    public function getTableGUI(): ?ilTable2GUI
     {
         return $this->table_gui;
     }
@@ -110,7 +112,7 @@ abstract class ilADTSearchBridge
      * Write value(s) to filter store (in session)
      * @param ?$a_value
      */
-    protected function writeFilter($a_value = null) : void
+    protected function writeFilter($a_value = null): void
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
@@ -144,13 +146,13 @@ abstract class ilADTSearchBridge
     /**
      * Load filter value(s) into ADT
      */
-    abstract public function loadFilter() : void;
+    abstract public function loadFilter(): void;
 
     /**
      * Add form field to parent element
      * @param ilFormPropertyGUI $a_field
      */
-    protected function addToParentElement(ilFormPropertyGUI $a_field) : void
+    protected function addToParentElement(ilFormPropertyGUI $a_field): void
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $this->getForm()->addItem($a_field);
@@ -168,7 +170,7 @@ abstract class ilADTSearchBridge
      * @param string $a_add
      * @return string
      */
-    protected function addToElementId(string $a_add) : string
+    protected function addToElementId(string $a_add): string
     {
         return $this->getElementId() . "[" . $a_add . "]";
     }
@@ -176,14 +178,14 @@ abstract class ilADTSearchBridge
     /**
      * Add ADT-specific fields to form
      */
-    abstract public function addToForm() : void;
+    abstract public function addToForm(): void;
 
     /**
      * Check if incoming values should be imported at all
      * @param string|int $a_post
      * @return bool
      */
-    protected function shouldBeImportedFromPost($a_post) : bool
+    protected function shouldBeImportedFromPost($a_post): bool
     {
         return true;
     }
@@ -202,9 +204,9 @@ abstract class ilADTSearchBridge
         if ($a_post === null) {
             $a_post = $this->http->request()->getParsedBody();
             if ($multi !== false) {
-                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
+                $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)] ?? null;
             } else {
-                $post = $a_post[$element_id];
+                $post = $a_post[$element_id] ?? null;
             }
         } elseif ($multi !== false) {
             $post = $a_post[substr($element_id, $multi + 1, -1)];
@@ -217,13 +219,13 @@ abstract class ilADTSearchBridge
     /**
      * @todo make post required
      */
-    abstract public function importFromPost(array $a_post = null) : bool;
+    abstract public function importFromPost(array $a_post = null): bool;
 
     /**
      * Validate current data
      * @return bool
      */
-    abstract public function validate() : bool;
+    abstract public function validate(): bool;
 
 
     //
@@ -237,12 +239,12 @@ abstract class ilADTSearchBridge
         string $a_element_id,
         int $mode = self::SQL_LIKE,
         array $quotedWords = []
-    ) : string;
+    ): string;
 
     /**
      * Compare directly against ADT
      */
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         return false;
     }
@@ -255,10 +257,10 @@ abstract class ilADTSearchBridge
     /**
      * Get current value(s) in serialized form (for easy persisting)
      */
-    abstract public function getSerializedValue() : string;
+    abstract public function getSerializedValue(): string;
 
     /**
      * Set current value(s) in serialized form (for easy persisting)
      */
-    abstract public function setSerializedValue(string $a_value) : void;
+    abstract public function setSerializedValue(string $a_value): void;
 }

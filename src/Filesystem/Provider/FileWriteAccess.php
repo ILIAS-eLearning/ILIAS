@@ -48,7 +48,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function write(string $path, string $content) : void;
+    public function write(string $path, string $content): void;
 
 
     /**
@@ -66,7 +66,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function update(string $path, string $new_content) : void;
+    public function update(string $path, string $new_content): void;
 
 
     /**
@@ -85,7 +85,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function put(string $path, string $content) : void;
+    public function put(string $path, string $content): void;
 
 
     /**
@@ -101,7 +101,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function delete(string $path) : void;
+    public function delete(string $path): void;
 
 
     /**
@@ -117,7 +117,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function readAndDelete(string $path) : string;
+    public function readAndDelete(string $path): string;
 
 
     /**
@@ -135,7 +135,7 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function rename(string $path, string $new_path) : void;
+    public function rename(string $path, string $new_path): void;
 
 
     /**
@@ -153,5 +153,5 @@ interface FileWriteAccess
      * @since 5.3
      * @version 1.0
      */
-    public function copy(string $path, string $copy_path) : void;
+    public function copy(string $path, string $copy_path): void;
 }

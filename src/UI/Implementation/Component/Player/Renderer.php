@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Player;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -28,7 +30,7 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component\Component $component, RendererInterface $default_renderer): string
     {
         /**
          * @var Component\Player\Player $component
@@ -44,7 +46,7 @@ class Renderer extends AbstractComponentRenderer
         return "";
     }
 
-    public function renderAudio(Component\Component $component, RendererInterface $default_renderer) : string
+    public function renderAudio(Component\Component $component, RendererInterface $default_renderer): string
     {
         $tpl = $this->getTemplate("tpl.audio.html", true, true);
 
@@ -77,7 +79,7 @@ class Renderer extends AbstractComponentRenderer
     public function renderVideo(
         Component\Component $component,
         RendererInterface $default_renderer
-    ) : string {
+    ): string {
         $tpl = $this->getTemplate("tpl.video.html", true, true);
 
         $component = $component->withAdditionalOnLoadCode(function ($id) {
@@ -104,7 +106,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry) : void
+    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register('./node_modules/mediaelement/build/mediaelement-and-player.min.js');
@@ -112,7 +114,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./node_modules/mediaelement/build/mediaelementplayer.min.css');
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return [Component\Player\Player::class];
     }

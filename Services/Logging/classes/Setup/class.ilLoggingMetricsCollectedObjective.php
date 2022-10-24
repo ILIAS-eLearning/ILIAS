@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,14 +10,14 @@ use ILIAS\Setup\Metrics\Storage;
 
 class ilLoggingMetricsCollectedObjective extends CollectedObjective
 {
-    protected function getTentativePreconditions(Environment $environment) : array
+    protected function getTentativePreconditions(Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    protected function collectFrom(Environment $environment, Storage $storage) : void
+    protected function collectFrom(Environment $environment, Storage $storage): void
     {
         $ini = $environment->getResource(Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {

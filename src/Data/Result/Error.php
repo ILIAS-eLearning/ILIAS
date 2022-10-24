@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,7 +16,6 @@ use ILIAS\Data\Result;
  */
 class Error implements Data\Result
 {
-
     /**
      * @var string | \Exception
      */
@@ -31,7 +32,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function isOK() : bool
+    public function isOK(): bool
     {
         return false;
     }
@@ -51,7 +52,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function isError() : bool
+    public function isError(): bool
     {
         return true;
     }
@@ -75,7 +76,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function map(callable $f) : Result
+    public function map(callable $f): Result
     {
         return $this;
     }
@@ -83,7 +84,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function then(callable $f) : Result
+    public function then(callable $f): Result
     {
         return $this;
     }
@@ -91,7 +92,7 @@ class Error implements Data\Result
     /**
      * @inheritdoc
      */
-    public function except(callable $f) : Result
+    public function except(callable $f): Result
     {
         $result = $f($this->error);
 

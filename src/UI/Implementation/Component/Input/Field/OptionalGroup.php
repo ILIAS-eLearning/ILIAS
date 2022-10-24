@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Refinery\Constraint;
@@ -38,7 +40,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -46,7 +48,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($value === null) {
             return true;
@@ -54,7 +56,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
         return parent::isClientSideValueOk($value);
     }
 
-    public function withRequired($is_required) : Field\Input
+    public function withRequired($is_required): Field\Input
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return Input::withRequired($is_required);
@@ -63,7 +65,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withValue($value) : Field\Input
+    public function withValue($value): Field\Input
     {
         if ($value === null) {
             $clone = clone $this;
@@ -92,7 +94,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input) : Field\Input
+    public function withInput(InputData $input): Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");

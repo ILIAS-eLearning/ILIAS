@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -26,7 +28,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
      * Get directory tree
      * @throws ilECSConnectorException
      */
-    public function getDirectoryTrees(int $a_mid = 0) : ?\ilECSUriList
+    public function getDirectoryTrees(int $a_mid = 0): ?\ilECSUriList
     {
         $this->path_postfix = '/campusconnect/directory_trees';
 
@@ -52,7 +54,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
      * Get single directory tree
      * @return ilECSResult an array of ecs cms directory tree entries
      */
-    public function getDirectoryTree($tree_id) : ilECSResult
+    public function getDirectoryTree($tree_id): ilECSResult
     {
         $this->path_postfix = '/campusconnect/directory_trees/' . (int) $tree_id;
 
@@ -62,7 +64,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->addHeader('Accept', 'text/uri-list');
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
             $res = $this->call();
-            
+
             if (strpos($res, 'http') === 0) {
                 $json = file_get_contents($res);
                 $ecs_result = new ilECSResult($json);

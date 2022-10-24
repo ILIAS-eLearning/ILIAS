@@ -23,9 +23,9 @@
 class ilObjAdministrativeNotificationAccess extends ilObjectAccess
 {
     private ilRbacSystem $rbacsystem;
-    
+
     protected ?int $ref_id;
-    
+
     /**
      * ilObjAdministrativeNotificationAccess constructor.
      */
@@ -37,18 +37,18 @@ class ilObjAdministrativeNotificationAccess extends ilObjectAccess
             ? $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int())
             : null;
     }
-    
+
     /**
      * @throws ilException
      */
-    public function checkAccessAndThrowException(string $permission) : void
+    public function checkAccessAndThrowException(string $permission): void
     {
         if (!$this->hasUserPermissionTo($permission)) {
             throw new ilException('Permission denied');
         }
     }
 
-    public function hasUserPermissionTo(string $permission) : bool
+    public function hasUserPermissionTo(string $permission): bool
     {
         return $this->rbacsystem->checkAccess($permission, $this->ref_id);
     }

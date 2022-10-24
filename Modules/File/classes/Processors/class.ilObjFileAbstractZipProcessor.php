@@ -32,9 +32,10 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
         ResourceStakeholder $stakeholder,
         ilObjFileGUI $gui_object,
         Services $storage,
+        ilFileServicesSettings $settings,
         $tree
     ) {
-        parent::__construct($stakeholder, $gui_object, $storage);
+        parent::__construct($stakeholder, $gui_object, $storage, $settings);
 
         $this->id_type = $gui_object->getIdType();
         $this->tree = $tree;
@@ -43,7 +44,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Creates a container object depending on the parent's node type and returns it.
      */
-    protected function createContainerObj(string $dir_name, int $parent_id, array $options = []) : ilObject
+    protected function createContainerObj(string $dir_name, int $parent_id, array $options = []): ilObject
     {
         $container_obj = $this->getPossibleContainerObj($parent_id);
         $container_obj->setTitle($dir_name);
@@ -63,7 +64,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Opens the zip archive of the given resource.
      */
-    protected function openZip(ResourceIdentification $rid) : void
+    protected function openZip(ResourceIdentification $rid): void
     {
         if (null !== $this->archive) {
             throw new LogicException("openZip() can only be called once, yet it was called again.");
@@ -78,7 +79,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      * Yields the file-paths of the currently open zip-archive.
      * @return Generator|string[]
      */
-    protected function getZipFiles() : Generator
+    protected function getZipFiles(): Generator
     {
         if (null === $this->archive) {
             throw new LogicException("cannot read content of unopened zip archive");
@@ -97,7 +98,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Creates an IRSS resource from the given filepath.
      */
-    protected function storeZippedFile(string $file_path) : ResourceIdentification
+    protected function storeZippedFile(string $file_path): ResourceIdentification
     {
         if (null === $this->archive) {
             throw new LogicException("No archive has been opened yet, call openZip() first in order to read files.");
@@ -113,7 +114,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Closes the currently open zip-archive.
      */
-    protected function closeZip() : void
+    protected function closeZip(): void
     {
         if ($this->archive !== null) {
             $this->archive->close();
@@ -123,7 +124,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
     /**
      * Returns whether the current context is workspace.
      */
-    protected function isWorkspace() : bool
+    protected function isWorkspace(): bool
     {
         return (ilObject2GUI::WORKSPACE_NODE_ID === $this->id_type);
     }
@@ -134,7 +135,7 @@ abstract class ilObjFileAbstractZipProcessor extends ilObjFileAbstractProcessor
      * @param int $parent_id
      * @return ilObject
      */
-    private function getPossibleContainerObj(int $parent_id) : ilObject
+    private function getPossibleContainerObj(int $parent_id): ilObject
     {
         $type = ($this->isWorkspace()) ?
             ilObject::_lookupType($this->tree->lookupObjectId($parent_id)) :

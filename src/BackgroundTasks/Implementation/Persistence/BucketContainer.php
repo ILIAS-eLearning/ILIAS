@@ -15,18 +15,18 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 
 class BucketContainer extends \ActiveRecord
 {
-    public static function returnDbTableName() : string
+    public static function returnDbTableName(): string
     {
         return "il_bt_bucket";
     }
-    
+
     /**
      * @con_is_primary true
      * @con_is_unique  true
@@ -89,103 +89,103 @@ class BucketContainer extends \ActiveRecord
      * @con_fieldtype  timestamp
      */
     protected ?int $last_heartbeat = 0;
-    
-    public function getId() : ?int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    
-    public function setId(int $id) : void
+
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
-    
-    public function getUserId() : int
+
+    public function getUserId(): int
     {
         return $this->user_id;
     }
-    
-    public function setUserId(int $user_id) : void
+
+    public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }
-    
-    public function getRootTaskid() : int
+
+    public function getRootTaskid(): int
     {
         return $this->root_task_id;
     }
-    
-    public function setRootTaskid(int $root_task_id) : void
+
+    public function setRootTaskid(int $root_task_id): void
     {
         $this->root_task_id = $root_task_id;
     }
-    
-    public function getCurrentTaskid() : int
+
+    public function getCurrentTaskid(): int
     {
         return $this->current_task_id;
     }
-    
-    public function setCurrentTaskid(int $current_task_id) : void
+
+    public function setCurrentTaskid(int $current_task_id): void
     {
         $this->current_task_id = $current_task_id;
     }
-    
-    public function getState() : int
+
+    public function getState(): int
     {
         return $this->state;
     }
-    
-    public function setState(int $state) : void
+
+    public function setState(int $state): void
     {
         $this->state = $state;
     }
-    
-    public function getTotalNumberoftasks() : int
+
+    public function getTotalNumberoftasks(): int
     {
         return $this->total_number_of_tasks;
     }
-    
-    public function setTotalNumberoftasks(int $total_number_of_tasks) : void
+
+    public function setTotalNumberoftasks(int $total_number_of_tasks): void
     {
         $this->total_number_of_tasks = $total_number_of_tasks;
     }
-    
-    public function getPercentage() : int
+
+    public function getPercentage(): int
     {
         return $this->percentage;
     }
-    
-    public function setPercentage(int $percentage) : void
+
+    public function setPercentage(int $percentage): void
     {
         $this->percentage = $percentage;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
-    
-    public function getDescription() : string
+
+    public function getDescription(): string
     {
         return $this->description;
     }
-    
-    public function setDescription(string $description) : void
+
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
-    
-    public function getLastHeartbeat() : int
+
+    public function getLastHeartbeat(): int
     {
         return $this->last_heartbeat;
     }
-    
-    public function setLastHeartbeat(int $last_heartbeat) : void
+
+    public function setLastHeartbeat(int $last_heartbeat): void
     {
         $this->last_heartbeat = $last_heartbeat;
     }

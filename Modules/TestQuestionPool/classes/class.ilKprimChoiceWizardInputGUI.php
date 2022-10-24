@@ -28,7 +28,7 @@ require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
  */
 class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    const CUSTOM_UPLOAD_ERR = 99;
+    public const CUSTOM_UPLOAD_ERR = 99;
 
     /**
      * @var ilTemplate
@@ -39,48 +39,48 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * @var assKprimChoice
      */
     protected $qstObject;
-    
+
     private $files;
-    
+
     private $ignoreMissingUploadsEnabled;
-    
+
     public function __construct($a_title = "", $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
-        
+
         global $DIC;
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
-        
+
         $this->lng = $lng;
         $this->tpl = $tpl;
-        
+
         $this->files = array();
 
         $this->ignoreMissingUploadsEnabled = false;
     }
 
-    public function setFiles($files) : void
+    public function setFiles($files): void
     {
         $this->files = $files;
     }
 
-    public function getFiles() : array
+    public function getFiles(): array
     {
         return $this->files;
     }
 
-    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled) : void
+    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled): void
     {
         $this->ignoreMissingUploadsEnabled = $ignoreMissingUploadsEnabled;
     }
 
-    public function isIgnoreMissingUploadsEnabled() : bool
+    public function isIgnoreMissingUploadsEnabled(): bool
     {
         return $this->ignoreMissingUploadsEnabled;
     }
-    
-    public function setValue($a_value) : void
+
+    public function setValue($a_value): void
     {
         $this->values = array();
 
@@ -93,7 +93,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 if (isset($a_value['imagename'])) {
                     $answer->setImageFile($a_value['imagename'][$index]);
                 }
-                
+
                 if (isset($a_value['correctness']) && isset($a_value['correctness'][$index]) && strlen($a_value['correctness'][$index])) {
                     $answer->setCorrectness((bool) $a_value['correctness'][$index]);
                 }
@@ -109,7 +109,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         #vd($this->values);
     }
 
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -135,7 +135,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     }
                 }
             }
-            
+
             // check correctness
             if (!isset($foundvalues['correctness']) || count($foundvalues['correctness']) < count($foundvalues['answer'])) {
                 $this->setAlert($lng->txt("msg_input_is_required"));
@@ -156,7 +156,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
     /**
      * @param $a_tpl ilTemplate
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate("tpl.prop_kprimchoicewizardinput.html", true, true, "Modules/TestQuestionPool");
 
@@ -164,18 +164,18 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
             /**
              * @var ilAssKprimChoiceAnswer $value
              */
-            
+
             if ($this->getSingleline()) {
                 if (!$this->hideImages) {
                     if (strlen($value->getImageFile())) {
                         $imagename = $value->getImageWebPath();
-                        
+
                         if (($this->getSingleline()) && ($this->qstObject->getThumbSize())) {
                             if (@file_exists($value->getThumbFsPath())) {
                                 $imagename = $value->getThumbWebPath();
                             }
                         }
-                        
+
                         $tpl->setCurrentBlock('image');
                         $tpl->setVariable('SRC_IMAGE', $imagename);
                         $tpl->setVariable('IMAGE_NAME', $value->getImageFile());
@@ -200,7 +200,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
-                    ilLegacyFormElementsUtil::prepareFormOutput((string) $value->getAnswertext())
+                    ilLegacyFormElementsUtil::prepareFormOutput(htmlspecialchars_decode((string) $value->getAnswertext()))
                 );
                 $tpl->parseCurrentBlock();
 
@@ -238,13 +238,13 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                 $tpl->parseCurrentBlock();
             }
-            
+
             $tpl->setCurrentBlock("row");
-            
+
             $tpl->setVariable("POST_VAR", $this->getPostVar());
             $tpl->setVariable("ROW_NUMBER", $value->getPosition());
             $tpl->setVariable("ID", $this->getPostVar() . "[answer][{$value->getPosition()}]");
-            
+
             $tpl->setVariable(
                 "CORRECTNESS_TRUE_ID",
                 $this->getPostVar() . "[correctness][{$value->getPosition()}][true]"
@@ -263,11 +263,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                     $tpl->setVariable('CORRECTNESS_FALSE_SELECTED', ' checked="checked"');
                 }
             }
-            
+
             if ($this->getDisabled()) {
                 $tpl->setVariable("DISABLED_CORRECTNESS", " disabled=\"disabled\"");
             }
-            
+
             $tpl->parseCurrentBlock();
         }
 
@@ -290,12 +290,12 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->parseCurrentBlock();
             }
         }
-        
+
         foreach ($this->qstObject->getValidOptionLabels() as $optionLabel) {
             if ($this->qstObject->isCustomOptionLabel($optionLabel)) {
                 continue;
             }
-            
+
             $tpl->setCurrentBlock('option_label_translations');
             $tpl->setVariable('OPTION_LABEL', $optionLabel);
             $tpl->setVariable('TRANSLATION_TRUE', $this->qstObject->getTrueOptionLabelTranslation($this->lng, $optionLabel));
@@ -307,9 +307,9 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $tpl->setVariable("DELETE_IMAGE_HEADER", $this->lng->txt('delete_image_header'));
         $tpl->setVariable("DELETE_IMAGE_QUESTION", $this->lng->txt('delete_image_question'));
         $tpl->setVariable("ANSWER_TEXT", $this->lng->txt('answer_text'));
-        
+
         $tpl->setVariable("OPTIONS_TEXT", $this->lng->txt('options'));
-        
+
         // winzards input column label values will be updated on document ready js
         //$tpl->setVariable("TRUE_TEXT", $this->qstObject->getTrueOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
         //$tpl->setVariable("FALSE_TEXT", $this->qstObject->getFalseOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
@@ -323,8 +323,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/kprimchoicewizard.js");
         $this->tpl->addJavascript('Modules/TestQuestionPool/js/ilAssKprimChoice.js');
     }
-    
-    public function checkUploads($foundvalues) : bool
+
+    public function checkUploads($foundvalues): bool
     {
         if (is_array($_FILES) && count($_FILES) && $this->getSingleline()) {
             if (!$this->hideImages) {
@@ -435,11 +435,11 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 }
             }
         }
-        
+
         return true;
     }
-    
-    public function collectValidFiles() : void
+
+    public function collectValidFiles(): void
     {
         foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $err) {
             if ($err > 0) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilChatroomServerConnector
         $this->settings = $settings;
     }
 
-    public static function checkServerConnection(bool $use_cache = true) : bool
+    public static function checkServerConnection(bool $use_cache = true): bool
     {
         if ($use_cache && self::$connection_status !== null) {
             return self::$connection_status;
@@ -45,7 +47,7 @@ class ilChatroomServerConnector
         return self::$connection_status;
     }
 
-    public function isServerAlive() : bool
+    public function isServerAlive(): bool
     {
         $response = $this->file_get_contents(
             $this->settings->getURL('Heartbeat'),
@@ -109,7 +111,7 @@ class ilChatroomServerConnector
             $ctx = array_merge_recursive($ctx, $stream_context_params);
         }
 
-        set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 
@@ -253,7 +255,7 @@ class ilChatroomServerConnector
         );
     }
 
-    public function getSettings() : ilChatroomServerSettings
+    public function getSettings(): ilChatroomServerSettings
     {
         return $this->settings;
     }

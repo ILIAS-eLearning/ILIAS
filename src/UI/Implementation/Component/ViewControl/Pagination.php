@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 use ILIAS\UI\Component\Signal;
@@ -54,7 +56,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withResetSignals() : PaginationInterface
+    public function withResetSignals(): PaginationInterface
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -64,7 +66,7 @@ class Pagination implements PaginationInterface
     /**
      * Set the internal signals for this component
      */
-    protected function initSignals() : void
+    protected function initSignals(): void
     {
         $this->internal_signal = $this->signal_generator->create();
     }
@@ -72,7 +74,7 @@ class Pagination implements PaginationInterface
     /**
      * Get the internal signal that is triggered on click of a button.
      */
-    public function getInternalSignal() : Signal
+    public function getInternalSignal(): Signal
     {
         return $this->internal_signal;
     }
@@ -80,7 +82,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withTargetURL(string $url, string $parameter_name) : PaginationInterface
+    public function withTargetURL(string $url, string $parameter_name): PaginationInterface
     {
         $clone = clone $this;
         $clone->target_url = $url;
@@ -91,7 +93,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getTargetURL() : ?string
+    public function getTargetURL(): ?string
     {
         return $this->target_url;
     }
@@ -99,7 +101,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getParameterName() : string
+    public function getParameterName(): string
     {
         return $this->parameter_name;
     }
@@ -107,7 +109,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withTotalEntries(int $total) : PaginationInterface
+    public function withTotalEntries(int $total): PaginationInterface
     {
         $clone = clone $this;
         $clone->total_entries = $total;
@@ -117,7 +119,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withPageSize(int $size) : PaginationInterface
+    public function withPageSize(int $size): PaginationInterface
     {
         //raise, if size < 1
         $clone = clone $this;
@@ -128,7 +130,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getPageSize() : int
+    public function getPageSize(): int
     {
         return $this->page_size;
     }
@@ -136,7 +138,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withCurrentPage(int $page) : PaginationInterface
+    public function withCurrentPage(int $page): PaginationInterface
     {
         $clone = clone $this;
         $clone->current_page = $page;
@@ -146,12 +148,12 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getCurrentPage() : int
+    public function getCurrentPage(): int
     {
         return $this->current_page;
     }
 
-    protected function getOffset() : int
+    protected function getOffset(): int
     {
         return $this->page_size * $this->current_page;
     }
@@ -159,7 +161,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withOnSelect(Signal $signal) : PaginationInterface
+    public function withOnSelect(Signal $signal): PaginationInterface
     {
         return $this->withTriggeredSignal($signal, 'select');
     }
@@ -167,7 +169,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getNumberOfPages() : int
+    public function getNumberOfPages(): int
     {
         $pages = ceil($this->total_entries / $this->page_size);
         return (int) $pages;
@@ -176,7 +178,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withMaxPaginationButtons(int $amount) : PaginationInterface
+    public function withMaxPaginationButtons(int $amount): PaginationInterface
     {
         $clone = clone $this;
         $clone->max_pages_shown = $amount;
@@ -186,12 +188,12 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getMaxPaginationButtons() : ?int
+    public function getMaxPaginationButtons(): ?int
     {
         return $this->max_pages_shown;
     }
 
-    protected function getPageLength() : int
+    protected function getPageLength(): int
     {
         if ($this->getOffset() + $this->page_size > $this->total_entries) {
             return $this->total_entries - $this->getOffset();
@@ -202,7 +204,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withDropdownAt(int $amount) : PaginationInterface
+    public function withDropdownAt(int $amount): PaginationInterface
     {
         $clone = clone $this;
         $clone->dd_threshold = $amount;
@@ -212,7 +214,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getDropdownAt() : ?int
+    public function getDropdownAt(): ?int
     {
         return $this->dd_threshold;
     }
@@ -220,7 +222,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withDropdownLabel(string $template) : PaginationInterface
+    public function withDropdownLabel(string $template): PaginationInterface
     {
         $clone = clone $this;
         $clone->dropdown_label = $template;
@@ -230,7 +232,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getDropdownLabel() : string
+    public function getDropdownLabel(): string
     {
         return $this->dropdown_label;
     }
@@ -238,12 +240,12 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getDefaultDropdownLabel() : string
+    public function getDefaultDropdownLabel(): string
     {
         return self::DEFAULT_DROPDOWN_LABEL;
     }
 
-    public function getRange() : ?Range
+    public function getRange(): ?Range
     {
         if ($this->getPageLength() < 1) {
             return null;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -36,11 +38,11 @@ class ilECSEContentDetails
 
         $this->logger = $DIC->logger()->wsrv();
     }
-    
+
     /**
      * Get data from server
      */
-    public static function getInstanceFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type) : ilECSEContentDetails
+    public static function getInstanceFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type): ilECSEContentDetails
     {
         $instance = new self();
         $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
@@ -48,7 +50,7 @@ class ilECSEContentDetails
     }
 
 
-    private function loadFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type) : ?object
+    private function loadFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type): ?object
     {
         try {
             $connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));
@@ -69,7 +71,7 @@ class ilECSEContentDetails
     /**
      * Get senders
      */
-    public function getSenders() : array
+    public function getSenders(): array
     {
         return $this->senders;
     }
@@ -77,16 +79,16 @@ class ilECSEContentDetails
     /**
      * get first sender
      */
-    public function getFirstSender() : int
+    public function getFirstSender(): int
     {
         return $this->senders[0] ?? 0;
     }
-    
+
     /**
      * Get sender from whom we received the ressource
      * According to the documentation the sender and receiver arrays have corresponding indexes.
      */
-    public function getMySender() : int
+    public function getMySender(): int
     {
         return $this->senders[$this->sender_index];
     }
@@ -94,15 +96,15 @@ class ilECSEContentDetails
     /**
      * Get recievers
      */
-    public function getReceivers() : array
+    public function getReceivers(): array
     {
         return $this->receivers;
     }
-    
+
     /**
      * Get first receiver
      */
-    public function getFirstReceiver() : int
+    public function getFirstReceiver(): int
     {
         return count($this->receivers) ? $this->receivers[0] : 0;
     }
@@ -110,7 +112,7 @@ class ilECSEContentDetails
     /**
      * Get receiver info
      */
-    public function getReceiverInfo() : array
+    public function getReceiverInfo(): array
     {
         return $this->receiver_info;
     }
@@ -118,12 +120,12 @@ class ilECSEContentDetails
     /**
      * Get url
      */
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }
 
-    public function getOwner() : int
+    public function getOwner(): int
     {
         return $this->owner;
     }
@@ -134,7 +136,7 @@ class ilECSEContentDetails
      * @param object JSON object
      * @throws ilException
      */
-    public function loadFromJson(object $json) : bool
+    public function loadFromJson(object $json): bool
     {
         $this->logger->info(print_r($json, true));
         foreach ((array) $json->senders as $sender) {

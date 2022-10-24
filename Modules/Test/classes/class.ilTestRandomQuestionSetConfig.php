@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 /**
  * class that manages/holds the data for a question set configuration for continues tests
  *
@@ -27,29 +26,29 @@
  */
 class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 {
-    const QUESTION_AMOUNT_CONFIG_MODE_PER_TEST = 'TEST';
-    const QUESTION_AMOUNT_CONFIG_MODE_PER_POOL = 'POOL';
-    
+    public const QUESTION_AMOUNT_CONFIG_MODE_PER_TEST = 'TEST';
+    public const QUESTION_AMOUNT_CONFIG_MODE_PER_POOL = 'POOL';
+
     /**
      * @var boolean
      */
     private $requirePoolsWithHomogeneousScoredQuestions = null;
-    
+
     /**
      * @var string
      */
     private $questionAmountConfigurationMode = null;
-    
+
     /**
      * @var integer
      */
     private $questionAmountPerTest = null;
-    
+
     /**
      * @var integer
      */
     private $lastQuestionSyncTimestamp = null;
-    
+
     //fau: fixRandomTestBuildable - variable for messages
     private $buildableMessages = array();
     // fau.
@@ -61,15 +60,15 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     {
         $this->requirePoolsWithHomogeneousScoredQuestions = $requirePoolsWithHomogeneousScoredQuestions;
     }
-    
+
     /**
      * @return boolean
      */
-    public function arePoolsWithHomogeneousScoredQuestionsRequired() : ?bool
+    public function arePoolsWithHomogeneousScoredQuestionsRequired(): ?bool
     {
         return $this->requirePoolsWithHomogeneousScoredQuestions;
     }
-    
+
     /**
      * @param string $questionAmountConfigurationMode
      */
@@ -77,43 +76,43 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     {
         $this->questionAmountConfigurationMode = $questionAmountConfigurationMode;
     }
-    
+
     /**
      * @return string
      */
-    public function getQuestionAmountConfigurationMode() : ?string
+    public function getQuestionAmountConfigurationMode(): ?string
     {
         return $this->questionAmountConfigurationMode;
     }
-    
+
     /**
      * @return boolean
      */
-    public function isQuestionAmountConfigurationModePerPool() : bool
+    public function isQuestionAmountConfigurationModePerPool(): bool
     {
         return $this->getQuestionAmountConfigurationMode() == self::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL;
     }
-    
+
     /**
      * @return boolean
      */
-    public function isQuestionAmountConfigurationModePerTest() : bool
+    public function isQuestionAmountConfigurationModePerTest(): bool
     {
         return $this->getQuestionAmountConfigurationMode() == self::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
     }
-    
-    public function isValidQuestionAmountConfigurationMode($amountMode) : bool
+
+    public function isValidQuestionAmountConfigurationMode($amountMode): bool
     {
         switch ($amountMode) {
             case self::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL:
             case self::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST:
-                
+
                 return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * @param integer $questionAmountPerTest
      */
@@ -121,15 +120,15 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     {
         $this->questionAmountPerTest = $questionAmountPerTest;
     }
-    
+
     /**
      * @return integer
      */
-    public function getQuestionAmountPerTest() : ?int
+    public function getQuestionAmountPerTest(): ?int
     {
         return $this->questionAmountPerTest;
     }
-    
+
     /**
      * @param integer $lastQuestionSyncTimestamp
      */
@@ -137,24 +136,24 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     {
         $this->lastQuestionSyncTimestamp = $lastQuestionSyncTimestamp;
     }
-    
+
     /**
      * @return integer
      */
-    public function getLastQuestionSyncTimestamp() : ?int
+    public function getLastQuestionSyncTimestamp(): ?int
     {
         return $this->lastQuestionSyncTimestamp;
     }
-    
+
     //fau: fixRandomTestBuildable - function to get messages
-    public function getBuildableMessages() : array
+    public function getBuildableMessages(): array
     {
         return $this->buildableMessages;
     }
     // fau.
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     /**
      * initialises the current object instance with values
      * from matching properties within the passed array
@@ -172,29 +171,29 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             }
         }
     }
-    
+
     /**
      * loads the question set config for current test from the database
      *
      * @return boolean
      */
-    public function loadFromDb() : bool
+    public function loadFromDb(): bool
     {
         $res = $this->db->queryF(
             "SELECT * FROM tst_rnd_quest_set_cfg WHERE test_fi = %s",
             array('integer'),
             array($this->testOBJ->getTestId())
         );
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $this->initFromArray($row);
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
      * saves the question set config for current test to the database
      */
@@ -237,16 +236,16 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
      * @param $testId
      * @return boolean
      */
-    private function dbRecordExists($testId) : bool
+    private function dbRecordExists($testId): bool
     {
         $res = $this->db->queryF(
             "SELECT COUNT(*) cnt FROM tst_rnd_quest_set_cfg WHERE test_fi = %s",
             array('integer'),
             array($testId)
         );
-        
+
         $row = $this->db->fetchAssoc($res);
-        
+
         return (bool) $row['cnt'];
     }
 
@@ -271,7 +270,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             )
         );
     }
-    
+
     /**
      * inserts a new record for the question set config
      * for the current test into the database
@@ -291,7 +290,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public function isQuestionSetConfigured() : bool
+    public function isQuestionSetConfigured(): bool
     {
         return (
             $this->getLastQuestionSyncTimestamp() != 0
@@ -301,7 +300,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         );
     }
 
-    public function isQuestionAmountConfigComplete() : bool
+    public function isQuestionAmountConfigComplete(): bool
     {
         if ($this->isQuestionAmountConfigurationModePerPool()) {
             $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
@@ -322,14 +321,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return true;
     }
 
-    public function hasSourcePoolDefinitions() : bool
+    public function hasSourcePoolDefinitions(): bool
     {
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 
         return $sourcePoolDefinitionList->savedDefinitionsExist();
     }
 
-    public function isQuestionSetBuildable() : bool
+    public function isQuestionSetBuildable(): bool
     {
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
         $sourcePoolDefinitionList->loadDefinitions();
@@ -337,17 +336,17 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $stagingPoolQuestionList = new ilTestRandomQuestionSetStagingPoolQuestionList($this->db, $this->component_repository);
 
         $questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($this->db, $this->testOBJ, $this, $sourcePoolDefinitionList, $stagingPoolQuestionList);
-        
+
         //fau: fixRandomTestBuildable - get messages if set is not buildable
         $buildable = $questionSetBuilder->checkBuildable();
         $this->buildableMessages = $questionSetBuilder->getCheckMessages();
         return $buildable;
         // fau.
-        
+
         return $questionSetBuilder->checkBuildable();
     }
-    
-    public function doesQuestionSetRelatedDataExist() : bool
+
+    public function doesQuestionSetRelatedDataExist(): bool
     {
         if ($this->dbRecordExists($this->testOBJ->getTestId())) {
             return true;
@@ -361,8 +360,8 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
         return false;
     }
-    
-    public function removeQuestionSetRelatedData() : void
+
+    public function removeQuestionSetRelatedData(): void
     {
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
         $sourcePoolDefinitionList->deleteDefinitions();
@@ -393,7 +392,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
     {
         // clone general config
-        
+
         $this->loadFromDb();
         $this->cloneToDbForTestId($cloneTestOBJ->getTestId());
 
@@ -403,7 +402,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $sourcePoolDefinitionList->loadDefinitions();
         $definitionIdMap = $sourcePoolDefinitionList->cloneDefinitionsForTestId($cloneTestOBJ->getTestId());
         $this->registerClonedSourcePoolDefinitionIdMapping($cloneTestOBJ, $definitionIdMap);
-        
+
         // build new question stage for cloned test
 
         $sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($cloneTestOBJ);
@@ -412,15 +411,15 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         $sourcePoolDefinitionList->loadDefinitions();
         $stagingPool->rebuild($sourcePoolDefinitionList);
         $sourcePoolDefinitionList->saveDefinitions();
-        
+
         $this->updateLastQuestionSyncTimestampForTestId($cloneTestOBJ->getTestId(), time());
     }
-    
+
     private function registerClonedSourcePoolDefinitionIdMapping(ilObjTest $cloneTestOBJ, $definitionIdMap)
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
-        
+
         require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
 
@@ -432,7 +431,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         }
     }
 
-    private function buildSourcePoolDefinitionList(ilObjTest $testOBJ) : ilTestRandomQuestionSetSourcePoolDefinitionList
+    private function buildSourcePoolDefinitionList(ilObjTest $testOBJ): ilTestRandomQuestionSetSourcePoolDefinitionList
     {
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
         $sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
@@ -449,17 +448,17 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
         return $sourcePoolDefinitionList;
     }
-    
-    private function buildStagingPoolBuilder(ilObjTest $testOBJ) : ilTestRandomQuestionSetStagingPoolBuilder
+
+    private function buildStagingPoolBuilder(ilObjTest $testOBJ): ilTestRandomQuestionSetStagingPoolBuilder
     {
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
         $stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $testOBJ);
-        
+
         return $stagingPool;
     }
-    
+
     // -----------------------------------------------------------------------------------------------------------------
-    
+
     public function updateLastQuestionSyncTimestampForTestId($testId, $timestamp)
     {
         $this->db->update(
@@ -473,14 +472,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         );
     }
 
-    public function isResultTaxonomyFilterSupported() : bool
+    public function isResultTaxonomyFilterSupported(): bool
     {
         return true;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    
-    public function getSelectableQuestionPools() : array
+
+    public function getSelectableQuestionPools(): array
     {
         return $this->testOBJ->getAvailableQuestionpools(
             true,
@@ -490,25 +489,25 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
             true
         );
     }
-    
-    public function doesSelectableQuestionPoolsExist() : bool
+
+    public function doesSelectableQuestionPoolsExist(): bool
     {
         return (bool) count($this->getSelectableQuestionPools());
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public function areDepenciesBroken() : bool
+    public function areDepenciesBroken(): bool
     {
         return $this->testOBJ->isTestFinalBroken();
     }
 
-    public function getDepenciesBrokenMessage(ilLanguage $lng) : string
+    public function getDepenciesBrokenMessage(ilLanguage $lng): string
     {
         return $lng->txt('tst_old_style_rnd_quest_set_broken');
     }
 
-    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd) : bool
+    public function isValidRequestOnBrokenQuestionSetDepencies($nextClass, $cmd): bool
     {
         //vd($nextClass, $cmd);
 
@@ -537,7 +536,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
         return false;
     }
 
-    public function getHiddenTabsOnBrokenDepencies() : array
+    public function getHiddenTabsOnBrokenDepencies(): array
     {
         return array(
             'assQuestions', 'settings', 'manscoring', 'scoringadjust', 'statistics', 'history', 'export'
@@ -545,24 +544,24 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-    
-    public function getCommaSeparatedSourceQuestionPoolLinks() : string
+
+    public function getCommaSeparatedSourceQuestionPoolLinks(): string
     {
         $definitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
         $definitionList->loadDefinitions();
-        
+
         $poolTitles = array();
-        
+
         foreach ($definitionList as $definition) {
             /* @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            
+
             $refId = current(ilObject::_getAllReferences($definition->getPoolId()));
             $href = ilLink::_getLink($refId, 'qpl');
             $title = $definition->getPoolTitle();
-            
+
             $poolTitles[$definition->getPoolId()] = "<a href=\"$href\" alt=\"$title\">$title</a>";
         }
-        
+
         return implode(', ', $poolTitles);
     }
 }

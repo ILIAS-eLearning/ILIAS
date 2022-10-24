@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Image;
 
 /**
@@ -33,7 +35,7 @@ interface Factory
      * @param string $alt
      * @return  \ILIAS\UI\Component\Image\Image
      */
-    public function standard(string $src, string $alt) : Image;
+    public function standard(string $src, string $alt): Image;
 
     /**
      * ---
@@ -48,5 +50,5 @@ interface Factory
      * @param string $alt
      * @return  \ILIAS\UI\Component\Image\Image
      */
-    public function responsive(string $src, string $alt) : Image;
+    public function responsive(string $src, string $alt): Image;
 }

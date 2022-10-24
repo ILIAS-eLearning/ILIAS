@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
@@ -38,7 +40,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Gets the secondary panel title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -46,7 +48,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Sets the action drop down to be displayed on the right of the title
      */
-    public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary
+    public function withActions(C\Dropdown\Standard $actions): C\Panel\Secondary\Secondary
     {
         $clone = clone $this;
         $clone->actions = $actions;
@@ -56,7 +58,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * Gets the action drop down to be displayed on the right of the title
      */
-    public function getActions() : ?C\Dropdown\Standard
+    public function getActions(): ?C\Dropdown\Standard
     {
         return $this->actions;
     }
@@ -64,7 +66,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * @inheritdoc
      */
-    public function withFooter(C\Button\Shy $component) : C\Panel\Secondary\Secondary
+    public function withFooter(C\Button\Shy $component): C\Panel\Secondary\Secondary
     {
         $clone = clone $this;
         $clone->footer_component = $component;
@@ -74,7 +76,7 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     /**
      * @inheritdoc
      */
-    public function getFooter() : ?C\Button\Shy
+    public function getFooter(): ?C\Button\Shy
     {
         return $this->footer_component;
     }

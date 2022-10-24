@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 26.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
 <style type="text/css">
-	.st0{clip-path:url(#SVGID_00000181054910833033088050000007018980207778538420_);fill:#52668C;}
+	.st0{clip-path:url(#SVGID_00000062160556939405902060000009465660221347791760_);fill:#4C6586;}
 	.st1{fill:none;}
 </style>
 <g>
-	<defs>
-		<rect id="SVGID_1_" x="13.7" y="38" width="292.6" height="243.9"/>
-	</defs>
-	<clipPath id="SVGID_00000074399900010399081070000008601670400796397958_">
-		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
-	</clipPath>
-	<path style="clip-path:url(#SVGID_00000074399900010399081070000008601670400796397958_);fill:#52668C;" d="M41.5,166.9l-18.2-4.7
-		l46.3,111.7c2.4,5.8,9.2,10.2,17,7l211.5-87.6c5.8-2.4,10.3-9.2,7.1-17L258.9,64.6l-9.5,16.2l41.2,99.4L82.7,266.3L41.5,166.9z
-		 M226.2,60.6l-62.8,106.6l-119.8-31L226.2,60.6z M249.9,42.7c-1.6-3.8-6-5.6-9.8-4.1L18.3,130.5c-3.8,1.6-5.6,6-4.1,9.8
-		c0.1,0.1,1.7,4.2,1.7,4.2l149.2,38.7c3.2,0.8,6.6-0.6,8.3-3.5l78.1-132.8C251.6,46.8,249.9,42.8,249.9,42.7"/>
+	<g>
+		<defs>
+			<rect id="SVGID_1_" x="13.7" y="38" width="292.6" height="243.9"/>
+		</defs>
+		<clipPath id="SVGID_00000140737000767404256780000009689160831582083732_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000140737000767404256780000009689160831582083732_);fill:#4C6586;" d="M41.5,166.9l-18.2-4.7
+			l46.3,111.7c2.4,5.8,9.2,10.2,17,7l211.5-87.6c5.8-2.4,10.3-9.2,7.1-17L258.9,64.6l-9.5,16.2l41.2,99.4L82.7,266.3L41.5,166.9z
+			 M226.2,60.6l-62.8,106.6l-119.8-31L226.2,60.6z M249.9,42.7c-1.6-3.8-6-5.6-9.8-4.1L18.3,130.5c-3.8,1.6-5.6,6-4.1,9.8
+			c0.1,0.1,1.7,4.2,1.7,4.2l149.2,38.7c3.2,0.8,6.6-0.6,8.3-3.5l78.1-132.8C251.6,46.8,249.9,42.8,249.9,42.7"/>
+	</g>
 </g>
-<rect x="0" class="st1" width="320" height="320"/>
+<rect class="st1" width="320" height="320"/>
 </svg>

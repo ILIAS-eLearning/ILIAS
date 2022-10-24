@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +69,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('tpl_id' === $column) {
             return ilLegacyFormElementsUtil::formCheckbox(false, 'tpl_id[]', (string) $row[$column]);
@@ -94,7 +96,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return (string) $row[$column];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -108,7 +110,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    protected function formatActionsDropDown(array $row) : string
+    protected function formatActionsDropDown(array $row): string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
 
@@ -179,7 +181,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

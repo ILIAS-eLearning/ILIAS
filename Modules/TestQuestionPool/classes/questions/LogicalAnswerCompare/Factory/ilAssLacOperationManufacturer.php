@@ -1,6 +1,20 @@
 <?php
 
-require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Factory/ilAssLacAbstractManufacturer.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class OperationManufacturer
@@ -11,7 +25,6 @@ require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Fa
  */
 class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
 {
-
     /**
      * A Singleton Instance of the OperationManufacturer
      *
@@ -27,7 +40,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return ilAssLacOperationManufacturer
      */
-    public static function _getInstance() : ?ilAssLacOperationManufacturer
+    public static function _getInstance(): ?ilAssLacOperationManufacturer
     {
         if (self::$instance == null) {
             self::$instance = new ilAssLacOperationManufacturer();
@@ -41,7 +54,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedOperation
      */
-    public function manufacture(string $attribute) : ilAssLacAbstractComposite
+    public function manufacture(string $attribute): ilAssLacAbstractComposite
     {
         $operation = "";
         switch ($attribute) {
@@ -95,7 +108,7 @@ class ilAssLacOperationManufacturer extends ilAssLacAbstractManufacturer
      *
      * @return string
      */
-    public function getPattern() : string
+    public function getPattern(): string
     {
         //		return '/[&\|<>=]+/';
         return '/&|\||(?<!<|>)=|<(?!=|>)|>(?!=)|<=|>=|<>/';

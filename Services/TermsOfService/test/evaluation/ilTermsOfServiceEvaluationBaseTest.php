@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @return MockObject&ilObjUser
      */
-    protected function getUserMock() : ilObjUser
+    protected function getUserMock(): ilObjUser
     {
         $user = $this
             ->getMockBuilder(ilObjUser::class)
@@ -49,7 +51,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @return MockObject&ilLogger
      */
-    protected function getLogMock() : ilLogger
+    protected function getLogMock(): ilLogger
     {
         $log = $this
             ->getMockBuilder(ilLogger::class)
@@ -62,7 +64,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @return MockObject&ilTermsOfServiceDocumentCriteriaEvaluation
      */
-    protected function getEvaluatorMock() : ilTermsOfServiceDocumentCriteriaEvaluation
+    protected function getEvaluatorMock(): ilTermsOfServiceDocumentCriteriaEvaluation
     {
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentCriteriaEvaluation::class)
@@ -75,7 +77,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
-    protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
+    protected function getCriterionTypeFactoryMock(): ilTermsOfServiceCriterionTypeFactoryInterface
     {
         $criterionTypeFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
@@ -88,7 +90,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
      * @param string $typeIdent
      * @return MockObject&ilTermsOfServiceCriterionType
      */
-    protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
+    protected function getCriterionTypeMock(string $typeIdent): ilTermsOfServiceCriterionType
     {
         $criterionType = $this
             ->getMockBuilder(ilTermsOfServiceCriterionType::class)
@@ -107,7 +109,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
      */
     protected function getCriterionAssignmentMock(
         ilTermsOfServiceCriterionType $criterionType
-    ) : ilTermsOfServiceEvaluableCriterion {
+    ): ilTermsOfServiceEvaluableCriterion {
         $criterionAssignment = $this
             ->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)
             ->getMock();

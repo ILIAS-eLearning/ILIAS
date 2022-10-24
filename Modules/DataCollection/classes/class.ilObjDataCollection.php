@@ -26,19 +26,18 @@
  */
 class ilObjDataCollection extends ilObject2
 {
-
     private bool $is_online = false;
     private string $rating = "";
     private string $approval = "";
     private string $public_notes = "";
     private string $notification = "";
 
-    protected function initType() : void
+    protected function initType(): void
     {
         $this->type = "dcl";
     }
 
-    protected function doRead() : void
+    protected function doRead(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -55,7 +54,7 @@ class ilObjDataCollection extends ilObject2
         }
     }
 
-    protected function doCreate(bool $clone_mode = false) : void
+    protected function doCreate(bool $clone_mode = false): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -91,7 +90,7 @@ class ilObjDataCollection extends ilObject2
         );
     }
 
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -104,7 +103,7 @@ class ilObjDataCollection extends ilObject2
         $ilDB->manipulate($query);
     }
 
-    protected function doUpdate() : void
+    protected function doUpdate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -154,8 +153,11 @@ class ilObjDataCollection extends ilObject2
         $obj_dcl = $obj_table->getCollectionObject();
 
         // recipients
-        $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(),
-            true);
+        $users = ilNotification::getNotificationsForObject(
+            ilNotification::TYPE_DATA_COLLECTION,
+            $obj_dcl->getId(),
+            true
+        );
         if (!sizeof($users)) {
             return;
         }
@@ -176,8 +178,10 @@ class ilObjDataCollection extends ilObject2
             // the user responsible for the action should not be notified
             $record = ilDclCache::getRecordCache($a_record_id);
             $ilDclTable = new ilDclTable($record->getTableId());
-            if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(INPUT_GET,
-                    'ref_id'), $record, $user_id)) {
+            if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(
+                INPUT_GET,
+                'ref_id'
+            ), $record, $user_id)) {
                 // use language of recipient to compose message
                 $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
                 $ulng->loadLanguageModule('dcl');
@@ -239,7 +243,7 @@ class ilObjDataCollection extends ilObject2
      * for users with write access, return id of table with the lowest sorting
      * for users with no write access, return id of table with the lowest sorting, which is visible
      */
-    public function getFirstVisibleTableId() : int
+    public function getFirstVisibleTableId(): int
     {
         global $DIC;
         /** @var ilDBInterface $ilDB */
@@ -269,7 +273,7 @@ class ilObjDataCollection extends ilObject2
         return $ilDB->fetchObject($result)->id;
     }
 
-    public function reorderTables(array $table_order) : void
+    public function reorderTables(array $table_order): void
     {
         if ($table_order) {
             $order = 10;
@@ -290,7 +294,7 @@ class ilObjDataCollection extends ilObject2
      * @param int|null  $a_copy_id
      * @return void
      */
-    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null): void
     {
         assert($new_obj instanceof ilObjDataCollection);
         //copy online status if object is not the root copy object
@@ -307,7 +311,7 @@ class ilObjDataCollection extends ilObject2
      * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
      * @param int $original_id The original ID of the dataselection you want to clone it's structure
      */
-    public function cloneStructure(int $original_id) : void
+    public function cloneStructure(int $original_id): void
     {
         $original = new ilObjDataCollection($original_id);
 
@@ -339,7 +343,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * setOnline
      */
-    public function setOnline($a_val) : void
+    public function setOnline($a_val): void
     {
         $this->is_online = $a_val;
     }
@@ -347,17 +351,17 @@ class ilObjDataCollection extends ilObject2
     /**
      * getOnline
      */
-    public function getOnline() : bool
+    public function getOnline(): bool
     {
         return $this->is_online;
     }
 
-    public function setRating(string $a_val) : void
+    public function setRating(string $a_val): void
     {
         $this->rating = $a_val;
     }
 
-    public function getRating() : string
+    public function getRating(): string
     {
         return $this->rating;
     }
@@ -367,27 +371,27 @@ class ilObjDataCollection extends ilObject2
         $this->public_notes = $a_val;
     }
 
-    public function getPublicNotes() : string
+    public function getPublicNotes(): string
     {
         return $this->public_notes;
     }
 
-    public function setApproval(string $a_val) : void
+    public function setApproval(string $a_val): void
     {
         $this->approval = $a_val;
     }
 
-    public function getApproval() : string
+    public function getApproval(): string
     {
         return $this->approval;
     }
 
-    public function setNotification(string $a_val) : void
+    public function setNotification(string $a_val): void
     {
         $this->notification = $a_val;
     }
 
-    public function getNotification() : string
+    public function getNotification(): string
     {
         return $this->notification;
     }
@@ -397,7 +401,7 @@ class ilObjDataCollection extends ilObject2
      * @return bool whether or not the current user has admin/write access to the referenced datacollection
      * @deprecated
      */
-    public static function _hasWriteAccess(int $ref) : bool
+    public static function _hasWriteAccess(int $ref): bool
     {
         return ilObjDataCollectionAccess::hasWriteAccess($ref);
     }
@@ -407,7 +411,7 @@ class ilObjDataCollection extends ilObject2
      * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
      * @deprecated
      */
-    public static function _hasReadAccess(int $ref) : bool
+    public static function _hasReadAccess(int $ref): bool
     {
         return ilObjDataCollectionAccess::hasReadAccess($ref);
     }
@@ -415,7 +419,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * @return ilDclTable[] Returns an array of tables of this collection with ids of the tables as keys.
      */
-    public function getTables() : array
+    public function getTables(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -432,12 +436,12 @@ class ilObjDataCollection extends ilObject2
         return $tables;
     }
 
-    public function getTableById(int $table_id) : ilDclTable
+    public function getTableById(int $table_id): ilDclTable
     {
         return ilDclCache::getTableCache($table_id);
     }
 
-    public function getVisibleTables() : array
+    public function getVisibleTables(): array
     {
         $tables = array();
         foreach ($this->getTables() as $table) {
@@ -455,7 +459,7 @@ class ilObjDataCollection extends ilObject2
      * @param int    $obj_id Obj-ID of the table
      * @return bool
      */
-    public static function _hasTableByTitle(string $title, int $obj_id) : bool
+    public static function _hasTableByTitle(string $title, int $obj_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -467,7 +471,7 @@ class ilObjDataCollection extends ilObject2
         return ($ilDB->numRows($result)) ? true : false;
     }
 
-    public function getStyleSheetId() : int
+    public function getStyleSheetId(): int
     {
         return 0;
     }

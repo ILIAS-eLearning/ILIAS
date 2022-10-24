@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,23 +29,23 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
     private const INVALID_DEADLINE_PERIOD = -1;
     private const VALID_DEADLINE_DATE = '2019-02-14';
 
-    public function testSuccessfulCreate() : void
+    public function testSuccessfulCreate(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $this->assertEquals(self::VALID_DEADLINE_PERIOD_1, $obj->getDeadlinePeriod());
         $this->assertEquals(self::VALID_DEADLINE_DATE, $obj->getDeadlineDate()->format('Y-m-d'));
     }
 
-    public function testFailCreateWithInvalidDeadlinePeriod() : void
+    public function testFailCreateWithInvalidDeadlinePeriod(): void
     {
         try {
             new ilStudyProgrammeDeadlineSettings(
                 self::INVALID_DEADLINE_PERIOD,
-                new DateTime(self::VALID_DEADLINE_DATE)
+                new DateTimeImmutable(self::VALID_DEADLINE_DATE)
             );
             $this->fail();
         } catch (InvalidArgumentException $e) {
@@ -51,11 +53,11 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         }
     }
 
-    public function testSuccessfulWithDeadlinePeriod() : void
+    public function testSuccessfulWithDeadlinePeriod(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $new = $obj->withDeadlinePeriod(self::VALID_DEADLINE_PERIOD_2);
@@ -64,11 +66,11 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         $this->assertEquals(self::VALID_DEADLINE_PERIOD_2, $new->getDeadlinePeriod());
     }
 
-    public function testFailWithDeadlinePeriod() : void
+    public function testFailWithDeadlinePeriod(): void
     {
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         try {
@@ -79,7 +81,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         }
     }
 
-    public function testToFormInput() : void
+    public function testToFormInput(): void
     {
         $lng = $this->createMock(ilLanguage::class);
         $df = new ILIAS\Data\Factory();
@@ -95,7 +97,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         $obj = new ilStudyProgrammeDeadlineSettings(
             self::VALID_DEADLINE_PERIOD_1,
-            new DateTime(self::VALID_DEADLINE_DATE)
+            new DateTimeImmutable(self::VALID_DEADLINE_DATE)
         );
 
         $lng->expects($this->atLeastOnce())
@@ -132,7 +134,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
         );
 
         $date_value = $switchable_group->getValue()[1]['deadline_date'];
-        $date = (new DateTime($date_value))->format('Y-m-d');
+        $date = (new DateTimeImmutable($date_value))->format('Y-m-d');
         $this->assertEquals(self::VALID_DEADLINE_DATE, $date);
 
         $inputs = $switchable_group->getInputs();

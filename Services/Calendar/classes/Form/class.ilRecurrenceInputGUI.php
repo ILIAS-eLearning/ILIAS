@@ -1,25 +1,23 @@
-<?php declare(strict_types=1);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * This class represents an input GUI for recurring events/appointments (course events or calendar appointments)
@@ -60,7 +58,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * @inheritDoc
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
 
@@ -90,7 +88,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         return true;
     }
 
-    protected function getRecurrenceInputByTypeAsInt(string $input) : int
+    protected function getRecurrenceInputByTypeAsInt(string $input): int
     {
         if ($this->http->wrapper()->post()->has($input)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -101,7 +99,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         return 0;
     }
 
-    protected function getRecurrenceInputByTypeAsString(string $input) : string
+    protected function getRecurrenceInputByTypeAsString(string $input): string
     {
         if ($this->http->wrapper()->post()->has($input)) {
             return $this->http->wrapper()->post()->retrieve(
@@ -112,7 +110,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         return '';
     }
 
-    protected function loadRecurrence() : bool
+    protected function loadRecurrence(): bool
     {
         if (!$this->getRecurrence() instanceof ilCalendarRecurrence) {
             return false;
@@ -149,14 +147,14 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                         // nothing to do;
                         break;
                     case 1:
-                        switch ($this->getRecurrenceInputByTypeAsInt('monthly_byday_day')) {
-                            case 8:
+                        switch ($this->getRecurrenceInputByTypeAsString('monthly_byday_day')) {
+                            case '8':
                                 // Weekday
                                 $this->getRecurrence()->setBYSETPOS($this->getRecurrenceInputByTypeAsString('monthly_byday_num'));
                                 $this->getRecurrence()->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
 
-                            case 9:
+                            case '9':
                                 // Day of month
                                 $this->getRecurrence()->setBYMONTHDAY($this->getRecurrenceInputByTypeAsString('monthly_byday_num'));
                                 break;
@@ -226,12 +224,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         return true;
     }
 
-    public function setRecurrence(ilCalendarRecurrence $a_rec) : void
+    public function setRecurrence(ilCalendarRecurrence $a_rec): void
     {
         $this->recurrence = $a_rec;
     }
 
-    public function getRecurrence() : ilCalendarRecurrence
+    public function getRecurrence(): ilCalendarRecurrence
     {
         return $this->recurrence;
     }
@@ -239,12 +237,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * Allow unlimited recurrences
      */
-    public function allowUnlimitedRecurrences(bool $a_status) : void
+    public function allowUnlimitedRecurrences(bool $a_status): void
     {
         $this->allow_unlimited_recurrences = $a_status;
     }
 
-    public function isUnlimitedRecurrenceAllowed() : bool
+    public function isUnlimitedRecurrenceAllowed(): bool
     {
         return $this->allow_unlimited_recurrences;
     }
@@ -254,12 +252,12 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
      * @param array(IL_CAL_FREQ_DAILY,FREQ_WEEKLY...)
      * @return void
      */
-    public function setEnabledSubForms(array $a_sub_forms) : void
+    public function setEnabledSubForms(array $a_sub_forms): void
     {
         $this->enabled_subforms = $a_sub_forms;
     }
 
-    public function getEnabledSubForms() : array
+    public function getEnabledSubForms(): array
     {
         return $this->enabled_subforms;
     }
@@ -267,7 +265,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * @inheritDoc
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'Services/Calendar');
 
@@ -298,7 +296,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 ['onchange' => 'ilHideFrequencies();', 'id' => 'il_recurrence_1']
             )
         );
-    
+
         $tpl->setVariable('TXT_EVERY', $this->lng->txt('cal_every'));
 
         // DAILY
@@ -345,7 +343,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * build weekday checkboxes
      */
-    protected function buildWeekDaySelection(ilTemplate $tpl) : void
+    protected function buildWeekDaySelection(ilTemplate $tpl): void
     {
         $days = array(0 => 'SU', 1 => 'MO', 2 => 'TU', 3 => 'WE', 4 => 'TH', 5 => 'FR', 6 => 'SA', 7 => 'SU');
 
@@ -373,7 +371,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * build monthly by day list (e.g second monday)
      */
-    protected function buildMonthlyByDaySelection(ilTemplate $tpl) : void
+    protected function buildMonthlyByDaySelection(ilTemplate $tpl): void
     {
         $byday_list = $this->recurrence->getBYDAYList();
         $chosen_num_day = 1;
@@ -453,7 +451,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * build monthly bymonthday selection
      */
-    protected function buildMonthlyByMonthDaySelection(ilTemplate $tpl) : void
+    protected function buildMonthlyByMonthDaySelection(ilTemplate $tpl): void
     {
         $tpl->setVariable('TXT_IN', $this->lng->txt('cal_in'));
 
@@ -487,7 +485,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         ));
     }
 
-    protected function buildYearlyByMonthDaySelection(ilTemplate $tpl) : void
+    protected function buildYearlyByMonthDaySelection(ilTemplate $tpl): void
     {
         $tpl->setVariable('TXT_Y_EVERY', $this->lng->txt('cal_every'));
 
@@ -539,7 +537,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         }
     }
 
-    protected function buildYearlyByDaySelection(ilTemplate $tpl) : void
+    protected function buildYearlyByDaySelection(ilTemplate $tpl): void
     {
         $tpl->setVariable('TXT_ON_THE', $this->lng->txt('cal_on_the'));
 
@@ -618,7 +616,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     /**
      * build selection for ending date
      */
-    protected function buildUntilSelection(ilTemplate $tpl) : void
+    protected function buildUntilSelection(ilTemplate $tpl): void
     {
         if ($this->isUnlimitedRecurrenceAllowed()) {
             $tpl->setVariable('TXT_NO_ENDING', $this->lng->txt('cal_no_ending'));

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilMemcache
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -24,7 +24,7 @@
 class ilMemcache extends ilGlobalCacheService
 {
     protected static ?\Memcached $memcache_object = null;
-    
+
     /**
      * ilMemcache constructor.
      */
@@ -35,7 +35,7 @@ class ilMemcache extends ilGlobalCacheService
              * @var $ilMemcacheServer ilMemcacheServer
              */
             $memcached = new Memcached();
-            
+
             if (ilMemcacheServer::count() > 0) {
                 $memcached->resetServerList();
                 $servers = [];
@@ -50,28 +50,28 @@ class ilMemcache extends ilGlobalCacheService
                 }
                 $memcached->addServers($servers);
             }
-            
+
             self::$memcache_object = $memcached;
         }
         parent::__construct($service_id, $component);
     }
-    
-    protected function getMemcacheObject() : ?\Memcached
+
+    protected function getMemcacheObject(): ?\Memcached
     {
         return self::$memcache_object;
     }
-    
-    public function exists(string $key) : bool
+
+    public function exists(string $key): bool
     {
         return $this->getMemcacheObject()->get($this->returnKey($key)) !== null;
     }
-    
-    public function set(string $key, $serialized_value, int $ttl = null) : bool
+
+    public function set(string $key, $serialized_value, int $ttl = null): bool
     {
         return $this->getMemcacheObject()
                     ->set($this->returnKey($key), $serialized_value, (int) $ttl);
     }
-    
+
     /**
      * @return mixed
      */
@@ -79,44 +79,44 @@ class ilMemcache extends ilGlobalCacheService
     {
         return $this->getMemcacheObject()->get($this->returnKey($key));
     }
-    
-    public function delete(string $key) : bool
+
+    public function delete(string $key): bool
     {
         return $this->getMemcacheObject()->delete($this->returnKey($key));
     }
-    
-    public function flush(bool $complete = false) : bool
+
+    public function flush(bool $complete = false): bool
     {
         return $this->getMemcacheObject()->flush();
     }
-    
-    protected function getActive() : bool
+
+    protected function getActive(): bool
     {
         if ($this->getInstallable()) {
             $stats = $this->getMemcacheObject()->getStats();
-            
+
             if (!is_array($stats)) {
                 return false;
             }
-            
+
             foreach ($stats as $server) {
                 if ((int) $server['pid'] > 1) {
                     return true;
                 }
             }
-            
+
             return false;
         }
-        
+
         return false;
     }
-    
-    protected function getInstallable() : bool
+
+    protected function getInstallable(): bool
     {
         return class_exists('Memcached');
     }
-    
-    public function getInstallationFailureReason() : string
+
+    public function getInstallationFailureReason(): string
     {
         $stats = $this->getMemcacheObject()->getStats();
         $server_available = false;
@@ -130,15 +130,15 @@ class ilMemcache extends ilGlobalCacheService
         }
         return parent::getInstallationFailureReason();
     }
-    
+
     /**
      * @param mixed $value
      */
-    public function serialize($value) : string
+    public function serialize($value): string
     {
         return serialize($value);
     }
-    
+
     /**
      * @param mixed $serialized_value
      * @return mixed
@@ -147,8 +147,8 @@ class ilMemcache extends ilGlobalCacheService
     {
         return unserialize($serialized_value);
     }
-    
-    public function getInfo() : array
+
+    public function getInfo(): array
     {
         $return = [];
         if ($this->isInstallable()) {
@@ -159,8 +159,8 @@ class ilMemcache extends ilGlobalCacheService
         }
         return $return;
     }
-    
-    public function isValid(string $key) : bool
+
+    public function isValid(string $key): bool
     {
         return true;
     }

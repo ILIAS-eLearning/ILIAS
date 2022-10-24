@@ -55,12 +55,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
             ->editing()
             ->request()
             ->getRefId();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pg_list_mode = $a_mode;
         $this->wiki_id = $a_wiki_id;
         $this->page_id = $a_page_id;
-        
+
         switch ($this->pg_list_mode) {
             case IL_WIKI_NEW_PAGES:
                 $this->addColumn($lng->txt("created"), "created", "33%");
@@ -71,7 +71,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                     "Modules/Wiki"
                 );
                 break;
-                
+
             case IL_WIKI_POPULAR_PAGES:
                 $this->addColumn($lng->txt("wiki_page"), "title", "50%");
                 $this->addColumn($lng->txt("wiki_page_hits"), "cnt", "50%");
@@ -102,9 +102,9 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->getPages();
-        
+
         $this->setShowRowsSelector(true);
-        
+
         switch ($this->pg_list_mode) {
             case IL_WIKI_WHAT_LINKS_HERE:
                 $this->setTitle(
@@ -114,14 +114,14 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                     )
                 );
                 break;
-                
+
             default:
                 $this->setTitle($lng->txt("wiki_" . $a_mode . "_pages"));
                 break;
         }
     }
-    
-    public function getPages() : void
+
+    public function getPages(): void
     {
         $pages = array();
         $this->setDefaultOrderField("title");
@@ -146,12 +146,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 $this->setDefaultOrderDirection("desc");
                 $pages = ilWikiPage::getPopularPages($this->wiki_id);
                 break;
-                
+
             case IL_WIKI_ORPHANED_PAGES:
                 $pages = ilWikiPage::getOrphanedPages($this->wiki_id);
                 break;
         }
-                
+
         if ($pages) {
             // enable sorting
             foreach (array_keys($pages) as $idx) {
@@ -163,8 +163,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 
         $this->setData($pages);
     }
-    
-    public function numericOrdering(string $a_field) : bool
+
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field === "cnt") {
             return true;
@@ -172,10 +172,10 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $ilCtrl = $this->ctrl;
-        
+
         if ($this->pg_list_mode === IL_WIKI_NEW_PAGES) {
             $this->tpl->setVariable("TXT_PAGE_TITLE", $a_set["title"]);
             $this->tpl->setVariable(

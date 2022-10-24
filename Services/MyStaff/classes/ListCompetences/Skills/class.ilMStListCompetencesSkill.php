@@ -45,62 +45,62 @@ class ilMStListCompetencesSkill
         $this->user_id = $user_id;
     }
 
-    final public function getSkillTitle() : string
+    final public function getSkillTitle(): string
     {
         return $this->skill_title;
     }
 
-    final public function setSkillTitle(string $skill_title) : void
+    final public function setSkillTitle(string $skill_title): void
     {
         $this->skill_title = $skill_title;
     }
 
-    final public function getSkillLevel() : string
+    final public function getSkillLevel(): string
     {
         return $this->skill_level;
     }
 
-    final public function setSkillLevel(string $skill_level) : void
+    final public function setSkillLevel(string $skill_level): void
     {
         $this->skill_level = $skill_level;
     }
 
-    final public function getLogin() : string
+    final public function getLogin(): string
     {
         return $this->login;
     }
 
-    final public function setLogin(string $login) : void
+    final public function setLogin(string $login): void
     {
         $this->login = $login;
     }
 
-    final public function getLastName() : string
+    final public function getLastName(): string
     {
         return $this->last_name;
     }
 
-    final public function setLastName(string $last_name) : void
+    final public function setLastName(string $last_name): void
     {
         $this->last_name = $last_name;
     }
 
-    final public function getFirstName() : string
+    final public function getFirstName(): string
     {
         return $this->first_name;
     }
 
-    final public function setFirstName(string $first_name) : void
+    final public function setFirstName(string $first_name): void
     {
         $this->first_name = $first_name;
     }
 
-    final public function getUserId() : int
+    final public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    final public function setUserId(int $user_id) : void
+    final public function setUserId(int $user_id): void
     {
         $this->user_id = $user_id;
     }

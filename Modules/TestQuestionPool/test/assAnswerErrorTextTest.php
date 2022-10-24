@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests for assAnswerErrorTextTest
@@ -12,26 +27,26 @@ class assAnswerErrorTextTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple() : void
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
-        
+
         // Act
         $instance = new assAnswerErrorText('errortext');
-        
+
         // Assert
         $this->assertTrue(true);
     }
 
-    
-    public function test_instantiateObjectFull() : void
+
+    public function test_instantiateObjectFull(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -46,24 +61,24 @@ class assAnswerErrorTextTest extends assBaseTestCase
         // Assert
         $this->assertTrue(true);
     }
-    
-    public function test_setGetPoints_valid() : void
+
+    public function test_setGetPoints_valid(): void
     {
         //$this->markTestIncomplete('Testing an uncommitted feature.');
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
         $instance = new assAnswerErrorText('errortext');
         $expected = 0.01;
-        
+
         // Act
         $instance->points = $expected;
         $actual = $instance->points;
-        
+
         // Assert
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setGetTextCorrect() : void
+    public function test_setGetTextCorrect(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -78,7 +93,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setGetTextWrong_valid() : void
+    public function test_setGetTextWrong_valid(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -93,7 +108,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setTextWrong_invalid() : void
+    public function test_setTextWrong_invalid(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -103,7 +118,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         // Act
         $instance->text_wrong = $expected;
         $actual = $instance->text_wrong;
-        
+
         // Assert
         $this->assertEquals($expected, $actual);
     }

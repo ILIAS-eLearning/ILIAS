@@ -1,6 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
@@ -97,12 +114,12 @@ class ilCalendarPresentationGUI
         $this->cats = $cats;
     }
 
-    public function getRepositoryMode() : bool
+    public function getRepositoryMode(): bool
     {
         return $this->repository_mode;
     }
 
-    protected function initAppointmentIdFromQuery() : int
+    protected function initAppointmentIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('app_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -113,7 +130,7 @@ class ilCalendarPresentationGUI
         return 0;
     }
 
-    protected function initCategoryIdFromQuery() : int
+    protected function initCategoryIdFromQuery(): int
     {
         if ($this->http->wrapper()->query()->has('category_id')) {
             return $this->http->wrapper()->query()->retrieve(
@@ -128,7 +145,7 @@ class ilCalendarPresentationGUI
     /**
      * Init and redirect to consultation hours
      */
-    protected function initAndRedirectToConsultationHours() : void
+    protected function initAndRedirectToConsultationHours(): void
     {
         $ch_user_id = 0;
         if ($this->http->wrapper()->query()->has('ch_user_id')) {
@@ -160,7 +177,7 @@ class ilCalendarPresentationGUI
     /**
      * Initialises calendar view according to given settings
      */
-    protected function initCalendarView() : void
+    protected function initCalendarView(): void
     {
         $this->cal_view = $this->cal_settings->getDefaultCal();
         if ($this->http->wrapper()->query()->has('cal_view')) {
@@ -171,7 +188,7 @@ class ilCalendarPresentationGUI
         }
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         // now next class is not empty, which breaks old consultation hour implementation
@@ -214,9 +231,7 @@ class ilCalendarPresentationGUI
                     $this->lng->txt('cal_back_to_cal'),
                     $this->ctrl->getLinkTargetByClass($this->readLastClass())
                 );
-
-                $gui = new ilConsultationHoursGUI();
-                $this->ctrl->forwardCommand($gui);
+                $this->ctrl->forwardCommand(new ilConsultationHoursGUI());
                 if ($this->showToolbarAndSidebar()) {
                     $this->showSideBlocks();
                 }
@@ -341,7 +356,7 @@ class ilCalendarPresentationGUI
         $this->synchroniseExternalCalendars();
     }
 
-    public function showViewSelection(string $a_active = "cal_list") : void
+    public function showViewSelection(string $a_active = "cal_list"): void
     {
         $ui = $this->ui;
         $ctrl = $this->ctrl;
@@ -389,13 +404,18 @@ class ilCalendarPresentationGUI
         }
     }
 
-    public function getNextClass() : string
+    public function getNextClass(): string
     {
         if (strlen($next_class = $this->ctrl->getNextClass())) {
             return $next_class;
         }
-        if ($this->ctrl->getCmdClass() == strtolower(get_class($this)) or $this->ctrl->getCmdClass() == '') {
-            return $this->readLastClass();
+        if (
+            strcasecmp($this->ctrl->getCmdClass(), ilCalendarPresentationGUI::class) === 0 ||
+            $this->ctrl->getCmdClass() == ''
+        ) {
+            $cmd_class = $this->readLastClass();
+            $this->ctrl->setCmdClass($cmd_class);
+            return $cmd_class;
         }
         return '';
     }
@@ -403,7 +423,7 @@ class ilCalendarPresentationGUI
     /**
      * Read last class from history
      */
-    public function readLastClass() : string
+    public function readLastClass(): string
     {
         $ilUser = $this->user;
 
@@ -426,7 +446,7 @@ class ilCalendarPresentationGUI
         return $this->user->getPref('cal_last_class') ? $this->user->getPref('cal_last_class') : $class;
     }
 
-    public function setCmdClass($a_class) : void
+    public function setCmdClass($a_class): void
     {
         // If cmd class == 'ilcalendarpresentationgui' the cmd class is set to the the new forwarded class
         // otherwise e.g ilcalendarmonthgui tries to forward (back) to ilcalendargui.
@@ -435,7 +455,7 @@ class ilCalendarPresentationGUI
         }
     }
 
-    protected function forwardToClass(string $a_class) : ?ilCalendarViewGUI
+    protected function forwardToClass(string $a_class): ?ilCalendarViewGUI
     {
         $ilUser = $this->user;
 
@@ -475,7 +495,7 @@ class ilCalendarPresentationGUI
         return null;
     }
 
-    protected function showSideBlocks() : void
+    protected function showSideBlocks(): void
     {
         $tpl = new ilTemplate('tpl.cal_side_block.html', true, true, 'Services/Calendar');
         if ($this->getRepositoryMode()) {
@@ -498,7 +518,7 @@ class ilCalendarPresentationGUI
      * Add tabs for ilCategoryGUI context This cannot be done there since many views (Day Week Agenda)
      * are initiated from these view
      */
-    protected function addCategoryTabs() : void
+    protected function addCategoryTabs(): void
     {
         $ctrl = $this->ctrl;
         $this->tabs_gui->clearTargets();
@@ -557,7 +577,7 @@ class ilCalendarPresentationGUI
     /**
      * add standard tabs
      */
-    protected function addStandardTabs() : void
+    protected function addStandardTabs(): void
     {
         $access = $this->access;
         $rbacsystem = $this->rbacsystem;
@@ -625,7 +645,7 @@ class ilCalendarPresentationGUI
         }
     }
 
-    protected function prepareOutput() : void
+    protected function prepareOutput(): void
     {
         if ($this->category_id) {
             $this->addCategoryTabs();
@@ -707,7 +727,7 @@ class ilCalendarPresentationGUI
     /**
      * init the seed date for presentations (month view, minicalendar)
      */
-    public function initSeed() : void
+    public function initSeed(): void
     {
         $seed = '';
         if ($this->http->wrapper()->query()->has('seed')) {
@@ -735,7 +755,7 @@ class ilCalendarPresentationGUI
     /**
      * Sync external calendars
      */
-    protected function synchroniseExternalCalendars() : void
+    protected function synchroniseExternalCalendars(): void
     {
         if (!ilCalendarSettings::_getInstance()->isWebCalSyncEnabled()) {
             return;
@@ -769,7 +789,7 @@ class ilCalendarPresentationGUI
     }
 
     #21613
-    public function showToolbarAndSidebar() : bool
+    public function showToolbarAndSidebar(): bool
     {
         #21783
         return !(

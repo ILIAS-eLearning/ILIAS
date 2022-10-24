@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +51,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function createFor(int $obj_id) : ilStudyProgrammeSettings
+    public function createFor(int $obj_id): ilStudyProgrammeSettings
     {
         $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
@@ -94,7 +96,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function get(int $obj_id) : ilStudyProgrammeSettings
+    public function get(int $obj_id): ilStudyProgrammeSettings
     {
         if (!array_key_exists($obj_id, self::$cache)) {
             self::$cache[$obj_id] = $this->loadDB($obj_id);
@@ -105,7 +107,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @inheritdoc
      */
-    public function update(ilStudyProgrammeSettings $settings) : void
+    public function update(ilStudyProgrammeSettings $settings): void
     {
         $deadline_period = $settings->getDeadlineSettings()->getDeadlinePeriod();
         if (is_null($deadline_period)) {
@@ -154,7 +156,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @inheritdoc
      */
-    public function delete(ilStudyProgrammeSettings $settings) : void
+    public function delete(ilStudyProgrammeSettings $settings): void
     {
         unset(self::$cache[$settings->getObjId()]);
         $this->deleteDB($settings->getObjId());
@@ -164,7 +166,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function loadByType(int $type_id) : array
+    public function loadByType(int $type_id): array
     {
         $q = 'SELECT ' . self::FIELD_SUBTYPE_ID
             . '	,' . self::FIELD_STATUS
@@ -177,6 +179,8 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_PERIOD
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_DATE
             . '	,' . self::FIELD_VQ_RESTART_PERIOD
+            . ', ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
+            . ', ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
             . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
             . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
             . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
@@ -191,7 +195,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     }
 
 
-    public function loadIdsByType(int $type_id) : array
+    public function loadIdsByType(int $type_id): array
     {
         return [];
     }
@@ -213,7 +217,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false
-    ) : void {
+    ): void {
         $this->db->insert(
             self::TABLE,
             [
@@ -241,7 +245,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @throws ilException
      * @thorws LogicException
      */
-    protected function loadDB(int $obj_id) : ilStudyProgrammeSettings
+    protected function loadDB(int $obj_id): ilStudyProgrammeSettings
     {
         $rec = $this->db->fetchAssoc(
             $this->db->query(
@@ -274,7 +278,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @throws ilException
      */
-    protected function createByRow(array $row) : ilStudyProgrammeSettings
+    protected function createByRow(array $row): ilStudyProgrammeSettings
     {
         $type_settings = new ilStudyProgrammeTypeSettings(
             ilStudyProgrammeSettings::DEFAULT_SUBTYPE
@@ -316,7 +320,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
 
         $deadline = $return->getDeadlineSettings();
         if ($row[self::FIELD_DEADLINE_DATE] !== null) {
-            $deadline = $deadline->withDeadlineDate(DateTime::createFromFormat(
+            $deadline = $deadline->withDeadlineDate(DateTimeImmutable::createFromFormat(
                 ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                 $row[self::FIELD_DEADLINE_DATE]
             ))
@@ -333,7 +337,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $vqs = $return->getValidityOfQualificationSettings();
         if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
             $vqs = $vqs->withQualificationDate(
-                DateTime::createFromFormat(
+                DateTimeImmutable::createFromFormat(
                     ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                     $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]
                 )
@@ -373,7 +377,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     /**
      * @throws LogicException
      */
-    protected function deleteDB(int $obj_id) : void
+    protected function deleteDB(int $obj_id): void
     {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invaid obj_id to delete: ' . $obj_id);
@@ -404,7 +408,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         bool $send_re_assigned_mail = false,
         bool $send_info_to_re_assign_mail = false,
         bool $send_risky_to_fail_mail = false
-    ) : void {
+    ): void {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invalid obj_id to update: ' . $obj_id);
         }
@@ -481,7 +485,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         $this->db->update(self::TABLE, $values, $where);
     }
 
-    protected function checkExists(int $obj_id) : bool
+    protected function checkExists(int $obj_id): bool
     {
         $rec = $this->db->fetchAssoc(
             $this->db->query(
@@ -496,7 +500,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         return false;
     }
 
-    public static function clearCache() : void
+    public static function clearCache(): void
     {
         self::$cache = [];
     }
@@ -507,7 +511,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * completing the progress due to a deadline.
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithRiskyToFailSettings() : array
+    public function getProgrammeIdsWithRiskyToFailSettings(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '
@@ -529,7 +533,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * and have a setting to send mails for qualifications about to expire
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithMailsForExpiringValidity() : array
+    public function getProgrammeIdsWithMailsForExpiringValidity(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '
@@ -551,7 +555,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * and have a setting to reassign users when validity expires
      * @return array <int id, int days_offset>
      */
-    public function getProgrammeIdsWithReassignmentForExpiringValidity() : array
+    public function getProgrammeIdsWithReassignmentForExpiringValidity(): array
     {
         $query = 'SELECT '
             . self::FIELD_OBJ_ID . ', '

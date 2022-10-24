@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -55,7 +57,7 @@ class ilAsyncNotifications
     /**
      * Setup the message templates and add the js onload code
      */
-    public function initJs() : void
+    public function initJs(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -86,7 +88,7 @@ class ilAsyncNotifications
     /**
      * Returns the component (returns the js tag)
      */
-    public function getHTML() : void
+    public function getHTML(): void
     {
         $this->initJs();
     }
@@ -94,7 +96,7 @@ class ilAsyncNotifications
     /**
      * Gets the target container for the notification
      */
-    public function getContentContainerId() : ?string
+    public function getContentContainerId(): ?string
     {
         return $this->content_container_id;
     }
@@ -102,7 +104,7 @@ class ilAsyncNotifications
     /**
      * Sets the target container for the notification
      */
-    public function setContentContainerId(?string $content_container_id) : void
+    public function setContentContainerId(?string $content_container_id): void
     {
         $this->content_container_id = $content_container_id;
     }
@@ -110,7 +112,7 @@ class ilAsyncNotifications
     /**
      * Return the path for the java scripts
      */
-    public function getJsPath() : string
+    public function getJsPath(): string
     {
         return $this->js_path;
     }
@@ -118,7 +120,7 @@ class ilAsyncNotifications
     /**
      * Sets the path for the java scripts
      */
-    public function setJsPath(string $js_path) : void
+    public function setJsPath(string $js_path): void
     {
         $this->js_path = $js_path;
     }
@@ -139,7 +141,7 @@ class ilAsyncNotifications
      * @param mixed $key
      * @param mixed $value
      */
-    public function addJsConfig($key, $value) : void
+    public function addJsConfig($key, $value): void
     {
         $this->js_config[$key] = $value;
     }

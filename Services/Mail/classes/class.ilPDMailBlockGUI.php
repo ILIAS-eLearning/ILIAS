@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,7 +25,7 @@ use ILIAS\UI\Component\Item\Item;
 /**
  * BlockGUI class for Personal Desktop Mail block
  * @author			Alex Killing <alex.killing@gmx.de>
- * @assertSame_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
+ * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
 {
@@ -55,17 +57,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setPresentation(self::PRES_SEC_LIST);
     }
 
-    public function getBlockType() : string
+    public function getBlockType(): string
     {
         return self::$block_type;
     }
 
-    protected function isRepositoryObject() : bool
+    protected function isRepositoryObject(): bool
     {
         return false;
     }
 
-    public static function getScreenMode() : string
+    public static function getScreenMode(): string
     {
         global $DIC;
         $cmd = "";
@@ -79,14 +81,14 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return IL_SCREEN_SIDE;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $cmd = $this->ctrl->getCmd('getHTML');
 
         return $this->$cmd();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $umail = new ilMail($this->user->getId());
         if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
@@ -99,7 +101,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
-    protected function getMails() : void
+    protected function getMails(): void
     {
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
@@ -113,7 +115,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         );
     }
 
-    public function fillDataSection() : void
+    public function fillDataSection(): void
     {
         $this->getMails();
         $this->setData($this->mails);
@@ -127,7 +129,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
 
@@ -166,12 +168,12 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameters($this);
     }
 
-    protected function getOverview() : string
+    protected function getOverview(): string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
     }
 
-    protected function showMail() : string
+    protected function showMail(): string
     {
         $mail_gui = new ilPDMailGUI();
 
@@ -212,7 +214,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return $content_block->getHTML();
     }
 
-    public function deleteMail() : void
+    public function deleteMail(): void
     {
         $this->lng->loadLanguageModule('mail');
 
@@ -243,7 +245,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
-    protected function preloadData(array $data) : void
+    protected function preloadData(array $data): void
     {
         $usr_ids = [];
 
@@ -262,7 +264,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     protected bool $new_rendering = true;
 
-    protected function getListItemForData(array $data) : ?Item
+    protected function getListItemForData(array $data): ?Item
     {
         $f = $this->ui->factory();
 

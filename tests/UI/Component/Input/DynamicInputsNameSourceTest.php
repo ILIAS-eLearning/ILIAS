@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\Tests\UI\Component\Input;
 
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
@@ -26,7 +28,7 @@ use PHPUnit\Framework\TestCase;
  */
 class DynamicInputsNameSourceTest extends TestCase
 {
-    public function testNewNameGeneration() : void
+    public function testNewNameGeneration(): void
     {
         $expected_parent_name = 'parent_input_name_xyz';
 

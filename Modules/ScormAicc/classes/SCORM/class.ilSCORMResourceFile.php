@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -27,12 +29,12 @@ class ilSCORMResourceFile
 {
     public string $href;
 
-    public function getHRef() : string
+    public function getHRef(): string
     {
         return $this->href;
     }
 
-    public function setHRef(string $a_href) : void
+    public function setHRef(string $a_href): void
     {
         $this->href = $a_href;
     }

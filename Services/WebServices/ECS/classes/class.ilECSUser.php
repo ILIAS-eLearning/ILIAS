@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,7 +27,7 @@ class ilECSUser
 
     /** @var  ilObjUser|array */
     private $source;
-    
+
     public string $login;
     public string $email;
     public string $firstname;
@@ -53,16 +55,16 @@ class ilECSUser
             $this->loadFromGET();
         }
     }
-    
+
     /**
      * get login
      */
-    public function getLogin() : string
+    public function getLogin(): string
     {
         return $this->login;
     }
 
-    public function getExternalAccount() : string
+    public function getExternalAccount(): string
     {
         return $this->external_account;
     }
@@ -72,46 +74,46 @@ class ilECSUser
     /**
      * get firstname
      */
-    public function getFirstname() : string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
-    
+
     /**
      * getLastname
      */
-    public function getLastname() : string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
-    
+
     /**
      * get email
      */
-    public function getEmail() : string
+    public function getEmail(): string
     {
         return $this->email;
     }
     /**
      * get institution
      */
-    public function getInstitution() : string
+    public function getInstitution(): string
     {
         return $this->institution;
     }
-    
+
     /**
      * get Email
      */
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->uid_hash;
     }
-    
+
     /**
      * load from object
      */
-    public function loadFromObject() : void
+    public function loadFromObject(): void
     {
         $this->login = $this->source->getLogin();
         $this->firstname = $this->source->getFirstname();
@@ -124,11 +126,11 @@ class ilECSUser
         }
         $this->uid_hash = 'il_' . $this->setting->get('inst_id', "0") . '_usr_' . $this->source->getId();
     }
-    
+
     /**
      * load user data from GET parameters
      */
-    public function loadFromGET() : void
+    public function loadFromGET(): void
     {
         //TODO add proper testing for get parameters
         $this->login = ilUtil::stripSlashes(urldecode($this->source['ecs_login']));
@@ -136,7 +138,7 @@ class ilECSUser
         $this->lastname = ilUtil::stripSlashes(urldecode($this->source['ecs_lastname']));
         $this->email = ilUtil::stripSlashes(urldecode($this->source['ecs_email']));
         $this->institution = ilUtil::stripSlashes(urldecode($this->source['ecs_institution']));
-        
+
         if ($this->source['ecs_uid_hash']) {
             $this->uid_hash = ilUtil::stripSlashes(urldecode($this->source['ecs_uid_hash']));
         } elseif ($this->source['ecs_uid']) {
@@ -144,15 +146,15 @@ class ilECSUser
         }
     }
 
-    public function toJSON() : string
+    public function toJSON(): string
     {
         return urlencode(json_encode($this, JSON_THROW_ON_ERROR));
     }
-    
+
     /**
      * get GET parameter string
      */
-    public function toGET(ilECSParticipantSetting $setting) : string
+    public function toGET(ilECSParticipantSetting $setting): string
     {
         $login = '';
         $external_account_info = '';
@@ -187,11 +189,11 @@ class ilECSUser
             '&ecs_uid_hash=' . urlencode($this->uid_hash) .
             $external_account_info;
     }
-    
+
     /**
      * Concatenate all attributes to one string
      */
-    public function toREALM() : string
+    public function toREALM(): string
     {
         return
             $this->login .

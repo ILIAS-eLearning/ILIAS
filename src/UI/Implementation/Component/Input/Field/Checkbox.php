@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -37,7 +39,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -45,7 +47,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if ($value == "checked" || $value === "" || is_bool($value)) {
             return true;
@@ -58,7 +60,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withValue($value) : C\Input\Field\Input
+    public function withValue($value): C\Input\Field\Input
     {
         $value = $value ?? false;
 
@@ -75,7 +77,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input) : C\Input\Field\Input
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -100,7 +102,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function appendOnLoad(C\Signal $signal) : C\Onloadable
+    public function appendOnLoad(C\Signal $signal): C\Onloadable
     {
         return $this->appendTriggeredSignal($signal, 'load');
     }
@@ -108,7 +110,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withOnChange(C\Signal $signal) : C\Changeable
+    public function withOnChange(C\Signal $signal): C\Changeable
     {
         return $this->withTriggeredSignal($signal, 'change');
     }
@@ -116,7 +118,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function appendOnChange(C\Signal $signal) : C\Changeable
+    public function appendOnChange(C\Signal $signal): C\Changeable
     {
         return $this->appendTriggeredSignal($signal, 'change');
     }
@@ -124,7 +126,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function withOnLoad(C\Signal $signal) : C\Onloadable
+    public function withOnLoad(C\Signal $signal): C\Onloadable
     {
         return $this->withTriggeredSignal($signal, 'load');
     }
@@ -132,7 +134,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "$('#$id').on('input', function(event) {
 			    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());

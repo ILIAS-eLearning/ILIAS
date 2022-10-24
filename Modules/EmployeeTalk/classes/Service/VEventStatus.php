@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -28,7 +29,7 @@ namespace ILIAS\EmployeeTalk\Service;
  */
 interface VEventStatus
 {
-    const TENTATIVE = "TENTATIVE";
-    const CONFIRMED = "CONFIRMED";
-    const CANCELLED = "CANCELLED";
+    public const TENTATIVE = "TENTATIVE";
+    public const CONFIRMED = "CONFIRMED";
+    public const CANCELLED = "CANCELLED";
 }

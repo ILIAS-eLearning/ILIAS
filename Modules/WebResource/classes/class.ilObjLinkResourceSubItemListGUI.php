@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Show glossary terms
  * @author Stefan Meyer <meyer@leifos.com>
@@ -33,7 +35,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
         $this->web_link_repo = new ilWebLinkDatabaseRepository($this->getObjId());
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {

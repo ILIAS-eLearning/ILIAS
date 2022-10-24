@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Render\LoaderHelper;
 use ILIAS\UI\Component\Test\TestComponent;
@@ -27,7 +29,7 @@ class ComponentRendererLoaderHelperTest extends TestCase
 {
     use LoaderHelper;
 
-    public function test_getContextNames() : void
+    public function test_getContextNames(): void
     {
         $c1 = new TestComponent("foo");
         $c2 = new Glyph("up", "up");

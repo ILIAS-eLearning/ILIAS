@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,15 +31,15 @@ use ILIAS\UI\Component\ViewControl;
  */
 class ilIndividualAssessmentMembersGUI
 {
-    const F_STATUS = "status";
-    const F_SORT = "sortation";
+    public const F_STATUS = "status";
+    public const F_SORT = "sortation";
 
-    const S_NAME_ASC = "user_lastname:asc";
-    const S_NAME_DESC = "user_lastname:desc";
-    const S_EXAMINER_ASC = "examiner_login:asc";
-    const S_EXAMINER_DESC = "examiner_login:desc";
-    const S_CHANGETIME_ASC = "change_time:asc";
-    const S_CHANGETIME_DESC = "change_time:desc";
+    public const S_NAME_ASC = "user_login:asc";
+    public const S_NAME_DESC = "user_login:desc";
+    public const S_EXAMINER_ASC = "examiner_login:asc";
+    public const S_EXAMINER_DESC = "examiner_login:desc";
+    public const S_CHANGETIME_ASC = "change_time:asc";
+    public const S_CHANGETIME_DESC = "change_time:desc";
 
     protected ilCtrl $ctrl;
     protected ilObjIndividualAssessment $object;
@@ -91,7 +93,7 @@ class ilIndividualAssessmentMembersGUI
         $this->ref_id = $object->getRefId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         if (!$this->iass_access->mayEditMembers()
             && !$this->iass_access->mayGradeUser()
@@ -103,6 +105,8 @@ class ilIndividualAssessmentMembersGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->saveParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS);
+        $this->tpl->setPermanentLink("iass", $this->ref_id);
+
         switch ($next_class) {
             case "ilrepositorysearchgui":
                 $rep_search = new ilRepositorySearchGUI();
@@ -131,7 +135,7 @@ class ilIndividualAssessmentMembersGUI
         }
     }
 
-    protected function addedUsers() : void
+    protected function addedUsers(): void
     {
         $r = $this->refinery;
         if ($this->request_wrapper->retrieve('failure', $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]))) {
@@ -142,7 +146,7 @@ class ilIndividualAssessmentMembersGUI
         $this->view();
     }
 
-    protected function view() : void
+    protected function view(): void
     {
         if ($this->iass_access->mayEditMembers()) {
             $search_params = ['crs', 'grp'];
@@ -198,7 +202,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int[]
      */
-    public function addUsersFromSearch(array $user_ids) : void
+    public function addUsersFromSearch(array $user_ids): void
     {
         if (!empty($user_ids)) {
             $this->addUsers($user_ids);
@@ -213,7 +217,7 @@ class ilIndividualAssessmentMembersGUI
      *
      * @param	int|string[]	$user_ids
      */
-    public function addUsers(array $user_ids) : void
+    public function addUsers(array $user_ids): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
@@ -241,7 +245,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * Display confirmation form for user might be removed
      */
-    protected function removeUserConfirmation() : void
+    protected function removeUserConfirmation(): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
@@ -259,7 +263,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * Remove users from corresponding iass-object. To be used by repository search.
      */
-    public function removeUser() : void
+    public function removeUser(): void
     {
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
@@ -277,7 +281,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @return ILIAS\UI\Component\Component[]
      */
-    protected function getViewControls() : array
+    protected function getViewControls(): array
     {
         $ret = array();
 
@@ -290,7 +294,7 @@ class ilIndividualAssessmentMembersGUI
         return $ret;
     }
 
-    protected function getModeControl(ViewControl\Factory $vc_factory) : ViewControl\Mode
+    protected function getModeControl(ViewControl\Factory $vc_factory): ViewControl\Mode
     {
         $vc = $vc_factory->mode(
             $this->getModeOptions(),
@@ -309,20 +313,20 @@ class ilIndividualAssessmentMembersGUI
         return $vc;
     }
 
-    protected function getSortationControl(ViewControl\Factory $vc_factory) : ViewControl\Sortation
+    protected function getSortationControl(ViewControl\Factory $vc_factory): ViewControl\Sortation
     {
         $target = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         return $vc_factory->sortation(
             $this->getSortOptions()
         )
         ->withTargetURL($target, self::F_SORT)
-        ->withLabel($this->txt("iass_sort"));
+        ->withLabel($this->getSortOptions()[$this->getSortValue() ?? self::S_NAME_ASC]);
     }
 
     /**
      * @return string[]
      */
-    protected function getModeOptions() : array
+    protected function getModeOptions(): array
     {
         $ret = [];
 
@@ -344,7 +348,7 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int|string|null 	$filter
      */
-    protected function getActiveLabelForModeByFilter($filter) : string
+    protected function getActiveLabelForModeByFilter($filter): string
     {
         switch ($filter) {
             case ilIndividualAssessmentMembers::LP_ASSESSMENT_NOT_COMPLETED:
@@ -363,16 +367,19 @@ class ilIndividualAssessmentMembersGUI
     /**
      * @param int|string|null 	$value
      */
-    protected function getLinkForStatusFilter($value) : string
+    protected function getLinkForStatusFilter($value): string
     {
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, $this->getSortValue());
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, $value);
         $link = $this->ctrl->getLinkTargetByClass("ilIndividualAssessmentMembersGUI", "view");
         $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_STATUS, null);
 
+        $this->ctrl->setParameterByClass("ilIndividualAssessmentMembersGUI", self::F_SORT, null);
+
         return $link;
     }
 
-    protected function getFilterValue() : ?string
+    protected function getFilterValue(): ?string
     {
         if (
             $this->request_wrapper->has(self::F_STATUS) &&
@@ -393,7 +400,7 @@ class ilIndividualAssessmentMembersGUI
         return null;
     }
 
-    protected function getSortOptions() : array
+    protected function getSortOptions(): array
     {
         return [
             self::S_NAME_ASC => $this->txt("iass_sort_name_asc"),
@@ -405,7 +412,7 @@ class ilIndividualAssessmentMembersGUI
         ];
     }
 
-    protected function getSortValue() : ?string
+    protected function getSortValue(): ?string
     {
         if (
             $this->request_wrapper->has(self::F_SORT) &&
@@ -428,17 +435,17 @@ class ilIndividualAssessmentMembersGUI
         return null;
     }
 
-    public function handleAccessViolation() : void
+    public function handleAccessViolation(): void
     {
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
-    protected function maybeViewLearningProgress() : bool
+    protected function maybeViewLearningProgress(): bool
     {
         return $this->iass_access->mayViewUser();
     }
 
-    protected function txt(string $code) : string
+    protected function txt(string $code): string
     {
         return $this->lng->txt($code);
     }

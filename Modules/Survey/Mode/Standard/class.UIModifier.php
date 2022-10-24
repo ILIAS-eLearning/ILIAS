@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,7 +32,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalGUIService $ui_service
-    ) : array {
+    ): array {
         $items = [];
         $lng = $ui_service->lng();
         $anon_list = null;
@@ -93,7 +95,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form
-    ) : void {
+    ): void {
         $survey->setEvaluationAccess($form->getInput("evaluation_access"));
         $survey->setCalculateSumScore((bool) $form->getInput("calculate_sum_score"));
         $hasDatasets = \ilObjSurvey::_hasDatasets($survey->getSurveyId());

@@ -1,4 +1,5 @@
 <?php
+
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationGroupRenderer;
 
@@ -9,7 +10,7 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class GroupNotificationTest extends BaseNotificationSetUp
 {
-    public function testConstructByFactory() : void
+    public function testConstructByFactory(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
 
@@ -17,13 +18,13 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals($this->id, $group_notification->getProviderIdentification());
     }
 
-    public function testWitTitle() : void
+    public function testWitTitle(): void
     {
         $group_notification = $this->factory->standardGroup($this->id)->withTitle("test");
         $this->assertEquals("test", $group_notification->getTitle());
     }
 
-    public function testAddNotification() : void
+    public function testAddNotification(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals([], $group_notification->getNotifications());
@@ -34,7 +35,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals([$standard_notification,$standard_notification], $group_notification->getNotifications());
     }
 
-    public function testNotificationCount() : void
+    public function testNotificationCount(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getNotificationsCount());
@@ -45,7 +46,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals(2, $group_notification->getNotificationsCount());
     }
 
-    public function testNewNotificationCount() : void
+    public function testNewNotificationCount(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getNewNotificationsCount());
@@ -56,7 +57,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         $this->assertEquals(6, $group_notification->getNewNotificationsCount());
     }
 
-    public function testOldNotificationCount() : void
+    public function testOldNotificationCount(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertEquals(0, $group_notification->getOldNotificationsCount());
@@ -70,13 +71,13 @@ class GroupNotificationTest extends BaseNotificationSetUp
     /**
      * Tests on AbstractBaseNotification
      */
-    public function testGetProviderIdentification() : void
+    public function testGetProviderIdentification(): void
     {
         $standard_notification = $this->factory->standard($this->id);
         $this->assertEquals($this->id, $standard_notification->getProviderIdentification());
     }
 
-    public function testGetRenderer() : void
+    public function testGetRenderer(): void
     {
         $group_notification = $this->factory->standardGroup($this->id);
         $this->assertInstanceOf(
@@ -85,7 +86,7 @@ class GroupNotificationTest extends BaseNotificationSetUp
         );
     }
 
-    public function testWithOpenedCallable() : void
+    public function testWithOpenedCallable(): void
     {
         $callable = function () {
             return "something";

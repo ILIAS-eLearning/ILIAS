@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,62 +33,62 @@ trait GlobalDICGUIServices
 {
     private \ILIAS\DI\Container $DIC;
 
-    protected function initGUIServices(\ILIAS\DI\Container $DIC) : void
+    protected function initGUIServices(\ILIAS\DI\Container $DIC): void
     {
         $this->DIC = $DIC;
     }
 
-    public function ui() : UIServices
+    public function ui(): UIServices
     {
         return $this->DIC->ui();
     }
 
-    public function object() : \ilObjectServiceInterface
+    public function object(): \ilObjectServiceInterface
     {
         return $this->DIC->object();
     }
 
-    public function ctrl() : \ilCtrl
+    public function ctrl(): \ilCtrl
     {
         return $this->DIC->ctrl();
     }
 
-    public function http() : HTTP\Services
+    public function http(): HTTP\Services
     {
         return $this->DIC->http();
     }
 
-    public function mainTemplate() : \ilGlobalTemplateInterface
+    public function mainTemplate(): \ilGlobalTemplateInterface
     {
         return $this->DIC->ui()->mainTemplate();
     }
 
-    public function upload() : FileUpload
+    public function upload(): FileUpload
     {
         return $this->DIC->upload();
     }
 
-    public function toolbar() : \ilToolbarGUI
+    public function toolbar(): \ilToolbarGUI
     {
         return $this->DIC->toolbar();
     }
 
-    public function globalScreen() : GlobalScreen\Services
+    public function globalScreen(): GlobalScreen\Services
     {
         return $this->DIC->globalScreen();
     }
 
-    public function help() : \ilHelpGUI
+    public function help(): \ilHelpGUI
     {
         return $this->DIC->help();
     }
 
-    public function tabs() : \ilTabsGUI
+    public function tabs(): \ilTabsGUI
     {
         return $this->DIC->tabs();
     }
 
-    public function locator() : \ilLocatorGUI
+    public function locator(): \ilLocatorGUI
     {
         return $this->DIC["ilLocator"];
     }
@@ -97,7 +99,7 @@ trait GlobalDICGUIServices
     public function form(
         $class_path,
         string $cmd
-    ) : FormAdapterGUI {
+    ): FormAdapterGUI {
         return new FormAdapterGUI(
             $class_path,
             $cmd

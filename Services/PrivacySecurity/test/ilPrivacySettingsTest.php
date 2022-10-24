@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
@@ -12,13 +14,13 @@ class ilPrivacySettingsTest extends TestCase
 {
     protected ?Container $dic = null;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->initDependencies();
         parent::setUp();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
         global $DIC;
 
@@ -27,13 +29,13 @@ class ilPrivacySettingsTest extends TestCase
         parent::tearDown();
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $settings = ilPrivacySettings::getInstance();
         $this->assertInstanceOf(ilPrivacySettings::class, $settings);
     }
 
-    protected function setGlobalVariable(string $name, $value) : void
+    protected function setGlobalVariable(string $name, $value): void
     {
         global $DIC;
 
@@ -44,7 +46,7 @@ class ilPrivacySettingsTest extends TestCase
         };
     }
 
-    protected function initDependencies() : void
+    protected function initDependencies(): void
     {
         global $DIC;
 

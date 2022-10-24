@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ interface ilStudyProgrammeAutoMembershipsRepository
      *
      * @return ilStudyProgrammeAutoMembershipSource[]
      */
-    public function getFor(int $prg_obj_id) : array;
+    public function getFor(int $prg_obj_id): array;
 
     /**
      * Build an auto-membership source.
@@ -38,27 +40,27 @@ interface ilStudyProgrammeAutoMembershipsRepository
         bool $enabled,
         int $last_edited_usr_id = null,
         DateTimeImmutable $last_edited = null
-    ) : ilStudyProgrammeAutoMembershipSource;
+    ): ilStudyProgrammeAutoMembershipSource;
 
     /**
      * Update an auto-membership source.
      */
-    public function update(ilStudyProgrammeAutoMembershipSource $ams) : void;
+    public function update(ilStudyProgrammeAutoMembershipSource $ams): void;
 
     /**
      * Delete a single source-setting.
      */
-    public function delete(int $prg_obj_id, string $source_type, int $source_id) : void;
+    public function delete(int $prg_obj_id, string $source_type, int $source_id): void;
 
     /**
      * Delete all auto-membership sources of a programme.
      */
-    public function deleteFor(int $prg_obj_id) : void;
+    public function deleteFor(int $prg_obj_id): void;
 
     /**
      * Get all programmes' obj_ids monitoring the given source.
      *
      * @return int[]
      */
-    public static function getProgrammesFor(string $source_type, int $source_id) : array;
+    public static function getProgrammesFor(string $source_type, int $source_id): array;
 }

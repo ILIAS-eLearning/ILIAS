@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,8 +33,6 @@ use LibXMLError;
 
 class EstimatedReadingTime implements Transformation
 {
-    private const LIBXML_CODE_HTML_UNKNOWN_TAG = 801;
-
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
@@ -50,7 +50,7 @@ class EstimatedReadingTime implements Transformation
     /**
      * @inheritDoc
      */
-    public function transform($from) : int
+    public function transform($from): int
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
@@ -59,7 +59,7 @@ class EstimatedReadingTime implements Transformation
         return $this->calculate($from);
     }
 
-    private function calculate(string $text) : int
+    private function calculate(string $text): int
     {
         $text = mb_convert_encoding(
             '<!DOCTYPE html><html><head><meta charset="utf-8"/></head><body>' . $text . '</body></html>',
@@ -70,7 +70,7 @@ class EstimatedReadingTime implements Transformation
         $document = new DOMDocument();
 
         try {
-            set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line): void {
                 throw new ErrorException($message, $severity, $severity, $file, $line);
             });
 
@@ -87,12 +87,6 @@ class EstimatedReadingTime implements Transformation
             $this->endXmlLogging();
         }
 
-        if ($this->xmlErrorsOccured()) {
-            throw new InvalidArgumentException(
-                __METHOD__ . " the argument is not a parsable XHTML string: " . $this->xmlErrorsToString()
-            );
-        }
-
         $numberOfWords = 0;
 
         $xpath = new DOMXPath($document);
@@ -106,7 +100,7 @@ class EstimatedReadingTime implements Transformation
 
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
 
-                $wordsInContent = array_filter($wordsInContent, static function (string $word) : bool {
+                $wordsInContent = array_filter($wordsInContent, static function (string $word): bool {
                     return preg_replace('/^\pP$/u', '', $word) !== '';
                 });
 
@@ -129,7 +123,7 @@ class EstimatedReadingTime implements Transformation
      * @param int $numberOfImages
      * @return float The calculated reading time for the passed number of images translated to words
      */
-    private function calculateWordsForImages(int $numberOfImages) : float
+    private function calculateWordsForImages(int $numberOfImages): float
     {
         $time = 0.0;
 
@@ -144,13 +138,13 @@ class EstimatedReadingTime implements Transformation
         return $time;
     }
 
-    private function beginXmlLogging() : void
+    private function beginXmlLogging(): void
     {
         $this->xmlErrorState = libxml_use_internal_errors(true);
         libxml_clear_errors();
     }
 
-    private function addErrors() : void
+    private function addErrors(): void
     {
         $currentErrors = libxml_get_errors();
         libxml_clear_errors();
@@ -158,30 +152,20 @@ class EstimatedReadingTime implements Transformation
         $this->xmlErrors = $currentErrors;
     }
 
-    private function endXmlLogging() : void
+    private function endXmlLogging(): void
     {
         libxml_use_internal_errors($this->xmlErrorState);
     }
 
-    /**
-     * @return LibXMLError[]
-     */
-    private function relevantXmlErrors() : array
+    private function xmlErrorsOccurred(): bool
     {
-        return array_filter($this->xmlErrors, static function (LibXMLError $error) : bool {
-            return $error->code !== self::LIBXML_CODE_HTML_UNKNOWN_TAG;
-        });
+        return $this->xmlErrors !== [];
     }
 
-    private function xmlErrorsOccured() : bool
-    {
-        return $this->relevantXmlErrors() !== [];
-    }
-
-    private function xmlErrorsToString() : string
+    private function xmlErrorsToString(): string
     {
         $text = '';
-        foreach ($this->relevantXmlErrors() as $error) {
+        foreach ($this->xmlErrors as $error) {
             $text .= implode(',', [
                 'level=' . $error->level,
                 'code=' . $error->code,

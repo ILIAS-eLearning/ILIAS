@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -45,7 +47,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('search');
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -68,14 +70,14 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
                 break;
         }
     }
-    
-    public function cancelObject() : void
+
+    public function cancelObject(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "settings");
     }
 
-    public function settingsObject(?ilPropertyFormGUI $form = null) : bool
+    public function settingsObject(?ilPropertyFormGUI $form = null): bool
     {
         if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -88,13 +90,13 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         return true;
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs(): void
     {
         $this->getTabs();
     }
 
 
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -131,7 +133,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function initFormSettings() : ilPropertyFormGUI
+    protected function initFormSettings(): ilPropertyFormGUI
     {
         $settings = new ilSearchSettings();
         $form = new ilPropertyFormGUI();
@@ -253,7 +255,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     /**
      * @throws Exception
      */
-    protected function updateSettingsObject() : bool
+    protected function updateSettingsObject(): bool
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -304,7 +306,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function luceneSettingsObject(ilPropertyFormGUI $form = null) : void
+    protected function luceneSettingsObject(ilPropertyFormGUI $form = null): void
     {
         $this->initSubTabs('lucene');
         $this->tabs_gui->setTabActive('lucene_settings_tab');
@@ -316,7 +318,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function initFormLuceneSettings() : ilPropertyFormGUI
+    protected function initFormLuceneSettings(): ilPropertyFormGUI
     {
         $search_settings = ilSearchSettings::getInstance();
         $form = new ilPropertyFormGUI();
@@ -411,7 +413,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     /**
      * @throws Exception
      */
-    protected function saveLuceneSettingsObject() : bool
+    protected function saveLuceneSettingsObject(): bool
     {
         $form = $this->initFormLuceneSettings();
         if (!$form->checkInput()) {
@@ -450,7 +452,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     /**
      * @throws Exception
      */
-    protected function refreshLuceneSettings() : bool
+    protected function refreshLuceneSettings(): bool
     {
         if (!ilSearchSettings::getInstance()->enabledLucene()) {
             return true;
@@ -465,7 +467,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         }
     }
 
-    protected function advancedLuceneSettingsObject() : void
+    protected function advancedLuceneSettingsObject(): void
     {
         $this->initSubTabs('lucene');
         $this->tabs_gui->setTabActive('lucene_advanced_settings');
@@ -478,7 +480,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function saveAdvancedLuceneSettingsObject() : void
+    protected function saveAdvancedLuceneSettingsObject(): void
     {
         if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -502,7 +504,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'advancedLuceneSettings');
     }
 
-    protected function initSubTabs(string $a_section) : void
+    protected function initSubTabs(string $a_section): void
     {
         switch ($a_section) {
             case 'lucene':

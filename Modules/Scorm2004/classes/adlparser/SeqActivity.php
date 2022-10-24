@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,12 +25,10 @@
 
 class SeqActivity
 {
-    
-    
     //It's quite bad design to declare these variables public (should be private), but for later JSON serialization PHP needs this
     //cause json_encode ignores private or protected variables
-    
-     
+
+
     //SeqRuleset
     public ?array $mPreConditionRules = null;
 
@@ -47,7 +47,7 @@ class SeqActivity
     public string $mLearnerID = "_NULL_";
 
     public ?string $mScopeID = null;
-    
+
     public ?string $mActivityID = null;
 
     public ?string $mResourceID = null;
@@ -57,9 +57,9 @@ class SeqActivity
     public ?string $mTitle = null;
 
     public bool $mIsVisible = true;
-    
+
     public int $mOrder = -1;
-    
+
     public int $mActiveOrder = -1;
 
     public bool $mSelected = true;
@@ -68,7 +68,7 @@ class SeqActivity
     public ?string $mParent = null;
 
     public bool $mIsActive = false;
-    
+
     public bool $mIsSuspended = false;
 
     //Vector converted to array
@@ -92,7 +92,7 @@ class SeqActivity
     public bool $mPreventActivation = false;
 
     public bool $mUseCurObj = true;
-    
+
     public bool $mUseCurPro = true;
 
     public bool $mMaxAttemptControl = false;
@@ -121,7 +121,7 @@ class SeqActivity
     public bool $mBeginTimeControl = false;
 
     public ?string $mBeginTime = null;
-    
+
     public bool $mEndTimeControl = false;
 
     public ?string $mEndTime = null;
@@ -141,13 +141,13 @@ class SeqActivity
     public string $mRequiredForCompleted = ROLLUP_CONSIDER_ALWAYS;
 
     public string $mRequiredForIncomplete = ROLLUP_CONSIDER_ALWAYS;
-    
+
     //convert to array
     public ?array $mObjectives = null;
 
     //HashTable convert to assosiative array
     public ?array $mObjMaps = null;
-    
+
     public bool $mIsObjectiveRolledUp = true;
 
     public float $mObjMeasureWeight = 1.0;
@@ -155,7 +155,7 @@ class SeqActivity
     public bool $mIsProgressRolledUp = true;
 
     public string $mSelectTiming = "never";
-    
+
     public bool $mSelectStatus = false;
 
     public int $mSelectCount = 0;
@@ -173,40 +173,40 @@ class SeqActivity
     public bool $mContentSetsCompletion = false;
 
     public bool $mContentSetsObj = false;
-        
+
     //ADLTracking
     public ?object $mCurTracking = null;
-        
+
     //convert to array?
     public ?array $mTracking = null;
-    
+
     public int $mNumAttempt = 0;
-   
+
     public int $mNumSCOAttempt = 0;
-    
+
     //ADLDuration
     public ?string $mActivityAbDur_track = null;
-      
+
     //ADLDuration
     public ?string $mActivityExDur_track = null;
-       
+
     public float $mProgressThreshold = 1.0;
-       
+
     public bool $mProgressDeterminedByMeasure = false;
-       
+
     public float $mProgressWeight = 1.0;
 
     public bool $mmActivityExDurControl = false;
 
     public string $iTiming = "";
-    
+
 
     public function __construct()
     {
         //$this->mActiveChildren = array();
     }
-    
-    public function addChild(object $ioChild) : void
+
+    public function addChild(object $ioChild): void
     {
         if ($this->mChildren == null) {
             $this->mChildren = array();
@@ -230,86 +230,86 @@ class SeqActivity
         //set parents on the client
         //$ioChild->setParent($this);
     }
-    
-    public function setOrder(int $iOrder) : void
+
+    public function setOrder(int $iOrder): void
     {
         $this->mOrder = $iOrder;
     }
-    
-    public function setActiveOrder(int $iOrder) : void
+
+    public function setActiveOrder(int $iOrder): void
     {
         $this->mActiveOrder = $iOrder;
     }
-    
-    public function setParent(string $iParent) : void
+
+    public function setParent(string $iParent): void
     {
         $this->mParent = $iParent;
     }
-    
 
-    
+
+
     //setters for public vars
-    public function setID(string $id) : void
+    public function setID(string $id): void
     {
         $this->mActivityID = $id;
     }
-   
-    public function setResourceID(string $id) : void
+
+    public function setResourceID(string $id): void
     {
         $this->mResourceID = $id;
     }
-    
-    public function setIsVisible(bool $visible) : void
+
+    public function setIsVisible(bool $visible): void
     {
         $this->mIsVisible = $visible;
     }
-    
-    public function setCompletionThreshold(float $compThresh) : void
+
+    public function setCompletionThreshold(float $compThresh): void
     {
         $this->mProgressThreshold = $compThresh;
     }
-    
-    public function setCompletedByMeasure(bool $compbm) : void
+
+    public function setCompletedByMeasure(bool $compbm): void
     {
         $this->mProgressDeterminedByMeasure = $compbm;
     }
-    
-    public function setProgressWeight(float $progweight) : void
+
+    public function setProgressWeight(float $progweight): void
     {
         $this->mProgressWeight = $progweight;
     }
-    
-    public function setControlModeChoice(bool $choice) : void
+
+    public function setControlModeChoice(bool $choice): void
     {
         $this->mControl_choice = $choice;
     }
-    
-    public function setControlModeChoiceExit(bool $choiceExit) : void
+
+    public function setControlModeChoiceExit(bool $choiceExit): void
     {
         $this->mControl_choiceExit = $choiceExit;
     }
-    
-    public function setControlModeFlow(bool $flow) : void
+
+    public function setControlModeFlow(bool $flow): void
     {
         $this->mControl_flow = $flow;
     }
-    
-    public function setControlForwardOnly(bool $forwardOnly) : void
+
+    public function setControlForwardOnly(bool $forwardOnly): void
     {
         $this->mControl_forwardOnly = $forwardOnly;
     }
-    
-    public function setUseCurObjective(bool $useCurObjective) : void
+
+    public function setUseCurObjective(bool $useCurObjective): void
     {
         $this->mUseCurObj = $useCurObjective;
     }
 
-    public function setUseCurProgress(bool $useCurProgress) : void
+    public function setUseCurProgress(bool $useCurProgress): void
     {
         $this->mUseCurPro = $useCurProgress;
     }
-    
-    public function setAttemptLimit(int $value) : void
+
+    public function setAttemptLimit(int $value): void
     {
         if ($value >= 0) {
             $this->mMaxAttemptControl = true;
@@ -319,8 +319,8 @@ class SeqActivity
             $this->mMaxAttempt = -1;
         }
     }
-    
-    public function setAttemptAbDur(?string $iDur) : void
+
+    public function setAttemptAbDur(?string $iDur): void
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
@@ -331,8 +331,8 @@ class SeqActivity
             $this->mActivityAbDurControl = false;
         }
     }
-    
-    public function setAttemptExDur(?string $iDur) : void
+
+    public function setAttemptExDur(?string $iDur): void
     {
         if ($iDur != null) {
             $this->mAttemptExDurControl = true;
@@ -342,8 +342,8 @@ class SeqActivity
             $this->mAttemptExDurControl = false;
         }
     }
-    
-    public function setActivityAbDur(?string $iDur) : void
+
+    public function setActivityAbDur(?string $iDur): void
     {
         if ($iDur != null) {
             $this->mActivityAbDurControl = true;
@@ -352,8 +352,8 @@ class SeqActivity
             $this->mActivityAbDurControl = false;
         }
     }
-    
-    public function setActivityExDur(?string $iDur) : void
+
+    public function setActivityExDur(?string $iDur): void
     {
         if ($iDur != null) {
             $this->mmActivityExDurControl = true;
@@ -362,8 +362,8 @@ class SeqActivity
             $this->mmActivityExDurControl = false;
         }
     }
-    
-    public function setBeginTimeLimit(?string $iTime) : void
+
+    public function setBeginTimeLimit(?string $iTime): void
     {
         if ($iTime != null) {
             $this->mBeginTimeControl = true;
@@ -372,8 +372,8 @@ class SeqActivity
             $this->mBeginTimeControl = false;
         }
     }
-    
-    public function setEndTimeLimit(?string $iTime) : void
+
+    public function setEndTimeLimit(?string $iTime): void
     {
         if ($iTime != null) {
             $this->mEndTimeControl = true;
@@ -382,8 +382,8 @@ class SeqActivity
             $this->mEndTimeControl = false;
         }
     }
-    
-    public function setRandomTiming(string $iTiming) : void
+
+    public function setRandomTiming(string $iTiming): void
     {
         // Validate vocabulary
         if (!($this->iTiming == TIMING_NEVER ||
@@ -394,8 +394,8 @@ class SeqActivity
             $this->mRandomTiming = $iTiming;
         }
     }
-    
-    public function setSelectCount(int $iCount) : void
+
+    public function setSelectCount(int $iCount): void
     {
         if ($iCount >= 0) {
             $this->mSelectStatus = true;
@@ -404,16 +404,16 @@ class SeqActivity
             $this->mSelectStatus = false;
         }
     }
-    
-    public function setReorderChildren(bool $iReorder) : void
+
+    public function setReorderChildren(bool $iReorder): void
     {
         $this->mReorder = $iReorder;
     }
 
 
-    public function setSelectionTiming(string $iTiming) : void
+    public function setSelectionTiming(string $iTiming): void
     {
-    
+
      // Validate vocabulary
         if (!($this->iTiming == TIMING_NEVER ||
                $this->iTiming == TIMING_ONCE ||
@@ -423,78 +423,78 @@ class SeqActivity
             $this->mSelectTiming = $iTiming;
         }
     }
-    
-    public function setIsTracked(bool $iTracked) : void
+
+    public function setIsTracked(bool $iTracked): void
     {
         $this->mIsTracked = $iTracked;
     }
-    
-    public function setSetCompletion(bool $iSet) : void
+
+    public function setSetCompletion(bool $iSet): void
     {
         $this->mContentSetsCompletion = $iSet;
     }
-    
-    public function setSetObjective(bool $iSet) : void
+
+    public function setSetObjective(bool $iSet): void
     {
         $this->mContentSetsObj = $iSet;
     }
-    
-    public function setPreventActivation(bool $iPreventActivation) : void
+
+    public function setPreventActivation(bool $iPreventActivation): void
     {
         $this->mPreventActivation = $iPreventActivation;
     }
 
-    public function setConstrainChoice(bool $iConstrainChoice) : void
+    public function setConstrainChoice(bool $iConstrainChoice): void
     {
         $this->mConstrainChoice = $iConstrainChoice;
     }
 
-    public function setRequiredForSatisfied(string $iConsider) : void
+    public function setRequiredForSatisfied(string $iConsider): void
     {
         $this->mRequiredForSatisfied = $iConsider;
     }
 
-    public function setRequiredForNotSatisfied(string $iConsider) : void
+    public function setRequiredForNotSatisfied(string $iConsider): void
     {
         $this->mRequiredForNotSatisfied = $iConsider;
     }
 
-    public function setRequiredForCompleted(string $iConsider) : void
+    public function setRequiredForCompleted(string $iConsider): void
     {
         $this->mRequiredForCompleted = $iConsider;
     }
 
-    public function setRequiredForIncomplete(string $iConsider) : void
+    public function setRequiredForIncomplete(string $iConsider): void
     {
         $this->mRequiredForIncomplete = $iConsider;
     }
 
-    public function setSatisfactionIfActive(bool $iActiveMeasure) : void
+    public function setSatisfactionIfActive(bool $iActiveMeasure): void
     {
         $this->mActiveMeasure = $iActiveMeasure;
     }
-    
-    public function setTitle(string $title) : void
+
+    public function setTitle(string $title): void
     {
         $this->mTitle = $title;
     }
-    
-    public function setPreSeqRules(?array $iRuleSet) : void
+
+    public function setPreSeqRules(?array $iRuleSet): void
     {
         $this->mPreConditionRules = $iRuleSet;
     }
-   
-    public function setExitSeqRules(?array $iRuleSet) : void
+
+    public function setExitSeqRules(?array $iRuleSet): void
     {
         $this->mExitActionRules = $iRuleSet;
     }
 
-    public function setPostSeqRules(?array $iRuleSet) : void
+    public function setPostSeqRules(?array $iRuleSet): void
     {
         $this->mPostConditionRules = $iRuleSet;
     }
-    
-    public function setObjectives(array $iObjs) : void
+
+    public function setObjectives(array $iObjs): void
     {
         $this->mObjectives = $iObjs;
         foreach ($iObjs as $value) {
@@ -505,41 +505,41 @@ class SeqActivity
             }
         }
     }
-    
-    public function setIsObjRolledUp(bool $iRolledup) : void
+
+    public function setIsObjRolledUp(bool $iRolledup): void
     {
         $this->mIsObjectiveRolledUp = $iRolledup;
     }
-    
-    public function setObjMeasureWeight(float $iWeight) : void
+
+    public function setObjMeasureWeight(float $iWeight): void
     {
         $this->mObjMeasureWeight = $iWeight;
     }
-    
-    public function setIsProgressRolledUp(bool $iRolledup) : void
+
+    public function setIsProgressRolledUp(bool $iRolledup): void
     {
         $this->mIsProgressRolledUp = $iRolledup;
     }
-    
-    public function setRollupRules(?array $iRuleSet) : void
+
+    public function setRollupRules(?array $iRuleSet): void
     {
         $this->mRollupRules = $iRuleSet;
     }
-    
-    public function setAuxResources(string $iRes) : void
+
+    public function setAuxResources(string $iRes): void
     {
         $this->mAuxResources = $iRes;
     }
 
 
-    
 
-    public function getID() : string
+
+    public function getID(): string
     {
         return $this->mActivityID;
     }
-    
-    public function getIsVisible() : bool
+
+    public function getIsVisible(): bool
     {
         return $this->mIsVisible;
     }

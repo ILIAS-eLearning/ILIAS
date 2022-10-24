@@ -29,7 +29,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -48,7 +48,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
-    ) : ilDclRecordQueryObject {
+    ): ilDclRecordQueryObject {
         // use custom record sorting for url-fields
         if ($this->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             return new ilDclTextRecordQueryObject();
@@ -57,7 +57,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null) : void
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
         $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
         if ($has_url_property) {
@@ -75,7 +75,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
      * @param null|string $value
      * @throws ilDclInputException
      */
-    public function checkValidity($value, ?int $record_id = null) : bool
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         $has_url_property = $this->getProperty(ilDclBaseFieldModel::PROP_URL);
         if ($has_url_property) {
@@ -113,7 +113,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
      * @return bool
      * @throws ilDclInputException
      */
-    protected function checkValidityOfURLField($value, int $record_id) : bool
+    protected function checkValidityOfURLField($value, int $record_id): bool
     {
         // TODO: value should always be an array with url fields, can we remove the check & json_decode?
         if (!is_array($value)) {
@@ -150,7 +150,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    public function checkFieldCreationInput(ilPropertyFormGUI $form) : bool
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -169,7 +169,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     /**
      * @inheritDoc
      */
-    public function getValidFieldProperties() : array
+    public function getValidFieldProperties(): array
     {
         return array(
             ilDclBaseFieldModel::PROP_LENGTH,
@@ -180,7 +180,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         );
     }
 
-    protected function checkRegexAndLength(string $value) : void
+    protected function checkRegexAndLength(string $value): void
     {
         $regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
         if (substr($regex, 0, 1) != "/") {
@@ -209,7 +209,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function strlen(string $value, string $encoding = 'UTF-8') : int
+    public function strlen(string $value, string $encoding = 'UTF-8'): int
     {
         switch (true) {
             case function_exists('mb_strlen'):
@@ -221,7 +221,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col) : void
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col): void
     {
         parent::fillHeaderExcel($worksheet, $row, $col);
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -230,7 +230,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function checkTitlesForImport(array &$titles, array &$import_fields) : void
+    public function checkTitlesForImport(array &$titles, array &$import_fields): void
     {
         foreach ($titles as $k => $title) {
             if (!ilStr::isUtf8($title)) {

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +28,7 @@ class ilCertificateRpcClientFactoryHelper
      * @param string $certificateContent
      * @return stdClass
      */
-    public function ilFO2PDF(string $package, string $certificateContent) : stdClass
+    public function ilFO2PDF(string $package, string $certificateContent): stdClass
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);

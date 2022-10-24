@@ -264,14 +264,14 @@
 		</xsl:if>
 		<xsl:if test="name(../..) = 'InteractiveImage'">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
-				<script type="text/javascript">
-					il.Util.addOnLoad(function() {il.COPagePres.addIIMArea(
-						{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
-						iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-						tr_nr: '<xsl:value-of select = "@Id" />',
-						title: '<xsl:value-of select = "ExtLink[1]"/>'
-					})});
-				</script>
+				<span style="display:none;">
+					<xsl:attribute name="data-copg-iim-data-type">area</xsl:attribute>
+					<xsl:attribute name="data-copg-iim-area-id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
+					<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
+					<xsl:attribute name="data-copg-iim-tr-nr"><xsl:value-of select = "@Id" /></xsl:attribute>
+					<xsl:attribute name="data-copg-iim-title"><xsl:value-of select = "ExtLink[1]"/></xsl:attribute>
+					<xsl:comment>Break</xsl:comment>
+				</span>
 			</xsl:if>
 		</xsl:if>
 	</xsl:for-each>
@@ -3035,6 +3035,12 @@
 	<xsl:attribute name="id">iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />_<xsl:value-of select = "@Nr"/></xsl:attribute>
 	<xsl:if test="$mode != 'edit'">
 		<xsl:attribute name="style">display: none;</xsl:attribute>
+		<xsl:attribute name="data-copg-iim-data-type">popup</xsl:attribute>
+		<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
+		<xsl:attribute name="data-copg-iim-pop-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" /></xsl:attribute>
+		<xsl:attribute name="data-copg-iim-div-id">iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" /></xsl:attribute>
+		<xsl:attribute name="data-copg-iim-nr"><xsl:value-of select="@Nr"/></xsl:attribute>
+		<xsl:attribute name="data-copg-iim-title"><xsl:value-of select="@Title"/></xsl:attribute>
 	</xsl:if>
 	<xsl:if test="$mode = 'edit'">
 		<xsl:attribute name="style">border: 1px solid #000000; padding: 20px; margin-bottom:10px;</xsl:attribute>
@@ -3042,17 +3048,6 @@
 			<i><b><xsl:value-of select="@Title" /></b></i>
 			<xsl:comment>Break</xsl:comment>
 		</div>
-	</xsl:if>
-	
-	<xsl:if test="$mode != 'edit'">
-		<script type="text/javascript">
-			il.Util.addOnLoad(function() {il.COPagePres.addIIMPopup({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-				pop_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
-				div_id: 'iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
-				nr: '<xsl:value-of select="@Nr"/>',
-				title: '<xsl:value-of select="@Title" />'
-			})});
-		</script>
 	</xsl:if>
 
 	<!-- Content -->
@@ -3100,17 +3095,24 @@
 		</xsl:if>
 	</xsl:if>
 	<xsl:if test="$map_edit_mode != 'get_coords'">
-		<script type="text/javascript">
-			il.Util.addOnLoad(function() {il.COPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
-				ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
-				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
-				popup_nr: '<xsl:value-of select="@PopupNr"/>', nr: '<xsl:value-of select="@Nr"/>',
-				popx: '<xsl:value-of select="@PopupX"/>', popy: '<xsl:value-of select="@PopupY"/>',
-				popwidth: '<xsl:value-of select="@PopupWidth"/>', popheight: '<xsl:value-of select="@PopupHeight"/>',
-				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
-			})});
-		</script>
+		<span style="display:none;">
+			<xsl:attribute name="data-copg-iim-data-type">trigger</xsl:attribute>
+			<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-type"><xsl:value-of select="@Type"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-title"><xsl:value-of select="@Title"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-ovx"><xsl:value-of select="@OverlayX"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-ovy"><xsl:value-of select="@OverlayY"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-markx"><xsl:value-of select="@MarkerX"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-marky"><xsl:value-of select="@MarkerY"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popup-nr"><xsl:value-of select="@PopupNr"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-nr"><xsl:value-of select="@Nr"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popx"><xsl:value-of select="@PopupX"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popy"><xsl:value-of select="@PopupY"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popwidth"><xsl:value-of select="@PopupWidth"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-popheight"><xsl:value-of select="@PopupHeight"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-tr-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<xsl:comment>Break</xsl:comment>
+		</span>
 	</xsl:if>
 </xsl:template>
 
@@ -3118,18 +3120,17 @@
 <xsl:template name="Marker">
 	<xsl:if test="@Type = 'Marker'">
 		<a class="ilc_marker_Marker" style="display:none;">
-		<xsl:attribute name="id">iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-		<xsl:comment>Break</xsl:comment>
+			<xsl:attribute name="data-copg-iim-data-type">marker</xsl:attribute>
+			<xsl:attribute name="data-copg-iim-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" /></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-m-id">iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-markx"><xsl:value-of select="@MarkerX"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-marky"><xsl:value-of select="@MarkerY"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-tr-nr"><xsl:value-of select="@Nr"/></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-tr-id"><xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<xsl:attribute name="data-copg-iim-edit-mode"><xsl:if test="$mode = 'edit'">1</xsl:if></xsl:attribute>
+			<xsl:attribute name="id">iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+			<xsl:comment>Break</xsl:comment>
 		</a>
-		<script type="text/javascript">
-			il.Util.addOnLoad(function() {il.COPagePres.addIIMMarker({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
-				m_id: 'iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
-				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
-				tr_nr: '<xsl:value-of select="@Nr"/>',
-				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
-				edit_mode: '<xsl:if test="$mode = 'edit'">1</xsl:if>'
-			})});
-		</script>
 	</xsl:if>
 </xsl:template>
 
@@ -3512,8 +3513,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					$(function () {
-						il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 							toggle_class: 'il_VAccordionToggleDef',
 							toggle_act_class: 'il_VAccordionToggleActiveDef',
@@ -3526,8 +3529,8 @@
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
-							});
-						});
+							}
+					);
 				</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion' and $mode != 'print' and $compare_mode = 'n'">
@@ -3538,8 +3541,10 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					$(function () {
-						il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 							id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 							toggle_class: 'il_HAccordionToggleDef',
 							toggle_act_class: 'il_HAccordionToggleActiveDef',
@@ -3552,14 +3557,15 @@
 							active_head_class: '<xsl:value-of select="$aheadclass"/>',
 							int_id: '',
 							multi: false
-							});
 						});
 				</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'Carousel' and $mode != 'print' and $compare_mode = 'n'">
 				<script type="text/javascript">
-					$(function () {
-					il.Accordion.add({
+					if (typeof variable === 'undefined') {
+						var ilAccordionsInits = [];
+					}
+					ilAccordionsInits.push({
 					id: 'ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					toggle_class: '',
 					toggle_act_class: '',
@@ -3574,7 +3580,6 @@
 					multi: false,
 					auto_anim_wait: <xsl:value-of select="number(@AutoAnimWait)" />,
 					random_start: <xsl:value-of select="number(@RandomStart)" />
-					});
 					});
 				</script>
 			</xsl:if>

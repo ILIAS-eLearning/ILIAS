@@ -1,6 +1,21 @@
-<?php declare(strict_types = 1);
+<?php
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+declare(strict_types=1);
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -10,6 +25,7 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * current context information.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @noinspection AutoloadingIssuesInspection
  */
 class ilCtrlContext implements ilCtrlContextInterface
 {
@@ -79,6 +95,11 @@ class ilCtrlContext implements ilCtrlContextInterface
     protected ?int $obj_id = null;
 
     /**
+     * @var array<string, ilCtrlPathInterface>
+     */
+    protected array $history = [];
+
+    /**
      * ilCtrlContext Constructor
      *
      * @param ilCtrlPathFactory $path_factory
@@ -98,7 +119,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function isAsync() : bool
+    public function isAsync(): bool
     {
         return $this->is_async;
     }
@@ -106,7 +127,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getRedirectSource() : ?string
+    public function getRedirectSource(): ?string
     {
         return $this->redirect;
     }
@@ -114,7 +135,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getPath() : ilCtrlPathInterface
+    public function getPath(): ilCtrlPathInterface
     {
         return $this->path;
     }
@@ -122,7 +143,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setCmdMode(string $mode) : ilCtrlContextInterface
+    public function setCmdMode(string $mode): ilCtrlContextInterface
     {
         $this->cmd_mode = $mode;
         return $this;
@@ -131,7 +152,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getCmdMode() : ?string
+    public function getCmdMode(): ?string
     {
         return $this->cmd_mode;
     }
@@ -139,14 +160,14 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setBaseClass(string $base_class) : ilCtrlContextInterface
+    public function setBaseClass(string $base_class): ilCtrlContextInterface
     {
         $path = $this->path_factory->find($this, $base_class);
 
         // only set baseclass if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$base_class] = $path;
             $this->base_class = $base_class;
-
             // only update the path if the current one is null.
             if (null === $this->path->getCidPath()) {
                 $this->path = $path;
@@ -159,7 +180,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getBaseClass() : ?string
+    public function getBaseClass(): ?string
     {
         return $this->base_class;
     }
@@ -167,7 +188,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setTargetScript(string $target_script) : ilCtrlContextInterface
+    public function setTargetScript(string $target_script): ilCtrlContextInterface
     {
         $this->target_script = $target_script;
         return $this;
@@ -176,7 +197,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getTargetScript() : string
+    public function getTargetScript(): string
     {
         return $this->target_script;
     }
@@ -184,12 +205,13 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setCmdClass(?string $cmd_class) : ilCtrlContextInterface
+    public function setCmdClass(?string $cmd_class): ilCtrlContextInterface
     {
         $path = $this->path_factory->find($this, $cmd_class);
 
         // only set command class if it's a valid target.
         if (null !== $path->getCidPath()) {
+            $this->history[$cmd_class] = $path;
             $this->cmd_class = $cmd_class;
             $this->path = $path;
         }
@@ -200,7 +222,26 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getCmdClass() : ?string
+    public function popCmdClass(): ilCtrlContextInterface
+    {
+        $previous_cmd_class = array_key_last($this->history);
+
+        if (null === $previous_cmd_class) {
+            return $this;
+        }
+
+        $this->path = $this->history[$previous_cmd_class];
+        $this->cmd_class = $previous_cmd_class;
+
+        unset($this->history[$previous_cmd_class]);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmdClass(): ?string
     {
         // if no cmd_class is set yet, the baseclass
         // value can be returned.
@@ -210,7 +251,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setCmd(?string $cmd) : ilCtrlContextInterface
+    public function setCmd(?string $cmd): ilCtrlContextInterface
     {
         $this->cmd = $cmd;
 
@@ -220,7 +261,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getCmd() : ?string
+    public function getCmd(): ?string
     {
         return $this->cmd;
     }
@@ -228,7 +269,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setObjType(string $obj_type) : ilCtrlContextInterface
+    public function setObjType(string $obj_type): ilCtrlContextInterface
     {
         $this->obj_type = $obj_type;
         return $this;
@@ -237,7 +278,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getObjType() : ?string
+    public function getObjType(): ?string
     {
         return $this->obj_type;
     }
@@ -245,7 +286,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setObjId(int $obj_id) : ilCtrlContextInterface
+    public function setObjId(int $obj_id): ilCtrlContextInterface
     {
         $this->obj_id = $obj_id;
         return $this;
@@ -254,7 +295,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function getObjId() : ?int
+    public function getObjId(): ?int
     {
         return $this->obj_id;
     }
@@ -267,7 +308,7 @@ class ilCtrlContext implements ilCtrlContextInterface
      * ilCtrl, as methods may override delivered values on purpose
      * later on.
      */
-    protected function adoptRequestParameters() : void
+    protected function adoptRequestParameters(): void
     {
         $this->redirect = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT);
         $this->cmd_mode = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE);
@@ -306,7 +347,7 @@ class ilCtrlContext implements ilCtrlContextInterface
      * @param string $parameter_name
      * @return string|null
      */
-    protected function getQueryParam(string $parameter_name) : ?string
+    protected function getQueryParam(string $parameter_name): ?string
     {
         if ($this->request_wrapper->has($parameter_name)) {
             return $this->request_wrapper->retrieve(

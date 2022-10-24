@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
@@ -33,7 +35,7 @@ class FooterTest extends ILIAS_UI_TestBase
     private string $text = '';
     private string $perm_url = '';
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $f = new I\Link\Factory();
         $this->links = [
@@ -44,7 +46,7 @@ class FooterTest extends ILIAS_UI_TestBase
         $this->perm_url = 'http://www.ilias.de/goto.php?target=xxx_123';
     }
 
-    protected function getFactory() : I\MainControls\Factory
+    protected function getFactory(): I\MainControls\Factory
     {
         $sig_gen = new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
@@ -60,7 +62,7 @@ class FooterTest extends ILIAS_UI_TestBase
         return new I\MainControls\Factory($sig_gen, $slate_factory);
     }
 
-    public function testConstruction() : C\MainControls\Footer
+    public function testConstruction(): C\MainControls\Footer
     {
         $footer = $this->getFactory()->footer($this->links, $this->text);
         $this->assertInstanceOf(
@@ -70,7 +72,7 @@ class FooterTest extends ILIAS_UI_TestBase
         return $footer;
     }
 
-    public function testConstructionNoLinks() : C\MainControls\Footer
+    public function testConstructionNoLinks(): C\MainControls\Footer
     {
         $footer = $this->getFactory()->footer([], $this->text);
         $this->assertInstanceOf(
@@ -83,7 +85,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetLinks(C\MainControls\Footer $footer) : void
+    public function testGetLinks(C\MainControls\Footer $footer): void
     {
         $this->assertEquals(
             $this->links,
@@ -94,7 +96,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetText(C\MainControls\Footer $footer) : void
+    public function testGetText(C\MainControls\Footer $footer): void
     {
         $this->assertEquals(
             $this->text,
@@ -105,7 +107,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer) : C\MainControls\Footer
+    public function testGetAndSetModalsWithTrigger(C\MainControls\Footer $footer): C\MainControls\Footer
     {
         $bf = new I\Button\Factory();
         $signalGenerator = new SignalGenerator();
@@ -130,7 +132,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testPermanentURL(C\MainControls\Footer $footer) : C\MainControls\Footer
+    public function testPermanentURL(C\MainControls\Footer $footer): C\MainControls\Footer
     {
         $df = new Data\Factory();
         $footer = $footer->withPermanentURL($df->uri($this->perm_url));
@@ -143,10 +145,10 @@ class FooterTest extends ILIAS_UI_TestBase
         return $footer;
     }
 
-    public function getUIFactory() : NoUIFactory
+    public function getUIFactory(): NoUIFactory
     {
-        return new class extends NoUIFactory {
-            public function listing() : C\Listing\Factory
+        return new class () extends NoUIFactory {
+            public function listing(): C\Listing\Factory
             {
                 return new I\Listing\Factory();
             }
@@ -156,7 +158,7 @@ class FooterTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testRendering(C\MainControls\Footer $footer) : void
+    public function testRendering(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -187,7 +189,7 @@ EOT;
     /**
      * @depends testConstructionNoLinks
      */
-    public function testRenderingNoLinks(C\MainControls\Footer $footer) : void
+    public function testRenderingNoLinks(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -211,7 +213,7 @@ EOT;
     /**
      * @depends testPermanentURL
      */
-    public function testRenderingPermUrl($footer) : void
+    public function testRenderingPermUrl($footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -243,7 +245,7 @@ EOT;
     /**
      * @depends testGetAndSetModalsWithTrigger
      */
-    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer) : void
+    public function testRenderingModalsWithTriggers(C\MainControls\Footer $footer): void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($footer);
@@ -267,14 +269,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <span class="modal-title">Modal1</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -283,14 +285,14 @@ EOT;
                     <div class="modal-dialog" role="document" data-replace-marker="component">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 <span class="modal-title">Modal2</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="close">cancel</button>
                             </div>
                         </div>
                     </div>

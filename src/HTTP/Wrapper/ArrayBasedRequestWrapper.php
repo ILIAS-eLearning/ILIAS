@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -52,7 +54,7 @@ class ArrayBasedRequestWrapper implements RequestWrapper
     /**
      * @inheritDoc
      */
-    public function has(string $key) : bool
+    public function has(string $key): bool
     {
         return isset($this->raw_values[$key]);
     }

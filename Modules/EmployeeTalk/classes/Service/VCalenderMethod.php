@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -70,11 +71,11 @@ namespace ILIAS\EmployeeTalk\Service;
  */
 interface VCalenderMethod
 {
-    const PUBLISH = 'PUBLISH';
-    const REQUEST = 'REQUEST';
-    const REPLY = 'REPLY';
-    const ADD = 'ADD';
-    const CANCEL = 'CANCEL';
-    const COUNTER = 'COUNTER';
-    const DECLINECOUNTER = 'DECLINECOUNTER';
+    public const PUBLISH = 'PUBLISH';
+    public const REQUEST = 'REQUEST';
+    public const REPLY = 'REPLY';
+    public const ADD = 'ADD';
+    public const CANCEL = 'CANCEL';
+    public const COUNTER = 'COUNTER';
+    public const DECLINECOUNTER = 'DECLINECOUNTER';
 }

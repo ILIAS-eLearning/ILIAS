@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,7 +52,7 @@ class ilQTIResponseLabel
     public array $flow_mat = [];
     public ?string $content = null;
 
-    public function setRshuffle(string $a_rshuffle) : void
+    public function setRshuffle(string $a_rshuffle): void
     {
         switch (strtolower($a_rshuffle)) {
             case "1":
@@ -64,12 +66,12 @@ class ilQTIResponseLabel
         }
     }
 
-    public function getRshuffle() : ?string
+    public function getRshuffle(): ?string
     {
         return $this->rshuffle;
     }
 
-    public function setRarea(string $a_rarea) : void
+    public function setRarea(string $a_rarea): void
     {
         switch (strtolower($a_rarea)) {
             case "1":
@@ -87,12 +89,12 @@ class ilQTIResponseLabel
         }
     }
 
-    public function getRarea() : ?string
+    public function getRarea(): ?string
     {
         return $this->rarea;
     }
 
-    public function setRrange(string $a_rrange) : void
+    public function setRrange(string $a_rrange): void
     {
         switch (strtolower($a_rrange)) {
             case "1":
@@ -106,67 +108,67 @@ class ilQTIResponseLabel
         }
     }
 
-    public function getRrange() : ?string
+    public function getRrange(): ?string
     {
         return $this->rrange;
     }
 
-    public function setLabelrefid(string $a_labelrefid) : void
+    public function setLabelrefid(string $a_labelrefid): void
     {
         $this->labelrefid = $a_labelrefid;
     }
 
-    public function getLabelrefid() : ?string
+    public function getLabelrefid(): ?string
     {
         return $this->labelrefid;
     }
 
-    public function setIdent(string $a_ident) : void
+    public function setIdent(string $a_ident): void
     {
         $this->ident = $a_ident;
     }
 
-    public function getIdent() : ?string
+    public function getIdent(): ?string
     {
         return $this->ident;
     }
-    
-    public function setMatchGroup(string $a_match_group) : void
+
+    public function setMatchGroup(string $a_match_group): void
     {
         $this->match_group = $a_match_group;
     }
-    
-    public function getMatchGroup() : ?string
+
+    public function getMatchGroup(): ?string
     {
         return $this->match_group;
     }
-    
-    public function setMatchMax(string $a_match_max) : void
+
+    public function setMatchMax(string $a_match_max): void
     {
         $this->match_max = $a_match_max;
     }
-    
-    public function getMatchMax() : ?string
+
+    public function getMatchMax(): ?string
     {
         return $this->match_max;
     }
-    
-    public function addMaterial(ilQTIMaterial $a_material) : void
+
+    public function addMaterial(ilQTIMaterial $a_material): void
     {
         $this->material[] = $a_material;
     }
-    
-    public function addFlow_mat(ilQTIFlowMat $a_flow_mat) : void
+
+    public function addFlow_mat(ilQTIFlowMat $a_flow_mat): void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    public function setContent(string $a_content) : void
+    public function setContent(string $a_content): void
     {
         $this->content = $a_content;
     }
 
-    public function getContent() : ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }

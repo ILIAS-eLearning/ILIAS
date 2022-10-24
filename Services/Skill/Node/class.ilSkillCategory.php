@@ -30,7 +30,7 @@ class ilSkillCategory extends ilSkillTreeNode
         $this->setType("scat");
     }
 
-    public function copy() : ilSkillCategory
+    public function copy(): ilSkillCategory
     {
         $scat = new ilSkillCategory();
         $scat->setTitle($this->getTitle());

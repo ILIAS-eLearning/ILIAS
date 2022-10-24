@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,12 +34,12 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
         $this->dic = $dic;
     }
 
-    public function shouldStoreRequestTarget() : bool
+    public function shouldStoreRequestTarget(): bool
     {
         return true;
     }
 
-    public function isInFulfillment() : bool
+    public function isInFulfillment(): bool
     {
         return (
             strtolower($this->dic->ctrl()->getCmdClass()) === strtolower(ilStartUpGUI::class) &&
@@ -49,7 +51,7 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
         );
     }
 
-    public function shouldInterceptRequest() : bool
+    public function shouldInterceptRequest(): bool
     {
         if ($this->isInFulfillment()) {
             return false;
@@ -75,7 +77,7 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
         return false;
     }
 
-    public function execute() : void
+    public function execute(): void
     {
         $this->dic->ctrl()->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
     }

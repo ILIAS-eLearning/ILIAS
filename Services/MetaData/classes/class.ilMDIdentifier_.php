@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,27 +34,27 @@ class ilMDIdentifier_ extends ilMDBase
     private string $entry = '';
 
     // SET/GET
-    public function setCatalog(string $a_catalog) : void
+    public function setCatalog(string $a_catalog): void
     {
         $this->catalog = $a_catalog;
     }
 
-    public function getCatalog() : string
+    public function getCatalog(): string
     {
         return $this->catalog;
     }
 
-    public function setEntry(string $a_entry) : void
+    public function setEntry(string $a_entry): void
     {
         $this->entry = $a_entry;
     }
 
-    public function getEntry() : string
+    public function getEntry(): string
     {
         return $this->entry;
     }
 
-    public function save() : int
+    public function save(): int
     {
         $fields = $this->__getFields();
         $fields['meta_identifier__id'] = array('integer', $next_id = $this->db->nextId('il_meta_identifier_'));
@@ -64,7 +66,7 @@ class ilMDIdentifier_ extends ilMDBase
         return 0;
     }
 
-    public function update() : bool
+    public function update(): bool
     {
         return $this->getMetaId() && $this->db->update(
             'il_meta_identifier_',
@@ -73,7 +75,7 @@ class ilMDIdentifier_ extends ilMDBase
         );
     }
 
-    public function delete() : bool
+    public function delete(): bool
     {
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_identifier_ " .
@@ -87,7 +89,7 @@ class ilMDIdentifier_ extends ilMDBase
     /**
      * @return array<string, array<string, mixed>>
      */
-    public function __getFields() : array
+    public function __getFields(): array
     {
         return array(
             'rbac_id' => array('integer', $this->getRBACId()),
@@ -100,7 +102,7 @@ class ilMDIdentifier_ extends ilMDBase
         );
     }
 
-    public function read() : bool
+    public function read(): bool
     {
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_identifier_ " .
@@ -120,7 +122,7 @@ class ilMDIdentifier_ extends ilMDBase
         return true;
     }
 
-    public function toXML(ilXmlWriter $writer) : void
+    public function toXML(ilXmlWriter $writer): void
     {
         $writer->xmlElement('Identifier_', array(
             'Catalog' => $this->getCatalog(),
@@ -133,7 +135,7 @@ class ilMDIdentifier_ extends ilMDBase
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type) : array
+    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type): array
     {
         global $DIC;
 

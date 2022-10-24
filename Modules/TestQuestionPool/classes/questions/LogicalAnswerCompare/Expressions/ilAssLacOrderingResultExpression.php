@@ -1,7 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAbstractExpression.php";
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacSolutionExpressionInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class OrderingResultExpression for the expression $a,..,n,m$
@@ -36,7 +49,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      */
     protected $ordering;
 
-    protected function getPattern() : string
+    protected function getPattern(): string
     {
         return '/(\d+)/';
     }
@@ -48,7 +61,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->ordering = array();
 
@@ -60,7 +73,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return \int[]
      */
-    public function getOrdering() : array
+    public function getOrdering(): array
     {
         return $this->ordering;
     }
@@ -69,7 +82,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "$" . join(",", $this->ordering) . "$";
     }
@@ -78,7 +91,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return join(",", $this->ordering) . " beantwortet ";
     }
@@ -90,7 +103,7 @@ class ilAssLacOrderingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null) : bool
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $keys = $result->getUserSolutionsByIdentifier("key");
         $keys = array_filter($keys, function ($element) {

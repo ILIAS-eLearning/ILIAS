@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @author            Jesús López Reyes <lopez@leifos.com>
@@ -7,7 +9,7 @@
  */
 class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-    public function collectPropertiesAndActions() : void
+    public function collectPropertiesAndActions(): void
     {
         global $DIC;
 
@@ -81,7 +83,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
             foreach ($eventItems as $file) {
                 if ($file['type'] == "file") {
                     $this->has_files = true;
-                    $href = ilLink::_getStaticLink($file['ref_id'], "file", true, "download");
+                    $href = ilLink::_getStaticLink((int)$file['ref_id'], "file", true, "download");
                     $link = $f->link()->standard($file['title'], $href);
                     if (ilObjFileAccess::_isFileInline($file["title"])) {
                         $link = $link->withOpenInNewViewport(true);
@@ -119,7 +121,7 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
     /**
      * @return int[]
      */
-    protected function getOtherMaterials() : array
+    protected function getOtherMaterials(): array
     {
         global $DIC;
 

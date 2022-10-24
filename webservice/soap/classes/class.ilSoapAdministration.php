@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  +-----------------------------------------------------------------------------+
  | ILIAS open source                                                           |
@@ -59,7 +61,7 @@ class ilSoapAdministration
         $this->initAuthenticationObject();
     }
 
-    protected function checkSession(string $sid) : bool
+    protected function checkSession(string $sid): bool
     {
         global $DIC;
 
@@ -100,47 +102,54 @@ class ilSoapAdministration
         return true;
     }
 
-    protected function explodeSid(string $sid) : array
+    protected function explodeSid(string $sid): array
     {
         $exploded = explode('::', $sid);
 
         return is_array($exploded) ? $exploded : array('sid' => '', 'client' => '');
     }
 
-    protected function setMessage(string $a_str) : void
+    protected function setMessage(string $a_str): void
     {
         $this->message = $a_str;
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function appendMessage(string $a_str) : void
+    public function appendMessage(string $a_str): void
     {
         $this->message .= isset($this->message) ? ' ' : '';
         $this->message .= $a_str;
     }
 
-    public function setMessageCode(string $a_code) : void
+    public function setMessageCode(string $a_code): void
     {
         $this->message_code = $a_code;
     }
 
-    public function getMessageCode() : string
+    public function getMessageCode(): string
     {
         return $this->message_code;
     }
 
-    protected function initAuth(string $sid) : void
+    protected function initAuth(string $sid): void
     {
+        global $DIC;
+
         [$sid, $client] = $this->explodeSid($sid);
-        $_COOKIE['ilClientId'] = $client;
-        $_COOKIE[session_name()] = $sid;
+
+        if (isset($DIC)) {
+            ilUtil::setCookie(session_name(), $sid);
+        } else {
+            $_COOKIE['ilClientId'] = $client;
+            $_COOKIE[session_name()] = $sid;
+        }
     }
 
-    protected function initIlias() : void
+    protected function initIlias(): void
     {
         if (ilContext::getType() === ilContext::CONTEXT_SOAP) {
             try {
@@ -151,7 +160,7 @@ class ilSoapAdministration
         }
     }
 
-    protected function initAuthenticationObject() : void
+    protected function initAuthenticationObject(): void
     {
         include_once './Services/Authentication/classes/class.ilAuthFactory.php';
         ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
@@ -173,7 +182,7 @@ class ilSoapAdministration
         return null;
     }
 
-    public function isFault($object) : bool
+    public function isFault($object): bool
     {
         switch ($this->error_method) {
             case self::NUSOAP:
@@ -234,7 +243,7 @@ class ilSoapAdministration
         return $type;
     }
 
-    public function getInstallationInfoXML() : string
+    public function getInstallationInfoXML(): string
     {
         include_once "Services/Context/classes/class.ilContext.php";
         ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);

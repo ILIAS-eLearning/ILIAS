@@ -39,11 +39,10 @@ use ilUtil;
  */
 class StaffMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
     /**
      * @inheritDoc
      */
-    final public function getStaticTopItems() : array
+    final public function getStaticTopItems(): array
     {
         return [];
     }
@@ -51,7 +50,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
     /**
      * @inheritDoc
      */
-    final public function getStaticSubItems() : array
+    final public function getStaticSubItems(): array
     {
         $this->dic->language()->loadLanguageModule('mst');
         $dic = $this->dic;
@@ -81,7 +80,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                function () : bool {
+                function (): bool {
                     return (
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToMyStaff();
@@ -111,7 +110,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                function () : bool {
+                function (): bool {
                     return (
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToMyStaff();
@@ -131,12 +130,12 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(30)
             ->withAvailableCallable(
-                function () : bool {
+                function (): bool {
                     return boolval($this->dic->settings()->get("enable_my_staff"));
                 }
             )
             ->withVisibilityCallable(
-                function () : bool {
+                function (): bool {
                     return (
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToCertificates();
@@ -156,12 +155,12 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(30)
             ->withAvailableCallable(
-                function () : bool {
+                function (): bool {
                     return boolval($this->dic->settings()->get("enable_my_staff"));
                 }
             )
             ->withVisibilityCallable(
-                function () : bool {
+                function (): bool {
                     return (
                         new ilMyStaffCachedAccessDecorator($this->dic, ilMyStaffAccess::getInstance())
                     )->hasCurrentUserAccessToCompetences();

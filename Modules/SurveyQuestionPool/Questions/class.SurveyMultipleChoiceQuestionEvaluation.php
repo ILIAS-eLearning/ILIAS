@@ -23,26 +23,25 @@
  */
 class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 {
-    
     //
     // EXPORT
     //
-    
+
     public function getUserSpecificVariableTitles(
         array &$a_title_row,
         array &$a_title_row2,
         bool $a_do_title,
         bool $a_do_label
-    ) : void {
+    ): void {
         $lng = $this->lng;
-        
+
         $categories = $this->question->getCategories();
         for ($i = 0; $i < $categories->getCategoryCount(); $i++) {
             $cat = $categories->getCategory($i);
-            
+
             $a_title_row[] = $cat->title . " [" . $cat->scale . "]";
             $a_title_row2[] = "";
-            
+
             if ($cat->other) {
                 $a_title_row[] = $cat->title . " [" . $cat->scale . "]";
                 $a_title_row2[] = $lng->txt('other');
@@ -57,24 +56,24 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
         array &$a_row,
         int $a_user_id,
         $a_results
-    ) : void {
+    ): void {
         $categories = $this->question->getCategories();
-                
+
         $answers = $a_results->getUserResults($a_user_id);
         if (count($answers) === 0) {
             $a_row[] = $this->getSkippedValue();
-            
+
             for ($i = 0; $i < $categories->getCategoryCount(); $i++) {
                 $cat = $categories->getCategory($i);
                 $a_row[] = "";
-                
+
                 if ($cat->other) {
                     $a_row[] = "";
                 }
             }
         } else {
             $a_row[] = "";
-            
+
             for ($i = 0; $i < $categories->getCategoryCount(); $i++) {
                 $cat = $categories->getCategory($i);
                 $found = false;
@@ -97,7 +96,7 @@ class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
         }
     }
 
-    protected function supportsSumScore() : bool
+    protected function supportsSumScore(): bool
     {
         return true;
     }

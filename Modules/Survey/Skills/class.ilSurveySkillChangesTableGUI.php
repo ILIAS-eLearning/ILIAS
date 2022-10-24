@@ -39,13 +39,13 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+
         $this->survey = $a_survey;
         $this->appraisee = $a_appraisee;
-        
+
         $this->survey_skill = new ilSurveySkill($a_survey);
         $this->thresholds = new ilSurveySkillThresholds($a_survey);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getSkillLevelsForAppraisee();
 
@@ -56,12 +56,12 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("survey_skill"));
         $this->addColumn($this->lng->txt("survey_sum_of_means"));
         $this->addColumn($this->lng->txt("survey_reached_level"));
-        
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.survey_skill_change.html", "Modules/Survey");
     }
-    
-    public function getSkillLevelsForAppraisee() : void
+
+    public function getSkillLevelsForAppraisee(): void
     {
         $sskill = new ilSurveySkill($this->survey);
 
@@ -73,8 +73,8 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 
         $this->setData($new_levels);
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         //var_dump($a_set);

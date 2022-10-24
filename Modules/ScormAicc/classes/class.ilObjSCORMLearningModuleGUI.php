@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,13 +63,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * assign scorm object to scorm gui object
      */
-    protected function assignObject() : void
+    protected function assignObject(): void
     {
         if ($this->id != 0) {
             if ($this->call_by_reference) {
-                $this->object = new ilObjSCORMLearningModule((integer) $this->id, true);
+                $this->object = new ilObjSCORMLearningModule((int) $this->id, true);
             } else {
-                $this->object = new ilObjSCORMLearningModule((integer) $this->id, false);
+                $this->object = new ilObjSCORMLearningModule((int) $this->id, false);
             }
         }
     }
@@ -75,7 +77,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
     * scorm module properties
     */
-    public function properties() : void
+    public function properties(): void
     {
         global $DIC;
         $ilToolbar = $DIC->toolbar();
@@ -98,7 +100,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * Init properties form
      */
-    public function initPropertiesForm() : void
+    public function initPropertiesForm(): void
     {
         $obj_service = $this->object_service;
         $this->form = new ilPropertyFormGUI();
@@ -335,7 +337,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * Get values for properties form
      */
-    public function getPropertiesFormValues() : void
+    public function getPropertiesFormValues(): void
     {
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
@@ -370,7 +372,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
     * upload new version of module
     */
-    public function newModuleVersion() : void
+    public function newModuleVersion(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -426,7 +428,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $DIC['tpl']->setContent($this->form->getHTML());
     }
 
-    public function getMaxFileSize() : string
+    public function getMaxFileSize(): string
     {
         // get the value for the maximal uploadable filesize from the php.ini (if available)
         $umf = get_cfg_var("upload_max_filesize");
@@ -461,7 +463,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function newModuleVersionUpload() : void
+    public function newModuleVersionUpload(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -577,7 +579,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
         $obj_service = $this->object_service;
         $this->initPropertiesForm();
@@ -645,7 +647,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    protected function showTrackingItemsBySco() : bool
+    protected function showTrackingItemsBySco(): bool
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -691,7 +693,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Show tracking table
      * @throws ilCtrlException
      */
-    public function showTrackingItems() : bool
+    public function showTrackingItems(): bool
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -727,8 +729,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
                 } else {
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $user) {
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
-                            $usersSelected[] = $user;
+                        if (ilObject::_exists((int) $user) && ilObject::_lookUpType((int) $user) === 'usr') {
+                            $usersSelected[] = (int) $user;
                         }
                     }
                 }
@@ -749,7 +751,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    protected function modifyTrackingItems() : void
+    protected function modifyTrackingItems(): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -784,7 +786,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    protected function applyUserTableFilter() : void
+    protected function applyUserTableFilter(): void
     {
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->writeFilterToSession();
@@ -796,7 +798,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Reset table filter
      * @throws ilCtrlException
      */
-    protected function resetUserTableFilter() : void
+    protected function resetUserTableFilter(): void
     {
         $tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'modifytrackingItems');
         $tbl->resetFilter();
@@ -808,7 +810,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * display deletion confirmation screen
      * @throws ilCtrlException
      */
-    public function deleteTrackingForUser() : void
+    public function deleteTrackingForUser(): void
     {
         global $DIC;
         $ilErr = $DIC["ilErr"];
@@ -827,12 +829,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
-                $caption = ilUtil::getImageTagByType("sahs", (string) $this->tpl->tplPath) .
-                    " " . $this->lng->txt("cont_tracking_data") .
-                    ": " . $user->getLastname() . ", " . $user->getFirstname();
+                //was ilUtil::getImageTagByType("sahs", (string) $this->tpl->getValue("TPLPATH")) .
+                $caption = $this->lng->txt("cont_tracking_data") . ": " . $user->getLastname() . ", " . $user->getFirstname();
 
-
-                $cgui->addItem("user[]", $id, $caption);
+                $cgui->addItem("user[]", (string) $id, $caption);
             }
         }
 
@@ -843,7 +843,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * cancel deletion of export files
      * @throws ilCtrlException
      */
-    public function cancelDeleteTracking() : void
+    public function cancelDeleteTracking(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "modifyTrackingItems");
@@ -852,7 +852,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    public function confirmedDeleteTracking() : void
+    public function confirmedDeleteTracking(): void
     {
         $this->object->deleteTrackingDataOfUsers($this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         $this->ctrl->redirect($this, "modifyTrackingItems");
@@ -862,7 +862,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * overwrite..jump back to trackingdata not parent
      * @throws ilCtrlException
      */
-    public function cancel() : void
+    public function cancel(): void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, "properties");
@@ -872,7 +872,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * gui functions for GUI export
      * @throws ilCtrlException
      */
-    protected function import() : void
+    protected function import(): void
     {
         $form = $this->initImportForm("");
         if ($form->checkInput()) {
@@ -898,7 +898,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Show import form
      * @throws ilCtrlException
      */
-    protected function importForm() : void
+    protected function importForm(): void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -914,7 +914,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Init import form
      * @throws ilCtrlException
      */
-    protected function initImportForm(string $new_type) : ilPropertyFormGUI
+    protected function initImportForm(string $new_type): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -933,7 +933,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * Show export section for all users
      */
-    protected function exportAll() : void
+    protected function exportAll(): void
     {
         $this->object->exportSelected(true);
     }
@@ -942,7 +942,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      * Export selection for selected users
      * @throws ilCtrlException
      */
-    protected function exportSelectionUsers() : void
+    protected function exportSelectionUsers(): void
     {
         if (!$this->post_wrapper->has('user')) {
             //was if (!count((array) $_POST['user'])) {
@@ -958,7 +958,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
      * @throws ilCtrlException
      */
-    public function setSubTabs() : void
+    public function setSubTabs(): void
     {
         global $DIC;
         $lng = $DIC->language();

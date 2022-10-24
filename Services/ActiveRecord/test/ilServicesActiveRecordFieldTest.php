@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -24,25 +26,25 @@ class ilServicesActiveRecordFieldTest extends TestCase
      * @var ilDBInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $db_mock;
-    
-    protected function setUp() : void
+
+    protected function setUp(): void
     {
         global $DIC;
         $this->dic_backup = is_object($DIC) ? clone $DIC : $DIC;
-        
+
         $DIC = new Container();
         $DIC['ilDB'] = $this->db_mock = $this->createMock(ilDBInterface::class);
     }
-    
-    protected function tearDown() : void
+
+    protected function tearDown(): void
     {
         global $DIC;
         $DIC = $this->dic_backup;
     }
-    
-    public function testFieldList() : void
+
+    public function testFieldList(): void
     {
-        $test_ar = new class extends ActiveRecord {
+        $test_ar = new class () extends ActiveRecord {
             /**
              * @var int
              *
@@ -53,7 +55,7 @@ class ilServicesActiveRecordFieldTest extends TestCase
              * @con_length     8
              */
             protected int $id = 0;
-            
+
             /**
              * @var string
              *
@@ -63,22 +65,22 @@ class ilServicesActiveRecordFieldTest extends TestCase
              * @con_length     256
              */
             protected string $string_data;
-            
-            public function getConnectorContainerName() : string
+
+            public function getConnectorContainerName(): string
             {
                 return 'table_name';
             }
         };
-        
+
         $field_list = arFieldList::getInstance($test_ar);
-        
+
         $primary_field = $field_list->getPrimaryField();
         $this->assertEquals('id', $primary_field->getName());
         $this->assertEquals(8, $primary_field->getLength());
         $this->assertEquals('integer', $primary_field->getFieldType());
         $this->assertEquals(false, $primary_field->getIndex());
         $this->assertEquals(true, $primary_field->getPrimary());
-        
+
         $string_field = $field_list->getFieldByName('string_data');
         $this->assertEquals('string_data', $string_field->getName());
         $this->assertEquals(256, $string_field->getLength());

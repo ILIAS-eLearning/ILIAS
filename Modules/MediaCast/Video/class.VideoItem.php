@@ -58,47 +58,47 @@ class VideoItem
         $this->duration = $duration;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getTime() : int
+    public function getTime(): int
     {
         return $this->time;
     }
 
-    public function getMime() : string
+    public function getMime(): string
     {
         return $this->mime;
     }
 
-    public function getResource() : string
+    public function getResource(): string
     {
         return $this->resource;
     }
 
-    public function getPreviewPic() : string
+    public function getPreviewPic(): string
     {
         return $this->preview_pic;
     }
 
-    public function getPlayingTime() : string
+    public function getPlayingTime(): string
     {
         return $this->playing_time;
     }
 
-    public function getDuration() : int
+    public function getDuration(): int
     {
         return $this->duration;
     }

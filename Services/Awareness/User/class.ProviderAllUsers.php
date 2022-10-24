@@ -35,7 +35,7 @@ class ProviderAllUsers implements Provider
         $this->lng = $DIC->language();
     }
 
-    public function getProviderId() : string
+    public function getProviderId(): string
     {
         return "user_all";
     }
@@ -44,7 +44,7 @@ class ProviderAllUsers implements Provider
      * Provider title (used in awareness overlay and in administration settings)
      * @return string provider title
      */
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $this->lng->loadLanguageModule("user");
         return $this->lng->txt("user_awrn_all_users");
@@ -54,7 +54,7 @@ class ProviderAllUsers implements Provider
      * Provider info (used in administration settings)
      * @return string provider info text
      */
-    public function getInfo() : string
+    public function getInfo(): string
     {
         $this->lng->loadLanguageModule("user");
         return $this->lng->txt("user_awrn_all_users_info");
@@ -65,7 +65,7 @@ class ProviderAllUsers implements Provider
      * @param ?int[] $user_ids
      * @return int[] array of user IDs
      */
-    public function getInitialUserSet(?array $user_ids = null) : array
+    public function getInitialUserSet(?array $user_ids = null): array
     {
         $ilDB = $this->db;
 
@@ -82,7 +82,7 @@ class ProviderAllUsers implements Provider
         return $ub;
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return false;
     }

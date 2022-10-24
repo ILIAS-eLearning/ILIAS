@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class SequentialTest extends TestCase
     private Refinery $refinery;
     private Constraint $c;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->df = new DataFactory();
         $this->lng = $this->createMock(ilLanguage::class);
@@ -55,34 +57,34 @@ class SequentialTest extends TestCase
             ->sequential([$greater_than_3, $less_than_5]);
     }
 
-    public function testAccepts() : void
+    public function testAccepts(): void
     {
         $this->assertTrue($this->c->accepts(4));
     }
 
-    public function testNotAccepts() : void
+    public function testNotAccepts(): void
     {
         $this->assertFalse($this->c->accepts(2));
     }
 
-    public function testCheckSucceed() : void
+    public function testCheckSucceed(): void
     {
         $this->c->check(4);
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails() : void
+    public function testCheckFails(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $this->c->check(2);
     }
 
-    public function testNoProblemWith() : void
+    public function testNoProblemWith(): void
     {
         $this->assertNull($this->c->problemWith(4));
     }
 
-    public function testProblemWith1() : void
+    public function testProblemWith1(): void
     {
         $this->lng
             ->expects($this->never())
@@ -91,7 +93,7 @@ class SequentialTest extends TestCase
         $this->assertEquals("not_greater_than_3", $this->c->problemWith(2));
     }
 
-    public function testProblemWith2() : void
+    public function testProblemWith2(): void
     {
         $this->lng
             ->expects($this->never())
@@ -100,7 +102,7 @@ class SequentialTest extends TestCase
         $this->assertEquals("not_less_than_5", $this->c->problemWith(6));
     }
 
-    public function testRestrictOk() : void
+    public function testRestrictOk(): void
     {
         $ok = $this->df->ok(4);
 
@@ -108,7 +110,7 @@ class SequentialTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk() : void
+    public function testRestrictNotOk(): void
     {
         $not_ok = $this->df->ok(7);
 
@@ -116,7 +118,7 @@ class SequentialTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError() : void
+    public function testRestrictError(): void
     {
         $error = $this->df->error("error");
 
@@ -124,9 +126,9 @@ class SequentialTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder() : void
+    public function testWithProblemBuilder(): void
     {
-        $new_c = $this->c->withProblemBuilder(static function () : string {
+        $new_c = $this->c->withProblemBuilder(static function (): string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith(7));

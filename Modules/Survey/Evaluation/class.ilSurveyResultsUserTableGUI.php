@@ -38,7 +38,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->counter = 1;
-        
+
         $this->setFormName('invitegroups');
         $this->setStyle('table', 'fullwidth');
 
@@ -66,15 +66,15 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("workingtime"), '', '');
             $this->addColumn($this->lng->txt("survey_results_finished"), '', '');
         }
-        
+
         $this->setDefaultOrderField('username');
 
 
         $this->enable('header');
         $this->disable('select_all');
     }
-    
-    protected function formatTime(?int $timeinseconds) : string
+
+    protected function formatTime(?int $timeinseconds): string
     {
         if (is_null($timeinseconds)) {
             return " ";
@@ -85,11 +85,11 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("USERNAME", $a_set['username']);
         $this->tpl->setVariable("QUESTION", $a_set['question']);
-        $results = array_map(static function ($i) : string {
+        $results = array_map(static function ($i): string {
             return htmlentities($i);
         }, $a_set["results"]);
         $this->tpl->setVariable("RESULTS", $results
@@ -107,14 +107,14 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("FINISHED", "&nbsp;");
         }
-        
+
         if (isset($a_set["subitems"])) {
             $this->tpl->setCurrentBlock("tbl_content");
             $this->tpl->parseCurrentBlock();
-            
+
             foreach ($a_set["subitems"] as $subitem) {
                 $this->fillRow($subitem);
-                
+
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"

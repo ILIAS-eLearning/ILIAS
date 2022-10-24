@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -45,42 +60,42 @@ class ASS_Mark
         $this->setPassed($passed);
     }
 
-    public function getShortName() : string
+    public function getShortName(): string
     {
         return $this->short_name;
     }
-  
-    public function getPassed() : int
+
+    public function getPassed(): int
     {
         return $this->passed;
     }
-  
-    public function getOfficialName() : string
+
+    public function getOfficialName(): string
     {
         return $this->official_name;
     }
-  
-    public function getMinimumLevel() : float
+
+    public function getMinimumLevel(): float
     {
         return $this->minimum_level;
     }
-  
-    public function setShortName(string $short_name = "") : void
+
+    public function setShortName(string $short_name = ""): void
     {
         $this->short_name = $short_name;
     }
 
-    public function setPassed($passed = 0) : void
+    public function setPassed($passed = 0): void
     {
         $this->passed = $passed;
     }
 
-    public function setOfficialName(string $official_name = "") : void
+    public function setOfficialName(string $official_name = ""): void
     {
         $this->official_name = $official_name;
     }
 
-    public function setMinimumLevel($minimum_level) : void
+    public function setMinimumLevel($minimum_level): void
     {
         $minimum_level = (float) $minimum_level;
 

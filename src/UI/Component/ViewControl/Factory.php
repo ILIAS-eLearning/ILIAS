@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Button\Button;
@@ -51,7 +53,7 @@ interface Factory
      * @param string $aria_label Defines the functionality.
      * @return \ILIAS\UI\Component\ViewControl\Mode
      */
-    public function mode(array $labelled_actions, string $aria_label) : Mode;
+    public function mode(array $labelled_actions, string $aria_label): Mode;
 
     /**
      * ---
@@ -72,7 +74,7 @@ interface Factory
      * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
-    public function section(Button $previous_action, Component $button, Button $next_action) : Section;
+    public function section(Button $previous_action, Component $button, Button $next_action): Section;
 
     /**
      * ---
@@ -100,7 +102,7 @@ interface Factory
      * @param array<string,string>  $options 	a dictionary with value=>title
      * @return \ILIAS\UI\Component\ViewControl\Sortation
      */
-    public function sortation(array $options) : Sortation;
+    public function sortation(array $options): Sortation;
 
     /**
      * ---
@@ -141,5 +143,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\ViewControl\Pagination
      */
-    public function pagination() : Pagination;
+    public function pagination(): Pagination;
 }

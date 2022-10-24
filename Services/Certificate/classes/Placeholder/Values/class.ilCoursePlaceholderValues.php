@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -88,7 +90,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * @param mixed $possibleDate
      * @return bool
      */
-    private function hasCompletionDate($possibleDate) : bool
+    private function hasCompletionDate($possibleDate): bool
     {
         return (
             $possibleDate !== false &&
@@ -112,7 +114,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * @throws ilInvalidCertificateException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $userId, int $objId): array
     {
         $courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
@@ -152,7 +154,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * @throws ilException
      * @throws ilObjectNotFoundException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId): array
     {
         $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 

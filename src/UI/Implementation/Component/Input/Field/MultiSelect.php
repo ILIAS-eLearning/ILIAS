@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -51,7 +53,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -59,7 +61,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         if (is_null($value)) {
             return true;
@@ -78,7 +80,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return $this->refinery->custom()->constraint(
             fn ($value) => is_array($value) && count($value) > 0,
@@ -89,7 +91,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "var checkedBoxes = function() {
 				var options = [];
@@ -110,7 +112,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    public function isComplex() : bool
+    public function isComplex(): bool
     {
         return $this->complex;
     }

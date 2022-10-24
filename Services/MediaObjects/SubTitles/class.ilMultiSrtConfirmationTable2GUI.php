@@ -40,7 +40,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->mob = $a_parent_obj->object;
+        $this->mob = $a_parent_obj->getObject();
         $lng->loadLanguageModule("meta");
 
         $this->setId("mob_msrt_upload");
@@ -61,7 +61,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
 

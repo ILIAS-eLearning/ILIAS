@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -34,10 +36,10 @@
 
 class ilForumSearch extends ilAbstractSearch
 {
-    public function performSearch() : ilSearchResult
+    public function performSearch(): ilSearchResult
     {
         // Search in topic titles, posting title, posting
-        
+
         // First: search topics:
         $this->setFields(array('thr_subject'));
 
@@ -51,7 +53,7 @@ class ilForumSearch extends ilAbstractSearch
             $and;
 
         $res = $this->db->query($query);
-        
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             #$thread_post = $row->thr_pk.'_0';
             $thread_post = $row->thr_pk;
@@ -74,7 +76,7 @@ class ilForumSearch extends ilAbstractSearch
             "FROM  frm_posts,frm_data " .
             "WHERE pos_top_fk = top_pk " .
             $and;
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             #$thread_post = $row->pos_thr_fk.'_'.$row->pos_pk;

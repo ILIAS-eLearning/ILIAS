@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -33,7 +35,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getHash() : string
+    public function getHash(): string
     {
         return hash("sha256", self::class);
     }
@@ -41,7 +43,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * Return installed languages
      */
-    protected function getInstallLanguages() : array
+    protected function getInstallLanguages(): array
     {
         return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
     }
@@ -49,7 +51,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * Return installed local languages
      */
-    protected function getInstallLocalLanguages() : array
+    protected function getInstallLocalLanguages(): array
     {
         return $this->il_setup_language->getInstalledLocalLanguages();
     }
@@ -57,7 +59,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
     }
@@ -65,7 +67,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isNotable() : bool
+    public function isNotable(): bool
     {
         return true;
     }
@@ -73,7 +75,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getPreconditions(Setup\Environment $environment): array
     {
         return [];
     }
@@ -81,7 +83,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function achieve(Setup\Environment $environment): Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
@@ -104,7 +106,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     /**
      * @inheritDoc
      */
-    public function isApplicable(Setup\Environment $environment) : bool
+    public function isApplicable(Setup\Environment $environment): bool
     {
         return true;
     }

@@ -19,6 +19,7 @@
 /**
  * User interface for media player. Wraps flash mp3 player and similar tools.
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated use KS Player element instead
  */
 class ilMediaPlayerGUI
 {
@@ -58,22 +59,22 @@ class ilMediaPlayerGUI
 
     public function setFile(
         string $a_file
-    ) : void {
+    ): void {
         $this->file = $a_file;
     }
 
-    public function getFile() : string
+    public function getFile(): string
     {
         return $this->file;
     }
 
     public function setAlternativeVideoFile(
         string $a_val
-    ) : void {
+    ): void {
         $this->alt_video_file = $a_val;
     }
 
-    public function getAlternativeVideoFile() : string
+    public function getAlternativeVideoFile(): string
     {
         return $this->alt_video_file;
     }
@@ -84,36 +85,36 @@ class ilMediaPlayerGUI
      */
     public function setAlternativeVideoMimeType(
         string $a_val
-    ) : void {
+    ): void {
         $this->alt_video_mime = $a_val;
     }
 
-    public function getAlternativeVideoMimeType() : string
+    public function getAlternativeVideoMimeType(): string
     {
         return $this->alt_video_mime;
     }
 
-    public function setDisplayHeight(int $dHeight) : void
+    public function setDisplayHeight(int $dHeight): void
     {
         $this->displayHeight = $dHeight;
     }
 
-    public function getDisplayHeight() : int
+    public function getDisplayHeight(): int
     {
         return $this->displayHeight;
     }
 
-    public function setDisplayWidth(int $a_val) : void
+    public function setDisplayWidth(int $a_val): void
     {
         $this->displayWidth = $a_val;
     }
 
-    public function getDisplayWidth() : int
+    public function getDisplayWidth(): int
     {
         return $this->displayWidth;
     }
 
-    public function setMimeType(string $value) : void
+    public function setMimeType(string $value): void
     {
         $this->mimeType = $value;
     }
@@ -124,32 +125,32 @@ class ilMediaPlayerGUI
     public function setVideoPreviewPic(
         string $a_val,
         string $a_alt = ""
-    ) : void {
+    ): void {
         $this->video_preview_pic = $a_val;
         $this->video_preview_pic_alt = $a_alt;
     }
 
-    public function getVideoPreviewPic() : string
+    public function getVideoPreviewPic(): string
     {
         return $this->video_preview_pic;
     }
 
-    public function setTitle(string $a_val) : void
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setDescription(string $a_val) : void
+    public function setDescription(string $a_val): void
     {
         $this->description = $a_val;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -157,29 +158,29 @@ class ilMediaPlayerGUI
     /**
      * Force audio preview
      */
-    public function setForceAudioPreview(bool $a_val) : void
+    public function setForceAudioPreview(bool $a_val): void
     {
         $this->force_audio_preview = $a_val;
     }
 
-    public function getForceAudioPreview() : bool
+    public function getForceAudioPreview(): bool
     {
         return $this->force_audio_preview;
     }
 
-    public function setDownloadLink(string $a_val) : void
+    public function setDownloadLink(string $a_val): void
     {
         $this->download_link = $a_val;
     }
 
-    public function getDownloadLink() : string
+    public function getDownloadLink(): string
     {
         return $this->download_link;
     }
 
     public static function initJavascript(
         ilGlobalTemplateInterface $a_tpl = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $tpl = $DIC["tpl"];
@@ -200,7 +201,7 @@ class ilMediaPlayerGUI
      */
     public function getMp3PlayerHtml(
         bool $a_preview = false
-    ) : string {
+    ): string {
         $tpl = $this->tpl;
         $lng = $this->lng;
 
@@ -480,7 +481,7 @@ class ilMediaPlayerGUI
         return "";
     }
 
-    public function getPreviewHtml() : string
+    public function getPreviewHtml(): string
     {
         return $this->getMp3PlayerHtml(true);
     }
@@ -488,7 +489,7 @@ class ilMediaPlayerGUI
     /**
      * Get HTML (no preview) for media player integration
      */
-    public function getMediaPlayerHtml() : string
+    public function getMediaPlayerHtml(): string
     {
         return $this->getMp3PlayerHtml(false);
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Toast;
 
 use ILIAS\UI\Component\Symbol\Icon\Icon;
@@ -54,7 +56,7 @@ interface Factory
      *
      * @return  \ILIAS\UI\Component\Toast\Toast
      */
-    public function standard($title, Icon $icon) : Toast;
+    public function standard($title, Icon $icon): Toast;
 
     /**
      * ---
@@ -79,5 +81,5 @@ interface Factory
      *
      * @return  \ILIAS\UI\Component\Toast\Container
      */
-    public function container() : Container;
+    public function container(): Container;
 }

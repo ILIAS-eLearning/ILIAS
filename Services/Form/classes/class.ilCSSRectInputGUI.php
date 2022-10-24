@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $bottom = "";
     protected int $size = 0;
     protected bool $useUnits = false;
-    
+
     /**
     * Constructor
     *
@@ -46,7 +48,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->useUnits = true;
     }
 
-    public function setValue(array $valueArray) : void
+    public function setValue(array $valueArray): void
     {
         $this->top = $valueArray['top'];
         $this->left = $valueArray['left'];
@@ -54,65 +56,65 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->bottom = $valueArray['bottom'];
     }
 
-    public function setUseUnits(bool $a_value) : void
+    public function setUseUnits(bool $a_value): void
     {
         $this->useUnits = $a_value;
     }
 
-    public function useUnits() : bool
+    public function useUnits(): bool
     {
         return $this->useUnits;
     }
 
-    public function setTop(string $a_value) : void
+    public function setTop(string $a_value): void
     {
         $this->top = $a_value;
     }
 
-    public function getTop() : string
+    public function getTop(): string
     {
         return $this->top;
     }
 
-    public function setBottom(string $a_value) : void
+    public function setBottom(string $a_value): void
     {
         $this->bottom = $a_value;
     }
 
-    public function getBottom() : string
+    public function getBottom(): string
     {
         return $this->bottom;
     }
 
-    public function setLeft(string $a_value) : void
+    public function setLeft(string $a_value): void
     {
         $this->left = $a_value;
     }
 
-    public function getLeft() : string
+    public function getLeft(): string
     {
         return $this->left;
     }
 
-    public function setRight(string $a_value) : void
+    public function setRight(string $a_value): void
     {
         $this->right = $a_value;
     }
 
-    public function getRight() : string
+    public function getRight(): string
     {
         return $this->right;
     }
 
-    public function setSize(int $a_size) : void
+    public function setSize(int $a_size): void
     {
         $this->size = $a_size;
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         $postVar = $this->getPostVar();
-        
+
         $positions = ['top', 'left', 'right', 'bottom'];
         $values = [
             'top' => '',
@@ -120,7 +122,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
             'right' => '',
             'left' => '',
         ];
-        
+
         foreach ($positions as $position) {
             if (isset($a_values[$postVar . '_' . $position])) {
                 $values[$position] = $a_values[$postVar . '_' . $position];
@@ -132,12 +134,12 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         $this->setValue($values);
     }
 
-    public function getSize() : int
+    public function getSize(): int
     {
         return $this->size;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         $lng = $this->lng;
 
@@ -167,7 +169,7 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : array
+    public function getInput(): array
     {
         $val = $this->strArray($this->getPostVar());
         $ret[$this->getPostVar() . '_top'] = trim($val['top']);
@@ -177,10 +179,10 @@ class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
         return $ret;
     }
 
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         $lng = $this->lng;
-        
+
         if (strlen($this->getTop())) {
             $a_tpl->setCurrentBlock("cssrect_value_top");
             $a_tpl->setVariable("CSSRECT_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getTop()));

@@ -64,7 +64,7 @@ class ilLikeGUI
         $this->initJavascript();
     }
 
-    protected function initJavascript() : void
+    protected function initJavascript(): void
     {
         $this->main_tpl->addJavaScript("./Services/Like/js/Like.js");
     }
@@ -75,7 +75,7 @@ class ilLikeGUI
         int $a_sub_obj_id = 0,
         string $a_sub_obj_type = "",
         int $a_news_id = 0
-    ) : void {
+    ): void {
         $this->obj_id = $a_obj_id;
         $this->obj_type = $a_obj_type;
         $this->sub_obj_id = $a_sub_obj_id;
@@ -85,7 +85,7 @@ class ilLikeGUI
             $this->sub_obj_type . "_" . $this->news_id;
     }
 
-    public function executeCommand() : string
+    public function executeCommand(): string
     {
         $ilCtrl = $this->ctrl;
 
@@ -102,7 +102,7 @@ class ilLikeGUI
         return "";
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
@@ -143,7 +143,7 @@ class ilLikeGUI
     protected function renderEmoCounters(
         ILIAS\UI\Component\Signal $modal_signal = null,
         bool $unavailable = false
-    ) : string {
+    ): string {
         $ilCtrl = $this->ctrl;
 
         $tpl = new ilTemplate("tpl.emo_counters.html", true, true, "Services/Like");
@@ -187,7 +187,7 @@ class ilLikeGUI
     protected function getGlyphForConst(
         int $a_const,
         bool $unavailable = false
-    ) : ?\ILIAS\UI\Component\Symbol\Glyph\Glyph {
+    ): ?\ILIAS\UI\Component\Symbol\Glyph\Glyph {
         $f = $this->ui->factory();
         $like = null;
         switch ($a_const) {
@@ -208,7 +208,7 @@ class ilLikeGUI
     /**
      * Render emoticons (asynch)
      */
-    public function renderEmoticons() : void
+    public function renderEmoticons(): void
     {
         $ilCtrl = $this->ctrl;
         $r = $this->ui->renderer();
@@ -252,7 +252,7 @@ class ilLikeGUI
      * Save expression (asynch)
      * @throws ilLikeDataException
      */
-    protected function saveExpression() : void
+    protected function saveExpression(): void
     {
         $exp_key = $this->request->getExpressionKey();
         $exp_val = $this->request->getValue();
@@ -291,7 +291,7 @@ class ilLikeGUI
      * @throws ilLikeDataException
      * @throws ilWACException
      */
-    public function renderModal() : void
+    public function renderModal(): void
     {
         $user = $this->user;
 
@@ -339,7 +339,7 @@ class ilLikeGUI
      */
     public static function getExpressionText(
         int $a_const
-    ) : string {
+    ): string {
         global $DIC;
 
         $lng = $DIC->language();

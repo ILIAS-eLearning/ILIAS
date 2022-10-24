@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTestRandomQuestionSetQuestionCollectionTest
@@ -10,19 +26,19 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionSetQuestionCollection $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->testObj = new ilTestRandomQuestionSetQuestionCollection();
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetQuestionCollection::class, $this->testObj);
     }
 
-    public function testQuestions() : void
+    public function testQuestions(): void
     {
         $expected = [
             new ilTestRandomQuestionSetQuestion(),
@@ -33,7 +49,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($expected, $this->testObj->getQuestions());
     }
 
-    public function testAddQuestions() : void
+    public function testAddQuestions(): void
     {
         $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
         $this->testObj->addQuestion(new ilTestRandomQuestionSetQuestion());
@@ -41,7 +57,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertCount(3, $this->testObj->getQuestions());
     }
 
-    public function testCurrent() : void
+    public function testCurrent(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -56,7 +72,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($questions[0], $this->testObj->current());
     }
 
-    public function testNext() : void
+    public function testNext(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -71,7 +87,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($questions[1], $this->testObj->next());
     }
 
-    public function testKey() : void
+    public function testKey(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -90,7 +106,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals(2, $this->testObj->key());
     }
 
-    public function testValid() : void
+    public function testValid(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -108,7 +124,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertFalse($this->testObj->valid());
     }
 
-    public function testRewind() : void
+    public function testRewind(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -130,7 +146,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($questions[0], $this->testObj->current());
     }
 
-    public function testIsGreaterThan() : void
+    public function testIsGreaterThan(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -147,7 +163,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertFalse($this->testObj->isGreaterThan(6));
     }
 
-    public function testIsSmallerThan() : void
+    public function testIsSmallerThan(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -164,7 +180,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isSmallerThan(6));
     }
 
-    public function testGetMissingCount() : void
+    public function testGetMissingCount(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -181,7 +197,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals(3, $this->testObj->getMissingCount(6));
     }
 
-    public function testMergeQuestionCollection() : void
+    public function testMergeQuestionCollection(): void
     {
         $questions = [];
         $ids = [125, 112, 10];
@@ -207,7 +223,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals($questions, $this->testObj->getQuestions());
     }
 
-    public function testGetUniqueQuestionCollection() : void
+    public function testGetUniqueQuestionCollection(): void
     {
         $ids = [125, 112, 10, 112];
         foreach ($ids as $id) {
@@ -219,7 +235,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertCount(3, $this->testObj->getUniqueQuestionCollection()->getQuestions());
     }
 
-    public function testGetQuestionAmount() : void
+    public function testGetQuestionAmount(): void
     {
         $ids = [125, 112, 10];
         foreach ($ids as $id) {
@@ -231,7 +247,7 @@ class ilTestRandomQuestionSetQuestionCollectionTest extends ilTestBaseTestCase
         $this->assertEquals(3, $this->testObj->getQuestionAmount());
     }
 
-    public function testGetInvolvedQuestionIds() : void
+    public function testGetInvolvedQuestionIds(): void
     {
         $ids = [125, 112, 10];
         foreach ($ids as $id) {

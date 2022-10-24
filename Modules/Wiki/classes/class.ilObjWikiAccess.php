@@ -37,18 +37,18 @@ class ilObjWikiAccess extends ilObjectAccess
     }
 
 
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show",
                 "default" => true),
             array("permission" => "write", "cmd" => "editSettings", "lang_var" => "settings")
         );
-        
+
         return $commands;
     }
-    
-    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null): bool
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -68,7 +68,7 @@ class ilObjWikiAccess extends ilObjectAccess
                     return false;
                 }
                 break;
-                
+
             // for permission query feature
             case "infoScreen":
                 if (!self::_lookupOnline($obj_id)) {
@@ -99,7 +99,7 @@ class ilObjWikiAccess extends ilObjectAccess
         return true;
     }
 
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 
@@ -110,11 +110,11 @@ class ilObjWikiAccess extends ilObjectAccess
         if ($t_arr[0] !== "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] !== "wpage") {
             return false;
         }
-        
+
         if ($t_arr[1] === "wpage") {
             $wpg_id = (int) $t_arr[2];
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
-            if ((int) $t_arr[3] > 0) {
+            if ((int) ($t_arr[3] ?? 0) > 0) {
                 $refs = array((int) $t_arr[3]);
             } else {
                 $refs = ilObject::_getAllReferences($w_id);
@@ -131,8 +131,8 @@ class ilObjWikiAccess extends ilObjectAccess
         }
         return false;
     }
-    
-    public static function _lookupOnline(int $a_id) : bool
+
+    public static function _lookupOnline(int $a_id): bool
     {
         global $DIC;
 
@@ -150,7 +150,7 @@ class ilObjWikiAccess extends ilObjectAccess
      * see legacyOnlineFilter in ilContainer
      * @deprecated
      */
-    public static function _lookupOnlineStatus(array $a_ids) : array
+    public static function _lookupOnlineStatus(array $a_ids): array
     {
         global $DIC;
 
@@ -170,7 +170,7 @@ class ilObjWikiAccess extends ilObjectAccess
     /**
      * Check wether files should be public
      */
-    public static function _lookupPublicFiles(int $a_id) : bool
+    public static function _lookupPublicFiles(int $a_id): bool
     {
         global $DIC;
 

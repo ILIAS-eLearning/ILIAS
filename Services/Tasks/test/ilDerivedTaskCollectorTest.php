@@ -22,7 +22,7 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilDerivedTaskCollectorTest extends ilTasksTestBase
 {
-    public function testGetEntries() : void
+    public function testGetEntries(): void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();

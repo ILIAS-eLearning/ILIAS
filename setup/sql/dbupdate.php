@@ -216,7 +216,7 @@ if (count($grp_data) > 0) {
         $res = $this->db->query($q);
         $row = $res->fetchRow();
         $entry["ref_id"] = $row[0];
-    
+
         $q = "UPDATE grp_data SET ref_id='" . $entry["ref_id"] . "' WHERE child='" . $entry["child"] . "'";
         $this->db->query($q);
     }
@@ -1143,7 +1143,7 @@ if ($row->ref_id > 0) {
     $tree = new ilTree(ROOT_FOLDER_ID);
 
     $ldap_node = $tree->getNodeData($row->ref_id);
-    
+
     // check if ldap is already deactivated
     if ($ldap_node["tree"] > 0) {
         // remove ldap node from tree
@@ -1303,7 +1303,7 @@ foreach ($arr_roles as $role) {
             }
         }
     } // end if local roles
-    
+
     foreach ($rbac_objects_temp as $key => $obj_data) {
         $arr_selected = $rbacreview->getOperationsOfRole($role["rol_id"], $obj_data["type"], $role["rolf_id"]);
 
@@ -1329,7 +1329,7 @@ foreach ($arr_roles as $role) {
                     $arr_selected[] = "26";
 
                     break;
-        
+
                 case "cat":
                     $arr_selected[] = "16";
                     $arr_selected[] = "17";
@@ -2416,11 +2416,11 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
     // DELETE ACTUAL ROLE FOLDER FROM ARRAY
     $key = array_keys($all_parent_obj_of_rolf, $node_id);
-    
+
     unset($all_parent_obj_of_rolf[$key[0]]);
-    
+
     $check = false;
-    
+
     foreach ($subtree_nodes as $node) {
         if (!$check) {
             if (in_array($node["child"], $all_parent_obj_of_rolf)) {
@@ -2440,7 +2440,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             }
         }
     }
-    
+
     // prepare arrays for permission settings below
     foreach ($valid_nodes as $key => $node) {
         $node_ids[] = $node["child"];
@@ -2516,11 +2516,11 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
     // DELETE ACTUAL ROLE FOLDER FROM ARRAY
     $key = array_keys($all_parent_obj_of_rolf, $node_id);
-    
+
     unset($all_parent_obj_of_rolf[$key[0]]);
 
     $check = false;
-    
+
     foreach ($subtree_nodes as $node) {
         if (!$check) {
             if (in_array($node["child"], $all_parent_obj_of_rolf)) {
@@ -2529,7 +2529,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $check = true;
                 continue;
             }
-    
+
             $valid_nodes[] = $node;
         } else {
             if (($node["lft"] > $lft) && ($node["rgt"] < $rgt)) {
@@ -2549,7 +2549,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
     // FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
     $rbacadmin->revokePermissionList($node_ids, $dest_role_id);
-    
+
     // NOW SET ALL PERMISSIONS
     foreach ($valid_nodes as $node) {
         if (is_array($node["perms"])) {
@@ -6386,7 +6386,7 @@ foreach ($webr_ids as $id => $data) {
     }
     $log->write("test&assessment: conversion completed. maximum available points for every question");
 
-    
+
     $log->write("test&assessment: starting with conversion. creating database entry for reached points of every user for every processed question");
     // update code
     $idx = 1;
@@ -6822,7 +6822,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         $md = new ilMD($row_pg->lm_id, $row_pg->obj_id, $row_pg->type);
         $md->deleteAll();
         unset($md);
-               
+
         // Get xml data
         if ($xml = $nested->export($row_pg->obj_id, $row_pg->type)) {
             $parser = new ilMDXMLParser($xml, $row_pg->lm_id, $row_pg->obj_id, $row_pg->type);
@@ -6932,7 +6932,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         $md = new ilMD($row->obj_id, $row_gdf->gdid, 'gdf');
         $md->deleteAll();
         unset($md);
-               
+
         // Get xml data
         if ($xml = $nested->export($row_gdf->gdid, 'gdf')) {
             $log->write('xml: ' . $xml);
@@ -7470,7 +7470,7 @@ foreach ($rol_ids as $role_id) {
     if (!in_array($search_ops, $ops)) {
         $query = "DELETE FROM rbac_pa WHERE rol_id = '" . $role_id . "' and ref_id = '" . $ref_id . "'";
         $this->db->query($query);
-        
+
         $ops[] = $search_ops;
         $query = "INSERT INTO rbac_pa SET rol_id = '" . $role_id . "', " .
             "ops_id = '" . addslashes(serialize($ops)) . "', " .
@@ -7789,14 +7789,14 @@ if (count($icla_nodes) != 0) {
     foreach ($icla_nodes as $node) {
         // first look up for rolefolders
         $rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
-        
+
         if ($rolf) {
             // remove local roles
             $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"], false);
             foreach ($roles as $role_id) {
                 $rbacadmin->deleteRole($role_id, $rolf["ref_id"]);
             }
-            
+
             // remove linked local roles
             $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
             foreach ($roles as $role_id) {
@@ -7806,11 +7806,11 @@ if (count($icla_nodes) != 0) {
             // delete rbac_fa entry
             $query = "DELETE FROM rbac_fa WHERE parent = '" . $rolf["ref_id"] . "'";
             $this->db->query($query);
-            
+
             // delete entry in object_data
             $query = "DELETE FROM object_data WHERE obj_id = '" . $rolf["obj_id"] . "'";
             $this->db->query($query);
-            
+
             // delete entry in object_reference
             $query = "DELETE FROM object_reference WHERE ref_id = '" . $rolf["ref_id"] . "'";
             $this->db->query($query);
@@ -7818,18 +7818,18 @@ if (count($icla_nodes) != 0) {
             // remove tree entry
             $tree->deleteTree($rolf);
         }
-        
+
         // delete entry in object_data
         $query = "DELETE FROM object_data WHERE obj_id = '" . $node["obj_id"] . "'";
         $this->db->query($query);
-        
+
         // delete entry in object_reference
         $query = "DELETE FROM object_reference WHERE ref_id = '" . $node["ref_id"] . "'";
         $this->db->query($query);
-        
+
         // remove permission settings
         $rbacadmin->revokePermission($node["ref_id"]);
-        
+
         // remove tree entry
         $tree->deleteTree($node);
     }
@@ -7841,28 +7841,28 @@ if (count($icrs_nodes) != 0) {
     foreach ($icrs_nodes as $node) {
         // first look up for rolefolders
         $rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
-        
+
         if ($rolf) {
             // remove local roles
             $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"], false);
             foreach ($roles as $role_id) {
                 $rbacadmin->deleteRole($role_id, $rolf["ref_id"]);
             }
-            
+
             // remove linked local roles
             $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
             foreach ($roles as $role_id) {
                 $rbacadmin->deleteLocalRole($role_id, $rolf["ref_id"]);
             }
-            
+
             // delete rbac_fa entry
             $query = "DELETE FROM rbac_fa WHERE parent = '" . $rolf["ref_id"] . "'";
             $this->db->query($query);
-            
+
             // delete entry in object_data
             $query = "DELETE FROM object_data WHERE obj_id = '" . $rolf["obj_id"] . "'";
             $this->db->query($query);
-            
+
             // delete entry in object_reference
             $query = "DELETE FROM object_reference WHERE ref_id = '" . $rolf["ref_id"] . "'";
             $this->db->query($query);
@@ -7874,14 +7874,14 @@ if (count($icrs_nodes) != 0) {
         // delete entry in object_data
         $query = "DELETE FROM object_data WHERE obj_id = '" . $node["obj_id"] . "'";
         $this->db->query($query);
-        
+
         // delete entry in object_reference
         $query = "DELETE FROM object_reference WHERE ref_id = '" . $node["ref_id"] . "'";
         $this->db->query($query);
-        
+
         // remove permission settings
         $rbacadmin->revokePermission($node["ref_id"]);
-        
+
         // remove tree entry
         $tree->deleteTree($node);
     }
@@ -8125,7 +8125,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             "'6',now(),now(),'')";
 
         $ilDB->query($query);
-        
+
         // 2. Get id of new role folder
         $rolf_id = $ilDB->getLastInsertId();
 
@@ -8153,7 +8153,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             "'6',now(),now(),'')";
 
         $ilDB->query($query);
-            
+
         $role_id = $ilDB->getLastInsertId();
 
         // Insert role_data entry
@@ -8739,9 +8739,9 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
     $md_creator->setDescriptionLanguage('');
     $md_creator->setLanguage('');
     $md_creator->create();
-    
+
     //echo "<br>file:".$row["obj_id"].":".$row["title"].":".$row["description"].":".$row["file_type"].":";
-    
+
     $file = CLIENT_DATA_DIR . "/files/file_" . $row["obj_id"] . "/" . $row["file_name"];
 
     if (@!is_file($file)) {
@@ -8791,7 +8791,7 @@ while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         case 'delete':
             $perm_class = 'general';
             break;
-            
+
         case 'join':
         case 'leave':
         case 'edit_post':
@@ -8811,7 +8811,7 @@ while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         case 'leave':
             $perm_class = 'object';
             break;
-            
+
         case 'edit_permission':
             $perm_class = 'rbac';
             break;
@@ -9057,11 +9057,11 @@ while ($rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         $ilDB->quote($rec["ref_id"]);
     $res2 = $ilDB->query($q2);
     $rec2 = $res2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-    
+
     $q3 = "UPDATE scorm_tracking SET ref_id= " .
         $ilDB->quote($rec2["obj_id"]) . " WHERE " .
         " ref_id = " . $ilDB->quote($rec["ref_id"]);
-        
+
     $ilDB->query($q3);
 }
 
@@ -9484,7 +9484,7 @@ foreach ($foundactive as $missingarray) {
     if ($result->numRows()) {
         $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         $pass = $row["maxpass"];
-        
+
         $sequencearray = array();
         for ($i = 1; $i <= $found; $i++) {
             array_push($sequencearray, $i);
@@ -9518,7 +9518,7 @@ foreach ($foundactive as $missingarray) {
         $result = $ilDB->query($query);
         return $result->numRows();
     }
-    
+
     global $log;
     $query = "SELECT * FROM tst_active WHERE tries > 1";
     $result = $ilDB->query($query);
@@ -9537,7 +9537,7 @@ foreach ($foundactive as $missingarray) {
             $log->write("Update step #662: set tst_active.tries from " . $row["tries"] . " to $tries for tst_active.active_id = " . $row["active_id"]);
         }
     }
-    
+
 
 ?>
 <#663>
@@ -11121,7 +11121,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         $objective_info[$obj_row->obj_id]['questions'][] = $obj_row->question_id;
         $objective_info[$obj_row->obj_id]['limit'] = $obj_row->tst_limit;
     }
-    
+
     // Read max reachable points
     // Read user points
     foreach ($objective_info as $test_id => $data) {
@@ -11131,7 +11131,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         while ($reachable_row = $reachable_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $objective_info[$test_id]['reachable'] = $reachable_row->reachable;
         }
-        
+
         $query = "SELECT user_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ON active_fi = active_id " .
             "WHERE question_fi IN('" . implode("','", $data['questions']) . "') " .
             "GROUP BY question_fi,user_fi";
@@ -11182,12 +11182,12 @@ while ($lang_rec = $lang_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
         $q = "SELECT * FROM lng_data WHERE lang_key = " . $ilDB->quote($lang_rec["title"]);
         $var_set = $ilDB->query($q);
         $lang_array = array();
-        
+
         // get data from lng_data table
         while ($var_rec = $var_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $lang_array[$var_rec["module"]][$var_rec["identifier"]] = $var_rec["value"];
         }
-        
+
         // put data into lng_modules table
         foreach ($lang_array as $module => $lang_arr) {
             $query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES " .

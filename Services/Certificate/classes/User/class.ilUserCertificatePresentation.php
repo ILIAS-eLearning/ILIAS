@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -44,32 +46,32 @@ class ilUserCertificatePresentation
         $this->userName = $userName;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->objId;
     }
 
-    public function getObjType() : string
+    public function getObjType(): string
     {
         return $this->objType;
     }
 
-    public function getUserCertificate() : ?ilUserCertificate
+    public function getUserCertificate(): ?ilUserCertificate
     {
         return $this->userCertificate;
     }
 
-    public function getObjectTitle() : string
+    public function getObjectTitle(): string
     {
         return $this->objectTitle;
     }
 
-    public function getObjectDescription() : string
+    public function getObjectDescription(): string
     {
         return $this->objectDescription;
     }
 
-    public function getUserName() : string
+    public function getUserName(): string
     {
         return $this->userName;
     }

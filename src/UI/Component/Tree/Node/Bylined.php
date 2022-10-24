@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Tree\Node;
 
 /**
@@ -28,5 +30,5 @@ interface Bylined extends Simple
      * The byline string that will be displayed as additional
      * information to the current node
      */
-    public function getByline() : string;
+    public function getByline(): string;
 }

@@ -29,7 +29,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             ?: $DIC->database();
     }
 
-    public function deleteUserLevelsOfSkill(int $skill_id) : void
+    public function deleteUserLevelsOfSkill(int $skill_id): void
     {
         $ilDB = $this->db;
 
@@ -51,7 +51,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0,
         bool $a_self_eval = false
-    ) : void {
+    ): void {
         $ilDB = $this->db;
 
         $now = ilUtil::now();
@@ -111,7 +111,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0
-    ) : string {
+    ): string {
         $ilDB = $this->db;
 
         $recent = "";
@@ -126,11 +126,12 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
             "self_eval = " . $ilDB->quote(1, "integer") .
             " ORDER BY status_date DESC"
         );
-        $rec = $ilDB->fetchAssoc($set);
-        $status_day = substr($rec["status_date"], 0, 10);
-        $today = substr(ilUtil::now(), 0, 10);
-        if ($rec["valid"] && $rec["status"] == ilBasicSkill::ACHIEVED && $status_day == $today) {
-            $recent = $rec["status_date"];
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $status_day = substr($rec["status_date"], 0, 10);
+            $today = substr(ilUtil::now(), 0, 10);
+            if ($rec["valid"] && $rec["status"] == ilBasicSkill::ACHIEVED && $status_day == $today) {
+                $recent = $rec["status_date"];
+            }
         }
 
         return $recent;
@@ -144,7 +145,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         string $a_timestamp_to = null,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $to = (!is_null($a_timestamp_to))
@@ -199,7 +200,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0,
         string $trigger_user_id = ""
-    ) : void {
+    ): void {
         $ilDB = $this->db;
         $a_status = ilBasicSkill::ACHIEVED;
 
@@ -301,7 +302,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_trigger_obj_id,
         bool $a_self_eval = false,
         string $a_unique_identifier = ""
-    ) : bool {
+    ): bool {
         $ilDB = $this->db;
 
         $changed = false;
@@ -329,7 +330,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         return $changed;
     }
 
-    public function removeAllUserData(int $a_user_id) : void
+    public function removeAllUserData(int $a_user_id): void
     {
         $ilDB = $this->db;
 
@@ -350,7 +351,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         string $a_type,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int {
+    ): int {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -381,7 +382,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         string $a_type,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float {
+    ): float {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -405,7 +406,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -439,7 +440,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_eval_by = 0
-    ) : array {
+    ): array {
         $ilDB = $this->db;
 
         $by = ($a_eval_by != ilBasicSkill::EVAL_BY_ALL)
@@ -478,7 +479,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int {
+    ): int {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -509,7 +510,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float {
+    ): float {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -534,7 +535,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int {
+    ): int {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -563,7 +564,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_tref_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : float {
+    ): float {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
@@ -581,7 +582,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         return 0;
     }
 
-    public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool
+    public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id): bool
     {
         $ilDB = $this->db;
 
@@ -602,7 +603,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : int {
+    ): int {
         $ilDB = $this->db;
 
         $ilDB->setLimit(1, 0);
@@ -629,7 +630,7 @@ class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : ?string {
+    ): ?string {
         $ilDB = $this->db;
 
         $ilDB->setLimit(1, 0);

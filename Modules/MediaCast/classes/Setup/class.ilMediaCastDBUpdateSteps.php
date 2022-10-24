@@ -25,12 +25,12 @@ class ilMediaCastDBUpdateSteps implements \ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function prepare(\ilDBInterface $db) : void
+    public function prepare(\ilDBInterface $db): void
     {
         $this->db = $db;
     }
 
-    public function step_1() : void
+    public function step_1(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists('il_media_cast_data', 'autoplaymode')) {
@@ -43,7 +43,7 @@ class ilMediaCastDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_2() : void
+    public function step_2(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists('il_media_cast_data', 'nr_initial_videos')) {
@@ -56,7 +56,7 @@ class ilMediaCastDBUpdateSteps implements \ilDatabaseUpdateSteps
         }
     }
 
-    public function step_3() : void
+    public function step_3(): void
     {
         $db = $this->db;
         if (!$db->tableColumnExists('il_media_cast_data', 'new_items_in_lp')) {
@@ -68,4 +68,29 @@ class ilMediaCastDBUpdateSteps implements \ilDatabaseUpdateSteps
             ));
         }
     }
+
+    public function step_4(): void
+    {
+        $db = $this->db;
+        $analyzer = new \ilDBAnalyzer($db);
+        $info = $analyzer->getFieldInformation('settings');
+
+        if ($info['value']['type'] === 'clob') {
+            $type = 'clob';
+        } else {
+            $type = 'text';
+        }
+
+        $db = $this->db;
+
+        $db->manipulate("DELETE FROM settings WHERE keyword = " .
+            $db->quote("video_threshold", "text") . " AND module = " .
+            $db->quote("mcst", "text"));
+
+        $db->insert("settings", array(
+            "module" => array("text", "mcst"),
+            "keyword" => array("text", "video_threshold"),
+            "value" => array($type, "80")));
+    }
+
 }

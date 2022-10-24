@@ -9,11 +9,11 @@ class ImprintStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Imprint\StandardGUIRequest
+    protected function getRequest(array $get, array $post): \ILIAS\Imprint\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
@@ -27,7 +27,7 @@ class ImprintStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testBaseClass() : void
+    public function testBaseClass(): void
     {
         $request = $this->getRequest(
             [

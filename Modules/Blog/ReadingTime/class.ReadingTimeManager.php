@@ -45,17 +45,17 @@ class ReadingTimeManager
         $this->page_manager = new \ILIAS\COPage\ReadingTime\ReadingTimeManager();
     }
 
-    public function isGloballyActivated() : bool
+    public function isGloballyActivated(): bool
     {
         return (bool) $this->blog_set->get("est_reading_time");
     }
 
-    public function isActivated(int $blog_id) : bool
+    public function isActivated(int $blog_id): bool
     {
         return $this->repo->isActivated($blog_id);
     }
 
-    public function activate(int $blog_id, bool $activate) : void
+    public function activate(int $blog_id, bool $activate): void
     {
         $is_active = $this->repo->isActivated($blog_id);
         $this->repo->activate($blog_id, $activate);
@@ -67,7 +67,7 @@ class ReadingTimeManager
     /**
      * @return int|null Null, if reading time is deactivated
      */
-    public function getReadingTime(int $blog_id, int $bl_page_id) : ?int
+    public function getReadingTime(int $blog_id, int $bl_page_id): ?int
     {
         if (!$this->isActivated($blog_id)) {
             return null;

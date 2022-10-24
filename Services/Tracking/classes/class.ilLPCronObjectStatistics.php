@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -29,42 +31,42 @@ class ilLPCronObjectStatistics extends ilCronJob
         $this->cron_manager = $DIC->cron()->manager();
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return "lp_object_statistics";
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("trac_object_statistics");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("trac_object_statistics_info");
     }
 
-    public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return false;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         // all date related operations are based on this timestamp
         // should be midnight of yesterday (see gatherUserData()) to always have full day
@@ -91,7 +93,7 @@ class ilLPCronObjectStatistics extends ilCronJob
     /**
      * gather course data
      */
-    protected function gatherCourseLPData() : int
+    protected function gatherCourseLPData(): int
     {
         $count = 0;
 
@@ -180,7 +182,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherTypesData() : int
+    protected function gatherTypesData(): int
     {
         $count = 0;
         $data = ilTrQuery::getObjectTypeStatistics();
@@ -214,7 +216,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $count;
     }
 
-    protected function gatherUserData() : int
+    protected function gatherUserData(): int
     {
         $count = 0;
         $to = mktime(

@@ -46,7 +46,7 @@ class ilUserSettingsConfig
      */
     public function isVisibleAndChangeable(
         string $field
-    ) : bool {
+    ): bool {
         return $this->isVisible($field) && $this->isChangeable($field);
     }
 
@@ -55,7 +55,7 @@ class ilUserSettingsConfig
      */
     public function isVisible(
         string $field
-    ) : bool {
+    ): bool {
         return (!(isset($this->setting[self::HIDE_PREFIX . $field]) &&
             $this->setting[self::HIDE_PREFIX . $field] == 1));
     }
@@ -65,7 +65,7 @@ class ilUserSettingsConfig
      */
     public function isChangeable(
         string $field
-    ) : bool {
+    ): bool {
         return (!(isset($this->setting[self::DISABLED_PREFIX . $field]) &&
             $this->setting[self::DISABLED_PREFIX . $field] == 1));
     }
@@ -73,7 +73,7 @@ class ilUserSettingsConfig
     /**
      * Set a profile field being visible
      */
-    public function setVisible(string $field, bool $visible) : void
+    public function setVisible(string $field, bool $visible): void
     {
         if (!$visible) {
             $this->settings->set(self::HIDE_PREFIX . $field, "1");
@@ -87,7 +87,7 @@ class ilUserSettingsConfig
     /**
      * Set a profile field being changeable
      */
-    public function setChangeable(string $field, bool $changeable) : void
+    public function setChangeable(string $field, bool $changeable): void
     {
         if (!$changeable) {
             $this->settings->set(self::DISABLED_PREFIX . $field, "1");

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTLocation extends ilADT
 {
@@ -11,14 +13,14 @@ class ilADTLocation extends ilADT
 
     // definition
 
-    protected function isValidDefinition(ilADTDefinition $a_def) : bool
+    protected function isValidDefinition(ilADTDefinition $a_def): bool
     {
         return $a_def instanceof ilADTLocationDefinition;
     }
 
     // default
 
-    public function reset() : void
+    public function reset(): void
     {
         parent::reset();
         $this->setZoom(9);
@@ -28,39 +30,39 @@ class ilADTLocation extends ilADT
 
     // properties
 
-    public function setLongitude(float $a_value = null) : void
+    public function setLongitude(float $a_value = null): void
     {
         $this->longitude = $a_value;
     }
 
-    public function getLongitude() : ?float
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLatitude(?float $a_value = null) : void
+    public function setLatitude(?float $a_value = null): void
     {
         $this->latitude = $a_value;
     }
 
-    public function getLatitude() : ?float
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function getZoom() : ?int
+    public function getZoom(): ?int
     {
         return $this->zoom;
     }
 
-    public function setZoom($a_value) : void
+    public function setZoom($a_value): void
     {
         $this->zoom = max(1, abs((int) $a_value));
     }
 
     // comparison
 
-    public function equals(ilADT $a_adt) : ?bool
+    public function equals(ilADT $a_adt): ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getLongitude() == $a_adt->getLongitude() &&
@@ -69,26 +71,26 @@ class ilADTLocation extends ilADT
         return null;
     }
 
-    public function isLarger(ilADT $a_adt) : ?bool
+    public function isLarger(ilADT $a_adt): ?bool
     {
         return null;
     }
 
-    public function isSmaller(ilADT $a_adt) : ?bool
+    public function isSmaller(ilADT $a_adt): ?bool
     {
         return null;
     }
 
     // null
 
-    public function isNull() : bool
+    public function isNull(): bool
     {
         return $this->getLongitude() === null && $this->getLatitude() === null;
     }
 
     // validation
 
-    public function isValid() : bool
+    public function isValid(): bool
     {
         $valid = parent::isValid();
         $long = $this->getLongitude();
@@ -114,7 +116,7 @@ class ilADTLocation extends ilADT
     /**
      * @inheritcoc
      */
-    public function translateErrorCode(string $a_code) : string
+    public function translateErrorCode(string $a_code): string
     {
         switch ($a_code) {
             case self::ADT_VALIDATION_ERROR_LONGITUDE:
@@ -128,7 +130,7 @@ class ilADTLocation extends ilADT
         }
     }
 
-    public function getCheckSum() : ?string
+    public function getCheckSum(): ?string
     {
         if (!$this->isNull()) {
             return md5($this->getLongitude() .
@@ -138,7 +140,7 @@ class ilADTLocation extends ilADT
         return null;
     }
 
-    public function exportStdClass() : ?stdClass
+    public function exportStdClass(): ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -150,7 +152,7 @@ class ilADTLocation extends ilADT
         return null;
     }
 
-    public function importStdClass(?stdClass $a_std) : void
+    public function importStdClass(?stdClass $a_std): void
     {
         if (is_object($a_std)) {
             $this->setLatitude($a_std->lat);

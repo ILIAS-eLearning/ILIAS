@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class InterestedUserFieldAttributeTest extends ilUserBaseTest
 {
     private InterestedUserFieldAttribute $interestedUserFieldAttribute;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         global $DIC;
 
@@ -40,17 +42,17 @@ class InterestedUserFieldAttributeTest extends ilUserBaseTest
         $this->interestedUserFieldAttribute = new InterestedUserFieldAttribute("ABCD", "EFGH");
     }
 
-    public function testGetAttributeName() : void
+    public function testGetAttributeName(): void
     {
         $this->assertEquals("ABCD", $this->interestedUserFieldAttribute->getAttributeName());
     }
 
-    public function testGetFieldName() : void
+    public function testGetFieldName(): void
     {
         $this->assertEquals("INVALID TRANSLATION KEY", $this->interestedUserFieldAttribute->getName());
     }
 
-    public function testAddGetComponent() : void
+    public function testAddGetComponent(): void
     {
         $interestedComponent = $this->interestedUserFieldAttribute->addComponent(
             "comp name",

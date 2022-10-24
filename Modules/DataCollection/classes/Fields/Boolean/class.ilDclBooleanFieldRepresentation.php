@@ -23,7 +23,7 @@
  */
 class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilDclCheckboxInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilDclCheckboxInputGUI
     {
         $input = new ilDclCheckboxInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $this->setupInputField($input, $this->getField());
@@ -38,8 +38,12 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
-        $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
-            false, $this->getField()->getId());
+        $input = $table->addFilterItemByMetaType(
+            "filter_" . $this->getField()->getId(),
+            ilTable2GUI::FILTER_SELECT,
+            false,
+            $this->getField()->getId()
+        );
         $input->setOptions(
             array(
                 "" => $this->lng->txt("dcl_any"),
@@ -53,7 +57,7 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         if ((($filter == "checked" && $value == 1) || ($filter == "not_checked" && $value == 0)) || $filter == '' || !$filter) {

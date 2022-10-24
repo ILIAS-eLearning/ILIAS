@@ -39,7 +39,7 @@ class assClozeTestImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -61,7 +61,7 @@ class assClozeTestImport extends assQuestionImport
                 $item->getIliasSourceNic()
             );
         }
-            
+
         $clozetext = array();
         $shuffle = 0;
         $now = getdate();
@@ -74,13 +74,13 @@ class assClozeTestImport extends assQuestionImport
                     $materialString = $this->object->QTIMaterialToString(
                         $presentation->material[$entry["index"]]
                     );
-                    
+
                     if ($questiontext === '&nbsp;') {
                         $questiontext = $materialString;
                     } else {
                         array_push($clozetext, $materialString);
                     }
-                    
+
                     break;
                 case "response":
                     $response = $presentation->response[$entry["index"]];
@@ -174,7 +174,7 @@ class assClozeTestImport extends assQuestionImport
                                         "points" => $setvar->getContent(),
                                         "answerorder" => count($gaps[$gi]["answers"]),
                                         "action" => $setvar->getAction()
-                                        
+
                                     ));
                                 } elseif ($g["type"] == CLOZE_NUMERIC) {
                                     array_push($gaps[$gi]["answers"], array(
@@ -248,15 +248,15 @@ class assClozeTestImport extends assQuestionImport
                 }
             }
         }
-    
+
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $textgap_rating = $item->getMetadataEntry("textgaprating");
         $this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
         $this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
@@ -277,7 +277,7 @@ class assClozeTestImport extends assQuestionImport
             foreach ($gap["answers"] as $index => $answer) {
                 include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
                 $gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
-                $gapanswer->setGapSize((int) $gap["gap_size"]);
+                $gapanswer->setGapSize((int) ($gap["gap_size"] ?? 0));
                 switch ($clozegap->getType()) {
                     case CLOZE_SELECT:
                         $clozegap->setShuffle($answer["shuffle"]);
@@ -287,17 +287,17 @@ class assClozeTestImport extends assQuestionImport
                         $gapanswer->setUpperBound($gap["maxnumber"]);
                         break;
                 }
-                $clozegap->setGapSize((int) $gap["gap_size"]);
+                $clozegap->setGapSize((int) ($gap["gap_size"] ?? 0));
                 $clozegap->addItem($gapanswer);
                 array_push($gapcontent, $answer["answertext"]);
             }
             $this->object->addGapAtIndex($clozegap, $gapidx);
             $gaptext[$gap["ident"]] = "[gap]" . join(",", $gapcontent) . "[/gap]";
         }
-    
+
         $this->object->setQuestion($questiontext);
         $clozetext = join("", $clozetext);
-        
+
         foreach ($gaptext as $idx => $val) {
             $clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
         }
@@ -331,7 +331,7 @@ class assClozeTestImport extends assQuestionImport
                 }
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 $clozetext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $clozetext);
@@ -370,7 +370,7 @@ class assClozeTestImport extends assQuestionImport
         }
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, null, null, null, $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
@@ -383,19 +383,20 @@ class assClozeTestImport extends assQuestionImport
             assClozeGapCombination::importGapCombinationToDb($this->object->getId(), $combination);
         }
         $this->object->saveToDb();
+        return $import_mapping;
     }
-    
+
     /**
      * @param string $ident
      * @return ilAssSpecificFeedbackIdentifier
      */
-    protected function buildFeedbackIdentifier($ident) : ilAssSpecificFeedbackIdentifier
+    protected function buildFeedbackIdentifier($ident): ilAssSpecificFeedbackIdentifier
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifier.php';
         $fbIdentifier = new ilAssSpecificFeedbackIdentifier();
-        
+
         $ident = explode('_', $ident);
-        
+
         if (count($ident) > 1) {
             $fbIdentifier->setQuestionIndex($ident[0]);
             $fbIdentifier->setAnswerIndex($ident[1]);
@@ -403,7 +404,7 @@ class assClozeTestImport extends assQuestionImport
             $fbIdentifier->setQuestionIndex($ident[0]);
             $fbIdentifier->setAnswerIndex(0);
         }
-        
+
         return $fbIdentifier;
     }
 }

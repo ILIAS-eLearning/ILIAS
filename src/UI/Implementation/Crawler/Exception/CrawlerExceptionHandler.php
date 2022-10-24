@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -26,5 +28,5 @@ interface CrawlerExceptionHandler
     /**
      * Handle an exception request.
      */
-    public function handleException(CrawlerException $ex) : void;
+    public function handleException(CrawlerException $ex): void;
 }

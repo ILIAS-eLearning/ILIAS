@@ -1,10 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestSession.php';
-require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
-
-require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Test session handler for tests with mode dynamic question set
@@ -24,18 +34,18 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->questionSetFilterSelection = new ilTestDynamicQuestionSetFilterSelection();
     }
 
     /**
      * @return ilTestDynamicQuestionSetFilterSelection
      */
-    public function getQuestionSetFilterSelection() : ilTestDynamicQuestionSetFilterSelection
+    public function getQuestionSetFilterSelection(): ilTestDynamicQuestionSetFilterSelection
     {
         return $this->questionSetFilterSelection;
     }
-    
+
     public function loadFromDb($active_id)
     {
         global $DIC;
@@ -61,8 +71,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
         }
     }
-    
-    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "") : void
+
+    public function loadTestSession($test_id, $user_id = "", $anonymous_id = ""): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -115,13 +125,13 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->unsetAccessCodeInSession();
         }
     }
-    
-    public function saveToDb() : void
+
+    public function saveToDb(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
-        
+
         $submitted = ($this->isSubmitted()) ? 1 : 0;
         if ($this->active_id > 0) {
             $affectedRows = $ilDB->update(
@@ -179,7 +189,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
                 );
             }
         }
-        
+
         include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
         ilLearningProgress::_tracProgress(
             $this->getUserId(),
@@ -188,8 +198,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             'tst'
         );
     }
-    
-    public function getCurrentQuestionId() : int
+
+    public function getCurrentQuestionId(): int
     {
         return $this->getLastSequence();
     }

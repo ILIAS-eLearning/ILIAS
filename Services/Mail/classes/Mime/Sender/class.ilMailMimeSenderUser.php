@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,12 +33,12 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         $this->user = $user;
     }
 
-    public function hasReplyToAddress() : bool
+    public function hasReplyToAddress(): bool
     {
         return true;
     }
 
-    public function getReplyToAddress() : string
+    public function getReplyToAddress(): string
     {
         if (
             true === (bool) $this->settings->get('use_global_reply_to_addr', '0') &&
@@ -49,27 +51,27 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         return $this->user->getEmail();
     }
 
-    public function getReplyToName() : string
+    public function getReplyToName(): string
     {
         return $this->user->getFullname();
     }
 
-    public function hasEnvelopFromAddress() : bool
+    public function hasEnvelopFromAddress(): bool
     {
-        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '';
+        return $this->settings->get('mail_system_usr_env_from_addr', '') !== '' && $this->settings->get('mail_system_usr_env_from_addr', '') !== null;
     }
 
-    public function getEnvelopFromAddress() : string
+    public function getEnvelopFromAddress(): string
     {
         return $this->settings->get('mail_system_usr_env_from_addr', '');
     }
 
-    public function getFromAddress() : string
+    public function getFromAddress(): string
     {
         return $this->settings->get('mail_system_usr_from_addr', '');
     }
 
-    public function getFromName() : string
+    public function getFromName(): string
     {
         $from = $this->settings->get('mail_system_usr_from_name', '');
         if ($from === '') {

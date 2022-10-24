@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * ECS Event Handler
  * @author Stefan Meyer <meyer@leifos.com>
@@ -42,10 +44,10 @@ class ilECSAppEventListener implements ilAppEventListener
     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter): void
     {
         global $DIC;
-        
+
         $eventHandler = new static(
             $DIC->logger()->wsrv(),
             $DIC->settings(),
@@ -54,10 +56,10 @@ class ilECSAppEventListener implements ilAppEventListener
         $eventHandler->handle($a_component, $a_event, $a_parameter);
     }
 
-    private function handle($a_component, $a_event, $a_parameter) : void
+    private function handle($a_component, $a_event, $a_parameter): void
     {
         $this->logger->debug('Listening to event from: ' . $a_component . ' ' . $a_event);
-        
+
         switch ($a_component) {
             case 'Services/Authentication':
                 switch ($a_event) {
@@ -66,7 +68,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
-                
+
             case 'Services/User':
                 if ($a_event === 'afterCreate') {
                     $user = $a_parameter['user_obj'];
@@ -74,7 +76,7 @@ class ilECSAppEventListener implements ilAppEventListener
                     $this->handleNewAccountCreation((string) $user->getLogin());
                 }
                 break;
-            
+
             case 'Modules/Group':
 
                 $this->logger->debug('New event from group: ' . $a_event);
@@ -86,15 +88,15 @@ class ilECSAppEventListener implements ilAppEventListener
                                 $this->logger->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
                                 return;
                             }
-                            
+
                             $settings = $this->initServer($a_parameter['usr_id']);
                             /** @var ilObjUser $user */
                             $this->extendAccount($settings, $user);
-                            
+
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_PENDING);
                         }
                         break;
-                        
+
                     case 'deleteParticipant':
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) === 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
@@ -105,31 +107,31 @@ class ilECSAppEventListener implements ilAppEventListener
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
                         }
                         break;
-                        
+
                     case 'addParticipant':
                         if ((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) === 'ecs')) {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $this->logger->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
                                 return;
                             }
-                            
+
                             $settings = $this->initServer($user->getId());
                             /** @var ilObjUser $user */
                             $this->extendAccount($settings, $user);
                             #$this->_sendNotification($settings,$user);
-                            
+
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_ACTIVE);
                             unset($user);
                         }
                         break;
-                        
-                        
-                
+
+
+
                 }
                 break;
-                
+
             case 'Modules/Course':
-                
+
                 $this->logger->info(__METHOD__ . ': New event from course: ' . $a_event);
                 switch ($a_event) {
 
@@ -140,16 +142,16 @@ class ilECSAppEventListener implements ilAppEventListener
                                 $this->logger->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
                                 return;
                             }
-                            
+
                             $settings = $this->initServer($a_parameter['usr_id']);
                             /** @var ilObjUser $user */
                             $this->extendAccount($settings, $user);
-                            
+
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_PENDING);
                         }
                         break;
-                        
-                
+
+
                     case 'deleteParticipant':
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) === 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
@@ -160,20 +162,20 @@ class ilECSAppEventListener implements ilAppEventListener
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
                         }
                         break;
-                        
+
                     case 'addParticipant':
-                        
+
                         if ((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) === 'ecs')) {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $this->logger->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
                                 return;
                             }
-                            
+
                             $settings = $this->initServer($user->getId());
                             /** @var ilObjUser $user */
                             $this->extendAccount($settings, $user);
                             $this->sendNotification($settings, $user);
-                            
+
                             $this->updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_ACTIVE);
                             unset($user);
                         }
@@ -182,21 +184,21 @@ class ilECSAppEventListener implements ilAppEventListener
                 break;
         }
     }
-    
+
     /**
      * Init server settings
      */
-    private function initServer(int $a_usr_id) : ilECSSetting
+    private function initServer(int $a_usr_id): ilECSSetting
     {
         $server_id = ilECSImportManager::getInstance()->lookupServerId($a_usr_id);
 
         return ilECSSetting::getInstanceByServerId($server_id);
     }
-    
+
     /**
      * send notification about new user accounts
      */
-    private function sendNotification(ilECSSetting $server, ilObjUser $user_obj) : void
+    private function sendNotification(ilECSSetting $server, ilObjUser $user_obj): void
     {
         if (!count($server->getUserRecipients())) {
             return;
@@ -218,15 +220,15 @@ class ilECSAppEventListener implements ilAppEventListener
         $body .= $lang->txt('ecs_new_user_profile') . "\n\n";
         $body .= $user_obj->getProfileAsString($lang) . "\n\n";
         $body .= ilMail::_getAutoGeneratedMessageString($lang);
-        
+
         $mail->enqueue($server->getUserRecipientsAsString(), "", "", $subject, $body, array());
-        
+
         // Store sub_id = 1 in ecs import which means mail is send
         $import->setSubId(1);
         $import->save();
     }
 
-    protected function handleNewAccountCreation(string $username) : void
+    protected function handleNewAccountCreation(string $username): void
     {
         $user_id = ilObjUser::_loginExists($username);
         if (!$user_id) {
@@ -267,10 +269,10 @@ class ilECSAppEventListener implements ilAppEventListener
     /**
      * Assign missing course/groups to new user accounts
      */
-    private function handleMembership(ilObjUser $user) : void
+    private function handleMembership(ilObjUser $user): void
     {
         $this->logger->debug('Handling ECS assignments ');
-        
+
         $assignments = ilECSCourseMemberAssignment::lookupMissingAssignmentsOfUser($user->getExternalAccount());
         foreach ($assignments as $assignment) {
             $msettings = ilECSNodeMappingSettings::getInstanceByServerMid(
@@ -305,39 +307,39 @@ class ilECSAppEventListener implements ilAppEventListener
             }
         }
     }
-    
+
     /**
      * Extend account
      */
-    private function extendAccount(ilECSSetting $settings, ilObjUser $user) : void
+    private function extendAccount(ilECSSetting $settings, ilObjUser $user): void
     {
         $end = new ilDateTime(time(), IL_CAL_UNIX);
         $end->increment(IL_CAL_MONTH, $settings->getDuration());
-        
+
         $this->logger->info(__METHOD__ . ': account extension ' . $end);
-        
+
         if ($user->getTimeLimitUntil() < $end->get(IL_CAL_UNIX)) {
             $user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
             $user->update();
         }
     }
-    
+
     /**
      * Update enrolment status
      */
-    private function updateEnrolmentStatus(int $a_obj_id, ilObjUser $user, string $a_status) : void
+    private function updateEnrolmentStatus(int $a_obj_id, ilObjUser $user, string $a_status): void
     {
         $remote = (new ilECSRemoteUserRepository())->getECSRemoteUserByUsrId($user->getId());
         if (!$remote instanceof ilECSRemoteUser) {
             return;
         }
-        
+
         $enrol = new ilECSEnrolmentStatus();
         $enrol->setId('il_' . $this->settings->get('inst_id', "0") . '_' . ilObject::_lookupType($a_obj_id) . '_' . $a_obj_id);
         $enrol->setPersonId($remote->getRemoteUserId());
         $enrol->setPersonIdType(ilECSEnrolmentStatus::ID_UID);
         $enrol->setStatus($a_status);
-        
+
         try {
             $con = new ilECSEnrolmentStatusConnector(ilECSSetting::getInstanceByServerId(1));
             $con->addEnrolmentStatus($enrol, $remote->getMid());

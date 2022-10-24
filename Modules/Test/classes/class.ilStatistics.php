@@ -1,5 +1,26 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ * ******************************************************************* */
+
+/**
+ * Constants for the handling of elements which are not a number
+ */
+const NAN_HANDLING_REMOVE = 0;
+const NAN_HANDLING_ZERO = 1;
 
 /**
 * This class provides mathematical functions for statistics.
@@ -7,14 +28,7 @@
 *
 * @author Helmut Schottmüller <hschottm@tzi.de>
 * @version $Id$
-*/
-
-    /**
-    * Constants for the handling of elements which are not a number
-    */
-const NAN_HANDLING_REMOVE = 0;
-const NAN_HANDLING_ZERO = 1;
-
+ */
 class ilStatistics
 {
     /**
@@ -26,15 +40,15 @@ class ilStatistics
     * @var integer
     */
     public $nan_handling;
-    
+
     /**
     * Array containing the data
     *
     * @var array
     */
-    
+
     public $stat_data;
-    
+
     /**
     * Constructor of ilStatistics class
     *
@@ -45,7 +59,7 @@ class ilStatistics
         $this->nan_handling = $nan_handling;
         $this->stat_data = array();
     }
-    
+
     /**
     * Set the handling of elements which are not a number
     *
@@ -59,7 +73,7 @@ class ilStatistics
     {
         $this->nan_handling = $nan_handling;
     }
-    
+
     /**
     * Get the handling of elements which are not a number
     *
@@ -69,11 +83,11 @@ class ilStatistics
     * @return integer A constant defining the handling of elements which are not a number
     * @access public
     */
-    public function getNANHandling() : int
+    public function getNANHandling(): int
     {
         return $this->nan_handling;
     }
-    
+
     /**
     * Sets the data and checks for invalid values
     *
@@ -85,14 +99,14 @@ class ilStatistics
         $this->stat_data = array_values($stat_data);
         $this->validate();
     }
-    
+
     /**
     * Returns the numeric value array containing the data
     *
     * @return array An array containing the sorted numeric data
     * @access public
     */
-    public function getData() : array
+    public function getData(): array
     {
         return $this->stat_data;
     }
@@ -155,7 +169,7 @@ class ilStatistics
         if (count($this->stat_data)) {
             $sum_n = 0;
             foreach ($this->stat_data as $value) {
-                $sum_n += pow((double) $value, (double) $n);
+                $sum_n += pow((float) $value, (float) $n);
             }
         }
         return $sum_n;
@@ -183,7 +197,7 @@ class ilStatistics
     {
         return $this->sum_n(2);
     }
-    
+
     /**
     * Calculates the product of x_1^n * x_2^n * ... * x_i^n
     *
@@ -200,7 +214,7 @@ class ilStatistics
             }
             $prod_n = 1.0;
             foreach ($this->stat_data as $value) {
-                $prod_n *= pow((double) $value, (double) $n);
+                $prod_n *= pow((float) $value, (float) $n);
             }
         }
         return $prod_n;
@@ -235,7 +249,7 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        return (double) ($sum / $count);
+        return (float) ($sum / $count);
     }
 
     /**
@@ -259,7 +273,7 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        return pow((double) $prod, (double) (1 / $count));
+        return pow((float) $prod, (float) (1 / $count));
     }
 
     /**
@@ -306,7 +320,7 @@ class ilStatistics
         }
         return $median;
     }
-    
+
     /**
     * Returns the rank of a given value
     *
@@ -324,7 +338,7 @@ class ilStatistics
         }
         return $rank;
     }
-    
+
     /**
     * Returns the rank of the median
     *
@@ -341,7 +355,7 @@ class ilStatistics
         if ($count == 0) {
             return false;
         }
-        
+
         if (($count % 2) == 0) {
             $rank_median = ($count + 1) / 2;
         } else {
@@ -349,7 +363,7 @@ class ilStatistics
         }
         return $rank_median;
     }
-    
+
     /**
     * n-Quantile of the data values
     *
@@ -378,7 +392,7 @@ class ilStatistics
             return $this->stat_data[$k - 1];
         }
     }
-    
+
     /**
     * Validates the numeric data and handles values which are not a number
     * according to the $nan_handling variable. After validation the data
@@ -387,7 +401,7 @@ class ilStatistics
     * @return boolean Returns true on success, otherwise false
     * @access private
     */
-    public function validate() : bool
+    public function validate(): bool
     {
         $result = true;
         foreach ($this->stat_data as $key => $value) {

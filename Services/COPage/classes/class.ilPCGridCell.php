@@ -25,18 +25,18 @@ class ilPCGridCell extends ilPageContent
     /**
     * Init page content component.
     */
-    public function init() : void
+    public function init(): void
     {
         $this->setType("gcell");
     }
 
-    public function deleteCell() : void
+    public function deleteCell(): void
     {
         $grid_cell = $this->getNode();
         $grid_cell->unlink($grid_cell);
     }
 
-    public function moveCellRight() : void
+    public function moveCellRight(): void
     {
         $grid_cell = $this->getNode();
         $next = $grid_cell->next_sibling();
@@ -45,7 +45,7 @@ class ilPCGridCell extends ilPageContent
         $next->unlink($next);
     }
 
-    public function moveCellLeft() : void
+    public function moveCellLeft(): void
     {
         $grid_cell = $this->getNode();
         $prev = $grid_cell->previous_sibling();

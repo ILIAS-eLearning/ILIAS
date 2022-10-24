@@ -1,14 +1,27 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Utilities/classes/class.ilStr.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilAssQuestionSkillAssignmentRegistry
  */
 class ilAssQuestionSkillAssignmentRegistry
 {
-    const DEFAULT_CHUNK_SIZE = 1000;
+    public const DEFAULT_CHUNK_SIZE = 1000;
 
     /**
      * @var \ilSetting
@@ -32,7 +45,7 @@ class ilAssQuestionSkillAssignmentRegistry
     /**
      * @return int
      */
-    public function getChunkSize() : int
+    public function getChunkSize(): int
     {
         return $this->chunkSize;
     }
@@ -41,7 +54,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param int $chunkSize
      * @throws \InvalidArgumentException
      */
-    public function setChunkSize($chunkSize) : void
+    public function setChunkSize($chunkSize): void
     {
         if (!is_numeric($chunkSize) || $chunkSize <= 0) {
             throw new \InvalidArgumentException(sprintf("The passed chunk size is not a valid/supported integer: %s", var_export($chunkSize, true)));
@@ -54,7 +67,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param string $key
      * @return int
      */
-    protected function getNumberOfChunksByKey($key) : int
+    protected function getNumberOfChunksByKey($key): int
     {
         return (int) $this->settings->get($key . '_num', '0');
     }
@@ -79,7 +92,7 @@ class ilAssQuestionSkillAssignmentRegistry
      * @param string $key
      * @param string $value A serialized value
      */
-    public function setStringifiedImports($key, $value) : void
+    public function setStringifiedImports($key, $value): void
     {
         $i = 0;
 
@@ -102,7 +115,7 @@ class ilAssQuestionSkillAssignmentRegistry
     /**
      * @param string $key
      */
-    public function deleteStringifiedImports($key) : void
+    public function deleteStringifiedImports($key): void
     {
         for ($i = 1, $numberOfChunks = $this->getNumberOfChunksByKey($key); $i <= $numberOfChunks; $i++) {
             $this->settings->delete($key . '_' . $i);

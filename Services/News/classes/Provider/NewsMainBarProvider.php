@@ -1,4 +1,6 @@
-<?php namespace ILIAS\News\Provider;
+<?php
+
+namespace ILIAS\News\Provider;
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,12 +28,12 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class NewsMainBarProvider extends AbstractStaticMainMenuProvider
 {
-    public function getStaticTopItems() : array
+    public function getStaticTopItems(): array
     {
         return [];
     }
 
-    public function getStaticSubItems() : array
+    public function getStaticSubItems(): array
     {
         $dic = $this->dic;
 
@@ -47,7 +49,7 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
-                    static function () use ($dic) : bool {
+                    static function () use ($dic): bool {
                         return !($dic->settings()->get("block_activated_news") === null);
                     }
                 ),

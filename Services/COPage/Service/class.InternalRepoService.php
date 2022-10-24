@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,12 +43,12 @@ class InternalRepoService
         );
     }
 
-    public function edit() : Editor\EditSessionRepository
+    public function edit(): Editor\EditSessionRepository
     {
         return $this->edit_repo->edit();
     }
 
-    public function pc() : PC\RepoService
+    public function pc(): PC\RepoService
     {
         return new PC\RepoService(
             $this->data,
@@ -54,12 +56,12 @@ class InternalRepoService
         );
     }
 
-    public function history() : HistoryDBRepository
+    public function history(): HistoryDBRepository
     {
         return new HistoryDBRepository($this->db);
     }
 
-    public function usage() : UsageDBRepository
+    public function usage(): UsageDBRepository
     {
         return new UsageDBRepository($this->db);
     }

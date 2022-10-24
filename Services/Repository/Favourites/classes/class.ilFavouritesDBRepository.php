@@ -42,7 +42,7 @@ class ilFavouritesDBRepository
 
 
     // Add favourite
-    public function add(int $user_id, int $ref_id) : void
+    public function add(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -67,7 +67,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite
-    public function remove(int $user_id, int $ref_id) : void
+    public function remove(int $user_id, int $ref_id): void
     {
         $db = $this->db;
 
@@ -86,7 +86,7 @@ class ilFavouritesDBRepository
      * note: the implementation of this method is not good style (directly
      * reading tables object_data and object_reference), must be revised someday...
      */
-    public function getFavouritesOfUser(int $user_id, ?array $a_types = null) : array
+    public function getFavouritesOfUser(int $user_id, ?array $a_types = null): array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
@@ -167,7 +167,7 @@ class ilFavouritesDBRepository
     }
 
     // check whether an item is on the users desktop or not
-    public function ifIsFavourite(int $user_id, int $ref_id) : bool
+    public function ifIsFavourite(int $user_id, int $ref_id): bool
     {
         $db = $this->db;
 
@@ -189,7 +189,7 @@ class ilFavouritesDBRepository
     }
 
     // Load favourites data
-    public function loadData(int $user_id, array $ref_ids) : void
+    public function loadData(int $user_id, array $ref_ids): void
     {
         $db = $this->db;
         if (!is_array($ref_ids)) {
@@ -219,7 +219,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite entries of a repository item
-    public function removeFavouritesOfRefId(int $ref_id) : void
+    public function removeFavouritesOfRefId(int $ref_id): void
     {
         $db = $this->db;
 
@@ -232,7 +232,7 @@ class ilFavouritesDBRepository
     }
 
     // Remove favourite entries of a user
-    public function removeFavouritesOfUser(int $user_id) : void
+    public function removeFavouritesOfUser(int $user_id): void
     {
         $db = $this->db;
 

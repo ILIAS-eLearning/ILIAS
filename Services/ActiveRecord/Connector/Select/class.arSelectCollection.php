@@ -20,7 +20,7 @@
  */
 class arSelectCollection extends arStatementCollection
 {
-    public function asSQLStatement() : string
+    public function asSQLStatement(): string
     {
         $return = 'SELECT ';
         if ($this->hasStatements()) {
@@ -35,7 +35,7 @@ class arSelectCollection extends arStatementCollection
     /**
      * @return arSelect[]
      */
-    public function getSelects() : array
+    public function getSelects(): array
     {
         return $this->statements;
     }

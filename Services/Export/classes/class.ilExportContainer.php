@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -39,7 +41,7 @@ class ilExportContainer extends ilExport
     /**
      * @inheritDoc
      */
-    public function exportObject(string $a_type, int $a_id, string $a_target_release = "") : array
+    public function exportObject(string $a_type, int $a_id, string $a_target_release = ""): array
     {
         $log = $GLOBALS['DIC']->logger()->exp();
 
@@ -70,7 +72,7 @@ class ilExportContainer extends ilExport
         return [];
     }
 
-    protected function manifestWriterBegin(string $a_type, int $a_id, string $a_target_release) : void
+    protected function manifestWriterBegin(string $a_type, int $a_id, string $a_target_release): void
     {
         $this->cont_manifest_writer = new ilXmlWriter();
         $this->cont_manifest_writer->xmlHeader();
@@ -86,11 +88,11 @@ class ilExportContainer extends ilExport
         );
     }
 
-    protected function addContainer() : void
+    protected function addContainer(): void
     {
     }
 
-    protected function addSubitems(int $a_id, string $a_type, string $a_target_release) : void
+    protected function addSubitems(int $a_id, string $a_type, string $a_target_release): void
     {
         $set_number = 1;
         foreach ($this->eo->getSubitemsForExport() as $ref_id) {
@@ -149,7 +151,7 @@ class ilExportContainer extends ilExport
         }
     }
 
-    protected function manifestWriterEnd(string $a_type, int $a_id, string $a_target_release) : void
+    protected function manifestWriterEnd(string $a_type, int $a_id, string $a_target_release): void
     {
         $this->cont_manifest_writer->xmlEndTag('Manifest');
         $this->log->debug($this->cont_export_dir . DIRECTORY_SEPARATOR . 'manifest.xml');

@@ -21,7 +21,7 @@
  */
 class ilObjUserFolderAccess extends ilObjectAccess
 {
-    public static function _checkGoto(string $target) : bool
+    public static function _checkGoto(string $target): bool
     {
         global $DIC;
 

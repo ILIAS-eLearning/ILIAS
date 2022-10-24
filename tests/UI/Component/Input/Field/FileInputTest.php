@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
@@ -47,12 +49,12 @@ class WithButtonAndSymbolButNoUIFactory extends NoUIFactory
         $this->symbol_factory = $symbol_factory;
     }
 
-    public function button() : ButtonFactory
+    public function button(): ButtonFactory
     {
         return $this->button_factory;
     }
 
-    public function symbol() : SymbolFactory
+    public function symbol(): SymbolFactory
     {
         return $this->symbol_factory;
     }
@@ -62,13 +64,13 @@ class FileInputTest extends ILIAS_UI_TestBase
 {
     protected DefNamesource $name_source;
 
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->name_source = new DefNamesource();
     }
 
 
-    protected function buildFactory() : I\Input\Field\Factory
+    protected function buildFactory(): I\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(ilLanguage::class);
@@ -83,9 +85,9 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    private function getUploadHandler(?FileInfoResult $file = null) : Field\UploadHandler
+    private function getUploadHandler(?FileInfoResult $file = null): Field\UploadHandler
     {
-        return new class($file) implements Field\UploadHandler {
+        return new class ($file) implements Field\UploadHandler {
             protected ?FileInfoResult $file;
 
             public function __construct(?FileInfoResult $file)
@@ -93,17 +95,17 @@ class FileInputTest extends ILIAS_UI_TestBase
                 $this->file = $file;
             }
 
-            public function getFileIdentifierParameterName() : string
+            public function getFileIdentifierParameterName(): string
             {
                 return 'file_id';
             }
 
-            public function getUploadURL() : string
+            public function getUploadURL(): string
             {
                 return 'uploadurl';
             }
 
-            public function getFileRemovalURL() : string
+            public function getFileRemovalURL(): string
             {
                 return 'removalurl';
             }
@@ -111,7 +113,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             /**
              * @inheritDoc
              */
-            public function getExistingFileInfoURL() : string
+            public function getExistingFileInfoURL(): string
             {
                 return 'infourl';
             }
@@ -119,12 +121,12 @@ class FileInputTest extends ILIAS_UI_TestBase
             /**
              * @inheritDoc
              */
-            public function getInfoForExistingFiles(array $file_ids) : array
+            public function getInfoForExistingFiles(array $file_ids): array
             {
                 return [];
             }
 
-            public function getInfoResult(string $identifier) : ?FileInfoResult
+            public function getInfoResult(string $identifier): ?FileInfoResult
             {
                 if (null !== $this->file && $identifier === $this->file->getFileIdentifier()) {
                     return $this->file;
@@ -136,7 +138,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $f = $this->buildFactory();
 
@@ -147,7 +149,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render() : void
+    public function test_render(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -176,7 +178,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_error() : void
+    public function test_render_error(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -191,7 +193,7 @@ class FileInputTest extends ILIAS_UI_TestBase
             <div class="form-group row">
                 <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div class="help-block alert alert-danger" role="alert">an_error</div>
+                    <div class="help-block alert alert-danger" aria-describedby="id_3" role="alert">an_error</div>
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
@@ -207,7 +209,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_no_byline() : void
+    public function test_render_no_byline(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -234,7 +236,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_value() : void
+    public function test_render_value(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -261,9 +263,17 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
+                                    </span>
+                                    <span data-action="collapse">
+                                    </span>
                                     <span data-dz-name>test file name 1</span>
                                     <span data-dz-size>1 MB</span>
-                                    <a class="glyph" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                                    <span data-action="remove">
+                                    <a class="glyph" aria-label="close">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
@@ -283,7 +293,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata() : void
+    public function test_render_with_metadata(): void
     {
         $factory = $this->buildFactory();
 
@@ -310,17 +320,23 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
                                     <a class="glyph" aria-label="expand_content">
                                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                     </a>
+                                    </span>
+                                    <span data-action="collapse">
                                     <a class="glyph" aria-label="collapse_content">
                                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span data-dz-name></span>
                                     <span data-dz-size></span>
+                                    <span data-action="remove">
                                     <a class="glyph" aria-label="close">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
@@ -344,7 +360,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_with_metadata_value() : void
+    public function test_render_with_metadata_value(): void
     {
         $test_file_id = "test_file_id_1";
         $test_file_name = "test file name 1";
@@ -379,17 +395,23 @@ class FileInputTest extends ILIAS_UI_TestBase
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
                                 <div class="ui-input-file-info">
+                                    <span data-action="expand">
                                     <a class="glyph" aria-label="expand_content">
                                         <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                                     </a>
+                                    </span>
+                                    <span data-action="collapse">
                                     <a class="glyph" aria-label="collapse_content">
                                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span data-dz-name>test file name 1</span>
                                     <span data-dz-size>1 MB</span>
+                                    <span data-action="remove">
                                     <a class="glyph" aria-label="close">
                                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                     </a>
+                                    </span>
                                     <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
                                 </div>
                                 <div class="ui-input-file-metadata" style="display: none;">
@@ -413,7 +435,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_required() : void
+    public function test_render_required(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -440,7 +462,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_disabled() : void
+    public function test_render_disabled(): void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -466,12 +488,12 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    protected function buildButtonFactory() : I\Button\Factory
+    protected function buildButtonFactory(): I\Button\Factory
     {
-        return new I\Button\Factory;
+        return new I\Button\Factory();
     }
 
-    protected function buildSymbolFactory() : I\Symbol\Factory
+    protected function buildSymbolFactory(): I\Symbol\Factory
     {
         return new I\Symbol\Factory(
             new I\Symbol\Icon\Factory(),
@@ -480,7 +502,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function getUIFactory() : WithButtonAndSymbolButNoUIFactory
+    public function getUIFactory(): WithButtonAndSymbolButNoUIFactory
     {
         return new WithButtonAndSymbolButNoUIFactory(
             $this->buildButtonFactory(),
@@ -491,7 +513,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     public function getDefaultRenderer(
         JavaScriptBinding $js_binding = null,
         array $with_stub_renderings = []
-    ) : TestDefaultRenderer {
+    ): TestDefaultRenderer {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();

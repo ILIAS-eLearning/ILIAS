@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Symbol\Icon;
 
 /**
@@ -175,4 +177,5 @@ interface Standard extends Icon
     public const NOTA = 'nota';     //Notification Command
     public const CON = 'con';	    //Conversaion
     public const GCON = 'gcon';	    //Group Conversaion
+    public const FILS = 'fils';	    //File System Service
 }

@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -30,38 +30,38 @@ use ILIAS\BackgroundTasks\Task;
 class NonPersistingObserver implements Observer
 {
     protected \ILIAS\BackgroundTasks\Bucket $bucket;
-    
+
     public function __construct(Bucket $bucket)
     {
         $this->bucket = $bucket;
     }
-    
+
     /**
      * @param $state int
      */
-    public function notifyState(int $state) : void
+    public function notifyState(int $state): void
     {
         $this->bucket->heartbeat();
         $this->bucket->setState($state);
     }
-    
-    public function notifyPercentage(Task $task, int $percentage) : void
+
+    public function notifyPercentage(Task $task, int $percentage): void
     {
         $this->bucket->heartbeat();
         $this->bucket->setPercentage($task, $percentage);
     }
-    
-    public function notifyCurrentTask(Task $task) : void
+
+    public function notifyCurrentTask(Task $task): void
     {
         $this->bucket->heartbeat();
         $this->bucket->setCurrentTask($task);
     }
-    
+
     /**
      * I'm still alive! If your calculation takes a really long time don't forget to use the heartbeat. Otherwise
      * the bucket might be killed while still running. All notify tasks of the observer also trigger a heartbeat.
      */
-    public function heartbeat() : void
+    public function heartbeat(): void
     {
         $this->bucket->heartbeat();
     }

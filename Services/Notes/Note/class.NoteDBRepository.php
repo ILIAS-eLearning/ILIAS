@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class NoteDBRepository
 
     public function createNote(
         Note $note
-    ) : Note {
+    ): Note {
         $db = $this->db;
 
         $id = $db->nextId("note");
@@ -56,7 +58,7 @@ class NoteDBRepository
         return $this->getById($id);
     }
 
-    public function deleteNote(int $id) : void
+    public function deleteNote(int $id): void
     {
         $db = $this->db;
         $q = "DELETE FROM note WHERE id = " .
@@ -67,7 +69,7 @@ class NoteDBRepository
     public function updateNoteText(
         int $id,
         string $text
-    ) : void {
+    ): void {
         $db = $this->db;
 
         $update_date = \ilUtil::now();
@@ -85,7 +87,7 @@ class NoteDBRepository
      */
     public function getById(
         int $id
-    ) : Note {
+    ): Note {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -100,7 +102,7 @@ class NoteDBRepository
         throw new NoteNotFoundException("Note with ID $id not found.");
     }
 
-    protected function getNoteFromRecord(array $rec) : Note
+    protected function getNoteFromRecord(array $rec): Note
     {
         return $this->data->note(
             (int) $rec["id"],
@@ -133,7 +135,7 @@ class NoteDBRepository
         string $since = "",
         array $obj_ids = [],
         string $search_text = ""
-    ) : string {
+    ): string {
         $db = $this->db;
 
         $author_where = ($author > 0)
@@ -197,7 +199,7 @@ class NoteDBRepository
         bool $ascending = false,
         string $since = "",
         string $search_text = ""
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $query = $this->getQuery(
@@ -232,7 +234,7 @@ class NoteDBRepository
         bool $ascending = false,
         string $since = "",
         string $search_text = ""
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $query = $this->getQuery(
@@ -259,7 +261,7 @@ class NoteDBRepository
         Context $context,
         int $type = Note::PRIVATE,
         bool $incl_sub = false
-    ) : int {
+    ): int {
         $db = $this->db;
 
         $query = $this->getQuery(
@@ -282,7 +284,7 @@ class NoteDBRepository
     public function getRelatedObjIdsOfUser(
         int $user_id,
         int $type
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $q = "SELECT DISTINCT rep_obj_id FROM note WHERE " .
@@ -302,7 +304,7 @@ class NoteDBRepository
      * @param int[] $obj_ids
      * @return int[]
      */
-    public function filterObjectsWithNotes(array $obj_ids, int $type) : array
+    public function filterObjectsWithNotes(array $obj_ids, int $type): array
     {
         $db = $this->db;
 
@@ -326,7 +328,7 @@ class NoteDBRepository
         int $obj_id,
         int $sub_obj_id,
         string $obj_type
-    ) : int {
+    ): int {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -348,7 +350,7 @@ class NoteDBRepository
         array $obj_ids,
         int $user_id,
         bool $no_sub_objs = false
-    ) : array {
+    ): array {
         $db = $this->db;
 
         $q = "SELECT count(id) c, rep_obj_id, type FROM note WHERE " .

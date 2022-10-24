@@ -43,7 +43,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
     {
         global $DIC;
         parent::__construct();
-        
+
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->access = ilMyStaffAccess::getInstance();
         $this->help = $DIC->help();
@@ -51,7 +51,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $this->help->setScreenIdComponent('msta');
     }
 
-    protected function checkAccessOrFail() : void
+    protected function checkAccessOrFail(): void
     {
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
             return;
@@ -61,7 +61,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         }
     }
 
-    final public function executeCommand() : void
+    final public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
@@ -91,12 +91,12 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         }
     }
 
-    final public function index() : void
+    final public function index(): void
     {
         $this->listUsers();
     }
 
-    final public function listUsers() : void
+    final public function listUsers(): void
     {
         global $DIC;
 
@@ -108,7 +108,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }
 
-    final public function applyFilter() : void
+    final public function applyFilter(): void
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_APPLY_FILTER);
         $this->table->writeFilterToSession();
@@ -116,7 +116,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $this->index();
     }
 
-    final public function resetFilter() : void
+    final public function resetFilter(): void
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_RESET_FILTER);
         $this->table->resetOffset();
@@ -124,20 +124,20 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         $this->index();
     }
 
-    final public function getId() : string
+    final public function getId(): string
     {
         $this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
 
         return $this->table->getId();
     }
 
-    final public function cancel() : void
+    final public function cancel(): void
     {
         global $DIC;
         $DIC->ctrl()->redirect($this);
     }
 
-    final public function getActions() : void
+    final public function getActions(): void
     {
         global $DIC;
 
@@ -146,7 +146,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
         if ($this->queryWrapper->has('mst_lco_usr_id')) {
             $mst_co_usr_id = $this->queryWrapper->retrieve('mst_lco_usr_id', $this->refinery->kindlyTo()->int());
         }
-        
+
         if ($this->queryWrapper->has('mst_lco_crs_ref_id')) {
             $mst_lco_crs_ref_id = $this->queryWrapper->retrieve('mst_lco_crs_ref_id', $this->refinery->kindlyTo()->int());
         }

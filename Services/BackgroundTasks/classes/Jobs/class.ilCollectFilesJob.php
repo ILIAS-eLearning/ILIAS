@@ -50,7 +50,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -63,7 +63,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function getOutputType() : Type
+    public function getOutputType(): Type
     {
         return new SingleType(ilCopyDefinition::class);
     }
@@ -72,7 +72,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritDoc
      */
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
@@ -82,7 +82,7 @@ class ilCollectFilesJob extends AbstractJob
      * @inheritDoc
      * @todo use filsystem service
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : Value
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): Value
     {
         $this->logger->debug('Start collecting files!');
         $this->logger->dump($input);
@@ -177,7 +177,7 @@ class ilCollectFilesJob extends AbstractJob
      *
      * @return mixed[]
      */
-    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action) : array
+    private static function recurseFolder($a_ref_id, $a_folder_name, $a_temp_dir, $a_num_recursions, $a_initiated_by_folder_action): array
     {
         global $DIC;
 
@@ -227,7 +227,7 @@ class ilCollectFilesJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

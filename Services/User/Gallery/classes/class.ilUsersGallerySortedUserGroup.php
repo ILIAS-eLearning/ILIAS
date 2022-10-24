@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,22 +29,22 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
         $this->sorter = $sorter;
     }
 
-    public function setItems(array $items) : void // Missing array type.
+    public function setItems(array $items): void // Missing array type.
     {
         $this->collection->setItems($items);
     }
 
-    public function getItems() : array // Missing array type.
+    public function getItems(): array // Missing array type.
     {
         return $this->collection->getItems();
     }
 
-    public function current() : ilUsersGalleryUser
+    public function current(): ilUsersGalleryUser
     {
         return $this->collection->current();
     }
 
-    public function next() : void
+    public function next(): void
     {
         $this->collection->next();
     }
@@ -52,38 +54,38 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
         return $this->collection->key();
     }
 
-    public function valid() : bool
+    public function valid(): bool
     {
         return $this->collection->valid();
     }
 
-    public function rewind() : void
+    public function rewind(): void
     {
         $this->collection->setItems($this->sorter->sort($this->collection->getItems()));
         $this->collection->rewind();
     }
 
-    public function count() : int
+    public function count(): int
     {
         return $this->collection->count();
     }
 
-    public function setHighlighted(bool $status) : void
+    public function setHighlighted(bool $status): void
     {
         $this->collection->setHighlighted($status);
     }
 
-    public function isHighlighted() : bool
+    public function isHighlighted(): bool
     {
         return $this->collection->isHighlighted();
     }
 
-    public function setLabel(string $label) : void
+    public function setLabel(string $label): void
     {
         $this->collection->setLabel($label);
     }
 
-    public function getLabel() : string
+    public function getLabel(): string
     {
         return $this->collection->getLabel();
     }

@@ -14,7 +14,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Bibliographic ilBiblLibraryTableGUI
  *
@@ -42,7 +42,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
         $this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);
@@ -70,7 +70,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns() : void
+    protected function initColumns(): void
     {
         $this->addColumn($this->lng()->txt('bibl_library_name'), '', '30%');
         $this->addColumn($this->lng()->txt('bibl_library_url'), '30%');

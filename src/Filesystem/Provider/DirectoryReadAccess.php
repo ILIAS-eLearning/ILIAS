@@ -33,7 +33,6 @@ use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
  */
 interface DirectoryReadAccess
 {
-
     /**
      * Checks whether the directory exists or not.
      *
@@ -44,7 +43,7 @@ interface DirectoryReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function hasDir(string $path) : bool;
+    public function hasDir(string $path): bool;
 
 
     /**
@@ -60,5 +59,5 @@ interface DirectoryReadAccess
      * @since 5.3
      * @version 1.0
      */
-    public function listContents(string $path = '', bool $recursive = false) : array;
+    public function listContents(string $path = '', bool $recursive = false): array;
 }

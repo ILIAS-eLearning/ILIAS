@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -28,7 +30,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 {
     protected ?ilPropertyFormGUI $form_gui = null;
 
-    public function executeDefault(string $requestedMethod) : void
+    public function executeDefault(string $requestedMethod): void
     {
         $this->view();
     }
@@ -37,7 +39,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * Switches GUI to visible mode and calls editSmiliesObject method
      * which prepares and displays the table of existing smilies.
      */
-    public function view() : void
+    public function view(): void
     {
         ilChatroom::checkUserPermissions('read', $this->gui->getRefId());
 
@@ -48,7 +50,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->editSmiliesObject();
     }
 
-    public static function _checkSetup() : bool
+    public static function _checkSetup(): bool
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -96,7 +98,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         return true;
     }
 
-    public static function _getSmileyDir(bool $withBaseDir = true) : string
+    public static function _getSmileyDir(bool $withBaseDir = true): string
     {
         $path = 'chatroom/smilies';
 
@@ -107,7 +109,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         return $path;
     }
 
-    private static function _insertDefaultValues() : void
+    private static function _insertDefaultValues(): void
     {
         $values = [
             ["icon_smile.gif", ":)\n:-)\n:smile:"],
@@ -134,7 +136,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * Shows existing smilies table
      * Prepares existing smilies table and displays it.
      */
-    public function editSmiliesObject() : void
+    public function editSmiliesObject(): void
     {
         if (!$this->rbacsystem->checkAccess('read', $this->gui->getRefId())) {
             $this->ilias->raiseError(
@@ -163,7 +165,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->mainTpl->setContent($tpl_smilies->get());
     }
 
-    public function initSmiliesForm() : ilPropertyFormGUI
+    public function initSmiliesForm(): ilPropertyFormGUI
     {
         global $DIC;
 
@@ -217,7 +219,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * Shows EditSmileyEntryForm
      * Prepares EditSmileyEntryForm and displays it.
      */
-    public function showEditSmileyEntryFormObject() : void
+    public function showEditSmileyEntryFormObject(): void
     {
         $this->gui->switchToVisibleMode();
 
@@ -250,7 +252,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * @param int $smileyId
      * @return array{chatroom_smiley_id: int, chatroom_smiley_keywords: string, chatroom_current_smiley_image_path: string}
      */
-    protected function getSmileyFormDataById(int $smileyId) : array
+    protected function getSmileyFormDataById(int $smileyId): array
     {
         $smiley = ilChatroomSmilies::_getSmiley($smileyId);
 
@@ -265,7 +267,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * @param array<string, mixed> $form_data
      * @return ilPropertyFormGUI
      */
-    public function initSmiliesEditForm(array $form_data) : ilPropertyFormGUI
+    public function initSmiliesEditForm(array $form_data): ilPropertyFormGUI
     {
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setValuesByArray($form_data);
@@ -331,7 +333,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * Shows DeleteSmileyForm
      * Prepares DeleteSmileyForm and displays it.
      */
-    public function showDeleteSmileyFormObject() : void
+    public function showDeleteSmileyFormObject(): void
     {
         $this->gui->switchToVisibleMode();
 
@@ -360,7 +362,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->mainTpl->setContent($confirmation->getHTML());
     }
 
-    public function deleteSmileyObject() : void
+    public function deleteSmileyObject(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
@@ -379,7 +381,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 
-    public function updateSmiliesObject() : void
+    public function updateSmiliesObject(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
@@ -443,7 +445,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
      * Shows confirmation view for deleting multiple smilies
      * Prepares confirmation view for deleting multiple smilies and displays it.
      */
-    public function deleteMultipleObject() : void
+    public function deleteMultipleObject(): void
     {
         $this->gui->switchToVisibleMode();
 
@@ -489,7 +491,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->mainTpl->setContent($confirmation->getHTML());
     }
 
-    public function confirmedDeleteMultipleObject() : void
+    public function confirmedDeleteMultipleObject(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(
@@ -515,7 +517,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
 
-    public function uploadSmileyObject() : void
+    public function uploadSmileyObject(): void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->gui->getRefId())) {
             $this->ilias->raiseError(

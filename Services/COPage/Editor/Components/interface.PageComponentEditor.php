@@ -33,7 +33,7 @@ interface PageComponentEditor
         string $page_type,
         \ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array;
+    ): array;
 
     /**
      * Get rendered editor elements
@@ -44,5 +44,5 @@ interface PageComponentEditor
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string;
+    ): string;
 }

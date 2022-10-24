@@ -41,7 +41,7 @@ class ilUserUtil
     public const START_REPOSITORY = 15;
     public const START_REPOSITORY_OBJ = 16;
     public const START_PD_MYSTAFF = 17;
-    
+
     /**
      * Default behaviour is:
      * - lastname, firstname if public profile enabled
@@ -78,7 +78,7 @@ class ilUserUtil
         if (!($return_as_array = is_array($a_user_id))) {
             $a_user_id = array($a_user_id);
         }
-        
+
         $sql = 'SELECT
 					a.usr_id, 
 					firstname,
@@ -98,7 +98,7 @@ class ilUserUtil
 							(a.usr_id = c.usr_id AND
 							c.keyword = %s)
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
-        
+
         $userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
 
         $names = array();
@@ -139,7 +139,7 @@ class ilUserUtil
             $d["login"] = $row->login;
             $d["public_profile"] = $has_public_profile;
 
-            
+
             if (!$a_omit_login) {
                 $pres .= "[" . $row->login . "]";
             }
@@ -157,7 +157,7 @@ class ilUserUtil
                 $pres = '<a href="' . $link . '">' . $pres . '</a>';
                 $d["link"] = $link;
             }
-    
+
             if ($a_user_image) {
                 $img = ilObjUser::_getPersonalPicturePath($row->usr_id, "xxsmall");
                 $pres = '<img class="ilUserXXSmall" src="' . $img . '" alt="' . $lng->txt("icon") .
@@ -185,7 +185,7 @@ class ilUserUtil
         return $return_as_array ? $names : $names[$a_user_id[0]];
     }
 
-    public static function hasPublicProfile(int $a_user_id) : bool
+    public static function hasPublicProfile(int $a_user_id): bool
     {
         global $DIC;
 
@@ -206,39 +206,39 @@ class ilUserUtil
      * Get link to personal profile
      * Return empty string in case of not public profile
      */
-    public static function getProfileLink(int $a_usr_id) : string
+    public static function getProfileLink(int $a_usr_id): string
     {
         $public_profile = ilObjUser::_lookupPref($a_usr_id, 'public_profile');
         if ($public_profile != 'y' and $public_profile != 'g') {
             return '';
         }
-        
+
         $GLOBALS['DIC']['ilCtrl']->setParameterByClass('ilpublicuserprofilegui', 'user', $a_usr_id);
         return $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
     }
-    
-    
+
+
     //
     // Personal starting point
     //
-    
+
     /**
      * Get all valid starting points
      * @return array<int,string>
      */
-    public static function getPossibleStartingPoints(bool $a_force_all = false) : array
+    public static function getPossibleStartingPoints(bool $a_force_all = false): array
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
-        
+
         // for all conditions: see ilMainMenuGUI
-        
+
         $all = array();
-        
+
         $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
-        
+
         if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
             $ilSetting->get('disable_my_memberships') == 0)) {
             $all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
@@ -247,7 +247,7 @@ class ilUserUtil
         if ((new ilMyStaffCachedAccessDecorator($DIC, ilMyStaffAccess::getInstance()))->hasCurrentUserAccessToMyStaff()) {
             $all[self::START_PD_MYSTAFF] = 'my_staff';
         }
-    
+
         if ($a_force_all || !$ilSetting->get("disable_personal_workspace")) {
             $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
@@ -257,14 +257,14 @@ class ilUserUtil
         }
 
         $all[self::START_REPOSITORY] = 'obj_root';
-        
+
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);
         }
-        
+
         return $all;
     }
-    
+
     /**
      * Set starting point setting
      */
@@ -272,12 +272,12 @@ class ilUserUtil
         int $a_value,
         int $a_ref_id = null,
         array $a_cal_view = []
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $tree = $DIC['tree'];
-        
+
         if ($a_value == self::START_REPOSITORY_OBJ) {
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
@@ -299,31 +299,31 @@ class ilUserUtil
         }
         return false;
     }
-    
+
     /**
      * Get current starting point setting
      */
-    public static function getStartingPoint() : int
+    public static function getStartingPoint(): int
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
-                
+
         $valid = array_keys(self::getPossibleStartingPoints());
         $current = $ilSetting->get("usr_starting_point");
         if ($current == self::START_REPOSITORY_OBJ) {
             return $current;
         } elseif (!$current || !in_array($current, $valid)) {
             $current = self::START_PD_OVERVIEW;
-                    
+
             // #10715 - if 1 is disabled overview will display the current default
             if ($ilSetting->get('disable_my_offers') == 0 &&
                 $ilSetting->get('disable_my_memberships') == 0 &&
                 $ilSetting->get('personal_items_default_view') == 1) {
                 $current = self::START_PD_SUBSCRIPTION;
             }
-            
+
             self::setStartingPoint($current);
         }
         if ($ilUser->getId() == ANONYMOUS_USER_ID ||
@@ -332,15 +332,15 @@ class ilUserUtil
         }
         return $current;
     }
-    
-    public static function getStartingPointAsUrl() : string
+
+    public static function getStartingPointAsUrl(): string
     {
         global $DIC;
 
         $tree = $DIC['tree'];
         $ilUser = $DIC['ilUser'];
         $rbacreview = $DIC['rbacreview'];
-        
+
         $ref_id = 1;
         $by_default = true;
         $current = 0;
@@ -422,23 +422,23 @@ class ilUserUtil
                 return $map[$current];
         }
     }
-    
+
     /**
      * Get ref id of starting object
      */
-    public static function getStartingObject() : int
+    public static function getStartingObject(): int
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         return $ilSetting->get("usr_starting_point_ref_id");
     }
 
     /**
      * Get specific view of calendar starting point
      */
-    public static function getCalendarView() : int
+    public static function getCalendarView(): int
     {
         global $DIC;
 
@@ -450,7 +450,7 @@ class ilUserUtil
     /**
      * Get time frame of calendar view
      */
-    public static function getCalendarPeriod() : int
+    public static function getCalendarPeriod(): int
     {
         global $DIC;
 
@@ -458,52 +458,52 @@ class ilUserUtil
 
         return (int) $ilSetting->get("user_cal_period");
     }
-    
+
     /**
      * Toggle personal starting point setting
      */
-    public static function togglePersonalStartingPoint(bool $a_value) : void
+    public static function togglePersonalStartingPoint(bool $a_value): void
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         $ilSetting->set("usr_starting_point_personal", (string) $a_value);
     }
-    
+
     /**
      * Can starting point be personalized?
      */
-    public static function hasPersonalStartingPoint() : bool
+    public static function hasPersonalStartingPoint(): bool
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         return (bool) $ilSetting->get("usr_starting_point_personal");
     }
-    
+
     /**
      * Did user set any personal starting point (yet)?
      */
-    public static function hasPersonalStartPointPref() : bool
+    public static function hasPersonalStartPointPref(): bool
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         return (bool) $ilUser->getPref("usr_starting_point");
     }
-        
+
     /**
      * Get current personal starting point
      */
-    public static function getPersonalStartingPoint() : int
+    public static function getPersonalStartingPoint(): int
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-                                
+
         $valid = array_keys(self::getPossibleStartingPoints());
         $current = $ilUser->getPref("usr_starting_point");
         if ($current == self::START_REPOSITORY_OBJ) {
@@ -513,25 +513,25 @@ class ilUserUtil
         }
         return $current;
     }
-    
+
     /**
      * Set personal starting point setting
      */
     public static function setPersonalStartingPoint(
         int $a_value,
         int $a_ref_id = null
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
         $tree = $DIC['tree'];
-        
+
         if (!$a_value) {
             $ilUser->setPref("usr_starting_point", null);
             $ilUser->setPref("usr_starting_point_ref_id", null);
             return false;
         }
-        
+
         if ($a_value == self::START_REPOSITORY_OBJ) {
             $a_ref_id = (int) $a_ref_id;
             if (ilObject::_lookupObjId($a_ref_id) &&
@@ -548,16 +548,16 @@ class ilUserUtil
         }
         return false;
     }
-    
+
     /**
      * Get ref id of personal starting object
      */
-    public static function getPersonalStartingObject() : int
+    public static function getPersonalStartingObject(): int
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         $ref_id = $ilUser->getPref("usr_starting_point_ref_id");
         if (!$ref_id) {
             $ref_id = self::getStartingObject();

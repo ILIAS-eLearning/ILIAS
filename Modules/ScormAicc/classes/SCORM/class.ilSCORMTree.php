@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -35,7 +37,7 @@ class ilSCORMTree extends ilTree
         $this->setTableNames('scorm_tree', 'scorm_object');
         $this->setTreeTablePK('slm_id');
     }
-    
+
     /**
     * get child nodes of given node
     * @param string $a_order	sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
@@ -43,11 +45,11 @@ class ilSCORMTree extends ilTree
     * @return array with node data of all childs or empty array
     * @throws InvalidArgumentException
     */
-    public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
+    public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC"): array
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
             $this->logger->error($message);
@@ -69,7 +71,7 @@ class ilSCORMTree extends ilTree
         } else {
             $order_clause = "ORDER BY " . $this->table_tree . ".lft";
         }
-    
+
         $r = $ilDB->queryF(
             "
 			SELECT * FROM " . $this->table_tree . " " .
@@ -80,7 +82,7 @@ class ilSCORMTree extends ilTree
             array('integer','integer'),
             array($a_node_id,$this->tree_id)
         );
-    
+
         $count = $ilDB->numRows($r);
 
         if ($count > 0) {

@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -15,7 +16,7 @@ class ilModulesGroupTasks
      * @param array  $params
      * @return array
      */
-    public static function readMembersFromGroup(ilNode $context, array $params) : array
+    public static function readMembersFromGroup(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -42,7 +43,7 @@ class ilModulesGroupTasks
      * @param array  $params
      * @return array
      */
-    public static function readAdminsFromGroup(ilNode $context, array $params) : array
+    public static function readAdminsFromGroup(ilNode $context, array $params): array
     {
         /*
          * Modelling:
@@ -69,7 +70,7 @@ class ilModulesGroupTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignMembersToGroup(ilNode $context, array $params) : void
+    public static function assignMembersToGroup(ilNode $context, array $params): void
     {
         /*
          * Modelling:
@@ -95,7 +96,7 @@ class ilModulesGroupTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToGroup(ilNode $context, array $params) : void
+    public static function assignAdminsToGroup(ilNode $context, array $params): void
     {
         /*
          * Modelling:

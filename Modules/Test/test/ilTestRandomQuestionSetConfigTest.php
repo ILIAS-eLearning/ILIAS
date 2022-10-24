@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionSetConfig $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,12 +38,12 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetConfig::class, $this->testObj);
     }
 
-    public function testPoolsWithHomogeneousScoredQuestionsRequired() : void
+    public function testPoolsWithHomogeneousScoredQuestionsRequired(): void
     {
         $this->testObj->setPoolsWithHomogeneousScoredQuestionsRequired(false);
         $this->assertFalse($this->testObj->arePoolsWithHomogeneousScoredQuestionsRequired());
@@ -50,13 +52,13 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->arePoolsWithHomogeneousScoredQuestionsRequired());
     }
 
-    public function testQuestionAmountConfigurationMode() : void
+    public function testQuestionAmountConfigurationMode(): void
     {
         $this->testObj->setQuestionAmountConfigurationMode("test");
         $this->assertEquals("test", $this->testObj->getQuestionAmountConfigurationMode());
     }
 
-    public function testQuestionAmountConfigurationModePerPool() : void
+    public function testQuestionAmountConfigurationModePerPool(): void
     {
         $this->testObj->setQuestionAmountConfigurationMode(ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST);
         $this->assertFalse($this->testObj->isQuestionAmountConfigurationModePerPool());
@@ -65,7 +67,7 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionAmountConfigurationModePerPool());
     }
 
-    public function testQuestionAmountConfigurationModePerTest() : void
+    public function testQuestionAmountConfigurationModePerTest(): void
     {
         $this->testObj->setQuestionAmountConfigurationMode(ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL);
         $this->assertFalse($this->testObj->isQuestionAmountConfigurationModePerTest());
@@ -74,20 +76,20 @@ class ilTestRandomQuestionSetConfigTest extends ilTestBaseTestCase
         $this->assertTrue($this->testObj->isQuestionAmountConfigurationModePerTest());
     }
 
-    public function testIsValidQuestionAmountConfigurationMode() : void
+    public function testIsValidQuestionAmountConfigurationMode(): void
     {
         $this->assertFalse($this->testObj->isValidQuestionAmountConfigurationMode(200));
         $this->assertTrue($this->testObj->isValidQuestionAmountConfigurationMode(ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_POOL));
         $this->assertTrue($this->testObj->isValidQuestionAmountConfigurationMode(ilTestRandomQuestionSetConfig::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST));
     }
 
-    public function testQuestionAmountPerTest() : void
+    public function testQuestionAmountPerTest(): void
     {
         $this->testObj->setQuestionAmountPerTest(222);
         $this->assertEquals(222, $this->testObj->getQuestionAmountPerTest());
     }
 
-    public function testLastQuestionSyncTimestamp() : void
+    public function testLastQuestionSyncTimestamp(): void
     {
         $this->testObj->setLastQuestionSyncTimestamp(222);
         $this->assertEquals(222, $this->testObj->getLastQuestionSyncTimestamp());

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,7 +28,7 @@ class NullPluginIdentification implements IdentificationInterface
     private string $internal_identifier;
     private string $identification;
     private string $plugin_id;
-    
+
     /**
      * NullPluginIdentification constructor.
      * @param string $plugin_id
@@ -39,7 +41,7 @@ class NullPluginIdentification implements IdentificationInterface
         $this->identification = $identification;
         $this->internal_identifier = $internal_identifier;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -47,7 +49,7 @@ class NullPluginIdentification implements IdentificationInterface
     {
         return $this->identification;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -55,27 +57,27 @@ class NullPluginIdentification implements IdentificationInterface
     {
         // nothing to do
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getClassName() : string
+    public function getClassName(): string
     {
         return $this->plugin_id;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getInternalIdentifier() : string
+    public function getInternalIdentifier(): string
     {
         return $this->internal_identifier;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public function getProviderNameForPresentation() : string
+    public function getProviderNameForPresentation(): string
     {
         return $this->plugin_id;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,6 +29,8 @@ use ILIAS\DI\UIServices;
  */
 class PrintProcessGUI
 {
+    protected \ILIAS\GlobalScreen\Services $gs;
+    protected \ilGlobalTemplateInterface $main_tpl;
     /**
      * @var callable[]
      */
@@ -53,12 +57,15 @@ class PrintProcessGUI
         \ilLanguage $lng,
         string $body_class = null
     ) {
+        global $DIC;
+
         $this->provider = $provider;
         $this->ui = $ui;
         $this->lng = $lng;
         $this->http = $http;
         $this->body_class = $body_class ?? "ilPrtfPdfBody";     // todo: move this class
         $this->lng->loadLanguageModule("exp");
+        $this->gs = $DIC->globalScreen();
     }
 
     /**
@@ -71,14 +78,14 @@ class PrintProcessGUI
     }
 
     // injectors are used to add css/js files to the template
-    public function addTemplateInjector(callable $f) : void
+    public function addTemplateInjector(callable $f): void
     {
         $this->injectors[] = $f;
     }
 
     public function getModalElements(
         string $selection_action
-    ) : \stdClass {
+    ): \stdClass {
         $ui = $this->ui;
         $lng = $this->lng;
 
@@ -102,7 +109,7 @@ class PrintProcessGUI
      * @param \ilPropertyFormGUI $form
      * @throws HTTP\Response\Sender\ResponseSendingException
      */
-    public function sendForm() : void
+    public function sendForm(): void
     {
         $form = $this->provider->getSelectionForm();
         $mb = $this->ui->factory()->messageBox()->info($this->lng->txt("exp_print_pdf_info"));
@@ -121,7 +128,7 @@ class PrintProcessGUI
         $this->send($this->ui->renderer()->render($modal));
     }
 
-    public function renderPrintView(int $content_style_id = 0) : string
+    public function renderPrintView(int $content_style_id = 0): string
     {
         $pages = $this->provider->getPages();
         $tpl = new \ilGlobalTemplate(
@@ -131,7 +138,17 @@ class PrintProcessGUI
             "Services/Export/Print"
         );
 
-        \iljQueryUtil::initjQuery($tpl);
+        // get all current resources from globalscreen and add them to our template
+        foreach ($this->gs->layout()->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
+            $path = explode("?", $js->getContent());
+            $file = $path[0];
+            $tpl->addJavaScript($file, $js->addVersionNumber());
+        }
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $tpl->addOnLoadCode($code->getContent());
+        }
+
+        //\iljQueryUtil::initjQuery($tpl);
 
         foreach ($this->provider->getTemplateInjectors() as $f) {
             $f($tpl);
@@ -158,13 +175,7 @@ class PrintProcessGUI
         );
 
         $content = '<div class="ilInvisibleBorder">' . $content . '</div>';
-        $content .= '<script type="text/javascript" language="javascript1.2">
-				<!--
-					il.Util.addOnLoad(function () {
-						il.Util.print();
-					});
-				//-->
-				</script>';
+        $tpl->addOnLoadCode("il.Util.print();");
 
         $tpl->setVariable("CONTENT", $content);
         return $tpl->printToString();
@@ -173,7 +184,7 @@ class PrintProcessGUI
     /**
      * @throws HTTP\Response\Sender\ResponseSendingException
      */
-    public function sendPrintView(int $content_style_id = 0) : void
+    public function sendPrintView(int $content_style_id = 0): void
     {
         $this->send($this->renderPrintView($content_style_id));
     }

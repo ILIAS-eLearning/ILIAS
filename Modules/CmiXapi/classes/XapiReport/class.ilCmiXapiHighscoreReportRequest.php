@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,7 +33,7 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
      * @var ilCmiXapiLrsType
      */
     protected ilCmiXapiLrsType $lrsType;
-    
+
     /**
      * @var ilCmiXapiHighscoreReportLinkBuilder
      */
@@ -45,11 +47,11 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
         parent::__construct($basicAuth);
         $this->linkBuilder = $linkBuilder;
     }
-    
-    public function queryReport(int $objId) : \ilCmiXapiHighscoreReport
+
+    public function queryReport(int $objId): \ilCmiXapiHighscoreReport
     {
         $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
-        
+
         return new ilCmiXapiHighscoreReport($reportResponse, $objId);
     }
 }

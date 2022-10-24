@@ -1,5 +1,22 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Consultation hours administration
@@ -49,12 +66,12 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function hasGroups() : bool
+    public function hasGroups(): bool
     {
         return $this->has_groups;
     }
@@ -62,7 +79,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('START', $a_set['start_p']);
@@ -74,7 +91,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('NUM_BOOKINGS', $a_set['num_bookings']);
 
-        foreach ((array) $a_set['target_links'] as $link) {
+        foreach ((array) ($a_set['target_links'] ?? []) as $link) {
             $this->tpl->setCurrentBlock('links');
             $this->tpl->setVariable('TARGET', $link['title']);
             $this->tpl->setVariable('URL_TARGET', $link['link']);
@@ -83,7 +100,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
         if ($a_set['bookings']) {
             foreach ($a_set['bookings'] as $user_id => $name) {
                 $user_profile_prefs = ilObjUser::_getPreferences($user_id);
-                if ($user_profile_prefs["public_profile"] == "y") {
+                if (($user_profile_prefs["public_profile"] ?? '') == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
                     $this->ctrl->setParameter($this->getParentObject(), 'user', $user_id);
                     $this->tpl->setVariable(
@@ -138,7 +155,7 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
             $booking = new ilBookingEntry($app->getContextId());
 
             $booked_user_ids = $booking->getCurrentBookings($app->getEntryId());
-            $booked_user_ids = ilUtil::_sortIds($booked_user_ids, 'usr_data', 'lastname', 'usr_id');
+            $booked_user_ids = array_map('intval', ilUtil::_sortIds($booked_user_ids, 'usr_data', 'lastname', 'usr_id'));
             $users = array();
             $data[$counter]['participants'] = '';
             $user_counter = 0;
@@ -161,7 +178,10 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
 
             // obj assignments
             $refs_counter = 0;
-            $obj_ids = ilUtil::_sortIds($booking->getTargetObjIds(), 'object_data', 'title', 'obj_id');
+            $obj_ids = array_map(
+                'intval',
+                ilUtil::_sortIds($booking->getTargetObjIds(), 'object_data', 'title', 'obj_id')
+            );
             foreach ($obj_ids as $obj_id) {
                 if ($refs_counter) {
                     $data[$counter]['target'] = ilObject::_lookupTitle($obj_id);

@@ -1,28 +1,27 @@
-<?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Model of calendar entry recurrcences
+ * based on iCalendar-RFC-5545
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
  * @ingroup ServicesCalendar
@@ -73,7 +72,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         }
     }
 
-    public static function _delete(int $a_cal_id) : void
+    public static function _delete(int $a_cal_id): void
     {
         global $DIC;
 
@@ -88,7 +87,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     /**
      * Get ical presentation for calendar recurrence
      */
-    public function toICal(int $a_user_id) : string
+    public function toICal(int $a_user_id): string
     {
         $entry = new ilCalendarEntry($this->getEntryId());
 
@@ -147,7 +146,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     /**
      * reset all settings
      */
-    public function reset() : void
+    public function reset(): void
     {
         $this->setBYDAY('');
         $this->setBYMONTHDAY('');
@@ -160,17 +159,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $this->setFrequenceUntilCount(0);
     }
 
-    public function getRecurrenceId() : int
+    public function getRecurrenceId(): int
     {
         return $this->recurrence_id;
     }
 
-    public function setEntryId(int $a_id) : void
+    public function setEntryId(int $a_id): void
     {
         $this->cal_id = $a_id;
     }
 
-    public function getEntryId() : int
+    public function getEntryId(): int
     {
         return $this->cal_id;
     }
@@ -180,62 +179,66 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
      * @access public
      * @param int REC_RECURRENCE or REC_EXLUSION defines whther the current object is a recurrence an exclusion pattern
      */
-    public function setRecurrence(int $a_type) : void
+    public function setRecurrence(int $a_type): void
     {
         $this->recurrence_type = $a_type;
     }
 
-    public function isRecurrence() : bool
+    public function isRecurrence(): bool
     {
         return $this->recurrence_type == self::REC_RECURRENCE;
     }
 
-    public function setFrequenceType(string $a_type) : void
+    public function setFrequenceType(string $a_type): void
     {
         $this->freq_type = $a_type;
     }
 
-    public function getFrequenceType() : string
+    public function getFrequenceType(): string
     {
         return $this->freq_type;
     }
 
-    public function getFrequenceUntilDate() : ?ilDate
+    public function getFrequenceUntilDate(): ?ilDate
     {
         return is_object($this->freq_until_date) ? $this->freq_until_date : null;
     }
 
-    public function setFrequenceUntilDate(ilDateTime $a_date = null) : void
+    public function setFrequenceUntilDate(ilDateTime $a_date = null): void
     {
         $this->freq_until_date = $a_date;
     }
 
-    public function setFrequenceUntilCount(int $a_count) : void
+    public function setFrequenceUntilCount(int $a_count): void
     {
         $this->freq_until_count = $a_count;
     }
 
-    public function getFrequenceUntilCount() : int
+    public function getFrequenceUntilCount(): int
     {
         return $this->freq_until_count;
     }
 
-    public function setInterval(int $a_interval) : void
+    public function setInterval(int $a_interval): void
     {
         $this->interval = $a_interval;
     }
 
-    public function getInterval() : int
+    public function getInterval(): int
     {
         return $this->interval;
     }
 
-    public function setBYDAY(string $a_byday) : void
+    /**
+     * 3.8.5.3. Recurrence Rule
+     * example: BYDAY=TU,TH
+     */
+    public function setBYDAY(string $a_byday): void
     {
         $this->byday = $a_byday;
     }
 
-    public function getBYDAY() : string
+    public function getBYDAY(): string
     {
         return $this->byday;
     }
@@ -243,7 +246,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     /**
      * @inheritDoc
      */
-    public function getBYDAYList() : array
+    public function getBYDAYList(): array
     {
         if (!trim($this->getBYDAY())) {
             return array();
@@ -255,12 +258,12 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $bydays;
     }
 
-    public function setBYWEEKNO(string $a_byweekno) : void
+    public function setBYWEEKNO(string $a_byweekno): void
     {
         $this->byweekno = $a_byweekno;
     }
 
-    public function getBYWEEKNOList() : array
+    public function getBYWEEKNOList(): array
     {
         if (!trim($this->getBYWEEKNO())) {
             return array();
@@ -272,22 +275,22 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $weeks;
     }
 
-    public function getBYWEEKNO() : string
+    public function getBYWEEKNO(): string
     {
         return $this->byweekno;
     }
 
-    public function setBYMONTH(string $a_by) : void
+    public function setBYMONTH(string $a_by): void
     {
         $this->bymonth = $a_by;
     }
 
-    public function getBYMONTH() : string
+    public function getBYMONTH(): string
     {
         return $this->bymonth;
     }
 
-    public function getBYMONTHList() : array
+    public function getBYMONTHList(): array
     {
         if (!trim($this->getBYMONTH())) {
             return array();
@@ -299,17 +302,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $months;
     }
 
-    public function setBYMONTHDAY(string $a_by) : void
+    public function setBYMONTHDAY(string $a_by): void
     {
         $this->bymonthday = $a_by;
     }
 
-    public function getBYMONTHDAY() : string
+    public function getBYMONTHDAY(): string
     {
         return $this->bymonthday;
     }
 
-    public function getBYMONTHDAYList() : array
+    public function getBYMONTHDAYList(): array
     {
         if (!trim($this->getBYMONTHDAY())) {
             return array();
@@ -321,17 +324,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $month;
     }
 
-    public function setBYYEARDAY(string $a_by) : void
+    public function setBYYEARDAY(string $a_by): void
     {
         $this->byyearday = $a_by;
     }
 
-    public function getBYYEARDAY() : string
+    public function getBYYEARDAY(): string
     {
         return $this->byyearday;
     }
 
-    public function getBYYEARDAYList() : array
+    public function getBYYEARDAYList(): array
     {
         if (!trim($this->getBYYEARDAY())) {
             return array();
@@ -343,17 +346,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $days;
     }
 
-    public function setBYSETPOS(string $a_by) : void
+    public function setBYSETPOS(string $a_by): void
     {
         $this->bysetpos = $a_by;
     }
 
-    public function getBYSETPOS() : string
+    public function getBYSETPOS(): string
     {
         return $this->bysetpos;
     }
 
-    public function getBYSETPOSList() : array
+    public function getBYSETPOSList(): array
     {
         if (!trim($this->getBYSETPOS())) {
             return array();
@@ -365,22 +368,22 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return $positions;
     }
 
-    public function setWeekstart(string $a_start) : void
+    public function setWeekstart(string $a_start): void
     {
         $this->weekstart = $a_start;
     }
 
-    public function getWeekstart() : string
+    public function getWeekstart(): string
     {
         return $this->weekstart;
     }
 
-    public function getTimeZone() : string
+    public function getTimeZone(): string
     {
         return $this->timezone;
     }
 
-    public function setTimeZone(string $a_tz) : void
+    public function setTimeZone(string $a_tz): void
     {
         $this->timezone = $a_tz;
     }
@@ -388,7 +391,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     /**
      * @return ilCalendarRecurrenceExclusion[]
      */
-    public function getExclusionDates() : array
+    public function getExclusionDates(): array
     {
         return $this->exclusion_dates;
     }
@@ -396,7 +399,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     /**
      * validate
      */
-    public function validate() : bool
+    public function validate(): bool
     {
         $valid_frequences = array(self::FREQ_DAILY,
                                   self::FREQ_WEEKLY,
@@ -415,7 +418,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         return true;
     }
 
-    public function save() : void
+    public function save(): void
     {
         $until_date = is_null($this->getFrequenceUntilDate()) ?
             null :
@@ -444,7 +447,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $this->recurrence_id = $next_id;
     }
 
-    public function update() : void
+    public function update(): void
     {
         $until_date = is_null($this->getFrequenceUntilDate()) ?
             null :
@@ -468,14 +471,14 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
         $res = $this->db->manipulate($query);
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM cal_recurrence_rules " .
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer');
         $res = $this->db->manipulate($query);
     }
 
-    private function read() : void
+    private function read(): void
     {
         $query = "SELECT * FROM cal_recurrence_rules " .
             "WHERE rule_id = " . $this->db->quote($this->recurrence_id, 'integer') . " ";

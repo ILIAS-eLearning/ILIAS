@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,7 +43,7 @@ class ilUserCertificateTableProvider
      * @param array<string, mixed> $filter
      * @return array{cnt: int, items: array<int, array>}
      */
-    public function fetchDataSet(int $userId, array $params, array $filter) : array
+    public function fetchDataSet(int $userId, array $params, array $filter): array
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
@@ -139,7 +141,7 @@ WHERE il_cert_user_cert.usr_id = ' . $this->database->quote($userId, 'integer') 
         return $data;
     }
 
-    protected function getOrderByPart(array $params, array $filter) : string
+    protected function getOrderByPart(array $params, array $filter): string
     {
         if (isset($params['order_field'])) {
             if (!is_string($params['order_field'])) {

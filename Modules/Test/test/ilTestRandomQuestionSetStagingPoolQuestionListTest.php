@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,7 +26,7 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
 {
     private ilTestRandomQuestionSetStagingPoolQuestionList $testObj;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -34,42 +36,42 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
         );
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetStagingPoolQuestionList::class, $this->testObj);
     }
 
-    public function testTestObjId() : void
+    public function testTestObjId(): void
     {
         $this->testObj->setTestObjId(5);
         $this->assertEquals(5, $this->testObj->getTestObjId());
     }
 
-    public function testTestId() : void
+    public function testTestId(): void
     {
         $this->testObj->setTestId(5);
         $this->assertEquals(5, $this->testObj->getTestId());
     }
 
-    public function testPoolId() : void
+    public function testPoolId(): void
     {
         $this->testObj->setPoolId(5);
         $this->assertEquals(5, $this->testObj->getPoolId());
     }
 
-    public function testAddTaxonomyFilter() : void
+    public function testAddTaxonomyFilter(): void
     {
         $this->testObj->addTaxonomyFilter(20, "test");
         $this->assertEquals([20 => "test"], $this->testObj->getTaxonomyFilters());
     }
 
-    public function testTypeFilter() : void
+    public function testTypeFilter(): void
     {
         $this->testObj->setTypeFilter(5);
         $this->assertEquals(5, $this->testObj->getTypeFilter());
     }
 
-    public function testLifecycleFilter() : void
+    public function testLifecycleFilter(): void
     {
         $expected = [
             "Hello",

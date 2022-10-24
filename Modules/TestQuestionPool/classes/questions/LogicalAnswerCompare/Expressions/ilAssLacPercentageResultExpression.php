@@ -1,7 +1,20 @@
 <?php
 
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacAbstractExpression.php";
-include_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacSolutionExpressionInterface.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class PercentageResultExpression for the expression %n%
@@ -44,7 +57,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches) : void
+    protected function setMatches($matches): void
     {
         $this->numeric_value = $matches[0][0];
     }
@@ -52,7 +65,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
     /**
      * @return float
      */
-    public function getNumericValue() : float
+    public function getNumericValue(): float
     {
         return $this->numeric_value;
     }
@@ -61,7 +74,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      * Get the value of this Expression
      * @return string
      */
-    public function getValue() : string
+    public function getValue(): string
     {
         return "%" . $this->numeric_value . "%";
     }
@@ -70,7 +83,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->numeric_value . "% beantwortet ";
     }
@@ -82,7 +95,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null) : bool
+    public function checkResult($result, $comperator, $index = null): bool
     {
         $percentage = $result->getReachedPercentage();
         switch ($comperator) {

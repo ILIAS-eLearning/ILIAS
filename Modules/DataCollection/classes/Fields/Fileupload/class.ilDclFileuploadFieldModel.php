@@ -26,7 +26,7 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $join_str
@@ -50,7 +50,7 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -82,7 +82,7 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $this->parseSupportedExtensions($file_types);
     }
 
-    protected function parseSupportedExtensions(string $input_value) : array
+    protected function parseSupportedExtensions(string $input_value): array
     {
         $supported_extensions = explode(",", $input_value);
 
@@ -97,7 +97,7 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
      * @param array|null $value
      * @throws ilDclInputException$
      */
-    public function checkValidity($value, ?int $record_id = null) : bool
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         //Don't check empty values
         if ($value == null || $value['size'] == 0) {
@@ -117,12 +117,12 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    public function getValidFieldProperties() : array
+    public function getValidFieldProperties(): array
     {
         return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
     }
 
-    public function allowFilterInListView() : bool
+    public function allowFilterInListView(): bool
     {
         return false;
     }

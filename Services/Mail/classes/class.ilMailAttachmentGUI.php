@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +56,7 @@ class ilMailAttachmentGUI
         $this->mfile = new ilFileDataMail($DIC->user()->getId());
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -68,7 +70,7 @@ class ilMailAttachmentGUI
         }
     }
 
-    public function saveAttachments() : void
+    public function saveAttachments(): void
     {
         $files = [];
 
@@ -112,13 +114,13 @@ class ilMailAttachmentGUI
         $this->ctrl->returnToParent($this);
     }
 
-    public function cancelSaveAttachments() : void
+    public function cancelSaveAttachments(): void
     {
         $this->ctrl->setParameter($this, 'type', ilMailFormGUI::MAIL_FORM_TYPE_ATTACH);
         $this->ctrl->returnToParent($this);
     }
 
-    public function deleteAttachments() : void
+    public function deleteAttachments(): void
     {
         $files = [];
         if ($this->http->wrapper()->post()->has('filename')) {
@@ -153,7 +155,7 @@ class ilMailAttachmentGUI
         $this->tpl->printToStdout();
     }
 
-    public function confirmDeleteAttachments() : void
+    public function confirmDeleteAttachments(): void
     {
         $files = [];
         if ($this->http->wrapper()->post()->has('filename')) {
@@ -178,10 +180,10 @@ class ilMailAttachmentGUI
         if ($error !== '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mail_error_delete_file') . ' ' . $error);
         } else {
-            $mailData = $this->umail->getSavedData();
-            if (is_array($mailData['attachments'])) {
+            $mail_data = $this->umail->getSavedData();
+            if (is_array($mail_data['attachments'])) {
                 $tmp = [];
-                foreach ($mailData['attachments'] as $attachment) {
+                foreach ($mail_data['attachments'] as $attachment) {
                     if (!in_array($attachment, $decodedFiles, true)) {
                         $tmp[] = $attachment;
                     }
@@ -195,7 +197,7 @@ class ilMailAttachmentGUI
         $this->showAttachments();
     }
 
-    protected function getToolbarForm() : ilPropertyFormGUI
+    protected function getToolbarForm(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -207,7 +209,7 @@ class ilMailAttachmentGUI
         return $form;
     }
 
-    public function uploadFile() : void
+    public function uploadFile(): void
     {
         if (isset($_FILES['userfile']['name']) && trim($_FILES['userfile']['name']) !== '') {
             $form = $this->getToolbarForm();
@@ -229,7 +231,7 @@ class ilMailAttachmentGUI
         $this->showAttachments();
     }
 
-    public function showAttachments() : void
+    public function showAttachments(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
 
@@ -242,13 +244,13 @@ class ilMailAttachmentGUI
 
         $table = new ilMailAttachmentTableGUI($this, 'showAttachments');
 
-        $mailData = $this->umail->getSavedData();
+        $mail_data = $this->umail->getSavedData();
         $files = $this->mfile->getUserFilesData();
         $data = [];
         $counter = 0;
         foreach ($files as $file) {
             $checked = false;
-            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'], true)) {
+            if (is_array($mail_data['attachments']) && in_array($file['name'], $mail_data['attachments'], true)) {
                 $checked = true;
             }
 

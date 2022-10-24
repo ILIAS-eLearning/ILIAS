@@ -90,7 +90,7 @@ class JWT
     public static function decode(
         string $jwt,
         $keyOrKeyArray
-    ) : stdClass {
+    ): stdClass {
         // Validate JWT
         $timestamp = \is_null(static::$timestamp) ? \time() : static::$timestamp;
 
@@ -186,7 +186,7 @@ class JWT
         string $alg,
         string $keyId = null,
         array $head = null
-    ) : string {
+    ): string {
         $header = ['typ' => 'JWT', 'alg' => $alg];
         if ($keyId !== null) {
             $header['kid'] = $keyId;
@@ -221,7 +221,7 @@ class JWT
         string $msg,
         $key,
         string $alg
-    ) : string {
+    ): string {
         if (empty(static::$supported_algs[$alg])) {
             throw new DomainException('Algorithm not supported');
         }
@@ -282,7 +282,7 @@ class JWT
         string $signature,
         $keyMaterial,
         string $alg
-    ) : bool {
+    ): bool {
         if (empty(static::$supported_algs[$alg])) {
             throw new DomainException('Algorithm not supported');
         }
@@ -355,7 +355,7 @@ class JWT
      *
      * @throws DomainException Provided object could not be encoded to valid JSON
      */
-    public static function jsonEncode(array $input) : string
+    public static function jsonEncode(array $input): string
     {
         if (PHP_VERSION_ID >= 50400) {
             $json = \json_encode($input, \JSON_UNESCAPED_SLASHES);
@@ -383,7 +383,7 @@ class JWT
      *
      * @throws InvalidArgumentException invalid base64 characters
      */
-    public static function urlsafeB64Decode(string $input) : string
+    public static function urlsafeB64Decode(string $input): string
     {
         $remainder = \strlen($input) % 4;
         if ($remainder) {
@@ -400,7 +400,7 @@ class JWT
      *
      * @return string The base64 encode of what you passed in
      */
-    public static function urlsafeB64Encode(string $input) : string
+    public static function urlsafeB64Encode(string $input): string
     {
         return \str_replace('=', '', \strtr(\base64_encode($input), '+/', '-_'));
     }
@@ -419,7 +419,7 @@ class JWT
     private static function getKey(
         $keyOrKeyArray,
         ?string $kid
-    ) : Key {
+    ): Key {
         if ($keyOrKeyArray instanceof Key) {
             return $keyOrKeyArray;
         }
@@ -444,7 +444,7 @@ class JWT
      * @param string $right The user-supplied string
      * @return bool
      */
-    public static function constantTimeEquals(string $left, string $right) : bool
+    public static function constantTimeEquals(string $left, string $right): bool
     {
         if (\function_exists('hash_equals')) {
             return \hash_equals($left, $right);
@@ -469,7 +469,7 @@ class JWT
      *
      * @return void
      */
-    private static function handleJsonError(int $errno) : void
+    private static function handleJsonError(int $errno): void
     {
         $messages = [
             JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
@@ -492,7 +492,7 @@ class JWT
      *
      * @return int
      */
-    private static function safeStrlen(string $str) : int
+    private static function safeStrlen(string $str): int
     {
         if (\function_exists('mb_strlen')) {
             return \mb_strlen($str, '8bit');
@@ -506,7 +506,7 @@ class JWT
      * @param   string $sig The ECDSA signature to convert
      * @return  string The encoded DER object
      */
-    private static function signatureToDER(string $sig) : string
+    private static function signatureToDER(string $sig): string
     {
         // Separate the signature into r-value and s-value
         $length = max(1, (int) (\strlen($sig) / 2));
@@ -540,7 +540,7 @@ class JWT
      *
      * @return  string  the encoded object
      */
-    private static function encodeDER(int $type, string $value) : string
+    private static function encodeDER(int $type, string $value): string
     {
         $tag_header = 0;
         if ($type === self::ASN1_SEQUENCE) {
@@ -564,7 +564,7 @@ class JWT
      *
      * @return  string  the signature
      */
-    private static function signatureFromDER(string $der, int $keySize) : string
+    private static function signatureFromDER(string $der, int $keySize): string
     {
         // OpenSSL returns the ECDSA signatures as a binary ASN.1 DER SEQUENCE
         list($offset, $_) = self::readDER($der);
@@ -592,7 +592,7 @@ class JWT
      *
      * @return array{int, string|null} the new offset and the decoded object
      */
-    private static function readDER(string $der, int $offset = 0) : array
+    private static function readDER(string $der, int $offset = 0): array
     {
         $pos = $offset;
         $size = \strlen($der);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,11 +26,11 @@ class ilScormAiccExporter extends ilXmlExporter
         $this->dataset = new ilScormAiccDataSet();
     }
 
-    public function init() : void
+    public function init(): void
     {
     }
 
-    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id): string
     {
 //            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 //            $lm = new ilObjSAHSLearningModule((int) $a_id, false);
@@ -51,7 +53,7 @@ class ilScormAiccExporter extends ilXmlExporter
     /**
      * @return array<string, array<string, string|bool>>
      */
-    public function getValidSchemaVersions(string $a_entity) : array
+    public function getValidSchemaVersions(string $a_entity): array
     {
         return array(
             "5.1.0" => array(

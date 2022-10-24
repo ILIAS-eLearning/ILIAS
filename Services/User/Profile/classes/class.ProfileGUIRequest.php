@@ -38,7 +38,7 @@ class ProfileGUIRequest
         );
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         $user_id = $this->int("user_id");
         if ($user_id == 0) {
@@ -47,37 +47,37 @@ class ProfileGUIRequest
         return $user_id;
     }
 
-    public function getBackUrl() : string
+    public function getBackUrl(): string
     {
         return $this->str("back_url");
     }
 
-    public function getBaseClass() : string
+    public function getBaseClass(): string
     {
         return $this->str("baseClass");
     }
 
-    public function getPrompted() : int
+    public function getPrompted(): int
     {
         return $this->int("prompted");
     }
 
-    public function getOsdId() : int
+    public function getOsdId(): int
     {
         return $this->int("osd_id");
     }
 
-    public function getFieldId() : string
+    public function getFieldId(): string
     {
         return $this->str("f");
     }
 
-    public function getTerm() : string
+    public function getTerm(): string
     {
         return $this->str("term");
     }
 
-    public function getUserFileCapture() : string
+    public function getUserFileCapture(): string
     {
         return $this->str("userfile_capture");
     }

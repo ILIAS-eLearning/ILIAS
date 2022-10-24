@@ -32,7 +32,6 @@ use ilSoapPluginException;
  */
 abstract class Base extends ilSoapAdministration implements ilSoapMethod
 {
-
     /**
      * @inheritdoc
      */
@@ -46,12 +45,12 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     public const USR_IDS = 'usr_ids';
     public const USR_ID = 'usr_id';
 
-    public function getServiceStyle() : string
+    public function getServiceStyle(): string
     {
         return 'rpc';
     }
 
-    public function getServiceUse() : string
+    public function getServiceUse(): string
     {
         return 'encoded';
     }
@@ -87,14 +86,14 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         }
     }
 
-    public function getServiceNamespace() : string
+    public function getServiceNamespace(): string
     {
         return 'urn:' . ilOrgUnitSOAPServicesPlugin::PLUGIN_NAME;
     }
 
     abstract protected function getAdditionalInputParams(): array;
 
-    public function getInputParams() : array
+    public function getInputParams(): array
     {
         return array_merge(
             array(

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
@@ -47,7 +49,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value) : bool
+    protected function isClientSideValueOk($value): bool
     {
         return ($value === '' || array_key_exists($value, $this->getOptions()));
     }
@@ -55,7 +57,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement() : ?Constraint
+    protected function getConstraintForRequirement(): ?Constraint
     {
         return null;
     }
@@ -63,7 +65,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function withOption(string $value, string $label, string $byline = null) : C\Input\Field\Radio
+    public function withOption(string $value, string $label, string $byline = null): C\Input\Field\Radio
     {
         $clone = clone $this;
         $clone->options[$value] = $label;
@@ -76,13 +78,13 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function getOptions() : array
+    public function getOptions(): array
     {
         return $this->options;
     }
 
 
-    public function getBylineFor(string $value) : ?string
+    public function getBylineFor(string $value): ?string
     {
         if (!array_key_exists($value, $this->bylines)) {
             return null;
@@ -93,7 +95,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function withInput(InputData $input) : C\Input\Field\Input
+    public function withInput(InputData $input): C\Input\Field\Input
     {
         if ($this->getName() === null) {
             throw new LogicException("Can only collect if input has a name.");
@@ -123,7 +125,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : Closure
+    public function getUpdateOnLoadCode(): Closure
     {
         return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id input:checked').val());

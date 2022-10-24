@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@ class ilStudyProgrammeDIC
 {
     public static ?Container $dic = null;
 
-    public static function dic() : Container
+    public static function dic(): Container
     {
         if (!self::$dic) {
             self::$dic = self::buildDIC();
@@ -30,7 +32,7 @@ class ilStudyProgrammeDIC
         return self::$dic;
     }
 
-    public static function specificDicFor(ilObjStudyProgramme $prg) : Container
+    public static function specificDicFor(ilObjStudyProgramme $prg): Container
     {
         global $DIC;
         $dic = new Container();
@@ -47,7 +49,7 @@ class ilStudyProgrammeDIC
     }
 
 
-    protected static function buildDIC() : Container
+    protected static function buildDIC(): Container
     {
         global $DIC;
         $dic = new Container();

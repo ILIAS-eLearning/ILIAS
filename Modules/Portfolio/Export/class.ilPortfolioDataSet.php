@@ -41,17 +41,17 @@ class ilPortfolioDataSet extends ilDataSet
     }
 
 
-    public function getSupportedVersions() : array
+    public function getSupportedVersions(): array
     {
         return array("4.4.0", "5.0.0");
     }
-    
-    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version): string
     {
         return "https://www.ilias.de/xml/Modules/Portfolio/" . $a_entity;
     }
-    
-    protected function getTypes(string $a_entity, string $a_version) : array
+
+    protected function getTypes(string $a_entity, string $a_version): array
     {
         if ($a_entity === "prtt") {
             switch ($a_version) {
@@ -70,7 +70,7 @@ class ilPortfolioDataSet extends ilDataSet
                         );
             }
         }
-        
+
         if ($a_entity === "portfolio_page") {
             switch ($a_version) {
                 case "4.4.0":
@@ -87,14 +87,14 @@ class ilPortfolioDataSet extends ilDataSet
         return [];
     }
 
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
+    public function readData(string $a_entity, string $a_version, array $a_ids): void
     {
         $ilDB = $this->db;
 
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
-        
+
         if ($a_entity === "prtt") {
             switch ($a_version) {
                 case "4.4.0":
@@ -105,7 +105,7 @@ class ilPortfolioDataSet extends ilDataSet
                         " WHERE " . $ilDB->in("prtf.id", $a_ids, false, "integer") .
                         " AND od.type = " . $ilDB->quote("prtt", "text"));
                     break;
-                
+
                 case "5.0.0":
                     $this->getDirectDataFromQuery("SELECT prtf.id,od.title,od.description," .
                         "prtf.bg_color,prtf.font_color,prtf.img,prtf.ppic" .
@@ -116,7 +116,7 @@ class ilPortfolioDataSet extends ilDataSet
                     break;
             }
         }
-        
+
         if ($a_entity === "portfolio_page") {
             switch ($a_version) {
                 case "4.4.0":
@@ -128,13 +128,13 @@ class ilPortfolioDataSet extends ilDataSet
             }
         }
     }
-    
+
     protected function getDependencies(
         string $a_entity,
         string $a_version,
         ?array $a_rec = null,
         ?array $a_ids = null
-    ) : array {
+    ): array {
         if ($a_entity === "prtt") {
             return array(
                 "portfolio_page" => array("ids" => $a_rec["Id"] ?? null)
@@ -147,24 +147,24 @@ class ilPortfolioDataSet extends ilDataSet
         string $a_entity,
         string $a_version,
         array $a_set
-    ) : array {
+    ): array {
         if ($a_entity === "prtt") {
             $dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
-            
+
             $a_set["Comments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;
     }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
-    ) : void {
+    ): void {
         switch ($a_entity) {
             case "prtt":
 
@@ -175,7 +175,7 @@ class ilPortfolioDataSet extends ilDataSet
                     $newObj = new ilObjPortfolioTemplate();
                     $newObj->create();
                 }
-                                
+
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setPublicComments($a_rec["Comments"]);
@@ -184,7 +184,7 @@ class ilPortfolioDataSet extends ilDataSet
                 $newObj->setProfilePicture($a_rec["Ppic"]);
                 $newObj->setImage($a_rec["Img"]);
                 $newObj->update();
-                
+
                 // handle image(s)
                 if ($a_rec["Img"]) {
                     $dir = str_replace("..", "", $a_rec["Dir"]);
@@ -208,7 +208,7 @@ class ilPortfolioDataSet extends ilDataSet
                     $newObj->setType($a_rec["Type"]);
                     $newObj->setOrderNr($a_rec["OrderNr"]);
                     $newObj->create(true);
-                    
+
                     $a_mapping->addMapping("Services/COPage", "pg", "prtt:" . $a_rec["Id"], "prtt:" . $newObj->getId());
                 }
                 break;

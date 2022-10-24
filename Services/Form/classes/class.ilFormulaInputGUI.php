@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -36,7 +38,7 @@ class ilFormulaInputGUI extends ilTextInputGUI
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->value = str_replace(',', '.', $a_value);
     }
@@ -45,10 +47,10 @@ class ilFormulaInputGUI extends ilTextInputGUI
     * Check input, strip slashes etc. set alert, if input is not ok.
     * @return    bool        Input ok, true/false
     */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         $lng = $this->lng;
-        
+
         if ($this->getRequired() && $this->getInput() == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
             return false;
@@ -61,11 +63,11 @@ class ilFormulaInputGUI extends ilTextInputGUI
                 return false;
             }
         }
-        
+
         return $this->checkSubItemsInput();
     }
 
-    public function getInput() : string
+    public function getInput(): string
     {
         $t = $this->refinery->kindlyTo()->string();
         return ilUtil::stripSlashes(

@@ -21,7 +21,7 @@
  */
 class ilDclPluginFieldModel extends ilDclBaseFieldModel
 {
-    public function getValidFieldProperties() : array
+    public function getValidFieldProperties(): array
     {
         return array_merge(array(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME), $this->getCustomValidFieldProperties());
     }
@@ -29,7 +29,7 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
     /**
      * Method for adding custom fields to plugins
      */
-    public function getCustomValidFieldProperties() : array
+    public function getCustomValidFieldProperties(): array
     {
         return array();
     }
@@ -37,7 +37,7 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
     /**
      * @return bool
      */
-    public function allowFilterInListView() : bool
+    public function allowFilterInListView(): bool
     {
         return false;
     }

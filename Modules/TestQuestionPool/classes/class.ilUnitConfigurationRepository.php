@@ -1,16 +1,21 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
  *********************************************************************/
 
 /**
@@ -37,17 +42,17 @@ class ilUnitConfigurationRepository
         $this->lng = $lng;
     }
 
-    public function setConsumerId(int $consumer_id) : void
+    public function setConsumerId(int $consumer_id): void
     {
         $this->consumer_id = $consumer_id;
     }
 
-    public function getConsumerId() : int
+    public function getConsumerId(): int
     {
         return $this->consumer_id;
     }
 
-    public function isCRUDAllowed(int $category_id) : bool
+    public function isCRUDAllowed(int $category_id): bool
     {
         $res = $this->db->queryF(
             'SELECT * FROM il_qpl_qst_fq_ucat WHERE category_id = %s',
@@ -58,7 +63,7 @@ class ilUnitConfigurationRepository
         return isset($row['question_fi']) && (int) $row['question_fi'] === $this->getConsumerId();
     }
 
-    public function copyCategory(int $category_id, int $question_fi, ?string $category_name = null) : int
+    public function copyCategory(int $category_id, int $question_fi, ?string $category_name = null): int
     {
         $res = $this->db->queryF(
             'SELECT category FROM il_qpl_qst_fq_ucat WHERE category_id = %s',
@@ -84,7 +89,7 @@ class ilUnitConfigurationRepository
         return $next_id;
     }
 
-    public function copyUnitsByCategories(int $from_category_id, int $to_category_id, int $qustion_fi) : void
+    public function copyUnitsByCategories(int $from_category_id, int $to_category_id, int $qustion_fi): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
@@ -157,7 +162,7 @@ class ilUnitConfigurationRepository
         }
     }
 
-    public function getCategoryUnitCount(int $id) : int
+    public function getCategoryUnitCount(int $id): int
     {
         $result = $this->db->queryF(
             "SELECT * FROM il_qpl_qst_fq_unit WHERE category_fi = %s",
@@ -168,7 +173,7 @@ class ilUnitConfigurationRepository
         return $this->db->numRows($result);
     }
 
-    public function isUnitInUse(int $id) : bool
+    public function isUnitInUse(int $id): bool
     {
         $result_1 = $this->db->queryF(
             "SELECT unit_fi FROM il_qpl_qst_fq_res_unit WHERE unit_fi = %s",
@@ -194,7 +199,7 @@ class ilUnitConfigurationRepository
         return $cnt_1 > 0 || $cnt_2 > 0 || $cnt_3 > 0;
     }
 
-    public function checkDeleteCategory(int $id) : ?string
+    public function checkDeleteCategory(int $id): ?string
     {
         $res = $this->db->queryF(
             'SELECT unit_id FROM il_qpl_qst_fq_unit WHERE category_fi = %s',
@@ -214,7 +219,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    public function deleteUnit(int $id) : ?string
+    public function deleteUnit(int $id): ?string
     {
         $res = $this->checkDeleteUnit($id);
         if (!is_null($res)) {
@@ -234,7 +239,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    protected function loadUnits() : void
+    protected function loadUnits(): void
     {
         $result = $this->db->query(
             "
@@ -257,7 +262,7 @@ class ilUnitConfigurationRepository
     /**
      * @return assFormulaQuestionUnit[]|assFormulaQuestionUnitCategory[]
      */
-    public function getCategorizedUnits() : array
+    public function getCategorizedUnits(): array
     {
         if (count($this->categorizedUnits) === 0) {
             $result = $this->db->queryF(
@@ -297,12 +302,12 @@ class ilUnitConfigurationRepository
         return $this->categorizedUnits;
     }
 
-    protected function clearUnits() : void
+    protected function clearUnits(): void
     {
         $this->units = [];
     }
 
-    protected function addUnit(assFormulaQuestionUnit $unit) : void
+    protected function addUnit(assFormulaQuestionUnit $unit): void
     {
         $this->units[$unit->getId()] = $unit;
     }
@@ -310,7 +315,7 @@ class ilUnitConfigurationRepository
     /**
      * @return assFormulaQuestionUnit[]
      */
-    public function getUnits() : array
+    public function getUnits(): array
     {
         if (count($this->units) === 0) {
             $this->loadUnits();
@@ -322,7 +327,7 @@ class ilUnitConfigurationRepository
      * @param int $category
      * @return assFormulaQuestionUnit[]
      */
-    public function loadUnitsForCategory(int $category) : array
+    public function loadUnitsForCategory(int $category): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -354,7 +359,7 @@ class ilUnitConfigurationRepository
      * @param int $id
      * @return assFormulaQuestionUnit|null
      */
-    public function getUnit(int $id) : ?assFormulaQuestionUnit
+    public function getUnit(int $id): ?assFormulaQuestionUnit
     {
         if (count($this->units) === 0) {
             $this->loadUnits();
@@ -374,7 +379,7 @@ class ilUnitConfigurationRepository
     /**
      * @return array<int, array{value: int, text: string, qst_id: int}>
      */
-    public function getUnitCategories() : array
+    public function getUnitCategories(): array
     {
         $categories = [];
         $result = $this->db->queryF(
@@ -406,7 +411,7 @@ class ilUnitConfigurationRepository
     /**
      * @return array<int, array{value: int, text: string, qst_id: int}>
      */
-    public function getAdminUnitCategories() : array
+    public function getAdminUnitCategories(): array
     {
         $categories = [];
 
@@ -436,7 +441,7 @@ class ilUnitConfigurationRepository
         return $categories;
     }
 
-    public function saveUnitOrder(int $unit_id, int $sequence) : void
+    public function saveUnitOrder(int $unit_id, int $sequence): void
     {
         $this->db->manipulateF(
             'UPDATE il_qpl_qst_fq_unit SET sequence = %s WHERE unit_id = %s AND question_fi = %s',
@@ -445,7 +450,7 @@ class ilUnitConfigurationRepository
         );
     }
 
-    public function checkDeleteUnit(int $id, ?int $category_id = null) : ?string
+    public function checkDeleteUnit(int $id, ?int $category_id = null): ?string
     {
         $result = $this->db->queryF(
             "SELECT * FROM il_qpl_qst_fq_var WHERE unit_fi = %s",
@@ -486,7 +491,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    public function getUnitCategoryById(int $id) : assFormulaQuestionUnitCategory
+    public function getUnitCategoryById(int $id): assFormulaQuestionUnitCategory
     {
         $query = 'SELECT * FROM il_qpl_qst_fq_ucat WHERE category_id = ' . $this->db->quote($id, 'integer');
         $res = $this->db->query($query);
@@ -500,7 +505,7 @@ class ilUnitConfigurationRepository
         return $category;
     }
 
-    public function saveCategory(assFormulaQuestionUnitCategory $category) : void
+    public function saveCategory(assFormulaQuestionUnitCategory $category): void
     {
         $res = $this->db->queryF(
             'SELECT * FROM il_qpl_qst_fq_ucat WHERE category = %s AND question_fi = %s AND category_id != %s',
@@ -518,7 +523,7 @@ class ilUnitConfigurationRepository
         );
     }
 
-    public function saveNewUnitCategory(assFormulaQuestionUnitCategory $category) : void
+    public function saveNewUnitCategory(assFormulaQuestionUnitCategory $category): void
     {
         $res = $this->db->queryF(
             'SELECT category FROM il_qpl_qst_fq_ucat WHERE category = %s AND question_fi = %s',
@@ -545,7 +550,7 @@ class ilUnitConfigurationRepository
     /**
      * @return assFormulaQuestionUnitCategory[]
      */
-    public function getAllUnitCategories() : array
+    public function getAllUnitCategories(): array
     {
         $categories = [];
         $result = $this->db->queryF(
@@ -564,7 +569,7 @@ class ilUnitConfigurationRepository
         return $categories;
     }
 
-    public function deleteCategory(int $id) : ?string
+    public function deleteCategory(int $id): ?string
     {
         $res = $this->checkDeleteCategory($id);
         if (!is_null($res)) {
@@ -593,7 +598,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    public function createNewUnit(assFormulaQuestionUnit $unit) : void
+    public function createNewUnit(assFormulaQuestionUnit $unit): void
     {
         $next_id = $this->db->nextId('il_qpl_qst_fq_unit');
         $this->db->manipulateF(
@@ -617,7 +622,7 @@ class ilUnitConfigurationRepository
         $this->clearUnits();
     }
 
-    public function saveUnit(assFormulaQuestionUnit $unit) : void
+    public function saveUnit(assFormulaQuestionUnit $unit): void
     {
         $res = $this->db->queryF(
             'SELECT unit_id FROM il_qpl_qst_fq_unit WHERE unit_id = %s',
@@ -648,7 +653,7 @@ class ilUnitConfigurationRepository
         }
     }
 
-    public function cloneUnits(int $from_consumer_id, int $to_consumer_id) : void
+    public function cloneUnits(int $from_consumer_id, int $to_consumer_id): void
     {
         $category_mapping = [];
 

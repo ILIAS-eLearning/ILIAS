@@ -40,7 +40,7 @@ class ilUIFilterRequestAdapter
         $this->params = $this->request->getQueryParams();
     }
 
-    public function getFilterCmd() : string
+    public function getFilterCmd(): string
     {
         if (isset($this->params[self::CMD_PARAMETER])) {
             return (string) $this->params[self::CMD_PARAMETER];
@@ -52,7 +52,7 @@ class ilUIFilterRequestAdapter
     /**
      * Has an input field been rendered in current request?
      */
-    public function isInputRendered(string $input_id) : bool
+    public function isInputRendered(string $input_id): bool
     {
         if (isset($this->params[self::RENDER_INPUT_BASE . $input_id]) &&
             $this->params[self::RENDER_INPUT_BASE . $input_id] === "1") {
@@ -62,7 +62,7 @@ class ilUIFilterRequestAdapter
         return false;
     }
 
-    public function getFilterWithRequest(Filter\Standard $filter) : Filter\Standard
+    public function getFilterWithRequest(Filter\Standard $filter): Filter\Standard
     {
         return $filter->withRequest($this->request);
     }
@@ -70,7 +70,7 @@ class ilUIFilterRequestAdapter
     /**
      * Get action for filter command
      */
-    public function getAction(string $base_action, string $filter_cmd, bool $non_asynch = false) : string
+    public function getAction(string $base_action, string $filter_cmd, bool $non_asynch = false): string
     {
         if ($non_asynch) {
             $base_action = str_replace("cmdMode=asynch", "", $base_action);

@@ -39,22 +39,22 @@ class ClipboardGUIRequest
     }
 
     /** @return string[] */
-    public function getItemIds() : array
+    public function getItemIds(): array
     {
         return $this->strArray("id");
     }
 
-    public function getPCId() : string
+    public function getPCId(): string
     {
         return $this->str("pcid");
     }
 
-    public function getReturnCmd() : string
+    public function getReturnCmd(): string
     {
         return $this->str("returnCommand");
     }
 
-    public function getItemId() : int
+    public function getItemId(): int
     {
         return $this->int("clip_item_id");
     }

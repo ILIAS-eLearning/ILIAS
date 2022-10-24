@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -23,12 +25,12 @@
 */
 class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
 {
-    protected function getObjectType() : string
+    protected function getObjectType(): string
     {
         return 'grp';
     }
 
-    protected function getLocalDefaultRolePrefixes() : array
+    protected function getLocalDefaultRolePrefixes(): array
     {
         return [
             'il_grp_member_',
@@ -36,7 +38,7 @@ class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
         ];
     }
 
-    protected function doesExposeMembers(ilObject $object) : bool
+    protected function doesExposeMembers(ilObject $object): bool
     {
         $showMemberListEnabled = (bool) $object->getShowMembers();
         $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());

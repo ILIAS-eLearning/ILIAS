@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,20 +22,20 @@ use ILIAS\Setup;
 
 class ilUtilitiesMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    protected function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment): array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
-    
-    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage): void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if (!$ini) {
             return;
         }
-        
+
         $storage->storeConfigText(
             "path_to_convert",
             $ini->readVariable("tools", "convert"),

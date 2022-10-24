@@ -1,4 +1,6 @@
-<?php return [
+<?php
+
+return [
     '3gp',    // VIDEO__3_GPP
     '7z',                        // application/x-7z-compressed
     'ai',    // APPLICATION__POSTSCRIPT
@@ -197,6 +199,7 @@
     'sgml',   // TEXT__SGML
     'smi',   // APPLICATION__SMIL,
     'smil',   // APPLICATION__SMIL,
+    'srt',   // TEXT__SRT,
     'sps',    // SPSS syntax file
     'spv',    // SPSS output file
     'stl',                // Stereolithography CAD file

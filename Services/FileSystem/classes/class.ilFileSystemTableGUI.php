@@ -16,6 +16,7 @@
  *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * @deprecated $
@@ -28,8 +29,10 @@ class ilFileSystemTableGUI extends ilTable2GUI
     protected string $label_header = "";
     protected string $cur_dir = '';
     protected string $cur_subdir = '';
+    protected string $relative_cur_dir;
     protected ?bool $post_dir_path = null;
     protected array $file_labels = [];
+    protected \ILIAS\Filesystem\Filesystem $filesystem;
     protected ilFileSystemGUI $filesystem_gui;
 
     /**
@@ -48,10 +51,14 @@ class ilFileSystemTableGUI extends ilTable2GUI
         ?string $a_table_id = ""
     ) {
         global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
-
         $this->setId($a_table_id);
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        if ($a_cur_dir !== realpath($a_cur_dir)) {
+            throw new \InvalidArgumentException('$a_cur_dir must be a absolute path');
+        }
+        $this->filesystem = LegacyPathHelper::deriveFilesystemFrom($a_cur_dir);
+        $this->relative_cur_dir = LegacyPathHelper::createRelativePath($a_cur_dir);
         $this->cur_dir = $a_cur_dir;
         $this->cur_subdir = $a_cur_subdir;
         $this->label_enable = $a_label_enable;
@@ -78,7 +85,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 );
             }
         }
-
         $this->addColumns();
 
         $this->setDefaultOrderField("name");
@@ -93,7 +99,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
 
-    public function numericOrdering(string $a_field) : bool
+    public function numericOrdering(string $a_field): bool
     {
         if ($a_field == "size") {
             return true;
@@ -101,7 +107,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function prepareOutput() : void
+    protected function prepareOutput(): void
     {
         $this->determineOffsetAndOrder(true);
         $this->setData($this->getEntries());
@@ -110,25 +116,21 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getEntries() : array
+    public function getEntries(): array
     {
-        global $DIC;
-
-        if ($DIC->filesystem()->storage()->has($this->cur_dir)) {
+        if ($this->filesystem->has($this->relative_cur_dir)) {
             $entries = [];
-            foreach ($DIC->filesystem()->storage()->listContents($this->cur_dir) as $i => $content) {
+            foreach ($this->filesystem->listContents($this->relative_cur_dir) as $i => $content) {
                 $basename = basename($content->getPath());
                 $entries[$basename] = [
-//                    'order_val' => $i,
-//                    'order_id' => $i,
+                    'order_val' => $i,
+                    'order_id' => $i,
                     'entry' => $basename,
                     'type' => $content->isDir() ? 'dir' : 'file',
                     'subdir' => '',
-                    'size' => $content->isFile() ? $DIC->filesystem()->storage()->getSize($content->getPath(), 1)->inBytes() : 0
+                    'size' => $content->isFile() ? $this->filesystem->getSize($content->getPath(), 1)->inBytes() : 0
                 ];
             }
-
-            //$entries = ilFileUtils::getDir('/var/iliasdata/ilias/default/' . $this->cur_dir);
         } else {
             $entries = array(array("type" => "dir", "entry" => ".."));
         }
@@ -162,7 +164,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         return $items;
     }
 
-    public function addColumns() : void
+    public function addColumns(): void
     {
         if ($this->has_multi) {
             $this->setSelectAllCheckbox("file[]");
@@ -182,7 +184,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         }
     }
 
-    private function isDoubleDotDirectory(array $entry) : bool
+    private function isDoubleDotDirectory(array $entry): bool
     {
         return $entry['entry'] === '..';
     }
@@ -190,7 +192,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $hash = $this->post_dir_path
             ? md5($a_set["file"])

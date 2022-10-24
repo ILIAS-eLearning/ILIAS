@@ -26,7 +26,7 @@ class ilBadgeRenderer
     protected \ILIAS\UI\Renderer $renderer;
     protected ?ilBadgeAssignment $assignment = null;
     protected ?ilBadge $badge = null;
-    
+
     public function __construct(
         ilBadgeAssignment $a_assignment = null,
         ilBadge $a_badge = null
@@ -43,8 +43,8 @@ class ilBadgeRenderer
             $this->badge = $a_badge;
         }
     }
-    
-    public function getHTML() : string
+
+    public function getHTML(): string
     {
         $components = array();
 
@@ -61,15 +61,15 @@ class ilBadgeRenderer
 
         return $this->renderer->render($components);
     }
-    
-    public function renderModalContent() : string
+
+    public function renderModalContent(): string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("badge");
 
         $modal_content = array();
 
-        $image = $this->factory->image()->responsive($this->badge->getImagePath(), $this->badge->getImage());
+        $image = $this->factory->image()->responsive(ilWACSignedPath::signFile($this->badge->getImagePath()), $this->badge->getImage());
         $modal_content[] = $image;
 
         $badge_information = [
@@ -95,7 +95,7 @@ class ilBadgeRenderer
                 $badge_information[$lng->txt("object")] = $parent_icon_with_text;
             }
         }
-        
+
         if ($this->badge->getValid()) {
             $badge_information[$lng->txt("badge_valid")] = $this->badge->getValid();
         }

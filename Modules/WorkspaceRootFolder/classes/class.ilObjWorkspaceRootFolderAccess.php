@@ -35,14 +35,14 @@ class ilObjWorkspaceRootFolderAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands() : array
+    public static function _getCommands(): array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "render", "lang_var" => "show",
                 "default" => true),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
         );
-        
+
         return $commands;
     }
 }

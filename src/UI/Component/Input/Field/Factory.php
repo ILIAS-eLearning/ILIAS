@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Component\Input\Field;
 
 /**
@@ -56,7 +58,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Text
      */
-    public function text(string $label, string $byline = null) : Text;
+    public function text(string $label, string $byline = null): Text;
 
     /**
      * ---
@@ -82,7 +84,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Numeric
      */
-    public function numeric(string $label, string $byline = null) : Numeric;
+    public function numeric(string $label, string $byline = null): Numeric;
 
     /**
      * ---
@@ -104,7 +106,7 @@ interface Factory
      * @param string                                                 $label
      * @return    \ILIAS\UI\Component\Input\Field\Group
      */
-    public function group(array $inputs, string $label = '') : Group;
+    public function group(array $inputs, string $label = ''): Group;
 
     /**
      * ---
@@ -130,7 +132,7 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $inputs
      * @return    \ILIAS\UI\Component\Input\Field\OptionalGroup
      */
-    public function optionalGroup(array $inputs, string $label, string $byline = null) : OptionalGroup;
+    public function optionalGroup(array $inputs, string $label, string $byline = null): OptionalGroup;
 
     /**
      * ---
@@ -156,7 +158,7 @@ interface Factory
      * @param array<mixed,\ILIAS\UI\Component\Input\Field\FormInput> $input
      * @return    \ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
-    public function switchableGroup(array $inputs, string $label, string $byline = null) : SwitchableGroup;
+    public function switchableGroup(array $inputs, string $label, string $byline = null): SwitchableGroup;
 
     /**
      * ---
@@ -197,7 +199,7 @@ interface Factory
      * @param string                                                 $byline
      * @return    \ILIAS\UI\Component\Input\Field\Section
      */
-    public function section(array $inputs, string $label, string $byline = null) : Section;
+    public function section(array $inputs, string $label, string $byline = null): Section;
 
     /**
      * ---
@@ -225,7 +227,7 @@ interface Factory
      * ---
      * @return    \ILIAS\UI\Component\Input\Field\Checkbox
      */
-    public function checkbox(string $label, string $byline = null) : Checkbox;
+    public function checkbox(string $label, string $byline = null): Checkbox;
 
 
     /**
@@ -284,7 +286,7 @@ interface Factory
      *                        such as [ 'Interesting', 'Boring', 'Animating', 'Repetitious' ]
      * @return    \ILIAS\UI\Component\Input\Field\Tag
      */
-    public function tag(string $label, array $tags, string $byline = null) : Tag;
+    public function tag(string $label, array $tags, string $byline = null): Tag;
 
     /**
      * ---
@@ -326,7 +328,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Password
      */
-    public function password(string $label, string $byline = null) : Password;
+    public function password(string $label, string $byline = null): Password;
 
     /**
      * ---
@@ -362,7 +364,7 @@ interface Factory
      *
      * @return \ILIAS\UI\Component\Input\Field\Select
      */
-    public function select(string $label, array $options, string $byline = null) : Select;
+    public function select(string $label, array $options, string $byline = null): Select;
 
     /**
      * ---
@@ -406,7 +408,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Textarea
      */
-    public function textarea(string $label, string $byline = null) : Textarea;
+    public function textarea(string $label, string $byline = null): Textarea;
 
     /**
      * ---
@@ -448,7 +450,7 @@ interface Factory
      * @param string|null $byline
      * @return    \ILIAS\UI\Component\Input\Field\Radio
      */
-    public function radio(string $label, string $byline = null) : Radio;
+    public function radio(string $label, string $byline = null): Radio;
 
     /**
      * ---
@@ -490,7 +492,7 @@ interface Factory
      * @param string               $byline
      * @return \ILIAS\UI\Component\Input\Field\MultiSelect
      */
-    public function multiSelect(string $label, array $options, string $byline = null) : MultiSelect;
+    public function multiSelect(string $label, array $options, string $byline = null): MultiSelect;
 
     /**
      * ---
@@ -522,7 +524,7 @@ interface Factory
      * @param string $byline
      * @return \ILIAS\UI\Component\Input\Field\DateTime
      */
-    public function dateTime(string $label, string $byline = null) : DateTime;
+    public function dateTime(string $label, string $byline = null): DateTime;
 
     /**
      * ---
@@ -549,7 +551,7 @@ interface Factory
      * @param string $byline
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
-    public function duration(string $label, string $byline = null) : Duration;
+    public function duration(string $label, string $byline = null): Duration;
 
     /**
      * ---
@@ -592,7 +594,7 @@ interface Factory
         string $label,
         string $byline = null,
         Input $metadata_input = null
-    ) : File;
+    ): File;
 
     /**
      * ---
@@ -621,7 +623,7 @@ interface Factory
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Url
      */
-    public function url(string $label, string $byline = null) : Url;
+    public function url(string $label, string $byline = null): Url;
 
     /**
      * ---
@@ -649,7 +651,7 @@ interface Factory
      * @param string|null $byline
      * @return \ILIAS\UI\Component\Input\Field\Link
      */
-    public function link(string $label, string $byline = null) : Link;
+    public function link(string $label, string $byline = null): Link;
 
     /**
      * ---
@@ -672,5 +674,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Input\Field\Hidden
      */
-    public function hidden() : Hidden;
+    public function hidden(): Hidden;
 }

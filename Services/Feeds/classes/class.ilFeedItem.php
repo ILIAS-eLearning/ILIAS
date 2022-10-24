@@ -31,72 +31,72 @@ class ilFeedItem
     private int $enclosurelength = 0;
     private string $date = "";
 
-    public function setAbout(string $a_About) : void
+    public function setAbout(string $a_About): void
     {
         $this->about = $a_About;
     }
 
-    public function getAbout() : string
+    public function getAbout(): string
     {
         return $this->about;
     }
 
-    public function setTitle(string $a_Title) : void
+    public function setTitle(string $a_Title): void
     {
         $this->title = $a_Title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setLink(string $a_Link) : void
+    public function setLink(string $a_Link): void
     {
         $this->link = $a_Link;
     }
 
-    public function getLink() : string
+    public function getLink(): string
     {
         return $this->link;
     }
 
-    public function setDescription(string $a_Description) : void
+    public function setDescription(string $a_Description): void
     {
         $this->description = $a_Description;
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function setEnclosureUrl(string $a_enclosureurl) : void
+    public function setEnclosureUrl(string $a_enclosureurl): void
     {
         $this->enclosureurl = $a_enclosureurl;
     }
 
-    public function getEnclosureUrl() : string
+    public function getEnclosureUrl(): string
     {
         return $this->enclosureurl;
     }
 
-    public function setEnclosureType(string $a_enclosuretype) : void
+    public function setEnclosureType(string $a_enclosuretype): void
     {
         $this->enclosuretype = $a_enclosuretype;
     }
 
-    public function getEnclosureType() : string
+    public function getEnclosureType(): string
     {
         return $this->enclosuretype;
     }
 
-    public function setEnclosureLength(int $a_enclosurelength) : void
+    public function setEnclosureLength(int $a_enclosurelength): void
     {
         $this->enclosurelength = $a_enclosurelength;
     }
 
-    public function getEnclosureLength() : int
+    public function getEnclosureLength(): int
     {
         return $this->enclosurelength;
     }
@@ -104,12 +104,12 @@ class ilFeedItem
     /**
      * @param string $a_date Date (yyyy-mm-dd hh:mm:ss)
      */
-    public function setDate(string $a_date) : void
+    public function setDate(string $a_date): void
     {
         $this->date = $a_date;
     }
 
-    public function getDate() : string
+    public function getDate(): string
     {
         return $this->date;
     }

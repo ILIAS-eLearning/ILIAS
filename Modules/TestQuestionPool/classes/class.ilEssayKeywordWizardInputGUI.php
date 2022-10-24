@@ -12,11 +12,12 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 {
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -44,7 +45,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    boolean        Input ok, true/false
      */
-    public function checkInput() : bool
+    public function checkInput(): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -100,7 +101,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
      * Insert property html
      * @return    void    Size
      */
-    public function insert(ilTemplate $a_tpl) : void
+    public function insert(ilTemplate $a_tpl): void
     {
         global $DIC;
         $lng = $DIC['lng'];

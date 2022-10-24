@@ -89,7 +89,7 @@ class ilLMMenuRendererGUI
         $this->requested_ref_id = $request->getRefId();
     }
 
-    public function render() : string
+    public function render(): string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -121,7 +121,7 @@ class ilLMMenuRendererGUI
         } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-    
+
         if (!$content_active) {
             return "";
         }
@@ -139,12 +139,16 @@ class ilLMMenuRendererGUI
                 );
             }
         }
-
         if (!$this->offline &&
             $ilAccess->checkAccess("read", "", $this->requested_ref_id) && // #14075
             ilLearningProgressAccess::checkAccess($this->requested_ref_id)) {
             $olp = ilObjectLP::getInstance($this->lm->getId());
-
+            $this->toolbar->addComponent(
+                $this->ui_factory->button()->standard(
+                    $this->lng->txt("learning_progress"),
+                    $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "")
+                )
+            );
             if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard(

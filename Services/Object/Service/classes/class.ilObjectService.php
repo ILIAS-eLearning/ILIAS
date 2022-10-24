@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 
@@ -38,27 +40,27 @@ class ilObjectService implements ilObjectServiceInterface
         $this->upload = $upload;
     }
 
-    public function language() : ilLanguage
+    public function language(): ilLanguage
     {
         return $this->lng;
     }
 
-    public function settings() : ilSetting
+    public function settings(): ilSetting
     {
         return $this->settings;
     }
 
-    public function filesystem() : Filesystems
+    public function filesystem(): Filesystems
     {
         return $this->filesystem;
     }
 
-    public function upload() : FileUpload
+    public function upload(): FileUpload
     {
         return $this->upload;
     }
 
-    public function commonSettings() : ilObjectCommonSettings
+    public function commonSettings(): ilObjectCommonSettings
     {
         return new ilObjectCommonSettings($this);
     }

@@ -30,7 +30,7 @@ class ilLearningModuleImportConfig extends ilImportConfig
     public function setTranslationImportMode(
         ilObjLearningModule $a_lm,
         string $a_lang = ""
-    ) : void {
+    ): void {
         if ($a_lm != null) {
             $this->transl_into = true;
             $this->transl_into_lm = $a_lm;
@@ -40,17 +40,17 @@ class ilLearningModuleImportConfig extends ilImportConfig
         }
     }
 
-    public function getTranslationImportMode() : bool
+    public function getTranslationImportMode(): bool
     {
         return $this->transl_into;
     }
 
-    public function getTranslationLM() : ilObjLearningModule
+    public function getTranslationLM(): ilObjLearningModule
     {
         return $this->transl_into_lm;
     }
 
-    public function getTranslationLang() : string
+    public function getTranslationLang(): string
     {
         return $this->transl_lang;
     }

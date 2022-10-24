@@ -1,4 +1,6 @@
-<?php declare(strict_types=0);
+<?php
+
+declare(strict_types=0);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -47,7 +49,7 @@ class ilChangeEvent
         int $usr_id,
         string $action,
         ?int $parent_obj_id = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -106,7 +108,7 @@ class ilChangeEvent
         bool $isCatchupWriteEvents = true,
         $a_ext_rc = null,
         $a_ext_time = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -310,7 +312,7 @@ class ilChangeEvent
         ?int $a_read_count,
         ?int $a_childs_spent_seconds = null,
         ?int $a_child_read_count = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -524,7 +526,7 @@ class ilChangeEvent
         int $obj_id,
         int $usr_id,
         ?string $timestamp = null
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -564,7 +566,7 @@ class ilChangeEvent
     public static function _lookupUncaughtWriteEvents(
         int $obj_id,
         int $usr_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -617,7 +619,7 @@ class ilChangeEvent
      *                1 = object is new,
      *                2 = object has changed
      */
-    public static function _lookupChangeState(int $obj_id, int $usr_id) : int
+    public static function _lookupChangeState(int $obj_id, int $usr_id): int
     {
         global $DIC;
 
@@ -714,7 +716,7 @@ class ilChangeEvent
         return $events;
     }
 
-    public static function lookupUsersInProgress(int $a_obj_id) : array
+    public static function lookupUsersInProgress(int $a_obj_id): array
     {
         global $DIC;
 
@@ -736,7 +738,7 @@ class ilChangeEvent
     /**
      * Has accessed
      */
-    public static function hasAccessed(int $a_obj_id, int $a_usr_id) : bool
+    public static function hasAccessed(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -760,7 +762,7 @@ class ilChangeEvent
     /**
      * Activates change event tracking.
      */
-    public static function _activate() : bool
+    public static function _activate(): bool
     {
         if (ilChangeEvent::_isActive()) {
             return false;
@@ -814,7 +816,7 @@ class ilChangeEvent
     /**
      * Deactivates change event tracking.
      */
-    public static function _deactivate() : bool
+    public static function _deactivate(): bool
     {
         global $DIC;
 
@@ -826,7 +828,7 @@ class ilChangeEvent
     /**
      * Returns true, if change event tracking is active.
      */
-    public static function _isActive() : bool
+    public static function _isActive(): bool
     {
         global $DIC;
 
@@ -837,7 +839,7 @@ class ilChangeEvent
     /**
      * Delete object entries
      */
-    public static function _delete(int $a_obj_id) : bool
+    public static function _delete(int $a_obj_id): bool
     {
         global $DIC;
 
@@ -856,7 +858,7 @@ class ilChangeEvent
         return true;
     }
 
-    public static function _deleteReadEvents(int $a_obj_id) : void
+    public static function _deleteReadEvents(int $a_obj_id): void
     {
         global $DIC;
 
@@ -871,7 +873,7 @@ class ilChangeEvent
     public static function _deleteReadEventsForUsers(
         int $a_obj_id,
         array $a_user_ids
-    ) : void {
+    ): void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
@@ -883,7 +885,7 @@ class ilChangeEvent
         );
     }
 
-    public static function _getAllUserIds(int $a_obj_id) : array
+    public static function _getAllUserIds(int $a_obj_id): array
     {
         global $DIC;
 
@@ -909,7 +911,7 @@ class ilChangeEvent
         int $usr_id,
         int $i_last_access,
         string $t_first_access
-    ) : bool {
+    ): bool {
         global $DIC;
 
         $ilDB = $DIC->database();

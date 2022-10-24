@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -71,7 +73,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    protected function getColumnDefinition() : array
+    protected function getColumnDefinition(): array
     {
         $i = 0;
 
@@ -145,7 +147,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $columns;
     }
 
-    protected function preProcessData(array &$data) : void
+    protected function preProcessData(array &$data): void
     {
         foreach ($data['items'] as $key => $document) {
             /** @var ilTermsOfServiceDocument $document */
@@ -162,7 +164,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    protected function formatCellValue(string $column, array $row) : string
+    protected function formatCellValue(string $column, array $row): string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
             return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
@@ -181,7 +183,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    protected function formatActionsDropDown(string $column, array $row) : string
+    protected function formatActionsDropDown(string $column, array $row): string
     {
         if (!$this->isEditable) {
             return '';
@@ -202,7 +204,8 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 $this->lng->txt('tos_doc_delete'),
                 $this->lng->txt('tos_sure_delete_documents_s'),
                 $this->ctrl->getFormAction($this->getParentObject(), 'deleteDocument')
-            );
+            )
+            ->withActionButtonLabel('deleteDocument');
 
         $deleteBtn = $this->uiFactory
             ->button()
@@ -228,7 +231,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    protected function formatCriterionAssignments(string $column, array $row) : string
+    protected function formatCriterionAssignments(string $column, array $row): string
     {
         $items = [];
 
@@ -255,7 +258,8 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                     $this->lng->txt('tos_doc_detach_crit_confirm_title'),
                     $this->lng->txt('tos_doc_sure_detach_crit'),
                     $this->ctrl->getFormAction($this->getParentObject(), 'detachCriterionAssignment')
-                );
+                )
+                ->withActionButtonLabel('detachCriterionAssignment');
 
             $deleteBtn = $this->uiFactory
                 ->button()
@@ -299,7 +303,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    protected function formatTitle(string $column, array $row) : string
+    protected function formatTitle(string $column, array $row): string
     {
         $modal = $this->uiFactory
             ->modal()
@@ -313,7 +317,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    protected function formatSorting(array $row) : string
+    protected function formatSorting(array $row): string
     {
         $value = ($this->i++) * $this->factor;
         if (!$this->isEditable) {
@@ -328,7 +332,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $sortingField->render();
     }
 
-    public function getHTML() : string
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

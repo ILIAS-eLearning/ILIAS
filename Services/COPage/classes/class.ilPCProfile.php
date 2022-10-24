@@ -26,7 +26,7 @@ class ilPCProfile extends ilPageContent
     protected php4DOMElement $prof_node;
     protected ilObjUser $user;
 
-    public function init() : void
+    public function init(): void
     {
         global $DIC;
 
@@ -34,7 +34,7 @@ class ilPCProfile extends ilPageContent
         $this->setType("prof");
     }
 
-    public function setNode(php4DOMElement $a_node) : void
+    public function setNode(php4DOMElement $a_node): void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->prof_node = $a_node->first_child();		// this is the profile node
@@ -44,7 +44,7 @@ class ilPCProfile extends ilPageContent
         ilPageObject $a_pg_obj,
         string $a_hier_id,
         string $a_pc_id = ""
-    ) : void {
+    ): void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->prof_node = $this->dom->create_element("Profile");
@@ -54,9 +54,9 @@ class ilPCProfile extends ilPageContent
     public function setFields(
         string $a_mode,
         array $a_fields = null
-    ) : void {
+    ): void {
         $ilUser = $this->user;
-        
+
         $this->prof_node->set_attribute("Mode", $a_mode);
         $this->prof_node->set_attribute("User", $ilUser->getId());
 
@@ -77,7 +77,7 @@ class ilPCProfile extends ilPageContent
         }
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
         if (is_object($this->prof_node)) {
             return $this->prof_node->get_attribute("Mode");
@@ -88,7 +88,7 @@ class ilPCProfile extends ilPageContent
     /**
      * Get profile settings
      */
-    public function getFields() : array
+    public function getFields(): array
     {
         $res = array();
         if (is_object($this->prof_node)) {
@@ -101,8 +101,8 @@ class ilPCProfile extends ilPageContent
         }
         return $res;
     }
-    
-    public static function getLangVars() : array
+
+    public static function getLangVars(): array
     {
         return array("pc_prof", "ed_insert_profile");
     }

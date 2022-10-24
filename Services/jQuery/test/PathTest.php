@@ -25,14 +25,14 @@ use PHPUnit\Framework\TestCase;
  */
 class PathTest extends TestCase
 {
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
     /**
      * Check if we got non empty paths
      */
-    public function testPath() : void
+    public function testPath(): void
     {
         $this->assertNotEquals(
             "",

@@ -25,5 +25,5 @@ interface ilAccessibilityDocumentCriteriaEvaluation
      * @param ilAccessibilitySignableDocument $document
      * @return bool
      */
-    public function evaluate(ilAccessibilitySignableDocument $document) : bool;
+    public function evaluate(ilAccessibilitySignableDocument $document): bool;
 }

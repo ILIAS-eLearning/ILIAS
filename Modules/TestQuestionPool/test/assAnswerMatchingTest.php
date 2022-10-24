@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Unit tests
@@ -12,13 +27,13 @@ class assAnswerMatchingTest extends assBaseTestCase
 {
     protected $backupGlobals = false;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         chdir(dirname(__FILE__));
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple() : void
+    public function test_instantiateObjectSimple(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -30,7 +45,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerMatching', $instance);
     }
 
-    public function test_setGetPoints() : void
+    public function test_setGetPoints(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -45,7 +60,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetTermId() : void
+    public function test_setGetTermId(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -60,7 +75,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPicture() : void
+    public function test_setGetPicture(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -75,7 +90,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPictureId() : void
+    public function test_setGetPictureId(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -90,7 +105,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPictureId_NegativeShouldNotSetValue() : void
+    public function test_setGetPictureId_NegativeShouldNotSetValue(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -105,7 +120,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinition() : void
+    public function test_setGetDefinition(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';
@@ -120,7 +135,7 @@ class assAnswerMatchingTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinitionId() : void
+    public function test_setGetDefinitionId(): void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatching.php';

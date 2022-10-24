@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
@@ -15,7 +28,7 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
      * @var string
      */
     protected $action;
-    
+
     /**
      * ilAssFileUploadFileTableCommandButton constructor.
      */
@@ -25,12 +38,12 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
         parent::__construct($buttonType);
         $this->lng($DIC['lng']);
     }
-    
+
     /**
      *
      * @return ilLanguage
      */
-    public function lng(ilLanguage $lng = null) : ilLanguage
+    public function lng(ilLanguage $lng = null): ilLanguage
     {
         if ($lng === null) {
             return $this->lng;
@@ -38,24 +51,24 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
         $this->lng = $lng;
         return $lng;
     }
-    
+
     /**
      * @return string
      */
-    public function getAction() : string
+    public function getAction(): string
     {
         return $this->action;
     }
-    
+
     /**
      * @param string $action
      */
-    public function setAction($action) : void
+    public function setAction($action): void
     {
         $this->action = $action;
     }
-    
-    public function renderAttributes(array $a_additional_attr = null) : string
+
+    public function renderAttributes(array $a_additional_attr = null): string
     {
         if (is_array($a_additional_attr) && isset($a_additional_attr['name'])) {
             $a_additional_attr['name'] .= "[{$this->getAction()}]";

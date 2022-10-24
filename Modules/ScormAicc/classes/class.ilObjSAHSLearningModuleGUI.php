@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -37,6 +40,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
         global $DIC;
         $lng = $DIC->language();
+        $rbacsystem = $DIC->access();
         $lng->loadLanguageModule("content");
         $this->type = "sahs";
         parent::__construct($data, $id, $call_by_reference, false);
@@ -47,12 +51,13 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         global $DIC;
         $ilAccess = $DIC->access();
         $ilTabs = $DIC->tabs();
         $ilErr = $DIC['ilErr'];
+        $navigationHistory = $DIC['ilNavigationHistory'];
 
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $ilLog = ilLoggerFactory::getLogger('sahs');
@@ -67,6 +72,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             $this->setTabs();
             $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
             $this->tpl->setTitle($this->object->getTitle());
+            $navigationHistory->addItem(
+                $this->object->getRefId(),
+                ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
+                $this->object->getType()
+            );
         }
 
         $next_class = $this->ctrl->getNextClass($this);
@@ -126,32 +136,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 break;
 
             case "ilinfoscreengui":
-                $info = new ilInfoScreenGUI($this);
-                $info->enablePrivateNotes();
-                $info->enableLearningProgress();
-
-                // add read / back button
-                if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
-                    if (!$this->object->getEditable()) {
-                        $ilToolbar = $GLOBALS['DIC']->toolbar();
-                        $ilToolbar->addButtonInstance($this->object->getViewButton());
-                    }
-                }
-
-                $info->enableNews();
-                if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-                    $info->enableNewsEditing();
-                    $news_set = new ilSetting("news");
-                    $enable_internal_rss = $news_set->get("enable_rss_for_internal");
-                    if ($enable_internal_rss) {
-                        $info->setBlockProperty("news", "settings", "");
-                    }
-                }
-                // show standard meta data section
-                $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-
-                // forward the command
-                $this->ctrl->forwardCommand($info);
+                $ilTabs->setTabActive('info_short');
+                $this->infoScreen();
                 break;
 
             case "ilcommonactiondispatchergui":
@@ -160,31 +146,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                     $this->ctrl->forwardCommand($gui);
                 }
                 break;
-
-//            case "ilobjstylesheetgui":
-//                //$this->addLocations();
-//                $this->ctrl->setReturn($this, "properties");
-//                $ilTabs->clearTargets();
-//                $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-//                $style_gui->omitLocator();
-//                if ($cmd == "create" || $_GET["new_type"] == "sty") {
-//                    $style_gui->setCreationMode(true);
-//                }
-//                //$ret =& $style_gui->executeCommand();
-//
-//                if ($cmd == "confirmedDelete") {
-//                    $this->object->setStyleSheetId(0);
-//                    $this->object->update();
-//                }
-//                $this->ctrl->forwardCommand($style_gui);
-//                if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle") {
-//                    $style_id = $ret;
-//                    $this->object->setStyleSheetId($style_id);
-//                    $this->object->update();
-//                    $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
-//                }
-//                break;
-
 
             case 'ilobjectcopygui':
                 $this->prepareOutput();
@@ -196,8 +157,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             default:
 //                if ($this->object && !$this->object->getEditable()) {
                     $cmd = $this->ctrl->getCmd("properties");
-//                } else {
-//                    $cmd = $this->ctrl->getCmd("frameset");
 //                }
                 if ((strtolower($baseClass) === "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
@@ -215,6 +174,46 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
     }
 
+    protected function infoScreen(): void
+    {
+        $this->ctrl->setCmd("showSummary");
+        $this->ctrl->setCmdClass("ilinfoscreengui");
+        $this->infoScreenForward();
+    }
+
+    protected function infoScreenForward(): void
+    {
+        if (!$this->checkPermissionBool("visible") && !$this->checkPermissionBool("read")) {
+            $this->error->raiseError($this->lng->txt("msg_no_perm_read"));
+        }
+
+        $info = new ilInfoScreenGUI($this);
+        $info->enablePrivateNotes();
+        $info->enableLearningProgress();
+
+        // add read / back button
+        if ($this->checkPermissionBool("read")) {
+            $ilToolbar = $GLOBALS['DIC']->toolbar();
+            $ilToolbar->addButtonInstance($this->object->getViewButton());
+        }
+
+        $info->enableNewsEditing(false);
+        if ($this->checkPermissionBool("write")) {
+            $news_set = new ilSetting("news");
+            $enable_internal_rss = $news_set->get("enable_rss_for_internal");
+            if ($enable_internal_rss) {
+                $info->setBlockProperty("news", "settings", "");
+                $info->setBlockProperty("news", "public_notifications_option", "true");
+            }
+        }
+        // show standard meta data section
+        $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+
+        // forward the command
+        $this->ctrl->forwardCommand($info);
+    }
+
+
 //    /**
 //     * @return void
 //     * @throws ilObjectException
@@ -230,11 +229,17 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
     * module properties
     */
-    public function properties() : void
+    public function properties(): void
     {
+        $this->ctrl->setParameterByClass(
+            "ilSAHSEditGUI",
+            "ref_id",
+            $this->ref_id
+        );
+        $this->ctrl->redirectByClass(ilSAHSEditGUI::class);
     }
 
-    public function saveProperties() : void
+    public function saveProperties(): void
     {
     }
 
@@ -247,7 +252,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @return array|ilPropertyFormGUI[]
      * @throws ilCtrlException
      */
-    protected function initCreationForms(string $a_new_type) : array
+    protected function initCreationForms(string $a_new_type): array
     {
         $forms = array();
 
@@ -262,7 +267,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function initUploadForm() : void
+    public function initUploadForm(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -328,7 +333,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function uploadObject() : void
+    public function uploadObject(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -503,7 +508,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
      */
-    public function upload() : void
+    public function upload(): void
     {
         $this->uploadObject();
     }
@@ -559,7 +564,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * output main header (title and locator)
      */
-    public function getTemplate() : void
+    public function getTemplate(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -570,22 +575,21 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    protected function setTabs() : void
+    protected function setTabs(): void
     {
         global $DIC;
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
-        if (strtolower($baseClass) === "ilsahseditgui") {
-            $this->getTabs($this->tabs_gui);
+        if (strtolower($baseClass) === "ilsahseditgui" || strtolower($baseClass) === "ilrepositorygui") {
+            $this->getTabs();
         }
-        //if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs();
     }
 
     /**
      * Shows the certificate editor
      */
-    public function certificate() : void
+    public function certificate(): void
     {
         $guiFactory = new ilCertificateGUIFactory();
         $output_gui = $guiFactory->create($this->object);
@@ -597,7 +601,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
      * adds tabs to tab gui object
      * @throws ilCtrlException
      */
-    protected function getTabs() : void
+    protected function getTabs(): void
     {
         global $DIC;
         $rbacsystem = $DIC->access();
@@ -721,7 +725,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * goto target course
      */
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $a_target): void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -729,31 +733,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilErr = $DIC['ilErr'];
         $lng = $DIC->language();
 
-        $parts = explode("_", $a_target);
+        $targetParameters = explode('_', $a_target);
+        $id = (int) $targetParameters[0];
 
-//        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
-//            $DIC->ctrl()->setParameterByClass(
-//                "ilSAHSEditGUI",
-//                "ref_id",
-//                $parts[0]
-//            );
-//            $DIC->ctrl()->redirectByClass(ilSAHSEditGUI::class);
-//        }
-        if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
-//            //was cmd = "infoScreen"
-            ilObjectGUI::_gotoRepositoryNode((int) $parts[0], 'infoScreen');
-            $DIC->ctrl()->setParameterByClass(
-                "ilSAHSPresentationGUI",
-                "ref_id",
-                $parts[0]
-            );
-//            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
-            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilSAHSPresentationGUI", "infoScreen"));
+        if ($id <= 0) {
+            $ilErr->raiseError($lng->txt('msg_no_perm_read'), $ilErr->FATAL);
+        }
+
+        if ($ilAccess->checkAccess("visible", "", $id) || $ilAccess->checkAccess("read", "", $id)) {
+            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
         }
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $parts[0]))
+                ilObject::_lookupTitle(ilObject::_lookupObjId($id))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -764,7 +757,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function addLocatorItems() : void
+    public function addLocatorItems(): void
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -800,7 +793,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * @throws ilCtrlException
      */
-    public function setSettingsSubTabs() : void
+    public function setSettingsSubTabs(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -831,7 +824,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             // );
             $ilTabs->addSubTabTarget(
                 "certificate",
-                $this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+                $this->ctrl->getLinkTargetByClass([static::class, "ilcertificategui"], "certificateeditor"),
                 "",
                 "ilcertificategui"
             );
@@ -861,7 +854,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         return $this->ctrl->forwardCommand($exp_gui);
     }
 
-    public function exportModule() : void
+    public function exportModule(): void
     {
         global $DIC;
 //        $ilDB = $DIC->database();
@@ -871,7 +864,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return "sahs";
     }

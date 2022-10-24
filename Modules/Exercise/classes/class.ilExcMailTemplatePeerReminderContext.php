@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use OrgUnit\PublicApi\OrgUnitUserService;
 
 /**
@@ -51,12 +53,12 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         }
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         $lng = $this->lng;
 
@@ -65,7 +67,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_peer_reminder_title');
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         $lng = $this->lng;
 
@@ -74,7 +76,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_peer_reminder_info');
     }
 
-    public function getSpecificPlaceholders() : array
+    public function getSpecificPlaceholders(): array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule('exc');
@@ -106,7 +108,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
-    ) : string {
+    ): string {
         $ilObjDataCache = $this->obj_data_cache;
 
         if ($placeholder_id == 'ass_title') {

@@ -32,7 +32,7 @@ class ilPCListItemGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -51,7 +51,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     /**
      * insert new list item after current one
      */
-    public function newItemAfter() : void
+    public function newItemAfter(): void
     {
         $this->content_obj->newItemAfter();
         $this->updateAndReturn();
@@ -60,7 +60,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     /**
      * insert new list item before current one
      */
-    public function newItemBefore() : void
+    public function newItemBefore(): void
     {
         $this->content_obj->newItemBefore();
         $this->updateAndReturn();
@@ -69,7 +69,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     /**
      * delete a list item
      */
-    public function deleteItem() : void
+    public function deleteItem(): void
     {
         $this->content_obj->deleteItem();
         $this->updateAndReturn();
@@ -78,7 +78,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     /**
      * move list item down
      */
-    public function moveItemDown() : void
+    public function moveItemDown(): void
     {
         $this->content_obj->moveItemDown();
         $this->updateAndReturn();
@@ -87,7 +87,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     /**
      * move list item up
      */
-    public function moveItemUp() : void
+    public function moveItemUp(): void
     {
         $this->content_obj->moveItemUp();
         $this->updateAndReturn();

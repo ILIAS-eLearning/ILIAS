@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\Factory;
 
@@ -23,19 +25,19 @@ class LSUrlBuilderTest extends TestCase
 {
     protected LSUrlBuilder $ub;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $data_factory = new Factory();
         $uri = $data_factory->uri('https://ilias.de/somepath');
         $this->ub = new LSUrlBuilder($uri);
     }
 
-    public function testDataType() : void
+    public function testDataType(): void
     {
         $this->assertInstanceOf(ILIAS\Data\URI::class, $this->ub->getURL('x'));
     }
 
-    public function testUrlConcatenation() : void
+    public function testUrlConcatenation(): void
     {
         $uri = $this->ub->getURL('command', 123);
         $expected = LSUrlBuilder::PARAM_LSO_COMMAND . '=command&'

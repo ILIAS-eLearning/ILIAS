@@ -1,4 +1,5 @@
 <?php
+
     exit;
 
 const ZONEINFO = '/usr/share/zoneinfo';
@@ -6,8 +7,8 @@ const TZ_CONVERT = 'tz_convert';
 const READLINK = 'readlink';
 
     chdir('../../..');
-    
-    
+
+
     foreach (ilCalendarUtil::_getShortTimeZoneList() as $tz_name => $tmp) {
         $name_underscore = str_replace('/', '_', $tz_name);
 

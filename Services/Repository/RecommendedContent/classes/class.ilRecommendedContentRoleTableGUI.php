@@ -62,14 +62,14 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->addMultiCommand('confirmRemoveItems', $this->lng->txt('remove'));
-        $this->setSelectAllCheckbox('del_desk_item');
+        $this->setSelectAllCheckbox('item_ref_ids');
 
         $this->manager = $manager;
 
         $this->getItems();
     }
 
-    protected function getItems() : void
+    protected function getItems(): void
     {
         $tree = $this->tree;
 
@@ -84,12 +84,12 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function formatPath(array $a_path_arr) : string
+    protected function formatPath(array $a_path_arr): string
     {
         return implode(" &raquo; ", array_column($a_path_arr, "title"));
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["ref_id"]);
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);

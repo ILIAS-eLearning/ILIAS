@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testDefaultTemplateCanBeSetByContext() : void
+    public function testDefaultTemplateCanBeSetByContext(): void
     {
         $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 
@@ -62,7 +64,7 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function testDefaultTemplateForContextCanBeUnset() : void
+    public function testDefaultTemplateForContextCanBeUnset(): void
     {
         $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 

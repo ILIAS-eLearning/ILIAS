@@ -51,10 +51,10 @@ class ilGlossaryTerm
         }
     }
 
-    public function read() : void
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         $q = "SELECT * FROM glossary_term WHERE id = " .
             $ilDB->quote($this->id, "integer");
         $term_set = $ilDB->query($q);
@@ -68,15 +68,15 @@ class ilGlossaryTerm
 
     public static function _getIdForImportId(
         string $a_import_id
-    ) : int {
+    ): int {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if ($a_import_id == "") {
             return 0;
         }
-        
+
         $q = "SELECT * FROM glossary_term WHERE import_id = " .
             $ilDB->quote($a_import_id, "text") .
             " ORDER BY create_date DESC";
@@ -92,12 +92,12 @@ class ilGlossaryTerm
 
         return 0;
     }
-    
-    
+
+
     /**
      * checks whether a glossary term with specified id exists or not
      */
-    public static function _exists(int $a_id) : bool
+    public static function _exists(int $a_id): bool
     {
         global $DIC;
 
@@ -121,69 +121,69 @@ class ilGlossaryTerm
     /**
      * set glossary term id (= glossary item id)
      */
-    public function setId(int $a_id) : void
+    public function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
     public function setGlossary(
         ilObjGlossary $a_glossary
-    ) : void {
+    ): void {
         $this->glossary = $a_glossary;
         $this->setGlossaryId($a_glossary->getId());
     }
 
     public function setGlossaryId(
         int $a_glo_id
-    ) : void {
+    ): void {
         $this->glo_id = $a_glo_id;
     }
 
-    public function getGlossaryId() : int
+    public function getGlossaryId(): int
     {
         return $this->glo_id;
     }
 
-    public function setTerm(string $a_term) : void
+    public function setTerm(string $a_term): void
     {
         $this->term = $a_term;
     }
 
-    public function getTerm() : string
+    public function getTerm(): string
     {
         return $this->term;
     }
 
     public function setLanguage(
         string $a_language
-    ) : void {
+    ): void {
         $this->language = $a_language;
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
         return $this->language;
     }
 
-    public function setImportId(string $a_import_id) : void
+    public function setImportId(string $a_import_id): void
     {
         $this->import_id = $a_import_id;
     }
 
-    public function getImportId() : string
+    public function getImportId(): string
     {
         return $this->import_id;
     }
 
-    public function create() : void
+    public function create(): void
     {
         $ilDB = $this->db;
-        
+
         $this->setId($ilDB->nextId("glossary_term"));
         $ilDB->manipulate("INSERT INTO glossary_term (id, glo_id, term, language, import_id, create_date, last_update)" .
             " VALUES (" .
@@ -199,10 +199,10 @@ class ilGlossaryTerm
     /**
      * delete glossary term (and all its definition objects)
      */
-    public function delete() : void
+    public function delete(): void
     {
         $ilDB = $this->db;
-        
+
         $defs = ilGlossaryDefinition::getDefinitionList($this->getId());
         foreach ($defs as $def) {
             $def_obj = new ilGlossaryDefinition($def["id"]);
@@ -217,10 +217,10 @@ class ilGlossaryTerm
             " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
     }
 
-    public function update() : void
+    public function update(): void
     {
         $ilDB = $this->db;
-        
+
         $ilDB->manipulate("UPDATE glossary_term SET " .
             " glo_id = " . $ilDB->quote($this->getGlossaryId(), "integer") . ", " .
             " term = " . $ilDB->quote($this->getTerm(), "text") . ", " .
@@ -233,7 +233,7 @@ class ilGlossaryTerm
     /**
      * get glossary id form term id
      */
-    public static function _lookGlossaryID(int $term_id) : int
+    public static function _lookGlossaryID(int $term_id): int
     {
         global $DIC;
 
@@ -250,7 +250,7 @@ class ilGlossaryTerm
     /**
      * get glossary term
      */
-    public static function _lookGlossaryTerm(int $term_id) : string
+    public static function _lookGlossaryTerm(int $term_id): string
     {
         global $DIC;
 
@@ -263,11 +263,11 @@ class ilGlossaryTerm
 
         return $obj_rec["term"] ?? "";
     }
-    
+
     /**
      * lookup term language
      */
-    public static function _lookLanguage(int $term_id) : string
+    public static function _lookLanguage(int $term_id): string
     {
         global $DIC;
 
@@ -293,11 +293,11 @@ class ilGlossaryTerm
         bool $a_add_amet_fields = false,
         array $a_amet_filter = null,
         bool $a_include_references = false
-    ) : array {
+    ): array {
         global $DIC;
 
         if (count($a_glo_ref_id) > 1) {
-            $a_glo_id = array_map(static function ($id) : int {
+            $a_glo_id = array_map(static function ($id): int {
                 return ilObject::_lookupObjectId($id);
             }, $a_glo_ref_id);
         } else {
@@ -321,7 +321,7 @@ class ilGlossaryTerm
                 $in = " AND " . $ilDB->in("gt.id", $sub_tree_ids, false, "integer");
             }
         }
-        
+
         if ($a_def != "") {
             // meta glossary?
             if (is_array($a_glo_id)) {
@@ -342,7 +342,7 @@ class ilGlossaryTerm
         $searchterm = (!empty($searchterm))
             ? " AND " . $ilDB->like("term", "text", "%" . $searchterm . "%") . " "
             : "";
-            
+
         if ($a_first_letter != "") {
             $searchterm .= " AND " . $ilDB->upper($ilDB->substr("term", 1, 1)) . " = " . $ilDB->upper($ilDB->quote($a_first_letter, "text")) . " ";
         }
@@ -364,7 +364,7 @@ class ilGlossaryTerm
         } else {
             $where = "(gt.glo_id = " . $ilDB->quote($a_glo_id, "integer") . $where_glo_id_or . ")";
         }
-        
+
         $where .= $in;
 
 
@@ -390,11 +390,11 @@ class ilGlossaryTerm
     public static function getFirstLetters(
         array $a_glo_id,
         int $a_tax_node = 0
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         // meta glossary
         if (count($a_glo_id) > 1) {
             $where = $ilDB->in("glo_id", $a_glo_id, false, "integer");
@@ -414,13 +414,13 @@ class ilGlossaryTerm
                     $in = " AND " . $ilDB->in("id", $sub_tree_ids, false, "integer");
                 }
             }
-            
+
             $where .= $in;
         }
-        
+
         $q = "SELECT DISTINCT " . $ilDB->upper($ilDB->substr("term", 1, 1)) . " let FROM glossary_term WHERE " . $where . " ORDER BY let";
         $let_set = $ilDB->query($q);
-        
+
         $let = array();
         while ($let_rec = $ilDB->fetchAssoc($let_set)) {
             $let[$let_rec["let"]] = $let_rec["let"];
@@ -431,7 +431,7 @@ class ilGlossaryTerm
     public function exportXML(
         ilXmlWriter $a_xml_writer,
         int $a_inst
-    ) : void {
+    ): void {
         $attrs = array();
         $attrs["Language"] = $this->getLanguage();
         $attrs["Id"] = "il_" . IL_INST_ID . "_git_" . $this->getId();
@@ -450,12 +450,12 @@ class ilGlossaryTerm
         $a_xml_writer->xmlEndTag("GlossaryItem");
     }
 
-    public static function getNumberOfUsages(int $a_term_id) : int
+    public static function getNumberOfUsages(int $a_term_id): int
     {
         return count(self::getUsages($a_term_id));
     }
 
-    public static function getUsages(int $a_term_id) : array
+    public static function getUsages(int $a_term_id): array
     {
         $usages = (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
 
@@ -469,7 +469,7 @@ class ilGlossaryTerm
 
         return $usages;
     }
-    
+
     /**
      * Copy a term to a glossary
      * @return int new term id
@@ -477,7 +477,7 @@ class ilGlossaryTerm
     public static function _copyTerm(
         int $a_term_id,
         int $a_glossary_id
-    ) : int {
+    ): int {
         $old_term = new ilGlossaryTerm($a_term_id);
 
         // copy the term
@@ -566,7 +566,7 @@ class ilGlossaryTerm
      */
     public static function getTermsOfGlossary(
         int $a_glo_id
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

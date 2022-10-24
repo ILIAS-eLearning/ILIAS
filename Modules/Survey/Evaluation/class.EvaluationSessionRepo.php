@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,17 +33,17 @@ class EvaluationSessionRepo
     {
     }
 
-    public function setAnonEvaluationAccess(int $ref_id) : void
+    public function setAnonEvaluationAccess(int $ref_id): void
     {
         \ilSession::set(self::KEY_ANON_EVAL, $ref_id);
     }
 
-    public function getAnonEvaluationAccess() : int
+    public function getAnonEvaluationAccess(): int
     {
         return \ilSession::get(self::KEY_ANON_EVAL);
     }
 
-    public function clearAnonEvaluationAccess() : void
+    public function clearAnonEvaluationAccess(): void
     {
         \ilSession::clear(self::KEY_ANON_EVAL);
     }

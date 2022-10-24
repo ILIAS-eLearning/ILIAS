@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component\Card as C;
@@ -30,7 +32,7 @@ class RepositoryObject extends Card implements C\RepositoryObject
     protected ?bool $certificate = null;
     protected ?Dropdown $actions = null;
 
-    public function withObjectIcon(Icon $icon) : C\RepositoryObject
+    public function withObjectIcon(Icon $icon): C\RepositoryObject
     {
         $icon = $icon->withSize("medium");		// ensure same size
         $clone = clone $this;
@@ -38,12 +40,12 @@ class RepositoryObject extends Card implements C\RepositoryObject
         return $clone;
     }
 
-    public function getObjectIcon() : ?Icon
+    public function getObjectIcon(): ?Icon
     {
         return $this->object_icon;
     }
 
-    public function withProgress(ProgressMeter $progress_meter) : C\RepositoryObject
+    public function withProgress(ProgressMeter $progress_meter): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->progress = $progress_meter;
@@ -53,31 +55,31 @@ class RepositoryObject extends Card implements C\RepositoryObject
     /**
      * Get the ProgressMeter
      */
-    public function getProgress() : ?ProgressMeter
+    public function getProgress(): ?ProgressMeter
     {
         return $this->progress;
     }
 
-    public function withCertificateIcon(bool $certificate_icon) : C\RepositoryObject
+    public function withCertificateIcon(bool $certificate_icon): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->certificate = $certificate_icon;
         return $clone;
     }
 
-    public function getCertificateIcon() : ?bool
+    public function getCertificateIcon(): ?bool
     {
         return $this->certificate;
     }
 
-    public function withActions(Dropdown $dropdown) : C\RepositoryObject
+    public function withActions(Dropdown $dropdown): C\RepositoryObject
     {
         $clone = clone $this;
         $clone->actions = $dropdown;
         return $clone;
     }
 
-    public function getActions() : ?Dropdown
+    public function getActions(): ?Dropdown
     {
         return $this->actions;
     }

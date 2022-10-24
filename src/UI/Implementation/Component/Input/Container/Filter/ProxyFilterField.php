@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component as C;
@@ -37,7 +39,7 @@ class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal) : C\Clickable
+    public function withOnClick(Signal $signal): C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -45,7 +47,7 @@ class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal) : C\Clickable
+    public function appendOnClick(Signal $signal): C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

@@ -37,7 +37,7 @@ class DownloadAllZipJob extends AbstractJob
         $this->logger = $DIC->logger()->mcst();
     }
 
-    public function getInputTypes() : array
+    public function getInputTypes(): array
     {
         return
             [
@@ -45,17 +45,17 @@ class DownloadAllZipJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType(): SingleType
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless() : bool
+    public function isStateless(): bool
     {
         return true;
     }
 
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer) : StringValue
+    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer): StringValue
     {
         $tmpdir = $input[0]->getValue();
 
@@ -74,7 +74,7 @@ class DownloadAllZipJob extends AbstractJob
         return $zip_file_name;
     }
 
-    public function getExpectedTimeOfTaskInSeconds() : int
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }

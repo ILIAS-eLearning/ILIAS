@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,14 +22,21 @@ namespace XapiProxy;
 
 class DataService
 {
-    public static function initIlias(string $client_id) : void
+    public static function initIlias(string $client_id): void
     {
         define("CLIENT_ID", $client_id);
+        // see: commit 2844b5d7bfffe08728ecb54c21acf00fd65d5969
+        //
+        // or set clientId Cookie and Context class ilContextScorm: supportsPersistentSessions = true
+        // or set clientId Cookie support own Context with supportsPersistentSessions = true
+        $_GET['client_id'] = $client_id;
+
         // Im Plugin war das auskommentiert(?)
 //        define('IL_COOKIE_HTTPONLY', true); // Default Value
 //        define('IL_COOKIE_EXPIRE', 0);
 //        define('IL_COOKIE_PATH', '/');
 //        define('IL_COOKIE_DOMAIN', '');
+        require_once("Services/Init/classes/class.ilInitialisation.php");
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values
@@ -63,7 +72,7 @@ class ilInitialisation extends \ilInitialisation
      * @see \ilInitialisation::initGlobal($a_name, $a_class, $a_source_file)
      */
     //    public static function initGlobal(string $a_name, string $a_class, ?string $a_source_file = null) : void
-    public static function initGlobal($a_name, $a_class, $a_source_file = null) : void
+    public static function initGlobal($a_name, $a_class, $a_source_file = null): void
     {
         parent::initGlobal($a_name, $a_class, $a_source_file);
     }
@@ -74,7 +83,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initDatabase()
     */
-    public static function initDatabase() : void
+    public static function initDatabase(): void
     {
         if (!isset($GLOBALS['ilDB'])) {
             parent::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
@@ -88,28 +97,28 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initIliasIniFile()
     */
-    public static function initIliasIniFile() : void
+    public static function initIliasIniFile(): void
     {
         if (!isset($GLOBALS['ilIliasIniFile'])) {
             parent::initIliasIniFile();
         }
     }
-    
+
     /**
     * Function: initClientIniFile()
     *  Derive from protected to public...
     *
     * @see \ilInitialisation::initIliasIniFile()
     */
-    public static function initClientIniFile() : void
+    public static function initClientIniFile(): void
     {
         if (!isset($GLOBALS['initClientIniFile'])) {
             parent::initClientIniFile();
         }
     }
-    
+
     //UK
-    public static function initLog() : void
+    public static function initLog(): void
     {
         if (!isset($GLOBALS['ilLog'])) {
             parent::initLog();

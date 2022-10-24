@@ -83,7 +83,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * create questionpool object
     */
-    public function create($a_upload = false) : int
+    public function create($a_upload = false): int
     {
         $id = parent::create();
 
@@ -101,7 +101,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function createReference() : int
+    public function createReference(): int
     {
         $result = parent::createReference();
         $this->saveToDb();
@@ -114,7 +114,7 @@ class ilObjQuestionPool extends ilObject
     * @access	public
     * @return	boolean
     */
-    public function update() : bool
+    public function update(): bool
     {
         $this->updateMetaData();
         if (!parent::update()) {
@@ -126,7 +126,7 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    protected function beforeUpdateMetaData() : bool
+    protected function beforeUpdateMetaData(): bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -148,7 +148,7 @@ class ilObjQuestionPool extends ilObject
     * @param	boolean
     * @access	public
     */
-    public function read($a_force_db = false) : void
+    public function read($a_force_db = false): void
     {
         parent::read($a_force_db);
         $this->loadFromDb();
@@ -161,7 +161,7 @@ class ilObjQuestionPool extends ilObject
     * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
-    public function delete() : bool
+    public function delete(): bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -181,7 +181,7 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    public function deleteQuestionpool() : void
+    public function deleteQuestionpool(): void
     {
         $questions = &$this->getAllQuestions();
 
@@ -207,7 +207,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id The database id of the question
     * @access private
     */
-    public function deleteQuestion($question_id) : void
+    public function deleteQuestion($question_id): void
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -221,7 +221,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function loadFromDb() : void
+    public function loadFromDb(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -245,7 +245,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function saveToDb() : void
+    public function saveToDb(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -314,7 +314,7 @@ class ilObjQuestionPool extends ilObject
     * @return boolean The number of datasets which are affected by the use of the query.
     * @access public
     */
-    public function isInUse($question_id) : bool
+    public function isInUse($question_id): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -346,7 +346,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id The database id of the question
     * @access public
     */
-    public function duplicateQuestion($question_id) : int
+    public function duplicateQuestion($question_id): int
     {
         $question = $this->createQuestion("", $question_id);
         $newtitle = $question->object->getTitle();
@@ -370,7 +370,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $questionpool_to Database id of the target questionpool
     * @access public
     */
-    public function copyQuestion($question_id, $questionpool_to) : int
+    public function copyQuestion($question_id, $questionpool_to): int
     {
         $question_gui = $this->createQuestion("", $question_id);
         if ($question_gui->object->getObjId() == $questionpool_to) {
@@ -395,7 +395,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function getPrintviewQuestions() : array
+    public function getPrintviewQuestions(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -425,7 +425,7 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    private function exportXMLSettings($xmlWriter) : void
+    private function exportXMLSettings($xmlWriter): void
     {
         $xmlWriter->xmlStartTag('Settings');
 
@@ -442,7 +442,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions) : void
+    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions): void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -491,7 +491,7 @@ class ilObjQuestionPool extends ilObject
      * @param ilXmlWriter $a_xml_writer
      * @param $questions
      */
-    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions) : void
+    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -516,7 +516,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLMetaData(&$a_xml_writer) : void
+    public function exportXMLMetaData(&$a_xml_writer): void
     {
         include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
@@ -542,7 +542,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions) : void
+    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions): void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -597,7 +597,7 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog) : void
+    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog): void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
@@ -616,7 +616,7 @@ class ilObjQuestionPool extends ilObject
     * export files of file itmes
     *
     */
-    public function exportFileItems($a_target_dir, &$expLog) : void
+    public function exportFileItems($a_target_dir, &$expLog): void
     {
         include_once("./Modules/File/classes/class.ilObjFile.php");
 
@@ -633,7 +633,7 @@ class ilObjQuestionPool extends ilObject
     * (data_dir/qpl_data/qpl_<id>/export, depending on data
     * directory that is set in ILIAS setup/ini)
     */
-    public function createExportDirectory() : void
+    public function createExportDirectory(): void
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
@@ -663,7 +663,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * get export directory of questionpool
     */
-    public function getExportDirectory($type = "") : string
+    public function getExportDirectory($type = ""): string
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         switch ($type) {
@@ -687,7 +687,7 @@ class ilObjQuestionPool extends ilObject
     * (data_dir/qpl_data/qpl_<id>/import, depending on data
     * directory that is set in ILIAS setup/ini)
     */
-    public static function _createImportDirectory() : string
+    public static function _createImportDirectory(): string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -713,7 +713,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * set import directory
     */
-    public static function _setImportDirectory($a_import_dir = null) : void
+    public static function _setImportDirectory($a_import_dir = null): void
     {
         if (strlen($a_import_dir)) {
             ilSession::set("qpl_import_dir", $a_import_dir);
@@ -725,7 +725,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * get import directory of lm
     */
-    public static function _getImportDirectory() : string
+    public static function _getImportDirectory(): string
     {
         return ilSession::get("qpl_import_dir") ?? '';
     }
@@ -740,7 +740,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @return array An array containing all question ids of the questionpool
     */
-    public function &getAllQuestions() : array
+    public function &getAllQuestions(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -757,7 +757,7 @@ class ilObjQuestionPool extends ilObject
         return $questions;
     }
 
-    public function &getAllQuestionIds() : array
+    public function &getAllQuestionIds(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -782,7 +782,7 @@ class ilObjQuestionPool extends ilObject
         return $questions;
     }
 
-    public function checkQuestionParent($questionId) : bool
+    public function checkQuestionParent($questionId): bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -799,7 +799,7 @@ class ilObjQuestionPool extends ilObject
     * get array of (two) new created questions for
     * import id
     */
-    public function getImportMapping() : array
+    public function getImportMapping(): array
     {
         return array();
     }
@@ -811,7 +811,7 @@ class ilObjQuestionPool extends ilObject
     * @return string The QTI xml representation of the questions
     * @access public
     */
-    public function questionsToXML($questions) : string
+    public function questionsToXML($questions): string
     {
         $xml = "";
         // export button was pressed
@@ -836,7 +836,7 @@ class ilObjQuestionPool extends ilObject
     * @return integer The number of questions in the questionpool object
     * @access public
     */
-    public static function _getQuestionCount($questionpool_id, $complete_questions_only = false) : int
+    public static function _getQuestionCount($questionpool_id, $complete_questions_only = false): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -864,7 +864,7 @@ class ilObjQuestionPool extends ilObject
     * @see online
     * @access public
     */
-    public function setOnline($a_online_status) : void
+    public function setOnline($a_online_status): void
     {
         switch ($a_online_status) {
             case 0:
@@ -877,7 +877,7 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    public function getOnline() : string
+    public function getOnline(): string
     {
         if (strcmp($this->online, "") == 0) {
             $this->online = "0";
@@ -885,27 +885,27 @@ class ilObjQuestionPool extends ilObject
         return $this->online;
     }
 
-    public function setShowTaxonomies($showTaxonomies) : void
+    public function setShowTaxonomies($showTaxonomies): void
     {
         $this->showTaxonomies = $showTaxonomies;
     }
 
-    public function getShowTaxonomies() : ?bool
+    public function getShowTaxonomies(): ?bool
     {
         return $this->showTaxonomies;
     }
 
-    public function setNavTaxonomyId($navTaxonomyId) : void
+    public function setNavTaxonomyId($navTaxonomyId): void
     {
         $this->navTaxonomyId = $navTaxonomyId;
     }
 
-    public function getNavTaxonomyId() : ?int
+    public function getNavTaxonomyId(): ?int
     {
         return $this->navTaxonomyId;
     }
 
-    public function isNavTaxonomyActive() : bool
+    public function isNavTaxonomyActive(): bool
     {
         return $this->getShowTaxonomies() && (int) $this->getNavTaxonomyId();
     }
@@ -941,7 +941,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $a_obj_id Object id of the question pool
     * @access private
     */
-    public static function _hasEqualPoints($a_obj_id, $is_reference = false) : int
+    public static function _hasEqualPoints($a_obj_id, $is_reference = false): int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -975,7 +975,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access private
     */
-    public function pasteFromClipboard() : bool
+    public function pasteFromClipboard(): bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1037,7 +1037,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function copyToClipboard($question_id) : void
+    public function copyToClipboard($question_id): void
     {
         if (ilSession::get("qpl_clipboard") == null) {
             ilSession::set("qpl_clipboard", array());
@@ -1054,7 +1054,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function moveToClipboard($question_id) : void
+    public function moveToClipboard($question_id): void
     {
         if (ilSession::get("qpl_clipboard") == null) {
             ilSession::set("qpl_clipboard", array());
@@ -1065,7 +1065,7 @@ class ilObjQuestionPool extends ilObject
         //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
     }
 
-    public function cleanupClipboard($deletedQuestionId) : void
+    public function cleanupClipboard($deletedQuestionId): void
     {
         if (ilSession::get('qpl_clipboard') == null) {
             return;
@@ -1092,7 +1092,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $user_id The database id of the user
     * @access public
     */
-    public static function _isWriteable($object_id, $user_id) : bool
+    public static function _isWriteable($object_id, $user_id): bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -1116,7 +1116,7 @@ class ilObjQuestionPool extends ilObject
     * @return array An array containing the details of the requested questions
     * @access public
     */
-    public function &getQuestionDetails($question_ids) : array
+    public function &getQuestionDetails($question_ids): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1139,7 +1139,7 @@ class ilObjQuestionPool extends ilObject
     * @return array An array containing the details of the requested questions
     * @access public
     */
-    public function &getDeleteableQuestionDetails($question_ids) : array
+    public function &getDeleteableQuestionDetails($question_ids): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1205,7 +1205,7 @@ class ilObjQuestionPool extends ilObject
     * @return string The full path to the question pool including the locator
     * @access public
     */
-    public function _getFullPathToQpl($ref_id) : string
+    public function _getFullPathToQpl($ref_id): string
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -1232,7 +1232,7 @@ class ilObjQuestionPool extends ilObject
     * @return array The available question pools
     * @access public
     */
-    public static function _getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false, $permission = "read", $usr_id = "") : array
+    public static function _getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $showPath = false, $with_questioncount = false, $permission = "read", $usr_id = ""): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -1297,7 +1297,7 @@ class ilObjQuestionPool extends ilObject
         return $result_array;
     }
 
-    public function &getQplQuestions() : array
+    public function &getQplQuestions(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1319,7 +1319,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false): ?ilObject
     {
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
@@ -1362,12 +1362,12 @@ class ilObjQuestionPool extends ilObject
         return $newObj;
     }
 
-    public function getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true) : array
+    public function getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true): array
     {
         return self::_getQuestionTypes($all_tags, $fixOrder, $withDeprecatedTypes);
     }
 
-    public static function _getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true) : array
+    public static function _getQuestionTypes($all_tags = false, $fixOrder = false, $withDeprecatedTypes = true): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1420,7 +1420,7 @@ class ilObjQuestionPool extends ilObject
         return null;
     }
 
-    public static function getQuestionTypeTranslations() : array
+    public static function getQuestionTypeTranslations(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1451,7 +1451,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @todo		Make it more flexible
     */
-    public static function &_getSelfAssessmentQuestionTypes($all_tags = false) : array
+    public static function &_getSelfAssessmentQuestionTypes($all_tags = false): array
     {
         /*		$allowed_types = array(
                     "assSingleChoice" => 1,
@@ -1491,7 +1491,7 @@ class ilObjQuestionPool extends ilObject
     }
 
 
-    public function &getQuestionList() : array
+    public function &getQuestionList(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1514,7 +1514,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $object_id Object id of the questionpool to examine
     * @access public
     */
-    public static function _updateQuestionCount($object_id) : void
+    public static function _updateQuestionCount($object_id): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1531,7 +1531,7 @@ class ilObjQuestionPool extends ilObject
     * @param string $a_pname The plugin name
     * @access public
     */
-    public function isPluginActive($questionType) : bool
+    public function isPluginActive($questionType): bool
     {
         global $DIC;
         /** @var ilComponentRepository $component_repository */
@@ -1560,7 +1560,7 @@ class ilObjQuestionPool extends ilObject
     /*
     * Remove all questions with owner = 0
     */
-    public function purgeQuestions() : void
+    public function purgeQuestions(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1577,7 +1577,7 @@ class ilObjQuestionPool extends ilObject
      *
      * @return array
      */
-    public function getTaxonomyIds() : array
+    public function getTaxonomyIds(): array
     {
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         return ilObjTaxonomy::getUsageOfObject($this->getId());
@@ -1586,7 +1586,7 @@ class ilObjQuestionPool extends ilObject
     /**
      * @return boolean
      */
-    public function isSkillServiceEnabled() : bool
+    public function isSkillServiceEnabled(): bool
     {
         return $this->skillServiceEnabled;
     }
@@ -1594,14 +1594,14 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param boolean $skillServiceEnabled
      */
-    public function setSkillServiceEnabled($skillServiceEnabled) : void
+    public function setSkillServiceEnabled($skillServiceEnabled): void
     {
         $this->skillServiceEnabled = $skillServiceEnabled;
     }
 
     private static $isSkillManagementGloballyActivated = null;
 
-    public static function isSkillManagementGloballyActivated() : ?bool
+    public static function isSkillManagementGloballyActivated(): ?bool
     {
         if (self::$isSkillManagementGloballyActivated === null) {
             $skmgSet = new ilSkillManagementSettings();
@@ -1612,7 +1612,7 @@ class ilObjQuestionPool extends ilObject
         return self::$isSkillManagementGloballyActivated;
     }
 
-    public function fromXML($xmlFile) : void
+    public function fromXML($xmlFile): void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
         $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);

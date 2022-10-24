@@ -16,7 +16,6 @@
  *
  *********************************************************************/
 
-
 namespace ILIAS\LTI\ToolProvider\MediaType;
 
 use ILIAS\LTI\ToolProvider\Tool;
@@ -30,7 +29,6 @@ use ILIAS\LTI\ToolProvider\Tool;
  */
 class SecurityContract
 {
-
     /**
      * Class constructor.
      * @param Tool   $tool   Tool instance
@@ -58,7 +56,7 @@ class SecurityContract
                             $id = "{$tcContexts[$parts[0]]}{$parts[1]}";
                         }
                     }
-                    $toolService = new \stdClass;
+                    $toolService = new \stdClass();
                     $toolService->{'@type'} = 'RestServiceProfile';
                     $toolService->service = $id;
                     $toolService->action = $requiredService->actions;
@@ -77,7 +75,7 @@ class SecurityContract
                             $id = "{$tcContexts[$parts[0]]}{$parts[1]}";
                         }
                     }
-                    $toolService = new \stdClass;
+                    $toolService = new \stdClass();
                     $toolService->{'@type'} = 'RestServiceProfile';
                     $toolService->service = $id;
                     $toolService->action = $optionalService->actions;

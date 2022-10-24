@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -38,7 +40,7 @@ final class ilDelegatingHandler extends Handler
         $this->error_handling = $error_handling;
     }
 
-    private function hideSensitiveData(array $key_value_pairs) : array
+    private function hideSensitiveData(array $key_value_pairs): array
     {
         foreach ($key_value_pairs as $key => &$value) {
             if (is_array($value)) {
@@ -76,12 +78,12 @@ final class ilDelegatingHandler extends Handler
      * @inheritDoc
      * @noinspection PhpCastIsUnnecessaryInspection
      */
-    public function handle() : ?int
+    public function handle(): ?int
     {
         if (defined("IL_INITIAL_WD")) {
             chdir(IL_INITIAL_WD);
         }
-        
+
         /* We must cast the superglobals back to normal arrays since the error handler needs them. They were replaced by
            SuperGlobalDropInReplacement . The keys contain NULL bytes, so accessing values directly by key is not
            really possible */

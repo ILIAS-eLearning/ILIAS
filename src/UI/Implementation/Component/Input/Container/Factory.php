@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Input\Container;
 
 use ILIAS\UI\Component\Input as I;
@@ -39,7 +41,7 @@ class Factory implements I\Container\Factory
     /**
      * @inheritdoc
      */
-    public function form() : I\Container\Form\Factory
+    public function form(): I\Container\Form\Factory
     {
         return $this->form_factory;
     }
@@ -47,7 +49,7 @@ class Factory implements I\Container\Factory
     /**
      * @inheritdoc
      */
-    public function filter() : I\Container\Filter\Factory
+    public function filter(): I\Container\Filter\Factory
     {
         return $this->filter_factory;
     }
@@ -55,7 +57,7 @@ class Factory implements I\Container\Factory
     /**
      * @inheritdoc
      */
-    public function viewControl() : I\Container\ViewControl\Factory
+    public function viewControl(): I\Container\ViewControl\Factory
     {
         return $this->view_control_factory;
     }

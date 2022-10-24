@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ILIAS\UI\examples\Menu\Drilldown;
 
@@ -63,7 +65,7 @@ function drilldown()
 }
 
 
-function toBulky(string $label) : \ILIAS\UI\Component\Button\Bulky
+function toBulky(string $label): \ILIAS\UI\Component\Button\Bulky
 {
     global $DIC;
     $f = $DIC->ui()->factory();

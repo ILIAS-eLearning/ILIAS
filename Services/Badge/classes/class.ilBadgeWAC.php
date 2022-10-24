@@ -21,7 +21,7 @@
  */
 class ilBadgeWAC implements ilWACCheckingClass
 {
-    public function canBeDelivered(ilWACPath $ilWACPath) : bool
+    public function canBeDelivered(ilWACPath $ilWACPath): bool
     {
         return true;
     }

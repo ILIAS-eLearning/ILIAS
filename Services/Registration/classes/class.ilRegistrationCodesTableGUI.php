@@ -1,16 +1,23 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
 
 /**
  * TableGUI class for registration codes
@@ -73,7 +80,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Get user items
      */
-    public function getItems() : void
+    private function getItems(): void
     {
         $this->determineOffsetAndOrder();
 
@@ -124,10 +131,14 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
             if ($code["used"]) {
                 $result[$k]["used"] = ilDatePresentation::formatDate(new ilDateTime($code["used"], IL_CAL_UNIX));
+            } else {
+                $result[$k]["used"] = "";
             }
 
             if ($code["role"]) {
                 $result[$k]["role"] = $this->role_map[$code["role"]];
+            } else {
+                $result[$k]["role"] = "";
             }
 
             if ($code["role_local"]) {
@@ -142,6 +153,8 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                     sort($local);
                     $result[$k]["role_local"] = implode("<br />", $local);
                 }
+            } else {
+                $result[$k]["role_local"] = "";
             }
 
             if ($code["alimit"]) {
@@ -183,7 +196,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter() : void
+    public function initFilter(): void
     {
         // code
         $ti = new ilTextInputGUI($this->lng->txt("registration_code"), "query");
@@ -236,7 +249,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         $this->filter["generated"] = $si->getValue();
     }
 
-    public function getSelectedColumns() : array
+    public function getSelectedColumns(): array
     {
         return [
             "code" => "registration_code",
@@ -248,11 +261,11 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
         ];
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable("ID", $a_set["code_id"]);
         foreach (array_keys($this->getSelectedColumns()) as $c) {
-            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c]);
+            $this->tpl->setVariable("VAL_" . strtoupper($c), $a_set[$c] ?? "");
         }
     }
 }

@@ -38,57 +38,57 @@ class StandardGUIRequest
         );
     }
 
-    public function getRefId() : int
+    public function getRefId(): int
     {
         return $this->int("ref_id");
     }
 
-    public function getPoolRefId() : int
+    public function getPoolRefId(): int
     {
         return $this->int("pool_ref_id");
     }
 
-    public function getObjectId() : int
+    public function getObjectId(): int
     {
         return $this->int("object_id");
     }
 
-    public function getUserId() : int
+    public function getUserId(): int
     {
         return $this->int("user_id");
     }
 
-    public function getBookedUser() : int
+    public function getBookedUser(): int
     {
         return $this->int("bkusr");
     }
 
-    public function getScheduleId() : int
+    public function getScheduleId(): int
     {
         return $this->int("schedule_id");
     }
 
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->int("tstatus");
     }
 
-    public function getReservationIdsFromString() : array
+    public function getReservationIdsFromString(): array
     {
         return explode(";", $this->str("rsv_ids"));
     }
 
-    public function getReturnTo() : string
+    public function getReturnTo(): string
     {
         return $this->str("return_to");
     }
 
-    public function getReservationId() : string
+    public function getReservationId(): string
     {
         return $this->str("reservation_id");
     }
 
-    public function getReservationIds() : array
+    public function getReservationIds(): array
     {
         $ids = $this->strArray("mrsv");
         if (count($ids) === 0) {
@@ -100,22 +100,22 @@ class StandardGUIRequest
         return $ids;
     }
 
-    public function getSeed() : string
+    public function getSeed(): string
     {
         return $this->str("seed");
     }
 
-    public function getSSeed() : string
+    public function getSSeed(): string
     {
         return $this->str("sseed");
     }
 
-    public function getNotification() : int
+    public function getNotification(): int
     {
         return $this->int("ntf");
     }
 
-    public function getParticipants() : array
+    public function getParticipants(): array
     {
         $p = $this->intArray("mass");
         if (count($p) === 0) {
@@ -124,32 +124,32 @@ class StandardGUIRequest
         return $p;
     }
 
-    public function getDates() : array
+    public function getDates(): array
     {
         return $this->strArray("date");
     }
 
-    public function getRece() : string
+    public function getRece(): string
     {
         return $this->str("rece");
     }
 
-    public function getRecm() : string
+    public function getRecm(): string
     {
         return $this->str("recm");
     }
 
-    public function getUserLogin() : string
+    public function getUserLogin(): string
     {
         return $this->str("user_login");
     }
 
-    public function getGroupId() : int
+    public function getGroupId(): int
     {
         return $this->int("grp_id");
     }
 
-    public function getCancelNr($id) : int
+    public function getCancelNr($id): int
     {
         return $this->int("rsv_id_" . $id);
     }

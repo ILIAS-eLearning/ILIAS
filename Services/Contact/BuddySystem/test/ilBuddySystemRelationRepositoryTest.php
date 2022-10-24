@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -22,7 +24,7 @@
  */
 class ilBuddySystemRelationRepositoryTest extends ilBuddySystemBaseTest
 {
-    public function testSqlRepositoryDelegatesDeletionToDatabaseAbstraction() : void
+    public function testSqlRepositoryDelegatesDeletionToDatabaseAbstraction(): void
     {
         $db = $this->createMock(ilDBInterface::class);
         $db->expects($this->exactly(2))

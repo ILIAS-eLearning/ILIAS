@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionImport.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
 * Class for matching question imports
@@ -14,7 +27,7 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 */
 class assMatchingQuestionImport extends assQuestionImport
 {
-    public function saveImage($data, $filename) : void
+    public function saveImage($data, $filename): void
     {
         $image = base64_decode($data);
         $imagepath = $this->object->getImagePath();
@@ -30,7 +43,7 @@ class assMatchingQuestionImport extends assQuestionImport
             fclose($fh);
         }
     }
-    
+
     /**
     * Creates a question from a QTI file
     *
@@ -44,7 +57,7 @@ class assMatchingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, $import_mapping): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -172,20 +185,20 @@ class assMatchingQuestionImport extends assQuestionImport
                 }
             }
         }
-        
+
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
         $this->object->createNewQuestion();
         $this->addGeneralMetadata($item);
         $this->object->setTitle($item->getTitle());
-        $this->object->setNrOfTries($item->getMaxattempts());
+        $this->object->setNrOfTries((int) $item->getMaxattempts());
         $this->object->setComment($item->getComment());
         $this->object->setAuthor($item->getAuthor());
         $this->object->setOwner($ilUser->getId());
         $this->object->setQuestion($this->object->QTIMaterialToString($item->getQuestiontext()));
         $this->object->setObjId($questionpool_id);
-        $this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
+        $this->object->setEstimatedWorkingTime($duration["h"] ?? 0, $duration["m"] ?? 0, $duration["s"] ?? 0);
         $extended_shuffle = $item->getMetadataEntry("shuffle");
         $this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
 
@@ -211,10 +224,10 @@ class assMatchingQuestionImport extends assQuestionImport
             // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
             // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
             // analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
-            $this->object->addTerm(new assAnswerMatchingTerm($term["term"], $term['answerimage']['label'], $term["ident"]));
+            $this->object->addTerm(new assAnswerMatchingTerm($term["term"], $term['answerimage']['label'] ?? '', $term["ident"]));
         }
         foreach ($definitions as $definitionindex => $definition) {
-            $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'], $definition["answerorder"]));
+            $this->object->addDefinition(new assAnswerMatchingDefinition($definition["answertext"], $definition['answerimage']['label'] ?? '', $definition["answerorder"]));
         }
 
         if (strlen($extended_shuffle) > 0) {
@@ -275,10 +288,10 @@ class assMatchingQuestionImport extends assQuestionImport
                 } else {
                     $importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
                 }
-                
+
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
-                
+
                 $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
@@ -293,7 +306,7 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
         foreach ($feedbacks as $ident => $material) {
             $index = $this->fetchIndexFromFeedbackIdent($ident, 'correct_');
-            
+
             $this->object->feedbackOBJ->importSpecificAnswerFeedback(
                 $this->object->getId(),
                 0,
@@ -311,37 +324,38 @@ class assMatchingQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if ($tst_id > 0) {
             $q_1_id = $this->object->getId();
-            $question_id = $this->object->duplicate(true, null, null, null, $tst_id);
+            $question_id = $this->object->duplicate(true, "", "", "", $tst_id);
             $tst_object->questions[$question_counter++] = $question_id;
             $import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
+        return $import_mapping;
     }
-    
+
     /**
      * @param $feedbackIdent
      * @param string $prefix
      * @return int
      */
-    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_') : int
+    protected function fetchIndexFromFeedbackIdent($feedbackIdent, $prefix = 'response_'): int
     {
         list($termId, $definitionId) = explode('_', str_replace($prefix, '', $feedbackIdent));
-        
+
         foreach ($this->object->getMatchingPairs() as $index => $pair) {
             /* @var assAnswerMatchingPair $pair */
-            
+
             if ($pair->term->identifier != $termId) {
                 continue;
             }
-            
+
             if ($pair->definition->identifier != $definitionId) {
                 continue;
             }
-            
+
             return (int) $index;
         }
-        
+
         return -1;
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Render;
 
 use ilGlobalTemplateInterface;
@@ -37,7 +39,7 @@ class ilResourceRegistry implements ResourceRegistry
     /**
      * @inheritdoc
      */
-    public function register(string $name) : void
+    public function register(string $name): void
     {
         $path_parts = pathinfo($name);
         switch ($path_parts["extension"]) {

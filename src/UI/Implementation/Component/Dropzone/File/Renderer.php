@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
@@ -33,7 +35,7 @@ use LogicException;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component $component, RenderInterface $default_renderer) : string
+    public function render(Component $component, RenderInterface $default_renderer): string
     {
         $this->checkComponent($component);
 
@@ -46,18 +48,20 @@ class Renderer extends AbstractComponentRenderer
         throw new LogicException("Cannot render '" . get_class($component) . "'");
     }
 
-    public function registerResources(ResourceRegistry $registry) : void
+    public function registerResources(ResourceRegistry $registry): void
     {
         parent::registerResources($registry);
         $registry->register("./src/UI/templates/js/Dropzone/File/dropzone.js");
     }
 
-    protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer) : string
+    protected function renderWrapper(Wrapper $dropzone, RenderInterface $default_renderer): string
     {
+        $clear_signal = $dropzone->getClearSignal();
+
         $modal = $this->getUIFactory()->modal()->roundtrip(
             $dropzone->getTitle(),
             [$dropzone->getForm()]
-        );
+        )->withOnClose($clear_signal);
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $default_renderer->render($modal));
@@ -66,13 +70,16 @@ class Renderer extends AbstractComponentRenderer
 
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
+        $dropzone = $dropzone->withAdditionalOnLoadCode(function ($id) use ($clear_signal): string {
+            return "$('#$id').on('$clear_signal', function() { il.UI.Dropzone.removeAllFilesFromQueue('$id');});";
+        });
 
         $this->bindAndApplyJavaScript($dropzone, $template);
 
         return $template->get();
     }
 
-    protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer) : string
+    protected function renderStandard(Standard $dropzone, RenderInterface $default_renderer): string
     {
         $modal = $this->getUIFactory()->modal()->roundtrip(
             $dropzone->getTitle(),
@@ -102,7 +109,7 @@ class Renderer extends AbstractComponentRenderer
         return $template->get();
     }
 
-    protected function initClientsideDropzone(FileInterface $dropzone) : FileInterface
+    protected function initClientsideDropzone(FileInterface $dropzone): FileInterface
     {
         return $dropzone->withAdditionalOnLoadCode(static function ($id) {
             // the file-input JS-ID would be nice here too, but I don't see
@@ -115,12 +122,12 @@ class Renderer extends AbstractComponentRenderer
         });
     }
 
-    protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template) : void
+    protected function bindAndApplyJavaScript(FileInterface $dropzone, Template $template): void
     {
         $template->setVariable('ID', $this->bindJavaScript($dropzone));
     }
 
-    protected function getComponentInterfaceName() : array
+    protected function getComponentInterfaceName(): array
     {
         return array(
             \ILIAS\UI\Component\Dropzone\File\Standard::class,

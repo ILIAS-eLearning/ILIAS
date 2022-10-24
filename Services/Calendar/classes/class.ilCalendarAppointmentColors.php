@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -148,7 +150,7 @@ class ilCalendarAppointmentColors
         }
     }
 
-    public static function _getRandomColorByType(string $a_type) : string
+    public static function _getRandomColorByType(string $a_type): string
     {
         $random = new \ilRandom();
         return self::$colors[$a_type][$random->int(0, count(self::$colors[$a_type]) - 1)];
@@ -157,7 +159,7 @@ class ilCalendarAppointmentColors
     /**
      * get selectable colors
      */
-    public static function _getColorsByType(string $a_type) : array
+    public static function _getColorsByType(string $a_type): array
     {
         return self::$colors[$a_type];
     }

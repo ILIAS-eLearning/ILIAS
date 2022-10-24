@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
  */
 class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
-    public function testA4() : void
+    public function testA4(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -46,7 +48,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testCustomPageWidth() : void
+    public function testCustomPageWidth(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -75,7 +77,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA5() : void
+    public function testA5(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -104,7 +106,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA5Landscape() : void
+    public function testA5Landscape(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -133,7 +135,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA4Landscape() : void
+    public function testA4Landscape(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -162,7 +164,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testLetterLandscape() : void
+    public function testLetterLandscape(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -191,7 +193,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testLetter() : void
+    public function testLetter(): void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();

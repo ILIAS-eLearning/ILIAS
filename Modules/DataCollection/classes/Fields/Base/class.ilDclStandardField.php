@@ -36,7 +36,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function doRead() : void
+    public function doRead(): void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -45,7 +45,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 
-    public function doCreate() : void
+    public function doCreate(): void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -54,12 +54,12 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $ilLog->write("[ilDclStandardField] " . $message);
     }
 
-    public function doUpdate() : void
+    public function doUpdate(): void
     {
         $this->updateTableFieldSetting();
     }
 
-    public function clone(ilDclStandardField $original_record) : void
+    public function clone(ilDclStandardField $original_record): void
     {
         $this->setOrder($original_record->getOrder());
         $this->setUnique($original_record->isUnique());
@@ -68,12 +68,12 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $this->doUpdate();
     }
 
-    public function getLocked() : bool
+    public function getLocked(): bool
     {
         return true;
     }
 
-    public static function _getStandardFieldsAsArray() : array
+    public static function _getStandardFieldsAsArray(): array
     {
 
         //TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
@@ -121,7 +121,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $stdfields;
     }
 
-    public static function _getStandardFields(int $table_id) : array
+    public static function _getStandardFields(int $table_id): array
     {
         $stdFields = array();
         foreach (self::_getStandardFieldsAsArray() as $array) {
@@ -138,7 +138,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * @return array all possible titles of non-importable (excel import) standardfields (atm all
      *               except owner), in all languages;
      */
-    public static function _getNonImportableStandardFieldTitles() : array
+    public static function _getNonImportableStandardFieldTitles(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -171,7 +171,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * @return array all possible titles of importable (excel import) standardfields (atm
      *               exclusively owner), in all languages;
      */
-    public static function _getImportableStandardFieldTitle() : array
+    public static function _getImportableStandardFieldTitle(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -196,7 +196,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * @param int|string $field_id
      * @return bool
      */
-    public static function _isStandardField($field_id) : bool
+    public static function _isStandardField($field_id): bool
     {
         $return = false;
         foreach (self::_getStandardFieldsAsArray() as $field) {
@@ -212,7 +212,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * gives you the datatype id of a specified standard field.
      * @param string $id the id of the standardfield eg. "create_date"
      */
-    public static function _getDatatypeForId(string $id) : ?string
+    public static function _getDatatypeForId(string $id): ?string
     {
         $datatype = null;
         foreach (self::_getStandardFieldsAsArray() as $fields_data) {
@@ -225,12 +225,12 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $datatype;
     }
 
-    public function isStandardField() : bool
+    public function isStandardField(): bool
     {
         return true;
     }
 
-    public function isUnique() : bool
+    public function isUnique(): bool
     {
         return false;
     }
@@ -241,7 +241,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         $sql_obj = new ilDclRecordQueryObject();
 
         $join_str = "";
@@ -268,7 +268,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ?ilDclRecordQueryObject {
+    ): ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -317,7 +317,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function getSortField() : string
+    public function getSortField(): string
     {
         if ($this->getId() == 'comments') {
             return 'n_comments';
@@ -326,7 +326,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
         }
     }
 
-    public function hasNumericSorting() : bool
+    public function hasNumericSorting(): bool
     {
         if ($this->getId() == 'comments') {
             return true;
@@ -335,14 +335,14 @@ class ilDclStandardField extends ilDclBaseFieldModel
         return parent::hasNumericSorting();
     }
 
-    public function allowFilterInListView() : bool
+    public function allowFilterInListView(): bool
     {
         //comments are filterable if they are enabled in the tables settings
         return $this->id != 'comments'
             || ilDclCache::getTableCache($this->getTableId())->getPublicCommentsEnabled();
     }
 
-    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col) : void
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col): void
     {
         parent::fillHeaderExcel($worksheet, $row, $col);
         if ($this->getId() == 'owner') {

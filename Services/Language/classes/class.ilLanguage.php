@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -101,7 +103,7 @@ class ilLanguage
         if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
         }
-    
+
         require_once("./Services/Language/classes/class.ilCachedLanguage.php");
         $this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
         if ($this->global_cache->isActive()) {
@@ -113,7 +115,7 @@ class ilLanguage
     /**
      * Return lang key
      */
-    public function getLangKey() : string
+    public function getLangKey(): string
     {
         return $this->lang_key;
     }
@@ -121,7 +123,7 @@ class ilLanguage
     /**
      * Return default language
      */
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage(): string
     {
         return $this->lang_default ?: "en";
     }
@@ -129,7 +131,7 @@ class ilLanguage
     /**
      * Return text direction
      */
-    public function getTextDirection() : string
+    public function getTextDirection(): string
     {
         $rtl = array("ar", "fa", "ur", "he");
         if (in_array($this->getContentLanguage(), $rtl)) {
@@ -141,7 +143,7 @@ class ilLanguage
     /**
      * Return content language
      */
-    public function getContentLanguage() : string
+    public function getContentLanguage(): string
     {
         if ($this->getUserLanguage()) {
             return $this->getUserLanguage();
@@ -153,7 +155,7 @@ class ilLanguage
      * gets the text for a given topic in a given language
      * if the topic is not in the list, the topic itself with "-" will be returned
      */
-    public function txtlng(string $a_module, string $a_topic, string $a_language) : string
+    public function txtlng(string $a_module, string $a_topic, string $a_language): string
     {
         if (strcmp($a_language, $this->lang_key) === 0) {
             return $this->txt($a_topic);
@@ -166,7 +168,7 @@ class ilLanguage
      * gets the text for a given topic
      * if the topic is not in the list, the topic itself with "-" will be returned
      */
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = "") : string
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ""): string
     {
         if (empty($a_topic)) {
             return "";
@@ -205,7 +207,7 @@ class ilLanguage
         }
 
         if ($this->usage_log_enabled) {
-            self::logUsage($this->map_modules_txt[$a_topic], $a_topic);
+            self::logUsage($this->map_modules_txt[$a_topic] ?? "", $a_topic);
         }
 
         return $translation;
@@ -214,7 +216,7 @@ class ilLanguage
     /**
      * Check if language entry exists
      */
-    public function exists(string $a_topic) : bool
+    public function exists(string $a_topic): bool
     {
         return isset($this->text[$a_topic]);
     }
@@ -222,7 +224,7 @@ class ilLanguage
     /**
      * Load language module
      */
-    public function loadLanguageModule(string $a_module) : void
+    public function loadLanguageModule(string $a_module): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -279,7 +281,7 @@ class ilLanguage
     /**
      * Get installed languages
      */
-    public function getInstalledLanguages() : array
+    public function getInstalledLanguages(): array
     {
         return self::_getInstalledLanguages();
     }
@@ -287,7 +289,7 @@ class ilLanguage
     /**
      * Get installed languages
      */
-    public static function _getInstalledLanguages() : array
+    public static function _getInstalledLanguages(): array
     {
         include_once "./Services/Object/classes/class.ilObject.php";
         $langlist = ilObject::_getObjectsByType("lng");
@@ -302,7 +304,7 @@ class ilLanguage
         return $languages ?: [];
     }
 
-    public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id) : string
+    public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id): string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -334,7 +336,7 @@ class ilLanguage
     /**
      * Lookup obj_id of language
      */
-    public static function lookupId(string $a_lang_key) : int
+    public static function lookupId(string $a_lang_key): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -353,7 +355,7 @@ class ilLanguage
     /**
      * Return used topics
      */
-    public function getUsedTopics() : array
+    public function getUsedTopics(): array
     {
         asort(self::$used_topics);
         return self::$used_topics;
@@ -362,7 +364,7 @@ class ilLanguage
     /**
      * Return used modules
      */
-    public function getUsedModules() : array
+    public function getUsedModules(): array
     {
         asort(self::$used_modules);
         return self::$used_modules;
@@ -371,12 +373,12 @@ class ilLanguage
     /**
      * Return language of user
      */
-    public function getUserLanguage() : string
+    public function getUserLanguage(): string
     {
         return $this->lang_user;
     }
 
-    public function getCustomLangPath() : string
+    public function getCustomLangPath(): string
     {
         return $this->cust_lang_path;
     }
@@ -384,7 +386,7 @@ class ilLanguage
     /**
      * Builds a global default language instance
      */
-    public static function getFallbackInstance() : ilLanguage
+    public static function getFallbackInstance(): ilLanguage
     {
         return new self("en");
     }
@@ -392,7 +394,7 @@ class ilLanguage
     /**
      * Builds the global language object
      */
-    public static function getGlobalInstance() : self
+    public static function getGlobalInstance(): self
     {
         global $DIC;
 
@@ -460,7 +462,7 @@ class ilLanguage
      * $a_lang_key language key string or array of language keys
      */
 
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
+    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
@@ -485,7 +487,7 @@ class ilLanguage
      *
      * $a_map array of key value pairs (key is text string, value is content)
      */
-    public function toJSMap(array $a_map, ilGlobalTemplateInterface $a_tpl = null) : void
+    public function toJSMap(array $a_map, ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
@@ -508,7 +510,7 @@ class ilLanguage
     /**
      * saves tupel of language module and identifier
      */
-    protected static function logUsage(string $a_module, string $a_identifier) : void
+    protected static function logUsage(string $a_module, string $a_identifier): void
     {
         if ($a_module !== "" && $a_identifier !== "") {
             self::$lng_log[$a_identifier] = $a_module;
@@ -521,7 +523,7 @@ class ilLanguage
      * this function is automatically enabled if DEVMODE is on
      * this function is also enabled if language_log is 1
      */
-    protected static function isUsageLogEnabled() : bool
+    protected static function isUsageLogEnabled(): bool
     {
         global $DIC;
         $ilClientIniFile = $DIC->clientIni();

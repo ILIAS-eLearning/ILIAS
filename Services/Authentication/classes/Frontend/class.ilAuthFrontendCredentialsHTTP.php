@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -27,7 +29,7 @@ class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials
     /**
      * Init credentials from request
      */
-    public function initFromRequest() : void
+    public function initFromRequest(): void
     {
         $this->setUsername($_SERVER['PHP_AUTH_USER']);
         $this->setPassword($_SERVER['PHP_AUTH_PW']);

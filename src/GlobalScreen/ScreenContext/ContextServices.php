@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -42,7 +44,7 @@ class ContextServices
     /**
      * @return CalledContexts
      */
-    public function stack() : CalledContexts
+    public function stack(): CalledContexts
     {
         return $this->collection;
     }
@@ -50,7 +52,7 @@ class ContextServices
     /**
      * @return ScreenContext
      */
-    public function current() : ScreenContext
+    public function current(): ScreenContext
     {
         return $this->collection->current();
     }
@@ -58,12 +60,12 @@ class ContextServices
     /**
      * @return CalledContexts
      */
-    public function claim() : CalledContexts
+    public function claim(): CalledContexts
     {
         return $this->collection;
     }
 
-    public function collection() : ContextCollection
+    public function collection(): ContextCollection
     {
         return new ContextCollection($this->context_repository);
     }
@@ -71,7 +73,7 @@ class ContextServices
     /**
      * @return ContextRepository
      */
-    public function availableContexts() : ContextRepository
+    public function availableContexts(): ContextRepository
     {
         return $this->context_repository;
     }

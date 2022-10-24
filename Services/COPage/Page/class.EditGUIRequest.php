@@ -38,12 +38,12 @@ class EditGUIRequest
         );
     }
 
-    public function getHierId() : string
+    public function getHierId(): string
     {
         return $this->str("hier_id");
     }
 
-    public function getPCId() : string
+    public function getPCId(): string
     {
         $pc_id = $this->str("pc_id");
         if ($pc_id == "") {
@@ -52,43 +52,43 @@ class EditGUIRequest
         return $pc_id;
     }
 
-    public function getPlaceholderPCId() : string
+    public function getPlaceholderPCId(): string
     {
         return $this->str("pl_pc_id");
     }
 
-    public function getCType() : string
+    public function getCType(): string
     {
         return $this->str("ctype");
     }
 
-    public function getCName() : string
+    public function getCName(): string
     {
         return $this->str("cname");
     }
 
-    public function getMobId() : int
+    public function getMobId(): int
     {
         return $this->int("mob_id");
     }
 
     /** @return string[] */
-    public function getIds() : array
+    public function getIds(): array
     {
         return $this->strArray("ids");
     }
 
-    public function getString(string $key) : string
+    public function getString(string $key): string
     {
         return $this->str($key);
     }
 
-    public function getInt(string $key) : int
+    public function getInt(string $key): int
     {
         return $this->int($key);
     }
 
-    public function getStringArray(string $key) : array
+    public function getStringArray(string $key): array
     {
         return $this->strArray($key);
     }

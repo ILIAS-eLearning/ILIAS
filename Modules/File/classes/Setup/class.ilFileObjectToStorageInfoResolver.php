@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\Filesystem\Stream\FileStream;
 

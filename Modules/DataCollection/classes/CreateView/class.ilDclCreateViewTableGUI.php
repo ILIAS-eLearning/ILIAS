@@ -22,7 +22,7 @@
  */
 class ilDclCreateViewTableGUI extends ilTable2GUI
 {
-    const VALID_DEFAULT_VALUE_TYPES = [
+    public const VALID_DEFAULT_VALUE_TYPES = [
         ilDclDatatype::INPUTFORMAT_NUMBER,
         ilDclDatatype::INPUTFORMAT_TEXT,
         ilDclDatatype::INPUTFORMAT_BOOLEAN,
@@ -59,7 +59,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-    public function parseData(array $data) : void
+    public function parseData(array $data): void
     {
         $this->setData($data);
     }
@@ -67,7 +67,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
     /**
      * Get HTML
      */
-    public function getHTML() : string
+    public function getHTML(): string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -173,7 +173,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         return $this->render();
     }
 
-    public function fillRowFromObject(ilDclTableViewFieldSetting $a_set) : void
+    public function fillRowFromObject(ilDclTableViewFieldSetting $a_set): void
     {
         $lng = $this->lng;
         $field = $a_set->getFieldObject();

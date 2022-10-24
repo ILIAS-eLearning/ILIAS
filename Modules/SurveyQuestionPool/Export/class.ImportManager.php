@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,17 +34,17 @@ class ImportManager
         $this->repo = $repo;
     }
 
-    public function getMobs() : array
+    public function getMobs(): array
     {
         return $this->repo->getMobs();
     }
 
-    public function addMob(string $label, string $uri) : void
+    public function addMob(string $label, string $uri): void
     {
         $this->repo->addMob($label, $uri);
     }
 
-    public function clearMobs() : void
+    public function clearMobs(): void
     {
         $this->repo->clearMobs();
     }

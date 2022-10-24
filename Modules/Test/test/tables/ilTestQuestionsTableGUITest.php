@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -25,7 +27,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
     private ilTestQuestionsTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -53,12 +55,12 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestQuestionsTableGUI($this->parentObj_mock, "", 0);
     }
 
-    public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance(): void
     {
         $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->tableGui);
     }
 
-    public function testQuestionManagingEnabled() : void
+    public function testQuestionManagingEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionManagingEnabled());
         $this->tableGui->setQuestionManagingEnabled(false);
@@ -67,7 +69,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isQuestionManagingEnabled());
     }
 
-    public function testPositionInsertCommandsEnabled() : void
+    public function testPositionInsertCommandsEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isPositionInsertCommandsEnabled());
         $this->tableGui->setPositionInsertCommandsEnabled(false);
@@ -76,7 +78,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isPositionInsertCommandsEnabled());
     }
 
-    public function testQuestionPositioningEnabled() : void
+    public function testQuestionPositioningEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionPositioningEnabled());
         $this->tableGui->setQuestionPositioningEnabled(false);
@@ -85,7 +87,7 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isQuestionPositioningEnabled());
     }
 
-    public function testObligatoryQuestionsHandlingEnabled() : void
+    public function testObligatoryQuestionsHandlingEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isObligatoryQuestionsHandlingEnabled());
         $this->tableGui->setObligatoryQuestionsHandlingEnabled(false);
@@ -94,30 +96,21 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->isObligatoryQuestionsHandlingEnabled());
     }
 
-    public function testTotalPoints() : void
+    public function testTotalPoints(): void
     {
         $this->assertIsFloat($this->tableGui->getTotalPoints());
         $this->tableGui->setTotalPoints(125.251);
         $this->assertEquals(125.251, $this->tableGui->getTotalPoints());
     }
 
-    public function testTotalWorkingTime() : void
+    public function testTotalWorkingTime(): void
     {
         $this->assertIsString($this->tableGui->getTotalWorkingTime());
         $this->tableGui->setTotalWorkingTime("202000");
         $this->assertEquals("202000", $this->tableGui->getTotalWorkingTime());
     }
 
-    public function testQuestionTitleLinksEnabled() : void
-    {
-        $this->assertIsBool($this->tableGui->isQuestionTitleLinksEnabled());
-        $this->tableGui->setQuestionTitleLinksEnabled(false);
-        $this->assertFalse($this->tableGui->isQuestionTitleLinksEnabled());
-        $this->tableGui->setQuestionTitleLinksEnabled(true);
-        $this->assertTrue($this->tableGui->isQuestionTitleLinksEnabled());
-    }
-
-    public function testQuestionRemoveRowButtonEnabled() : void
+    public function testQuestionRemoveRowButtonEnabled(): void
     {
         $this->assertIsBool($this->tableGui->isQuestionRemoveRowButtonEnabled());
         $this->tableGui->setQuestionRemoveRowButtonEnabled(false);

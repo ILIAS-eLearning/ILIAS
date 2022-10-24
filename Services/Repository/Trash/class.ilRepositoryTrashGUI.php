@@ -66,7 +66,7 @@ class ilRepositoryTrashGUI
     /**
      * @throws ilCtrlException
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
@@ -82,14 +82,14 @@ class ilRepositoryTrashGUI
         }
     }
 
-    protected function cancel() : void
+    protected function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
     public function restoreToNewLocation(
         ilPropertyFormGUI $form = null
-    ) : void {
+    ): void {
         $this->lng->loadLanguageModule('rep');
 
         $trash_ids = $this->request->getTrashIds();
@@ -112,7 +112,7 @@ class ilRepositoryTrashGUI
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    public function doRestoreToNewLocation() : void
+    public function doRestoreToNewLocation(): void
     {
         $trash_ids = $this->request->getTrashIds();
 
@@ -133,7 +133,7 @@ class ilRepositoryTrashGUI
         }
     }
 
-    protected function initFormTrashTargetLocation() : ilPropertyFormGUI
+    protected function initFormTrashTargetLocation(): ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -174,7 +174,7 @@ class ilRepositoryTrashGUI
     public function showDeleteConfirmation(
         ?array $a_ids,
         bool $a_supress_message = false
-    ) : bool {
+    ): bool {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
@@ -185,7 +185,7 @@ class ilRepositoryTrashGUI
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
         }
-        
+
         // Remove duplicate entries
         $a_ids = array_unique($a_ids);
 
@@ -193,17 +193,17 @@ class ilRepositoryTrashGUI
 
         if (!$a_supress_message) {
             $msg = $lng->txt("info_delete_sure");
-            
+
             if (!$ilSetting->get('enable_trash')) {
                 $msg .= "<br/>" . $lng->txt("info_delete_warning_no_trash");
             }
-            
+
             $cgui->setHeaderText($msg);
         }
         $cgui->setFormAction($ilCtrl->getFormAction($this->parent_gui));
         $cgui->setCancel($lng->txt("cancel"), "cancelDelete");
         $cgui->setConfirm($lng->txt("confirm"), "confirmedDelete");
-        
+
         $form_name = "cgui_" . md5(uniqid('', true));
         $cgui->setFormName($form_name);
 
@@ -215,9 +215,9 @@ class ilRepositoryTrashGUI
             $alt = ($objDefinition->isPlugin($type))
                 ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($type, "obj_" . $type)
                 : $lng->txt("icon") . " " . $lng->txt("obj_" . $type);
-            
+
             $title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);
-            
+
             $cgui->addItem(
                 "id[]",
                 $ref_id,
@@ -234,27 +234,27 @@ class ilRepositoryTrashGUI
             $tab = new ilRepDependenciesTableGUI($deps);
             $deps_html = "<br/><br/>" . $tab->getHTML();
         }
-        
+
         $tpl->setContent($cgui->getHTML() . $deps_html);
         return true;
     }
-    
+
     // Build sub-item list for multiple references
     public function handleMultiReferences(
         int $a_obj_id,
         int $a_ref_id,
         string $a_form_name
-    ) : string {
+    ): string {
         $lng = $this->lng;
         $ilAccess = $this->access;
         $tree = $this->tree;
-                                
+
         // process
-    
+
         $all_refs = ilObject::_getAllReferences($a_obj_id);
         if (count($all_refs) > 1) {
             $lng->loadLanguageModule("rep");
-            
+
             $may_delete_any = 0;
             $counter = 0;
             $items = [];
@@ -280,20 +280,20 @@ class ilRepositoryTrashGUI
                 }
             }
 
-            
+
             // render
 
             $tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "Services/Repository/Trash");
 
             $tpl->setVariable("TXT_INTRO", $lng->txt("rep_multiple_reference_deletion_intro"));
-            
+
             if ($may_delete_any) {
                 $tpl->setVariable("TXT_INSTRUCTION", $lng->txt("rep_multiple_reference_deletion_instruction"));
             }
-            
+
             if ($items) {
                 $var_name = "mref_id[]";
-                
+
                 foreach ($items as $item) {
                     if ($item["delete"]) {
                         $tpl->setCurrentBlock("cbox");
@@ -309,7 +309,7 @@ class ilRepositoryTrashGUI
                     $tpl->setVariable("ITEM_TITLE", $item["path"]);
                     $tpl->parseCurrentBlock();
                 }
-                
+
                 if ($may_delete_any > 1) {
                     $tpl->setCurrentBlock("cbox");
                     $tpl->setVariable("ITEM_NAME", "sall_" . $a_ref_id);
@@ -318,13 +318,13 @@ class ilRepositoryTrashGUI
                         $a_form_name . "', '" . $var_name . "', document." . $a_form_name .
                         ".sall_" . $a_ref_id . ".checked)\"");
                     $tpl->parseCurrentBlock();
-                    
+
                     $tpl->setCurrentBlock("item");
                     $tpl->setVariable("ITEM_TITLE", $lng->txt("select_all"));
                     $tpl->parseCurrentBlock();
                 }
             }
-            
+
             if ($counter) {
                 $tpl->setCurrentBlock("add_info");
                 $tpl->setVariable(
@@ -338,23 +338,23 @@ class ilRepositoryTrashGUI
         }
         return "";
     }
-    
+
     public function showTrashTable(
         int $a_ref_id
-    ) : void {
+    ): void {
         $tpl = $this->tpl;
         $tree = $this->tree;
         $lng = $this->lng;
-        
+
         $objects = $tree->getSavedNodeData($a_ref_id);
-        
+
         if (count($objects) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("msg_trash_empty"));
             return;
         }
         $ttab = new ilTrashTableGUI($this->parent_gui, "trash", $a_ref_id);
         $ttab->setData($objects);
-        
+
         $tpl->setContent($ttab->getHTML());
     }
 
@@ -367,10 +367,10 @@ class ilRepositoryTrashGUI
     public function restoreObjects(
         int $a_cur_ref_id,
         array $a_ref_ids
-    ) : bool {
+    ): bool {
         $lng = $this->lng;
         $lng->loadLanguageModule('rep');
-        
+
         if (!is_array($a_ref_ids) || count($a_ref_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
@@ -401,11 +401,11 @@ class ilRepositoryTrashGUI
         }
         return true;
     }
-    
+
     public function deleteObjects(
         int $a_cur_ref_id,
         array $a_ref_ids
-    ) : void {
+    ): void {
         $ilSetting = $this->settings;
         $lng = $this->lng;
 
@@ -420,17 +420,20 @@ class ilRepositoryTrashGUI
                     $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
                 }
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                //$this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+                // alex: I outcommented this, since it makes tracking down errors impossible
+                // we need a call stack at least in the logs
+                throw $e;
             }
         }
     }
-    
+
     public function removeObjectsFromSystem(
         array $a_ref_ids,
         bool $a_from_recovery_folder = false
-    ) : bool {
+    ): bool {
         $lng = $this->lng;
-        
+
         if (!is_array($a_ref_ids) || count($a_ref_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             return false;
@@ -440,24 +443,27 @@ class ilRepositoryTrashGUI
             ilRepUtil::removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder);
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_removed"), true);
         } catch (Exception $e) {
-            $this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            // alex: I outcommented this, since it makes tracking down errors impossible
+            // we need a call stack at least in the logs
+            //$this->tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+            throw $e;
             return false;
         }
 
         return true;
     }
-    
+
     /**
      * Build path with deep-link
      */
-    protected function buildPath(array $ref_ids) : array
+    protected function buildPath(array $ref_ids): array
     {
         $tree = $this->tree;
 
         if (!count($ref_ids)) {
             return [];
         }
-        
+
         $result = [];
         foreach ($ref_ids as $ref_id) {
             $path = "";
@@ -487,7 +493,7 @@ class ilRepositoryTrashGUI
      */
     public function confirmRemoveFromSystemObject(
         array $a_ids
-    ) : void {
+    ): void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;

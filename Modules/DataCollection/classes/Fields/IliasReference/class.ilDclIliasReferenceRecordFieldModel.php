@@ -58,14 +58,14 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return ($result->numRows() == 0) ? false : $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
     }
 
-    public function getValueForRepresentation() : string
+    public function getValueForRepresentation(): string
     {
         $ref_id = $this->getValue();
 
         return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
     }
 
-    public function getExportValue() : string
+    public function getExportValue(): string
     {
         $link = ilLink::_getStaticLink($this->getValue());
 

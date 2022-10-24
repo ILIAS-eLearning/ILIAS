@@ -15,23 +15,23 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test on minimize button implementation.
  */
 class MinimizeButtonTest extends ILIAS_UI_TestBase
 {
-    public function setUp() : void
+    public function setUp(): void
     {
         $this->button_factory = new I\Component\Button\Factory();
     }
 
-    public function test_implements_factory_interface() : void
+    public function test_implements_factory_interface(): void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Minimize",

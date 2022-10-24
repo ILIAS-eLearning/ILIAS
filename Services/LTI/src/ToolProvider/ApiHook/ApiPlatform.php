@@ -27,7 +27,6 @@ namespace ILIAS\LTI\ToolProvider\ApiHook;
  */
 class ApiPlatform
 {
-
     /**
      * Platform object.
      *
@@ -47,7 +46,7 @@ class ApiPlatform
     /**
      * Check if the API hook has been configured.
      */
-    public function isConfigured() : bool
+    public function isConfigured(): bool
     {
         return true;
     }
@@ -67,7 +66,7 @@ class ApiPlatform
      * @param array $settings An associative array of settings (optional, default is none)
      * @return bool    True if action was successful, otherwise false
      */
-    public function setToolSettings(array $settings = array()) : bool
+    public function setToolSettings(array $settings = array()): bool
     {
         return false;
     }

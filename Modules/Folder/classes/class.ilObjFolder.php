@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -21,7 +23,7 @@
 class ilObjFolder extends ilContainer
 {
     public ?ilTree $folder_tree = null;
-    
+
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
@@ -37,27 +39,27 @@ class ilObjFolder extends ilContainer
         $this->lng->loadLanguageModule('fold');
     }
 
-    public function setFolderTree(ilTree $a_tree) : void
+    public function setFolderTree(ilTree $a_tree): void
     {
         $this->folder_tree = $a_tree;
     }
-    
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
+
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ?ilObject
     {
         $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
-        
+
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
-        
+
         return $new_obj;
     }
 
-    public function putInTree(int $parent_ref_id) : void
+    public function putInTree(int $parent_ref_id): void
     {
         $tree = $this->tree;
-        
+
         if (!is_object($this->folder_tree)) {
             $this->folder_tree = &$tree;
         }
@@ -70,20 +72,20 @@ class ilObjFolder extends ilContainer
             $this->folder_tree->insertNode($this->getId(), $parent_ref_id);
         }
     }
-    
-    public function cloneDependencies(int $target_id, int $copy_id) : bool
+
+    public function cloneDependencies(int $target_id, int $copy_id): bool
     {
         parent::cloneDependencies($target_id, $copy_id);
 
         ilObjectActivation::cloneDependencies($this->getRefId(), $target_id, $copy_id);
-        
+
         return true;
     }
 
-    public function getViewMode() : int
+    public function getViewMode(): int
     {
         $tree = $this->tree;
-        
+
         // default: by type
         $view = ilContainer::VIEW_BY_TYPE;
 
@@ -100,19 +102,19 @@ class ilObjFolder extends ilContainer
                 $view = $view_mode;
             }
         }
-        
+
         return $view;
     }
 
-    public function addAdditionalSubItemInformation(array &$object) : void
+    public function addAdditionalSubItemInformation(array &$object): void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         parent::read();
-        
+
         // Inherit order type from parent course (if exists)
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
     }

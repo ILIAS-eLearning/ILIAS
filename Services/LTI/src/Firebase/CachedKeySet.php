@@ -90,7 +90,7 @@ class CachedKeySet implements ArrayAccess
      * @param string $keyId
      * @return Key
      */
-    public function offsetGet($keyId) : Key
+    public function offsetGet($keyId): Key
     {
         if (!$this->keyIdExists($keyId)) {
             throw new OutOfBoundsException('Key ID not found');
@@ -102,7 +102,7 @@ class CachedKeySet implements ArrayAccess
      * @param string $keyId
      * @return bool
      */
-    public function offsetExists($keyId) : bool
+    public function offsetExists($keyId): bool
     {
         return $this->keyIdExists($keyId);
     }
@@ -111,7 +111,7 @@ class CachedKeySet implements ArrayAccess
      * @param string $offset
      * @param Key $value
      */
-    public function offsetSet($offset, $value) : void
+    public function offsetSet($offset, $value): void
     {
         throw new LogicException('Method not implemented');
     }
@@ -119,12 +119,12 @@ class CachedKeySet implements ArrayAccess
     /**
      * @param string $offset
      */
-    public function offsetUnset($offset) : void
+    public function offsetUnset($offset): void
     {
         throw new LogicException('Method not implemented');
     }
 
-    private function keyIdExists(string $keyId) : bool
+    private function keyIdExists(string $keyId): bool
     {
         $keySetToCache = null;
         if (null === $this->keySet) {
@@ -162,7 +162,7 @@ class CachedKeySet implements ArrayAccess
         return true;
     }
 
-    private function rateLimitExceeded() : bool
+    private function rateLimitExceeded(): bool
     {
         if (!$this->rateLimit) {
             return false;
@@ -182,7 +182,7 @@ class CachedKeySet implements ArrayAccess
         return false;
     }
 
-    private function getCacheItem() : CacheItemInterface
+    private function getCacheItem(): CacheItemInterface
     {
         if (\is_null($this->cacheItem)) {
             $this->cacheItem = $this->cache->getItem($this->cacheKey);
@@ -191,7 +191,7 @@ class CachedKeySet implements ArrayAccess
         return $this->cacheItem;
     }
 
-    private function setCacheKeys() : void
+    private function setCacheKeys(): void
     {
         if (empty($this->jwksUri)) {
             throw new RuntimeException('JWKS URI is empty');

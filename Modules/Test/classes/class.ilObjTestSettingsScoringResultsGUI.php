@@ -32,9 +32,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     /**
      * command constants
      */
-    const CMD_SHOW_FORM = 'showForm';
-    const CMD_SAVE_FORM = 'saveForm';
-    const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
+    public const CMD_SHOW_FORM = 'showForm';
+    public const CMD_SAVE_FORM = 'saveForm';
+    public const CMD_CONFIRMED_SAVE_FORM = 'confirmedSaveForm';
 
     protected ilCtrlInterface $ctrl;
     protected ilAccessHandler $access;
@@ -56,7 +56,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         ilObjTestGUI $testGUI
     ) {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $this->ctrl = $ctrl;
         $this->access = $access;
         $this->lng = $lng;
@@ -88,20 +88,20 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     public function executeCommand()
     {
         // allow only write access
-        
+
         if (!$this->access->checkAccess('write', '', $this->testGUI->getRefId())) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_test'), true);
             $this->ctrl->redirect($this->testGUI, 'infoScreen');
         }
-        
+
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
 
         // process command
-        
+
         $nextClass = $this->ctrl->getNextClass();
-        
+
         switch ($nextClass) {
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_SHOW_FORM) . 'Cmd';
@@ -112,7 +112,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     private function showFormCmd(ilPropertyFormGUI $form = null)
     {
         //$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-        
+
         if ($form === null) {
             $form = $this->buildForm();
         }
@@ -124,13 +124,13 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     {
         $this->saveFormCmd(true);
     }
-    
+
     private function saveFormCmd($isConfirmedSave = false)
     {
         $form = $this->buildForm();
-        
+
         // form validation and initialisation
-        
+
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
         $form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 
@@ -176,13 +176,13 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         // store settings to db
         $this->testOBJ->saveToDb(true);
     }
-    
+
     private function showConfirmation(ilPropertyFormGUI $form)
     {
         $confirmation = new ilConfirmationGUI();
-        
+
         $confirmation->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));
-        
+
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_FORM);
         $confirmation->setConfirm($this->lng->txt('confirm'), self::CMD_CONFIRMED_SAVE_FORM);
@@ -192,9 +192,9 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
             switch ($item->getType()) {
                 case 'section_header':
-                    
+
                     break;
-                    
+
                 case 'datetime':
 
                     $datetime = $item->getDate();
@@ -210,45 +210,45 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
                     }
 
                     break;
-                    
+
                 case 'duration':
-                    
+
                     $confirmation->addHiddenItem("{$item->getPostVar()}[MM]", (int) $item->getMonths());
                     $confirmation->addHiddenItem("{$item->getPostVar()}[dd]", (int) $item->getDays());
                     $confirmation->addHiddenItem("{$item->getPostVar()}[hh]", (int) $item->getHours());
                     $confirmation->addHiddenItem("{$item->getPostVar()}[mm]", (int) $item->getMinutes());
                     $confirmation->addHiddenItem("{$item->getPostVar()}[ss]", (int) $item->getSeconds());
-                    
+
                     break;
 
                 case 'checkboxgroup':
-                    
+
                     if (is_array($item->getValue())) {
                         foreach ($item->getValue() as $option) {
                             $confirmation->addHiddenItem("{$item->getPostVar()}[]", $option);
                         }
                     }
-                    
+
                     break;
-                    
+
                 case 'checkbox':
-                    
+
                     if ($item->getChecked()) {
                         $confirmation->addHiddenItem($item->getPostVar(), 1);
                     }
-                    
+
                     break;
-                
+
                 default:
-                    
+
                     $confirmation->addHiddenItem($item->getPostVar(), $item->getValue());
             }
         }
-        
+
         $this->tpl->setContent($this->ctrl->getHTML($confirmation));
     }
-    
-    private function buildForm() : ilPropertyFormGUI
+
+    private function buildForm(): ilPropertyFormGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -477,7 +477,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $showSolutionDetails->setInfo($this->lng->txt('tst_show_solution_details_desc'));
         $showSolutionDetails->setChecked($this->testOBJ->getShowSolutionDetails());
         $form->addItem($showSolutionDetails);
-    
+
         // best solution in test results
         $results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
         $results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
@@ -507,7 +507,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $solutionCompareInput->setInfo($this->lng->txt('tst_show_solution_compare_desc'));
         $solutionCompareInput->setChecked($this->testOBJ->getShowSolutionListComparison());
         $showSolutionPrintview->addSubItem($solutionCompareInput);
-    
+
         // solution answers only ==> printview of results (answers only)
         $solutionAnswersOnly = new ilCheckboxInputGUI($this->lng->txt('tst_show_solution_answers_only'), 'solution_answers_only');
         $solutionAnswersOnly->setInfo($this->lng->txt('tst_show_solution_answers_only_desc'));
@@ -586,7 +586,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $showExamId->setInfo($this->lng->txt('examid_in_test_res_desc'));
         $showExamId->setChecked($this->testOBJ->isShowExamIdInTestResultsEnabled());
         $form->addItem($showExamId);
-        
+
         // export settings
         $export_settings = new ilCheckboxInputGUI($this->lng->txt('tst_exp_sc_short'), 'exp_sc_short');
         $export_settings->setInfo($this->lng->txt('tst_exp_sc_short_desc'));
@@ -705,7 +705,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         if ($this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported()) {
             if (!$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds())) {
                 $taxFilters = array();
-                
+
                 if (is_array($form->getItemByPostVar('results_tax_filters')->getValue())) {
                     $taxFilters = array_intersect(
                         $this->getAvailableTaxonomyIds(),
@@ -717,24 +717,24 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             }
         }
     }
-    
-    private function isScoreReportingAvailable() : bool
+
+    private function isScoreReportingAvailable(): bool
     {
         if (!$this->testOBJ->getScoreReporting()) {
             return false;
         }
-        
+
         if (
             $this->testOBJ->getScoreReporting() == ilObjTest::SCORE_REPORTING_DATE
             && $this->testOBJ->getReportingDate() > time()
         ) {
             return false;
         }
-        
+
         return true;
     }
 
-    private function areScoringSettingsWritable() : bool
+    private function areScoringSettingsWritable(): bool
     {
         if (!$this->testOBJ->participantDataExist()) {
             return true;
@@ -747,7 +747,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return false;
     }
 
-    private function isScoreRecalculationRequired(ilPropertyFormGUI $form) : bool
+    private function isScoreRecalculationRequired(ilPropertyFormGUI $form): bool
     {
         if (!$this->testOBJ->participantDataExist()) {
             return false;
@@ -764,7 +764,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         return true;
     }
 
-    private function hasScoringSettingsChanged(ilPropertyFormGUI $form) : bool
+    private function hasScoringSettingsChanged(ilPropertyFormGUI $form): bool
     {
         $countSystem = $form->getItemByPostVar('count_system');
         if (is_object($countSystem) && $countSystem->getValue() != $this->testOBJ->getCountSystem()) {
@@ -786,7 +786,7 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
 
     private $availableTaxonomyIds = null;
 
-    private function getAvailableTaxonomyIds() : array
+    private function getAvailableTaxonomyIds(): array
     {
         if ($this->availableTaxonomyIds === null) {
             $this->availableTaxonomyIds = ilObjTaxonomy::getUsageOfObject($this->testOBJ->getId());

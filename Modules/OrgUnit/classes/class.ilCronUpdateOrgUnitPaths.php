@@ -35,45 +35,44 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
         global $DIC;
 
         $this->lng = $DIC->language();
-
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return self::ID;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->lng->txt("update_orgunits");
     }
 
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return $this->lng->txt("update_orgunits_desc");
     }
 
-    public function hasAutoActivation() : bool
+    public function hasAutoActivation(): bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule() : bool
+    public function hasFlexibleSchedule(): bool
     {
         return true;
     }
 
-     public function getDefaultScheduleType() : int
+    public function getDefaultScheduleType(): int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue() : ?int
+    public function getDefaultScheduleValue(): ?int
     {
         return null;
     }
 
-    public function run() : ilCronJobResult
+    public function run(): ilCronJobResult
     {
         foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id) {
             ilOrgUnitPathStorage::writePathByRefId($ref_id);

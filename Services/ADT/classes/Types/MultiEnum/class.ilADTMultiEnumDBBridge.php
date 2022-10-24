@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 class ilADTMultiEnumDBBridge extends ilADTDBBridge
 {
@@ -7,50 +9,50 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
 
     protected bool $fake_single = false;
 
-    public function getTable() : ?string
+    public function getTable(): ?string
     {
         return self::TABLE_NAME;
     }
 
-    protected function isValidADT(ilADT $a_adt) : bool
+    protected function isValidADT(ilADT $a_adt): bool
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
 
-    public function setFakeSingle(bool $a_status) : void
+    public function setFakeSingle(bool $a_status): void
     {
         $this->fake_single = $a_status;
     }
 
-    protected function doSingleFake() : bool
+    protected function doSingleFake(): bool
     {
         return $this->fake_single;
     }
 
-    public function readRecord(array $a_row) : void
+    public function readRecord(array $a_row): void
     {
         if (isset($a_row[$this->getElementId()])) {
-            $this->getADT()->addSelection($a_row[$this->getElementId()]);
+            $this->getADT()->addSelection((int) $a_row[$this->getElementId()]);
         }
     }
 
-    public function afterInsert() : void
+    public function afterInsert(): void
     {
         $this->afterUpdate();
     }
 
-    public function afterUpdate() : void
+    public function afterUpdate(): void
     {
         $this->deleteIndices();
         $this->insertIndices();
     }
 
-    public function prepareInsert(array &$a_fields) : void
+    public function prepareInsert(array &$a_fields): void
     {
         $a_fields = [];
     }
 
-    protected function deleteIndices() : void
+    protected function deleteIndices(): void
     {
         $this->db->query(
             'delete from ' . $this->getTable() . ' ' .
@@ -58,7 +60,7 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
         );
     }
 
-    protected function insertIndices() : void
+    protected function insertIndices(): void
     {
         foreach ($this->getADT()->getSelections() as $index) {
             $fields = $this->getPrimary();
@@ -67,7 +69,7 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
         }
     }
 
-    public function supportsDefaultValueColumn() : bool
+    public function supportsDefaultValueColumn(): bool
     {
         return false;
     }

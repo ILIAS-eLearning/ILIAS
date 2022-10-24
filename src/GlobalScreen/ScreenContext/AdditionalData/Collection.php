@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,27 +28,27 @@ use LogicException;
 class Collection
 {
     private array $values = [];
-    
+
     /**
      * @return array
      */
-    public function getData() : array
+    public function getData(): array
     {
         return $this->values;
     }
-    
+
     /**
      * @param string $key
      * @param        $value
      */
-    public function add(string $key, $value) : void
+    public function add(string $key, $value): void
     {
         if ($this->exists($key)) {
             throw new LogicException("Key $key already exists.");
         }
         $this->values[$key] = $value;
     }
-    
+
     /**
      * @param string $key
      * @return mixed
@@ -55,31 +57,31 @@ class Collection
     {
         return $this->values[$key];
     }
-    
+
     /**
      * @param string $key
      * @param        $expected_value
      * @return bool
      */
-    public function is(string $key, $expected_value) : bool
+    public function is(string $key, $expected_value): bool
     {
         return ($this->exists($key) && $this->get($key) === $expected_value);
     }
-    
+
     /**
      * @param string $key
      * @return bool
      */
-    public function exists(string $key) : bool
+    public function exists(string $key): bool
     {
         return isset($this->values[$key]);
     }
-    
+
     /**
      * @param string $key
      * @param        $value
      */
-    public function replace(string $key, $value) : void
+    public function replace(string $key, $value): void
     {
         if (!$this->exists($key)) {
             throw new LogicException("Key $key does not exists.");

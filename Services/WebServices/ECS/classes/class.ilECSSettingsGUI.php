@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -38,7 +40,7 @@ class ilECSSettingsGUI
     private ilObjUser $user;
     private \ILIAS\HTTP\Services $http;
     private ilECSSetting $settings;
-    
+
     private ?ilPropertyFormGUI $form = null;
     private ilECSCategoryMappingRule $rule;
 
@@ -62,15 +64,15 @@ class ilECSSettingsGUI
         $this->lng->loadLanguageModule('ecs');
         $this->initSettings();
     }
-    
+
     /**
      * Execute command
      */
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         $this->setSubTabs();
         switch ($next_class) {
             case 'ilecsmappingsettingsgui':
@@ -78,7 +80,7 @@ class ilECSSettingsGUI
                 $this->ctrl->setReturn($this, 'communities');
                 $this->ctrl->forwardCommand($mapset);
                 break;
-            
+
             case 'ilecsparticipantsettingsgui':
                 $part = new ilECSParticipantSettingsGUI(
                     (int) $_REQUEST['server_id'],
@@ -87,7 +89,7 @@ class ilECSSettingsGUI
                 $this->ctrl->setReturn($this, 'communities');
                 $this->ctrl->forwardCommand($part);
                 break;
-            
+
             default:
 
                 if ($cmd !== "overview" && $cmd !== "communities" && !$this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
@@ -105,7 +107,7 @@ class ilECSSettingsGUI
     /**
      * List available servers
      */
-    public function overview() : void
+    public function overview(): void
     {
         $this->tabs_gui->setSubTabActive('overview');
         if ($this->access->checkAccess('write', '', (int) $_REQUEST["ref_id"])) {
@@ -126,7 +128,7 @@ class ilECSSettingsGUI
     /**
      * activate server
      */
-    protected function activate() : void
+    protected function activate(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
         $this->settings->setEnabledStatus(true);
@@ -134,11 +136,11 @@ class ilECSSettingsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'overview');
     }
-    
+
     /**
      * activate server
      */
-    protected function deactivate() : void
+    protected function deactivate(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
         $this->settings->setEnabledStatus(false);
@@ -146,11 +148,11 @@ class ilECSSettingsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'overview');
     }
-    
+
     /**
      * Read all importable econtent
      */
-    protected function readAll() : bool
+    protected function readAll(): bool
     {
         try {
             //TOOD fix somehow broken logic code of this foreach loop
@@ -177,7 +179,7 @@ class ilECSSettingsGUI
     /**
      * Create new settings
      */
-    protected function create() : void
+    protected function create(): void
     {
         $this->initSettings(0);
 
@@ -190,11 +192,11 @@ class ilECSSettingsGUI
 
         $this->tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * Edit server setting
      */
-    protected function edit() : void
+    protected function edit(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
         $this->ctrl->saveParameter($this, 'server_id');
@@ -209,7 +211,7 @@ class ilECSSettingsGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    protected function cp() : void
+    protected function cp(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
 
@@ -224,7 +226,7 @@ class ilECSSettingsGUI
     /**
      * Delete confirmation
      */
-    protected function delete() : void
+    protected function delete(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
 
@@ -240,14 +242,14 @@ class ilECSSettingsGUI
 
         $confirm->addItem('', '', $this->settings->getServer());
         $confirm->addHiddenItem('server_id', (string) $this->settings->getServerId());
-        
+
         $this->tpl->setContent($confirm->getHTML());
     }
 
     /**
      * Do delete
      */
-    protected function doDelete() : void
+    protected function doDelete(): void
     {
         $this->initSettings($_REQUEST['server_id']);
         $this->settings->delete();
@@ -259,32 +261,32 @@ class ilECSSettingsGUI
     /**
      * show settings
      */
-    protected function settings() : void
+    protected function settings(): void
     {
         $this->initSettingsForm();
         $this->tabs_gui->setSubTabActive('ecs_settings');
-        
+
         $this->tpl->setContent($this->form->getHTML());
     }
-    
+
     /**
      * init settings form
      */
-    protected function initSettingsForm($a_mode = 'update') : void
+    protected function initSettingsForm($a_mode = 'update'): void
     {
         if (isset($this->form) && is_object($this->form)) {
             return;
         }
-        
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'settings'));
         $this->form->setTitle($this->lng->txt('ecs_connection_settings'));
-        
+
         $ena = new ilCheckboxInputGUI($this->lng->txt('ecs_active'), 'active');
         $ena->setChecked($this->settings->isEnabled());
         $ena->setValue("1");
         $this->form->addItem($ena);
-        
+
         $server_title = new ilTextInputGUI($this->lng->txt('ecs_server_title'), 'title');
         $server_title->setValue($this->settings->getTitle());
         $server_title->setSize(80);
@@ -296,7 +298,7 @@ class ilECSSettingsGUI
         $ser->setValue((string) $this->settings->getServer());
         $ser->setRequired(true);
         $this->form->addItem($ser);
-        
+
         $pro = new ilSelectInputGUI($this->lng->txt('ecs_protocol'), 'protocol');
         // fixed to https
         #$pro->setOptions(array(ilECSSetting::PROTOCOL_HTTP => $this->lng->txt('http'),
@@ -305,7 +307,7 @@ class ilECSSettingsGUI
         $pro->setValue($this->settings->getProtocol());
         $pro->setRequired(true);
         $this->form->addItem($pro);
-        
+
         $por = new ilTextInputGUI($this->lng->txt('ecs_port'), 'port');
         $por->setSize(5);
         $por->setMaxLength(5);
@@ -326,13 +328,13 @@ class ilECSSettingsGUI
         $cli->setValue((string) $this->settings->getClientCertPath());
         $cli->setRequired(true);
         $cert_based->addSubItem($cli);
-        
+
         $key = new ilTextInputGUI($this->lng->txt('ecs_cert_key'), 'key_path');
         $key->setSize(60);
         $key->setValue((string) $this->settings->getKeyPath());
         $key->setRequired(true);
         $cert_based->addSubItem($key);
-        
+
         $cerp = new ilTextInputGUI($this->lng->txt('ecs_key_password'), 'key_password');
         $cerp->setSize(12);
         $cerp->setValue((string) $this->settings->getKeyPassword());
@@ -373,16 +375,16 @@ class ilECSSettingsGUI
         $loc = new ilFormSectionHeaderGUI();
         $loc->setTitle($this->lng->txt('ecs_local_settings'));
         $this->form->addItem($loc);
-        
+
         $imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'));
         $imp->setRequired(true);
-        
+
         $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'import_id');
         $tpl->setVariable('PROPERTY_VALUE', $this->settings->getImportId());
-        
+
         if ($this->settings->getImportId()) {
             $path = $this->buildPath($this->settings->getImportId());
             if ($path === '') {
@@ -391,22 +393,22 @@ class ilECSSettingsGUI
                 $tpl->setVariable('COMPLETE_PATH', $this->buildPath($this->settings->getImportId()));
             }
         }
-        
+
         $imp->setHTML($tpl->get());
         $imp->setInfo($this->lng->txt('ecs_import_id_info'));
         $this->form->addItem($imp);
-        
+
         $loc = new ilFormSectionHeaderGUI();
         $loc->setTitle($this->lng->txt('ecs_remote_user_settings'));
         $this->form->addItem($loc);
-        
+
         $role = new ilSelectInputGUI($this->lng->txt('ecs_role'), 'global_role');
         $role->setOptions($this->prepareRoleSelect());
         $role->setValue($this->settings->getGlobalRole());
         $role->setInfo($this->lng->txt('ecs_global_role_info'));
         $role->setRequired(true);
         $this->form->addItem($role);
-        
+
         $duration = new ilDurationInputGUI($this->lng->txt('ecs_account_duration'), 'duration');
         $duration->setInfo($this->lng->txt('ecs_account_duration_info'));
         $duration->setMonths($this->settings->getDuration());
@@ -417,12 +419,12 @@ class ilECSSettingsGUI
         $duration->setShowMonths(true);
         $duration->setRequired(true);
         $this->form->addItem($duration);
-        
+
         // Email recipients
         $loc = new ilFormSectionHeaderGUI();
         $loc->setTitle($this->lng->txt('ecs_notifications'));
         $this->form->addItem($loc);
-        
+
         $rcp_user = new ilTextInputGUI($this->lng->txt('ecs_user_rcp'), 'user_recipients');
         $rcp_user->setValue($this->settings->getUserRecipientsAsString());
         $rcp_user->setInfo($this->lng->txt('ecs_user_rcp_info'));
@@ -445,15 +447,15 @@ class ilECSSettingsGUI
         }
         $this->form->addCommandButton('overview', $this->lng->txt('cancel'));
     }
-    
+
     /**
      * save settings
      */
-    protected function update() : void
+    protected function update(): void
     {
         $this->initSettings((int) $_REQUEST['server_id']);
         $this->loadFromPost();
-        
+
         if (!$error = $this->settings->validate()) {
             $this->settings->update();
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
@@ -461,14 +463,14 @@ class ilECSSettingsGUI
             $this->tpl->setOnScreenMessage('info', $this->lng->txt($error));
             $this->edit();
         }
-        
+
         $this->overview();
     }
 
     /**
      * Save settings
      */
-    protected function save() : void
+    protected function save(): void
     {
         $this->initSettings(0);
         $this->loadFromPost();
@@ -487,7 +489,7 @@ class ilECSSettingsGUI
     /**
      * Update configuration title
      */
-    protected function updateTitle() : void
+    protected function updateTitle(): void
     {
         try {
             $reader = ilECSCommunityReader::getInstanceByServerId($this->settings->getServerId());
@@ -512,7 +514,7 @@ class ilECSSettingsGUI
     /**
      * Load from post
      */
-    protected function loadFromPost() : void
+    protected function loadFromPost(): void
     {
         $this->settings->setEnabledStatus((bool) $_POST['active']);
         $this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -535,11 +537,11 @@ class ilECSSettingsGUI
         $this->settings->setAuthPass(ilUtil::stripSlashes($_POST['auth_pass']));
         $this->settings->setAuthUser(ilUtil::stripSlashes($_POST['auth_user']));
     }
-    
+
     /**
      * Refresh participants
      */
-    protected function refreshParticipants() : void
+    protected function refreshParticipants(): void
     {
         $servers = ilECSServerSettings::getInstance();
         foreach ($servers->getServers(ilECSServerSettings::ALL_SERVER) as $server) {
@@ -561,11 +563,11 @@ class ilECSSettingsGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'communities');
     }
-    
+
     /**
      * show communities
      */
-    public function communities() : void
+    public function communities(): void
     {
         $tpl = new \ilTemplate(
             'tpl.ecs_communities.html',
@@ -582,7 +584,7 @@ class ilECSSettingsGUI
             );
         }
 
-        
+
         $this->tabs_gui->setSubTabActive('ecs_communities');
 
         $tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'updateCommunities'));
@@ -595,7 +597,7 @@ class ilECSSettingsGUI
         }
 
         $settings = ilECSServerSettings::getInstance();
-            
+
         foreach ($settings->getServers(ilECSServerSettings::ALL_SERVER) as $server) {
             // Try to read communities
             try {
@@ -626,7 +628,7 @@ class ilECSSettingsGUI
      * Validate import types
      * @param array $import_types
      */
-    protected function validateImportTypes(array $import_types) : array
+    protected function validateImportTypes(array $import_types): array
     {
         $num_cms = 0;
         foreach ((array) $import_types as $sid => $server) {
@@ -636,7 +638,7 @@ class ilECSSettingsGUI
                 }
             }
         }
-        
+
         if ($num_cms <= 1) {
             return [];
         }
@@ -653,11 +655,11 @@ class ilECSSettingsGUI
         }
         return $new_types;
     }
-    
+
     /**
      * update whitelist
      */
-    protected function updateCommunities() : void
+    protected function updateCommunities(): void
     {
         // @TODO: Delete deprecated communities
         $validatedImportTypes = $this->validateImportTypes($_POST['import_type']);
@@ -722,7 +724,7 @@ class ilECSSettingsGUI
     /**
      * Handle tabs for ECS data mapping
      */
-    protected function setMappingTabs(int $a_active) : void
+    protected function setMappingTabs(int $a_active): void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
@@ -755,11 +757,11 @@ class ilECSSettingsGUI
                 break;
         }
     }
-    
+
     /**
      * Show mapping settings (EContent-Data <-> (Remote)Course
      */
-    public function importMappings() : void
+    public function importMappings(): void
     {
         $this->setMappingTabs(self::MAPPING_IMPORT);
 
@@ -770,14 +772,14 @@ class ilECSSettingsGUI
         }
 
         $settings = ilECSServerSettings::getInstance();
-        
+
         $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
         if (!$sel_srv) {
             $sel_srv = $_SESSION["ecs_sel_srv"];
         } else {
             $_SESSION["ecs_sel_srv"] = $sel_srv;
         }
-        
+
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
         foreach ($settings->getServers(ilECSServerSettings::ALL_SERVER) as $server) {
@@ -787,15 +789,15 @@ class ilECSSettingsGUI
             }
             $options[$server->getServerId()] = $title;
         }
-        
+
         $sel = new ilSelectInputGUI("", "ecs_mapping_server");
         $sel->setOptions($options);
         $sel->setValue($sel_srv);
         $this->toolbar->addInputItem($sel);
-        
+
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "importMappings"));
         $this->toolbar->addFormButton($this->lng->txt("submit"), "importMappings");
-        
+
         if ($sel_srv) {
             $form = $this->initMappingsForm($sel_srv, self::MAPPING_IMPORT);
             $this->tpl->setContent($form->getHTML());
@@ -805,7 +807,7 @@ class ilECSSettingsGUI
     /**
      * Show mapping settings (EContent-Data <-> (Remote)Course
      */
-    protected function exportMappings() : void
+    protected function exportMappings(): void
     {
         $this->setMappingTabs(self::MAPPING_EXPORT);
 
@@ -816,14 +818,14 @@ class ilECSSettingsGUI
         }
 
         $settings = ilECSServerSettings::getInstance();
-                
+
         $sel_srv = (int) $_REQUEST["ecs_mapping_server"];
         if (!$sel_srv) {
             $sel_srv = $_SESSION["ecs_sel_srv"];
         } else {
             $_SESSION["ecs_sel_srv"] = $sel_srv;
         }
-        
+
         // Iterate all servers
         $options = array(0 => $this->lng->txt("please_choose"));
         foreach ($settings->getServers(ilECSServerSettings::ALL_SERVER) as $server) {
@@ -833,25 +835,25 @@ class ilECSSettingsGUI
             }
             $options[$server->getServerId()] = $title;
         }
-        
+
         $sel = new ilSelectInputGUI("", "ecs_mapping_server");
         $sel->setOptions($options);
         $sel->setValue($sel_srv);
         $this->toolbar->addInputItem($sel);
-        
+
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "exportMappings"));
         $this->toolbar->addFormButton($this->lng->txt("submit"), "exportMappings");
-        
+
         if ($sel_srv) {
             $form = $this->initMappingsForm($sel_srv, self::MAPPING_EXPORT);
             $this->tpl->setContent($form->getHTML());
         }
     }
-    
+
     /**
      * Save mappings
      */
-    protected function saveImportMappings() : void
+    protected function saveImportMappings(): void
     {
         foreach ((array) $_POST['mapping'] as $mtype => $mappings) {
             foreach ((array) $mappings as $ecs_field => $advmd_id) {
@@ -864,7 +866,7 @@ class ilECSSettingsGUI
                 $map->save();
             }
         }
-        
+
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
         $this->ctrl->setParameter($this, "ecs_mapping_server", (int) $_POST['ecs_mapping_server']);
         $this->ctrl->redirect($this, 'importMappings');
@@ -873,7 +875,7 @@ class ilECSSettingsGUI
     /**
      * Save mappings
      */
-    protected function saveExportMappings() : void
+    protected function saveExportMappings(): void
     {
         foreach ((array) $_POST['mapping'] as $mtype => $mappings) {
             foreach ((array) $mappings as $ecs_field => $advmd_id) {
@@ -895,10 +897,10 @@ class ilECSSettingsGUI
     /**
      * init mapping form
      */
-    protected function initMappingsForm(int $a_server_id, int $mapping_type) : ilPropertyFormGUI
+    protected function initMappingsForm(int $a_server_id, int $mapping_type): ilPropertyFormGUI
     {
         $mapping_settings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
-            
+
         $form = new ilPropertyFormGUI();
 
         if ($mapping_type === self::MAPPING_IMPORT) {
@@ -988,32 +990,32 @@ class ilECSSettingsGUI
         }
         return $form;
     }
-    
+
     /**
      * Category mappings
      */
-    protected function categoryMapping() : void
+    protected function categoryMapping(): void
     {
         $this->tabs_gui->setSubTabActive('ecs_category_mapping');
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.category_mapping.html', 'Services/WebServices/ECS');
-        
+
         $this->initRule();
         $this->initCategoryMappingForm();
-        
-        
+
+
         $this->tpl->setVariable('NEW_RULE_TABLE', $this->form->getHTML());
         if ($html = $this->showRulesTable()) {
             $this->tpl->setVariable('RULES_TABLE', $html);
         }
     }
-    
+
     /**
      * save category mapping
      */
-    protected function addCategoryMapping() : bool
+    protected function addCategoryMapping(): bool
     {
         $this->initRule();
-        
+
         $this->initCategoryMappingForm('add');
         if ($this->form->checkInput()) {
             $this->rule->setContainerId($this->form->getInput('import_id'));
@@ -1024,7 +1026,7 @@ class ilECSSettingsGUI
                 case ilECSCategoryMappingRule::TYPE_FIXED:
                     $this->rule->setMappingValue($this->form->getInput('mapping_value'));
                     break;
-                
+
                 case ilECSCategoryMappingRule::TYPE_DURATION:
                     if ($this->form->getItemByPostVar('dur_begin')) {
                         $this->rule->setDateRangeStart($this->form->getItemByPostVar('dur_begin')->getDate());
@@ -1033,19 +1035,19 @@ class ilECSSettingsGUI
                         $this->rule->setDateRangeEnd($this->form->getItemByPostVar('dur_end')->getDate());
                     }
                     break;
-                
+
                 case ilECSCategoryMappingRule::TYPE_BY_TYPE:
                     $this->rule->setByType($this->form->getInput('by_type'));
                     break;
             }
-            
+
             if ($err = $this->rule->validate()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt($err));
                 $this->form->setValuesByPost();
                 $this->categoryMapping();
                 return false;
             }
-            
+
             $this->rule->save();
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'));
             unset($this->rule);
@@ -1057,11 +1059,11 @@ class ilECSSettingsGUI
         $this->categoryMapping();
         return false;
     }
-    
+
     /**
      * Edit category mapping
      */
-    protected function editCategoryMapping() : bool
+    protected function editCategoryMapping(): bool
     {
         if (!$_REQUEST['rule_id']) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
@@ -1072,16 +1074,16 @@ class ilECSSettingsGUI
         $this->tabs_gui->setSubTabActive('ecs_category_mapping');
         $this->ctrl->saveParameter($this, 'rule_id');
         $this->initRule((int) $_REQUEST['rule_id']);
-        
+
         $this->initCategoryMappingForm('edit');
         $this->tpl->setContent($this->form->getHTML());
         return true;
     }
-    
+
     /**
      * update category mapping
      */
-    protected function updateCategoryMapping() : bool
+    protected function updateCategoryMapping(): bool
     {
         if (!$_REQUEST['rule_id']) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('select_one'));
@@ -1096,12 +1098,12 @@ class ilECSSettingsGUI
             $this->rule->setFieldName($this->form->getInput('field'));
             $this->rule->setMappingType($this->form->getInput('type'));
 
-            
+
             switch ($this->form->getInput('type')) {
                 case ilECSCategoryMappingRule::TYPE_FIXED:
                     $this->rule->setMappingValue($this->form->getInput('mapping_value'));
                     break;
-                
+
                 case ilECSCategoryMappingRule::TYPE_DURATION:
                     if ($this->form->getItemByPostVar('dur_begin')) {
                         $this->rule->setDateRangeStart($this->form->getItemByPostVar('dur_begin')->getDate());
@@ -1110,19 +1112,19 @@ class ilECSSettingsGUI
                         $this->rule->setDateRangeEnd($this->form->getItemByPostVar('dur_end')->getDate());
                     }
                     break;
-                
+
                 case ilECSCategoryMappingRule::TYPE_BY_TYPE:
                     $this->rule->setByType($this->form->getInput('by_type'));
                     break;
             }
-            
+
             if ($err = $this->rule->validate()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt($err));
                 $this->form->setValuesByPost();
                 $this->editCategoryMapping();
                 return false;
             }
-            
+
             $this->rule->update();
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'categoryMapping');
@@ -1133,11 +1135,11 @@ class ilECSSettingsGUI
         $this->editCategoryMapping();
         return false;
     }
-    
+
     /**
      * Delete selected category mappings
      */
-    protected function deleteCategoryMappings() : bool
+    protected function deleteCategoryMappings(): bool
     {
         if (!is_array($_POST['rules']) || !$_POST['rules']) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('no_checkbox'));
@@ -1152,41 +1154,41 @@ class ilECSSettingsGUI
         $this->categoryMapping();
         return true;
     }
-    
+
     /**
      * Show rules table
      */
-    protected function showRulesTable() : string
+    protected function showRulesTable(): string
     {
         $rule_table = new ilECSCategoryMappingTableGUI($this, 'categoryMapping');
         $rule_table->parse(ilECSCategoryMapping::getActiveRules());
         return $rule_table->getHTML();
     }
-    
+
     /**
      * Init rule
      * @param int	$rule_id	rule id
      */
-    protected function initRule(int $a_rule_id = 0) : void
+    protected function initRule(int $a_rule_id = 0): void
     {
         if (isset($this->rule) && is_object($this->rule)) {
             return;
         }
-        
+
         $this->rule = new ilECSCategoryMappingRule($a_rule_id);
     }
-    
+
     /**
      * Init category mapping form
      */
-    protected function initCategoryMappingForm($a_mode = 'add') : void
+    protected function initCategoryMappingForm($a_mode = 'add'): void
     {
         if (is_object($this->form)) {
             return;
         }
 
         $this->form = new ilPropertyFormGUI();
-        
+
         if ($a_mode === 'add') {
             $this->form->setTitle($this->lng->txt('ecs_new_category_mapping'));
             $this->form->setFormAction($this->ctrl->getFormAction($this, 'categoryMapping'));
@@ -1200,21 +1202,21 @@ class ilECSSettingsGUI
 
         $imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'), 'import_id');
         $imp->setRequired(true);
-        
+
         $tpl = new ilTemplate('tpl.ecs_import_id_form.html', true, true, 'Services/WebServices/ECS');
         $tpl->setVariable('SIZE', 5);
         $tpl->setVariable('MAXLENGTH', 11);
         $tpl->setVariable('POST_VAR', 'import_id');
         $tpl->setVariable('PROPERTY_VALUE', $this->rule->getContainerId());
-        
+
         if ($this->settings->getImportId()) {
             $tpl->setVariable('COMPLETE_PATH', $this->buildPath($this->rule->getContainerId()));
         }
-        
+
         $imp->setHTML($tpl->get());
         $imp->setInfo($this->lng->txt('ecs_import_id_info'));
         $this->form->addItem($imp);
-        
+
         $select = new ilSelectInputGUI($this->lng->txt('ecs_attribute_name'), 'field');
         $select->setValue($this->rule->getFieldName());
         $select->setRequired(true);
@@ -1225,87 +1227,87 @@ class ilECSSettingsGUI
         $value = new ilRadioGroupInputGUI($this->lng->txt('ecs_cat_mapping_type'), 'type');
         $value->setValue((string) $this->rule->getMappingType());
         $value->setRequired(true);
-        
+
         $fixed = new ilRadioOption($this->lng->txt('ecs_cat_mapping_fixed'), (string) ilECSCategoryMappingRule::TYPE_FIXED);
         $fixed->setInfo($this->lng->txt('ecs_cat_mapping_fixed_info'));
-        
+
         $fixed_val = new ilTextInputGUI($this->lng->txt('ecs_cat_mapping_values'), 'mapping_value');
         $fixed_val->setValue($this->rule->getMappingValue());
         $fixed_val->setMaxLength(255);
         $fixed_val->setSize(40);
         $fixed_val->setRequired(true);
         $fixed->addSubItem($fixed_val);
-        
+
         $value->addOption($fixed);
 
         $duration = new ilRadioOption($this->lng->txt('ecs_cat_mapping_duration'), (string) ilECSCategoryMappingRule::TYPE_DURATION);
         $duration->setInfo($this->lng->txt('ecs_cat_mapping_duration_info'));
-        
+
         $dur_start = new ilDateTimeInputGUI($this->lng->txt('from'), 'dur_begin');
         $dur_start->setRequired(true);
         $dur_start->setDate($this->rule->getDateRangeStart());
         $duration->addSubItem($dur_start);
-            
+
         $dur_end = new ilDateTimeInputGUI($this->lng->txt('to'), 'dur_end');
         $dur_end->setRequired(true);
         $dur_end->setDate($this->rule->getDateRangeEnd());
         $duration->addSubItem($dur_end);
-        
+
         $value->addOption($duration);
-        
+
         $type = new ilRadioOption($this->lng->txt('ecs_cat_mapping_by_type'), (string) ilECSCategoryMappingRule::TYPE_BY_TYPE);
         $type->setInfo($this->lng->txt('ecs_cat_mapping_by_type_info'));
-        
+
         $options = ilECSUtils::getPossibleRemoteTypes(true);
-        
+
         $types = new ilSelectInputGUI($this->lng->txt('type'), 'by_type');
         $types->setOptions($options);
         $types->setValue($this->rule->getByType());
         $types->setRequired(true);
         $type->addSubitem($types);
-        
+
         $value->addOption($type);
-        
+
         $this->form->addItem($value);
     }
-    
-    
+
+
     /**
      * Show imported materials
      */
-    protected function imported() : bool
+    protected function imported(): bool
     {
         $this->tabs_gui->setSubTabActive('ecs_import');
-    
+
         if (ilECSServerSettings::getInstance()->activeServerExists()) {
             $this->toolbar->addButton(
                 $this->lng->txt('ecs_read_remote_links'),
                 $this->ctrl->getLinkTarget($this, 'readAll')
             );
-            
+
             $this->toolbar->addSeparator();
         }
-        
-        
+
+
         $sel_type = $_REQUEST["otype"];
         if (!$sel_type) {
             $sel_type = "rcrs";
         }
-        
+
         $options = ilECSUtils::getPossibleRemoteTypes(true);
-        
+
         $sel = new ilSelectInputGUI("", "otype");
         $sel->setOptions($options);
         $sel->setValue($sel_type);
         $this->toolbar->addInputItem($sel);
-        
+
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "imported"));
         $this->toolbar->addFormButton($this->lng->txt("submit"), "imported");
-                            
+
         $robjs = ilUtil::_getObjectsByOperations($sel_type, 'visible', $this->user->getId(), -1);
         if (count($robjs)) {
             $this->toolbar->addSeparator();
-            
+
             $this->toolbar->addButton(
                 $this->lng->txt('csv_export'),
                 $this->ctrl->getLinkTarget($this, 'exportImported')
@@ -1318,23 +1320,23 @@ class ilECSSettingsGUI
 
         return true;
     }
-    
+
     /**
      * csv export of imported remote courses
      */
-    protected function exportImported() : void
+    protected function exportImported(): void
     {
         // :TODO: mind resource type and move to ilRemoteObjectBase...
-        
+
         $rcourses = ilUtil::_getObjectsByOperations('rcrs', 'visible', $this->user->getId(), -1);
-        
+
         // Read participants
         try {
             $reader = ilECSCommunityReader::getInstanceByServerId($this->settings->getServerId());
         } catch (ilECSConnectorException $e) {
             $reader = null;
         }
-        
+
         // read obj_ids
         $this->objDataCache->preloadReferenceCache($rcourses);
         $obj_ids = array();
@@ -1344,7 +1346,7 @@ class ilECSSettingsGUI
         }
 
         $writer = new ilCSVWriter();
-        
+
         $writer->addColumn($this->lng->txt('title'));
         $writer->addColumn($this->lng->txt('description'));
         $writer->addColumn($this->lng->txt('ecs_imported_from'));
@@ -1359,46 +1361,46 @@ class ilECSSettingsGUI
         $writer->addColumn($this->lng->txt('ecs_field_begin'));
         $writer->addColumn($this->lng->txt('ecs_field_end'));
         $writer->addColumn($this->lng->txt('last_update'));
-        
+
         // TODO fix getting proper datamappingsettings for each server
         $settings = ilECSDataMappingSettings::getInstanceByServerId(1);
-        
+
         foreach ($obj_ids as $obj_id) {
             $rcourse = new ilObjRemoteCourse($obj_id, false);
             $values = ilECSUtils::getAdvancedMDValuesForObjId($obj_id);
-            
+
             $writer->addRow();
             $writer->addColumn(ilObject::_lookupTitle($obj_id));
             $writer->addColumn(ilObject::_lookupDescription($obj_id));
-            
+
             $mid = $rcourse->getMID();
             if ($reader && ($participant = $reader->getParticipantByMID($mid))) {
                 $writer->addColumn($participant->getParticipantName());
             }
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'courseID');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'term');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'lecturer');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'courseType');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'semester_hours');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'credits');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'room');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'cycle');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin');
             $dt = '';
             if (isset($values[$field])) {
@@ -1406,7 +1408,7 @@ class ilECSSettingsGUI
                 $dt = $dt->get(IL_CAL_DATETIME);
             }
             $writer->addColumn($dt);
-            
+
             $field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end');
             $dt = '';
             if (isset($values[$field])) {
@@ -1414,7 +1416,7 @@ class ilECSSettingsGUI
                 $dt = $dt->get(IL_CAL_DATETIME);
             }
             $writer->addColumn($dt);
-            
+
             $writer->addColumn($this->objDataCache->lookupLastUpdate((int) $obj_id));
         }
 
@@ -1427,64 +1429,64 @@ class ilECSSettingsGUI
         $this->http->sendResponse();
         $this->http->close();
     }
-    
+
     /**
      * Show released materials
      */
-    protected function released() : void
+    protected function released(): void
     {
         $this->tabs_gui->setSubTabActive('ecs_released');
-                        
+
         if ($this->settings->isEnabled()) {
             $this->toolbar->addButton(
                 $this->lng->txt('ecs_read_remote_links'),
                 $this->ctrl->getLinkTarget($this, 'readAll')
             );
-            
+
             $this->toolbar->addSeparator();
         }
-        
+
         $sel_type = $_REQUEST["otype"];
         if (!$sel_type) {
             $sel_type = "rcrs";
         }
-        
+
         $options = ilECSUtils::getPossibleReleaseTypes(true);
-        
+
         $sel = new ilSelectInputGUI("", "otype");
         $sel->setOptions($options);
         $sel->setValue($sel_type);
         $this->toolbar->addInputItem($sel);
-        
+
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "released"));
         $this->toolbar->addFormButton($this->lng->txt("submit"), "released");
-                                    
+
         $exported = ilECSExportManager::getInstance()->getExportedIdsByType($sel_type);
         if (count($exported)) {
             $this->toolbar->addSeparator();
-            
+
             $this->toolbar->addButton(
                 $this->lng->txt('csv_export'),
                 $this->ctrl->getLinkTarget($this, 'exportReleased')
             );
         }
-        
+
         $table_gui = new ilECSExportedContentTableGUI($this, 'released');
         $table_gui->setTitle($this->lng->txt('ecs_released_content'));
         $table_gui->parse($exported);
         $this->tpl->setContent($table_gui->getHTML());
     }
-    
+
     /**
      * export released
      */
-    protected function exportReleased() : void
+    protected function exportReleased(): void
     {
         $exported = ilECSExportManager::getInstance()->getExportedIds();
         $this->objDataCache->preloadObjectCache($exported);
-        
+
         $writer = new ilCSVWriter();
-        
+
         $writer->addColumn($this->lng->txt('title'));
         $writer->addColumn($this->lng->txt('description'));
         $writer->addColumn($this->lng->txt('ecs_field_courseID'));
@@ -1498,40 +1500,40 @@ class ilECSSettingsGUI
         $writer->addColumn($this->lng->txt('ecs_field_begin'));
         $writer->addColumn($this->lng->txt('ecs_field_end'));
         $writer->addColumn($this->lng->txt('last_update'));
-        
+
         $settings = ilECSDataMappingSettings::getInstanceByServerId($this->settings->getServerId());
 
         foreach ($exported as $obj_id) {
             $values = ilECSUtils::getAdvancedMDValuesForObjId($obj_id);
-            
+
             $writer->addRow();
             $writer->addColumn(ilObject::_lookupTitle($obj_id));
             $writer->addColumn(ilObject::_lookupDescription($obj_id));
-            
+
             $field = $settings->getMappingByECSName(0, 'courseID');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'term');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'lecturer');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'courseType');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'semester_hours');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'credits');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'room');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'cycle');
             $writer->addColumn($values[$field] ?? '');
-            
+
             $field = $settings->getMappingByECSName(0, 'begin');
             $dt = '';
             if (isset($values[$field])) {
@@ -1539,7 +1541,7 @@ class ilECSSettingsGUI
                 $dt = $dt->get(IL_CAL_DATETIME);
             }
             $writer->addColumn($dt);
-            
+
             $field = $settings->getMappingByECSName(0, 'end');
             $dt = '';
             if (isset($values[$field])) {
@@ -1547,7 +1549,7 @@ class ilECSSettingsGUI
                 $dt = $dt->get(IL_CAL_DATETIME);
             }
             $writer->addColumn($dt);
-            
+
             $writer->addColumn($this->objDataCache->lookupLastUpdate((int) $obj_id));
         }
 
@@ -1560,13 +1562,13 @@ class ilECSSettingsGUI
         $this->http->sendResponse();
         $this->http->close();
     }
-    
-    
+
+
     /**
      * get options for field selection
      * @param array array of field objects
      */
-    protected function prepareFieldSelection($fields) : array
+    protected function prepareFieldSelection($fields): array
     {
         $options[0] = $this->lng->txt('ecs_ignore_field');
         foreach ($fields as $field) {
@@ -1575,24 +1577,24 @@ class ilECSSettingsGUI
         }
         return $options;
     }
-    
+
 
 
     /**
      * Init settings
      */
-    protected function initSettings(int $a_server_id = 1) : void
+    protected function initSettings(int $a_server_id = 1): void
     {
         $this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
     }
-    
+
     /**
      * set sub tabs
      */
-    protected function setSubTabs() : void
+    protected function setSubTabs(): void
     {
         $this->tabs_gui->clearSubTabs();
-        
+
         $this->tabs_gui->addSubTabTarget(
             "overview",
             $this->ctrl->getLinkTarget($this, 'overview'),
@@ -1634,11 +1636,11 @@ class ilECSSettingsGUI
             }
         }
     }
-    
+
     /**
      * get global role array
      */
-    private function prepareRoleSelect() : array
+    private function prepareRoleSelect(): array
     {
         $global_roles = ilUtil::_sortIds(
             $this->rbacreview->getGlobalRoles(),
@@ -1646,7 +1648,7 @@ class ilECSSettingsGUI
             'title',
             'obj_id'
         );
-        
+
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
             $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
@@ -1654,7 +1656,7 @@ class ilECSSettingsGUI
         return $select;
     }
 
-    private function buildPath(int $a_ref_id) : string
+    private function buildPath(int $a_ref_id): string
     {
         if (!$this->tree->isInTree($a_ref_id) || $this->tree->isDeleted($a_ref_id)) {
             return '';
@@ -1662,7 +1664,7 @@ class ilECSSettingsGUI
         $loc = new ilLocatorGUI();
         $loc->setTextOnly(false);
         $loc->addContextItems($a_ref_id);
-        
+
         return $loc->getHTML();
     }
 }

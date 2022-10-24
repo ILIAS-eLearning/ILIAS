@@ -96,7 +96,7 @@ class ilErrorHandling extends PEAR
      * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
      * of an appropriate error handler.
      */
-    protected function initWhoopsHandlers() : void
+    protected function initWhoopsHandlers(): void
     {
         if (self::$whoops_handlers_registered) {
             // Only register whoops error handlers once.
@@ -116,7 +116,7 @@ class ilErrorHandling extends PEAR
      * Get a handler for an error or exception.
      * Uses Whoops Pretty Page Handler in DEVMODE and the legacy ILIAS-Error handlers otherwise.
      */
-    public function getHandler() : HandlerInterface
+    public function getHandler(): HandlerInterface
     {
         // TODO: * Use Whoops in production mode? This would require an appropriate
         //		   error-handler.
@@ -133,7 +133,7 @@ class ilErrorHandling extends PEAR
      * Defines what has to happen in case of error
      * @param PEAR_Error $a_error_obj PEAR Error object
      */
-    public function errorHandler($a_error_obj) : void
+    public function errorHandler($a_error_obj): void
     {
         global $log;
 
@@ -236,17 +236,17 @@ class ilErrorHandling extends PEAR
         }
     }
 
-    public function getMessage() : string
+    public function getMessage(): string
     {
         return $this->message;
     }
 
-    public function setMessage(string $a_message) : void
+    public function setMessage(string $a_message): void
     {
         $this->message = $a_message;
     }
 
-    public function appendMessage(string $a_message) : void
+    public function appendMessage(string $a_message): void
     {
         if ($this->getMessage()) {
             $this->message .= "<br /> ";
@@ -254,22 +254,22 @@ class ilErrorHandling extends PEAR
         $this->message .= $a_message;
     }
 
-    protected function getIlRuntime() : ilRuntime
+    protected function getIlRuntime(): ilRuntime
     {
         return ilRuntime::getInstance();
     }
 
-    protected function getWhoops() : RunInterface
+    protected function getWhoops(): RunInterface
     {
         return new Run();
     }
 
-    protected function isDevmodeActive() : bool
+    protected function isDevmodeActive(): bool
     {
         return defined("DEVMODE") && (int) DEVMODE === 1;
     }
 
-    protected function defaultHandler() : HandlerInterface
+    protected function defaultHandler(): HandlerInterface
     {
         // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
@@ -324,7 +324,7 @@ class ilErrorHandling extends PEAR
     /**
      * Get the handler to be used in DEVMODE.
      */
-    protected function devmodeHandler() : HandlerInterface
+    protected function devmodeHandler(): HandlerInterface
     {
         global $ilLog;
 
@@ -353,7 +353,7 @@ class ilErrorHandling extends PEAR
         }
     }
 
-    protected function addEditorSupport(PrettyPageHandler $handler) : void
+    protected function addEditorSupport(PrettyPageHandler $handler): void
     {
         $editorUrl = defined('ERROR_EDITOR_URL') ? ERROR_EDITOR_URL : '';
         if (!is_string($editorUrl) || $editorUrl === '') {
@@ -375,27 +375,29 @@ class ilErrorHandling extends PEAR
         });
     }
 
-    protected function applyEditorPathTranslations(string &$file, array $pathTranslations) : void
+    protected function applyEditorPathTranslations(string &$file, array $pathTranslations): void
     {
         foreach ($pathTranslations as $from => $to) {
             $file = preg_replace('@' . $from . '@', $to, $file);
         }
     }
 
-    protected function parseEditorPathTranslation(string $pathTranslationConfig) : array
+    protected function parseEditorPathTranslation(string $pathTranslationConfig): array
     {
         $pathTranslations = [];
 
         $mappings = explode('|', $pathTranslationConfig);
         foreach ($mappings as $mapping) {
             $parts = explode(',', $mapping);
-            $pathTranslations[trim($parts[0])] = trim($parts[1]);
+            if (count($parts) === 2) {
+                $pathTranslations[trim($parts[0])] = trim($parts[1]);
+            }
         }
 
         return $pathTranslations;
     }
 
-    protected function loggingHandler() : HandlerInterface
+    protected function loggingHandler(): HandlerInterface
     {
         // php7-todo : alex, 1.3.2016: Exception -> Throwable, please check
         return new CallbackHandler(function ($exception, Inspector $inspector, Run $run) {
@@ -420,7 +422,7 @@ class ilErrorHandling extends PEAR
      * Parameter types according to PHP doc: set_error_handler
      * @throws \Whoops\Exception\ErrorException
      */
-    public function handlePreWhoops(int $level, string $message, string $file, int $line) : bool
+    public function handlePreWhoops(int $level, string $message, string $file, int $line): bool
     {
         global $ilLog;
 

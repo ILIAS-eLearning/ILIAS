@@ -39,7 +39,7 @@ class ilDerivedTaskService
     /**
      * Subservice for derived tasks
      */
-    public function factory() : ilDerivedTaskFactory
+    public function factory(): ilDerivedTaskFactory
     {
         return new ilDerivedTaskFactory($this->service);
     }

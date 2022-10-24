@@ -9,18 +9,18 @@ class BadgeManagementSessionRepositoryTest extends TestCase
 {
     protected ilBadgeManagementSessionRepository $repo;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repo = new ilBadgeManagementSessionRepository();
         $this->repo->clear();
     }
 
-    protected function tearDown() : void
+    protected function tearDown(): void
     {
     }
 
-    public function testClear() : void
+    public function testClear(): void
     {
         $repo = $this->repo;
         $repo->setBadgeIds([1,3,4]);
@@ -31,7 +31,7 @@ class BadgeManagementSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testBadgeIds() : void
+    public function testBadgeIds(): void
     {
         $repo = $this->repo;
         $repo->setBadgeIds([1,6,7]);

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -29,7 +31,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     protected $value = null;
     protected string $section_icon = "";
     protected bool $disable_escaping = false;
-    
+
     public function __construct(
         string $a_title = "",
         string $a_id = "",
@@ -40,8 +42,8 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         $this->setType("non_editable_value");
         $this->disable_escaping = $a_disable_escaping;
     }
-    
-    public function checkInput() : bool
+
+    public function checkInput(): bool
     {
         return $this->checkSubItemsInput();
     }
@@ -57,32 +59,32 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $this->str($this->getPostVar());
     }
 
-    protected function setType(string $a_type) : void
+    protected function setType(string $a_type): void
     {
         $this->type = $a_type;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
-    
-    public function setTitle(string $a_title) : void
+
+    public function setTitle(string $a_title): void
     {
         $this->title = $a_title;
     }
 
-    public function getTitle() : string
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setInfo(string $a_info) : void
+    public function setInfo(string $a_info): void
     {
         $this->info = $a_info;
     }
 
-    public function getInfo() : string
+    public function getInfo(): string
     {
         return $this->info;
     }
@@ -90,7 +92,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     /**
      * @param string|array $a_value
      */
-    public function setValue($a_value) : void
+    public function setValue($a_value): void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -107,7 +109,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         return $this->value;
     }
 
-    public function render() : string
+    public function render(): string
     {
         $postvar = "";
 
@@ -117,7 +119,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             if ($this->getMulti() && substr($postvar, -2) != "[]") {
                 $postvar .= "[]";
             }
-            
+
             $tpl->setCurrentBlock("hidden");
             $tpl->setVariable('NON_EDITABLE_ID', $postvar);
             $tpl->setVariable('MULTI_HIDDEN_ID', $this->getFieldId());
@@ -133,23 +135,23 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             $tpl->setVariable("ID", ' id="' . $this->getFieldId() . '" ');
         }
         $tpl->parseCurrentBlock();
-        
+
         if ($this->getMulti() && $postvar != "" && !$this->getDisabled()) {
             $tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
         }
 
-        
+
         return $tpl->get();
     }
-    
-    public function insert(ilTemplate $a_tpl) : void
+
+    public function insert(ilTemplate $a_tpl): void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());
         $a_tpl->parseCurrentBlock();
     }
 
-    public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values): void
     {
         if ($this->getPostVar() && isset($a_values[$this->getPostVar()])) {
             $this->setValue($a_values[$this->getPostVar()]);
@@ -159,7 +161,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         }
     }
 
-    public function getTableFilterHTML() : string
+    public function getTableFilterHTML(): string
     {
         $html = $this->render();
         return $html;

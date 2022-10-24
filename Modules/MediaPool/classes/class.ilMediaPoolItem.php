@@ -43,65 +43,65 @@ class ilMediaPoolItem
             $this->read();
         }
     }
-    
-    public function setId(int $a_val) : void
+
+    public function setId(int $a_val): void
     {
         $this->id = $a_val;
     }
-    
-    public function getId() : int
+
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setType(string $a_val) : void
+    public function setType(string $a_val): void
     {
         $this->type = $a_val;
     }
-    
-    public function getType() : string
+
+    public function getType(): string
     {
         return $this->type;
     }
-    
+
     /**
      * Set foreign id (mob id)
      * @param int $a_val foreign id
      */
-    public function setForeignId(int $a_val) : void
+    public function setForeignId(int $a_val): void
     {
         $this->foreign_id = $a_val;
     }
-    
-    public function getForeignId() : int
+
+    public function getForeignId(): int
     {
         return $this->foreign_id;
     }
 
-    public function setImportId(string $a_val) : void
+    public function setImportId(string $a_val): void
     {
         $this->import_id = $a_val;
     }
-    
-    public function getImportId() : string
+
+    public function getImportId(): string
     {
         return $this->import_id;
     }
-    
-    public function setTitle(string $a_val) : void
+
+    public function setTitle(string $a_val): void
     {
         $this->title = $a_val;
     }
-    
-    public function getTitle() : string
+
+    public function getTitle(): string
     {
         return $this->title;
     }
-    
-    public function create() : void
+
+    public function create(): void
     {
         $ilDB = $this->db;
-        
+
         $nid = $ilDB->nextId("mep_item");
         $ilDB->manipulate("INSERT INTO mep_item " .
             "(obj_id, type, foreign_id, title, import_id) VALUES (" .
@@ -113,11 +113,11 @@ class ilMediaPoolItem
             ")");
         $this->setId($nid);
     }
-    
-    public function read() : void
+
+    public function read(): void
     {
         $ilDB = $this->db;
-        
+
         $set = $ilDB->query(
             "SELECT * FROM mep_item WHERE " .
             "obj_id = " . $ilDB->quote($this->getId(), "integer")
@@ -129,11 +129,11 @@ class ilMediaPoolItem
             $this->setImportId((string) $rec["import_id"]);
         }
     }
-    
-    public function update() : void
+
+    public function update(): void
     {
         $ilDB = $this->db;
-    
+
         $ilDB->manipulate(
             "UPDATE mep_item SET " .
             " type = " . $ilDB->quote($this->getType(), "text") . "," .
@@ -143,25 +143,25 @@ class ilMediaPoolItem
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer")
         );
     }
-    
-    public function delete() : void
+
+    public function delete(): void
     {
         $ilDB = $this->db;
-    
+
         $ilDB->manipulate(
             "DELETE FROM mep_item WHERE "
             . " obj_id = " . $ilDB->quote($this->getId(), "integer")
         );
     }
-    
+
     private static function lookup(
         int $a_id,
         string $a_field
-    ) : ?string {
+    ): ?string {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT " . $a_field . " FROM mep_item WHERE " .
             " obj_id = " . $ilDB->quote($a_id, "integer"));
         if ($rec = $ilDB->fetchAssoc($set)) {
@@ -169,24 +169,24 @@ class ilMediaPoolItem
         }
         return null;
     }
-    
-    public static function lookupForeignId(int $a_id) : int
+
+    public static function lookupForeignId(int $a_id): int
     {
         return (int) self::lookup($a_id, "foreign_id");
     }
 
-    public static function lookupType(int $a_id) : string
+    public static function lookupType(int $a_id): string
     {
-        return self::lookup($a_id, "type");
+        return (string) self::lookup($a_id, "type");
     }
 
-    public static function lookupTitle(int $a_id) : string
+    public static function lookupTitle(int $a_id): string
     {
-        return self::lookup($a_id, "title");
+        return (string) self::lookup($a_id, "title");
     }
 
     // synch media item title for media objects
-    public static function updateObjectTitle(int $a_obj) : void
+    public static function updateObjectTitle(int $a_obj): void
     {
         global $DIC;
 
@@ -206,12 +206,12 @@ class ilMediaPoolItem
     /**
      * @return int[]
      */
-    public static function getPoolForItemId(int $a_id) : array
+    public static function getPoolForItemId(int $a_id): array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query(
             "SELECT * FROM mep_tree " .
             " WHERE child = " . $ilDB->quote($a_id, "integer")
@@ -232,7 +232,7 @@ class ilMediaPoolItem
     public static function getIdsForType(
         int $a_id,
         string $a_type
-    ) : array {
+    ): array {
         global $DIC;
 
         $ilDB = $DIC->database();

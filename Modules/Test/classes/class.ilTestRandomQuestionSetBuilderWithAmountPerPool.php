@@ -1,7 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -15,49 +28,49 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
     /**
      * @return bool
      */
-    public function checkBuildableNewer() : bool
+    public function checkBuildableNewer(): bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $lng = $DIC['lng'];
-            
+
         $isBuildable = true;
-        
+
         require_once 'Modules/Test/classes/class.ilTestRandomQuestionsQuantitiesDistribution.php';
         $quantitiesDistribution = new ilTestRandomQuestionsQuantitiesDistribution($this);
         $quantitiesDistribution->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
         $quantitiesDistribution->initialise();
-        
+
         // perhaps not every with every BUT every with any next ??!
         // perhaps exactly like this !!? I dont know :-)
         // it should be about vice versa rule conflict reporting
-        
+
         foreach ($this->sourcePoolDefinitionList as $definition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-            
+
             $quantityCalculation = $quantitiesDistribution->calculateQuantities($definition);
-            
+
             if ($quantityCalculation->isRequiredAmountGuaranteedAvailable()) {
                 continue;
             }
-            
+
             $isBuildable = false;
-            
+
             $this->checkMessages[] = $quantityCalculation->getDistributionReport($lng);
         }
-        
+
         return $isBuildable;
     }
     // hey.
-    
+
     /**
      * @return bool
      */
-    public function checkBuildable() : bool
+    public function checkBuildable(): bool
     {
         // hey: fixRandomTestBuildable - improved the buildable check improvement
         return $this->checkBuildableNewer();
         // hey.
-        
+
         $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
         if ($questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount())) {

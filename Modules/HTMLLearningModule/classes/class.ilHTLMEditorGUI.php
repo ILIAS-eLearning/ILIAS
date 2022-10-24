@@ -71,7 +71,7 @@ class ilHTLMEditorGUI implements ilCtrlBaseClassInterface
         $this->ref_id = $this->request->getRefId();
     }
 
-    public function executeCommand() : void
+    public function executeCommand(): void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;

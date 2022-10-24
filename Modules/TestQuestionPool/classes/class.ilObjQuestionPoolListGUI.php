@@ -1,5 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
 * Class ilObjQuestionPoolListGUI
@@ -10,12 +27,7 @@
 *
 * @extends ilObjectListGUI
 * @ingroup ModulesTestQuestionPool
-*/
-
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-
+ */
 class ilObjQuestionPoolListGUI extends ilObjectListGUI
 {
     protected $command_link_params = array();
@@ -32,7 +44,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init() : void
+    public function init(): void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -53,7 +65,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * Get command target frame
     */
-    public function getCommandFrame(string $cmd) : string
+    public function getCommandFrame(string $cmd): string
     {
         $frame = '';
         switch ($cmd) {
@@ -79,7 +91,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     *						"property" (string) => property name
     *						"value" (string) => property value
     */
-    public function getProperties() : array
+    public function getProperties(): array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -99,7 +111,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     /**
     * Get command link url.
     */
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $cmd): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

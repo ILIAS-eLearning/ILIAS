@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,7 +12,7 @@ class ilUIFramework
 {
     public const BOWER_BOOTSTRAP_JS = "./node_modules/bootstrap/dist/js/bootstrap.min.js";
 
-    public static function init(ilGlobalTemplateInterface $template = null) : void
+    public static function init(ilGlobalTemplateInterface $template = null): void
     {
         global $DIC;
 

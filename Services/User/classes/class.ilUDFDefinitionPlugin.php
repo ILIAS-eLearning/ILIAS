@@ -23,9 +23,9 @@
 abstract class ilUDFDefinitionPlugin extends ilPlugin
 {
     public const UDF_SLOT_ID = 'udfd';
-    abstract public function getDefinitionType() : int;
-    
-    abstract public function getDefinitionTypeName() : string;
+    abstract public function getDefinitionType(): int;
+
+    abstract public function getDefinitionTypeName(): string;
 
     /**
      * Add udf type options to radio option
@@ -33,21 +33,21 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
     abstract public function addDefinitionTypeOptionsToRadioOption(
         ilRadioOption $option,
         int $field_id
-    ) : void;
-    
+    ): void;
+
     /**
      * get title for update form
      */
-    abstract public function getDefinitionUpdateFormTitle() : string;
-    
+    abstract public function getDefinitionUpdateFormTitle(): string;
+
     /**
      * Update definition from form input
      */
     abstract public function updateDefinitionFromForm(
         ilPropertyFormGUI $form,
         int $a_definition_id
-    ) : void;
-    
+    ): void;
+
     /**
      * Get form property for definition
      * Context: edit user; registration; edit user profile
@@ -56,7 +56,7 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
     abstract public function getFormPropertyForDefinition(
         array $definition,
         $a_default_value = null
-    ) : ilFormPropertyGUI;
+    ): ilFormPropertyGUI;
 
 
     /**
@@ -66,5 +66,5 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
      *    USER_ID => ['FIELD_ID' => custom_value]
      * ]
      */
-    abstract public function lookupUserData(array $a_user_ids, array $a_field_ids) : array;
+    abstract public function lookupUserData(array $a_user_ids, array $a_field_ids): array;
 }

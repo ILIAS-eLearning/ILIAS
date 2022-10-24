@@ -62,7 +62,7 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
         $this->parse();
     }
 
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set): void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['cal_id']);
         $this->tpl->setVariable('CALENDAR_NAME', $a_set['name']);
@@ -88,12 +88,12 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
         }
     }
 
-    public function setCalendars(array $a_calendars) : void
+    public function setCalendars(array $a_calendars): void
     {
         $this->cal_data = $a_calendars;
     }
 
-    public function parse() : bool
+    public function parse(): bool
     {
         $status = new ilCalendarSharedStatus($this->user->getId());
         $calendars = $status->getOpenInvitations();

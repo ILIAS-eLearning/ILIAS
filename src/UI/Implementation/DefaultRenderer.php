@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\UI\Implementation;
 
 use ILIAS\UI\Renderer;
@@ -88,7 +90,7 @@ class DefaultRenderer implements Renderer
      *
      * @throws LogicException if no renderer could be found for component.
      */
-    protected function getRendererFor(Component $component) : ComponentRenderer
+    protected function getRendererFor(Component $component): ComponentRenderer
     {
         return $this->component_renderer_loader->getRendererFor($component, $this->getContexts());
     }
@@ -110,7 +112,7 @@ class DefaultRenderer implements Renderer
     /**
      * @inheritdoc
      */
-    public function withAdditionalContext(Component $context) : Renderer
+    public function withAdditionalContext(Component $context): Renderer
     {
         $clone = clone $this;
         $clone->contexts[] = $context;
@@ -123,7 +125,7 @@ class DefaultRenderer implements Renderer
      *
      * @return  Component[]
      */
-    protected function getContexts() : array
+    protected function getContexts(): array
     {
         return $this->contexts;
     }

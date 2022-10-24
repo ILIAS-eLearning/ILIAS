@@ -1,14 +1,15 @@
 <?php
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
 
 class ilServicesComponentSuite extends TestSuite
 {
-    public static function suite() : self
+    public static function suite(): self
     {
         $suite = new self();
-    
+
         require_once("./Services/Component/test/ilComponentDefinitionReaderTest.php");
         $suite->addTestSuite(ilComponentDefinitionReaderTest::class);
 

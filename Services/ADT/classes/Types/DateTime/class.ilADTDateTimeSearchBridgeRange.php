@@ -1,25 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * Class ilADTDateTimeSearchBridgeRange
  */
 class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def): bool
     {
         return ($a_adt_def instanceof ilADTDateTimeDefinition);
     }
 
     // table2gui / filter
 
-    public function loadFilter() : void
+    public function loadFilter(): void
     {
         $value = $this->readFilter();
-        if ($value !== null) {
-            if ($value["lower"]) {
+        if (isset($value) && is_array($value)) {
+            if ($value["lower"] ?? false) {
                 $this->getLowerADT()->setDate(new ilDateTime($value["lower"], IL_CAL_DATETIME));
             }
-            if ($value["upper"]) {
+            if ($value["upper"] ?? false) {
                 $this->getUpperADT()->setDate(new ilDateTime($value["upper"], IL_CAL_DATETIME));
             }
         }
@@ -27,7 +29,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     // form
 
-    public function addToForm() : void
+    public function addToForm(): void
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             // :TODO: use DateDurationInputGUI ?!
@@ -79,7 +81,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost($a_post) : bool
+    protected function shouldBeImportedFromPost($a_post): bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
@@ -87,7 +89,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         return parent::shouldBeImportedFromPost($a_post);
     }
 
-    public function importFromPost(array $a_post = null) : bool
+    public function importFromPost(array $a_post = null): bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -126,7 +128,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     // db
 
-    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []): string
     {
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
@@ -147,7 +149,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         return '';
     }
 
-    public function isInCondition(ilADT $a_adt) : bool
+    public function isInCondition(ilADT $a_adt): bool
     {
         assert($a_adt instanceof ilADTDateTime);
 
@@ -162,7 +164,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     //  import/export
 
-    public function getSerializedValue() : string
+    public function getSerializedValue(): string
     {
         if (!$this->isNull() && $this->isValid()) {
             $res = array();
@@ -177,7 +179,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
         return '';
     }
 
-    public function setSerializedValue(string $a_value) : void
+    public function setSerializedValue(string $a_value): void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

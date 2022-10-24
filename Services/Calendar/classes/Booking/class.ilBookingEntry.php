@@ -1,5 +1,23 @@
-<?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php
+
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 /**
  * Booking definition
@@ -37,7 +55,7 @@ class ilBookingEntry
     /**
      * Reset booking group (in case of deletion)
      */
-    public static function resetGroup(int $a_group_id) : bool
+    public static function resetGroup(int $a_group_id): bool
     {
         global $DIC;
 
@@ -56,7 +74,7 @@ class ilBookingEntry
      * @param ?ilDateTime
      * @return int[]
      */
-    public static function lookupBookingsOfUser(array $a_app_ids, int $a_usr_id, ?ilDateTime $start = null) : array
+    public static function lookupBookingsOfUser(array $a_app_ids, int $a_usr_id, ?ilDateTime $start = null): array
     {
         global $DIC;
 
@@ -74,52 +92,52 @@ class ilBookingEntry
         return $booked_entries;
     }
 
-    protected function setId(int $a_id) : void
+    protected function setId(int $a_id): void
     {
         $this->id = $a_id;
     }
 
-    public function getId() : int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function setBookingGroup(int $a_id) : void
+    public function setBookingGroup(int $a_id): void
     {
         $this->booking_group = $a_id;
     }
 
-    public function getBookingGroup() : int
+    public function getBookingGroup(): int
     {
         return $this->booking_group;
     }
 
-    public function setObjId(int $a_id) : void
+    public function setObjId(int $a_id): void
     {
         $this->obj_id = $a_id;
     }
 
-    public function getObjId() : int
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    public function setDeadlineHours(int $a_hours) : void
+    public function setDeadlineHours(int $a_hours): void
     {
         $this->deadline = $a_hours;
     }
 
-    public function getDeadlineHours() : int
+    public function getDeadlineHours(): int
     {
         return $this->deadline;
     }
 
-    public function setNumberOfBookings(int $a_num) : void
+    public function setNumberOfBookings(int $a_num): void
     {
         $this->num_bookings = $a_num;
     }
 
-    public function getNumberOfBookings() : int
+    public function getNumberOfBookings(): int
     {
         return $this->num_bookings;
     }
@@ -127,7 +145,7 @@ class ilBookingEntry
     /**
      * @param int[]|null $a_obj_id
      */
-    public function setTargetObjIds(?array $a_obj_id) : void
+    public function setTargetObjIds(?array $a_obj_id): void
     {
         $this->target_obj_ids = $a_obj_id;
     }
@@ -135,7 +153,7 @@ class ilBookingEntry
     /**
      * @return int[] | null
      */
-    public function getTargetObjIds() : ?array
+    public function getTargetObjIds(): ?array
     {
         return $this->target_obj_ids;
     }
@@ -143,7 +161,7 @@ class ilBookingEntry
     /**
      * Check if target ref id is visible
      */
-    public function isTargetObjectVisible(int $a_ref_id) : bool
+    public function isTargetObjectVisible(int $a_ref_id): bool
     {
         // no course/group filter
         if (!$this->getTargetObjIds()) {
@@ -154,7 +172,7 @@ class ilBookingEntry
         return in_array($obj_id, $this->getTargetObjIds());
     }
 
-    public function save() : void
+    public function save(): void
     {
         $this->setId($this->db->nextId('booking_entry'));
         $query = 'INSERT INTO booking_entry (booking_id,obj_id,deadline,num_bookings,booking_group) ' .
@@ -177,7 +195,7 @@ class ilBookingEntry
         }
     }
 
-    public function update() : void
+    public function update(): void
     {
         if (!$this->getId()) {
             return;
@@ -206,7 +224,7 @@ class ilBookingEntry
         }
     }
 
-    public function delete() : void
+    public function delete(): void
     {
         $query = "DELETE FROM booking_entry " .
             "WHERE booking_id = " . $this->db->quote($this->getId(), 'integer');
@@ -216,7 +234,7 @@ class ilBookingEntry
         $this->db->manipulate($query);
     }
 
-    protected function read() : void
+    protected function read(): void
     {
         if (!$this->getId()) {
             return;
@@ -226,10 +244,10 @@ class ilBookingEntry
             "WHERE booking_id = " . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $this->setObjId($row['obj_id']);
-            $this->setDeadlineHours($row['deadline']);
-            $this->setNumberOfBookings($row['num_bookings']);
-            $this->setBookingGroup($row['booking_group']);
+            $this->setObjId((int) $row['obj_id']);
+            $this->setDeadlineHours((int) $row['deadline']);
+            $this->setNumberOfBookings((int) $row['num_bookings']);
+            $this->setBookingGroup((int) $row['booking_group']);
         }
 
         $query = 'SELECT * FROM booking_obj_assignment ' .
@@ -237,7 +255,7 @@ class ilBookingEntry
         $res = $this->db->query($query);
         $this->target_obj_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->target_obj_ids[] = $row->target_obj_id;
+            $this->target_obj_ids[] = (int) $row->target_obj_id;
         }
     }
 
@@ -246,7 +264,7 @@ class ilBookingEntry
      * @param int|null $a_user_id
      * @return    bool
      */
-    public function isOwner(?int $a_user_id = null) : bool
+    public function isOwner(?int $a_user_id = null): bool
     {
         if (!$a_user_id) {
             $a_user_id = $this->user->getId();
@@ -260,7 +278,7 @@ class ilBookingEntry
     /**
      * Remove unused booking entries
      */
-    public static function removeObsoleteEntries() : void
+    public static function removeObsoleteEntries(): void
     {
         global $DIC;
 
@@ -290,7 +308,7 @@ class ilBookingEntry
      * @param int $id
      * @return ilBookingEntry|null
      */
-    public static function getInstanceByCalendarEntryId(int $a_id) : ?ilBookingEntry
+    public static function getInstanceByCalendarEntryId(int $a_id): ?ilBookingEntry
     {
         $cal_entry = new ilCalendarEntry($a_id);
         $booking_id = $cal_entry->getContextId();
@@ -306,7 +324,7 @@ class ilBookingEntry
      * @param int|null $a_target_obj_id
      * @return    int[]
      */
-    public static function isBookable(array $a_obj_ids, ?int $a_target_obj_id = null) : array
+    public static function isBookable(array $a_obj_ids, ?int $a_target_obj_id = null): array
     {
         global $DIC;
 
@@ -324,7 +342,7 @@ class ilBookingEntry
         $res = $ilDB->query($query);
         $all = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $all[] = $row->obj_id;
+            $all[] = (int) $row->obj_id;
         }
         return $all;
     }
@@ -337,7 +355,7 @@ class ilBookingEntry
      * @param int[] $a_user_ids
      * @return int[] user ids
      */
-    public static function lookupBookableUsersForObject(array $a_obj_id, array $a_user_ids) : array
+    public static function lookupBookableUsersForObject(array $a_obj_id, array $a_user_ids): array
     {
         global $DIC;
 
@@ -384,7 +402,7 @@ class ilBookingEntry
     /**
      * Check if object has assigned consultation hour appointments
      */
-    public static function hasObjectBookingEntries(int $a_obj_id, int $a_usr_id) : bool
+    public static function hasObjectBookingEntries(int $a_obj_id, int $a_usr_id): bool
     {
         global $DIC;
 
@@ -407,7 +425,7 @@ class ilBookingEntry
         return false;
     }
 
-    public static function lookupBookingMessage(int $a_entry_id, int $a_usr_id) : string
+    public static function lookupBookingMessage(int $a_entry_id, int $a_usr_id): string
     {
         global $DIC;
 
@@ -418,7 +436,7 @@ class ilBookingEntry
             'AND user_id = ' . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->booking_message;
+            return (string) $row->booking_message;
         }
         return '';
     }
@@ -426,7 +444,7 @@ class ilBookingEntry
     /**
      * Write booking message
      */
-    public static function writeBookingMessage(int $a_entry_id, int $a_usr_id, string $a_message) : void
+    public static function writeBookingMessage(int $a_entry_id, int $a_usr_id, string $a_message): void
     {
         global $DIC;
 
@@ -442,12 +460,15 @@ class ilBookingEntry
     /**
      * get current number of bookings
      */
-    public function getCurrentNumberOfBookings(int $a_entry_id) : int
+    public function getCurrentNumberOfBookings(int $a_entry_id): int
     {
         $set = $this->db->query('SELECT COUNT(*) AS counter FROM booking_user' .
             ' WHERE entry_id = ' . $this->db->quote($a_entry_id, 'integer'));
         $row = $this->db->fetchAssoc($set);
-        return (int) $row['counter'];
+        if (is_array($row)) {
+            return (int) $row['counter'];
+        }
+        return 0;
     }
 
     /**
@@ -455,7 +476,7 @@ class ilBookingEntry
      * @param int $a_entry_id
      * @return    int[]
      */
-    public function getCurrentBookings(int $a_entry_id) : array
+    public function getCurrentBookings(int $a_entry_id): array
     {
         $set = $this->db->query('SELECT user_id FROM booking_user' .
             ' WHERE entry_id = ' . $this->db->quote($a_entry_id, 'integer'));
@@ -471,7 +492,7 @@ class ilBookingEntry
      * @param int $a_app_id
      * @return int[]
      */
-    public static function lookupBookingsForAppointment(int $a_app_id) : array
+    public static function lookupBookingsForAppointment(int $a_app_id): array
     {
         global $DIC;
 
@@ -492,7 +513,7 @@ class ilBookingEntry
      * @param int $a_usr_id
      * @return array<int, array<{dt: int, dtend: int, owner: int}>>
      */
-    public static function lookupBookingsForObject(int $a_obj_id, int $a_usr_id) : array
+    public static function lookupBookingsForObject(int $a_obj_id, int $a_usr_id): array
     {
         global $DIC;
 
@@ -510,7 +531,7 @@ class ilBookingEntry
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $dt = new ilDateTime($row->starta, IL_CAL_DATETIME, ilTimeZone::UTC);
             $dt_end = new ilDateTime($row->enda, IL_CAL_DATETIME, ilTimeZone::UTC);
-            $bookings[$row->user_id][] = [
+            $bookings[(int) $row->user_id][] = [
                 'dt' => $dt->get(IL_CAL_UNIX),
                 'dtend' => $dt_end->get(IL_CAL_UNIX),
                 'owner' => $a_usr_id
@@ -523,7 +544,7 @@ class ilBookingEntry
      * Lookup bookings for own and managed consultation hours of an object
      * @return array<string, array<{dt: int, dtend: int, owner: int, explanation: string}>>
      */
-    public static function lookupManagedBookingsForObject(int $a_obj_id, int $a_usr_id) : array
+    public static function lookupManagedBookingsForObject(int $a_obj_id, int $a_usr_id): array
     {
         $bookings = self::lookupBookingsForObject($a_obj_id, $a_usr_id);
         foreach (ilConsultationHourUtils::lookupManagedUsers($a_usr_id) as $managed_user_id) {
@@ -541,7 +562,7 @@ class ilBookingEntry
     /**
      * get current number of bookings
      */
-    public function hasBooked(int $a_entry_id, ?int $a_user_id = null) : bool
+    public function hasBooked(int $a_entry_id, ?int $a_user_id = null): bool
     {
         if (!$a_user_id) {
             $a_user_id = $this->user->getId();
@@ -552,14 +573,16 @@ class ilBookingEntry
             ' AND user_id = ' . $this->db->quote($a_user_id, 'integer');
         $set = $this->db->query($query);
         $row = $this->db->fetchAssoc($set);
-
-        return (bool) $row['counter'];
+        if (is_array($row)) {
+            return (bool) $row['counter'];
+        }
+        return false;
     }
 
     /**
      * get current number of bookings
      */
-    public function isBookedOut(int $a_entry_id, bool $a_check_current_user = false) : bool
+    public function isBookedOut(int $a_entry_id, bool $a_check_current_user = false): bool
     {
         if ($this->getNumberOfBookings() == $this->getCurrentNumberOfBookings($a_entry_id)) {
             // check against current user
@@ -587,7 +610,7 @@ class ilBookingEntry
     /**
      * Check if a calendar appointment is bookable for a specific user
      */
-    public function isAppointmentBookableForUser(int $a_app_id, int $a_user_id) : bool
+    public function isAppointmentBookableForUser(int $a_app_id, int $a_user_id): bool
     {
         // #12025
         if ($a_user_id == ANONYMOUS_USER_ID) {
@@ -628,7 +651,7 @@ class ilBookingEntry
     /**
      * book calendar entry for user
      */
-    public function book(int $a_entry_id, ?int $a_user_id = null) : bool
+    public function book(int $a_entry_id, ?int $a_user_id = null): bool
     {
         if (!$a_user_id) {
             $a_user_id = $this->user->getId();
@@ -651,7 +674,7 @@ class ilBookingEntry
     /**
      * cancel calendar booking for user
      */
-    public function cancelBooking(int $a_entry_id, ?int $a_user_id = null) : bool
+    public function cancelBooking(int $a_entry_id, ?int $a_user_id = null): bool
     {
         if (!$a_user_id) {
             $a_user_id = $this->user->getId();
@@ -675,7 +698,7 @@ class ilBookingEntry
     /**
      * Delete booking
      */
-    public function deleteBooking(int $a_entry_id, int $a_user_id) : bool
+    public function deleteBooking(int $a_entry_id, int $a_user_id): bool
     {
         $query = 'DELETE FROM booking_user ' .
             'WHERE entry_id = ' . $this->db->quote($a_entry_id, 'integer') . ' ' .

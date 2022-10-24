@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,11 +48,11 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
+
         $this->setTitle($lng->txt("sty_media_queries"));
         $this->setDescription($lng->txt("sty_media_query_info"));
         $this->style_obj = $a_style_obj;
-        
+
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("sty_order"));
         $this->addColumn($this->lng->txt("sty_query"), "");
@@ -66,16 +68,16 @@ class ilStyleMediaQueryTableGUI extends ilTable2GUI
             $this->addCommandButton("saveMediaQueryOrder", $lng->txt("sty_save_order"));
             $this->addMultiCommand("deleteMediaQueryConfirmation", $lng->txt("delete"));
         }
-        
+
         $this->setEnableTitle(true);
     }
 
-    public function getItems() : void
+    public function getItems(): void
     {
         $this->setData($this->style_obj->getMediaQueries());
     }
-    
-    protected function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set): void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

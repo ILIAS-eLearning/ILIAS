@@ -1,6 +1,22 @@
-<?php declare(strict_types=1);
+<?php
 
-/* Copyright (c) 2021 - Stefan Hecken <stefan.hecken@concepts-and-training.de> - Extended GPL, see LICENSE */
+declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Edit the record of a user, set LP.
@@ -35,7 +51,7 @@ class ilIndividualAssessmentMember
 
     public function maybeSendNotification(
         ilIndividualAssessmentNotificator $notificator
-    ) : ilIndividualAssessmentMember {
+    ): ilIndividualAssessmentMember {
         if (!$this->finalized()) {
             throw new ilIndividualAssessmentException('must finalize before notification');
         }
@@ -49,7 +65,7 @@ class ilIndividualAssessmentMember
         return $this;
     }
 
-    public function mayBeFinalized() : bool
+    public function mayBeFinalized(): bool
     {
         if ($this->iass->getSettings()->isFileRequired() && (string) $this->fileName() === '') {
             return false;
@@ -64,135 +80,135 @@ class ilIndividualAssessmentMember
             !$this->finalized();
     }
 
-    public function notificationTS() : int
+    public function notificationTS(): int
     {
         return $this->notification_ts;
     }
 
-    public function examinerId() : ?int
+    public function examinerId(): ?int
     {
         return $this->examiner_id;
     }
 
-    public function withExaminerId(int $examiner_id) : ilIndividualAssessmentMember
+    public function withExaminerId(int $examiner_id): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->examiner_id = $examiner_id;
         return $clone;
     }
 
-    public function changerId() : ?int
+    public function changerId(): ?int
     {
         return $this->changer_id;
     }
 
-    public function withChangerId(int $changer_id) : ilIndividualAssessmentMember
+    public function withChangerId(int $changer_id): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->changer_id = $changer_id;
         return $clone;
     }
 
-    public function changeTime() : ?DateTime
+    public function changeTime(): ?DateTime
     {
         return $this->change_time;
     }
 
-    public function withChangeTime(DateTime $change_time = null) : ilIndividualAssessmentMember
+    public function withChangeTime(DateTime $change_time = null): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->change_time = $change_time;
         return $clone;
     }
 
-    public function getGrading() : ilIndividualAssessmentUserGrading
+    public function getGrading(): ilIndividualAssessmentUserGrading
     {
         return $this->grading;
     }
 
-    public function withGrading($grading) : ilIndividualAssessmentMember
+    public function withGrading($grading): ilIndividualAssessmentMember
     {
         $clone = clone $this;
         $clone->grading = $grading;
         return $clone;
     }
 
-    public function record() : string
+    public function record(): string
     {
         return $this->grading->getRecord();
     }
 
-    public function internalNote() : string
+    public function internalNote(): string
     {
         return $this->grading->getInternalNote();
     }
 
-    public function fileName() : ?string
+    public function fileName(): ?string
     {
         return $this->grading->getFile();
     }
 
-    public function viewFile() : bool
+    public function viewFile(): bool
     {
         return $this->grading->isFileVisible();
     }
 
-    public function LPStatus() : int
+    public function LPStatus(): int
     {
         return $this->grading->getLearningProgress();
     }
 
-    public function place() : string
+    public function place(): string
     {
         return $this->grading->getPlace();
     }
 
-    public function eventTime() : ?DateTimeImmutable
+    public function eventTime(): ?DateTimeImmutable
     {
         return $this->grading->getEventTime();
     }
 
-    public function notify() : bool
+    public function notify(): bool
     {
         return $this->grading->isNotify();
     }
 
-    public function finalized() : bool
+    public function finalized(): bool
     {
         return $this->grading->isFinalized();
     }
 
-    public function assessment() : ilObjIndividualAssessment
+    public function assessment(): ilObjIndividualAssessment
     {
         return $this->iass;
     }
 
-    public function assessmentId() : int
+    public function assessmentId(): int
     {
         return $this->iass->getId();
     }
 
-    public function id() : int
+    public function id(): int
     {
         return $this->usr->getId();
     }
 
-    public function lastname() : string
+    public function lastname(): string
     {
         return $this->usr->getLastname();
     }
 
-    public function firstname() : string
+    public function firstname(): string
     {
         return $this->usr->getFirstname();
     }
 
-    public function login() : string
+    public function login(): string
     {
         return $this->usr->getLogin();
     }
 
-    public function name() : string
+    public function name(): string
     {
         return $this->usr->getFullname();
     }

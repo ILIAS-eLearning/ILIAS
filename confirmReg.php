@@ -1,5 +1,6 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -25,5 +26,5 @@ ilInitialisation::initILIAS();
 
 /** @var ILIAS\DI\Container $DIC */
 $DIC->ctrl()->setCmd('confirmRegistration');
-$DIC->ctrl()->callBaseClass();
-$DIC->http()->close();
+$DIC->ctrl()->callBaseClass(ilStartUpGUI::class);
+$DIC->http()-close();

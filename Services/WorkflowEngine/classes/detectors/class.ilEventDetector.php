@@ -117,7 +117,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string $event_type
      * @param string $event_content
      */
-    public function setEvent(string $event_type, string $event_content) : void
+    public function setEvent(string $event_type, string $event_content): void
     {
         $this->event_type = $event_type;
         $this->event_content = $event_content;
@@ -128,7 +128,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, content: string}
      */
-    public function getEvent() : array
+    public function getEvent(): array
     {
         return ['type' => $this->event_type, 'content' => $this->event_content];
     }
@@ -138,7 +138,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_subject_type
      * @param int|string $event_subject_identifier
      */
-    public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void
+    public function setEventSubject(string $event_subject_type, $event_subject_identifier): void
     {
         $this->event_subject_type = $event_subject_type;
         $this->event_subject_identifier = $event_subject_identifier;
@@ -149,7 +149,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, identifier: string|int}
      */
-    public function getEventSubject() : array
+    public function getEventSubject(): array
     {
         return ['type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier];
     }
@@ -159,7 +159,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_context_type
      * @param int|string $event_context_identifier
      */
-    public function setEventContext(string $event_context_type, $event_context_identifier) : void
+    public function setEventContext(string $event_context_type, $event_context_identifier): void
     {
         $this->event_context_type = $event_context_type;
         $this->event_context_identifier = $event_context_identifier;
@@ -170,7 +170,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{type: string, identifier: string|int}
      */
-    public function getEventContext() : array
+    public function getEventContext(): array
     {
         return ['type' => $this->event_context_type, 'identifier' => $this->event_context_identifier];
     }
@@ -195,7 +195,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool|null
      */
-    public function trigger($params) : ?bool
+    public function trigger($params): ?bool
     {
         if (!$this->isListening()) {
             return null;
@@ -220,7 +220,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
             // Wrong event subject identifier and identifier here not 0 (not *all*) -> no action.
             return null;
         }
-        
+
         if ($this->event_context_type !== $params[4]) {
             // Wrong event context type -> no action.
             return null;
@@ -251,7 +251,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool
      */
-    public function isListening() : bool
+    public function isListening(): bool
     {
         // No listening phase = always listening.
         if ($this->listening_start === 0 && $this->listening_end === 0) {
@@ -275,7 +275,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param int $listening_end   Unix timestamp end of listening period.
      * @throws ilWorkflowInvalidArgumentException
      */
-    public function setListeningTimeframe(int $listening_start, int $listening_end) : void
+    public function setListeningTimeframe(int $listening_start, int $listening_end): void
     {
         $this->listening_start = $listening_start;
 
@@ -289,7 +289,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on activation.
      */
-    public function onActivate() : void
+    public function onActivate(): void
     {
         $this->setDetectorState(false);
         $this->writeDetectorToDb();
@@ -298,13 +298,13 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Method called on deactivation.
      */
-    public function onDeactivate() : void
+    public function onDeactivate(): void
     {
         $this->setDetectorState(false);
         $this->deleteDetectorFromDb();
     }
 
-    public function setDbId(?int $a_id) : void
+    public function setDbId(?int $a_id): void
     {
         $this->db_id = $a_id;
     }
@@ -314,7 +314,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @return int
      * @throws ilWorkflowObjectStateException
      */
-    public function getDbId() : int
+    public function getDbId(): int
     {
         if ($this->db_id !== null) {
             return $this->db_id;
@@ -327,7 +327,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * Returns, if the detector has a database id.
      * @return bool If a database id is set.
      */
-    public function hasDbId() : bool
+    public function hasDbId(): bool
     {
         return $this->db_id !== null;
     }
@@ -336,7 +336,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * Passes this detector to the ilWorkflowDBHelper in order to write or update
      * the detector data to the database.
      */
-    public function writeDetectorToDb() : void
+    public function writeDetectorToDb(): void
     {
         ilWorkflowDbHelper::writeDetector($this);
     }
@@ -345,7 +345,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * Passes this detector to the ilWorkflowDbHelper in order to remove the
      * detector data from the database.
      */
-    public function deleteDetectorFromDb() : void
+    public function deleteDetectorFromDb(): void
     {
         ilWorkflowDbHelper::deleteDetector($this);
     }
@@ -355,12 +355,12 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return array{listening_start: int, listening_end: int}
      */
-    public function getListeningTimeframe() : array
+    public function getListeningTimeframe(): array
     {
         return ['listening_start' => $this->listening_start, 'listening_end' => $this->listening_end];
     }
 
-    public function getActivated() : bool
+    public function getActivated(): bool
     {
         return $this->was_activated;
     }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +17,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
@@ -29,12 +31,12 @@ class AvatarTest extends ILIAS_UI_TestBase
 {
     protected const ICON_PATH = __DIR__ . "/../../../../../templates/default/images/";
 
-    private function getAvatarFactory() : Factory
+    private function getAvatarFactory(): Factory
     {
         return new I\Component\Symbol\Avatar\Factory();
     }
 
-    public function testConstruction() : void
+    public function testConstruction(): void
     {
         $f = $this->getAvatarFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Avatar\\Factory", $f);
@@ -46,7 +48,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Avatar\\Picture", $ci);
     }
 
-    public function testAbbreviation() : void
+    public function testAbbreviation(): void
     {
         $f = $this->getAvatarFactory();
 
@@ -56,7 +58,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals('RO', $f->letter('ROOT')->getAbbreviation());
     }
 
-    public function testUsername() : void
+    public function testUsername(): void
     {
         $f = $this->getAvatarFactory();
 
@@ -70,7 +72,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals('ROOT', $f->picture('', 'ROOT')->getUsername());
     }
 
-    public function testPicturePath() : void
+    public function testPicturePath(): void
     {
         $f = $this->getAvatarFactory();
 
@@ -78,7 +80,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($str, $f->picture($str, 'ro')->getPicturePath());
     }
 
-    public function testColorVariant() : void
+    public function testColorVariant(): void
     {
         $f = $this->getAvatarFactory();
 
@@ -116,7 +118,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testCrc32() : void
+    public function testCrc32(): void
     {
         // test mechanism (crc32)
         $f = $this->getAvatarFactory();
@@ -133,7 +135,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         }
     }
 
-    public function testAlternativeText() : void
+    public function testAlternativeText(): void
     {
         $f = $this->getAvatarFactory();
         $this->assertEquals("", $f->picture('', 'ro')->getLabel());
@@ -146,7 +148,7 @@ class AvatarTest extends ILIAS_UI_TestBase
                                              ->getLabel());
     }
 
-    public function testRenderingLetter() : void
+    public function testRenderingLetter(): void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -160,7 +162,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPicture() : void
+    public function testRenderingPicture(): void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -175,7 +177,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testRenderingPictureWithSomeAlternativeText() : void
+    public function testRenderingPictureWithSomeAlternativeText(): void
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
@@ -194,7 +196,7 @@ class AvatarTest extends ILIAS_UI_TestBase
      * @param int $length
      * @return Generator|Closure
      */
-    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2) : Generator
+    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2): Generator
     {
         $sh = static function ($length = 10) {
             return substr(

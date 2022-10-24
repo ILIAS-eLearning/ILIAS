@@ -36,7 +36,7 @@ class ilNewsData
     /**
      * Save news item
      */
-    public function save(ilNewsItem $news_item) : int
+    public function save(ilNewsItem $news_item): int
     {
         if ($news_item->getId() > 0) {
             $news_item->update(true);
@@ -52,7 +52,7 @@ class ilNewsData
      * @param ilNewsContext $context
      * @return ilNewsItem[]
      */
-    public function getNewsOfContext(ilNewsContext $context) : array
+    public function getNewsOfContext(ilNewsContext $context): array
     {
         return ilNewsItem::getNewsOfContext(
             $context->getObjId(),
@@ -66,7 +66,7 @@ class ilNewsData
      * Delete a news item
      * @param ilNewsItem $news_item
      */
-    public function delete(ilNewsItem $news_item) : void
+    public function delete(ilNewsItem $news_item): void
     {
         $news_item->delete();
     }

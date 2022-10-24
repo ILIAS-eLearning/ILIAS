@@ -30,7 +30,7 @@ class ilKSDocumentationEntryGUITest extends TestCase
 {
     protected ilKSDocumentationEntryGUI $entry_gui;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $ui_helper = new UITestHelper();
 
@@ -50,12 +50,12 @@ class ilKSDocumentationEntryGUITest extends TestCase
         );
     }
 
-    public function testConstruct() : void
+    public function testConstruct(): void
     {
         $this->assertInstanceOf(ilKSDocumentationEntryGUI::class, $this->entry_gui);
     }
 
-    public function testRenderEntry() : void
+    public function testRenderEntry(): void
     {
         $report = $this->entry_gui->createUIComponentOfEntry();
         $this->assertInstanceOf(Report::class, $report);

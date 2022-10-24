@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -35,7 +37,7 @@ class Group
      * @param string[]|int[] $labels
      * @return Transformation
      */
-    public function addLabels(array $labels) : Transformation
+    public function addLabels(array $labels): Transformation
     {
         return new AddLabels($labels, $this->dataFactory);
     }
@@ -44,7 +46,7 @@ class Group
      * Returns a transformation which applies the given transformation to
      * the element of the array passed to the transformation
      */
-    public function mapValues(Transformation $trafo) : Transformation
+    public function mapValues(Transformation $trafo): Transformation
     {
         return new MapValues($trafo);
     }
