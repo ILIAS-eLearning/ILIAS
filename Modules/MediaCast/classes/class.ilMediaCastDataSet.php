@@ -191,15 +191,15 @@ class ilMediaCastDataSet extends ilDataSet
                     $newObj->create();
                 }
 
-                $newObj->setTitle($a_rec["Title"]);
-                $newObj->setDescription($a_rec["Description"]);
-                $newObj->setDefaultAccess($a_rec["DefaultAccess"]);
-                $newObj->setDownloadable($a_rec["Downloadable"]);
-                $newObj->setPublicFiles($a_rec["PublicFiles"]);
+                $newObj->setTitle($a_rec["Title"] ?? "");
+                $newObj->setDescription($a_rec["Description"] ?? "");
+                $newObj->setDefaultAccess((int) ($a_rec["DefaultAccess"] ?? 0));
+                $newObj->setDownloadable((bool) (int) ($a_rec["Downloadable"] ?? false));
+                $newObj->setPublicFiles((bool) (int) ($a_rec["PublicFiles"] ?? false));
 
                 if (in_array($a_schema_version, ["5.0.0", "8.0"])) {
-                    $newObj->setOrder($a_rec["Sortmode"]);
-                    $newObj->setViewMode($a_rec["Viewmode"]);
+                    $newObj->setOrder((int) ($a_rec["Sortmode"] ?? 0));
+                    $newObj->setViewMode((string) ($a_rec["Viewmode"] ?? ""));
 
                     if ($a_rec["Order"] ?? false) {
                         $this->order[$newObj->getId()] = explode(";", $a_rec["Order"]);
@@ -222,9 +222,9 @@ class ilMediaCastDataSet extends ilDataSet
                     );
                 }
                 if (in_array($a_schema_version, ["8.0"])) {
-                    $newObj->setAutoplayMode((int) $a_rec["Autoplaymode"]);
-                    $newObj->setNumberInitialVideos((int) $a_rec["NrInitialVideos"]);
-                    $newObj->setNewItemsInLearningProgress((bool) (int) $a_rec["NewItemsInLp"]);
+                    $newObj->setAutoplayMode((int) ($a_rec["Autoplaymode"] ?? 0));
+                    $newObj->setNumberInitialVideos((int) ($a_rec["NrInitialVideos"] ?? 0));
+                    $newObj->setNewItemsInLearningProgress((bool) (int) ($a_rec["NewItemsInLp"] ?? false));
                 }
 
                 $newObj->update();
