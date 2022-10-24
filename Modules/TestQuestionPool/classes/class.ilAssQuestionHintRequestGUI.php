@@ -216,7 +216,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $confirmation->setCancel($lng->txt('tst_question_hints_cancel_request'), self::CMD_BACK_TO_QUESTION);
 
         if ($nextRequestableHint->getPoints() == 0.0){
-            $confirmation->setHeaderText($lng->txt('tst_question_hints_request_confirmation_no_cost'));
+            $confirmation->setHeaderText($lng->txt('tst_question_hints_request_confirmation_no_deduction'));
         } else {
             $confirmation->setHeaderText(sprintf(
                 $lng->txt('tst_question_hints_request_confirmation'),
