@@ -393,7 +393,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $ilDB->quote($a_wiki_id, "integer");
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
-        return $rec[$a_field];
+        return $rec[$a_field] ?? null;
     }
 
     public static function _lookupStartPage(int $a_wiki_id): string
