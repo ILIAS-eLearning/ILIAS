@@ -231,11 +231,8 @@ class ilADNNotificationUIFormGUI
         // LIMITED TO ROLES
         $available_roles = $this->getRoles(ilRbacReview::FILTER_ALL_GLOBAL);
         $limited_to_role_ids = $field->multiSelect('', $available_roles)
-                                     ->withAdditionalTransformation(
-                                         $custom_trafo(function ($v) {
-                                             $this->notification->setLimitedToRoleIds((array) $v);
-                                         })
-                                     );
+                                     ->withValue($this->notification->getLimitedToRoleIds());
+
 
         $value = $this->notification->isLimitToRoles()
             ? self::F_LIMIT_TO_ROLES
@@ -255,7 +252,10 @@ class ilADNNotificationUIFormGUI
                        ->withValue($value)
                        ->withAdditionalTransformation(
                            $custom_trafo(function ($v) {
-                               $this->notification->setLimitToRoles(($v[0] ?? null) === self::F_PRESENTATION);
+                               $limit_to_roles = ($v[0] ?? null) === self::F_LIMIT_TO_ROLES;
+                               $limited_to_role_ids = (array) $v[1][0] ?? [];
+                               $this->notification->setLimitToRoles($limit_to_roles);
+                               $this->notification->setLimitedToRoleIds($limited_to_role_ids);
                            })
                        );
 
@@ -267,12 +267,16 @@ class ilADNNotificationUIFormGUI
             self::F_PERMANENT => $permanent,
             self::F_DISMISSABLE => $dismissable,
             self::F_LIMIT_TO_ROLES => $roles,
-        ], $this->txt('form_title'))->withAdditionalTransformation($custom_trafo(fn ($v): ilADNNotification => $this->notification));
+        ], $this->txt('form_title'))->withAdditionalTransformation($custom_trafo(function ($v): ilADNNotification {
+            return $this->notification;
+        }));
 
         $this->form = $this->ui->input()->container()->form()->standard(
             $this->action,
             [$section]
-        )->withAdditionalTransformation($this->refinery->custom()->transformation(fn ($v) => array_shift($v)));
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) {
+            return array_shift($v);
+        }));
     }
 
     public function setValuesByPost(): void
