@@ -76,7 +76,7 @@ class ilImportMapping
         string $a_new_id
     ): void {
         $this->mappings[$a_comp][$a_entity][$a_old_id] = $a_new_id;
-        $this->log->debug("ADD MAPPING this->mappings = ", $this->mappings);
+        //$this->log->debug("ADD MAPPING this->mappings = ", $this->mappings);
     }
 
     public function getMapping(
