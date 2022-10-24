@@ -535,7 +535,10 @@ class ilObjMailGUI extends ilObjectGUI
         $signature->setDisabled(!$this->isEditingAllowed());
         $form->addItem($signature);
 
-        $placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
+        $placeholders = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'mail_system_sys_signature'
+        );
         $placeholder_list = [
             ['placeholder' => 'INSTALLATION_NAME', 'label' => $this->lng->txt('mail_nacc_installation_name')],
             ['placeholder' => 'INSTALLATION_DESC', 'label' => $this->lng->txt('mail_nacc_installation_desc')],

@@ -386,7 +386,10 @@ class ilMailTemplateGUI
         }
         $contextId = ilUtil::stripSlashes($triggerValue);
 
-        $placeholders = new ilManualPlaceholderInputGUI('m_message');
+        $placeholders = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'm_message'
+        );
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
 
@@ -462,7 +465,10 @@ class ilMailTemplateGUI
         $message->setRows(10);
         $form->addItem($message);
 
-        $placeholders = new ilManualPlaceholderInputGUI('m_message');
+        $placeholders = new ilManualPlaceholderInputGUI(
+            $this->lng->txt('mail_form_placeholders_label'),
+            'm_message'
+        );
         $placeholders->setDisabled(!$this->isEditingAllowed());
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
