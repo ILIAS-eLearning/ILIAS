@@ -697,8 +697,8 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         foreach (ilRatingCategory::getAllForObject($this->getId()) as $rc) {
             $new_rc = new ilRatingCategory();
             $new_rc->setParentId($new_obj->getId());
-            $new_rc->setTitle($rc["title"]);
-            $new_rc->setDescription($rc["description"]);
+            $new_rc->setTitle((string) $rc["title"]);
+            $new_rc->setDescription((string) $rc["description"]);
             $new_rc->save();
         }
 
