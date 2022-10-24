@@ -195,7 +195,7 @@ class ilForum
         int $parent_pos,
         bool $notify,
         string $subject = '',
-        string $alias = '',
+        ?string $alias = null,
         string $date = '',
         bool $status = true,
         bool $send_activation_mail = false
