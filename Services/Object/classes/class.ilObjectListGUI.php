@@ -687,7 +687,7 @@ class ilObjectListGUI
             return $this->access_cache[$permission]["-" . $cmd][$cache_prefix . $ref_id];
         }
 
-        if ($this->context == self::CONTEXT_REPOSITORY) {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
             $access = $this->access->checkAccess($permission, $cmd, $ref_id, $type, (int) $obj_id);
             if ($this->access->getPreventCachingLastResult()) {
                 $this->prevent_access_caching = true;
@@ -792,7 +792,7 @@ class ilObjectListGUI
     */
     public function getCommandLink(string $cmd): string
     {
-        if ($this->context == self::CONTEXT_REPOSITORY) {
+        if ($this->context == self::CONTEXT_REPOSITORY || $this->context == self::CONTEXT_SEARCH) {
             // BEGIN WebDAV Get mount webfolder link.
             if ($cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
                 global $DIC;
