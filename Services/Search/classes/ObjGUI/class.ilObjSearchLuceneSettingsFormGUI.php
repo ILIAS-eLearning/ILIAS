@@ -122,7 +122,7 @@ class ilObjSearchLuceneSettingsFormGUI
         if (!is_null($data['mime'])) {
             $settings->setLuceneMimeFilter((array) $data['mime']);
         }
-        $settings->showSubRelevance((bool) $data['relevance']['subrelevance']);
+        $settings->showSubRelevance((bool) ($data['relevance']['subrelevance'] ?? false));
         $settings->enablePrefixWildcardQuery((bool) $data['prefix']);
         $settings->setLastIndexTime(new ilDateTime(
             $data['last_index']->getTimestamp(),
@@ -135,7 +135,7 @@ class ilObjSearchLuceneSettingsFormGUI
             if ($settings->enabledLucene()) {
                 $this->coordinator->refreshLuceneSettings();
             }
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
             ilSession::clear('search_last_class');
             $this->ctrl->redirect($this, 'edit');
         } catch (Exception $exception) {

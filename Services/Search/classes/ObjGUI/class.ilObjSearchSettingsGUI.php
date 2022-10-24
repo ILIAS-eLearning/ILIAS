@@ -234,7 +234,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             $settings->setActive($field, in_array($field, (array) $enabled_md_ids));
         }
         $settings->save();
-        $this->tpl->setOnScreenMessage('info', $this->lng->txt('settings_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'advancedLuceneSettings');
     }
 }
