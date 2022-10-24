@@ -109,10 +109,9 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
         // import page data
         if (strlen($xml_file)) {
-            include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
-            $contParser = new ilContObjParser($newObj, $xml_file, basename($this->getImportDirectory()));
-            $contParser->setQuestionMapping($qtiParser->getImportMapping());
-            $contParser->startParsing();
+            $questionPageParser = new ilQuestionPageParser($newObj, $xml_file, basename($this->getImportDirectory()));
+            $questionPageParser->setQuestionMapping($qtiParser->getImportMapping());
+            $questionPageParser->startParsing();
 
             foreach ($qtiParser->getImportMapping() as $k => $v) {
                 $oldQuestionId = substr($k, strpos($k, 'qst_') + strlen('qst_'));
