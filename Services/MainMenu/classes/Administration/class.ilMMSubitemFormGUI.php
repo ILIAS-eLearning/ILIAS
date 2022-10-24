@@ -138,7 +138,11 @@ class ilMMSubitemFormGUI
             $access                         = new ilObjMainMenuAccess();
             $value_role_based_visibility    = NULL;
             if($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
-                $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
+                // remove deleted roles, see https://mantis.ilias.de/view.php?id=34936
+                $value_role_based_visibility[0] = array_intersect(
+                    $this->item_facade->getGlobalRoleIDs(),
+                    $access->getGlobalRoles()
+                );
             }
             $role_based_visibility = $f()->field()->optionalGroup(
                 [
