@@ -37,6 +37,11 @@ class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
         return '';
     }
 
+    public function handleChangedObjectTitle(string $new_title): void
+    {
+        return;
+    }
+
     public function getStorageID(): ?string
     {
         return null;
